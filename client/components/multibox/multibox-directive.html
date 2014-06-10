@@ -1,0 +1,12 @@
+<div style="color: #fcc; font-style: italic;">multibox w/ default template</div>
+<div style="background-color: red;" ng-repeat="option in multiboxSelectedOptions">
+  <input
+      class="multibox-input-control"
+      ng-model="option.title"
+      ng-blur="blurInput($event)"
+      ng-focus="focusInput($event, option)">
+</div>
+<div class="multibox-insert-row" ng-hide="isInsertRowFocused()">
+  <input class="multibox-insert-control"
+         ng-click="addInput()" ng-focus="addInput()" readonly>
+</div>

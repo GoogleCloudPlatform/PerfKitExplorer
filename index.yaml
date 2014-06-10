@@ -1,0 +1,5 @@
+indexes:
+- kind: Dashboard
+  properties:
+  - name: created_by
+  - name: title

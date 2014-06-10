@@ -1,0 +1,56 @@
+.dashkit-popup {
+  background-color: #fff;
+  border: 1px solid #999;
+  max-height: 400px;
+  position: absolute;
+  white-space: nowrap;
+  z-index:65000;
+}
+
+.dashkit-popup-autocomplete {
+  overflow-y: auto;
+}
+
+.dashkit-popup-item {
+  padding: 4px;
+}
+
+.dashkit-popup-item:hover {
+  background-color: #ddd;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.dashkit-popup-item-selected {
+  background-color: #ccc;
+  font-weight: bold;
+}
+
+.dashkit-popup-title {
+  border-bottom: 1px solid #ccc;
+  font-weight: bold;
+  height: 24px;
+  padding: 4px;
+}
+
+.dashkit-popup-leftwell {
+  border-right: 1px solid #ccc;
+  float: left;
+  max-height: 300px;
+  min-width: 120px;
+  overflow-y: scroll;
+  vertical-align: top;
+}
+
+.dashkit-popup-content {
+  display: table-cell;
+  vertical-align: top;
+  width: auto;
+}
+
+.dashkit-popup-note {
+  background-color: #ffc;
+  color: #666;
+  font-style: italic;
+  padding: 4px;
+}

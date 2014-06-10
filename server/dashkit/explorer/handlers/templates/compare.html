@@ -1,0 +1,96 @@
+{% extends 'explorer.html' %}
+
+{% block head %}
+  <script src="{{static_dir}}/compare_page_script.js"></script>
+{% endblock %}
+
+{% block page_sidebar_left %}
+  <div class="sidebar-group">
+    <div class="sidebar-group-title">Mode</div>
+    <div class="sidebar-group-note">Choose between available modes to perform
+    different styles of investigation/exploration.</div>
+    <div class="sidebar-item"><a href="/review" class="navigation-link">
+      Review</a></div>
+    <div class="sidebar-item navigation-link-current">Compare</div>
+  </div>
+  <div class="sidebar-group" id="sidebar_group_setup">
+    <div class="sidebar-group-title">Compare By SQL</div>
+    <div class="sidebar-group-note">
+      Provide 2 queries and compare their results side by side.  Queries must
+      adhere to the following rules:
+    </div>
+    <ul>
+      <li>Identical SELECT field names.</li>
+      <li>Identical GROUP BY fields.</li>
+      <li>Line breaks between clauses and fields.</li>
+    </ul>
+    <div class="sidebar-group-note">
+      See the <a href="noop.html" target="_blank">User Documentation</a>
+      for more information on formatting SQL queries.
+    </div>
+    <div class="sidebar-group-buttons">
+      <button class="jfk-button-create jfk-button goog-inline-block"
+              onclick="runQueryButtonClick()">RUN QUERIES</button>
+    </div>
+  </div>
+  <div class="sidebar-group" id="sidebar_group_result">
+    <div class="sidebar-group-title">Compare By SQL</div>
+    <div class="sidebar-group-note">
+      The result of your queries is displayed to the right.
+    </div>
+    <div class="sidebar-group-buttons">
+      <button class="jfk-button-create jfk-button goog-inline-block"
+              onclick="editQueryButtonClick()">EDIT QUERIES</button>
+    </div>
+  </div>
+{% endblock %}
+{% block page_body %}
+  <div id="compare_result_table">GViz Table Goes Here.</div>
+  <div id="compare_setup_table">
+    <div class="compare-setup-column">
+      <div class="compare-setup-title">Baseline</div>
+      <input type="text" id="compare_query_title_1"
+             class="jfk-textinput compare-query-title"
+             value="Prod Feb 2013">
+      <textarea id="compare_query_1"
+                class="jfk-textarea compare-query-sql">SELECT
+  metric,
+  MIN(value) AS min,
+  AVG(value) AS avg,
+  MAX(value) AS max,
+  STDDEV(value) AS std
+FROM [samples_mart.results]
+WHERE
+  timestamp >= PARSE_UTC_USEC('2013-02-01')/1000000 AND
+  timestamp <  PARSE_UTC_USEC('2013-03-01')/1000000 AND
+  product_name = 'bigcluster' AND
+  test = 'bigcluster_api_latency' AND
+  official = TRUE
+GROUP BY
+  metric;</textarea>
+    </div>
+    <div class="compare-setup-column">
+      <div class="compare-setup-title">Comparison</div>
+      <input type="text" id="compare_query_title_2"
+             class="jfk-textinput compare-query-title"
+             value="Prod Mar 2013">
+      <textarea id="compare_query_2"
+                class="jfk-textarea compare-query-sql">SELECT
+  metric,
+  MIN(value) AS min,
+  AVG(value) AS avg,
+  MAX(value) AS max,
+  STDDEV(value) AS std
+FROM [samples_mart.results]
+WHERE
+  timestamp >= PARSE_UTC_USEC('2013-03-02')/1000000 AND
+  timestamp <  PARSE_UTC_USEC('2013-04-01')/1000000 AND
+  product_name = 'bigcluster' AND
+  test = 'bigcluster_api_latency' AND
+  official = TRUE
+GROUP BY
+  metric;</textarea>
+    </div>
+    <div id="compare_setup_errors"></div>
+  </div>
+{% endblock %}

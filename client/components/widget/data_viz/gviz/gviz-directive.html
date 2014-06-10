@@ -1,0 +1,11 @@
+<div>
+  <div class="dashkit-chart"  ng-hide="!isDataFetched()"
+       ng-class="{'dashkit-chart-hidden': config.$$state.chartError}">
+  </div>
+  <div class="dashkit-chart-error" ng-show="config.$$state.chartError">
+    <div ng-hide="isDataFetching()">
+      {{config.$$state.chartError}}
+    </div>
+  </div>
+  <div class="spinner" ng-show="isDataFetching()"></div>
+</div>

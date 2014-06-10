@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="explorer" ng-controller="ExplorerCtrl as explorerCtrl">
+<head>
+  <title>Dashkit - {{ explorerCtrl.dashboard.current.model.title }}</title>
+
+  <!-- JQuery & Angular -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-mocks.js"></script>
+
+  <!-- AngularUI Grid -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.css" rel="stylesheet">
+
+  <!-- CodeMirror3 Editor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
+
+  <!-- Bootstrap & Bootstrap UI -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+  <script>
+    // Record page view in Google Analytics.
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '[[analytics_id]]', 'googleplex.com');
+    ga('send', 'pageview');
+
+    // Initialize Google Visualizations
+    try {
+      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
+    } catch (err) { }
+
+    var CURRENT_USER_EMAIL = '[[current_user_email]]';
+    var CURRENT_USER_ADMIN = [[current_user_admin]];
+  </script>
+
+  <!-- Dashkit -->
+  <script src="/static/dashkit_scripts.js"></script>
+  <link type="text/css" rel="stylesheet" href="/static/dashkit_styles.css" />
+</head>
+<body>
+
+<div class="dashkit-page">
+
+  <explorer-header></explorer-header>
+
+  <div class="dashkit-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
+
+    <div class="dashkit-page-sidebar-left"
+         ng-controller="QueryEditorCtrl as queryEditorCtrl"
+         ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
+
+      <div id="queryEditorCtrl">
+        <div>
+          <a  href="#"
+              class="dashkit-jfk-close-button dashkit-sidebar-close-button"
+              ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
+          </a>
+        </div>
+
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Query Builder</div>
+        </div>
+
+        <div ng-show="queryEditorCtrl.datasource.custom_query">
+          <div class="sidebar-group">
+            <div class="sidebar-group-note">Use the SQL Editor at the bottom of the page to provide
+              your own SQL statement.  For more information see:
+              <ul>
+                <li><a href="https://developers.google.com/bigquery/query-reference" target="_blank">
+                  BigQuery SQL Reference</a></li>
+                <li><a href="https://sites.google.com/a/google.com/dashkit/dashkitusers/perfkit-bigquery-how-to">
+                  Dashkit Query Cookbook</a></li>
+              </ul>
+            </div>
+            <div class="sidebar-item-label">
+              <button type="button" class="btn btn-default"
+                      ng-click="queryEditorCtrl.explorer.restoreBuilder()">
+                Use SQL Builder
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <style>
+          .dashkit-autocomplete-popup {
+            position: absolute;
+            padding: 8px;
+            border: 1px solid #999;
+          }
+        </style>
+
+        <script type="text/ng-template" id="date_template.html">
+          <div class="dashkit-popup" tabindex="-1">
+            <relative-datepicker
+                relative-datepicker-data="popupboxModel"></relative-datepicker>
+          </div>
+        </script>
+
+        <script type="text/ng-template" id="picklist_template.html">
+          <div class="dashkit-popup dashkit-popup-autocomplete" tabindex="-1">
+            <div class="dashkit-popup-item"
+                 ng-show="popupboxModel.length == 0 || popupboxModel == null ||
+                          data.slice(0, popupboxModel.length).toUpperCase() == popupboxModel.toUpperCase()"
+                 ng-repeat="data in popupboxData"
+                 ng-click="selectValue(data);">
+              {{ data }}
+            </div>
+          </div>
+        </script>
+
+        <div ng-hide="queryEditorCtrl.datasource.custom_query">
+          <div class="sidebar-group">
+            <div class="sidebar-group-note">Use the controls below to create a basic query against
+              the Dashkit Samples Mart.</div>
+            <button type="button" class="btn btn-primary"
+                    ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
+              Refresh
+            </button>
+            <button type="button" class="btn btn-default"
+                    ng-click="queryEditorCtrl.explorer.customizeSql()">
+              Edit SQL
+            </button>
+          </div>
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">Filters</div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">start date</div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="date_template.html"
+                       popupbox-model="queryEditorCtrl.datasource.config.filters.start_date"
+                       ng-model="queryEditorCtrl.datasource.config.filters.start_date.text">
+              </div>
+            </div>
+
+            <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.end_date">
+              <a ng-click="queryEditorCtrl.addEndDate()">add end date</a>
+            </div>
+            <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.filters.end_date">
+              <div class="sidebar-item-label">end date</div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="date_template.html"
+                       popupbox-model="queryEditorCtrl.datasource.config.filters.end_date"
+                       ng-model="queryEditorCtrl.datasource.config.filters.end_date.text">
+                <span class="glyphicon glyphicon-remove"
+                      ng-click="queryEditorCtrl.removeEndDate()"></span>
+              </div>
+            </div>
+
+            <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.official != null">
+              <a ng-click="queryEditorCtrl.addOfficial()">add official filter</a>
+            </div>
+            <div class="sidebar-item"
+                 ng-show="queryEditorCtrl.datasource.config.filters.official != null">
+              <div class="sidebar-item-label">official results</div>
+              <div class="sidebar-item-value">
+                <input type="checkbox"
+                       ng-model="queryEditorCtrl.datasource.config.filters.official"> official
+                <span class="glyphicon glyphicon-remove"
+                      ng-click="queryEditorCtrl.removeOfficial()"></span>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">product</div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="picklist_template.html"
+                       popupbox-data="queryEditorCtrl.query.picklists['product_name']"
+                       popupbox-model="queryEditorCtrl.datasource.config.filters.product_name"
+                       ng-model="queryEditorCtrl.datasource.config.filters.product_name">
+                <span class="glyphicon glyphicon-refresh"
+                      ng-click="queryEditorCtrl.refreshPicklist('product_name')"></span>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">test</div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="picklist_template.html"
+                       popupbox-data="queryEditorCtrl.query.picklists['test']"
+                       popupbox-model="queryEditorCtrl.datasource.config.filters.test"
+                       ng-model="queryEditorCtrl.datasource.config.filters.test">
+                <span class="glyphicon glyphicon-refresh"
+                      ng-click="queryEditorCtrl.refreshPicklist('test')"></span>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">metric</div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="picklist_template.html"
+                       popupbox-data="queryEditorCtrl.query.picklists['metric']"
+                       popupbox-model="queryEditorCtrl.datasource.config.filters.metric"
+                       ng-model="queryEditorCtrl.datasource.config.filters.metric">
+                <span class="glyphicon glyphicon-refresh"
+                      ng-click="queryEditorCtrl.refreshPicklist('metric')"></span>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">run by</div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="picklist_template.html"
+                       popupbox-data="queryEditorCtrl.query.picklists['owner']"
+                       popupbox-model="queryEditorCtrl.datasource.config.filters.runby"
+                       ng-model="queryEditorCtrl.datasource.config.filters.runby">
+                <span class="glyphicon glyphicon-refresh"
+                      ng-click="queryEditorCtrl.refreshPicklist('owner')"></span>
+              </div>
+            </div>
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">
+                metadata
+                <span class="glyphicon glyphicon-refresh"
+                      ng-click="queryEditorCtrl.refreshMetadata('metadata')"></span>
+              </div>
+              <div class="sidebar-item-value">
+                <span
+                    multibox
+                    multibox-display-prop="text"
+                    multibox-focus-on-select="true"
+                    multibox-data="queryEditorCtrl.query.picklists['metadata']"
+                    multibox-on-insert-option="queryEditorCtrl.addMetadataFilter()"
+                    multibox-selected-options="queryEditorCtrl.datasource.config.filters.metadata"
+                    multibox-template-url="metadata_picker.template">
+                </span>
+              </div>
+              <script type="text/ng-template" id="metadata_picker.template">
+                <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
+                  <input
+                      class="multibox-input-control form-control sidebar-input-full"
+                      ng-model="option.text"
+                      ng-blur="blurInput($event)"
+                      ng-focus="focusInput($event, option)">
+                  <span class="glyphicon glyphicon-remove"
+                        ng-click="unselectOptionAt($index)"></span>
+                </div>
+                <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
+                  <input class="multibox-insert-control form-control sidebar-input-full"
+                      ng-click="addInput()" ng-focus="addInput()" readonly>
+                </div>
+                <div class="multibox-popup dashkit-popup" tabindex="-1"
+                      metadata-picker
+                      metadata-picker-data="multiboxData"
+                      metadata-picker-model="activeOption"
+                      metadata-picker-select-value="hidePopup">
+                </div>
+              </script>
+            </div>
+          </div>
+
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">Columns</div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">grouping</div>
+              <div class="sidebar-item-value">
+                <select id="filter-date-grouping" class="sidebar-input-full form-control"
+                        ng-model="queryEditorCtrl.datasource.config.results.date_group">
+                  <option selected value="OneGroup">Group all samples</option>
+                  <option value="Details">Show individual samples</option>
+                  <option value="Daily">Group samples by day</option>
+                  <option value="Weekly">Group samples by week</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">labels</div>
+              <div class="sidebar-item-value">
+                <span
+                    multibox
+                    multibox-display-prop="label"
+                    multibox-focus-on-select="true"
+                    multibox-data="queryEditorCtrl.query.picklists['metadata']"
+                    multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
+                    multibox-selected-options="queryEditorCtrl.datasource.config.results.labels"
+                    multibox-template-url="label_picker.template">
+                </span>
+              </div>
+              <script type="text/ng-template" id="label_picker.template">
+                <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
+                  <input
+                      class="multibox-input-control form-control sidebar-input-full"
+                      placeholder="label"
+                      ng-model="option.label"
+                      ng-blur="blurInput($event)"
+                      ng-focus="focusInput($event, option)">
+                </div>
+                <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
+                  <input class="multibox-insert-control form-control sidebar-input-full"
+                      ng-click="addInput()" ng-focus="addInput()" readonly>
+                </div>
+                <div class="multibox-popup dashkit-popup dashkit-popup-autocomplete" tabindex="-1">
+                  <div class="dashkit-popup-item"
+                       ng-class="{'dashkit-popup-item-selected': data.name == activeOption.label}"
+                       ng-show="activeOption.label.length == 0 || activeOption.label == null ||
+                                data.name.slice(0, activeOption.label.length).toUpperCase() == activeOption.label.toUpperCase()"
+                       ng-repeat="data in multiboxData"
+                       ng-click="activeOption.label = data.name">
+                    {{ data.name }}
+                  </div>
+                </div>
+              </script>
+            </div>
+          </div>
+          <div class="sidebar-group">
+            <button type="button" class="btn btn-primary"
+                    ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
+              Refresh
+            </button>
+            <button type="button" class="btn btn-default dashkit-footer-button"
+                    ng-click="queryEditorCtrl.explorer.customizeSql()">
+              Edit SQL
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashkit-page-content">
+      <div id="result-table">
+        <div>
+
+          <div class="spinner" ng-show="dashboardCtrl.dashboardIsLoading"></div>
+
+          <div ng-repeat="container in dashboardCtrl.dashboard.widgets" class="dashkit-container"
+               ng-class="{'dashkit-container-selected': widget.state().selected}">
+
+            <container class="dashkit-container-content" container-config="container">
+              <dashkit-widget class="dashkit-widget"
+                      ng-repeat="widget in container.model.container.children"
+                      widget-config="widget">
+                <div class="dashkit-widget-header"
+                     ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
+                  <span class="glyphicon glyphicon-remove" style="float: right; margin-left: 4px"
+                        ng-hide="explorerCtrl.explorer.model.readOnly"
+                        ng-click="dashboardCtrl.dashboard.removeWidget(widget, container)"></span>
+                  <span class="glyphicon glyphicon-refresh" style="float: right; margin-left: 4px"
+                        ng-click="dashboardCtrl.dashboard.refreshWidget(widget)"></span>
+                  <div class="dashkit-widget-title" ng-bind="widget.model.title"></div>
+                </div>
+                <div class="dashkit-widget-content"
+                     ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
+                  <gviz-chart-widget widget-config="widget"/>
+                </div>
+              </dashkit-widget>
+            </container>
+          </div>
+
+          <div ng-hide="explorerCtrl.explorer.model.readOnly">
+            <button class="btn btn-primary"
+                    ng-click="explorerCtrl.dashboard.addContainer()">INSERT CONTAINER</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="dashkit-page-sidebar-right"
+         ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
+      <div>
+
+        <div>
+          <a  href="#"
+              class="dashkit-jfk-close-button dashkit-sidebar-close-button"
+              ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
+          </a>
+        </div>
+
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Dashboard</div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">id</div>
+            <div class="sidebar-item-value">
+              <input id="dashboard-id"
+                     class="form-control"
+                     type="text"
+                     readonly="true"
+                     ng-model="dashboardCtrl.dashboard.current.model.id">
+            </div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">title</div>
+            <div class="sidebar-item-value">
+              <input type="text"
+                     class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.title">
+            </div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">owner</div>
+            <div class="sidebar-item-value">
+              <input id="dashboard-id"
+                     type="text"
+                     class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.owner">
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Container</div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">display columns</div>
+            <div class="sidebar-item-value">
+              <input type="number" min="1" class="form-control"
+                     ng-model="dashboardCtrl.dashboard.selectedContainer.model.container.columns">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">height</div>
+            <div class="sidebar-item-value">
+              <input input type="number" min="1" class="form-control"
+                     ng-model="dashboardCtrl.dashboard.selectedContainer.model.container.height">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-controller="WidgetEditorCtrl as widgetEditorCtrl"
+           ng-show="dashboardCtrl.dashboard.selectedWidget.model.chart">
+
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Chart</div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">title</div>
+            <div class="sidebar-item-value">
+              <input type="text" class="form-control" ng-model="dashboardCtrl.dashboard.selectedWidget.model.title">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">chart type</div>
+            <div class="sidebar-item-value">
+              <!-- TODO: Drive this list from data (probably a JSON configuration file). -->
+              <select ng-model="dashboardCtrl.dashboard.selectedWidget.model.chart.chartType"
+                      class="sidebar-input-full form-control">
+                <option value="AreaChart">Area Chart</option>
+                <option value="BarChart">Bar Chart</option>
+                <option value="ColumnChart">Column Chart</option>
+                <option value="ComboChart">Combo Chart</option>
+                <option value="LineChart">Line Chart</option>
+                <option value="PieChart">Pie Chart</option>
+                <option value="ScatterChart">Scatter Chart</option>
+                <option value="Table">Table</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">column span</div>
+            <div class="sidebar-item-value">
+              <input type="number" min="1" class="form-control"
+                     ng-model="dashboardCtrl.dashboard.selectedWidget.model.layout.columnspan">
+            </div>
+          </div>
+
+          <div class="sidebar-group-buttons">
+            <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
+              Chart editor
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dashkit-page-footer"
+       ng-hide="explorerCtrl.explorer.model.readOnly || !explorerCtrl.dashboard.selectedWidget"
+       ng-controller="CodeEditorCtrl as codeEditorCtrl">
+    <div ng-switch="codeEditorCtrl.settings.isOpen">
+      <div ng-switch-when="true" class="dashkit-footer-open">
+        <div class="dashkit-footer-toolbar">
+          <span class="glyphicon glyphicon-remove" style="float: right"
+                ng-click="codeEditorCtrl.closeCodeEditor()"></span>
+          <div class="btn-group dashkit-toolbar-section">
+            <button type="button" class="btn btn-default"
+                 ng-model="codeEditorCtrl.settings.selectedMode"
+                 ng-repeat="mode in codeEditorCtrl.settings.modes"
+                 btn-radio="mode">{{ mode }}</button>
+          </div>
+          <div class="dashkit-toolbar-section">
+            <button type="button" class="btn btn-primary"
+                    ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
+              Refresh
+            </button>
+            <button type="button" class="btn btn-default"
+                    ng-show="!codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                    ng-click="codeEditorCtrl.explorer.customizeSql()">
+              Edit SQL
+            </button>
+            <button type="button" class="btn btn-default"
+                    ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                    ng-click="codeEditorCtrl.explorer.restoreBuilder()">
+              Use SQL Builder
+            </button>
+          </div>
+        </div>
+        <div ng-switch="codeEditorCtrl.settings.selectedMode">
+          <div ng-switch-when="JSON">
+            <div>
+              <textarea codemirror="codeEditorCtrl.editorOptionsJSON"
+                        ng-model="codeEditorCtrl.currentJson.text">
+              </textarea>
+            </div>
+          </div>
+          <div ng-switch-when="SQL">
+            <div ng-switch="codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query">
+              <div ng-switch-when="true">
+                <div>
+                  <textarea codemirror="codeEditorCtrl.editorOptionsSQL"
+                            ng-model="codeEditorCtrl.dashboard.selectedWidget.model.datasource.query">
+                  </textarea>
+                </div>
+              </div>
+              <div ng-switch-default>
+                <div>
+                  <textarea codemirror="codeEditorCtrl.editorOptionsSQLView"
+                            ng-model="codeEditorCtrl.dashboard.selectedWidget.model.datasource.query">
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div ng-switch-default class="dashkit-footer-toolbar">
+        <button type="button" class="btn btn-default dashkit-footer-button"
+                ng-show="codeEditorCtrl.dashboard.selectedWidget"
+                ng-click="codeEditorCtrl.openWidgetJsonEditor()">
+          Edit Widget JSON
+        </button>
+        <button type="button" class="btn btn-default dashkit-footer-button"
+                ng-show="codeEditorCtrl.dashboard.selectedWidget && !codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                ng-click="codeEditorCtrl.openQuerySqlEditor()">
+          View SQL
+        </button>
+        <button type="button" class="btn btn-default dashkit-footer-button"
+                ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                ng-click="codeEditorCtrl.openQuerySqlEditor()">
+          Edit SQL
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

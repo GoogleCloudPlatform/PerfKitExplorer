@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="explorer" ng-controller="DashboardAdminPageCtrl as pageCtrl">
+<head>
+  <title>Dashkit - Dashboard Administration</title>
+  <!-- JQuery & Angular -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-mocks.js"></script>
+
+  <!-- AngularUI Grid -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.css" rel="stylesheet">
+
+  <!-- CodeMirror3 Editor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
+
+  <!-- Bootstrap & Bootstrap UI -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+  <script>
+    // Initialize Google Visualizations
+    try {
+      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
+    } catch (err) { }
+
+    var CURRENT_USER_EMAIL = '[[current_user_email]]';
+    var CURRENT_USER_ADMIN = [[current_user_admin]];
+  </script>
+
+  <!-- Dashkit -->
+  <script src="/static/dashkit_scripts.js"></script>
+  <link type="text/css" rel="stylesheet" href="/static/dashkit_styles.css" />
+</head>
+<body>
+
+<div class="dashkit-page">
+
+  <div class="dashkit-header">
+    <div class="dashkit-header-section page-title">Dashkit Dashboard Administration</div>
+    <div class="dashkit-header-section dashkit-toolbar">
+      <button type="button" class="btn btn-default"
+              ng-show="pageCtrl.data.selectedItems.0"
+              ng-click="pageCtrl.openDashboard(pageCtrl.data.selectedItems.0)">Open</button>
+      <button type="button" class="btn btn-default"
+              ng-show="pageCtrl.data.selectedItems.0"
+              ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.data.selectedItems.0.owner)">More from this owner</button>
+      <button type="button" class="btn btn-default"
+              ng-show="pageCtrl.data.selectedItems.0"
+              ng-click="pageCtrl.copyDashboard()">Copy</button>
+      <button type="button" class="btn btn-default"
+              ng-show="pageCtrl.data.selectedItems.0"
+              ng-click="pageCtrl.renameDashboard()">Rename</button>
+      <button type="button" class="btn btn-default"
+              ng-show="pageCtrl.data.selectedItems.0"
+              ng-click="pageCtrl.editDashboardOwner()">Edit owner</button>
+      <button type="button" class="btn btn-default"
+              ng-show="pageCtrl.data.selectedItems.0"
+              ng-click="pageCtrl.deleteDashboard()">Delete</button>
+    </div>
+  </div>
+
+  <div class="dashkit-page-body">
+
+    <div class="dashkit-page-sidebar-left">
+      <div style="text-align: center; margin-top: 8px; margin-bottom: 8px;">
+        <button type="button" class="btn btn-danger"
+                ng-click="pageCtrl.createDashboard()">NEW DASHBOARD</button>
+      </div>
+      <div class="dashkit-page-sidebar-option"
+           ng-class="{'dashkit-page-sidebar-option-selected': !pageCtrl.model.mine && !pageCtrl.model.filter_owner}"
+           ng-click="pageCtrl.listAllDashboards()">All dashboards</div>
+      <div class="dashkit-page-sidebar-option"
+           ng-class="{'dashkit-page-sidebar-option-selected': pageCtrl.model.mine}"
+           ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
+      <div class="dashkit-page-sidebar-option"
+           ng-class="{'dashkit-page-sidebar-option-selected': pageCtrl.model.filter_owner}"
+           ng-click="pageCtrl.listDashboardsByOwner()">By owner email</div>
+      <div class="dashkit-page-sidebar-option">
+        <div ng-show="pageCtrl.model.filter_owner">
+          <input ng-model="pageCtrl.model.owner">
+        </div>
+      </div>
+    </div>
+
+    <div class="dashkit-page-content" ng-grid="pageCtrl.data">
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<div>
+  <div class="dashkit-popup-title">
+    Choose a label and/or value from the lists below.
+  </div>
+  <div class="dashkit-popup-leftwell">
+    <div class="dashkit-popup-item"
+         ng-class="{'dashkit-popup-item-selected': label.name == metadataPickerModel.label}"
+         ng-show="!metadataPickerModel.label ||
+                  label.name.slice(0, metadataPickerModel.label.length).toUpperCase() == metadataPickerModel.label.toUpperCase()"
+         ng-repeat="label in metadataPickerData"
+         ng-click="setLabel(label.name)">
+           {{ label.name }}
+    </div>
+  </div>
+  <div class="dashkit-popup-content">
+    <div ng-show="availableValues">
+      <div class="dashkit-popup-item"
+           ng-class="{'dashkit-popup-item-selected': metadataPickerModel.value == '*'}"
+           ng-click="setValue('*')">Any value</div>
+      <div class="dashkit-popup-item"
+           ng-class="{'dashkit-popup-selected': metadataPickerModel.value == ''}"
+           ng-click="setValue('')">No value</div>
+      <hr />
+      <div class="dashkit-popup-item"
+           ng-class="{'dashkit-popup-item-selected': value.name == metadataPickerModel.value}"
+           ng-show="!metadataPickerModel.value ||
+                    value.name.slice(0, metadataPickerModel.value.length).toUpperCase() == metadataPickerModel.value.toUpperCase()"
+           ng-repeat="value in availableValues"
+           ng-click="setValue(value.name)">
+             {{ value.name }}
+      </div>
+    </div>
+    <div ng-hide="availableValues" class="dashkit-popup-note">
+      Select a label on the left, or type one in the form label:value to see available values.
+    </div>
+  </div>
+</div>

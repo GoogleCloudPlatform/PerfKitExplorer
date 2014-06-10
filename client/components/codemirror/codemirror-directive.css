@@ -1,0 +1,8 @@
+/**
+ * Override styling for CodeMirror.
+ * Author: joemu@google.com (Joe Allan Muharsky)
+ */
+
+.cm-function {
+  color: #708;
+}

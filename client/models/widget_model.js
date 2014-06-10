@@ -1,0 +1,143 @@
+/**
+ * @fileoverview Model definition for a widget of any type. Widgets are
+ * retrieved in the JSON format from a REST service (see DashboardDataService).
+ * @author joemu@google.com (Joe Allan Muharsky)
+ */
+
+goog.provide('p3rf.dashkit.explorer.models.LayoutModel');
+goog.provide('p3rf.dashkit.explorer.models.WidgetConfig');
+goog.provide('p3rf.dashkit.explorer.models.WidgetModel');
+goog.provide('p3rf.dashkit.explorer.models.WidgetState');
+goog.provide('p3rf.dashkit.explorer.models.WidgetType');
+
+goog.scope(function() {
+var explorer = p3rf.dashkit.explorer;
+
+
+/**
+ * @enum {string}
+ */
+explorer.models.WidgetType = {
+  CHART: 'chart',
+  CONTAINER: 'container'
+};
+var WidgetType = explorer.models.WidgetType;
+
+
+
+/** @constructor */
+explorer.models.WidgetState = function() {
+  /**
+   * @type {boolean}
+   * @expose
+   */
+  this.selected = false;
+
+  /**
+   * TODO: Change type to ContainerWidgetConfig when we figure
+   * out how to solve the circular dependency.
+   * @type {Object}
+   * @expose
+   */
+  this.parent = null;
+};
+var WidgetState = explorer.models.WidgetState;
+
+
+
+/** @constructor */
+explorer.models.LayoutModel = function() {
+  /**
+   * @type {number}
+   * @expose
+   */
+  this.columnspan = 1;
+
+  /**
+   * @type {?string}
+   * @expose
+   */
+  this.cssClasses = null;
+};
+var LayoutModel = explorer.models.LayoutModel;
+
+
+
+/** @constructor */
+explorer.models.WidgetModel = function() {
+  /**
+   * @type {?string}
+   * @expose
+   */
+  this.id = null;
+
+  /**
+   * @type {string}
+   * @expose
+   */
+  this.title = '';
+
+  /**
+   * @type {?string}
+   * @expose
+   */
+  this.type = null;
+
+  /**
+   * @type {!LayoutModel}
+   * @expose
+   */
+  this.layout = new LayoutModel();
+};
+var WidgetModel = explorer.models.WidgetModel;
+
+
+
+/**
+ * @constructor
+ * @param {!Object} widgetFactoryService
+ * @param {?(Object|WidgetModel)=} opt_model JSON or WidgetModel.
+ */
+explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
+  /**
+   * The persisted model of the widget. It's usually a simple JSON object
+   * returned by the server but it respects the WidgetModel class
+   * definition.
+   *
+   * Warning: Do not keep a reference on this property, it can be replaced by an
+   * updated JSON at any time. Instead, keep a reference on the
+   * WidgetConfig object that contains it.
+   *
+   * @type {!(Object|WidgetModel)}
+   * @expose
+   */
+  this.model = opt_model || new WidgetModel();
+
+  if (!this.model.id) {
+    this.model.id = widgetFactoryService.generateWidgetId();
+  }
+
+  // Add the widget to widgetsById.
+  widgetFactoryService.widgetsById[this.model.id] = this;
+
+  /**
+   * Returns the state object corresponding to this widget.
+   *
+   * Note: It is a function in order for Angular watchers to be able to watch
+   * this widget and ignore its state. Otherwise, it will throw a circular
+   * dependency error.
+   *
+   * @return {WidgetState}
+   * @expose
+   */
+  this.state = function() {
+    return widgetFactoryService.statesById[this.model.id];
+  };
+
+  // Add the widget state to statesById.
+  widgetFactoryService.statesById[this.model.id] =
+      widgetFactoryService.statesById[this.model.id] || new WidgetState();
+};
+var WidgetConfig = explorer.models.WidgetConfig;
+
+});  // goog.scope

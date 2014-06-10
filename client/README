@@ -1,0 +1,30 @@
+# TODO: Add instructions to build, test & deploy Dashkit.
+
+Explorer uses Karma tests to unit test Angular functionality.
+To run the local Karma server for debugging, run from the /explorer folder:
+
+## ADD INSTRUCTIONS HERE FOR OPEN-SOURCE TEST EXECUTION ##
+
+To deploy the Dashkit Explorer application:
+
+## ADD INSTRUCTIONS HERE FOR OPEN-SOURCE DEPLOYMENT ##
+
+By default the application will be deployed to a build/version specific to your
+client.  For example, with the following values:
+  version: 15
+  application: MYDASHKIT
+
+  http://15-dot-MYDASHKIT.appspot.com
+
+To deploy/publish a "public" version (to test or prod), take the following
+steps:
+1. In app.yaml, explicitly set the appropriate "public" version (ie: 3).
+   note: It should be set to 'auto' by default.
+2. Deploy the application via the steps noted above.
+3. Smoke-test the version at the version-specific Url:
+   https://15-dot-MYDASHKIT.appspot.com
+3. Navigate to the GAE console, ie:
+   https://appengine.google.com/deployment?&app_id=MYDASHKIT
+4. Click the radio button for the "public" version.
+5. Click the "Make Default" button.
+6. Delete any old versions from your client that have been created.

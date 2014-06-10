@@ -1,0 +1,49 @@
+.dashkit-header {
+  background-color: rgb(241, 241, 241);
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+  width: 100%;
+}
+
+.dashkit-header-section {
+  border-bottom: 1px solid rgb(229, 229, 229);
+}
+
+.page-title {
+  color: #DD4B39;
+  font-size: 20px;
+  margin-top: 8px;
+  margin-left: 8px;
+  padding-bottom: 4px;
+}
+
+.dashkit-toolbar {
+  background-color: rgb(241, 241, 241);
+  border-bottom: 1px solid rgb(229, 229, 229);
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+}
+
+.dashkit-toolbar {
+  display: block;
+  padding: 8px;
+}
+
+.dashkit-toolbar-section {
+  display: inline-block;
+  border-right: 1px solid #ccc;
+  margin-right: 4px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.dashkit-dropdown-button-section {
+  display: inline-block;
+}
+
+.dropdown-menu {
+  left: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  top: auto !important;
+}

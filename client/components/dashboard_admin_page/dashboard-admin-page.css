@@ -1,0 +1,16 @@
+.dashkit-page-sidebar-option
+{
+  padding: 4px;
+}
+
+.dashkit-page-sidebar-option:hover
+{
+  padding: 4px;
+  cursor: pointer;
+  background-color: #eee;
+}
+
+.dashkit-page-sidebar-option-selected
+{
+  font-weight: bold;
+}

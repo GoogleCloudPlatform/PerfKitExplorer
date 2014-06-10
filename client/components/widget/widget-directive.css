@@ -1,0 +1,143 @@
+/**
+ * Styling for the dashboard's widgets.
+ *
+ * Author: joemu@google.com (Joe Allan Muharsky)
+ */
+
+
+.dashkit-container-selected .dashkit-widget {
+  background: #F1F1F1;
+  border-bottom: 1px dashed;
+  border-top: 1px dashed;
+  border-color: #D6D6D6;
+}
+
+.dashkit-container-selected .dashkit-widget:first-child {
+  border-left: 1px dashed;
+  border-color: #D6D6D6;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  -moz-border-radius-topleft: 10px;
+  -moz-border-radius-bottomleft: 10px;
+  -webkit-border-top-left-radius: 10px;
+  -webkit-border-bottom-left-radius: 10px;
+}
+
+.dashkit-container-selected .dashkit-widget:last-child {
+  border-right: 1px dashed;
+  border-color: #D6D6D6;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  -moz-border-radius-topright: 10px;
+  -moz-border-radius-bottomright: 10px;
+  -webkit-border-top-right-radius: 10px;
+  -webkit-border-bottom-right-radius: 10px;
+}
+
+.dashkit-container-content {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.dashkit-container-content.flex-row {
+  flex-flow: row;
+  -webkit-flex-flow: row;
+}
+
+.dashkit-container-content.flex-column {
+  flex-flow: column;
+  -webkit-flex-flow: column;
+}
+
+.dashkit-container-content.flex-wrap {
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+}
+
+.dashkit-widget {
+  flex-basis: 100%;
+  -webkit-flex-basis: 100%;
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+}
+
+.dashkit-widget-body {
+  background: #ffffff;
+  border: 1px solid #CCC;
+  margin: 15px;
+}
+
+.dashkit-widget-body.dashkit-widget-no-overflow {
+  overflow: hidden;
+}
+
+.dashkit-widget-content {
+  background: #ffffff;
+}
+
+.dashkit-container {
+  margin: 0.25em 0;
+}
+
+.dashkit-widget-header {
+  background: #ffffff;
+  min-height: 25px;
+  padding: 4px 10px;
+}
+
+.dashkit-container-header {
+}
+
+.dashkit-widget-title {
+  display: inline-block;
+  vertical-align: middle;
+  overflow-x: hidden;
+  white-space: nowrap;
+  max-width: 90%;
+  text-overflow: ellipsis;
+}
+
+.dashkit-container-title {
+  display: inline-block;
+}
+
+.dashkit-add-container {
+  margin: 15px;
+}
+
+.dashkit-widget-selected .dashkit-widget-body {
+  border-color: #ffff00;
+  border-width: 2px;
+  margin: 14px;
+}
+
+.dashkit-widget-selected .dashkit-widget-title {
+  color: #d14836;
+  font-weight: bold;
+}
+
+/** Hide all the errors drawn by the gviz charts */
+.dashkit-chart > [id^="google-visualization-errors-all-"] {
+  display: none !important;
+}
+
+.dashkit-chart-error {
+  color: #777777;
+  font-size: .95em;
+  font-style: italic;
+  padding-bottom: 8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: center;
+}
+
+.dashkit-chart-hidden {
+  visibility: hidden;
+  position: absolute !important;
+}
+
+.dashkit-widget-close-button {
+  float: right;
+  margin-right: -4px;
+  margin-top: -2px;
+}

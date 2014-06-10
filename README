@@ -1,0 +1,35 @@
+Dashkit is a service & web front end for composing queries and dashboards,
+and sharing the results.
+
+Platforms/Dependencies
+=====================
+Data Store:
+* Google BigQuery              https://bigquery.cloud.google.com
+
+Service:
+* Google App Engine (Python)   https://developers.google.com/appengine/downloads
+* Google API Client            https://developers.google.com/api-client-library/python/start/installation
+* PyTest                       http://pytest.org/latest/getting-started.html
+* WebTest                      http://webtest.pythonpaste.org/en/latest/
+* WebApp2                      https://webapp-improved.appspot.com/tutorials/quickstart.nogae.html
+
+
+Installation/Configuration
+==========================
+1. Create a new Cloud Console project.
+2. Create client access tokens for your project, and add them to
+   credentials.json.
+3. Enable the BigQuery and AppEngine service for your project.
+4. TODO: Create script/process for creating empty results table and test
+   datasets.
+
+Running Tests
+=============
+1. Install prerequisite libraries (noted above).
+2. From a command-line and the root folder of your tests (common/py or
+   explorer), run:
+     py.test
+
+   To run a specific class of tests, you can access the @pytest.mark.* values
+   annotating the tests.  For example, to run all query-related tests:
+     py.test -v -m query
