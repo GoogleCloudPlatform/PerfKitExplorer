@@ -2,17 +2,17 @@
 
 
 # Copy config files (yaml & appengine_config.py) to deploy.
-find config -type f | cpio -pamVd deploy/
+find config -type f -name '*.json' | cpio -p -a -m -d deploy/
 cp -f *.yaml ./deploy/
 cp -f *.py ./deploy/
 
 
 # Copy server/*.py files (not tests) to deploy/server
-find server -type f -not -iname '*_test.py' | cpio -pamVd deploy/
+find server -type f -name '*.py' -not -iname '*_test.py' | cpio -p -a -m -d deploy/
 
 
 # Copy client/*.html template files to deploy/client.
-find client -name '*.html' | cpio -pamVd deploy/
+find client -name '*.html' | cpio -pamd deploy/
 
 
 # Compile client/*.js files to deploy/client/dashkit_scripts.js.
@@ -27,6 +27,7 @@ python bin/closurebuilder.py \
  --compiler_flags="--language_in=ECMASCRIPT5" \
  --compiler_flags="--formatting=SINGLE_QUOTES" \
  --output_file=deploy/client/dashkit_scripts.js
+
 
 
 # Compile client/*.css stylesheets to deploy/client/dashkit_styles.css.
