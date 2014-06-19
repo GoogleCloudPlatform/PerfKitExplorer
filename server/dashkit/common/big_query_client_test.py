@@ -1,4 +1,10 @@
-"""Unit test for big_query_client_test.
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+
+Unit test for big_query_client_test.
 
 Temp tables from tests are created in the dataset specified by TEMP_DATASET_ID,
 by default 'samples_mart_temp'.  They are expected to be cleaned up, either

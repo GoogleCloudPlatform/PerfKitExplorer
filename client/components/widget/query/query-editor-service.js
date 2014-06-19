@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview Javascript Query Editor service.  This provides access to the
  * model for defining a Dashkit query via logical parameters (including, but not
  * limited to, filters and column settings).  It can also be used to produce

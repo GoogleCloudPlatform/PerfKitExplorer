@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview Contains sample QueryProperties objects and the subcomponents
  * that make up a QueryProperties object.  The idea is to include
  * QueryProperties objects here that will be used by multiple tests.

@@ -1,4 +1,10 @@
-"""Query class for a list of labels and values for a single product.
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+
+Query class for a list of labels and values for a single product.
 
 This query is used to provide the label/value dropdowns in the Explorer UI,
 and includes the count for each label/value to allow for "order by usage".

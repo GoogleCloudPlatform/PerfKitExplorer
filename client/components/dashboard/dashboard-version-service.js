@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview Module for verifying dashboard models and updating them to the
  * latest schema.  The primary purpose right now is assigning version #'s if
  * they do not exist, and updating legacy dashboard models (anything without a
