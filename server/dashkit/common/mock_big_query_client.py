@@ -1,4 +1,10 @@
-"""Provides a mock BigQueryClient that allows the tester to control the reply.
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+
+Provides a mock BigQueryClient that allows the tester to control the reply.
 
 Presently, this class is used for mocking queries and replies.  Future revisions
 will support mocking of additional behavior.

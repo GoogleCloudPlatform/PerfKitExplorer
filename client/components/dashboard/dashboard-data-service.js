@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview dashboardDataService is an angular service used to fetch,
  * cache, create, update and delete the persisted data of a dashboard
  * given a user, topology (product/test/metric) or specific dashboard

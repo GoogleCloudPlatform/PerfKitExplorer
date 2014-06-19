@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview widget is an angular directive used to show a widget that
  * is bound to a WidgetModel. It can be selected and can adjust its size
  * according to the layout object defined in the model.

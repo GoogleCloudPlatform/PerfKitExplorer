@@ -1,4 +1,10 @@
-"""Unit test for data_source_config."""
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+
+Unit test for data_source_config."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 

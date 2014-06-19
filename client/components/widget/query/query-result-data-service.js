@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview queryResultDataService is an angular service used to fetch and
  * cache samples results from a REST service (/data/samples, backed by the GAE
  * handler p3rf.dashkit.explorer.data). It accepts a QueryConfig

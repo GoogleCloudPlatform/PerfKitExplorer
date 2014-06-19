@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview container is an angular directive used to show a container that
  * is bound to a ContainerWidgetModel. It can contain elements and can organize
  * them visually in three different way: row, column, or wrap.

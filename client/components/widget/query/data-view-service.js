@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview dataViewService is an angular service used to create
  * gviz DataView initializer objects corresponding to a specific configuration.
  * This configuration is represented by the class DataViewModel and looks like

@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview fieldCubeDataService is an angular service used to fetch and
  * cache data from the field metadata cube.  See go/dashkit-cubes for cube
  * design and intent.  It requests data from a REST service (/data/fields,

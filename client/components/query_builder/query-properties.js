@@ -1,4 +1,10 @@
 /**
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
+ *
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file or at
+ * https://developers.google.com/open-source/licenses/bsd
+ *
  * @fileoverview Contains the QueryProperties and other classes which are used
  * to describe the restrictions on a single query for the explorer.  Those
  * restrictions include the fields to be queried, how to structure those
