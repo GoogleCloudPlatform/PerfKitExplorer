@@ -38,6 +38,10 @@
  *                  to an object with an email and nickname property.  Existing
  *                  widgets will be set to custom_query=true to avoid accidental
  *                  overwrites of custom logic.
+ * v3   2014-May    Add two new fields to datasource.config.results:
+ *                  pivot (boolean): If true, the data will be pivoted.
+ *                  pivot_config (PivotConfigModel): Describes the column, row and
+ *                  value fields for pivot transformation.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -46,13 +50,15 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionModel');
 goog.require('p3rf.dashkit.explorer.models.DatasourceModel');
 goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.PivotConfigModel');
 
 goog.scope(function() {
 var explorer = p3rf.dashkit.explorer;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 var DatasourceModel = explorer.models.DatasourceModel;
-var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;
+var QueryConfigModel = explorer.models.QueryConfigModel;
+var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 
 
@@ -86,17 +92,28 @@ var DashboardVersionService =
 
 
 /**
+ * Verifies the version of a dashboard model, and brings it up to date if necessary.
  * @param {!DashboardModel} dashboard
  * @export
  */
 DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
   var version = this.getDashboardVersion(dashboard);
 
-  // If the version is not current, run the update script for the current
-  // version.
-  if (!goog.isDef(dashboard.version) || version != this.currentVersion) {
-    this.currentVersion.update(dashboard);
-    dashboard.version = this.currentVersion.version;
+  // If the version is not current, run the update script to bring the version
+  // current.
+  if (version == this.currentVersion) {
+    if (!goog.isDef(dashboard.version)) {
+      dashboard.version = version.version;
+    }
+  } else {
+    var dashboard_version_index = this.versions.indexOf(version);
+    var current_version_index = this.versions.indexOf(this.currentVersion);
+
+    for (var i = dashboard_version_index - 1; i >= current_version_index; --i) {
+      var update_version = this.versions[i];
+      update_version.update(dashboard);
+      dashboard.version = update_version.version;
+    }
   }
 };
 
@@ -118,17 +135,30 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
       throw new Error(
           'The model specifies v' + dashboard.version +
           ', which does not exist.');
-    } else if (version.verify(dashboard)) {
-      return version;
     } else {
-      throw new Error(
-          'The model specifies v' + dashboard.version + ', but is not valid.');
+      try {
+        if (version.verify(dashboard)) {
+          return version;
+        } else {
+          throw new Error(
+              'The model specifies v' + dashboard.version +
+              ', but is not valid.');
+        }
+      } catch (err) {
+        throw new Error(
+            'The model specifies v' + dashboard.version +
+            ', but is not valid.');
+      }
     }
   }
   for (var i = 0, len = this.versions.length; i < len; ++i) {
     version = this.versions[i];
-    if (version.verify(dashboard)) {
-      return version;
+    try {
+      if (version.verify(dashboard)) {
+        return version;
+      }
+    } catch (err) {
+      // Verification failed.
     }
   }
   throw new Error('The model does not appear to be a valid dashboard.');
@@ -143,6 +173,48 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
  * @type {Array.<!DashboardVersionModel>}
  */
 var VERSIONS = [
+  {'version': '3',
+    'verify': function(dashboard) {
+      var rtnVal = true;
+
+      var containerCtr = 0;
+      while (containerCtr < dashboard.children.length) {
+        var container = dashboard.children[containerCtr];
+
+        var widgetCtr = 0;
+        while (widgetCtr < container.container.children.length) {
+          var widget = container.container.children[widgetCtr];
+
+          if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
+            rtnVal = false;
+            break;
+          }
+          widgetCtr++;
+        }
+        containerCtr++;
+      }
+
+      return rtnVal;
+    },
+    'update': function(dashboard) {
+      // Apply updates to each widget.
+      var containerCtr = 0;
+      while (containerCtr < dashboard.children.length) {
+        var container = dashboard.children[containerCtr];
+
+        var widgetCtr = 0;
+        while (widgetCtr < container.container.children.length) {
+          var widget = container.container.children[widgetCtr];
+          if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
+            widget.datasource.config.results.pivot = false;
+            widget.datasource.config.results.pivot_config = new PivotConfigModel();
+          }
+
+          widgetCtr++;
+        }
+        containerCtr++;
+      }
+    }},
   {'version': '2',
     'verify': function(dashboard) {
       var rtnVal = true;
@@ -155,7 +227,8 @@ var VERSIONS = [
         while (widgetCtr < container.container.children.length) {
           var widget = container.container.children[widgetCtr];
 
-          if (!goog.isDef(widget.datasource.config)) {
+          if (!goog.isDef(widget.datasource.config) ||
+              !goog.isDef(widget.datasource.custom_query)) {
             rtnVal = false;
             break;
           }
@@ -176,7 +249,8 @@ var VERSIONS = [
         while (widgetCtr < container.container.children.length) {
           var widget = container.container.children[widgetCtr];
           if (!goog.isDef(widget.datasource.custom_query)) {
-            widget.datasource.custom_query = false;
+            widget.datasource.custom_query = !goog.string.isEmptySafe(
+                widget.datasource.query);
           }
 
           if (!widget.datasource.config) {
@@ -189,10 +263,6 @@ var VERSIONS = [
                 widget.datasource.config,
                 widget.datasource.querystring);
             delete widget.datasource.querystring;
-          }
-
-          if (widget.datasource.query) {
-            widget.datasource.custom_query = true;
           }
 
           widgetCtr++;

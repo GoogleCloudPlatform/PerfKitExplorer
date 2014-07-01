@@ -10,6 +10,7 @@
  */
 
 goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.LabelResult');
+goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.PivotConfigModel');
 goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
 goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryDateGroupings');
 
@@ -31,6 +32,34 @@ var LabelResult = explorer.models.dashkit_simple_builder.LabelResult;
 
 
 /**
+ * Type definition for a pivot configuration.  Pivots specify a column, row and
+ * value field, and transform the results so that the "column" field's unique
+ * values are displayed as column headers.
+ * @constructor
+ */
+explorer.models.dashkit_simple_builder.PivotConfigModel = function() {
+  /**
+   * @type {!string}
+   * @export
+   */
+  this.row_field = '';
+
+  /**
+   * @type {!string}
+   * @export
+   */
+  this.column_field = '';
+
+  /**
+   * @type {!string}
+   * @export
+   */
+  this.value_field = '';
+};
+var PivotConfigModel = explorer.models.dashkit_simple_builder.PivotConfigModel;
+
+
+/**
  * @enum {string}
  */
 explorer.models.dashkit_simple_builder.QueryDateGroupings = {
@@ -43,23 +72,43 @@ var QueryDateGroupings =
     explorer.models.dashkit_simple_builder.QueryDateGroupings;
 
 
+/**
+ * @enum {string}
+ */
+explorer.models.dashkit_simple_builder.QueryShapes = {
+  TABULAR: 'Tabular',
+  PIVOT: 'Pivot'
+};
+var QueryShapes = explorer.models.dashkit_simple_builder.QueryShapes;
+
+
 
 /**
  * Angular service that provides the column configuration of a Samples query.
- *
  * @constructor
- * @ngInject
  */
 explorer.models.dashkit_simple_builder.QueryColumnModel = function() {
   /**
    * @type {QueryDateGroupings}
-   * @expose
+   * @export
    */
   this.date_group = QueryDateGroupings.ONEGROUP;
 
   /**
+   * @type {!boolean}
+   * @export
+   */
+  this.pivot = false;
+
+  /**
+   * @type {!PivotConfigModel}
+   * @export
+   */
+  this.pivot_config = new PivotConfigModel();
+
+  /**
    * @type {Array.<!LabelResult>}
-   * @expose
+   * @export
    */
   this.labels = [];
 };

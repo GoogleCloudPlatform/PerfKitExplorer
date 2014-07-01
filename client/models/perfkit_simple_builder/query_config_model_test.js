@@ -144,6 +144,12 @@ describe('TestQueryConfigModel', function() {
             ]};
           var expectedResults = {
             'date_group': 'OneGroup',
+            'pivot': false,
+            'pivot_config': {
+              'row_field': '',
+              'column_field': '',
+              'value_field': ''
+            },
             'labels': [
               {'label': 'Weight'},
               {'label': 'Cost'}
