@@ -58,7 +58,7 @@ var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 var DatasourceModel = explorer.models.DatasourceModel;
 var QueryConfigModel = explorer.models.QueryConfigModel;
-var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
+var PivotConfigModel = explorer.models.dashkit_simple_builder.PivotConfigModel;
 
 
 
