@@ -1,0 +1,712 @@
+{"children": [
+  {
+    "container": {
+      "children": [
+        {
+          "chart": {
+            "chartType": "ComboChart",
+            "options": {
+              "animation": {
+                "duration": 500
+              },
+              "booleanRole": "certainty",
+              "chartArea": {
+                "height": "75%",
+                "left": 80,
+                "top": 30,
+                "width": "75%"
+              },
+              "focusTarget": "category",
+              "hAxis": {
+                "maxValue": null,
+                "minValue": null,
+                "slantedText": true,
+                "slantedTextAngle": 30,
+                "textStyle": {
+                  "color": "#222",
+                  "fontSize": "12"
+                },
+                "titleTextStyle": {
+                  "color": "#222",
+                  "fontSize": "12",
+                  "italic": true
+                },
+                "useFormatFromData": true,
+                "viewWindow": {
+                  "max": null,
+                  "min": null
+                }
+              },
+              "legend": "top",
+              "series": [
+                {
+                  "type": "candlesticks"
+                },
+                {
+                  "color": "#9999FF",
+                  "targetAxisIndex": 1,
+                  "type": "line"
+                }
+              ],
+              "title": "Percentiles - MIN / 5% / 95% / MAX",
+              "type": "line",
+              "vAxes": [
+                {
+                  "maxValue": null,
+                  "minValue": 0,
+                  "title": "Throughput (MBps)",
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": 0
+                  },
+                  "viewWindowMode": "explicit"
+                },
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "title": "Samples Collected",
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": null
+                  }
+                }
+              ]
+            }
+          },
+          "custom_query": true,
+          "datasource": {
+            "config": {
+              "filters": {
+                "end_date": null,
+                "metadata": [],
+                "metric": null,
+                "official": null,
+                "product_name": null,
+                "runby": null,
+                "start_date": {
+                  "filter_type": "WEEK",
+                  "filter_value": 2,
+                  "specify_time": false,
+                  "text": "last 2 weeks"
+                },
+                "test": null
+              },
+              "results": {
+                "date_group": "OneGroup",
+                "labels": [],
+                "pivot": false,
+                "pivot_config": {
+                  "column_field": "",
+                  "row_field": "",
+                  "value_field": ""
+                }
+              }
+            },
+            "custom_query": true,
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_zone:(.*?)\\|') as zone,\n  MIN(value) AS min, \n  NTH(5, QUANTILES(value, 100)) AS p5, \n  NTH(95, QUANTILES(value, 100)) AS p95, \n  MAX(value) AS max\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  zone\nORDER BY\n  zone;\n",
+            "querystring": null,
+            "view": {
+              "columns": [],
+              "filter": [],
+              "sort": []
+            }
+          },
+          "id": "1104391198",
+          "layout": {
+            "columnspan": 1,
+            "cssClasses": "perfkit-widget-no-overflow"
+          },
+          "title": "Single Stream Same Zone TCP Throughput (Last 7 days for n1-standard-8)",
+          "type": "chart"
+        },
+        {
+          "chart": {
+            "chartType": "BarChart",
+            "options": {
+              "animation": {
+                "duration": 500
+              },
+              "booleanRole": "certainty",
+              "hAxis": {
+                "maxValue": null,
+                "minValue": 0,
+                "title": "Mbps",
+                "useFormatFromData": true,
+                "viewWindow": {
+                  "max": null,
+                  "min": 0
+                },
+                "viewWindowMode": "explicit"
+              },
+              "isStacked": false,
+              "legend": "right",
+              "vAxes": [
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "textStyle": {
+                    "color": "#222",
+                    "fontSize": "12"
+                  },
+                  "titleTextStyle": {
+                    "color": "#222",
+                    "fontSize": "12",
+                    "italic": true
+                  },
+                  "useFormatFromData": true,
+                  "viewWindow": null,
+                  "viewWindowMode": null
+                },
+                {
+                  "useFormatFromData": true
+                }
+              ]
+            }
+          },
+          "datasource": {
+            "config": {
+              "filters": {
+                "end_date": {
+                  "filter_type": "CUSTOM",
+                  "filter_value": "2013-09-18",
+                  "specify_time": false,
+                  "text": "2013-09-17"
+                },
+                "metadata": [
+                  {
+                    "$$hashKey": "0LU",
+                    "label": "machine_type",
+                    "text": "machine_type:n1-standard-8",
+                    "value": "n1-standard-8"
+                  }
+                ],
+                "metric": null,
+                "official": null,
+                "product_name": null,
+                "runby": null,
+                "start_date": {
+                  "filter_type": "CUSTOM",
+                  "filter_value": "2014-07-02T17:54:42.072Z",
+                  "specify_time": false,
+                  "text": "2014-07-02"
+                },
+                "test": null
+              },
+              "results": {
+                "date_group": "OneGroup",
+                "labels": [
+                  {
+                    "$$hashKey": "0LW",
+                    "label": "sending_zone"
+                  },
+                  {
+                    "$$hashKey": "0LX",
+                    "label": "receiving_zone"
+                  }
+                ],
+                "pivot": true,
+                "pivot_config": {
+                  "column_field": "daterange",
+                  "row_field": "zone",
+                  "value_field": "value"
+                }
+              }
+            },
+            "custom_query": true,
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_zone:(.*?)\\|') as zone,\n  CASE WHEN \n      timestamp >= TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\"))\n    THEN 'PAST7DAYS'\n    ELSE 'TWOWEEKS' END AS daterange,\n  AVG(value) AS value\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -14, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  zone, daterange\nORDER BY\n  zone, daterange\n",
+            "view": {
+              "columns": [],
+              "filter": [],
+              "sort": []
+            }
+          },
+          "id": "1540500806",
+          "layout": {
+            "columnspan": 1,
+            "cssClasses": "perfkit-widget-no-overflow"
+          },
+          "title": "Single Stream Same Zone TCP Throughput (Week on Week Comparison for n1-standard-8)",
+          "type": "chart"
+        }
+      ],
+      "columns": 2,
+      "flow": "row",
+      "height": 500
+    },
+    "id": "595222258",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  },
+  {
+    "container": {
+      "children": [],
+      "columns": 1,
+      "flow": "row",
+      "height": 400
+    },
+    "id": "2112224119",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  },
+  {
+    "container": {
+      "children": [],
+      "columns": 2,
+      "flow": "row",
+      "height": 400
+    },
+    "id": "813165387",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  },
+  {
+    "container": {
+      "children": [
+        {
+          "chart": {
+            "chartType": "ColumnChart",
+            "options": {
+              "animation": {
+                "duration": 500
+              },
+              "booleanRole": "certainty",
+              "hAxis": {
+                "maxValue": null,
+                "minValue": null,
+                "useFormatFromData": true,
+                "viewWindow": null,
+                "viewWindowMode": null
+              },
+              "isStacked": false,
+              "legend": "in",
+              "title": "",
+              "vAxes": [
+                {
+                  "maxValue": null,
+                  "minValue": 0,
+                  "title": "Mbps",
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": 0
+                  },
+                  "viewWindowMode": "explicit"
+                },
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": null
+                  }
+                }
+              ]
+            }
+          },
+          "datasource": {
+            "config": {
+              "filters": {
+                "end_date": null,
+                "metadata": [],
+                "metric": null,
+                "official": null,
+                "product_name": null,
+                "runby": null,
+                "start_date": {
+                  "filter_type": "WEEK",
+                  "filter_value": 2,
+                  "specify_time": false,
+                  "text": "last 2 weeks"
+                },
+                "test": null
+              },
+              "results": {
+                "date_group": "OneGroup",
+                "labels": [],
+                "pivot": false,
+                "pivot_config": {
+                  "column_field": "",
+                  "row_field": "",
+                  "value_field": ""
+                }
+              }
+            },
+            "custom_query": true,
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') as machine_type,\n  AVG(value) as Average\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  machine_type\nORDER BY\n  machine_type\n",
+            "queryError": null,
+            "querystring": null,
+            "view": {
+              "columns": [],
+              "filter": [],
+              "sort": []
+            }
+          },
+          "id": "620044056",
+          "layout": {
+            "columnspan": 1,
+            "cssClasses": "perfkit-widget-no-overflow"
+          },
+          "title": "Single Stream TCP Prod Throughput Comparison of Instance Types over the last 7 Days",
+          "type": "chart"
+        }
+      ],
+      "columns": 1,
+      "flow": "row",
+      "height": 400
+    },
+    "id": "278155961",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  },
+  {
+    "container": {
+      "children": [
+        {
+          "chart": {
+            "chartType": "ComboChart",
+            "options": {
+              "animation": {
+                "duration": 500
+              },
+              "booleanRole": "certainty",
+              "hAxis": {
+                "maxValue": null,
+                "minValue": null,
+                "useFormatFromData": true,
+                "viewWindow": {
+                  "max": null,
+                  "min": null
+                }
+              },
+              "legend": "in",
+              "series": [
+                {
+                  "type": "bars"
+                },
+                {
+                  "lineWidth": 4
+                }
+              ],
+              "title": "",
+              "type": "line",
+              "vAxes": [
+                {
+                  "maxValue": null,
+                  "minValue": 0,
+                  "title": "Mbps",
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": 0
+                  },
+                  "viewWindowMode": "explicit"
+                },
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": null
+                  }
+                }
+              ]
+            }
+          },
+          "datasource": {
+            "config": {
+              "filters": {
+                "end_date": {
+                  "filter_type": "CUSTOM",
+                  "filter_value": "2013-10-10",
+                  "specify_time": false,
+                  "text": "2013-10-09"
+                },
+                "metadata": [
+                  {
+                    "$$hashKey": "14U",
+                    "label": "clustermanager",
+                    "text": "clustermanager:staging",
+                    "value": "staging"
+                  }
+                ],
+                "metric": "Throughput (Mbits/sec)",
+                "official": null,
+                "product_name": "bigcluster",
+                "runby": null,
+                "start_date": {
+                  "filter_type": "CUSTOM",
+                  "filter_value": "2014-07-02T17:54:42.072Z",
+                  "specify_time": false,
+                  "text": "2014-07-02"
+                },
+                "test": "bigcluster_perf_network_same_zone"
+              },
+              "results": {
+                "date_group": "Weekly",
+                "labels": [],
+                "pivot": false,
+                "pivot_config": {
+                  "column_field": "",
+                  "row_field": "",
+                  "value_field": ""
+                }
+              }
+            },
+            "custom_query": true,
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * 1000000), 0)) AS date,\n  MAX(value) AS max,\n  AVG(value) AS avg\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  date\nORDER BY\n  date\n",
+            "view": {
+              "columns": [],
+              "filter": [],
+              "sort": []
+            }
+          },
+          "id": "1144316752",
+          "layout": {
+            "columnspan": 1,
+            "cssClasses": "perfkit-widget-no-overflow"
+          },
+          "title": "Single Stream TCP Prod Throughput (avg+max of all zones over time for n1-standard-8)",
+          "type": "chart"
+        }
+      ],
+      "columns": 1,
+      "flow": "row",
+      "height": 400
+    },
+    "id": "1960759954",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  },
+  {
+    "container": {
+      "children": [
+        {
+          "chart": {
+            "chartType": "CandlestickChart",
+            "options": {
+              "animation": {
+                "duration": 500
+              },
+              "booleanRole": "certainty",
+              "hAxis": {
+                "maxValue": null,
+                "minValue": null,
+                "title": "",
+                "useFormatFromData": true,
+                "viewWindow": {
+                  "max": null,
+                  "min": null
+                }
+              },
+              "legend": "none",
+              "title": "Percentiles - MIN / 10% / 90% / MAX",
+              "vAxes": [
+                {
+                  "maxValue": null,
+                  "minValue": 0,
+                  "title": "Mbps",
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": 0
+                  },
+                  "viewWindowMode": "explicit"
+                },
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": null
+                  }
+                }
+              ]
+            }
+          },
+          "datasource": {
+            "config": {
+              "filters": {
+                "end_date": null,
+                "metadata": [],
+                "metric": null,
+                "official": null,
+                "product_name": null,
+                "runby": null,
+                "start_date": {
+                  "filter_type": "WEEK",
+                  "filter_value": 2,
+                  "specify_time": false,
+                  "text": "last 2 weeks"
+                },
+                "test": null
+              },
+              "results": {
+                "date_group": "OneGroup",
+                "labels": [],
+                "pivot": false,
+                "pivot_config": {
+                  "column_field": "",
+                  "row_field": "",
+                  "value_field": ""
+                }
+              }
+            },
+            "custom_query": true,
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * 1000000), 0)) AS date,\n  MIN(value) AS min, \n  NTH(10, QUANTILES(value, 100)) AS p10, \n  NTH(90, QUANTILES(value, 100)) AS p90, \n  MAX(value) AS max\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\"\nGROUP BY\n  date\nORDER BY\n  date\n",
+            "queryError": null,
+            "view": {
+              "columns": [],
+              "filter": [],
+              "sort": []
+            }
+          },
+          "id": "897975913",
+          "layout": {
+            "columnspan": 1,
+            "cssClasses": "perfkit-widget-no-overflow"
+          },
+          "title": "Single Stream TCP Throughput (All zones over time for n1-standard-8)",
+          "type": "chart"
+        }
+      ],
+      "columns": 1,
+      "flow": "row",
+      "height": 400
+    },
+    "id": "1556859402",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  },
+  {
+    "container": {
+      "children": [
+        {
+          "chart": {
+            "chartType": "Histogram",
+            "options": {
+              "animation": {
+                "duration": 500
+              },
+              "booleanRole": "certainty",
+              "hAxis": {
+                "maxValue": null,
+                "minValue": null,
+                "title": "Mbps",
+                "useFormatFromData": true,
+                "viewWindow": {
+                  "max": null,
+                  "min": null
+                }
+              },
+              "legend": "right",
+              "vAxes": [
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "title": "Count",
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": null
+                  }
+                },
+                {
+                  "maxValue": null,
+                  "minValue": null,
+                  "useFormatFromData": true,
+                  "viewWindow": {
+                    "max": null,
+                    "min": null
+                  }
+                }
+              ]
+            }
+          },
+          "datasource": {
+            "config": {
+              "filters": {
+                "end_date": null,
+                "metadata": [],
+                "metric": null,
+                "official": null,
+                "product_name": null,
+                "runby": null,
+                "start_date": {
+                  "filter_type": "WEEK",
+                  "filter_value": 2,
+                  "specify_time": false,
+                  "text": "last 2 weeks"
+                },
+                "test": null
+              },
+              "results": {
+                "date_group": "OneGroup",
+                "labels": [],
+                "pivot": false,
+                "pivot_config": {
+                  "column_field": "",
+                  "row_field": "",
+                  "value_field": ""
+                }
+              }
+            },
+            "custom_query": true,
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  IF(REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') = 'n1-standard-8', value, NULL) as n1_standard_8,\n  IF(REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') = 'n1-standard-1', value, NULL) as n1_standard_1\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\" AND\n  (labels CONTAINS \"|sending_machine_type:n1-standard-1|\" OR\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\")\n\n\n",
+            "queryError": null,
+            "view": {
+              "columns": [],
+              "filter": [],
+              "sort": []
+            }
+          },
+          "id": "134736039",
+          "layout": {
+            "columnspan": 1,
+            "cssClasses": "perfkit-widget-no-overflow"
+          },
+          "title": "Single Stream TCP Throughput Histogram Comparing Instance Types  (All zones all ltimes)",
+          "type": "chart"
+        }
+      ],
+      "columns": 1,
+      "flow": "row",
+      "height": 400
+    },
+    "id": "1712550273",
+    "layout": {
+      "columnspan": 1,
+      "cssClasses": null
+    },
+    "title": "",
+    "type": "container"
+  }
+], "id": "5649366039658496", "owner": "voellm@google.com", "title": "Perfkit Explorer Sample Dashboard", "type": "dashboard", "version": "3"}

@@ -16,6 +16,7 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
+goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
@@ -25,6 +26,7 @@ var DashboardAdminPageModel = (
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;
+var FileUploadDialogDirective = explorer.components.dashboard_admin_page.FileUploadDialogDirective;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
@@ -34,12 +36,13 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  *
  * @param {!angular.Scope} $scope
  * @param {!angular.$location} $location
+ * @param {!angular.$modal} $modal
  * @param {DashboardDataService} dashboardDataService
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
-    $scope, $location, dashboardDataService) {
+    $scope, $location, $modal, dashboardDataService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -51,6 +54,12 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    * @private
    */
   this.location_ = $location;
+
+  /**
+   * @type {!angular.$modal}
+   * @private
+   */
+  this.modal_ = $modal;
 
   /**
    * @type {DashboardDataService}
@@ -339,7 +348,7 @@ DashboardAdminPageCtrl.prototype.createDashboard = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.uploadDashboard = function() {
-  $modal.open(new FileUploadDialogDirective());
+  this.modal_.open(new FileUploadDialogDirective());
   console.log('uploaded');
 };
 
