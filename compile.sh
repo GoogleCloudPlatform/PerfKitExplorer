@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Clean out the existing deployment content.
+rm -r -f deploy
 
 # Copy config files (yaml & appengine_config.py) to deploy.
 find config -type f -name '*.json' | cpio -p -a -m -d deploy/
@@ -10,6 +12,13 @@ cp -f *.py ./deploy/
 # Copy server/*.py files (not tests) to deploy/server
 find server -type f -name '*.py' -not -iname '*_test.py' | cpio -p -a -m -d deploy/
 
+# Copy server/*.html files to deploy/server
+find server -type f -name '*.html' | cpio -p -a -m -d deploy/
+
+# Copy third_party/py/*.py files to deploy/server/third_party
+pushd third_party/py
+find . -type f -name '*.py' | cpio -p -a -m -d ../../deploy/server/third_party/
+popd
 
 # Copy client/*.html template files to deploy/client.
 find client -name '*.html' | cpio -pamd deploy/

@@ -14,6 +14,7 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionModel')
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.dashkit.explorer.models.DatasourceModel');
 goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.PivotConfigModel');
 
 
 describe('dashboardVersionService', function() {
@@ -25,6 +26,8 @@ describe('dashboardVersionService', function() {
       explorer.components.dashboard.DashboardVersionModel;
   var QueryConfigModel =
       explorer.models.dashkit_simple_builder.QueryConfigModel;
+  var PivotConfig =
+      explorer.models.dashkit_simple_builder.PivotConfigModel;
 
   var svc;
   var filter;
@@ -43,11 +46,50 @@ describe('dashboardVersionService', function() {
   });
 
   describe('verifyAndUpdateModel (Version Integration Tests)', function() {
+    describe('v3', function() {
+      // Set the current version to v3.
+      beforeEach(function() {
+        svc.currentVersion = filter(
+            'getByProperty')('version', '3', svc.versions);
+        expect(svc.currentVersion).not.toBeNull();
+      });
+
+      it('should add config.results.pivot and pivot_config.',
+          function() {
+            providedDatasource = {
+              'config': {
+                'results': {}
+              }};
+
+            providedDashboard = {
+              'owner': 'TEST_OWNER',
+              'type': 'dashboard',
+              'children': [
+                {
+                  'container': {
+                    'children': [
+                      {'datasource': providedDatasource}
+                    ]
+                  }
+                }
+              ]
+            };
+
+            svc.verifyAndUpdateModel(providedDashboard);
+
+            expectedPivotConfig = new PivotConfig();
+            expect(providedDatasource.config.results.pivot).toBe(false);
+            expect(providedDatasource.config.results.pivot_config).toEqual(
+                expectedPivotConfig);
+          }
+      );
+    });
+
     describe('v2', function() {
       // Set the current version to v2.
       beforeEach(function() {
         svc.currentVersion = filter(
-          'getByProperty')('version', '2', svc.versions);
+            'getByProperty')('version', '2', svc.versions);
         expect(svc.currentVersion).not.toBeNull();
       });
 
@@ -84,6 +126,39 @@ describe('dashboardVersionService', function() {
             expect(providedDatasource.querystring).toBe(undefined);
           }
       );
+
+      it('should add a custom_query flag when no query is present.',
+         function() {
+           providedDatasource = {
+             'querystring': 'product_name=SAMPLE_PRODUCT'};
+
+           providedDashboard = {
+             'owner': 'TEST_OWNER',
+             'type': 'dashboard',
+             'children': [
+               {
+                 'container': {
+                   'children': [
+                     {'datasource': providedDatasource}
+                   ]
+                 }
+               }
+             ]
+           };
+
+           expectedOwner = 'TEST_OWNER';
+           expectedConfig = new QueryConfigModel();
+           expectedConfig.filters.product_name = 'SAMPLE_PRODUCT';
+
+           svc.verifyAndUpdateModel(providedDashboard);
+
+           expect(providedDashboard.version).toEqual('2');
+           expect(providedDashboard.owner).toEqual(expectedOwner);
+           expect(providedDatasource.custom_query).toBe(false);
+           expect(providedDatasource.config).toEqual(expectedConfig);
+           expect(providedDatasource.querystring).toBe(undefined);
+         }
+      );
     });
   });
 
@@ -95,17 +170,17 @@ describe('dashboardVersionService', function() {
 
       svc.versions = [
         {'version': '2',
-         'verify': function(dashboard) {
-           actualValidations.push('2');
-           return (dashboard.secretVersion == '2');
-         },
-         'update': function(dashboard) { actualUpdates.push('2'); }},
+          'verify': function(dashboard) {
+            actualValidations.push('2');
+            return (dashboard.secretVersion == '2');
+          },
+          'update': function(dashboard) { actualUpdates.push('2'); }},
         {'version': '1',
-         'verify': function(dashboard) {
-           actualValidations.push('1');
-           return (dashboard.secretVersion == '1');
-         },
-         'update': function(dashboard) { actualUpdates.push('1'); }}
+          'verify': function(dashboard) {
+            actualValidations.push('1');
+            return (dashboard.secretVersion == '1');
+          },
+          'update': function(dashboard) { actualUpdates.push('1'); }}
       ];
       svc.currentVersion = svc.versions[0];
     }));
@@ -120,7 +195,7 @@ describe('dashboardVersionService', function() {
             svc.verifyAndUpdateModel(providedDashboard);
             expect(providedDashboard.version).toEqual('2');
             expect(actualValidations).toEqual(['2']);
-            expect(actualUpdates).toEqual(['2']);
+            expect(actualUpdates).toEqual([]);
           }
       );
 

@@ -154,7 +154,7 @@ QueryResultDataService.prototype.applyRoles = function(data) {
  */
 QueryResultDataService.prototype.fetchResults = function(datasource) {
   var deferred = this.q_.defer();
-  var cacheKey = datasource['query'];
+  var cacheKey = angular.toJson(datasource);
   var cachedDataTable = this.cache_.get(cacheKey);
 
   if (cachedDataTable) {
@@ -162,11 +162,8 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
   } else {
     var endpoint = '/data/sql';
 
-    var postData = datasource;
-
-    var promise = this.http_.post(endpoint, postData, {
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    });
+    var postData = {'datasource': datasource};
+    var promise = this.http_.post(endpoint, postData);
 
     promise.then(angular.bind(this, function(response) {
       if (response.data.error) {

@@ -14,10 +14,13 @@ referenced with GET requests.
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
-from . import base
+import json
+
+import base
 
 from dashkit.common import big_query_client
 from dashkit.common import big_query_result_util as result_util
+from dashkit.common import big_query_result_pivot
 from dashkit.common import gae_big_query_client
 from dashkit.explorer.samples_mart import explorer_method
 from dashkit.explorer.samples_mart import product_labels
@@ -66,6 +69,7 @@ class FieldDataHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
+    urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
     filters = self.GetJsonParam('filters')
 
     start_date = filters['start_date']
@@ -123,6 +127,7 @@ class MetadataDataHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
+    urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
     client = DataHandlerUtil.GetDataClient(self.env)
     query = product_labels.ProductLabelsQuery(data_client=client,
                                               dataset_name=DATASET_NAME)
@@ -162,7 +167,19 @@ class SqlDataHandler(base.RequestHandlerBase):
     try:
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
       client = DataHandlerUtil.GetDataClient(self.env)
-      response = client.Query(self.GetStringParam('query'))
+      request_data = json.loads(self.request.body)
+      query = request_data['datasource']['query']
+      config = request_data['datasource']['config']
+      response = client.Query(query)
+
+      if config['results']['pivot']:
+        pivot_config = config['results']['pivot_config']
+        transformer = big_query_result_pivot.BigQueryPivotTransformer(
+            reply=response,
+            rows_name=pivot_config['row_field'],
+            columns_name=pivot_config['column_field'],
+            values_name=pivot_config['value_field'])
+        transformer.Transform()
 
       self.RenderJson({
           'results': result_util.ReplyFormatter.RowsToDataTableFormat(

@@ -107,8 +107,8 @@ describe('queryResultDataService', function() {
         function() {
           var dataTable = null;
           var query = endpoint;
-          var params = 'query=fakeQuery1';
-          httpBackend.expectPOST(query, params).respond(mockData);
+          var params = {'datasource': {'query': 'fakeQuery1'}};
+            httpBackend.expectPOST(query, params).respond(mockData);
 
           var promise = svc.fetchResults({query: 'fakeQuery1'});
           promise.then(function(data) {
@@ -125,8 +125,8 @@ describe('queryResultDataService', function() {
           var dataTable = null,
               dataTableCached = null;
           var query = endpoint;
-          var params = 'query=fakeQuery2';
-          httpBackend.expectPOST(query, params).respond(mockData);
+          var params = {'datasource': {'query': 'fakeQuery2'}};
+            httpBackend.expectPOST(query, params).respond(mockData);
 
           // Fetch the data one time
           var promise = svc.fetchResults({query: 'fakeQuery2'});
