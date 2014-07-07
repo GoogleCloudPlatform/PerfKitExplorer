@@ -42,6 +42,8 @@
     <div class="dashkit-header-section page-title">Dashkit Dashboard Administration</div>
     <div class="dashkit-header-section dashkit-toolbar">
       <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.createDashboard()">Create</button>
+      <button type="button" class="btn btn-default"
               ng-show="pageCtrl.data.selectedItems.0"
               ng-click="pageCtrl.openDashboard(pageCtrl.data.selectedItems.0)">Open</button>
       <button type="button" class="btn btn-default"
@@ -50,6 +52,8 @@
       <button type="button" class="btn btn-default"
               ng-show="pageCtrl.data.selectedItems.0"
               ng-click="pageCtrl.copyDashboard()">Copy</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.uploadDashboard()">Upload</button>
       <button type="button" class="btn btn-default"
               ng-show="pageCtrl.data.selectedItems.0"
               ng-click="pageCtrl.renameDashboard()">Rename</button>

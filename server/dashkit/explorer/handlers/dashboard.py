@@ -73,10 +73,52 @@ class ViewDashboardHandler(base.RequestHandlerBase):
 
 
 class CreateDashboardHandler(base.RequestHandlerBase):
-  """Http handler for uploading a dashboard definition.
+  """Http handler for creating a dashboard definition.
 
   This POST method is used to save a JSON definition of a dashboard, and returns
   a JSON packet with the selected ID.
+
+  Supported Modes: POST
+  POST parameters:
+    data: string.  The Json representation of the dashboard.
+
+  Returns:
+    A JSON dict containing the id of the dashboard.
+  """
+
+  def post(self):
+    """Request handler for POST operations."""
+
+    try:
+      owner_email = None
+      data = self.GetJsonParam(fields.DATA)
+
+      if fields.OWNER in data:
+        owner_email = data[fields.OWNER]
+
+      title = dashboard_model.Dashboard.GetDashboardTitle(data)
+      created_by = dashboard_model.Dashboard.GetDashboardOwner(owner_email)
+
+      dashboard = dashboard_model.Dashboard()
+      dashboard.created_by = created_by
+      dashboard.title = title
+      dashboard_id = dashboard.put().id()
+
+      # Now that we have an ID, save the data with an ID attached.
+      data[fields.ID] = str(dashboard_id)
+      data[fields.OWNER] = created_by.email()
+      dashboard.data = json.dumps(data)
+      dashboard.put()
+
+      self.RenderJson(data)
+    except (base.InitializeError, dashboard_model.InitializeError) as err:
+      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+
+
+class UploadDashboardHandler(base.RequestHandlerBase):
+  """Http handler for uploading a dashboard definition.
+
+  This POST method is used to upload a file from the requester's computer, and
 
   Supported Modes: POST
   POST parameters:

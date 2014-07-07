@@ -19,6 +19,7 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerService');

@@ -334,4 +334,13 @@ DashboardAdminPageCtrl.prototype.createDashboard = function() {
   window.location = '/explore';
 };
 
+
+/**
+ * @export
+ */
+DashboardAdminPageCtrl.prototype.uploadDashboard = function() {
+  $modal.open(new FileUploadDialogDirective());
+  console.log('uploaded');
+};
+
 });  // goog.scope
