@@ -16,13 +16,14 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
+goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
 var explorer = p3rf.dashkit.explorer;
-var DashboardAdminPageModel = (
-    explorer.components.dashboard_admin_page.DashboardAdminPageModel);
+var PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
+var PageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;
@@ -103,8 +104,6 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.isLoading = false;
 
-  this.model = new DashboardAdminPageModel();
-
   $scope.$watch(
       angular.bind(this, function() { return this.model.owner; }),
       angular.bind(this, function(new_val, old_val) {
@@ -130,30 +129,28 @@ DashboardAdminPageCtrl.prototype.initPage = function() {
 };
 
 
+DashboardAdminPageCtrl.prototype.verifySelection = function() {
+  if (this.data.selectedItems.length == 0) {
+    throw 'verifySelection() failed: No dashboard selected.';
+  }
+  return this.data.selectedItems[0];
+};
+
+
 /**
  * Copies the currently selected dashboard
  * @export
  */
 DashboardAdminPageCtrl.prototype.copyDashboard = function() {
-  if (this.data.selectedItems.length == 0) {
-    console.log('copyDashboard() failed: No dashboard selected.');
-    return;
-  }
+  var selectedDashboard = this.verifySelection();
 
   var title = window.prompt(
-      'Please provide the title for your dashboard',
-      this.data.selectedItems[0].title);
+    'Please provide the title for your dashboard',
+    this.data.selectedItems[0].title);
 
-  var promise = this.dashboardDataService.copy(
-      this.data.selectedItems[0].id, title);
-
-  promise.then(angular.bind(this, function(response) {
-    this.listDashboards();
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.errors.push(error.message);
-  }));
+  if (title) {
+    this.pageService.copyDashboard(selectedDashboard);
+  }
 };
 
 
@@ -162,25 +159,15 @@ DashboardAdminPageCtrl.prototype.copyDashboard = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
-  if (this.data.selectedItems.length == 0) {
-    console.log('copyDashboard() failed: No dashboard selected.');
-    return;
-  }
+  var selectedDashboard = this.verifySelection();
 
   var owner = window.prompt(
-      'Please provide an email address for the new owner:',
-      this.data.selectedItems[0].owner.email);
+    'Please provide an email address for the new owner:',
+    selectedDashboard.owner.email);
 
-  var promise = this.dashboardDataService.editOwner(
-      this.data.selectedItems[0].id, owner);
-
-  promise.then(angular.bind(this, function(response) {
-    this.listDashboards();
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.errors.push(error.message);
-  }));
+  if (owner) {
+    this.pageService.editDashboardOwner(selectedDashboard, owner);
+  }
 };
 
 
