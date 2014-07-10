@@ -19,6 +19,7 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerCtrl');
@@ -90,25 +91,6 @@ explorer.application.module.filter('getByProperty',
 
 
 /**
- * Register all controllers.
- */
-explorer.application.module.controller('ExplorerCtrl',
-    explorer.components.explorer.ExplorerCtrl);
-explorer.application.module.controller('DashboardCtrl',
-    explorer.components.dashboard.DashboardCtrl);
-explorer.application.module.controller('DashboardAdminPageCtrl',
-    explorer.components.dashboard_admin_page.DashboardAdminPageCtrl);
-explorer.application.module.controller('FileUploadDialogCtrl',
-    explorer.components.dashboard_admin_page.FileUploadDialogCtrl);
-explorer.application.module.controller('WidgetEditorCtrl',
-    explorer.components.widget.data_viz.WidgetEditorCtrl);
-explorer.application.module.controller('QueryEditorCtrl',
-    explorer.components.widget.query.QueryEditorCtrl);
-explorer.application.module.controller('CodeEditorCtrl',
-    explorer.components.code_editor.CodeEditorCtrl);
-
-
-/**
  * Register all services.
  */
 explorer.application.module.service('arrayUtilService',
@@ -141,6 +123,27 @@ explorer.application.module.service('widgetFactoryService',
     explorer.components.widget.WidgetFactoryService);
 explorer.application.module.service('queryBuilderService',
     explorer.models.dashkit_simple_builder.QueryBuilderService);
+explorer.application.module.service('dashboardAdminPageService',
+    explorer.components.dashboard_admin_page.DashboardAdminPageService);
+
+
+/**
+ * Register all controllers.
+ */
+explorer.application.module.controller('ExplorerCtrl',
+    explorer.components.explorer.ExplorerCtrl);
+explorer.application.module.controller('DashboardCtrl',
+    explorer.components.dashboard.DashboardCtrl);
+explorer.application.module.controller('DashboardAdminPageCtrl',
+    explorer.components.dashboard_admin_page.DashboardAdminPageCtrl);
+explorer.application.module.controller('FileUploadDialogCtrl',
+    explorer.components.dashboard_admin_page.FileUploadDialogCtrl);
+explorer.application.module.controller('WidgetEditorCtrl',
+    explorer.components.widget.data_viz.WidgetEditorCtrl);
+explorer.application.module.controller('QueryEditorCtrl',
+    explorer.components.widget.query.QueryEditorCtrl);
+explorer.application.module.controller('CodeEditorCtrl',
+    explorer.components.code_editor.CodeEditorCtrl);
 
 
 /** Register all factories. **/

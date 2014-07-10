@@ -11,23 +11,22 @@
 
 goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
+goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
 
 
 goog.scope(function() {
 var explorer = p3rf.dashkit.explorer;
-
+var dashboardDataService = explorer.components.dashboard.DashboardDataService;
 
 
 /**
  * Service that provides model access for the Explorer page at the top-level.
+ *
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
-    ) {
-  this.errors = new ErrorModel();
-  this.model = new PageModel();
+    dashboardDataService) {
 };
 var DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
 
@@ -35,31 +34,7 @@ var DashboardAdminPageService = explorer.components.dashboard_admin_page.Dashboa
 /**
  * Initializes the service.
  */
-DashboardAdminPageService.prototype.copyDashboard = function(dashboard) {
-  var promise = this.dashboardDataService.copy(
-      this.data.selectedItems[0].id, title);
-
-  promise.then(angular.bind(this, function(response) {
-    this.listDashboards();
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.errors.push(error.message);
-  }));
+DashboardAdminPageService.prototype.uploadDashboard = function(dashboard) {
 };
-
-
-DashboardAdminPageService.prototype.editDashboardOwner = function(dashboard, owner) {
-  var promise = this.dashboardDataService.editOwner(
-      dashboard.id, owner);
-
-  promise.then(angular.bind(this, function(response) {
-    this.listDashboards();
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.errors.push(error.message);
-  }));
-}
 
 });  // goog.scope

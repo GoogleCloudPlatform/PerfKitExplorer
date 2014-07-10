@@ -350,3 +350,11 @@ h2 {
 .form-control {
   display: inline-block;
 }
+
+.modal .modal-dialog {
+  -webkit-box-shadow: 0;
+  background-color: rgba(255,0,0,0);
+  border: 0;
+  padding: 0;
+  position: relative;
+}

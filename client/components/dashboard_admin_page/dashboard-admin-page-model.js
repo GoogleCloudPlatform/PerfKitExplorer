@@ -36,6 +36,10 @@ explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
    * @expose
    */
   this.mine = null;
+
+  /**
+   * @type
+   */
 };
 var DashboardAdminPageModel = (
     explorer.components.dashboard_admin_page.DashboardAdminPageModel);

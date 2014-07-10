@@ -11,11 +11,15 @@
 
 goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 
+goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 
 
 goog.scope(function() {
 var explorer = p3rf.dashkit.explorer;
+var DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
+var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var FileUploadDialogCtrl = explorer.components.dashboard_admin_page.FileUploadDialogCtrl;
 
 
@@ -24,15 +28,18 @@ var FileUploadDialogCtrl = explorer.components.dashboard_admin_page.FileUploadDi
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.dashboard_admin_page.FileUploadDialogDirective = function() {
+explorer.components.dashboard_admin_page.FileUploadDialogDirective = function(
+    dashboardAdminPageService, dashboardDataService) {
   return {
     restrict: 'E',
-    scope: {
-      onOk: '=?',
-      onCancel: '=?'
-    },
     templateUrl: '/static/components/dashboard_admin_page/file-upload-dialog-directive.html',
     controller: function($scope) {
+      /** @export */
+      this.pageService = dashboardAdminPageService;
+
+      /** @export */
+      this.dataService = dashboardDataService;
+
       /** @export */
       $scope.ok = function() {
         console.log('Directive ok');

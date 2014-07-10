@@ -16,7 +16,7 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
-goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
+goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
 
@@ -39,11 +39,12 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @param {!angular.$location} $location
  * @param {!angular.$modal} $modal
  * @param {DashboardDataService} dashboardDataService
+ * @param {PageService} dashboardAdminPageService
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
-    $scope, $location, $modal, dashboardDataService) {
+    $scope, $location, $modal, dashboardDataService, dashboardAdminPageService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -69,6 +70,12 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
   this.dashboardDataService = dashboardDataService;
 
   /**
+   * @type {DashboardAdminPageService}
+   * @export
+   */
+  this.pageService = dashboardAdminPageService;
+
+  /**
    * @type {Array.<!DashboardModel>}
    * @export
    */
@@ -81,6 +88,12 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    * @export
    */
   this.errors = [];
+
+  /**
+   * @type {!DashboardAdminPageModel}
+   * @export
+   */
+  this.model = new PageModel();
 
   this.data = {
     data: 'dashboards',
@@ -129,6 +142,10 @@ DashboardAdminPageCtrl.prototype.initPage = function() {
 };
 
 
+/**
+ * Verifies that a dashboard is selected, and raises and error if not.
+ * @returns {DashboardModel}
+ */
 DashboardAdminPageCtrl.prototype.verifySelection = function() {
   if (this.data.selectedItems.length == 0) {
     throw 'verifySelection() failed: No dashboard selected.';
@@ -146,10 +163,19 @@ DashboardAdminPageCtrl.prototype.copyDashboard = function() {
 
   var title = window.prompt(
     'Please provide the title for your dashboard',
-    this.data.selectedItems[0].title);
+    selectedDashboard.title);
 
   if (title) {
-    this.pageService.copyDashboard(selectedDashboard);
+    var promise = this.dashboardDataService.copy(
+        selectedDashboard.id, title);
+
+    promise.then(angular.bind(this, function(response) {
+      this.listDashboards();
+    }));
+
+    promise.then(null, angular.bind(this, function(error) {
+      this.errors.push(error.message);
+    }));
   }
 };
 
@@ -166,7 +192,16 @@ DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
     selectedDashboard.owner.email);
 
   if (owner) {
-    this.pageService.editDashboardOwner(selectedDashboard, owner);
+    var promise = this.dashboardDataService.editOwner(
+        selectedDashboard.id, owner);
+
+    promise.then(angular.bind(this, function(response) {
+      this.listDashboards();
+    }));
+
+    promise.then(null, angular.bind(this, function(error) {
+      this.errors.push(error.message);
+    }));
   }
 };
 
@@ -176,17 +211,14 @@ DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.renameDashboard = function() {
-  if (this.data.selectedItems.length == 0) {
-    console.log('copyDashboard() failed: No dashboard selected.');
-    return;
-  }
+  var selectedDashboard = this.verifySelection();
 
   var title = window.prompt(
       'Please provide the title for your dashboard',
-      this.data.selectedItems[0].title);
+      selectedDashboard.title);
 
   var promise = this.dashboardDataService.rename(
-      this.data.selectedItems[0].id, title);
+      selectedDashboard.id, title);
 
   promise.then(angular.bind(this, function(response) {
     this.listDashboards();
