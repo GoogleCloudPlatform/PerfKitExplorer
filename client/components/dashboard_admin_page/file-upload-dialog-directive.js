@@ -33,20 +33,22 @@ explorer.components.dashboard_admin_page.FileUploadDialogDirective = function(
   return {
     restrict: 'E',
     templateUrl: '/static/components/dashboard_admin_page/file-upload-dialog-directive.html',
-    controller: function($scope) {
+    link: function(scope, $log) {
       /** @export */
       this.pageService = dashboardAdminPageService;
 
       /** @export */
       this.dataService = dashboardDataService;
 
+      $log.log(document.getElementById('dashboard_file'));
+
       /** @export */
-      $scope.ok = function() {
+      scope.ok = function() {
         console.log('Directive ok');
       }
 
       /** @export */
-      $scope.cancel = function() {
+      scope.cancel = function() {
         console.log('Directive cancel');
       }
     }
