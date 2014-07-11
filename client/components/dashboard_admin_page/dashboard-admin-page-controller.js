@@ -17,7 +17,6 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
@@ -27,7 +26,6 @@ var PageService = explorer.components.dashboard_admin_page.DashboardAdminPageSer
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;
-var FileUploadDialogDirective = explorer.components.dashboard_admin_page.FileUploadDialogDirective;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
@@ -69,17 +67,11 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.dashboardDataService = dashboardDataService;
 
-  /**
-   * @type {DashboardAdminPageService}
-   * @export
-   */
-  this.pageService = dashboardAdminPageService;
+  /** @private {DashboardAdminPageService} */
+  $scope.pageService = dashboardAdminPageService;
 
-  /**
-   * @type {Array.<!DashboardModel>}
-   * @export
-   */
-  $scope.dashboards = [];
+  /** @export {DashboardAdminPageService */
+  this.pageService = dashboardAdminPageService;
 
   /**
    * Error messages raised by this controller.
@@ -89,16 +81,10 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.errors = [];
 
-  /**
-   * @type {!DashboardAdminPageModel}
-   * @export
-   */
-  this.model = new PageModel();
-
   this.data = {
-    data: 'dashboards',
+    data: 'pageService.dashboards',
     multiSelect: false,
-    selectedItems: [],
+    selectedItems: this.pageService.selectedDashboards,
     columnDefs: [
       {field: 'title', displayName: 'Title',
         cellTemplate:
@@ -118,7 +104,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
   this.isLoading = false;
 
   $scope.$watch(
-      angular.bind(this, function() { return this.model.owner; }),
+      angular.bind(this, function() { return this.pageService.model.owner; }),
       angular.bind(this, function(new_val, old_val) {
         if (new_val == old_val) { return; }
         if (new_val == '') { return; }
@@ -235,32 +221,7 @@ DashboardAdminPageCtrl.prototype.renameDashboard = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.listDashboards = function() {
-  while (this.data.selectedItems.length > 0) {
-    this.data.selectedItems.pop();
-  }
-
-  var promise = this.dashboardDataService.list(
-      this.model.mine, this.model.owner);
-  this.isLoading = true;
-
-  promise.then(angular.bind(this, function(response) {
-    this.isLoading = false;
-    this.scope_.dashboards = [];
-    goog.array.forEach(
-        response['data'], goog.bind(function(dashboardJson) {
-          var dashboard = new DashboardModel();
-          dashboard.id = dashboardJson.id;
-          dashboard.title = dashboardJson.title;
-          dashboard.owner = dashboardJson.owner;
-
-          this.scope_.dashboards.push(dashboard);
-        }, this));
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.isLoading = false;
-    this.errors.push(error.message);
-  }));
+  this.scope_.pageService.listDashboards();
 };
 
 
@@ -273,8 +234,8 @@ DashboardAdminPageCtrl.prototype.clearDashboards = function() {
     this.data.selectedItems.pop();
   }
 
-  while (this.scope_.dashboards.length > 0) {
-    this.scope_.dashboards.pop();
+  while (this.scope_.pageService.dashboards.length > 0) {
+    this.pageService.dashboards.pop();
   }
 };
 
@@ -284,9 +245,9 @@ DashboardAdminPageCtrl.prototype.clearDashboards = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.listAllDashboards = function() {
-  this.model.filter_owner = false;
-  this.model.owner = '';
-  this.model.mine = false;
+  this.pageService.model.filter_owner = false;
+  this.pageService.model.owner = '';
+  this.pageService.model.mine = false;
 
   this.listDashboards();
 };
@@ -297,9 +258,9 @@ DashboardAdminPageCtrl.prototype.listAllDashboards = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.listMyDashboards = function() {
-  this.model.filter_owner = false;
-  this.model.owner = '';
-  this.model.mine = true;
+  this.pageService.model.filter_owner = false;
+  this.pageService.model.owner = '';
+  this.pageService.model.mine = true;
 
   this.listDashboards();
 };
@@ -311,9 +272,9 @@ DashboardAdminPageCtrl.prototype.listMyDashboards = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.listDashboardsByOwner = function(opt_owner) {
-  this.model.filter_owner = true;
-  this.model.owner = opt_owner || null;
-  this.model.mine = false;
+  this.pageService.model.filter_owner = true;
+  this.pageService.model.owner = opt_owner || null;
+  this.pageService.model.mine = false;
 
   this.clearDashboards();
 };
@@ -333,14 +294,14 @@ DashboardAdminPageCtrl.prototype.deleteDashboard = function() {
   }
 
   var promise = this.dashboardDataService.delete(this.data.selectedItems[0].id);
-  this.isLoading = true;
+  this.pageService.isLoading = true;
 
   promise.then(angular.bind(this, function(response) {
     this.listDashboards();
   }));
 
   promise.then(null, angular.bind(this, function(error) {
-    this.isLoading = false;
+    this.pageService.isLoading = false;
     this.errors.push(error.message);
   }));
 };
@@ -367,8 +328,10 @@ DashboardAdminPageCtrl.prototype.createDashboard = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.uploadDashboard = function() {
-  this.modal_.open(new FileUploadDialogDirective());
-  console.log('uploaded');
+  this.modal_.open({
+    templateUrl: '/static/components/dashboard_admin_page/dashboard-upload-dialog.html',
+    controller: 'FileUploadDialogCtrl as dialog'
+  });
 };
 
 });  // goog.scope

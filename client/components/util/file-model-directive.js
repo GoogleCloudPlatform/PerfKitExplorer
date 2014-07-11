@@ -27,7 +27,7 @@ var explorer = p3rf.dashkit.explorer;
  * @param {!angular.$parse} $parse Provides parsing services
  * @return {Object} Directive definition object.
  */
-explorer.components.util.FileModelDirective = (function($timeout) {
+explorer.components.util.FileModelDirective = (function($parse) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
@@ -36,6 +36,10 @@ explorer.components.util.FileModelDirective = (function($timeout) {
 
       element.bind('change', function () {
         scope.$apply(function () {
+          console.log(element);
+          console.log('Setting:');
+          console.log(attrs.fileModel);
+          console.log(model);
           modelSetter(scope, element[0].files[0]);
         });
       });

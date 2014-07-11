@@ -74,17 +74,17 @@
                 ng-click="pageCtrl.createDashboard()">NEW DASHBOARD</button>
       </div>
       <div class="dashkit-page-sidebar-option"
-           ng-class="{'dashkit-page-sidebar-option-selected': !pageCtrl.model.mine && !pageCtrl.model.filter_owner}"
+           ng-class="{'dashkit-page-sidebar-option-selected': !pageCtrl.pageService.model.mine && !pageCtrl.pageService.model.filter_owner}"
            ng-click="pageCtrl.listAllDashboards()">All dashboards</div>
       <div class="dashkit-page-sidebar-option"
-           ng-class="{'dashkit-page-sidebar-option-selected': pageCtrl.model.mine}"
+           ng-class="{'dashkit-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
       <div class="dashkit-page-sidebar-option"
-           ng-class="{'dashkit-page-sidebar-option-selected': pageCtrl.model.filter_owner}"
+           ng-class="{'dashkit-page-sidebar-option-selected': pageCtrl.pageService.model.filter_owner}"
            ng-click="pageCtrl.listDashboardsByOwner()">By owner email</div>
       <div class="dashkit-page-sidebar-option">
-        <div ng-show="pageCtrl.model.filter_owner">
-          <input ng-model="pageCtrl.model.owner">
+        <div ng-show="pageCtrl.pageService.model.filter_owner">
+          <input ng-model="pageCtrl.pageService.model.owner">
         </div>
       </div>
     </div>

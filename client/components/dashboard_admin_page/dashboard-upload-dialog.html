@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h3 class="modal-title">Upload Dashboard</h3>
+</div>
+<div class="modal-body">
+  <div class="form-group" ng-class="{'has-error': dialog.error}">
+    <label for="dashboardFile">Select a JSON file to load</label>
+    <input type="file" id="dashboardFile" accept="*.json" file-model="dialog.filename">
+  </div>
+  <div class="has-error" ng-show="dialog.error">{{ dialog.error }}</div>
+  <div class="form-group" ng-hide="dialog.dashboard == null">
+    <label for="dashboardTitle">Title</label>
+    <input class="form-control" type="text" id="dashboardTitle"
+           ng-model="dialog.dashboard.model.title">
+  </div>
+  <div class="form-group" ng-hide="dialog.dashboard == null">
+    <label for="dashboardOwner">Owner (blank for current user)</label>
+    <input class="form-control" type="text" id="dashboardOwner"
+           ng-model="dialog.dashboard.model.owner">
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-disabled="!dialog.dashboard || dialog.error"
+          ng-click="dialog.ok()">Upload</button>
+  <button class="btn btn-warning"
+          ng-click="dialog.cancel()">Cancel</button>
+</div>
+    

@@ -12,11 +12,15 @@
 goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
 
 
 goog.scope(function() {
 var explorer = p3rf.dashkit.explorer;
 var dashboardDataService = explorer.components.dashboard.DashboardDataService;
+var PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
+var DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 /**
@@ -27,14 +31,70 @@ var dashboardDataService = explorer.components.dashboard.DashboardDataService;
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
     dashboardDataService) {
+  /**
+   * @type {Array.<!DashboardModel>}
+   * @export
+   */
+  this.dashboards = [];
+
+  /** @export {Array.<!string>} */
+  this.errors = [];
+
+  this.model =
+  /**
+   * @type {Array.<!DashboardModel>}
+   * @export
+   */
+  this.selectedDashboards = [];
+
+  /** @private {DashboardDataService} */
+  this.dashboardDataService_ = dashboardDataService;
+
+  /** @export {!boolean} */
+  this.isLoading = false;
+
+  /**
+   * @type {!DashboardAdminPageModel}
+   * @export
+   */
+  this.model = new PageModel();
 };
 var DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
 
 
 /**
- * Initializes the service.
+ * Retrieves a list of dashboards
+ * @export
  */
-DashboardAdminPageService.prototype.uploadDashboard = function(dashboard) {
+DashboardAdminPageService.prototype.listDashboards = function() {
+  while (this.selectedDashboards.length > 0) {
+    this.selectedDashboards.pop();
+  }
+
+  var promise = this.dashboardDataService_.list(
+      this.model.mine, this.model.owner);
+  this.isLoading = true;
+
+  promise.then(angular.bind(this, function(response) {
+    this.isLoading = false;
+    this.dashboards = [];
+    goog.array.forEach(
+        response['data'], goog.bind(function(dashboardJson) {
+          var dashboard = new DashboardModel();
+          dashboard.id = dashboardJson.id;
+          dashboard.title = dashboardJson.title;
+          dashboard.owner = dashboardJson.owner;
+
+          this.dashboards.push(dashboard);
+        }, this));
+  }));
+
+  promise.then(null, angular.bind(this, function(error) {
+    this.isLoading = false;
+    this.errors.push(error.message);
+  }));
 };
+
+
 
 });  // goog.scope

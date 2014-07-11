@@ -358,3 +358,7 @@ h2 {
   padding: 0;
   position: relative;
 }
+
+.has-error {
+  color: #a94442;
+}

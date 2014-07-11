@@ -34,7 +34,7 @@ python bin/closurebuilder.py \
  --compiler_flags="--angular_pass" \
  --compiler_flags="--compilation_level=WHITESPACE_ONLY" \
  --compiler_flags="--language_in=ECMASCRIPT5" \
- --compiler_flags="--formatting=SINGLE_QUOTES" \
+ --compiler_flags="--formatting=PRETTY_PRINT" \
  --output_file=deploy/client/dashkit_scripts.js
 
 

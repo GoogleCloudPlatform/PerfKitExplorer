@@ -20,7 +20,6 @@ goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogDirective');
 goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerHeaderDirective');
@@ -29,6 +28,7 @@ goog.require('p3rf.dashkit.explorer.components.multibox.MultiboxDirective');
 goog.require('p3rf.dashkit.explorer.components.popupbox.PopupboxDirective');
 goog.require('p3rf.dashkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.dashkit.explorer.components.util.GetByPropertyFilter');
+goog.require('p3rf.dashkit.explorer.components.util.FileModelDirective');
 goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorService');
@@ -172,6 +172,6 @@ explorer.application.module.directive('relativeDatepicker',
     explorer.components.widget.query.RelativeDatepickerDirective);
 explorer.application.module.directive('dashkitWidget',
     explorer.components.widget.dashkitWidget);
-explorer.application.module.directive('fileUploadDialog',
-    explorer.components.dashboard_admin_page.FileUploadDialogDirective);
+explorer.application.module.directive('fileModel',
+    explorer.components.util.FileModelDirective);
 });  // goog.scope
