@@ -284,16 +284,13 @@ DashboardAdminPageCtrl.prototype.listDashboardsByOwner = function(opt_owner) {
  * @export
  */
 DashboardAdminPageCtrl.prototype.deleteDashboard = function() {
-  if (this.data.selectedItems.length == 0) {
-    console.log('copyDashboard() failed: No dashboard selected.');
-    return;
-  }
+  var selectedDashboard = this.verifySelection();
 
   if (!window.confirm('Are you sure you want to delete this dashboard?')) {
     return;
   }
 
-  var promise = this.dashboardDataService.delete(this.data.selectedItems[0].id);
+  var promise = this.dashboardDataService.delete(selectedDashboard.id);
   this.pageService.isLoading = true;
 
   promise.then(angular.bind(this, function(response) {
@@ -332,6 +329,15 @@ DashboardAdminPageCtrl.prototype.uploadDashboard = function() {
     templateUrl: '/static/components/dashboard_admin_page/dashboard-upload-dialog.html',
     controller: 'FileUploadDialogCtrl as dialog'
   });
+};
+
+/**
+ * @export
+ */
+DashboardAdminPageCtrl.prototype.downloadDashboard = function() {
+  var selectedDashboard = this.verifySelection();
+
+  window.open('/dashboard/view?id=' + selectedDashboard.id + '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
 };
 
 });  // goog.scope

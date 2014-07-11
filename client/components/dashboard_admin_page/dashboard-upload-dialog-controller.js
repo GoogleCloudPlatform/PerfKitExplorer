@@ -92,7 +92,6 @@ FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
       try {
         this.dashboard = new DashboardConfig(dashboard_object);
         this.dashboardVersionService_.verifyAndUpdateModel(this.dashboard.model);
-        this.dashboardAdminPageService_.listDashboards();
         this.error = '';
       }
       catch (err) {
@@ -122,6 +121,7 @@ FileUploadDialogCtrl.prototype.ok = function() {
 
   promise.then(angular.bind(this, function(dashboardJsonModel) {
     this.log_.log('Dashboard saved with id:', dashboardJsonModel.id);
+    this.dashboardAdminPageService_.listDashboards();
     this.modalInstance_.close();
   }));
 

@@ -40,7 +40,6 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
   /** @export {Array.<!string>} */
   this.errors = [];
 
-  this.model =
   /**
    * @type {Array.<!DashboardModel>}
    * @export
@@ -79,14 +78,9 @@ DashboardAdminPageService.prototype.listDashboards = function() {
     this.isLoading = false;
     this.dashboards = [];
     goog.array.forEach(
-        response['data'], goog.bind(function(dashboardJson) {
-          var dashboard = new DashboardModel();
-          dashboard.id = dashboardJson.id;
-          dashboard.title = dashboardJson.title;
-          dashboard.owner = dashboardJson.owner;
-
-          this.dashboards.push(dashboard);
-        }, this));
+        response['data'], angular.bind(this, function(dashboardJson) {
+          this.addDashboard(dashboardJson);
+        }));
   }));
 
   promise.then(null, angular.bind(this, function(error) {
@@ -95,6 +89,20 @@ DashboardAdminPageService.prototype.listDashboards = function() {
   }));
 };
 
+
+/**
+ * Adds a dashboard to the current list of dashboards based on a JSON definition.
+ * @param dashboardJson
+ * @export
+ */
+DashboardAdminPageService.prototype.addDashboard = function(dashboardJson) {
+  var dashboard = new DashboardModel();
+  dashboard.id = dashboardJson.id;
+  dashboard.title = dashboardJson.title;
+  dashboard.owner = dashboardJson.owner;
+
+  this.dashboards.push(dashboard);
+};
 
 
 });  // goog.scope

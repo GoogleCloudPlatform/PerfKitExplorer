@@ -94,7 +94,7 @@ class RequestHandlerBase(webapp2.RequestHandler):
     str_value = self.request.get(param_name)
 
     if str_value:
-      return str_value
+      return str(str_value)
     else:
       if not required:
         return default
@@ -129,7 +129,7 @@ class RequestHandlerBase(webapp2.RequestHandler):
     self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
     self.response.out.write(template.render(template_values))
 
-  def RenderJson(self, data, status=200):
+  def RenderJson(self, data, status=200, filename=None):
     """Renders the provided data as JSON, using the _JsonEncoder class.
 
     Args:
@@ -141,4 +141,8 @@ class RequestHandlerBase(webapp2.RequestHandler):
     # Read https://wiki.corp.google.com/twiki/bin/view/Main/ISETeamJSON for
     # proper handling of JSON response.
     self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
+
+    if filename:
+      self.response.headers["Content-Disposition"] = 'attachment; filename=' + filename
+
     self.response.out.write(_JsonEncoder(sort_keys=True).encode(data))

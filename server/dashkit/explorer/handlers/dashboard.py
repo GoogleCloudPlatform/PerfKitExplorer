@@ -67,7 +67,9 @@ class ViewDashboardHandler(base.RequestHandlerBase):
       dashboard_id = self.GetIntegerParam(fields.ID)
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
       data = row.GetDashboardData()
-      self.RenderJson(data)
+      filename = self.GetStringParam('filename', required=False)
+
+      self.RenderJson(data, filename=filename)
     except (base.InitializeError, dashboard_model.InitializeError) as err:
       self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
 
