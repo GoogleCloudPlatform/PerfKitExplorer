@@ -1,0 +1,4 @@
+This folder contains the following files:
+
+samples_dashboard.json - An example dashboard that can be uploaded via the Dashboard Admin interface.
+schema.txt - the Schema JSON for the Samples Mart.

@@ -105,7 +105,7 @@
               }
             },
             "custom_query": true,
-            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_zone:(.*?)\\|') as zone,\n  MIN(value) AS min, \n  NTH(5, QUANTILES(value, 100)) AS p5, \n  NTH(95, QUANTILES(value, 100)) AS p95, \n  MAX(value) AS max\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  zone\nORDER BY\n  zone;\n",
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_zone:(.*?)\\|') as zone,\n  MIN(value) AS min, \n  NTH(5, QUANTILES(value, 100)) AS p5, \n  NTH(95, QUANTILES(value, 100)) AS p95, \n  MAX(value) AS max\nFROM\n  samples_mart.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  zone\nORDER BY\n  zone;\n",
             "querystring": null,
             "view": {
               "columns": [],
@@ -215,7 +215,7 @@
               }
             },
             "custom_query": true,
-            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_zone:(.*?)\\|') as zone,\n  CASE WHEN \n      timestamp >= TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\"))\n    THEN 'PAST7DAYS'\n    ELSE 'TWOWEEKS' END AS daterange,\n  AVG(value) AS value\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -14, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  zone, daterange\nORDER BY\n  zone, daterange\n",
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_zone:(.*?)\\|') as zone,\n  CASE WHEN \n      timestamp >= TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\"))\n    THEN 'PAST7DAYS'\n    ELSE 'TWOWEEKS' END AS daterange,\n  AVG(value) AS value\nFROM\n  samples_mart.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -14, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  zone, daterange\nORDER BY\n  zone, daterange\n",
             "view": {
               "columns": [],
               "filter": [],
@@ -347,7 +347,7 @@
               }
             },
             "custom_query": true,
-            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') as machine_type,\n  AVG(value) as Average\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  machine_type\nORDER BY\n  machine_type\n",
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') as machine_type,\n  AVG(value) as Average\nFROM\n  samples_mart.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -7, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  machine_type\nORDER BY\n  machine_type\n",
             "queryError": null,
             "querystring": null,
             "view": {
@@ -473,7 +473,7 @@
               }
             },
             "custom_query": true,
-            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * 1000000), 0)) AS date,\n  MAX(value) AS max,\n  AVG(value) AS avg\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  date\nORDER BY\n  date\n",
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * 1000000), 0)) AS date,\n  MAX(value) AS max,\n  AVG(value) AS avg\nFROM\n  samples_mart.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\" AND\n  labels CONTAINS \"|cloud:GCP|\"\nGROUP BY\n  date\nORDER BY\n  date\n",
             "view": {
               "columns": [],
               "filter": [],
@@ -577,7 +577,7 @@
               }
             },
             "custom_query": true,
-            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * 1000000), 0)) AS date,\n  MIN(value) AS min, \n  NTH(10, QUANTILES(value, 100)) AS p10, \n  NTH(90, QUANTILES(value, 100)) AS p90, \n  MAX(value) AS max\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\"\nGROUP BY\n  date\nORDER BY\n  date\n",
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * 1000000), 0)) AS date,\n  MIN(value) AS min, \n  NTH(10, QUANTILES(value, 100)) AS p10, \n  NTH(90, QUANTILES(value, 100)) AS p90, \n  MAX(value) AS max\nFROM\n  samples_mart.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\" AND\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\"\nGROUP BY\n  date\nORDER BY\n  date\n",
             "queryError": null,
             "view": {
               "columns": [],
@@ -680,7 +680,7 @@
               }
             },
             "custom_query": true,
-            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  IF(REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') = 'n1-standard-8', value, NULL) as n1_standard_8,\n  IF(REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') = 'n1-standard-1', value, NULL) as n1_standard_1\nFROM\n  perfkit_sample_data.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\" AND\n  (labels CONTAINS \"|sending_machine_type:n1-standard-1|\" OR\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\")\n\n\n",
+            "query": "-- Rather than CURRENT_TIMESTAMP(), we'll use a fixed date because this is a sample dataset.\nSELECT\n  IF(REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') = 'n1-standard-8', value, NULL) as n1_standard_8,\n  IF(REGEXP_EXTRACT(labels, r'\\|sending_machine_type:(.*?)\\|') = 'n1-standard-1', value, NULL) as n1_standard_1\nFROM\n  samples_mart.results\nWHERE\n  timestamp > TIMESTAMP_TO_SEC(DATE_ADD(TIMESTAMP('2014-06-23 10:47:51'), -180, \"DAY\")) AND\n  product_name = \"GCE\" AND\n  test = \"iperf\" AND\n  metric = \"TCP Throughput\" AND\n  labels CONTAINS \"|cloud:GCP|\" AND\n  (labels CONTAINS \"|sending_machine_type:n1-standard-1|\" OR\n  labels CONTAINS \"|sending_machine_type:n1-standard-8|\")\n\n\n",
             "queryError": null,
             "view": {
               "columns": [],
@@ -709,4 +709,4 @@
     "title": "",
     "type": "container"
   }
-], "id": "5649366039658496", "owner": "voellm@google.com", "title": "Perfkit Explorer Sample Dashboard", "type": "dashboard", "version": "3"}
+], "title": "Perfkit Explorer Sample Dashboard", "type": "dashboard", "version": "3"}
