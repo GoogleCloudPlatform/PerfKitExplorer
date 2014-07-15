@@ -9,11 +9,11 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.PicklistModel');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.PicklistModel');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 

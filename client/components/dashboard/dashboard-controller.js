@@ -11,14 +11,14 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.dashboard.DashboardCtrl');
+goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;

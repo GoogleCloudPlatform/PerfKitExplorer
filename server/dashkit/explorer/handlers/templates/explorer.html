@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" ng-app="explorer" ng-controller="ExplorerCtrl as explorerCtrl">
 <head>
-  <title>Dashkit - {{ explorerCtrl.dashboard.current.model.title }}</title>
+  <title>Perfkit - {{ explorerCtrl.dashboard.current.model.title }}</title>
 
   <!-- JQuery & Angular -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
@@ -42,26 +42,26 @@
     var CURRENT_USER_ADMIN = [[current_user_admin]];
   </script>
 
-  <!-- Dashkit -->
+  <!-- Perfkit -->
   <script src="/static/dashkit_scripts.js"></script>
   <link type="text/css" rel="stylesheet" href="/static/dashkit_styles.css" />
 </head>
 <body>
 
-<div class="dashkit-page">
+<div class="perfkit-page">
 
   <explorer-header></explorer-header>
 
-  <div class="dashkit-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
+  <div class="perfkit-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
 
-    <div class="dashkit-page-sidebar-left"
+    <div class="perfkit-page-sidebar-left"
          ng-controller="QueryEditorCtrl as queryEditorCtrl"
          ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
 
       <div id="queryEditorCtrl">
         <div>
           <a  href="#"
-              class="dashkit-jfk-close-button dashkit-sidebar-close-button"
+              class="perfkit-jfk-close-button perfkit-sidebar-close-button"
               ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
           </a>
         </div>
@@ -77,8 +77,8 @@
               <ul>
                 <li><a href="https://developers.google.com/bigquery/query-reference" target="_blank">
                   BigQuery SQL Reference</a></li>
-                <li><a href="https://sites.google.com/a/google.com/dashkit/dashkitusers/perfkit-bigquery-how-to">
-                  Dashkit Query Cookbook</a></li>
+                <li><a href="https://sites.google.com/a/google.com/perfkit/dashkitusers/perfkit-bigquery-how-to">
+                  Perfkit Query Cookbook</a></li>
               </ul>
             </div>
             <div class="sidebar-item-label">
@@ -91,7 +91,7 @@
         </div>
 
         <style>
-          .dashkit-autocomplete-popup {
+          .perfkit-autocomplete-popup {
             position: absolute;
             padding: 8px;
             border: 1px solid #999;
@@ -99,15 +99,15 @@
         </style>
 
         <script type="text/ng-template" id="date_template.html">
-          <div class="dashkit-popup" tabindex="-1">
+          <div class="perfkit-popup" tabindex="-1">
             <relative-datepicker
                 relative-datepicker-data="popupboxModel"></relative-datepicker>
           </div>
         </script>
 
         <script type="text/ng-template" id="picklist_template.html">
-          <div class="dashkit-popup dashkit-popup-autocomplete" tabindex="-1">
-            <div class="dashkit-popup-item"
+          <div class="perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
+            <div class="perfkit-popup-item"
                  ng-show="popupboxModel.length == 0 || popupboxModel == null ||
                           data.slice(0, popupboxModel.length).toUpperCase() == popupboxModel.toUpperCase()"
                  ng-repeat="data in popupboxData"
@@ -120,7 +120,7 @@
         <div ng-hide="queryEditorCtrl.datasource.custom_query">
           <div class="sidebar-group">
             <div class="sidebar-group-note">Use the controls below to create a basic query against
-              the Dashkit Samples Mart.</div>
+              the Perfkit Samples Mart.</div>
             <button type="button" class="btn btn-primary"
                     ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
               Refresh
@@ -260,7 +260,7 @@
                   <input class="multibox-insert-control form-control sidebar-input-full"
                       ng-click="addInput()" ng-focus="addInput()" readonly>
                 </div>
-                <div class="multibox-popup dashkit-popup" tabindex="-1"
+                <div class="multibox-popup perfkit-popup" tabindex="-1"
                       metadata-picker
                       metadata-picker-data="multiboxData"
                       metadata-picker-model="activeOption"
@@ -312,9 +312,9 @@
                   <input class="multibox-insert-control form-control sidebar-input-full"
                       ng-click="addInput()" ng-focus="addInput()" readonly>
                 </div>
-                <div class="multibox-popup dashkit-popup dashkit-popup-autocomplete" tabindex="-1">
-                  <div class="dashkit-popup-item"
-                       ng-class="{'dashkit-popup-item-selected': data.name == activeOption.label}"
+                <div class="multibox-popup perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
+                  <div class="perfkit-popup-item"
+                       ng-class="{'perfkit-popup-item-selected': data.name == activeOption.label}"
                        ng-show="activeOption.label.length == 0 || activeOption.label == null ||
                                 data.name.slice(0, activeOption.label.length).toUpperCase() == activeOption.label.toUpperCase()"
                        ng-repeat="data in multiboxData"
@@ -330,7 +330,7 @@
                     ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
               Refresh
             </button>
-            <button type="button" class="btn btn-default dashkit-footer-button"
+            <button type="button" class="btn btn-default perfkit-footer-button"
                     ng-click="queryEditorCtrl.explorer.customizeSql()">
               Edit SQL
             </button>
@@ -339,33 +339,33 @@
       </div>
     </div>
 
-    <div class="dashkit-page-content">
+    <div class="perfkit-page-content">
       <div id="result-table">
         <div>
 
           <div class="spinner" ng-show="dashboardCtrl.dashboardIsLoading"></div>
 
-          <div ng-repeat="container in dashboardCtrl.dashboard.widgets" class="dashkit-container"
-               ng-class="{'dashkit-container-selected': widget.state().selected}">
+          <div ng-repeat="container in dashboardCtrl.dashboard.widgets" class="perfkit-container"
+               ng-class="{'perfkit-container-selected': widget.state().selected}">
 
-            <container class="dashkit-container-content" container-config="container">
-              <dashkit-widget class="dashkit-widget"
+            <container class="perfkit-container-content" container-config="container">
+              <perfkit-widget class="perfkit-widget"
                       ng-repeat="widget in container.model.container.children"
                       widget-config="widget">
-                <div class="dashkit-widget-header"
+                <div class="perfkit-widget-header"
                      ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
                   <span class="glyphicon glyphicon-remove" style="float: right; margin-left: 4px"
                         ng-hide="explorerCtrl.explorer.model.readOnly"
                         ng-click="dashboardCtrl.dashboard.removeWidget(widget, container)"></span>
                   <span class="glyphicon glyphicon-refresh" style="float: right; margin-left: 4px"
                         ng-click="dashboardCtrl.dashboard.refreshWidget(widget)"></span>
-                  <div class="dashkit-widget-title" ng-bind="widget.model.title"></div>
+                  <div class="perfkit-widget-title" ng-bind="widget.model.title"></div>
                 </div>
-                <div class="dashkit-widget-content"
+                <div class="perfkit-widget-content"
                      ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
                   <gviz-chart-widget widget-config="widget"/>
                 </div>
-              </dashkit-widget>
+              </perfkit-widget>
             </container>
           </div>
 
@@ -377,13 +377,13 @@
       </div>
     </div>
 
-    <div class="dashkit-page-sidebar-right"
+    <div class="perfkit-page-sidebar-right"
          ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
       <div>
 
         <div>
           <a  href="#"
-              class="dashkit-jfk-close-button dashkit-sidebar-close-button"
+              class="perfkit-jfk-close-button perfkit-sidebar-close-button"
               ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
           </a>
         </div>
@@ -490,21 +490,21 @@
     </div>
   </div>
 
-  <div class="dashkit-page-footer"
+  <div class="perfkit-page-footer"
        ng-hide="explorerCtrl.explorer.model.readOnly || !explorerCtrl.dashboard.selectedWidget"
        ng-controller="CodeEditorCtrl as codeEditorCtrl">
     <div ng-switch="codeEditorCtrl.settings.isOpen">
-      <div ng-switch-when="true" class="dashkit-footer-open">
-        <div class="dashkit-footer-toolbar">
+      <div ng-switch-when="true" class="perfkit-footer-open">
+        <div class="perfkit-footer-toolbar">
           <span class="glyphicon glyphicon-remove" style="float: right"
                 ng-click="codeEditorCtrl.closeCodeEditor()"></span>
-          <div class="btn-group dashkit-toolbar-section">
+          <div class="btn-group perfkit-toolbar-section">
             <button type="button" class="btn btn-default"
                  ng-model="codeEditorCtrl.settings.selectedMode"
                  ng-repeat="mode in codeEditorCtrl.settings.modes"
                  btn-radio="mode">{{ mode }}</button>
           </div>
-          <div class="dashkit-toolbar-section">
+          <div class="perfkit-toolbar-section">
             <button type="button" class="btn btn-primary"
                     ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
               Refresh
@@ -550,18 +550,18 @@
         </div>
       </div>
 
-      <div ng-switch-default class="dashkit-footer-toolbar">
-        <button type="button" class="btn btn-default dashkit-footer-button"
+      <div ng-switch-default class="perfkit-footer-toolbar">
+        <button type="button" class="btn btn-default perfkit-footer-button"
                 ng-show="codeEditorCtrl.dashboard.selectedWidget"
                 ng-click="codeEditorCtrl.openWidgetJsonEditor()">
           Edit Widget JSON
         </button>
-        <button type="button" class="btn btn-default dashkit-footer-button"
+        <button type="button" class="btn btn-default perfkit-footer-button"
                 ng-show="codeEditorCtrl.dashboard.selectedWidget && !codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
                 ng-click="codeEditorCtrl.openQuerySqlEditor()">
           View SQL
         </button>
-        <button type="button" class="btn btn-default dashkit-footer-button"
+        <button type="button" class="btn btn-default perfkit-footer-button"
                 ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
                 ng-click="codeEditorCtrl.openQuerySqlEditor()">
           Edit SQL

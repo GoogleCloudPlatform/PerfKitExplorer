@@ -15,25 +15,25 @@
  *   <bound-chart widget-config="widgetConfig"/>
  *
  * Attributes:
- *  {p3rf.dashkit.explorer.models.WidgetConfig} widget-config
+ *  {p3rf.perfkit.explorer.models.WidgetConfig} widget-config
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.gviz.gvizChart');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.GvizEvents');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
-goog.require('p3rf.dashkit.explorer.components.widget.query.DataViewService');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryResultDataService');
-goog.require('p3rf.dashkit.explorer.models.ChartType');
-goog.require('p3rf.dashkit.explorer.models.LayoutModel');
-goog.require('p3rf.dashkit.explorer.models.ResultsDataStatus');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
+goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
+goog.require('p3rf.perfkit.explorer.models.LayoutModel');
+goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var ChartType = explorer.models.ChartType;
 var ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
@@ -68,10 +68,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
     //templateUrl: /static/components/widget/data_viz/gviz/gviz-directive.html',
     template:
         '<div>' +
-        '<div class="dashkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'dashkit-chart-hidden\': widgetConfig.state().chart.error}">' +
+        '<div class="perfkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
+        '"{\'perfkit-chart-hidden\': widgetConfig.state().chart.error}">' +
         '</div>' +
-        '<div class="dashkit-chart-error" ng-show="' +
+        '<div class="perfkit-chart-error" ng-show="' +
         'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
         '> {{widgetConfig.state().chart.error}}</div></div>' +
         '<div class="spinner" ng-show="isDataFetching()"></div>' +
@@ -277,7 +277,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           } else {
             // Prevent overflow for charts
             scope.widgetConfig.model.layout.cssClasses =
-                'dashkit-widget-no-overflow';
+                'perfkit-widget-no-overflow';
           }
         }
       });

@@ -10,35 +10,35 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.container.ContainerModel');
-goog.provide('p3rf.dashkit.explorer.components.container.ContainerWidgetConfig');
-goog.provide('p3rf.dashkit.explorer.components.container.ContainerWidgetModel');
-goog.provide('p3rf.dashkit.explorer.components.container.Flow');
+goog.provide('p3rf.perfkit.explorer.components.container.ContainerModel');
+goog.provide('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.provide('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+goog.provide('p3rf.perfkit.explorer.components.container.Flow');
 
-goog.require('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetModel');
-goog.require('p3rf.dashkit.explorer.models.WidgetState');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetState');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
-var WidgetConfig = p3rf.dashkit.explorer.models.WidgetConfig;
-var WidgetModel = p3rf.dashkit.explorer.models.WidgetModel;
-var WidgetState = p3rf.dashkit.explorer.models.WidgetState;
-var WidgetType = p3rf.dashkit.explorer.models.WidgetType;
+var WidgetConfig = p3rf.perfkit.explorer.models.WidgetConfig;
+var WidgetModel = p3rf.perfkit.explorer.models.WidgetModel;
+var WidgetState = p3rf.perfkit.explorer.models.WidgetState;
+var WidgetType = p3rf.perfkit.explorer.models.WidgetType;
 
 /**
  * @enum {string}
  */
-p3rf.dashkit.explorer.components.container.Flow = {
+p3rf.perfkit.explorer.components.container.Flow = {
   ROW: 'row',
   COLUMN: 'column',
   WRAP: 'wrap'
 };
-var Flow = p3rf.dashkit.explorer.components.container.Flow;
+var Flow = p3rf.perfkit.explorer.components.container.Flow;
 
 
 /** @constructor */
-p3rf.dashkit.explorer.components.container.
+p3rf.perfkit.explorer.components.container.
 ContainerModel = function() {
   /**
    * @type {Flow}
@@ -65,14 +65,14 @@ ContainerModel = function() {
   this.children = [];
 };
 var ContainerModel = (
-    p3rf.dashkit.explorer.components.container.ContainerModel);
+    p3rf.perfkit.explorer.components.container.ContainerModel);
 
 
 /**
  * @constructor
- * @extends p3rf.dashkit.explorer.models.WidgetModel
+ * @extends p3rf.perfkit.explorer.models.WidgetModel
  */
-p3rf.dashkit.explorer.components.container.
+p3rf.perfkit.explorer.components.container.
 ContainerWidgetModel = function() {
   goog.base(this);
 
@@ -85,7 +85,7 @@ ContainerWidgetModel = function() {
   this.container = new ContainerModel();
 };
 var ContainerWidgetModel = (
-    p3rf.dashkit.explorer.components.container.
+    p3rf.perfkit.explorer.components.container.
     ContainerWidgetModel);
 goog.inherits(ContainerWidgetModel, WidgetModel);
 
@@ -95,9 +95,9 @@ goog.inherits(ContainerWidgetModel, WidgetModel);
  * @param {!Object} widgetFactoryService
  * @param {?(Object|ContainerWidgetModel)} opt_model JSON or
  *     ContainerWidgetModel.
- * @extends p3rf.dashkit.explorer.models.WidgetConfig
+ * @extends p3rf.perfkit.explorer.models.WidgetConfig
  */
-p3rf.dashkit.explorer.components.container.
+p3rf.perfkit.explorer.components.container.
 ContainerWidgetConfig = function(
     widgetFactoryService, opt_model) {
   /**
@@ -140,7 +140,7 @@ ContainerWidgetConfig = function(
   widgetFactoryService.statesById[this.model.id] || new WidgetState();
 };
 var ContainerWidgetConfig = (
-    p3rf.dashkit.explorer.components.container.
+    p3rf.perfkit.explorer.components.container.
     ContainerWidgetConfig);
 // No formal goog.inherits to work around lack of generics.
 

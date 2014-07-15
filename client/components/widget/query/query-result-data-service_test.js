@@ -9,8 +9,8 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 
 
 describe('queryResultDataService', function() {

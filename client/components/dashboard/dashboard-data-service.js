@@ -9,23 +9,23 @@
  * cache, create, update and delete the persisted data of a dashboard
  * given a user, topology (product/test/metric) or specific dashboard
  * URI/ID. It requests data from a REST service (/data/dashboard, backed by the
- * GAE handler p3rf.dashkit.explorer.data).
+ * GAE handler p3rf.perfkit.explorer.data).
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
+goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 
-goog.require('p3rf.dashkit.explorer.components.container.ContainerWidgetConfig');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardConfig');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('goog.Uri');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;

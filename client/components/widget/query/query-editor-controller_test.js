@@ -9,18 +9,18 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryEditorCtrl');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.ResultsDataStatus');
-goog.require('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
 
 describe('QueryEditorCtrl', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var WidgetConfig = explorer.models.WidgetConfig;
   var WidgetType = explorer.models.WidgetType;

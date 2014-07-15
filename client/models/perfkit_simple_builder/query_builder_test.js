@@ -9,17 +9,17 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.DateFilterType');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilterType');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
 
 goog.require('goog.date');
 
 
 goog.scope(function() {
 
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
 var QueryBuilder = explorer.models.dashkit_simple_builder.QueryBuilderService;
 var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;

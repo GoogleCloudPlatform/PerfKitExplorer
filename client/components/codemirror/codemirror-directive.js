@@ -12,11 +12,11 @@
  * MIT License
  */
 
-goog.provide('p3rf.dashkit.explorer.components.codemirror.CodeMirrorDirective');
+goog.provide('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -116,7 +116,7 @@ explorer.components.codemirror.CodeMirrorDirective = function(
 angular.module('ui.codemirror', []).
     constant('uiCodemirrorConfig', {}).
     directive('codemirror', ['uiCodemirrorConfig', '$timeout',
-      p3rf.dashkit.explorer.components.codemirror.
+      p3rf.perfkit.explorer.components.codemirror.
           CodeMirrorDirective]);
 
 });  // goog.scope

@@ -10,10 +10,10 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
+goog.provide('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 

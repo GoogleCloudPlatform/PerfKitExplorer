@@ -9,14 +9,14 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.widget.query.FieldCubeDataService');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.PicklistModel');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.PicklistModel');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
 goog.require('goog.Uri');
 
 describe('fieldCubeDataService', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var PicklistModel = explorer.models.dashkit_simple_builder.PicklistModel;
   var QueryFilterModel =
       explorer.models.dashkit_simple_builder.QueryFilterModel;

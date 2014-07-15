@@ -9,19 +9,19 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.explorer.ExplorerService');
+goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerModel');
-goog.require('p3rf.dashkit.explorer.components.util.ArrayUtilService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerModel');
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('goog.array');
 goog.require('goog.asserts');
 
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;

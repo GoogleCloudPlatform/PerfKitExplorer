@@ -10,15 +10,15 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.query_builder.QueryBuilder');
+goog.provide('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
 
-goog.require('p3rf.dashkit.explorer.components.query_builder.Filter');
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryProperties');
+goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 goog.require('goog.string');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var Filter = explorer.components.query_builder.Filter;
 var QueryProperties = explorer.components.query_builder.QueryProperties;
 

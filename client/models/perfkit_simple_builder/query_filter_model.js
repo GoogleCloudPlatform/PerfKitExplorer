@@ -9,14 +9,14 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.DateFilter');
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.DateFilterType');
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.MetadataFilter');
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilter');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilterType');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.MetadataFilter');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -80,7 +80,7 @@ var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
 
 
 /**
- * Angular model that provides filter settings for a Dashkit Samples query.
+ * Angular model that provides filter settings for a Perfkit Samples query.
  *
  * @constructor
  * @ngInject

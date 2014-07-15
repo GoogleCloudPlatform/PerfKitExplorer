@@ -7,18 +7,18 @@
  *
  * @fileoverview queryResultDataService is an angular service used to fetch and
  * cache samples results from a REST service (/data/samples, backed by the GAE
- * handler p3rf.dashkit.explorer.data). It accepts a QueryConfig
+ * handler p3rf.perfkit.explorer.data). It accepts a QueryConfig
  * object (provided by the QueryEditorService), and maintains a collection of
  * result sets (as google.visualization.DataTable's).
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.query.DataTableJson');
-goog.provide('p3rf.dashkit.explorer.components.widget.query.QueryResultDataService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 

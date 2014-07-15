@@ -7,7 +7,7 @@ https://developers.google.com/open-source/licenses/bsd
 Main entry module for data specified in app.yaml.
 
 This module contains the Http handlers for data requests (as JSON) in the
-Dashkit Explorer application (as well as other consumers).  Data URL's are
+Perfkit Explorer application (as well as other consumers).  Data URL's are
 prefixed with /data/{source} in the REST API, and in general the entities are
 referenced with GET requests.
 """
@@ -18,12 +18,12 @@ import json
 
 import base
 
-from dashkit.common import big_query_client
-from dashkit.common import big_query_result_util as result_util
-from dashkit.common import big_query_result_pivot
-from dashkit.common import gae_big_query_client
-from dashkit.explorer.samples_mart import explorer_method
-from dashkit.explorer.samples_mart import product_labels
+from perfkit.common import big_query_client
+from perfkit.common import big_query_result_util as result_util
+from perfkit.common import big_query_result_pivot
+from perfkit.common import gae_big_query_client
+from perfkit.explorer.samples_mart import explorer_method
+from perfkit.explorer.samples_mart import product_labels
 
 import webapp2
 
@@ -49,7 +49,7 @@ class DataHandlerUtil(object):
 
     Args:
       env: The environment to connect to.  For more detail, see
-          dashkit.data_clients.data_source_config.Environments.
+          perfkit.data_clients.data_source_config.Environments.
 
     Returns:
       A valid data client.

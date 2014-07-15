@@ -9,7 +9,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.UxUtil');
+goog.provide('p3rf.perfkit.explorer.UxUtil');
 
 goog.require('goog.fx.dom');
 goog.require('goog.math');
@@ -22,9 +22,9 @@ goog.scope(function() {
  * Class used to compare two SQL queries.
  * @constructor
  */
-p3rf.dashkit.explorer.UxUtil = function() {
+p3rf.perfkit.explorer.UxUtil = function() {
 };
-var UxUtil = p3rf.dashkit.explorer.UxUtil;
+var UxUtil = p3rf.perfkit.explorer.UxUtil;
 
 
 /**

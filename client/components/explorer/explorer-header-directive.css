@@ -1,11 +1,11 @@
-.dashkit-header {
+.perfkit-header {
   background-color: rgb(241, 241, 241);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
   width: 100%;
 }
 
-.dashkit-header-section {
+.perfkit-header-section {
   border-bottom: 1px solid rgb(229, 229, 229);
 }
 
@@ -17,19 +17,19 @@
   padding-bottom: 4px;
 }
 
-.dashkit-toolbar {
+.perfkit-toolbar {
   background-color: rgb(241, 241, 241);
   border-bottom: 1px solid rgb(229, 229, 229);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
 }
 
-.dashkit-toolbar {
+.perfkit-toolbar {
   display: block;
   padding: 8px;
 }
 
-.dashkit-toolbar-section {
+.perfkit-toolbar-section {
   display: inline-block;
   border-right: 1px solid #ccc;
   margin-right: 4px;
@@ -37,7 +37,7 @@
   white-space: nowrap;
 }
 
-.dashkit-dropdown-button-section {
+.perfkit-dropdown-button-section {
   display: inline-block;
 }
 

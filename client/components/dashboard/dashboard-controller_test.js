@@ -9,12 +9,12 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardConfig');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardCtrl');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 
 describe('DashboardCtrl', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var DashboardConfig = explorer.models.DashboardConfig;
   var ctrl, scope, rootScope, location, q, dashboardDataService;
   var httpBackend, endpoint, mockData;

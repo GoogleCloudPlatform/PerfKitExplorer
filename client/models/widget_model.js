@@ -10,14 +10,14 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.models.LayoutModel');
-goog.provide('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.provide('p3rf.dashkit.explorer.models.WidgetModel');
-goog.provide('p3rf.dashkit.explorer.models.WidgetState');
-goog.provide('p3rf.dashkit.explorer.models.WidgetType');
+goog.provide('p3rf.perfkit.explorer.models.LayoutModel');
+goog.provide('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.provide('p3rf.perfkit.explorer.models.WidgetModel');
+goog.provide('p3rf.perfkit.explorer.models.WidgetState');
+goog.provide('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 /**

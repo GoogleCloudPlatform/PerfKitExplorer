@@ -6,21 +6,21 @@
  * https://developers.google.com/open-source/licenses/bsd
  *
  * @fileoverview fieldCubeDataService is an angular service used to fetch and
- * cache data from the field metadata cube.  See go/dashkit-cubes for cube
+ * cache data from the field metadata cube.  See go/perfkit-cubes for cube
  * design and intent.  It requests data from a REST service (/data/fields,
- * backed by the GAE handler p3rf.dashkit.explorer.data).
+ * backed by the GAE handler p3rf.perfkit.explorer.data).
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.query.FieldCubeDataService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 
-goog.require('p3rf.dashkit.explorer.dateUtil');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.PicklistModel');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.dateUtil');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.PicklistModel');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
 goog.require('goog.Uri');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var dateUtil = explorer.dateUtil;
 var PicklistModel = explorer.models.dashkit_simple_builder.PicklistModel;
 var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;

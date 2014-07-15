@@ -9,7 +9,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.application.module');
 
 goog.require('goog.date');
 

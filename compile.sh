@@ -28,7 +28,7 @@ find client -name '*.html' | cpio -pamd deploy/
 python bin/closurebuilder.py \
  --root=$closurelib/ \
  --root=client/ \
- --namespace="p3rf.dashkit.explorer.application.module" \
+ --namespace="p3rf.perfkit.explorer.application.module" \
  --output_mode=compiled \
  --compiler_jar=bin/closure-compiler.jar \
  --compiler_flags="--angular_pass" \

@@ -67,7 +67,7 @@ html, body {
   width: 100%;
 }
 
-.dashkit-page {
+.perfkit-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
@@ -78,7 +78,7 @@ html, body {
   width: 100%;
 }
 
-.dashkit-page-body {
+.perfkit-page-body {
   display: flex;
   display: -webkit-flex;
   flex: 1 1 auto;
@@ -86,7 +86,7 @@ html, body {
   height: 100%;
 }
 
-.dashkit-page-sidebar-left {
+.perfkit-page-sidebar-left {
   border-right: 1px solid #CCC;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -99,7 +99,7 @@ html, body {
   width: 240px;
 }
 
-.dashkit-page-sidebar-right {
+.perfkit-page-sidebar-right {
   border-left: 1px solid #CCC;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -112,38 +112,38 @@ html, body {
   width: 220px;
 }
 
-.dashkit-sidebar-close-button {
+.perfkit-sidebar-close-button {
   float: right;
   margin-right: 5px;
   margin-top: -6px;
 }
 
-.dashkit-page-content {
+.perfkit-page-content {
   flex-grow: 100;
   -webkit-flex-grow: 100;
   overflow-x: auto;
   overflow-y: auto;
 }
 
-.dashkit-page-footer {
+.perfkit-page-footer {
   background-color: rgb(241, 241, 241);
   border-top: 1px solid rgb(229, 229, 229);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
 }
 
-.dashkit-footer-open {
+.perfkit-footer-open {
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
-.dashkit-footer-toolbar {
+.perfkit-footer-toolbar {
   height: 48px;
   padding: 4px;
 }
 
-.dashkit-footer-close-button {
+.perfkit-footer-close-button {
   float: right;
   margin-right: 5px;
 }
@@ -269,11 +269,11 @@ h2 {
 }
 
 /* Review Page Classes */
-.dashkit-datepicker {
+.perfkit-datepicker {
   width: 80px;
 }
 
-.dashkit-filtercombo {
+.perfkit-filtercombo {
   width: 170px;
 }
 

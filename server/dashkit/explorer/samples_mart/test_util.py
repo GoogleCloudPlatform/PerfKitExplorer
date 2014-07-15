@@ -10,10 +10,10 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 from datetime import datetime
 
-from dashkit.common import big_query_client
-from dashkit.common import credentials_lib
-from dashkit.common import data_source_config
-from dashkit.common import mock_big_query_client
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config
+from perfkit.common import mock_big_query_client
 
 # Default date ranges, currently chosen arbitrarily.
 # TODO: Update these values to coincide with official Mock Data.

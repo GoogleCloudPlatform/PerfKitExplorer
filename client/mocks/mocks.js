@@ -9,12 +9,12 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.mocks.mocks');
+goog.provide('p3rf.perfkit.explorer.mocks.mocks');
 
 goog.require('goog.Uri');
 
 goog.scope(function() {
-var mocks = p3rf.dashkit.explorer.mocks.mocks;
+var mocks = p3rf.perfkit.explorer.mocks.mocks;
 
 
 /**

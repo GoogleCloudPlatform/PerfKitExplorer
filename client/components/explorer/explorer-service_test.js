@@ -9,18 +9,18 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerService');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.ResultsDataStatus');
-goog.require('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
 
 
 describe('explorerService', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var QueryBuilderService =
       explorer.models.dashkit_simple_builder.QueryBuilderService;

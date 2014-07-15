@@ -10,17 +10,17 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.provide('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
 
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
 var PageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;

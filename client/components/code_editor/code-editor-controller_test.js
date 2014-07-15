@@ -9,14 +9,14 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.code_editor.CodeEditorCtrl');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('CodeEditorCtrl', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var WidgetType = explorer.models.WidgetType;
   var ctrl, scope, rootScope, dashboardService, widgetFactoryService;

@@ -4,7 +4,7 @@ Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file or at
 https://developers.google.com/open-source/licenses/bsd
 
-Base class and utility functions for Dashkit Explorer Http requests.
+Base class and utility functions for Perfkit Explorer Http requests.
 
 This module provides utility functions for Explorer http handlers, and
 extends webapp2.RequestHandler for improved support of version-specific script
@@ -22,7 +22,7 @@ import webapp2
 
 from google.appengine.api import users
 
-from dashkit.common import data_source_config
+from perfkit.common import data_source_config
 
 
 _TEMPLATES_PATH = os.path.join(os.path.dirname(__file__), 'templates')

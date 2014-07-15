@@ -12,17 +12,17 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.code_editor.CodeEditorCtrl');
+goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 
-goog.require('p3rf.dashkit.explorer.components.code_editor.CodeEditorSettingsModel');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerService');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.models.ResultsDataStatus');
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var ExplorerService = explorer.components.explorer.ExplorerService;
 var CodeEditorSettingsModel =

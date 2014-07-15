@@ -9,49 +9,49 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.application.module');
+goog.provide('p3rf.perfkit.explorer.application.module');
 
-goog.require('p3rf.dashkit.explorer.components.code_editor.CodeEditorCtrl');
-goog.require('p3rf.dashkit.explorer.components.codemirror.CodeMirrorDirective');
-goog.require('p3rf.dashkit.explorer.components.container.ContainerDirective');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardCtrl');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardVersionService');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
-goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerCtrl');
-goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerHeaderDirective');
-goog.require('p3rf.dashkit.explorer.components.explorer.ExplorerService');
-goog.require('p3rf.dashkit.explorer.components.multibox.MultiboxDirective');
-goog.require('p3rf.dashkit.explorer.components.popupbox.PopupboxDirective');
-goog.require('p3rf.dashkit.explorer.components.util.ArrayUtilService');
-goog.require('p3rf.dashkit.explorer.components.util.GetByPropertyFilter');
-goog.require('p3rf.dashkit.explorer.components.util.FileModelDirective');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.gvizChart');
-goog.require('p3rf.dashkit.explorer.components.widget.dashkitWidget');
-goog.require('p3rf.dashkit.explorer.components.widget.query.DataViewService');
-goog.require('p3rf.dashkit.explorer.components.widget.query.FieldCubeDataService');
-goog.require('p3rf.dashkit.explorer.components.widget.query.MetadataPickerDirective');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryEditorCtrl');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryEditorService');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryResultDataService');
-goog.require('p3rf.dashkit.explorer.components.widget.query.RelativeDatepickerDirective');
-goog.require('p3rf.dashkit.explorer.mocks.mocks');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
+goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.multibox.MultiboxDirective');
+goog.require('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
+goog.require('p3rf.perfkit.explorer.components.util.GetByPropertyFilter');
+goog.require('p3rf.perfkit.explorer.components.util.FileModelDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
+goog.require('p3rf.perfkit.explorer.components.widget.dashkitWidget');
+goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
+goog.require('p3rf.perfkit.explorer.mocks.mocks');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ngGrid'];
 

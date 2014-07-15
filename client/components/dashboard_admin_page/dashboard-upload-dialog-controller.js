@@ -10,13 +10,13 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
+goog.provide('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 
 

@@ -6,33 +6,33 @@
  * https://developers.google.com/open-source/licenses/bsd
  *
  * @fileoverview Javascript Query Editor service.  This provides access to the
- * model for defining a Dashkit query via logical parameters (including, but not
+ * model for defining a Perfkit query via logical parameters (including, but not
  * limited to, filters and column settings).  It can also be used to produce
  * a SQL statement from current settings.
  *
  * An architectural overview of this and other services used to define queries,
  * charts and dashboards can be found at:
- *     http://goto.google.com/dashkit-explorer-architecture
+ *     http://goto.google.com/perfkit-explorer-architecture
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.query.QueryEditorService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 
-goog.require('p3rf.dashkit.explorer.components.query_builder.Aggregation');
-goog.require('p3rf.dashkit.explorer.components.query_builder.Filter');
-goog.require('p3rf.dashkit.explorer.components.query_builder.FilterClause');
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryBuilder');
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryProperties');
-goog.require('p3rf.dashkit.explorer.components.widget.query.FieldCubeDataService');
-goog.require('p3rf.dashkit.explorer.dateUtil');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryDateGroupings');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.components.query_builder.Aggregation');
+goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
+goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
+goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.dateUtil');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryDateGroupings');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
 goog.require('goog.Uri');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var dateUtil = explorer.dateUtil;
 var Aggregation = explorer.components.query_builder.Aggregation;
 var Filter = explorer.components.query_builder.Filter;

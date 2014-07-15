@@ -4,7 +4,7 @@ Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file or at
 https://developers.google.com/open-source/licenses/bsd
 
-Tests for data handlers in the Dashkit Explorer application."""
+Tests for data handlers in the Perfkit Explorer application."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
@@ -13,11 +13,11 @@ import json
 import webtest
 import unittest
 
-from p3rf.dashkit.data_clients import big_query_client
-from p3rf.dashkit.data_clients import credentials_lib
-from p3rf.dashkit.data_clients import data_source_config as config
-from p3rf.dashkit.explorer.server.handlers import base
-from p3rf.dashkit.explorer.server.handlers import data
+from p3rf.perfkit.data_clients import big_query_client
+from p3rf.perfkit.data_clients import credentials_lib
+from p3rf.perfkit.data_clients import data_source_config as config
+from p3rf.perfkit.explorer.server.handlers import base
+from p3rf.perfkit.explorer.server.handlers import data
 
 
 # TODO: Add a mock data_client to eliminate live data connections.

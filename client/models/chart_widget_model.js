@@ -10,24 +10,24 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.models.ChartModel');
-goog.provide('p3rf.dashkit.explorer.models.ChartState');
-goog.provide('p3rf.dashkit.explorer.models.ChartType');
-goog.provide('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.provide('p3rf.dashkit.explorer.models.ChartWidgetModel');
-goog.provide('p3rf.dashkit.explorer.models.ChartWidgetState');
-goog.provide('p3rf.dashkit.explorer.models.DataViewModel');
-goog.provide('p3rf.dashkit.explorer.models.DatasourceModel');
-goog.provide('p3rf.dashkit.explorer.models.DatasourceState');
-goog.provide('p3rf.dashkit.explorer.models.ResultsDataStatus');
+goog.provide('p3rf.perfkit.explorer.models.ChartModel');
+goog.provide('p3rf.perfkit.explorer.models.ChartState');
+goog.provide('p3rf.perfkit.explorer.models.ChartType');
+goog.provide('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.provide('p3rf.perfkit.explorer.models.ChartWidgetModel');
+goog.provide('p3rf.perfkit.explorer.models.ChartWidgetState');
+goog.provide('p3rf.perfkit.explorer.models.DataViewModel');
+goog.provide('p3rf.perfkit.explorer.models.DatasourceModel');
+goog.provide('p3rf.perfkit.explorer.models.DatasourceState');
+goog.provide('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
-goog.require('p3rf.dashkit.explorer.models.WidgetModel');
-goog.require('p3rf.dashkit.explorer.models.WidgetState');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetState');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;
 var WidgetType = explorer.models.WidgetType;
 
@@ -35,7 +35,7 @@ var WidgetType = explorer.models.WidgetType;
 /**
  * @enum {string}
  */
-p3rf.dashkit.explorer.models.ChartType = {
+p3rf.perfkit.explorer.models.ChartType = {
   TABLE: 'Table',
   AREA_CHART: 'AreaChart',
   BAR_CHART: 'BarChart',
@@ -44,12 +44,12 @@ p3rf.dashkit.explorer.models.ChartType = {
   PIE_CHART: 'PieChart',
   SCATTER_CHART: 'ScatterChart'
 };
-var ChartType = p3rf.dashkit.explorer.models.ChartType;
+var ChartType = p3rf.perfkit.explorer.models.ChartType;
 
 
 
 /** @constructor */
-p3rf.dashkit.explorer.models.ChartState = function() {
+p3rf.perfkit.explorer.models.ChartState = function() {
   /**
    * @type {?number}
    * @export
@@ -74,12 +74,12 @@ p3rf.dashkit.explorer.models.ChartState = function() {
    */
   this.gvizError = null;
 };
-var ChartState = p3rf.dashkit.explorer.models.ChartState;
+var ChartState = p3rf.perfkit.explorer.models.ChartState;
 
 
 
 /** @constructor */
-p3rf.dashkit.explorer.models.ChartModel = function() {
+p3rf.perfkit.explorer.models.ChartModel = function() {
   /**
    * @type {string}
    * @export
@@ -92,7 +92,7 @@ p3rf.dashkit.explorer.models.ChartModel = function() {
    */
   this.options = {};
 };
-var ChartModel = p3rf.dashkit.explorer.models.ChartModel;
+var ChartModel = p3rf.perfkit.explorer.models.ChartModel;
 
 
 /** @type {string} */
@@ -203,7 +203,7 @@ var DatasourceModel = explorer.models.DatasourceModel;
 
 /**
  * @constructor
- * @extends {p3rf.dashkit.explorer.models.WidgetModel}
+ * @extends {p3rf.perfkit.explorer.models.WidgetModel}
  */
 explorer.models.ChartWidgetModel = function() {
   goog.base(this);
@@ -256,7 +256,7 @@ goog.inherits(ChartWidgetState, explorer.models.WidgetState);
  * @param {!Object} widgetFactoryService Note: the type should be
  *     WidgetFactoryService but Closure can't handle bidirectional dependencies.
  * @param {?(Object|ChartWidgetModel)=} opt_model JSON or ChartWidgetModel.
- * @extends {p3rf.dashkit.explorer.models.WidgetConfig}
+ * @extends {p3rf.perfkit.explorer.models.WidgetConfig}
  */
 explorer.models.ChartWidgetConfig = function(widgetFactoryService, opt_model) {
   /**
@@ -304,7 +304,7 @@ var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
 /**
  * Verifies the dashboard model and cleans it up, if required.  This is
- * presently used to transition from the "old" dashkit dashboards to the new
+ * presently used to transition from the "old" perfkit dashboards to the new
  * angular ones.
  * @param {?ChartWidgetModel} model The chart widget model to be verified and
  *     cleaned.

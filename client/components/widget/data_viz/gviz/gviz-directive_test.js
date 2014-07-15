@@ -9,27 +9,27 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.container.ContainerWidgetConfig');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.gvizChart');
-goog.require('p3rf.dashkit.explorer.models.ChartType');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.ResultsDataStatus');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('gvizDirective', function() {
-  var ChartType = p3rf.dashkit.explorer.models.ChartType;
+  var ChartType = p3rf.perfkit.explorer.models.ChartType;
   var ChartWidgetConfig =
-      p3rf.dashkit.explorer.models.ChartWidgetConfig;
-  var WidgetType = p3rf.dashkit.explorer.models.WidgetType;
+      p3rf.perfkit.explorer.models.ChartWidgetConfig;
+  var WidgetType = p3rf.perfkit.explorer.models.WidgetType;
   var ContainerWidgetConfig = (
-      p3rf.dashkit.explorer.components.container.
+      p3rf.perfkit.explorer.components.container.
       ContainerWidgetConfig);
   var ResultsDataStatus =
-      p3rf.dashkit.explorer.models.ResultsDataStatus;
+      p3rf.perfkit.explorer.models.ResultsDataStatus;
   var compile, rootScope, timeout, chartWrapperMock, gvizChartErrorCallback,
       queryResultDataServiceMock, fetchResultsDeferred, model, state,
       dataViewServiceMock, dataViewsJson, widgetFactoryService;
@@ -77,10 +77,10 @@ describe('gvizDirective', function() {
   beforeEach(inject(function($templateCache) {
     var template =
         '<div>' +
-        '<div class="dashkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'dashkit-chart-hidden\': widgetConfig.state().chart.error}">' +
+        '<div class="perfkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
+        '"{\'perfkit-chart-hidden\': widgetConfig.state().chart.error}">' +
         '</div>' +
-        '<div class="dashkit-chart-error" ng-show="' +
+        '<div class="perfkit-chart-error" ng-show="' +
         'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
         '> {{widgetConfig.state().chart.error}}</div></div>' +
         '<div class="spinner" ng-show="isDataFetching()"></div>' +
@@ -178,7 +178,7 @@ describe('gvizDirective', function() {
         setupComponent();
 
         expect(model.layout.cssClasses).
-            toEqual('dashkit-widget-no-overflow');
+            toEqual('perfkit-widget-no-overflow');
       }
   );
 
@@ -222,7 +222,7 @@ describe('gvizDirective', function() {
         function() {
           setupData();
           var component = setupComponent();
-          expect(component.chartDiv.hasClass('dashkit-chart-hidden')).
+          expect(component.chartDiv.hasClass('perfkit-chart-hidden')).
               toBeFalsy();
         }
     );
@@ -233,7 +233,7 @@ describe('gvizDirective', function() {
           var component = setupComponent();
           state().chart.error = 'fake error';
           rootScope.$apply();
-          expect(component.chartDiv.hasClass('dashkit-chart-hidden')).
+          expect(component.chartDiv.hasClass('perfkit-chart-hidden')).
               toBeTruthy();
         }
     );

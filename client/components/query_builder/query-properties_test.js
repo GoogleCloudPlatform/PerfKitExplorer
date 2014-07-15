@@ -9,13 +9,13 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.components.query_builder.Aggregation');
-goog.require('p3rf.dashkit.explorer.components.query_builder.Filter');
-goog.require('p3rf.dashkit.explorer.components.query_builder.FilterClause');
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryProperties');
+goog.require('p3rf.perfkit.explorer.components.query_builder.Aggregation');
+goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
+goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 goog.require('goog.testing.jsunit');
 
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var Aggregation = explorer.components.query_builder.Aggregation;
 var Filter = explorer.components.query_builder.Filter;
 var FilterClause = explorer.components.query_builder.FilterClause;

@@ -9,12 +9,12 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
-goog.require('p3rf.dashkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
 
 describe('DashboardAdminPageCtrl', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var DashboardAdminPageModel =
       explorer.components.dashboard_admin_page.DashboardAdminPageModel;
   var ctrl, scope, rootScope, location, q, dashboardDataService;

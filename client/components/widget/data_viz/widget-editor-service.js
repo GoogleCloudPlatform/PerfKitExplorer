@@ -12,15 +12,15 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorService');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
 
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.GvizEvents');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
-goog.require('p3rf.dashkit.explorer.models.ChartModel');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
+goog.require('p3rf.perfkit.explorer.models.ChartModel');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var ChartModel = explorer.models.ChartModel;
 var ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);

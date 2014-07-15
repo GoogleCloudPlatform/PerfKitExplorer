@@ -4,16 +4,16 @@ Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file or at
 https://developers.google.com/open-source/licenses/bsd
 
-A module containing data source configuration for Dashkit.
+A module containing data source configuration for Perfkit.
 
 Each environment
 is a collection of services required to support the system.  For example,
 the prod environment is where Cloud and end-users will record their data, while
-testing is used by the Dashkit team to test out new implementations of the
+testing is used by the Perfkit team to test out new implementations of the
 pipeline.
 
 Design and more detail on supported environments can be found at:
-https://goto.google.com/dashkit-environments
+https://goto.google.com/perfkit-environments
 """
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'

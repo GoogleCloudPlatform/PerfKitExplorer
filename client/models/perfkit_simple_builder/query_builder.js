@@ -10,24 +10,24 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.Aggregation');
-goog.provide('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.Aggregation');
+goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
 
-goog.require('p3rf.dashkit.explorer.components.query_builder.Filter');
-goog.require('p3rf.dashkit.explorer.components.query_builder.FilterClause');
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryBuilder');
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryProperties');
-goog.require('p3rf.dashkit.explorer.dateUtil');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.DateFilter');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.MetadataFilter');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
-goog.require('p3rf.dashkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
+goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
+goog.require('p3rf.perfkit.explorer.dateUtil');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilter');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.MetadataFilter');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
 
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
 var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
 var Filter = explorer.components.query_builder.Filter;

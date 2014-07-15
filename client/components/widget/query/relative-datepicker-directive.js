@@ -8,7 +8,7 @@
  * @fileoverview RelativeDatePicker is a composite component that combines a
  * date picker with the ability to specify relative dates (ex:
  * last n days/months).  It uses the AngularUI datepicker control, and in
- * Dashkit is used in conjunction with a popupbox directive.
+ * Perfkit is used in conjunction with a popupbox directive.
  *
  * Usage:
  *   <div ng-controller="DashkitQueryController">
@@ -28,12 +28,12 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.query.RelativeDatepickerDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
 
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 var FILTER_TYPES = [

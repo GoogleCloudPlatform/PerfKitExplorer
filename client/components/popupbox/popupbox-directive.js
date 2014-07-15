@@ -7,7 +7,7 @@
  *
  * @fileoverview Popupbox is an angular directive used to display a list of
  * elements, and maintain an "insertion element".  It's currently designed for
- * collecting column/result data in the Dashkit Explorer UI.
+ * collecting column/result data in the Perfkit Explorer UI.
  *
  * Usage:
  *   <div ng-controller="DashkitQueryController">
@@ -26,7 +26,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.popupbox.PopupboxDirective');
+goog.provide('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
 
 goog.require('goog.positioning');
 goog.require('goog.positioning.Corner');
@@ -35,7 +35,7 @@ goog.require('goog.style');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 /**

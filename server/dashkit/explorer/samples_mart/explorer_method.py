@@ -4,7 +4,7 @@ Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file or at
 https://developers.google.com/open-source/licenses/bsd
 
-Base class for Dashkit Explorer-related queries.
+Base class for Perfkit Explorer-related queries.
 
 ExplorerQueryBase provides Explorer queries with a behavioral model
 of constructing SQL, executing a query, reformatting the BQ results,
@@ -16,9 +16,9 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import logging
 
-from dashkit.common import big_query_client
-from dashkit.common import big_query_result_util as result_util
-from dashkit.common import datetime_util
+from perfkit.common import big_query_client
+from perfkit.common import big_query_result_util as result_util
+from perfkit.common import datetime_util
 
 
 DEFAULT_MAX_ROWS = 2000

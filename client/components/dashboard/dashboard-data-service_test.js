@@ -9,20 +9,20 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardConfig');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardDataService');
-goog.require('p3rf.dashkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.dashkit.explorer.models.ChartState');
-goog.require('p3rf.dashkit.explorer.models.DatasourceState');
-goog.require('p3rf.dashkit.explorer.models.ResultsDataStatus');
-goog.require('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetState');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.ChartState');
+goog.require('p3rf.perfkit.explorer.models.DatasourceState');
+goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('goog.Uri');
 
 
 describe('dashboardDataService', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var ChartState = explorer.models.ChartState;
   var DashboardConfig = explorer.components.dashboard.DashboardConfig;
   var DatasourceState = explorer.models.DatasourceState;

@@ -12,15 +12,15 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.gviz.GvizEvents');
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 /**

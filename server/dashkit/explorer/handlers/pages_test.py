@@ -4,7 +4,7 @@ Use of this source code is governed by a BSD-style
 license that can be found in the LICENSE file or at
 https://developers.google.com/open-source/licenses/bsd
 
-Tests for p3rf.dashkit.explorer.pages."""
+Tests for p3rf.perfkit.explorer.pages."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
@@ -12,8 +12,8 @@ import datetime
 import webtest
 import unittest
 
-from dashkit.explorer.handlers import base
-from dashkit.explorer.handlers import pages
+from perfkit.explorer.handlers import base
+from perfkit.explorer.handlers import pages
 
 
 class JsonEncoderTest(unittest.TestCase):

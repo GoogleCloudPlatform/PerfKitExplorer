@@ -1,10 +1,10 @@
-<div class="dashkit-header">
-  <div class="dashkit-header-section page-title">
+<div class="perfkit-header">
+  <div class="perfkit-header-section page-title">
     <span ng-bind="ctrl.dashboard.current.model.title"></span>
   </div>
 
-  <div class="dashkit-header-section dashkit-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
-    <div class="btn-group dashkit-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
+  <div class="perfkit-header-section perfkit-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
+    <div class="btn-group perfkit-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
               btn-radio="'dashboard'">Dashboard</button>
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
@@ -12,11 +12,11 @@
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
               btn-radio="'widget'">Widget</button>
     </div>
-    <div class="dashkit-toolbar-section" ng-switch="ctrl.currentMode">
+    <div class="perfkit-toolbar-section" ng-switch="ctrl.currentMode">
       <!-- Dashboard -->
       <div ng-switch-when="dashboard">
         <button type="button" class="btn btn-danger" ng-click="ctrl.createDashboard()">Create</button>
-        <div class="dashkit-dropdown-button-section">
+        <div class="perfkit-dropdown-button-section">
           <button type="button" class="btn btn-default dropdown-toggle">
             Open...
             <span class="caret"></span>

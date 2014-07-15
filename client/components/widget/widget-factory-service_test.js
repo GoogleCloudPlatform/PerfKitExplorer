@@ -9,19 +9,19 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.application.module');
-goog.require('p3rf.dashkit.explorer.components.container.ContainerWidgetConfig');
-goog.require('p3rf.dashkit.explorer.components.container.ContainerWidgetModel');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardConfig');
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardModel');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetModel');
-goog.require('p3rf.dashkit.explorer.models.WidgetConfig');
-goog.require('p3rf.dashkit.explorer.models.WidgetModel');
-goog.require('p3rf.dashkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('widgetFactoryService', function() {
-  var explorer = p3rf.dashkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var ChartWidgetModel = explorer.models.ChartWidgetModel;
   var ContainerWidgetConfig =

@@ -9,7 +9,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.dateUtil');
+goog.provide('p3rf.perfkit.explorer.dateUtil');
 
 goog.require('goog.date.UtcDateTime');
 goog.require('goog.string');
@@ -17,7 +17,7 @@ goog.require('goog.string');
 goog.scope(function() {
 
 
-var dateUtil = p3rf.dashkit.explorer.dateUtil;
+var dateUtil = p3rf.perfkit.explorer.dateUtil;
 
 
 /**

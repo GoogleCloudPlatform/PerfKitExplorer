@@ -7,19 +7,19 @@
  *
  */
 
-.dashkit-page-sidebar-option
+.perfkit-page-sidebar-option
 {
   padding: 4px;
 }
 
-.dashkit-page-sidebar-option:hover
+.perfkit-page-sidebar-option:hover
 {
   padding: 4px;
   cursor: pointer;
   background-color: #eee;
 }
 
-.dashkit-page-sidebar-option-selected
+.perfkit-page-sidebar-option-selected
 {
   font-weight: bold;
 }

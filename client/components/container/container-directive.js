@@ -10,24 +10,24 @@
  * them visually in three different way: row, column, or wrap.
  *
  * Usage:
- *   <container class="dashkit-container-content"
+ *   <container class="perfkit-container-content"
  *              container-config="containerConfigConfig"/>
  *
  * Attributes:
- *     {p3rf.dashkit.explorer.components.container.
+ *     {p3rf.perfkit.explorer.components.container.
  *         ContainerWidgetConfig} container-config
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.container.ContainerDirective');
+goog.provide('p3rf.perfkit.explorer.components.container.ContainerDirective');
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
  */
-p3rf.dashkit.explorer.components.container.
+p3rf.perfkit.explorer.components.container.
 ContainerDirective = function() {
   return {
     restrict: 'E',
@@ -47,7 +47,7 @@ ContainerDirective = function() {
          * @type {Object}
          */
         scope.flexClass = {
-          'dashkit-container-selected' : scope.containerConfig.state().selected
+          'perfkit-container-selected' : scope.containerConfig.state().selected
         };
 
         var className = 'flex-' + scope.containerConfig.model.container.flow;

@@ -10,18 +10,18 @@
  * according to the layout object defined in the model.
  *
  * Usage:
- *   <dashkit-widget class="dashkit-widget" widget-config="widgetConfig"/>
+ *   <perfkit-widget class="perfkit-widget" widget-config="widgetConfig"/>
  *
  * Attributes:
- *  {p3rf.dashkit.explorer.models.WidgetConfig} widget-config
+ *  {p3rf.perfkit.explorer.models.WidgetConfig} widget-config
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.dashkitWidget');
+goog.provide('p3rf.perfkit.explorer.components.widget.dashkitWidget');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -39,9 +39,9 @@ explorer.components.widget.dashkitWidget = function() {
     },
     // TODO: Use templateUrl instead of hardcoded template strings.
     template: '<div ng-style="layoutStyle"' +
-              'ng-class="{\'dashkit-widget-selected\': ' +
+              'ng-class="{\'perfkit-widget-selected\': ' +
               'widgetConfig.state().selected}">' +
-              '<div class="dashkit-widget-body ' +
+              '<div class="perfkit-widget-body ' +
               '{{ widgetConfig.model.layout.cssClasses }}" ' +
               'ng-transclude></div></div>',
     link: function(scope, element, attributes) {

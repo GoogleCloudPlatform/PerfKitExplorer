@@ -5,14 +5,14 @@
  * license that can be found in the LICENSE file or at
  * https://developers.google.com/open-source/licenses/bsd
  *
- * @fileoverview CodeEditorSettingsModel encapsulates Dashkit settings for
+ * @fileoverview CodeEditorSettingsModel encapsulates Perfkit settings for
  *     the CodeMirror editor.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
-goog.provide('p3rf.dashkit.explorer.components.code_editor.CodeEditorSettingsModel');
+goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 
 
 

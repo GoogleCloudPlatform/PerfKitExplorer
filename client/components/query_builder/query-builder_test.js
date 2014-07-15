@@ -9,12 +9,12 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.dashkit.explorer.components.query_builder.QueryBuilder');
-goog.require('p3rf.dashkit.explorer.components.query_builder.SampleQueryProperties');
+goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
+goog.require('p3rf.perfkit.explorer.components.query_builder.SampleQueryProperties');
 goog.require('goog.array');
 goog.require('goog.testing.jsunit');
 
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var SampleQueryProperties = explorer.SampleQueryProperties;
 var QueryBuilder = explorer.QueryBuilder;
 

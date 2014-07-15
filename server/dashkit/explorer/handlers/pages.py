@@ -6,7 +6,7 @@ https://developers.google.com/open-source/licenses/bsd
 
 Main entry module for pages specified in app.yaml.
 
-This module contains the Http handlers for HTML page requests in the Dashkit
+This module contains the Http handlers for HTML page requests in the Perfkit
 Explorer application.
 """
 

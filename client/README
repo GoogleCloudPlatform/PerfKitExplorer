@@ -1,11 +1,11 @@
-# TODO: Add instructions to build, test & deploy Dashkit.
+# TODO: Add instructions to build, test & deploy Perfkit.
 
 Explorer uses Karma tests to unit test Angular functionality.
 To run the local Karma server for debugging, run from the /explorer folder:
 
 ## ADD INSTRUCTIONS HERE FOR OPEN-SOURCE TEST EXECUTION ##
 
-To deploy the Dashkit Explorer application:
+To deploy the Perfkit Explorer application:
 
 ## ADD INSTRUCTIONS HERE FOR OPEN-SOURCE DEPLOYMENT ##
 

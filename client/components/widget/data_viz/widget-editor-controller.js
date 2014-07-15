@@ -12,16 +12,16 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 
-goog.require('p3rf.dashkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.WidgetEditorService');
-goog.require('p3rf.dashkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
-goog.require('p3rf.dashkit.explorer.components.widget.query.QueryResultDataService');
-goog.require('p3rf.dashkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
-var explorer = p3rf.dashkit.explorer;
+var explorer = p3rf.perfkit.explorer;
 var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 var WidgetEditorService = (
     explorer.components.widget.data_viz.gviz.WidgetEditorService);

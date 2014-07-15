@@ -7,7 +7,7 @@ https://developers.google.com/open-source/licenses/bsd
 Main entry module for dashboard data specified in app.yaml.
 
 This module contains the Http handlers for dashboard data requests (as JSON) in
-the Dashkit Explorer application (as well as other consumers).  GAE's data store
+the Perfkit Explorer application (as well as other consumers).  GAE's data store
 is used to store, retrieve and manage JSON representations of Explorer
 dashboards.
 
@@ -37,9 +37,9 @@ import json
 import logging
 
 import base
-from dashkit.explorer.model import dashboard as dashboard_model
-from dashkit.explorer.model import dashboard_fields as fields
-from dashkit.explorer.model import error_fields
+from perfkit.explorer.model import dashboard as dashboard_model
+from perfkit.explorer.model import dashboard_fields as fields
+from perfkit.explorer.model import error_fields
 
 import webapp2
 
