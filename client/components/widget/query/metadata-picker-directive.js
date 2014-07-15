@@ -10,7 +10,7 @@
  * component as well for free-hand entry.
  *
  * Usage:
- *   <div ng-controller="DashkitQueryController">
+ *   <div ng-controller="PerfkitQueryController">
  *     <input
  *         type="text"
  *         popupbox
@@ -31,7 +31,7 @@
  */
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.MetadataFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
 
 goog.require('goog.positioning');
 goog.require('goog.positioning.Corner');
@@ -40,7 +40,7 @@ goog.require('goog.style');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
-var MetadataFilter = explorer.models.dashkit_simple_builder.MetadataFilter;
+var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 
 
 /**

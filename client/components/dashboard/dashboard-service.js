@@ -21,7 +21,7 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 goog.require('goog.array');
 goog.require('goog.asserts');
 
@@ -33,7 +33,7 @@ var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var QueryBuilderService = (
-    explorer.models.dashkit_simple_builder.QueryBuilderService);
+    explorer.models.perfkit_simple_builder.QueryBuilderService);
 var ResultsDataStatus = explorer.models.ResultsDataStatus;
 var WidgetConfig = explorer.models.WidgetConfig;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;

@@ -66,7 +66,7 @@ def GetAuthorizedCredentials(credential_path, env):
 
   client_id = '%s.apps.googleusercontent.com' % config.Services.GetServiceUri(
       env, config.Services.PROJECT_ID)
-  user_agent = '%s_dashkit_client/1.0' % env
+  user_agent = '%s_perfkit_client/1.0' % env
 
   storage = multistore_file.get_credential_storage(
       cred_to_use, client_id, user_agent, CREDENTIALS_SCOPE)

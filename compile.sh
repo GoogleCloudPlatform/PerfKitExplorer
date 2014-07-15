@@ -24,7 +24,7 @@ popd
 find client -name '*.html' | cpio -pamd deploy/
 
 
-# Compile client/*.js files to deploy/client/dashkit_scripts.js.
+# Compile client/*.js files to deploy/client/perfkit_scripts.js.
 python bin/closurebuilder.py \
  --root=$closurelib/ \
  --root=client/ \
@@ -35,14 +35,14 @@ python bin/closurebuilder.py \
  --compiler_flags="--compilation_level=WHITESPACE_ONLY" \
  --compiler_flags="--language_in=ECMASCRIPT5" \
  --compiler_flags="--formatting=PRETTY_PRINT" \
- --output_file=deploy/client/dashkit_scripts.js
+ --output_file=deploy/client/perfkit_scripts.js
 
 
 
-# Compile client/*.css stylesheets to deploy/client/dashkit_styles.css.
+# Compile client/*.css stylesheets to deploy/client/perfkit_styles.css.
 find client -name '*.css'| xargs \
   java -jar bin/closure-stylesheets.jar \
-  --output-file deploy/client/dashkit_styles.css \
+  --output-file deploy/client/perfkit_styles.css \
   --allow-unrecognized-functions \
   --allow-unrecognized-properties \
   $1

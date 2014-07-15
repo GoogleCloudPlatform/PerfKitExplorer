@@ -10,7 +10,7 @@
  * collecting column/result data in the Perfkit Explorer UI.
  *
  * Usage:
- *   <div ng-controller="DashkitQueryController">
+ *   <div ng-controller="PerfkitQueryController">
  *     <input
  *         type="text"
  *         popupbox

@@ -38,7 +38,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChart
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
-goog.require('p3rf.perfkit.explorer.components.widget.dashkitWidget');
+goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
@@ -47,7 +47,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService')
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
 goog.require('p3rf.perfkit.explorer.mocks.mocks');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
 
 goog.scope(function() {
@@ -122,7 +122,7 @@ explorer.application.module.service('fieldCubeDataService',
 explorer.application.module.service('widgetFactoryService',
     explorer.components.widget.WidgetFactoryService);
 explorer.application.module.service('queryBuilderService',
-    explorer.models.dashkit_simple_builder.QueryBuilderService);
+    explorer.models.perfkit_simple_builder.QueryBuilderService);
 explorer.application.module.service('dashboardAdminPageService',
     explorer.components.dashboard_admin_page.DashboardAdminPageService);
 
@@ -170,8 +170,8 @@ explorer.application.module.directive('popupbox',
     explorer.components.popupbox.PopupboxDirective);
 explorer.application.module.directive('relativeDatepicker',
     explorer.components.widget.query.RelativeDatepickerDirective);
-explorer.application.module.directive('dashkitWidget',
-    explorer.components.widget.dashkitWidget);
+explorer.application.module.directive('perfkitWidget',
+    explorer.components.widget.perfkitWidget);
 explorer.application.module.directive('fileModel',
     explorer.components.util.FileModelDirective);
 });  // goog.scope

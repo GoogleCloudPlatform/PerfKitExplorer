@@ -16,14 +16,14 @@ goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
 
 describe('explorerService', function() {
   var explorer = p3rf.perfkit.explorer;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var QueryBuilderService =
-      explorer.models.dashkit_simple_builder.QueryBuilderService;
+      explorer.models.perfkit_simple_builder.QueryBuilderService;
   var ResultsDataStatus = explorer.models.ResultsDataStatus;
   var WidgetConfig = explorer.models.WidgetConfig;
   var svc;

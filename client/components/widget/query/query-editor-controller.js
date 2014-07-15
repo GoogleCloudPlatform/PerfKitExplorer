@@ -17,24 +17,24 @@ goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilter');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.LabelResult');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.MetadataFilter');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var DashboardService = explorer.components.dashboard.DashboardService;
-var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
+var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 var ExplorerService = explorer.components.explorer.ExplorerService;
 var DatasourceModel = explorer.models.DatasourceModel;
-var LabelResult = explorer.models.dashkit_simple_builder.LabelResult;
-var MetadataFilter = explorer.models.dashkit_simple_builder.MetadataFilter;
+var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
+var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 var QueryBuilderService =
-    explorer.models.dashkit_simple_builder.QueryBuilderService;
+    explorer.models.perfkit_simple_builder.QueryBuilderService;
 var QueryEditorService = explorer.components.widget.query.QueryEditorService;
-var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
+var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 var ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 

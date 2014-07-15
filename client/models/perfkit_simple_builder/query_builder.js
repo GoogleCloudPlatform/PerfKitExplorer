@@ -10,35 +10,35 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.Aggregation');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.Aggregation');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
 goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 goog.require('p3rf.perfkit.explorer.dateUtil');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilter');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.MetadataFilter');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
 
 var explorer = p3rf.perfkit.explorer;
-var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
-var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
+var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
 var Filter = explorer.components.query_builder.Filter;
 var FilterClause = explorer.components.query_builder.FilterClause;
 var BigQueryBuilder = explorer.components.query_builder.QueryBuilder;
 var QueryProperties = explorer.components.query_builder.QueryProperties;
 var dateUtil = explorer.dateUtil;
-var MetadataFilter = explorer.models.dashkit_simple_builder.MetadataFilter;
-var QueryColumnModel = explorer.models.dashkit_simple_builder.QueryColumnModel;
-var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;
-var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
+var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
+var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
+var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 /**
@@ -48,7 +48,7 @@ var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
  * INTEGER|FLOAT% so '50%' or '.01%'.
  * @enum {string}
  */
-explorer.models.dashkit_simple_builder.Aggregation = {
+explorer.models.perfkit_simple_builder.Aggregation = {
   AVERAGE: 'avg',
   COUNT: 'count',
   LAST: 'last',
@@ -59,7 +59,7 @@ explorer.models.dashkit_simple_builder.Aggregation = {
   SUM: 'sum',
   VARIANCE: 'variance'
 };
-var Aggregation = explorer.models.dashkit_simple_builder.Aggregation;
+var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
 
 
 
@@ -70,10 +70,10 @@ var Aggregation = explorer.models.dashkit_simple_builder.Aggregation;
  * @constructor
  *
  */
-explorer.models.dashkit_simple_builder.QueryBuilderService = function(
+explorer.models.perfkit_simple_builder.QueryBuilderService = function(
     $filter) {};
 var QueryBuilderService =
-    explorer.models.dashkit_simple_builder.QueryBuilderService;
+    explorer.models.perfkit_simple_builder.QueryBuilderService;
 
 
 /**

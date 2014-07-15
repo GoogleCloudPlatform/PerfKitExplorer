@@ -15,15 +15,15 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 
 goog.require('p3rf.perfkit.explorer.dateUtil');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.PicklistModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PicklistModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('goog.Uri');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var dateUtil = explorer.dateUtil;
-var PicklistModel = explorer.models.dashkit_simple_builder.PicklistModel;
-var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
+var PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
+var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 

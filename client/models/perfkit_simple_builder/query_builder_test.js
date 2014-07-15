@@ -10,9 +10,9 @@
  */
 
 goog.require('p3rf.perfkit.explorer.application.module');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilterType');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryBuilderService');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 
 goog.require('goog.date');
 
@@ -20,9 +20,9 @@ goog.require('goog.date');
 goog.scope(function() {
 
 var explorer = p3rf.perfkit.explorer;
-var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
-var QueryBuilder = explorer.models.dashkit_simple_builder.QueryBuilderService;
-var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;
+var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
+var QueryBuilder = explorer.models.perfkit_simple_builder.QueryBuilderService;
+var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 
 describe('TestQueryBuilder', function() {
   var builder;

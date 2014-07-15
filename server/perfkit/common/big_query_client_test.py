@@ -428,23 +428,23 @@ class BigQueryClientTest(unittest.TestCase):
 
   @pytest.mark.jobs
   def testBuildJobId(self):
-    files = ['gs://dashkit_test_data/0000000099995',
-             'gs://dashkit_test_data/0000000099996',
-             'gs://dashkit_test_data/0000000099997']
+    files = ['gs://perfkit_test_data/0000000099995',
+             'gs://perfkit_test_data/0000000099996',
+             'gs://perfkit_test_data/0000000099997']
     hasher = hashlib.sha1()
     hasher.update(''.join(files))
     hashed_file_names = hasher.hexdigest()
-    expected_id = ('load_job_0_0_gs-dashkit_test_data-0000000099995_'
-                   'gs-dashkit_test_data-0000000099997_' + hashed_file_names)
+    expected_id = ('load_job_0_0_gs-perfkit_test_data-0000000099995_'
+                   'gs-perfkit_test_data-0000000099997_' + hashed_file_names)
     actual_id = big_query_client.BigQueryClient.BuildJobIdString(files, 0, 0)
     self.assertEquals(expected_id, actual_id)
 
-    files = ['gs://dashkit_test_data/0000000099995']
+    files = ['gs://perfkit_test_data/0000000099995']
     hasher = hashlib.sha1()
     hasher.update(''.join(files))
     hashed_file_names = hasher.hexdigest()
-    expected_id = ('load_job_2_3_gs-dashkit_test_data-0000000099995_'
-                   'gs-dashkit_test_data-0000000099995_' + hashed_file_names)
+    expected_id = ('load_job_2_3_gs-perfkit_test_data-0000000099995_'
+                   'gs-perfkit_test_data-0000000099995_' + hashed_file_names)
     actual_id = big_query_client.BigQueryClient.BuildJobIdString(files, 2, 3)
     self.assertEquals(expected_id, actual_id)
 

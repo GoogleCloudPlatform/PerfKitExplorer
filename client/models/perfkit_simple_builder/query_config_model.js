@@ -10,21 +10,21 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilter');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilterType');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
 
 var explorer = p3rf.perfkit.explorer;
-var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
-var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
-var QueryColumnModel = explorer.models.dashkit_simple_builder.QueryColumnModel;
-var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
+var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
+var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
+var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 
@@ -33,7 +33,7 @@ var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
  * @implements {IQueryConfigModel}
  *
  */
-explorer.models.dashkit_simple_builder.QueryConfigModel = function() {
+explorer.models.perfkit_simple_builder.QueryConfigModel = function() {
   /** @type {number} */
   this.DEFAULT_DATE_RANGE_DAYS = 14;
 
@@ -45,7 +45,7 @@ explorer.models.dashkit_simple_builder.QueryConfigModel = function() {
 
   this.initializeDefaults();
 };
-var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;
+var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 
 
 /**

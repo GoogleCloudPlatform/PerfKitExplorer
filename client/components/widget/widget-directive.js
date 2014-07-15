@@ -18,7 +18,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.dashkitWidget');
+goog.provide('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
@@ -29,7 +29,7 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.dashkitWidget = function() {
+explorer.components.widget.perfkitWidget = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -54,7 +54,7 @@ explorer.components.widget.dashkitWidget = function() {
             (100 / scope.widgetConfig.state().parent.model.container.columns) *
             columnspan;
         // Set minimum width multiply by columnspan
-        var minWidth = dashkitWidget.MIN_COLUMN_WIDTH * columnspan;
+        var minWidth = perfkitWidget.MIN_COLUMN_WIDTH * columnspan;
         // Apply new style value
         scope.layoutStyle = {
           '-webkit-flex-basis': basis + '%',
@@ -85,10 +85,10 @@ explorer.components.widget.dashkitWidget = function() {
     }
   };
 };
-var dashkitWidget = explorer.components.widget.dashkitWidget;
+var perfkitWidget = explorer.components.widget.perfkitWidget;
 
 
 /** @type {number} */
-dashkitWidget.MIN_COLUMN_WIDTH = 200;
+perfkitWidget.MIN_COLUMN_WIDTH = 200;
 
 });  // goog.scope

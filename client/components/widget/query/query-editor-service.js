@@ -25,9 +25,9 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.dateUtil');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryDateGroupings');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('goog.Uri');
 
 
@@ -38,10 +38,10 @@ var Aggregation = explorer.components.query_builder.Aggregation;
 var Filter = explorer.components.query_builder.Filter;
 var FilterClause = explorer.components.query_builder.FilterClause;
 var QueryBuilder = explorer.components.query_builder.QueryBuilder;
-var QueryColumnModel = explorer.models.dashkit_simple_builder.QueryColumnModel;
+var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
 var QueryDateGroupings =
-    explorer.models.dashkit_simple_builder.QueryDateGroupings;
-var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
+    explorer.models.perfkit_simple_builder.QueryDateGroupings;
+var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 var QueryProperties = explorer.components.query_builder.QueryProperties;
 var FieldCubeDataService = (
     explorer.components.widget.query.FieldCubeDataService);

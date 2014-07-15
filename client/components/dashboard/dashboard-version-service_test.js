@@ -13,8 +13,8 @@ goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.models.DatasourceModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.PivotConfigModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 
 
 describe('dashboardVersionService', function() {
@@ -25,9 +25,9 @@ describe('dashboardVersionService', function() {
   var DashboardVersionModel =
       explorer.components.dashboard.DashboardVersionModel;
   var QueryConfigModel =
-      explorer.models.dashkit_simple_builder.QueryConfigModel;
+      explorer.models.perfkit_simple_builder.QueryConfigModel;
   var PivotConfig =
-      explorer.models.dashkit_simple_builder.PivotConfigModel;
+      explorer.models.perfkit_simple_builder.PivotConfigModel;
 
   var svc;
   var filter;

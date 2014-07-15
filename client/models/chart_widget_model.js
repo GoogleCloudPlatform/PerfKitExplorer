@@ -24,11 +24,11 @@ goog.provide('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
-goog.require('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
-var QueryConfigModel = explorer.models.dashkit_simple_builder.QueryConfigModel;
+var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var WidgetType = explorer.models.WidgetType;
 
 

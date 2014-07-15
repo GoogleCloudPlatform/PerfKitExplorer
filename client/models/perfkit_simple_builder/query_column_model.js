@@ -9,10 +9,10 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.LabelResult');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.PivotConfigModel');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryColumnModel');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryDateGroupings');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
@@ -24,11 +24,11 @@ var explorer = p3rf.perfkit.explorer;
  * the wrapper is required for angular binding purposes.
  * @constructor
  */
-explorer.models.dashkit_simple_builder.LabelResult = function() {
+explorer.models.perfkit_simple_builder.LabelResult = function() {
   /** @type {!string} */
   this.label = '';
 };
-var LabelResult = explorer.models.dashkit_simple_builder.LabelResult;
+var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 
 
 /**
@@ -37,7 +37,7 @@ var LabelResult = explorer.models.dashkit_simple_builder.LabelResult;
  * values are displayed as column headers.
  * @constructor
  */
-explorer.models.dashkit_simple_builder.PivotConfigModel = function() {
+explorer.models.perfkit_simple_builder.PivotConfigModel = function() {
   /**
    * @type {!string}
    * @export
@@ -56,30 +56,30 @@ explorer.models.dashkit_simple_builder.PivotConfigModel = function() {
    */
   this.value_field = '';
 };
-var PivotConfigModel = explorer.models.dashkit_simple_builder.PivotConfigModel;
+var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 
 /**
  * @enum {string}
  */
-explorer.models.dashkit_simple_builder.QueryDateGroupings = {
+explorer.models.perfkit_simple_builder.QueryDateGroupings = {
   ONEGROUP: 'OneGroup',
   DETAILS: 'Details',
   DAILY: 'Daily',
   WEEKLY: 'Weekly'
 };
 var QueryDateGroupings =
-    explorer.models.dashkit_simple_builder.QueryDateGroupings;
+    explorer.models.perfkit_simple_builder.QueryDateGroupings;
 
 
 /**
  * @enum {string}
  */
-explorer.models.dashkit_simple_builder.QueryShapes = {
+explorer.models.perfkit_simple_builder.QueryShapes = {
   TABULAR: 'Tabular',
   PIVOT: 'Pivot'
 };
-var QueryShapes = explorer.models.dashkit_simple_builder.QueryShapes;
+var QueryShapes = explorer.models.perfkit_simple_builder.QueryShapes;
 
 
 
@@ -87,7 +87,7 @@ var QueryShapes = explorer.models.dashkit_simple_builder.QueryShapes;
  * Angular service that provides the column configuration of a Samples query.
  * @constructor
  */
-explorer.models.dashkit_simple_builder.QueryColumnModel = function() {
+explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   /**
    * @type {QueryDateGroupings}
    * @export
@@ -113,6 +113,6 @@ explorer.models.dashkit_simple_builder.QueryColumnModel = function() {
   this.labels = [];
 };
 
-var QueryColumnModel = explorer.models.dashkit_simple_builder.QueryColumnModel;
+var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
 
 });  // goog.scope

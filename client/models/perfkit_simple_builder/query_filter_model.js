@@ -9,10 +9,10 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilter');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.DateFilterType');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.MetadataFilter');
-goog.provide('p3rf.perfkit.explorer.models.dashkit_simple_builder.QueryFilterModel');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
@@ -23,7 +23,7 @@ var explorer = p3rf.perfkit.explorer;
  * Type definition for a metadata-filter specifier.
  * @export
  */
-explorer.models.dashkit_simple_builder.MetadataFilter = function() {
+explorer.models.perfkit_simple_builder.MetadataFilter = function() {
   /** @type {!string} */
   this.label = '';
 
@@ -33,14 +33,14 @@ explorer.models.dashkit_simple_builder.MetadataFilter = function() {
   /** @type {!string} */
   this.text = '';
 };
-var MetadataFilter = explorer.models.dashkit_simple_builder.MetadataFilter;
+var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 
 
 /**
  * Constants describing the types of filters applied to dates.
  * @export
  */
-explorer.models.dashkit_simple_builder.DateFilterType = {
+explorer.models.perfkit_simple_builder.DateFilterType = {
   CUSTOM: 'CUSTOM',
   YEAR: 'YEAR',
   MONTH: 'MONTH',
@@ -50,7 +50,7 @@ explorer.models.dashkit_simple_builder.DateFilterType = {
   MINUTE: 'MINUTE',
   SECOND: 'SECOND'
 };
-var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
+var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
 
 
 
@@ -61,7 +61,7 @@ var DateFilterType = explorer.models.dashkit_simple_builder.DateFilterType;
  * @param {?string=} opt_text
  * @constructor
  */
-explorer.models.dashkit_simple_builder.DateFilter = function(
+explorer.models.perfkit_simple_builder.DateFilter = function(
     opt_filterValue, opt_filterType, opt_specifyTime, opt_text) {
   /** @type {!DateFilterType} */
   this.filter_type = opt_filterType || DateFilterType.CUSTOM;
@@ -75,7 +75,7 @@ explorer.models.dashkit_simple_builder.DateFilter = function(
   /** @type {!string} */
   this.text = opt_text || opt_filterValue || '';
 };
-var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
+var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 
 
 
@@ -85,7 +85,7 @@ var DateFilter = explorer.models.dashkit_simple_builder.DateFilter;
  * @constructor
  * @ngInject
  */
-explorer.models.dashkit_simple_builder.QueryFilterModel = (
+explorer.models.perfkit_simple_builder.QueryFilterModel = (
     function() {
       /**
        * @type {DateFilter}
@@ -135,7 +135,7 @@ explorer.models.dashkit_simple_builder.QueryFilterModel = (
        */
       this.metadata = [];
     });
-var QueryFilterModel = explorer.models.dashkit_simple_builder.QueryFilterModel;
+var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 });  // goog.scope
