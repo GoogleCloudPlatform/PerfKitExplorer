@@ -1,0 +1,14 @@
+{
+    "prod": {
+        "project_id": "PROJECT_NUMBER",
+        "project_name": "PROJECT_NAME",
+        "samples-mart": "PROJECT_NAME.DATASET_NAME",
+        "analytics-key": "ANALYTICS_KEY"
+    },
+    "testing": {
+        "project_id": "PROJECT_NUMBER",
+        "project_name": "PROJECT_NAME",
+        "samples-mart": "PROJECT_NAME.DATASET_NAME",
+        "analytics-key": "ANALYTICS_KEY"
+    }
+}

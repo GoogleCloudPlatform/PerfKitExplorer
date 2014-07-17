@@ -1,17 +1,11 @@
 {
     "prod": {
-        "api_key": "DUMMY_API_KEY",
-        "data-queue": "DUMMY_DATA_QUEUE",
-        "data-store": "DUMMY_DATA_STORE",
         "project_id": "DUMMY_PROJECT_ID",
         "project_name": "DUMMY_PROJECT_NAME",
         "samples-mart": "DUMMY_SAMPLES_MART",
         "analytics-key": "DUMMY_ANALYTICS_KEY"
     },
     "testing": {
-        "api_key": "DUMMY_API_KEY",
-        "data-queue": "DUMMY_DATA_QUEUE",
-        "data-store": "DUMMY_DATA_STORE",
         "project_id": "DUMMY_PROJECT_ID",
         "project_name": "DUMMY_PROJECT_NAME",
         "samples-mart": "DUMMY_SAMPLES_MART",
