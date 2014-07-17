@@ -49,7 +49,3 @@ find client -name '*.css'| xargs \
 
 
 # Compilation complete.
-
-appcfg.py --oauth2 update deploy
-
-# deployment complete.
