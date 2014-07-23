@@ -1,35 +1,89 @@
+Perfkit Explore Installation Guide
+==================================
 Perfkit is a service & web front end for composing queries and dashboards,
 and sharing the results.
 
-Platforms/Dependencies
-=====================
-Data Store:
-* Google BigQuery              https://bigquery.cloud.google.com
+Note the installation instructions below are based on using GCP Compute
+instance, using the Debian Backports image. Instructions for platform 
+installation may vary depending on your operating system and patch levels.
 
-Service:
-* Google App Engine (Python)   https://developers.google.com/appengine/downloads
-* Google API Client            https://developers.google.com/api-client-library/python/start/installation
-* PyTest                       http://pytest.org/latest/getting-started.html
-* WebTest                      http://webtest.pythonpaste.org/en/latest/
-* WebApp2                      https://webapp-improved.appspot.com/tutorials/quickstart.nogae.html
-
-
-Installation/Configuration
+Set up your workstation
 ==========================
-1. Create a new Cloud Console project.
-2. Create client access tokens for your project, and add them to
-   credentials.json.
-3. Enable the BigQuery and AppEngine service for your project.
-4. TODO: Create script/process for creating empty results table and test
-   datasets.
+1. Install the Python 2.7 SDK.
+   sudo apt-get install python2.7
+2. Install the Java 7 SDK.
+   Ubuntu/Debian: sudo apt-get install openjdk-7-jdk
+3. Install Git
+   Ubuntu/Debian: sudo apt-get install git
+4. Install the Google Cloud SDK, https://developers.google.com/cloud/sdk/.
+   curl https://sdk.cloud.google.com | bash
+5. Authorize your workstation to connect to gcloud resources.
+   gcloud auth login
+6. Create a root folder for your source code (ie: ~/projects) and navigate to it.
+7. Download the Closure Tools.
+   git clone https://github.com/google/closure-library
+   a. Modify your enviromnet (~/.bashrc) so that closurelib is an alias/shortcut
+      to the extracted/installed path to closure-library. Example:
+      closurelib=~/projects/closure-library
+      export closurelib
+8. Create a Github account at http://www.github.com
+   a. Generate and register an SSH key based on GitHub Instructions.
+   https://help.github.com/articles/generating-ssh-keys
+9. Initialize a git workspace.
+   git clone git@github.com:GoogleCloudPlatform/PerfkitExplorer.git
+   If you have connected and authenticated correctly, the source code for
+   Perfkit Explorer will download.
+   Your projects folder will contain:
+   (projects)
+     PerfkitExplorer
+       bin
+       client
+       ...
+       compile.sh
+       app.yaml
 
-Running Tests
-=============
-1. Install prerequisite libraries (noted above).
-2. From a command-line and the root folder of your tests (common/py or
-   explorer), run:
-     py.test
+Create the App Engine project
+=============================
+1. Create a Google Cloud project at https://console.developers.google.com/project.
+2. Under the API's tab, enable the BigQuery service.
 
-   To run a specific class of tests, you can access the @pytest.mark.* values
-   annotating the tests.  For example, to run all query-related tests:
-     py.test -v -m query
+Create the BigQuery repository
+==============================
+1. Create a Google Cloud project, or user the same one you used for the App
+   Engine project.
+2. Enable billing for your Cloud Project (available from links on the left-hand side)
+   https://console.developers.google.com/project/apps~MYPROJECT/settings
+3. Create a dataset (ex: samples_mart):
+   bq mk --project=MYPROJECT samples_mart
+4. Change folders to the sample data folder:
+   pushd ~/projects/PerfkitExplorer/data/samples_mart
+5. Upload the sample data to a new table in your dataset (ex: results):
+   bq load --project=MYPROJECT --source_format=NEWLINE_DELIMITED_JSON
+   samples_mart.results gs://perfkit_public_data/sample_results.json
+   ./results_table_schema.json
+6. Add the service account from your App Engine project as an authorized use of
+   your BigQuery project.
+
+Compile and Deploy Perfkit
+==========================
+1. Modify the app.yaml file so that the application and version tags are
+   appropiate. For example:
+   application: perfkit-explorer-demo
+   version: beta
+2. Modify the config/data_source_config.json so that the production tags are
+   appropriate for the repository you created in the previous step. For example:
+   project_id: 123456789
+   project_name: perfkit-samples
+   samples-mart: perfkit-samples.samples_mart
+   analytics-key: UA-12345
+3. Navigate to the ~projects/PerfkitExplorer folder and compile the application.
+   bash compile.sh
+4. You will now find a ~/projects/PerfkitExplorer/deploy folder. Navigate to it.
+5. Deploy Perfkit Explorer to App Engine.
+   appcfg.py --oauth2 update .
+6. By default the application will be deployed to a build/version specific to
+   your client. For example, with the following values:
+     version: 15
+     application: MYPERFKIT
+
+     http://15-dot-MYPERFKIT.appspot.com
