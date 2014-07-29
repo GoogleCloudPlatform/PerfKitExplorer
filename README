@@ -17,6 +17,8 @@ Set up your workstation
    Ubuntu/Debian: sudo apt-get install git
 4. Install the Google Cloud SDK, https://developers.google.com/cloud/sdk/.
    curl https://sdk.cloud.google.com | bash
+   * note: Choose "Python & PHP" from the languages options.
+   * note: Restart your shell after installing gcloud to initialize the relevant paths.
 5. Authorize your workstation to connect to gcloud resources.
    gcloud auth login
 6. Create a root folder for your source code (ie: ~/projects) and navigate to it.
@@ -59,9 +61,9 @@ Create the BigQuery repository
    pushd ~/projects/PerfkitExplorer/data/samples_mart
 5. Upload the sample data to a new table in your dataset (ex: results):
    bq load --project=MYPROJECT --source_format=NEWLINE_DELIMITED_JSON
-   samples_mart.results gs://perfkit_public_data/sample_results.json
+   samples_mart.results ./sample_results.json
    ./results_table_schema.json
-6. Add the service account from your App Engine project as an authorized use of
+6. Add the service account from your App Engine project as an authorized user of
    your BigQuery project.
 
 Compile and Deploy Perfkit
@@ -76,7 +78,7 @@ Compile and Deploy Perfkit
    project_name: perfkit-samples
    samples-mart: perfkit-samples.samples_mart
    analytics-key: UA-12345
-3. Navigate to the ~projects/PerfkitExplorer folder and compile the application.
+3. Navigate to the ~/projects/PerfkitExplorer folder and compile the application.
    bash compile.sh
 4. You will now find a ~/projects/PerfkitExplorer/deploy folder. Navigate to it.
 5. Deploy Perfkit Explorer to App Engine.
