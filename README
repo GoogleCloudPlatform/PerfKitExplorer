@@ -67,23 +67,24 @@ Create the BigQuery repository
    your BigQuery project.
 
 Compile and Deploy PerfKit
-==========================
-1. Modify the app.yaml file so that the application and version tags are
+1. Move to the PerfKitExplorer directory:
+   cd ~/projects/PerfKitExplorer
+2. Modify the app.yaml file so that the application and version tags are
    appropriate. For example:
    application: perfkit-explorer-demo
    version: beta
-2. Modify the config/data_source_config.json so that the production tags are
+3. Modify the config/data_source_config.json so that the production tags are
    appropriate for the repository you created in the previous step. For example:
    project_id: 123456789
    project_name: perfkit-samples
    samples-mart: perfkit-samples.samples_mart
    analytics-key: UA-12345
-3. Navigate to the ~/projects/PerfKitExplorer folder and compile the application.
+4. Compile the application.
    bash compile.sh
-4. You will now find a ~/projects/PerfKitExplorer/deploy folder. Navigate to it.
-5. Deploy PerfKit Explorer to App Engine.
+5. You will now find a ~/projects/PerfKitExplorer/deploy folder. Navigate to it.
+6. Deploy PerfKit Explorer to App Engine.
    appcfg.py --oauth2 update .
-6. By default the application will be deployed to a build/version specific to
+7. By default the application will be deployed to a build/version specific to
    your client. For example, with the following values:
      version: 15
      application: MYPERFKIT
