@@ -1,11 +1,12 @@
-Perfkit Explore Installation Guide
+PerfKit Explore Installation Guide
 ==================================
-Perfkit is a service & web front end for composing queries and dashboards,
+PerfKit is a service & web front end for composing queries and dashboards,
 and sharing the results.
 
-Note the installation instructions below are based on using GCP Compute
-instance, using the Debian Backports image. Instructions for platform 
-installation may vary depending on your operating system and patch levels.
+Note the installation instructions below are based on using a Google Cloud
+Platform Compute instance, using the Debian Backports image. Instructions for
+platform installation may vary depending on your operating system and patch
+levels.
 
 Set up your workstation
 ==========================
@@ -19,25 +20,25 @@ Set up your workstation
    curl https://sdk.cloud.google.com | bash
    * note: Choose "Python & PHP" from the languages options.
    * note: Restart your shell after installing gcloud to initialize the relevant paths.
-5. Authorize your workstation to connect to gcloud resources.
+5. Authorize your workstation to connect to Google Cloud resources:
    gcloud auth login
 6. Create a root folder for your source code (ie: ~/projects) and navigate to it.
 7. Download the Closure Tools.
    git clone https://github.com/google/closure-library
-   a. Modify your enviromnet (~/.bashrc) so that closurelib is an alias/shortcut
+   a. Modify your environment (~/.bashrc) so that closurelib is an alias/shortcut
       to the extracted/installed path to closure-library. Example:
       closurelib=~/projects/closure-library
       export closurelib
-8. Create a Github account at http://www.github.com
+8. Create a GitHub account at http://www.github.com
    a. Generate and register an SSH key based on GitHub Instructions.
    https://help.github.com/articles/generating-ssh-keys
 9. Initialize a git workspace.
-   git clone git@github.com:GoogleCloudPlatform/PerfkitExplorer.git
+   git clone git@github.com:GoogleCloudPlatform/PerfKitExplorer.git
    If you have connected and authenticated correctly, the source code for
-   Perfkit Explorer will download.
+   PerfKit Explorer will download.
    Your projects folder will contain:
    (projects)
-     PerfkitExplorer
+     PerfKitExplorer
        bin
        client
        ...
@@ -58,32 +59,32 @@ Create the BigQuery repository
 3. Create a dataset (ex: samples_mart):
    bq mk --project=MYPROJECT samples_mart
 4. Change folders to the sample data folder:
-   pushd ~/projects/PerfkitExplorer/data/samples_mart
+   pushd ~/projects/PerfKitExplorer/data/samples_mart
 5. Upload the sample data to a new table in your dataset (ex: results):
-   bq load --project=MYPROJECT --source_format=NEWLINE_DELIMITED_JSON
-   samples_mart.results ./sample_results.json
-   ./results_table_schema.json
+   bq load --project=MYPROJECT --source_format=NEWLINE_DELIMITED_JSON samples_mart.results ./sample_results.json
+   popd
 6. Add the service account from your App Engine project as an authorized user of
    your BigQuery project.
 
-Compile and Deploy Perfkit
-==========================
-1. Modify the app.yaml file so that the application and version tags are
-   appropiate. For example:
+Compile and Deploy PerfKit
+1. Move to the PerfKitExplorer directory:
+   cd ~/projects/PerfKitExplorer
+2. Modify the app.yaml file so that the application and version tags are
+   appropriate. For example:
    application: perfkit-explorer-demo
    version: beta
-2. Modify the config/data_source_config.json so that the production tags are
+3. Modify the config/data_source_config.json so that the production tags are
    appropriate for the repository you created in the previous step. For example:
    project_id: 123456789
    project_name: perfkit-samples
    samples-mart: perfkit-samples.samples_mart
    analytics-key: UA-12345
-3. Navigate to the ~/projects/PerfkitExplorer folder and compile the application.
+4. Compile the application.
    bash compile.sh
-4. You will now find a ~/projects/PerfkitExplorer/deploy folder. Navigate to it.
-5. Deploy Perfkit Explorer to App Engine.
+5. You will now find a ~/projects/PerfKitExplorer/deploy folder. Navigate to it.
+6. Deploy PerfKit Explorer to App Engine.
    appcfg.py --oauth2 update .
-6. By default the application will be deployed to a build/version specific to
+7. By default the application will be deployed to a build/version specific to
    your client. For example, with the following values:
      version: 15
      application: MYPERFKIT
