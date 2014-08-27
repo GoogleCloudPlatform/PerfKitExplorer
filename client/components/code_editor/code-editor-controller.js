@@ -107,7 +107,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   this.editorOptionsSQL = {
     lineWrapping: false,
     lineNumbers: true,
-    mode: 'bqsql'
+    mode: 'sql'
   };
 
   /**
@@ -119,7 +119,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
     lineWrapping: false,
     lineNumbers: true,
     readOnly: true,
-    mode: 'bqsql'
+    mode: 'sql'
   };
 
   /**

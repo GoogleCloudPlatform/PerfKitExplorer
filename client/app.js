@@ -43,6 +43,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
@@ -168,6 +169,8 @@ explorer.application.module.directive('multibox',
     explorer.components.multibox.MultiboxDirective);
 explorer.application.module.directive('popupbox',
     explorer.components.popupbox.PopupboxDirective);
+explorer.application.module.directive('queryEditor',
+    explorer.components.widget.query.QueryEditorDirective);
 explorer.application.module.directive('relativeDatepicker',
     explorer.components.widget.query.RelativeDatepickerDirective);
 explorer.application.module.directive('perfkitWidget',
