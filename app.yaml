@@ -1,5 +1,5 @@
-application: APP_ENGINE_APP_NAME
-version: APP_ENGINE_VERSION
+application: google.com:gae-perf-kit-explorer-test
+version: 19
 runtime: python27  # Which runtime to use.
 api_version: 1     # Which version of the API to use for that runtime.
 threadsafe: true  # Whether or not to enable threading.

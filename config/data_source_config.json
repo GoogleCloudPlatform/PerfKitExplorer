@@ -1,9 +1,9 @@
 {
     "prod": {
-        "project_id": "PROJECT_NUMBER",
-        "project_name": "PROJECT_NAME",
-        "samples-mart": "PROJECT_NAME.DATASET_NAME",
-        "analytics-key": "ANALYTICS_KEY"
+        "project_id": "1030119788742",
+        "project_name": "gae-perf-kit",
+        "samples-mart": "perf-kit.samples_mart",
+        "analytics-key": "UA-40772116-2"
     },
     "testing": {
         "project_id": "PROJECT_NUMBER",

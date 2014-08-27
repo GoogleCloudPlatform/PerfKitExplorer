@@ -129,7 +129,7 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
   // If a version # if provided, use it to validate.
   if (goog.isDef(dashboard.version) && dashboard.version != '') {
     version = this.filter_('getByProperty')(
-        'version', dashboard.version, this.versions);
+        'version', dashboard.version.toString(), this.versions);
 
     if (version == null) {
       throw new Error(
