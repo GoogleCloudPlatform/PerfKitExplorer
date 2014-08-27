@@ -47,17 +47,6 @@
   </script>
 
   <div>
-    <div>
-      <a  href="#"
-          class="perfkit-jfk-close-button perfkit-sidebar-close-button"
-          ng-click="queryEditorCtrl.dashboard.selectWidget(null, null)">
-      </a>
-    </div>
-
-    <div class="sidebar-group">
-      <div class="sidebar-group-title">Query Builder</div>
-    </div>
-
     <div ng-show="queryEditorCtrl.datasource.custom_query">
       <div class="sidebar-group">
         <div class="sidebar-group-note">Use the SQL Editor at the bottom of the page to provide
@@ -91,177 +80,186 @@
           Edit SQL
         </button>
       </div>
-      <div class="sidebar-group">
-        <div class="sidebar-group-title">Filters</div>
 
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">start date</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   popupbox
-                   popupbox-template-url="date_template.html"
-                   popupbox-model="queryEditorCtrl.datasource.config.filters.start_date"
-                   ng-model="queryEditorCtrl.datasource.config.filters.start_date.text">
-          </div>
-        </div>
+      <tabset justified="true">
 
-        <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.end_date">
-          <a ng-click="queryEditorCtrl.addEndDate()">add end date</a>
-        </div>
-        <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.filters.end_date">
-          <div class="sidebar-item-label">end date</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   popupbox
-                   popupbox-template-url="date_template.html"
-                   popupbox-model="queryEditorCtrl.datasource.config.filters.end_date"
-                   ng-model="queryEditorCtrl.datasource.config.filters.end_date.text">
-            <span class="glyphicon glyphicon-remove"
-                  ng-click="queryEditorCtrl.removeEndDate()"></span>
-          </div>
-        </div>
+        <tab heading="Filters">
 
-        <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.official != null">
-          <a ng-click="queryEditorCtrl.addOfficial()">add official filter</a>
-        </div>
-        <div class="sidebar-item"
-             ng-show="queryEditorCtrl.datasource.config.filters.official != null">
-          <div class="sidebar-item-label">official results</div>
-          <div class="sidebar-item-value">
-            <input type="checkbox"
-                   ng-model="queryEditorCtrl.datasource.config.filters.official"> official
-            <span class="glyphicon glyphicon-remove"
-                  ng-click="queryEditorCtrl.removeOfficial()"></span>
+          <div class="sidebar-group">
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">start date</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     popupbox
+                     popupbox-template-url="date_template.html"
+                     popupbox-model="queryEditorCtrl.datasource.config.filters.start_date"
+                     ng-model="queryEditorCtrl.datasource.config.filters.start_date.text">
+            </div>
           </div>
-        </div>
 
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">product</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   popupbox
-                   popupbox-template-url="picklist_template.html"
-                   popupbox-data="queryEditorCtrl.query.picklists['product_name']"
-                   popupbox-model="queryEditorCtrl.datasource.config.filters.product_name"
-                   ng-model="queryEditorCtrl.datasource.config.filters.product_name">
-            <span class="glyphicon glyphicon-refresh"
-                  ng-click="queryEditorCtrl.refreshPicklist('product_name')"></span>
+          <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.end_date">
+            <a ng-click="queryEditorCtrl.addEndDate()">add end date</a>
           </div>
-        </div>
-
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">test</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   popupbox
-                   popupbox-template-url="picklist_template.html"
-                   popupbox-data="queryEditorCtrl.query.picklists['test']"
-                   popupbox-model="queryEditorCtrl.datasource.config.filters.test"
-                   ng-model="queryEditorCtrl.datasource.config.filters.test">
-            <span class="glyphicon glyphicon-refresh"
-                  ng-click="queryEditorCtrl.refreshPicklist('test')"></span>
-          </div>
-        </div>
-
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">metric</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   popupbox
-                   popupbox-template-url="picklist_template.html"
-                   popupbox-data="queryEditorCtrl.query.picklists['metric']"
-                   popupbox-model="queryEditorCtrl.datasource.config.filters.metric"
-                   ng-model="queryEditorCtrl.datasource.config.filters.metric">
-            <span class="glyphicon glyphicon-refresh"
-                  ng-click="queryEditorCtrl.refreshPicklist('metric')"></span>
-          </div>
-        </div>
-
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">run by</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   popupbox
-                   popupbox-template-url="picklist_template.html"
-                   popupbox-data="queryEditorCtrl.query.picklists['owner']"
-                   popupbox-model="queryEditorCtrl.datasource.config.filters.runby"
-                   ng-model="queryEditorCtrl.datasource.config.filters.runby">
-            <span class="glyphicon glyphicon-refresh"
-                  ng-click="queryEditorCtrl.refreshPicklist('owner')"></span>
-          </div>
-        </div>
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">
-            metadata
-            <span class="glyphicon glyphicon-refresh"
-                  ng-click="queryEditorCtrl.refreshMetadata('metadata')"></span>
-          </div>
-          <div class="sidebar-item-value">
-            <span
-                multibox
-                multibox-display-prop="text"
-                multibox-focus-on-select="true"
-                multibox-data="queryEditorCtrl.query.picklists['metadata']"
-                multibox-on-insert-option="queryEditorCtrl.addMetadataFilter()"
-                multibox-selected-options="queryEditorCtrl.datasource.config.filters.metadata"
-                multibox-template-url="metadata_picker.template">
-            </span>
-          </div>
-          <script type="text/ng-template" id="metadata_picker.template">
-            <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
-              <input
-                  class="multibox-input-control form-control sidebar-input-full"
-                  ng-model="option.text"
-                  ng-blur="blurInput($event)"
-                  ng-focus="focusInput($event, option)">
+          <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.filters.end_date">
+            <div class="sidebar-item-label">end date</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     popupbox
+                     popupbox-template-url="date_template.html"
+                     popupbox-model="queryEditorCtrl.datasource.config.filters.end_date"
+                     ng-model="queryEditorCtrl.datasource.config.filters.end_date.text">
               <span class="glyphicon glyphicon-remove"
-                    ng-click="unselectOptionAt($index)"></span>
+                    ng-click="queryEditorCtrl.removeEndDate()"></span>
             </div>
-            <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-              <input class="multibox-insert-control form-control sidebar-input-full"
-                  ng-click="addInput()" ng-focus="addInput()" readonly>
-            </div>
-            <div class="multibox-popup perfkit-popup" tabindex="-1"
-                  metadata-picker
-                  metadata-picker-data="multiboxData"
-                  metadata-picker-model="activeOption"
-                  metadata-picker-select-value="hidePopup">
-            </div>
-          </script>
-        </div>
-      </div>
+          </div>
 
-      <div class="sidebar-group">
-        <div class="sidebar-group-title">Columns</div>
+          <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.official != null">
+            <a ng-click="queryEditorCtrl.addOfficial()">add official filter</a>
+          </div>
+          <div class="sidebar-item"
+               ng-show="queryEditorCtrl.datasource.config.filters.official != null">
+            <div class="sidebar-item-label">official results</div>
+            <div class="sidebar-item-value">
+              <input type="checkbox"
+                     ng-model="queryEditorCtrl.datasource.config.filters.official"> official
+              <span class="glyphicon glyphicon-remove"
+                    ng-click="queryEditorCtrl.removeOfficial()"></span>
+            </div>
+          </div>
 
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">grouping</div>
-          <div class="sidebar-item-value">
-            <select id="filter-date-grouping" class="sidebar-input-full form-control"
-                    ng-model="queryEditorCtrl.datasource.config.results.date_group">
-              <option selected value="OneGroup">Group all samples</option>
-              <option value="Details">Show individual samples</option>
-              <option value="Daily">Group samples by day</option>
-              <option value="Weekly">Group samples by week</option>
-            </select>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">product</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     popupbox
+                     popupbox-template-url="picklist_template.html"
+                     popupbox-data="queryEditorCtrl.query.picklists['product_name']"
+                     popupbox-model="queryEditorCtrl.datasource.config.filters.product_name"
+                     ng-model="queryEditorCtrl.datasource.config.filters.product_name">
+              <span class="glyphicon glyphicon-refresh"
+                    ng-click="queryEditorCtrl.refreshPicklist('product_name')"></span>
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">test</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     popupbox
+                     popupbox-template-url="picklist_template.html"
+                     popupbox-data="queryEditorCtrl.query.picklists['test']"
+                     popupbox-model="queryEditorCtrl.datasource.config.filters.test"
+                     ng-model="queryEditorCtrl.datasource.config.filters.test">
+              <span class="glyphicon glyphicon-refresh"
+                    ng-click="queryEditorCtrl.refreshPicklist('test')"></span>
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">metric</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     popupbox
+                     popupbox-template-url="picklist_template.html"
+                     popupbox-data="queryEditorCtrl.query.picklists['metric']"
+                     popupbox-model="queryEditorCtrl.datasource.config.filters.metric"
+                     ng-model="queryEditorCtrl.datasource.config.filters.metric">
+              <span class="glyphicon glyphicon-refresh"
+                    ng-click="queryEditorCtrl.refreshPicklist('metric')"></span>
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">run by</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     popupbox
+                     popupbox-template-url="picklist_template.html"
+                     popupbox-data="queryEditorCtrl.query.picklists['owner']"
+                     popupbox-model="queryEditorCtrl.datasource.config.filters.runby"
+                     ng-model="queryEditorCtrl.datasource.config.filters.runby">
+              <span class="glyphicon glyphicon-refresh"
+                    ng-click="queryEditorCtrl.refreshPicklist('owner')"></span>
+            </div>
+          </div>
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">
+              metadata
+              <span class="glyphicon glyphicon-refresh"
+                    ng-click="queryEditorCtrl.refreshMetadata('metadata')"></span>
+            </div>
+            <div class="sidebar-item-value">
+              <span
+                  multibox
+                  multibox-display-prop="text"
+                  multibox-focus-on-select="true"
+                  multibox-data="queryEditorCtrl.query.picklists['metadata']"
+                  multibox-on-insert-option="queryEditorCtrl.addMetadataFilter()"
+                  multibox-selected-options="queryEditorCtrl.datasource.config.filters.metadata"
+                  multibox-template-url="metadata_picker.template">
+              </span>
+            </div>
+            <script type="text/ng-template" id="metadata_picker.template">
+              <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
+                <input
+                    class="multibox-input-control form-control sidebar-input-full"
+                    ng-model="option.text"
+                    ng-blur="blurInput($event)"
+                    ng-focus="focusInput($event, option)">
+                <span class="glyphicon glyphicon-remove"
+                      ng-click="unselectOptionAt($index)"></span>
+              </div>
+              <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
+                <input class="multibox-insert-control form-control sidebar-input-full"
+                    ng-click="addInput()" ng-focus="addInput()" readonly>
+              </div>
+              <div class="multibox-popup perfkit-popup" tabindex="-1"
+                    metadata-picker
+                    metadata-picker-data="multiboxData"
+                    metadata-picker-model="activeOption"
+                    metadata-picker-select-value="hidePopup">
+              </div>
+            </script>
           </div>
         </div>
 
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">labels</div>
-          <div class="sidebar-item-value">
-            <span
-                multibox
-                multibox-display-prop="label"
-                multibox-focus-on-select="true"
-                multibox-data="queryEditorCtrl.query.picklists['metadata']"
-                multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
-                multibox-selected-options="queryEditorCtrl.datasource.config.results.labels"
-                multibox-template-url="label_picker.template">
-            </span>
+        </tab>
+
+        <tab heading="Results">
+
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">Columns</div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">grouping</div>
+              <div class="sidebar-item-value">
+                <select id="filter-date-grouping" class="sidebar-input-full form-control"
+                        ng-model="queryEditorCtrl.datasource.config.results.date_group">
+                  <option selected value="OneGroup">Group all samples</option>
+                  <option value="Details">Show individual samples</option>
+                  <option value="Daily">Group samples by day</option>
+                  <option value="Weekly">Group samples by week</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">labels</div>
+              <div class="sidebar-item-value">
+                <span
+                    multibox
+                    multibox-display-prop="label"
+                    multibox-focus-on-select="true"
+                    multibox-data="queryEditorCtrl.query.picklists['metadata']"
+                    multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
+                    multibox-selected-options="queryEditorCtrl.datasource.config.results.labels"
+                    multibox-template-url="label_picker.template">
+                </span>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        </tab>
+      </tabset>
       <div class="sidebar-group">
         <button type="button" class="btn btn-primary"
                 ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
