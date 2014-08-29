@@ -7,7 +7,7 @@
     </div>
   </script>
 
-  <!-- Custom template for the label picker when choosing labels to show as columns. -->
+  <!-- Custom template for generic field picklists (such as Product). -->
   <script type="text/ng-template" id="picklist_template.html">
     <div class="perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
       <div class="perfkit-popup-item"
@@ -20,7 +20,31 @@
     </div>
   </script>
 
-  <!-- Custom template for the label picker when filtering on values. -->
+  <!-- Custom template for the label-value picker. -->
+  <script type="text/ng-template" id="metadata_picker.template">
+    <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
+      <input
+          class="multibox-input-control form-control sidebar-input-full"
+          ng-model="option.text"
+          ng-blur="blurInput($event)"
+          ng-focus="focusInput($event, option)">
+      <span class="glyphicon glyphicon-remove"
+            ng-click="unselectOptionAt($index)"></span>
+    </div>
+    <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
+      <input class="multibox-insert-control form-control sidebar-input-full"
+          ng-click="addInput()" ng-focus="addInput()" readonly>
+    </div>
+    <div class="multibox-popup perfkit-popup" tabindex="-1">
+      <div metadata-picker
+           metadata-picker-data="multiboxData"
+           metadata-picker-model="activeOption"
+           metadata-picker-select-value="hidePopup">
+      </div>
+    </div>
+  </script>
+
+  <!-- Custom template for the label picker when translating labels to columns. -->
   <script type="text/ng-template" id="label_picker.template">
     <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
       <input
@@ -68,19 +92,6 @@
     </div>
 
     <div ng-hide="queryEditorCtrl.datasource.custom_query">
-      <div class="sidebar-group">
-        <div class="sidebar-group-note">Use the controls below to create a basic query against
-          the Perfkit Samples Mart.</div>
-        <button type="button" class="btn btn-primary"
-                ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
-          Refresh
-        </button>
-        <button type="button" class="btn btn-default"
-                ng-click="queryEditorCtrl.explorer.customizeSql()">
-          Edit SQL
-        </button>
-      </div>
-
       <tabset justified="true">
 
         <tab heading="Filters">
@@ -199,27 +210,6 @@
                   multibox-template-url="metadata_picker.template">
               </span>
             </div>
-            <script type="text/ng-template" id="metadata_picker.template">
-              <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
-                <input
-                    class="multibox-input-control form-control sidebar-input-full"
-                    ng-model="option.text"
-                    ng-blur="blurInput($event)"
-                    ng-focus="focusInput($event, option)">
-                <span class="glyphicon glyphicon-remove"
-                      ng-click="unselectOptionAt($index)"></span>
-              </div>
-              <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-                <input class="multibox-insert-control form-control sidebar-input-full"
-                    ng-click="addInput()" ng-focus="addInput()" readonly>
-              </div>
-              <div class="multibox-popup perfkit-popup" tabindex="-1"
-                    metadata-picker
-                    metadata-picker-data="multiboxData"
-                    metadata-picker-model="activeOption"
-                    metadata-picker-select-value="hidePopup">
-              </div>
-            </script>
           </div>
         </div>
 

@@ -57,7 +57,7 @@ var explorer = p3rf.perfkit.explorer;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 var DatasourceModel = explorer.models.DatasourceModel;
-var QueryConfigModel = explorer.models.QueryConfigModel;
+var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 
