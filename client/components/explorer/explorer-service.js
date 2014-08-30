@@ -73,6 +73,12 @@ explorer.components.explorer.ExplorerService = function(
   this.model = new ExplorerModel();
 
   /**
+   * @type {!string}
+   * @export
+   */
+  this.CURRENT_USER_ADMIN = CURRENT_USER_ADMIN;
+
+  /**
    * @type {Array.<*>}
    * @export
    */

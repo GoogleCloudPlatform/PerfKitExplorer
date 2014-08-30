@@ -116,6 +116,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
             }
           }, true);
 
+      scope.displayProp = attrs['multiboxDisplayProp'];
+
       /**
        * Called when the insertion row is focused.  This causes a new option
        * to be created and focused.
@@ -185,6 +187,15 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
                 activeInput === scope.getLastInputElement() &&
                 activeInput &&
                 activeInput.value === '');
+      };
+
+      scope.selectValue = function(value) {
+        if (scope.activeOption) {
+          scope.activeOption[scope.displayProp] = value;
+          scope.hidePopup();
+        } else {
+          console.log('selectValue called, but no activeOption found.');
+        }
       };
 
       /**

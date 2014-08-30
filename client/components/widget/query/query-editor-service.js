@@ -28,6 +28,7 @@ goog.require('p3rf.perfkit.explorer.dateUtil');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartFields');
 goog.require('goog.Uri');
 
 
@@ -43,6 +44,7 @@ var QueryDateGroupings =
     explorer.models.perfkit_simple_builder.QueryDateGroupings;
 var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 var QueryProperties = explorer.components.query_builder.QueryProperties;
+var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
 var FieldCubeDataService = (
     explorer.components.widget.query.FieldCubeDataService);
 
@@ -60,15 +62,29 @@ explorer.components.widget.query.QueryEditorService = function(
   /**
    * Service for providing field autocomplete.
    * @type {!FieldCubeDataService}
-   * @expose
+   * @export
    */
   this.autocomplete_data = fieldCubeDataService;
+
+  /**
+   * List of available date groupings.
+   * @type {!Array.<!string>}
+   * @export
+   */
+  this.date_groupings = QueryDateGroupings;
+
+  /**
+   * List of available fields.
+   * @type {!Array.<!string>}
+   * @export
+   */
+  this.samples_mart_fields = SamplesMartFields;
 
   /**
    * Cache of picklists.
    *
    * @type {*}
-   * @expose
+   * @export
    */
   this.picklists = {
     'product_name': [],
