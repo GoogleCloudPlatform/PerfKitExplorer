@@ -15,6 +15,7 @@ goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigMod
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartFields');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartMeasures');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
@@ -104,6 +105,27 @@ var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields
 
 
 /**
+ * Constants describing the types of measures applied to values.
+ * @export
+ */
+explorer.models.perfkit_simple_builder.SamplesMartMeasures = {
+  MIN: 'MIN',
+  MAX: 'MAX',
+  AVG: 'AVG',
+  STDDEV: 'STDDEV',
+  COUNT: 'COUNT',
+  LAST: 'LAST',
+  MEAN: 'MEAN',
+  SUM: 'SUM',
+  VARIANCE: 'VARIANCE',
+  PCT_50: '50%',
+  PCT_99: '99%',
+  PCT_9999: '99.99%'
+};
+var SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
+
+
+/**
  * @enum {string}
  */
 explorer.models.perfkit_simple_builder.QueryShapes = {
@@ -126,16 +148,31 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   this.show_date = false;
 
   /**
-   * @type {QueryDateGroupings}
+   * @type {!QueryDateGroupings}
    * @export
    */
   this.date_group = QueryDateGroupings.NONE;
 
   /**
-   * @type {Array.<!FieldResult>}
+   * @type {!Array.<!FieldResult>}
    * @export
    */
   this.fields = [];
+
+  /**
+   * @type {!boolean}
+   * @export
+   */
+  this.measure_values = false;
+
+  /**
+   * A list of 'name' objects where name is a string describing the measure.
+   * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as well
+   * as percentiles (99%, etc.).
+   * @type {Array.<!FieldResult>}
+   * @export
+   */
+  this.measures = [];
 
   /**
    * @type {Array.<!LabelResult>}

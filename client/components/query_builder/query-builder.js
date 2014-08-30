@@ -179,10 +179,27 @@ QueryBuilder.buildSelectArgs = function(queryProperties) {
   // is upper-cased, while the returned field name is lower-case.
   if (queryProperties.aggregations.length != 0) {
     for (var j = 0, len = queryProperties.aggregations.length; j < len; j++) {
-      selectArgs.push(
-          queryProperties.aggregations[j].toUpperCase() +
-          '(value) AS ' +
-          queryProperties.aggregations[j].toLowerCase());
+      var aggregation = queryProperties.aggregations[j];
+
+      if (aggregation.substr(aggregation.length - 1, 1) == '%') {
+        var percentile = parseFloat(aggregation.substr(0, aggregation.length - 1));
+        var decimal_place = aggregation.indexOf('.');
+        var multiplier = 100;
+
+        if (decimal_place > -1) {
+          var magnitude = aggregation.length - decimal_place;
+          multiplier = multiplier * (10 ^ magnitude);
+        }
+
+        var column_name = 'p' + aggregation.replace('.', '_').replace('%', '');
+
+        selectArgs.push('NTH(50, QUANTILES(value, ' + multiplier + ')) AS ' + column_name);
+      } else {
+        selectArgs.push(
+                queryProperties.aggregations[j].toUpperCase() +
+                '(value) AS ' +
+                queryProperties.aggregations[j].toLowerCase());
+      }
     }
   }
 

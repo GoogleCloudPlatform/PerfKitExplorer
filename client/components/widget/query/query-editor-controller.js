@@ -393,11 +393,20 @@ QueryEditorCtrl.prototype.addMetadataFilter = function() {
 
 
 /**
- * Adds a new option to the metadata list.
+ * Adds a new option to the field list.
  * @export
  */
 QueryEditorCtrl.prototype.addFieldColumn = function() {
   this.datasource.config.results.fields.push(new FieldResult());
+};
+
+
+/**
+ * Adds a new option to the measure list.
+ * @export
+ */
+QueryEditorCtrl.prototype.addMeasureColumn = function() {
+  this.datasource.config.results.measures.push(new FieldResult());
 };
 
 

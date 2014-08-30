@@ -231,6 +231,10 @@ var VERSIONS = [
             widget.datasource.config.results.fields = [];
           }
 
+          if (!goog.isDef(widget.datasource.config.results.measures)) {
+            widget.datasource.config.results.measures = [];
+          }
+
           widgetCtr++;
         }
         containerCtr++;

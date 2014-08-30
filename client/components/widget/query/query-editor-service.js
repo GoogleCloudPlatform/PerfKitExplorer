@@ -29,6 +29,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnMod
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartFields');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartMeasures');
 goog.require('goog.Uri');
 
 
@@ -45,6 +46,7 @@ var QueryDateGroupings =
 var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 var QueryProperties = explorer.components.query_builder.QueryProperties;
 var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
+var SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
 var FieldCubeDataService = (
     explorer.components.widget.query.FieldCubeDataService);
 
@@ -79,6 +81,13 @@ explorer.components.widget.query.QueryEditorService = function(
    * @export
    */
   this.samples_mart_fields = SamplesMartFields;
+
+  /**
+   * List of available measures to use on values.
+   * @type {!Array.<!string>}
+   * @export
+   */
+  this.samples_mart_measures = SamplesMartMeasures;
 
   /**
    * Cache of picklists.

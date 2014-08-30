@@ -291,15 +291,13 @@ QueryBuilderService.prototype.getSql = function(model) {
 
   var aggregations = [];
 
-  if (model.results.date_group != 'Details') {
+  if (model.results.date_group != '') {
     // TODO: Add UX to control which aggregations are performed.
-    aggregations = [
-      Aggregation.MIN,
-      Aggregation.AVERAGE,
-      Aggregation.MAX,
-      Aggregation.STDDEV,
-      Aggregation.VARIANCE,
-      Aggregation.COUNT];
+    aggregations = [];
+
+    angular.forEach(model.results.measures, function(measure) {
+      aggregations.push(measure.name);
+    });
   } else {
     fieldFilters.push(this.createSimpleFilter('value'));
     fieldFilters.push(this.createSimpleFilter('log_uri'));
