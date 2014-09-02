@@ -213,38 +213,53 @@ QueryBuilderService.prototype.getSql = function(model) {
   endDateClause && fieldFilters.push(
       new Filter('timestamp', [endDateClause], Filter.DisplayMode.HIDDEN));
 
-  fieldFilters.push(
-      this.createSimpleFilter('product_name', [model.filters.product_name]),
-      this.createSimpleFilter('test', [model.filters.test]),
-      this.createSimpleFilter('metric', [model.filters.metric]),
-      this.createSimpleFilter('owner', [model.filters.runby]));
+  model.filters.product_name && fieldFilters.push(
+      this.createSimpleFilter('product_name', [model.filters.product_name], null, Filter.DisplayMode.HIDDEN));
+
+  model.filters.test && fieldFilters.push(
+      this.createSimpleFilter('test', [model.filters.test], null, Filter.DisplayMode.HIDDEN));
+
+  model.filters.metric && fieldFilters.push(
+      this.createSimpleFilter('metric', [model.filters.metric], null, Filter.DisplayMode.HIDDEN));
+
+  model.filters.runby && fieldFilters.push(
+      this.createSimpleFilter('runby', [model.filters.runby], null, Filter.DisplayMode.HIDDEN));
 
   var fieldSortOrders = [];
 
-  switch (model.results.date_group) {
-    case 'Details':
-      fieldFilters.push(this.createSimpleFilter(
-          'SEC_TO_TIMESTAMP(INTEGER(timestamp))',
-          null, null, null, 'date'));
-      break;
-    case 'Daily':
-      fieldFilters.push(this.createSimpleFilter(
-          ('USEC_TO_TIMESTAMP(UTC_USEC_TO_DAY(INTEGER(timestamp * ' +
-          dateUtil.BQ_TIMESTAMP_MULTIPLIER + ')))'),
-          null, null, null, 'date'));
-      break;
-    case 'Weekly':
-      fieldFilters.push(this.createSimpleFilter(
-          ('USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * ' +
-          dateUtil.BQ_TIMESTAMP_MULTIPLIER + '), 0))'),
-          null, null, null, 'date'));
-      break;
+  angular.forEach(model.results.fields, angular.bind(this, function(field) {
+    fieldFilters.push(
+        new Filter(field.name, [], Filter.DisplayMode.COLUMN));
+  }));
+
+  if (model.results.show_date === true) {
+    switch (model.results.date_group.toUpperCase()) {
+      case '':
+        fieldFilters.push(this.createSimpleFilter(
+            'SEC_TO_TIMESTAMP(INTEGER(timestamp))',
+            null, null, null, 'date'));
+        break;
+      case 'WEEK':
+        fieldFilters.push(this.createSimpleFilter(
+            ('USEC_TO_TIMESTAMP(UTC_USEC_TO_WEEK(INTEGER(timestamp * ' +
+             dateUtil.BQ_TIMESTAMP_MULTIPLIER + '), ' +
+             dateUtil.BQ_FIRST_DAY_OF_WEEK + '))'),
+            null, null, null, 'date'));
+        break;
+      default:
+        fieldFilters.push(this.createSimpleFilter(
+            ('USEC_TO_TIMESTAMP(UTC_USEC_TO_' + model.results.date_group.toUpperCase() +
+             '(INTEGER(timestamp * ' +
+             dateUtil.BQ_TIMESTAMP_MULTIPLIER + ')))'),
+            null, null, null, 'date'));
+        break;
+    }
   }
 
   if (!model.filters.product_name) { fieldSortOrders.push('product_name'); }
   if (!model.filters.test) { fieldSortOrders.push('test'); }
   if (!model.filters.metric) { fieldSortOrders.push('metric'); }
-  if (model.results.date_group != 'OneGroup') {
+  if (model.results.show_date) {
     fieldSortOrders.push('date');
   }
 

@@ -27,6 +27,12 @@ dateUtil.BQ_TIMESTAMP_MULTIPLIER = 1000000;
 
 
 /**
+ * First day of week when doing weekly aggregations.  Defaults to 0 (Sunday).
+ * @type {number} */
+dateUtil.BQ_FIRST_DAY_OF_WEEK = 0;
+
+
+/**
  * Returns the first second of the day (in UTC seconds since epoch) based on
  * a Date.
  * @param {goog.date.Date} value A Date that will be converted.
