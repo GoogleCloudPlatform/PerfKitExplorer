@@ -93,7 +93,7 @@ var QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupin
  * @export
  */
 explorer.models.perfkit_simple_builder.SamplesMartFields = {
-  RUNBY: 'runby',
+  RUNBY: 'owner',
   PRODUCT: 'product_name',
   TEST: 'test',
   METRIC: 'metric',
