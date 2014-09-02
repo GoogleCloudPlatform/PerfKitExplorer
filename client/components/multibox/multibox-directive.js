@@ -119,6 +119,48 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
       scope.displayProp = attrs['multiboxDisplayProp'];
 
       /**
+       * Returns a boolean value depending on whether the option text starts with (or is equal to) the text value.
+       * @param text The text in the active input.
+       * @param option The option being evaluated.
+       * @return bool
+       */
+      scope.isOptionUnmatched = function(text, option) {
+        if (!text || text.length == 0) {
+          return false;
+        } else {
+          return (option.slice(0, text.length).toUpperCase() != text.toUpperCase());
+        }
+      };
+
+      /**
+       * Returns a boolean value depending on whether the option text starts with (or is equal to) the text value.
+       * @param text The text in the active input.
+       * @param option The option being evaluated.
+       * @return bool
+       */
+      scope.isOptionMatched = function(text, option) {
+        if (!text || text.length == 0) {
+          return false;
+        } else {
+          return (option.slice(0, text.length).toUpperCase() == text.toUpperCase());
+        }
+      };
+
+      /**
+       * Returns a boolean value depending on whether the option is equal to the input value.
+       * @param text The text in the active input.
+       * @param option The option being evaluated.
+       * @return bool
+       */
+      scope.isOptionSelected = function(text, option) {
+        if (!text || text.length == 0) {
+          return false;
+        } else {
+          return (option.toUpperCase() == text.toUpperCase());
+        }
+      };
+
+      /**
        * Called when the insertion row is focused.  This causes a new option
        * to be created and focused.
        */
