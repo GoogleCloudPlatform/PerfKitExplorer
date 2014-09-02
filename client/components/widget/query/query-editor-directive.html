@@ -24,35 +24,6 @@
     </div>
   </script>
 
-  <!-- Custom template for the field picker when configuring results. -->
-  <script type="text/ng-template" id="field_picker.template">
-    <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
-      <input
-          class="multibox-input-control form-control sidebar-input-full"
-          placeholder="field name"
-          ng-model="option[displayProp]"
-          ng-blur="blurInput($event)"
-          ng-focus="focusInput($event, option)">
-      <span class="glyphicon glyphicon-remove"
-            ng-click="unselectOptionAt($index)"></span>
-    </div>
-    <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-      <input class="multibox-insert-control form-control sidebar-input-full"
-          ng-click="addInput()" ng-focus="addInput()" readonly>
-    </div>
-    <div class="multibox-popup perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
-      <div class="perfkit-popup-item"
-           ng-class="{
-              'perfkit-popup-item-unmatched': isOptionUnmatched(activeOption[displayProp], data),
-              'perfkit-popup-item-matched': isOptionMatched(activeOption[displayProp], data),
-              'perfkit-popup-item-selected': isOptionSelected(activeOption[displayProp], data)}"
-           ng-repeat="data in multiboxData"
-           ng-click="selectValue(data)">
-        {{ data }}
-      </div>
-    </div>
-  </script>
-
   <!-- Custom template for the label picker when filtering on values. -->
   <script type="text/ng-template" id="metadata_picker.template">
     <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
@@ -272,8 +243,7 @@
                       multibox-focus-on-select="true"
                       multibox-data="queryEditorCtrl.query.samples_mart_fields"
                       multibox-on-insert-option="queryEditorCtrl.addFieldColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.fields"
-                      multibox-template-url="field_picker.template">
+                      multibox-selected-options="queryEditorCtrl.datasource.config.results.fields">
                   </span>
                 </div>
               </div>
@@ -287,8 +257,7 @@
                       multibox-focus-on-select="true"
                       multibox-data="queryEditorCtrl.query.picklists['metadata']"
                       multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.labels"
-                      multibox-template-url="field_picker.template">
+                      multibox-selected-options="queryEditorCtrl.datasource.config.results.labels">
                   </span>
                 </div>
               </div>
