@@ -21,6 +21,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
@@ -104,6 +105,8 @@ explorer.application.module.service('dashboardService',
     explorer.components.dashboard.DashboardService);
 explorer.application.module.service('dashboardVersionService',
     explorer.components.dashboard.DashboardVersionService);
+explorer.application.module.service('errorService',
+    explorer.components.error.ErrorService);
 explorer.application.module.service('queryEditorService',
     explorer.components.widget.query.QueryEditorService);
 explorer.application.module.service('queryResultDataService',

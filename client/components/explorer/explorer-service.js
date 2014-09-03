@@ -13,6 +13,7 @@ goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerModel');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('goog.array');
@@ -25,6 +26,7 @@ var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;
+var ErrorService = explorer.components.error.ErrorService;
 var ExplorerModel = explorer.components.explorer.ExplorerModel;
 
 
@@ -39,7 +41,7 @@ var ExplorerModel = explorer.components.explorer.ExplorerModel;
  * @ngInject
  */
 explorer.components.explorer.ExplorerService = function(
-    arrayUtilService, dashboardDataService, dashboardService, $location) {
+    arrayUtilService, dashboardDataService, dashboardService, errorService, $location) {
   /**
    * @type {!ArrayUtilService}
    * @private
@@ -54,6 +56,12 @@ explorer.components.explorer.ExplorerService = function(
 
   /** @private */
   this.location_ = $location;
+
+  /**
+   * @type {!ErrorService}
+   * @export
+   */
+  this.errorService = errorService;
 
   /**
    * @type {!boolean}

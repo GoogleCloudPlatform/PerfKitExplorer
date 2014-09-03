@@ -18,6 +18,7 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
@@ -30,6 +31,7 @@ var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
+var ErrorService = explorer.components.error.ErrorService;
 var WidgetConfig = explorer.models.WidgetConfig;
 var WidgetType = explorer.models.WidgetType;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
@@ -47,12 +49,18 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @ngInject
  */
 explorer.components.dashboard.DashboardDataService = function(
-    $http, $cacheFactory, $q, widgetFactoryService) {
+    errorService, $http, $cacheFactory, $q, widgetFactoryService) {
   /**
    * @type {!angular.$http}
    * @private
    */
   this.http_ = $http;
+
+  /**
+   * @type {!ErrorService}
+   * @private
+   */
+  this.errorService_ = errorService;
 
   /**
    * @type {!Object}

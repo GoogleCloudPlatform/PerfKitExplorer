@@ -94,12 +94,23 @@ var QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupin
  * @export
  */
 explorer.models.perfkit_simple_builder.SamplesMartFields = {
-  RUNBY: 'owner',
-  PRODUCT: 'product_name',
   TEST: 'test',
+  TARGET: 'target',
+  PRODUCT_NAME: 'product_name',
+  PRODUCT_VERSION: 'product_version',
+  PRODUCT_BRANCH_CL: 'product_branch_cl',
+  PRODUCT_CHERRY_PICK_CLS: 'product_cherry_pick_cls',
+  TEST_VERSION: 'test_version',
+  OWNER: 'owner',
+  LOG_URI: 'log_uri',
+  RUN_URI: 'run_uri',
+  LABELS: 'labels',
   METRIC: 'metric',
-  OFFICIAL: 'official',
-  LABELS: 'labels'
+  VALUE: 'value',
+  UNIT: 'unit',
+  TIMESTAMP: 'timestamp',
+  METRIC_URI: 'metric_uri',
+  SAMPLE_URI: 'sample_uri'
 };
 var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
 
