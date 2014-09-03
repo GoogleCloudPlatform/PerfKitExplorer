@@ -260,8 +260,24 @@
                       multibox-focus-on-select="true"
                       multibox-data="queryEditorCtrl.query.samples_mart_measures"
                       multibox-on-insert-option="queryEditorCtrl.addMeasureColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.measures"
-                      multibox-template-url="field_picker.template">
+                      multibox-selected-options="queryEditorCtrl.datasource.config.results.measures">
+                  </span>
+                </div>
+              </div>
+
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">
+                  <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.measure_values">
+                  measure values
+                </div>
+                <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
+                  <span
+                      multibox
+                      multibox-display-prop="name"
+                      multibox-focus-on-select="true"
+                      multibox-data="queryEditorCtrl.query.samples_mart_measures"
+                      multibox-on-insert-option="queryEditorCtrl.addMeasureColumn()"
+                      multibox-selected-options="queryEditorCtrl.datasource.config.results.measures">
                   </span>
                 </div>
               </div>
