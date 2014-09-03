@@ -211,92 +211,6 @@
             </div>
 
             <div class="sidebar-group">
-              <div class="sidebar-group-title">Columns</div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">
-                  <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.show_date">
-                  show date
-                </div>
-              </div>
-
-              <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.results.show_date">
-                <div class="sidebar-item-label">
-                  grouping (blank for none)
-                </div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-template-url="picklist_template.html"
-                         popupbox-data="queryEditorCtrl.query.date_groupings"
-                         popupbox-model="queryEditorCtrl.datasource.config.results.date_group"
-                         ng-model="queryEditorCtrl.datasource.config.results.date_group">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">fields</div>
-                <div class="sidebar-item-value">
-                  <span
-                      multibox
-                      multibox-display-prop="name"
-                      multibox-focus-on-select="true"
-                      multibox-data="queryEditorCtrl.query.samples_mart_fields"
-                      multibox-on-insert-option="queryEditorCtrl.addFieldColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.fields">
-                  </span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">
-                  <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.measure_values">
-                  measure values
-                </div>
-                <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
-                  <span
-                      multibox
-                      multibox-display-prop="name"
-                      multibox-focus-on-select="true"
-                      multibox-data="queryEditorCtrl.query.samples_mart_measures"
-                      multibox-on-insert-option="queryEditorCtrl.addMeasureColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.measures">
-                  </span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">
-                  <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.measure_values">
-                  measure values
-                </div>
-                <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
-                  <span
-                      multibox
-                      multibox-display-prop="name"
-                      multibox-focus-on-select="true"
-                      multibox-data="queryEditorCtrl.query.samples_mart_measures"
-                      multibox-on-insert-option="queryEditorCtrl.addMeasureColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.measures">
-                  </span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">labels</div>
-                <div class="sidebar-item-value">
-                  <span
-                      multibox
-                      multibox-display-prop="label"
-                      multibox-focus-on-select="true"
-                      multibox-data="queryEditorCtrl.query.picklists['metadata']"
-                      multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.results.labels">
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div class="sidebar-group">
               <button type="button" class="btn btn-primary"
                       ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
                 Refresh
@@ -313,6 +227,76 @@
 
       <tab heading="Results">
         <div>
+          <div class="sidebar-group" ng-show="!queryEditorCtrl.datasource.custom_query">
+            <div class="sidebar-group-title">Columns</div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">
+                <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.show_date">
+                show date
+              </div>
+            </div>
+
+            <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.results.show_date">
+              <div class="sidebar-item-label">
+                grouping (blank for none)
+              </div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       popupbox
+                       popupbox-template-url="picklist_template.html"
+                       popupbox-data="queryEditorCtrl.query.date_groupings"
+                       popupbox-model="queryEditorCtrl.datasource.config.results.date_group"
+                       ng-model="queryEditorCtrl.datasource.config.results.date_group">
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">fields</div>
+              <div class="sidebar-item-value">
+                <span
+                    multibox
+                    multibox-display-prop="name"
+                    multibox-focus-on-select="true"
+                    multibox-data="queryEditorCtrl.query.samples_mart_fields"
+                    multibox-on-insert-option="queryEditorCtrl.addFieldColumn()"
+                    multibox-selected-options="queryEditorCtrl.datasource.config.results.fields">
+                </span>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">
+                <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.measure_values">
+                measure values
+              </div>
+              <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
+                <span
+                    multibox
+                    multibox-display-prop="name"
+                    multibox-focus-on-select="true"
+                    multibox-data="queryEditorCtrl.query.samples_mart_measures"
+                    multibox-on-insert-option="queryEditorCtrl.addMeasureColumn()"
+                    multibox-selected-options="queryEditorCtrl.datasource.config.results.measures">
+                </span>
+              </div>
+            </div>
+
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">labels</div>
+              <div class="sidebar-item-value">
+                <span
+                    multibox
+                    multibox-display-prop="label"
+                    multibox-focus-on-select="true"
+                    multibox-data="queryEditorCtrl.query.picklists['metadata']"
+                    multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
+                    multibox-selected-options="queryEditorCtrl.datasource.config.results.labels">
+                </span>
+              </div>
+            </div>
+          </div>
+
           <div class="sidebar-group">
             <div class="sidebar-group-title">Results Shape</div>
 
@@ -322,34 +306,30 @@
                        ng-model="queryEditorCtrl.datasource.config.results.pivot"> pivot results
               </div>
             </div>
-          </div>
 
-          <div class="sidebar-group">
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">row field</div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       ng-model="queryEditorCtrl.datasource.config.results.pivot_config.row_field">
+            <div ng-show="queryEditorCtrl.datasource.config.results.pivot">
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">row field</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.row_field">
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div class="sidebar-group">
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">column field</div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       ng-model="queryEditorCtrl.datasource.config.results.pivot_config.column_field">
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">column field</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.column_field">
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div class="sidebar-group">
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">value field</div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       ng-model="queryEditorCtrl.datasource.config.results.pivot_config.value_field">
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">value field</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.value_field">
+                </div>
               </div>
             </div>
           </div>

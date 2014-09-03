@@ -187,13 +187,14 @@ QueryBuilder.buildSelectArgs = function(queryProperties) {
         var multiplier = 100;
 
         if (decimal_place > -1) {
-          var magnitude = aggregation.length - decimal_place;
-          multiplier = multiplier * (10 ^ magnitude);
+          var magnitude = aggregation.length - decimal_place - 2;
+          multiplier = multiplier * (Math.pow(10, magnitude));
         }
 
+        var nth_place = percentile.toString().replace('.', '');
         var column_name = 'p' + aggregation.replace('.', '_').replace('%', '');
 
-        selectArgs.push('NTH(50, QUANTILES(value, ' + multiplier + ')) AS ' + column_name);
+        selectArgs.push('NTH(' + nth_place + ', QUANTILES(value, ' + multiplier + ')) AS ' + column_name);
       } else {
         selectArgs.push(
                 queryProperties.aggregations[j].toUpperCase() +
