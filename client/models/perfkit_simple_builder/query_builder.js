@@ -291,8 +291,7 @@ QueryBuilderService.prototype.getSql = function(model) {
 
   var aggregations = [];
 
-  if (model.results.date_group != '') {
-    // TODO: Add UX to control which aggregations are performed.
+  if (model.results.measure_values) {
     aggregations = [];
 
     angular.forEach(model.results.measures, function(measure) {
@@ -300,7 +299,6 @@ QueryBuilderService.prototype.getSql = function(model) {
     });
   } else {
     fieldFilters.push(this.createSimpleFilter('value'));
-    fieldFilters.push(this.createSimpleFilter('log_uri'));
   }
 
   var queryProperties = new QueryProperties(
