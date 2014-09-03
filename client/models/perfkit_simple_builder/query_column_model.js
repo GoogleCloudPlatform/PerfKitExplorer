@@ -86,7 +86,7 @@ explorer.models.perfkit_simple_builder.QueryDateGroupings = {
   DAY: 'Day',
   HOUR: 'Hour'
 };
-var DateGroupType = explorer.models.perfkit_simple_builder.QueryDateGroupings;
+var QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
 
 
 /**
@@ -94,7 +94,7 @@ var DateGroupType = explorer.models.perfkit_simple_builder.QueryDateGroupings;
  * @export
  */
 explorer.models.perfkit_simple_builder.SamplesMartFields = {
-  RUNBY: 'runby',
+  RUNBY: 'owner',
   PRODUCT: 'product_name',
   TEST: 'test',
   METRIC: 'metric',
