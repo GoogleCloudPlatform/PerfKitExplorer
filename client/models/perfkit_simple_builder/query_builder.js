@@ -223,7 +223,7 @@ QueryBuilderService.prototype.getSql = function(model) {
       this.createSimpleFilter('metric', [model.filters.metric], null, Filter.DisplayMode.HIDDEN));
 
   model.filters.runby && fieldFilters.push(
-      this.createSimpleFilter('runby', [model.filters.runby], null, Filter.DisplayMode.HIDDEN));
+      this.createSimpleFilter('owner', [model.filters.runby], null, Filter.DisplayMode.HIDDEN));
 
   var fieldSortOrders = [];
 
