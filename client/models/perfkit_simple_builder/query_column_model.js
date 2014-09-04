@@ -9,10 +9,13 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartFields');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartMeasures');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
@@ -29,6 +32,18 @@ explorer.models.perfkit_simple_builder.LabelResult = function() {
   this.label = '';
 };
 var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
+
+
+/**
+ * Type definition for a label-result specifier.  Though it's a simple string,
+ * the wrapper is required for angular binding purposes.
+ * @constructor
+ */
+explorer.models.perfkit_simple_builder.FieldResult = function(name) {
+  /** @type {!string} */
+  this.name = name || '';
+};
+var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
 
 
 /**
@@ -60,16 +75,65 @@ var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 
 /**
- * @enum {string}
+ * Constants describing the types of filters applied to dates.
+ * @export
  */
 explorer.models.perfkit_simple_builder.QueryDateGroupings = {
-  ONEGROUP: 'OneGroup',
-  DETAILS: 'Details',
-  DAILY: 'Daily',
-  WEEKLY: 'Weekly'
+  NONE: '',
+  YEAR: 'Year',
+  MONTH: 'Month',
+  WEEK: 'Week',
+  DAY: 'Day',
+  HOUR: 'Hour'
 };
-var QueryDateGroupings =
-    explorer.models.perfkit_simple_builder.QueryDateGroupings;
+var QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
+
+
+/**
+ * Constants describing the types of filters applied to dates.
+ * @export
+ */
+explorer.models.perfkit_simple_builder.SamplesMartFields = {
+  TEST: 'test',
+  TARGET: 'target',
+  PRODUCT_NAME: 'product_name',
+  PRODUCT_VERSION: 'product_version',
+  PRODUCT_BRANCH_CL: 'product_branch_cl',
+  PRODUCT_CHERRY_PICK_CLS: 'product_cherry_pick_cls',
+  TEST_VERSION: 'test_version',
+  OWNER: 'owner',
+  LOG_URI: 'log_uri',
+  RUN_URI: 'run_uri',
+  LABELS: 'labels',
+  METRIC: 'metric',
+  VALUE: 'value',
+  UNIT: 'unit',
+  TIMESTAMP: 'timestamp',
+  METRIC_URI: 'metric_uri',
+  SAMPLE_URI: 'sample_uri'
+};
+var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
+
+
+/**
+ * Constants describing the types of measures applied to values.
+ * @export
+ */
+explorer.models.perfkit_simple_builder.SamplesMartMeasures = {
+  MIN: 'MIN',
+  MAX: 'MAX',
+  AVG: 'AVG',
+  STDDEV: 'STDDEV',
+  COUNT: 'COUNT',
+  LAST: 'LAST',
+  MEAN: 'MEAN',
+  SUM: 'SUM',
+  VARIANCE: 'VARIANCE',
+  PCT_50: '50%',
+  PCT_99: '99%',
+  PCT_9999: '99.99%'
+};
+var SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
 
 
 /**
@@ -89,10 +153,43 @@ var QueryShapes = explorer.models.perfkit_simple_builder.QueryShapes;
  */
 explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   /**
-   * @type {QueryDateGroupings}
+   * @type {!boolean}
    * @export
    */
-  this.date_group = QueryDateGroupings.ONEGROUP;
+  this.show_date = false;
+
+  /**
+   * @type {!QueryDateGroupings}
+   * @export
+   */
+  this.date_group = QueryDateGroupings.NONE;
+
+  /**
+   * @type {!Array.<!FieldResult>}
+   * @export
+   */
+  this.fields = [];
+
+  /**
+   * @type {!boolean}
+   * @export
+   */
+  this.measure_values = false;
+
+  /**
+   * A list of 'name' objects where name is a string describing the measure.
+   * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as well
+   * as percentiles (99%, etc.).
+   * @type {Array.<!FieldResult>}
+   * @export
+   */
+  this.measures = [];
+
+  /**
+   * @type {Array.<!LabelResult>}
+   * @export
+   */
+  this.labels = [];
 
   /**
    * @type {!boolean}
@@ -105,12 +202,6 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
    * @export
    */
   this.pivot_config = new PivotConfigModel();
-
-  /**
-   * @type {Array.<!LabelResult>}
-   * @export
-   */
-  this.labels = [];
 };
 
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;

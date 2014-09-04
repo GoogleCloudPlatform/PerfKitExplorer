@@ -151,9 +151,13 @@ QueryConfigModel.prototype.initializeDefaults = function() {
   // TODO: Refactor date picker so that 'text' is not required in the model.
   this.filters.start_date.text = 'last 2 weeks';
 
-  this.filters.official = null;
+  this.filters.official = true;
 
-  this.results.date_group = 'OneGroup';
+  this.results.show_date = true;
+  this.results.date_group = 'DAY';
+
+  this.results.measure_values = true;
+  this.results.measures.push('99%');
 };
 
 

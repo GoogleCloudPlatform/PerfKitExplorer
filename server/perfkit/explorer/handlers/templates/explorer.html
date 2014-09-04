@@ -51,6 +51,13 @@
 
 <div class="perfkit-page">
 
+  <div class="perfkit-page-alerts">
+    <alert ng-repeat="error in explorerCtrl.explorer.errorService.errors | limitTo:3"
+           type="error.errorType | lowercase"
+           close="explorerCtrl.explorer.errorService.removeErrorAt($index)">
+      {{ error.text }}</alert>
+  </div>
+
   <explorer-header></explorer-header>
 
   <div class="perfkit-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
@@ -140,6 +147,16 @@
                      type="text"
                      class="form-control"
                      ng-model="dashboardCtrl.dashboard.current.model.owner">
+            </div>
+          </div>
+
+          <div class="sidebar-item" ng-show="explorerCtrl.explorer.CURRENT_USER_ADMIN === true">
+            <div class="sidebar-item-label">version</div>
+            <div class="sidebar-item-value">
+              <input id="dashboard-id"
+                     type="text"
+                     class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.version">
             </div>
           </div>
         </div>

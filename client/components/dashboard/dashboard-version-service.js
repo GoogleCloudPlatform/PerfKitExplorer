@@ -42,6 +42,11 @@
  *                  pivot (boolean): If true, the data will be pivoted.
  *                  pivot_config (PivotConfigModel): Describes the column, row and
  *                  value fields for pivot transformation.
+ * v4   2014-May    Adds additional fields to datasource.config.results:
+ *                  show_date (boolean): If true, the date column will be displayed.
+ *                  date_group (string): Modified.  Now supports Hour, Day, Week,
+ *                  Month, Year.
+ *                  fields (Array.<string>): A list of fields to return.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -57,7 +62,7 @@ var explorer = p3rf.perfkit.explorer;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 var DatasourceModel = explorer.models.DatasourceModel;
-var QueryConfigModel = explorer.models.QueryConfigModel;
+var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 
@@ -140,14 +145,14 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
         if (version.verify(dashboard)) {
           return version;
         } else {
-          throw new Error(
+          console.log(
               'The model specifies v' + dashboard.version +
               ', but is not valid.');
         }
       } catch (err) {
-        throw new Error(
-            'The model specifies v' + dashboard.version +
-            ', but is not valid.');
+          console.log(
+              'The model specifies v' + dashboard.version +
+              ', but is not valid.');
       }
     }
   }
@@ -173,6 +178,69 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
  * @type {Array.<!DashboardVersionModel>}
  */
 var VERSIONS = [
+  {'version': '4',
+    'verify': function(dashboard) {
+      var rtnVal = true;
+
+      var containerCtr = 0;
+      while (containerCtr < dashboard.children.length) {
+        var container = dashboard.children[containerCtr];
+
+        var widgetCtr = 0;
+        while (widgetCtr < container.container.children.length) {
+          var widget = container.container.children[widgetCtr];
+
+          if (!goog.isDef(widget.datasource.config.results.show_date)) {
+            rtnVal = false;
+            break;
+          }
+          widgetCtr++;
+        }
+        containerCtr++;
+      }
+
+      return rtnVal;
+    },
+    'update': function(dashboard) {
+      // Apply updates to each widget.
+      var containerCtr = 0;
+      while (containerCtr < dashboard.children.length) {
+        var container = dashboard.children[containerCtr];
+
+        var widgetCtr = 0;
+        while (widgetCtr < container.container.children.length) {
+          var widget = container.container.children[widgetCtr];
+          if (!goog.isDef(widget.datasource.config.results.show_date)) {
+            var oldGrouping = widget.datasource.config.results.date_group;
+            widget.datasource.config.results.show_date = false;
+            widget.datasource.config.results.date_group = '';
+
+            switch (oldGrouping) {
+              case 'Daily':
+                widget.datasource.config.results.show_date = true;
+                widget.datasource.config.results.date_group = 'DAY';
+                break;
+              case 'Weekly':
+                widget.datasource.config.results.show_date = true;
+                widget.datasource.config.results.date_group = 'WEEK';
+                break;
+            }
+          }
+
+          if (!goog.isDef(widget.datasource.config.results.fields)) {
+            widget.datasource.config.results.fields = [];
+          }
+
+          if (!goog.isDef(widget.datasource.config.results.measures)) {
+            widget.datasource.config.results.measures = [];
+          }
+
+          widgetCtr++;
+        }
+        containerCtr++;
+      }
+    }
+  },
   {'version': '3',
     'verify': function(dashboard) {
       var rtnVal = true;

@@ -174,6 +174,7 @@ class SqlDataHandler(base.RequestHandlerBase):
 
       if config['results']['pivot']:
         pivot_config = config['results']['pivot_config']
+
         transformer = big_query_result_pivot.BigQueryPivotTransformer(
             reply=response,
             rows_name=pivot_config['row_field'],
@@ -189,7 +190,7 @@ class SqlDataHandler(base.RequestHandlerBase):
     # return JSON with descriptive text so that we can give the user a
     # constructive error message.
     # TODO: Formalize error reporting/handling across the application.
-    except big_query_client.BigQueryError as err:
+    except (big_query_client.BigQueryError, ValueError) as err:
       self.RenderJson({'error': err.message})
 
   def get(self):

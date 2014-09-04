@@ -13,18 +13,23 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
 goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var ErrorTypes = explorer.components.error.ErrorTypes;
+var ErrorService = explorer.components.error.ErrorService;
 
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
+ * @param {!ErrorService} errorService
  * @param {!angular.$http} $http
  * @param {angular.$cacheFactory} $cacheFactory
  * @param {!angular.$q} $q
@@ -33,7 +38,7 @@ var explorer = p3rf.perfkit.explorer;
  * @ngInject
  */
 explorer.components.widget.query.QueryResultDataService = function(
-    $http, $cacheFactory, $q, GvizDataTable) {
+    errorService, $http, $cacheFactory, $q, GvizDataTable) {
   /**
    * @type {!angular.$http}
    * @private
@@ -46,6 +51,12 @@ explorer.components.widget.query.QueryResultDataService = function(
    * @private
    */
   this.cache_ = $cacheFactory('queryResultDataServiceCache', {capacity: 10});
+
+  /**
+   * @type {!ErrorService}
+   * @private
+   */
+  this.errorService_ = errorService;
 
   /**
    * @type {!angular.$q}
@@ -167,6 +178,7 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
 
     promise.then(angular.bind(this, function(response) {
       if (response.data.error) {
+        this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
         var data = response['data']['results'];
@@ -180,6 +192,8 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
     }));
     // Error handling
     promise.then(null, angular.bind(this, function(response) {
+      this.errorService_.addError(ErrorTypes.DANGER, response.error || response.statusText);
+
       deferred.reject(response);
     }));
   }

@@ -18,6 +18,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService')
 goog.require('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
@@ -27,8 +28,10 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+var DateGroupings = explorer.models.perfkit_simple_builder.DateGroupings;
 var ExplorerService = explorer.components.explorer.ExplorerService;
 var DatasourceModel = explorer.models.DatasourceModel;
+var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
 var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 var QueryBuilderService =
@@ -77,6 +80,12 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
    * @export
    */
   this.explorer = explorerService;
+
+  /**
+   * @type {Array.<*>}
+   * @export
+   */
+  this.fields = [];
 
   /**
    * @type {!DashboardService}
@@ -380,6 +389,24 @@ QueryEditorCtrl.prototype.removeOfficial = function() {
  */
 QueryEditorCtrl.prototype.addMetadataFilter = function() {
   this.datasource.config.filters.metadata.push(new MetadataFilter());
+};
+
+
+/**
+ * Adds a new option to the field list.
+ * @export
+ */
+QueryEditorCtrl.prototype.addFieldColumn = function() {
+  this.datasource.config.results.fields.push(new FieldResult());
+};
+
+
+/**
+ * Adds a new option to the measure list.
+ * @export
+ */
+QueryEditorCtrl.prototype.addMeasureColumn = function() {
+  this.datasource.config.results.measures.push(new FieldResult());
 };
 
 
