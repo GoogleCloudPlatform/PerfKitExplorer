@@ -117,46 +117,77 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
           }, true);
 
       scope.displayProp = attrs['multiboxDisplayProp'];
+      scope.popupProp = attrs['multiboxPopupProp'];
+
+      /**
+       * Returns the string value for an option.
+       * @param option The option being evaluated.
+       * @returns {*} A string value, either a property of the option or the option itself.
+       */
+      scope.getPopupValue = function(option) {
+        return scope.popupProp ? option[scope.popupProp] : option;
+      };
+
+      /**
+       * Returns the string value for a displayed option
+       * @param displayOption The option being evaluated.
+       * @returns {*} A string value, either a property of the option or the option itself.
+       */
+      scope.getDisplayValue = function(displayOption) {
+        if (!displayOption) {
+          return null;
+        }
+        return scope.displayProp ? displayOption[scope.displayProp] : displayOption;
+      };
 
       /**
        * Returns a boolean value depending on whether the option text starts with (or is equal to) the text value.
-       * @param text The text in the active input.
-       * @param option The option being evaluated.
+       * @param displayOption The text in the active input.
+       * @param popupOption The option being evaluated.
        * @return bool
        */
-      scope.isOptionUnmatched = function(text, option) {
-        if (!text || text.length == 0) {
+      scope.isOptionUnmatched = function(displayOption, popupOption) {
+        var displayValue = scope.getDisplayValue(displayOption);
+        var popupValue = scope.getPopupValue(popupOption);
+
+        if (!displayValue || displayValue.length == 0) {
           return false;
         } else {
-          return (option.slice(0, text.length).toUpperCase() != text.toUpperCase());
+          return (popupValue.slice(0, displayValue.length).toUpperCase() != displayValue.toUpperCase());
         }
       };
 
       /**
        * Returns a boolean value depending on whether the option text starts with (or is equal to) the text value.
-       * @param text The text in the active input.
-       * @param option The option being evaluated.
+       * @param displayOption The text in the active input.
+       * @param popupOption The option being evaluated.
        * @return bool
        */
-      scope.isOptionMatched = function(text, option) {
-        if (!text || text.length == 0) {
+      scope.isOptionMatched = function(displayOption, popupOption) {
+        var displayValue = scope.getDisplayValue(displayOption);
+        var popupValue = scope.getPopupValue(popupOption);
+
+        if (!displayValue || displayValue.length == 0) {
           return false;
         } else {
-          return (option.slice(0, text.length).toUpperCase() == text.toUpperCase());
+          return (popupValue.slice(0, displayValue.length).toUpperCase() == displayValue.toUpperCase());
         }
       };
 
       /**
        * Returns a boolean value depending on whether the option is equal to the input value.
-       * @param text The text in the active input.
-       * @param option The option being evaluated.
+       * @param displayOption The text in the active input.
+       * @param popupOption The option being evaluated.
        * @return bool
        */
-      scope.isOptionSelected = function(text, option) {
-        if (!text || text.length == 0) {
+      scope.isOptionSelected = function(displayOption, popupOption) {
+        var displayValue = scope.getDisplayValue(displayOption);
+        var popupValue = scope.getPopupValue(popupOption);
+
+        if (!displayValue || displayValue.length == 0) {
           return false;
         } else {
-          return (option.toUpperCase() == text.toUpperCase());
+          return (popupValue.toUpperCase() == displayValue.toUpperCase());
         }
       };
 
@@ -233,7 +264,15 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
 
       scope.selectValue = function(value) {
         if (scope.activeOption) {
-          scope.activeOption[scope.displayProp] = value;
+          var displayValue = scope.displayProp ? scope.activeOption[scope.displayProp] : scope.activeOption;
+          var popupValue = scope.popupProp ? value[scope.popupProp] : value;
+
+          if (scope.displayProp) {
+            scope.activeOption[scope.displayProp] = popupValue;
+          } else {
+            scope.activeOption = popupValue;
+          }
+
           scope.hidePopup();
         } else {
           console.log('selectValue called, but no activeOption found.');

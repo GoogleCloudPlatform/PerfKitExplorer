@@ -139,6 +139,21 @@ var DatasourceState = explorer.models.DatasourceState;
  */
 explorer.models.DataViewModel = function() {
   /**
+   * If true, the columns will appear in alphabetical order.  If false, they will be presented in order of appearance.
+   * @type {!boolean}
+   * @export
+   */
+  this.sort_columns = false;
+
+  /**
+   * If provided, specifies the first column index to sort.  This can be used with pivots, for example, to fix the
+   * columns that are row headings, and sort the "series" alphabetically.
+   * @type {?number}
+   * @export
+   */
+  this.sort_column_start = null;
+
+  /**
    * @type {!Array.<number>}
    * @export
    */
