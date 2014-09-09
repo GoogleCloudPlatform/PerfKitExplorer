@@ -288,6 +288,7 @@
                 <span
                     multibox
                     multibox-display-prop="label"
+                    multibox-popup-prop="name"
                     multibox-focus-on-select="true"
                     multibox-data="queryEditorCtrl.query.picklists['metadata']"
                     multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
@@ -332,8 +333,25 @@
                 </div>
               </div>
             </div>
-          </div>
 
+            <div class="sidebar-item">
+              <div class="sidebar-item-label">
+                <input type="checkbox"
+                       ng-model="queryEditorCtrl.datasource.view.sort_columns"> sort columns
+              </div>
+            </div>
+
+            <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">start column index</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         type="number" min="0" require="false"
+                         ng-model="queryEditorCtrl.datasource.view.sort_column_start">
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </tab>
     </tabset>

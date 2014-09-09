@@ -15,6 +15,8 @@
  *
  * Sample JSON configuration object (or DataViewModel):
  * {
+ *     "sort_columns": false,
+ *     "sort_column_start": null
  *     "columns": [
  *         0,
  *         1,
@@ -101,7 +103,14 @@ DataViewService.prototype.create = function(dataTable, model) {
     }
   }
 
-  if (model.columns && model.columns.length > 0) {
+  if (model.sort_columns) {
+    try {
+      view.setColumns(this.getSortedColumns(dataTable, model.sort_column_start))
+    } catch (e) {
+      // Catch errors when the columns property is invalid
+      return {error: {property: 'columns', message: e.message}};
+    }
+  } else if (model.columns && model.columns.length > 0) {
     try {
       view.setColumns(model.columns);
     } catch (e) {
@@ -113,6 +122,53 @@ DataViewService.prototype.create = function(dataTable, model) {
   var viewJson = angular.fromJson(view.toJSON());
   return sortedViewJson ?
       [viewJson, sortedViewJson] : [viewJson];
+};
+
+/**
+ * Returns an array of DataView initializer objects corresponding to the
+ * parameters provided (columns filtering, rows filtering and sorting) applied
+ * to the DataTable provided.
+ *
+ * @param {!google.visualization.DataTable} dataTable
+ * @param {?number} sortColumnStart The index of the column to begin sorting at.  This can be used to fix the first
+ *    few columns of a tabular report.
+ * @return {!(Array.<Object>|{error: {property: string, message: string}})}
+ */
+DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart) {
+  sortColumnStart = sortColumnStart || 0;
+
+  if (sortColumnStart >= dataTable.getNumberOfColumns()) {
+    throw 'sortColumnStart must be greater than or equal to the total column count.';
+  }
+
+  var allColumnNames = [];
+  var outputColumns = [];
+  var sortableColumnNames = [];
+
+  for (var i = 0; i < dataTable.getNumberOfColumns(); ++i) {
+    var columnName = dataTable.getColumnLabel(i);
+    allColumnNames.push(columnName);
+
+    if (i < sortColumnStart) {
+      outputColumns.push(i);
+    } else {
+      sortableColumnNames.push(columnName);
+    }
+  }
+
+  sortableColumnNames.sort();
+
+  for (var i = 0; i < sortableColumnNames.length; ++i) {
+    sortableIndex = allColumnNames.indexOf(sortableColumnNames[i]);
+
+    if (sortableIndex == -1) {
+      throw 'sortableColumn not found.';
+    }
+
+    outputColumns.push(sortableIndex);
+  }
+
+  return outputColumns;
 };
 
 });  // goog.scope

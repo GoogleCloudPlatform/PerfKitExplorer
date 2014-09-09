@@ -15,11 +15,11 @@
 <div class="multibox-popup perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
   <div class="perfkit-popup-item"
        ng-class="{
-          'perfkit-popup-item-unmatched': isOptionUnmatched(activeOption[displayProp], data),
-          'perfkit-popup-item-matched': isOptionMatched(activeOption[displayProp], data),
-          'perfkit-popup-item-selected': isOptionSelected(activeOption[displayProp], data)}"
-       ng-repeat="data in multiboxData"
-       ng-click="selectValue(data)">
-    {{ data }}
+          'perfkit-popup-item-unmatched': isOptionUnmatched(activeOption, popupOption),
+          'perfkit-popup-item-matched': isOptionMatched(activeOption, popupOption),
+          'perfkit-popup-item-selected': isOptionSelected(activeOption, popupOption)}"
+       ng-repeat="popupOption in multiboxData"
+       ng-click="selectValue(popupOption)">
+    {{ getPopupValue(popupOption) }}
   </div>
 </div>

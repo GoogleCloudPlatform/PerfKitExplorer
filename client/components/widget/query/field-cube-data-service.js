@@ -113,13 +113,8 @@ FieldCubeDataService.prototype.listFields = function(field_name, filters) {
 FieldCubeDataService.prototype.listMetadata = function(field_name, filters) {
   var deferred = this.q_.defer();
 
-  var query_parameters = {
-    field_name: field_name,
-    filters: filters
-  };
-
-  var promise = this.http_.get('/data/metadata', {
-    params: query_parameters,
+  var promise = this.http_.post('/data/metadata', {
+    filters: filters,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
   });
 
