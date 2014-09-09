@@ -14,7 +14,6 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import explorer_method
 import label_manager
-import logging
 
 
 class ProductLabelsQuery(explorer_method.ExplorerQueryBase):
@@ -63,7 +62,6 @@ class ProductLabelsQuery(explorer_method.ExplorerQueryBase):
     if metric:
       self.wheres.append('metric = "%s"' % metric)
 
-    logging.error(self.wheres)
     return super(ProductLabelsQuery, self).Execute()
 
   def _ProcessReply(self, reply):

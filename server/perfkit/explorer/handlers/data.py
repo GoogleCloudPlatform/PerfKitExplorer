@@ -15,7 +15,6 @@ referenced with GET requests.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
-import logging
 
 import base
 
@@ -126,19 +125,25 @@ class MetadataDataHandler(base.RequestHandlerBase):
      {'label': 'weight', 'value': '20'}]
   """
 
-  def post(self):
+  def get(self):
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
     client = DataHandlerUtil.GetDataClient(self.env)
     query = product_labels.ProductLabelsQuery(data_client=client,
                                               dataset_name=DATASET_NAME)
-    request_data = json.loads(self.request.body)
-    logging.error(request_data)
-    filters = request_data['filters']
+    filters = self.GetJsonParam('filters')
+
+    start_date = None
+    if 'start_date' in filters and filters['start_date']:
+      start_date = filters['start_date']
+
+    end_date = None
+    if 'end_date' in filters and filters['end_date']:
+      end_date = filters['end_date']
 
     response = query.Execute(
-        start_date=filters['start_date'],
-        end_date=filters['end_date'],
+        start_date=start_date,
+        end_date=end_date,
         product_name=filters['product_name'],
         test=filters['test'],
         metric=filters['metric'])
