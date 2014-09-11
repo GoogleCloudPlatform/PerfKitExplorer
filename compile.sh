@@ -25,7 +25,7 @@ find client -name '*.html' | cpio -pamd deploy/
 
 
 # Compile client/*.js files to deploy/client/perfkit_scripts.js.
-python bin/closurebuilder.py \
+python $closurelib/closure/bin/build/closurebuilder.py \
  --root=$closurelib/ \
  --root=client/ \
  --namespace="p3rf.perfkit.explorer.application.module" \
@@ -42,6 +42,7 @@ python bin/closurebuilder.py \
 # Compile client/*.css stylesheets to deploy/client/perfkit_styles.css.
 find client -name '*.css'| xargs \
   java -jar bin/closure-stylesheets.jar \
+  --pretty-print \
   --output-file deploy/client/perfkit_styles.css \
   --allow-unrecognized-functions \
   --allow-unrecognized-properties \
