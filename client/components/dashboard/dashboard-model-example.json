@@ -1,0 +1,97 @@
+{
+  "id": "667cb727-fb22-40b3-8777-8a875355f797",
+  "title": "Dashboard 1",
+  "version": "4",
+  "owner": "jdoe@mydomain.com",
+  "type": "dashboard",
+  "children": [
+    {
+      "id": "1",
+      "title": "Container 1",
+      "type": "container",
+      "layout": {
+        "cssClasses": ""
+      },
+      "container": {
+        "flow": "row",
+        "columns": 4,
+        "height": 250,
+        "children": [
+          {
+            "chart": {
+              "chartType": "Table",
+              "options": {}
+            },
+            "datasource": {
+              "config": {
+                "filters": {
+                  "date_group": null,
+                  "end_date": null,
+                  "metadata": [
+                    {
+                      "label": "Environment",
+                      "value": "prod",
+                      "text": "Environment:prod"
+                    }
+                  ],
+                  "metric": "throughput",
+                  "official": null,
+                  "product_name": "anyCloud",
+                  "runby": null,
+                  "start_date": {
+                    "filter_type": "WEEK",
+                    "filter_value": 2,
+                    "specify_time": false,
+                    "text": "last 2 weeks"
+                  },
+                  "test": "network perf test"
+                },
+                "results": {
+                  "date_group": "Day",
+                  "fields": [],
+                  "labels": [
+                    {
+                      "label": "source"
+                    },
+                    {
+                      "label": "destination"
+                    }
+                  ],
+                  "measure_values": true,
+                  "measures": [
+                    {
+                      "name": "AVG"
+                    }
+                  ],
+                  "pivot": true,
+                  "pivot_config": {
+                    "column_field": "source",
+                    "row_field": "destination",
+                    "value_field": "avg"
+                  },
+                  "show_date": false
+                }
+              },
+              "custom_query": false,
+              "query": "",
+              "view": {
+                "columns": [],
+                "filter": [],
+                "sort": [],
+                "sort_column_start": 1,
+                "sort_columns": true
+              }
+            },
+            "id": "369478355",
+            "layout": {
+              "columnspan": 1,
+              "cssClasses": ""
+            },
+            "title": "Pivot: Cross-Tab Support",
+            "type": "chart"
+          }
+        ]
+      }
+    }
+  ]
+}
