@@ -16,7 +16,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
-goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings')
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
