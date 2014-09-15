@@ -14,33 +14,50 @@ goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigMod
 
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings')
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
 
 var explorer = p3rf.perfkit.explorer;
-var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
-var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
-var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
-var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
-
+var DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
+var DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType;
+var MeasureResult = p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult;
+var QueryColumnModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel;
+var QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
+var QueryFilterModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 /**
+ * The default measure for new widgets.
+ * @type {!string}
+ */
+var DEFAULT_MEASURE = '99%';
+
+
+/**
+ * QueryConfigModel describes a query semantically; The filters and results sections are largely used to generate
+ * on-the-fly SQL statements, though additional functionality like pivots is contained here as well.  This object
+ * is serialized to JSON and passed to a service (such as /data/sql) to retrieve data.
  * @constructor
  * @implements {IQueryConfigModel}
  *
  */
 explorer.models.perfkit_simple_builder.QueryConfigModel = function() {
-  /** @type {number} */
-  this.DEFAULT_DATE_RANGE_DAYS = 14;
-
-  /** @type {!QueryFilterModel} */
+  /**
+   * filters provide properties and metadata to restrict the results of data in a generated SQL statement.
+   * @type {!QueryFilterModel}
+   */
   this.filters = new QueryFilterModel();
 
-  /** @type {!QueryColumnModel} */
+  /**
+   * results provide properties and metadata to determine the returned data, shape and order.
+   * @type {!QueryColumnModel}
+   */
   this.results = new QueryColumnModel();
 
   this.initializeDefaults();
@@ -154,10 +171,10 @@ QueryConfigModel.prototype.initializeDefaults = function() {
   this.filters.official = true;
 
   this.results.show_date = true;
-  this.results.date_group = 'DAY';
+  this.results.date_group = QueryDateGroupings.DAY;
 
   this.results.measure_values = true;
-  this.results.measures.push('99%');
+  this.results.measures.push(new MeasureResult(DEFAULT_MEASURE));
 };
 
 
