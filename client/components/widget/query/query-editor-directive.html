@@ -227,6 +227,23 @@
 
       <tab heading="Results">
         <div>
+          <div class="sidebar-group">
+            <button type="button" class="btn btn-primary"
+                    ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
+              Refresh
+            </button>
+            <button type="button" class="btn btn-default perfkit-footer-button"
+                    ng-click="queryEditorCtrl.explorer.customizeSql()"
+                    ng-hide="queryEditorCtrl.datasource.custom_query">
+              Edit SQL
+            </button>
+            <button type="button" class="btn btn-default"
+                    ng-click="queryEditorCtrl.explorer.restoreBuilder()"
+                    ng-show="queryEditorCtrl.datasource.custom_query">
+              Use SQL Builder
+            </button>
+          </div>
+
           <div class="sidebar-group" ng-show="!queryEditorCtrl.datasource.custom_query">
             <div class="sidebar-group-title">Columns</div>
 
