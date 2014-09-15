@@ -21,26 +21,32 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 goog.scope(function() {
 
 var explorer = p3rf.perfkit.explorer;
-var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
-var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
-var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
-var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+var DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
+var DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType;
+var QueryColumnModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel;
+var QueryFilterModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 
 /**
+ * QueryConfigModel describes a query semantically; The filters and results sections are largely used to generate
+ * on-the-fly SQL statements, though additional functionality like pivots is contained here as well.  This object
+ * is serialized to JSON and passed to a service (such as /data/sql) to retrieve data.
  * @constructor
  * @implements {IQueryConfigModel}
  *
  */
 explorer.models.perfkit_simple_builder.QueryConfigModel = function() {
-  /** @type {number} */
-  this.DEFAULT_DATE_RANGE_DAYS = 14;
-
-  /** @type {!QueryFilterModel} */
+  /**
+   * filters provide properties and metadata to restrict the results of data in a generated SQL statement.
+   * @type {!QueryFilterModel}
+   */
   this.filters = new QueryFilterModel();
 
-  /** @type {!QueryColumnModel} */
+  /**
+   * results provide properties and metadata to determine the returned data, shape and order.
+   * @type {!QueryColumnModel}
+   */
   this.results = new QueryColumnModel();
 
   this.initializeDefaults();
@@ -157,7 +163,7 @@ QueryConfigModel.prototype.initializeDefaults = function() {
   this.results.date_group = 'DAY';
 
   this.results.measure_values = true;
-  this.results.measures.push('99%');
+  this.results.measures.push({'name': '99%'});
 };
 
 
