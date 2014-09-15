@@ -14,7 +14,10 @@ goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigMod
 
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings')
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
@@ -23,9 +26,17 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
 var DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType;
+var MeasureResult = p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult;
 var QueryColumnModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel;
+var QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
 var QueryFilterModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel;
 
+
+/**
+ * The default measure for new widgets.
+ * @type {!string}
+ */
+var DEFAULT_MEASURE = '99%';
 
 
 /**
@@ -160,10 +171,10 @@ QueryConfigModel.prototype.initializeDefaults = function() {
   this.filters.official = true;
 
   this.results.show_date = true;
-  this.results.date_group = 'DAY';
+  this.results.date_group = QueryDateGroupings.DAY;
 
   this.results.measure_values = true;
-  this.results.measures.push({'name': '99%'});
+  this.results.measures.push(new MeasureResult(DEFAULT_MEASURE));
 };
 
 

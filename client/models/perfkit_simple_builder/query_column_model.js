@@ -11,6 +11,7 @@
 
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
@@ -44,6 +45,18 @@ explorer.models.perfkit_simple_builder.FieldResult = function(name) {
   this.name = name || '';
 };
 var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
+
+
+/**
+ * Type definition for a measure-result specifier.  Though it's a simple string,
+ * the wrapper is required for angular binding purposes.
+ * @constructor
+ */
+explorer.models.perfkit_simple_builder.MeasureResult = function(name) {
+  /** @type {!string} */
+  this.name = name || '';
+};
+var MeasureResult = explorer.models.perfkit_simple_builder.MeasureResult;
 
 
 /**
