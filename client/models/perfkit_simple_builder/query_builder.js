@@ -312,7 +312,7 @@ QueryBuilderService.prototype.getSql = function(model) {
       BigQueryBuilder.buildWhereArgs(queryProperties),
       BigQueryBuilder.buildGroupArgs(queryProperties),
       fieldSortOrders,
-      5000);
+      model.results.row_limit);
 
   return sql;
 };
