@@ -217,10 +217,10 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   this.pivot_config = new PivotConfigModel();
 
   /**
-   * @type {!number}
+   * @type {?number}
    * @export
    */
-  this.row_limit = 100;
+  this.row_limit = null;
 };
 
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;

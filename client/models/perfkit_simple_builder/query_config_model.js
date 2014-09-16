@@ -38,6 +38,12 @@ var QueryFilterModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.Query
  */
 var DEFAULT_MEASURE = '99%';
 
+/**
+ * The default max # of rows returned for new widgets.
+ * @type {!number}
+ */
+var DEFAULT_ROW_LIMIT = 100;
+
 
 /**
  * QueryConfigModel describes a query semantically; The filters and results sections are largely used to generate
@@ -170,7 +176,7 @@ QueryConfigModel.prototype.initializeDefaults = function() {
 
   this.filters.official = true;
 
-  this.results.row_limit = 100;
+  this.results.row_limit = DEFAULT_ROW_LIMIT;
 
   this.results.show_date = true;
   this.results.date_group = QueryDateGroupings.DAY;
