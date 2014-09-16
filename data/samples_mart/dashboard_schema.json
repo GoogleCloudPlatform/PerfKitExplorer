@@ -1,0 +1,427 @@
+{
+	"type":"object",
+	"$schema": "http://json-schema.org/draft-03/schema",
+	"id": "http://jsonschema.net",
+	"required":false,
+	"extends":[
+		{
+			"required":false
+		},
+		{
+			"required":false
+		}
+	],
+	"properties":{
+		"RenameMe": {
+			"required":false
+		},
+		"children": {
+			"type":"array",
+			"id": "http://jsonschema.net/children",
+			"required":false,
+			"items":
+				{
+					"type":"object",
+					"id": "http://jsonschema.net/children/0",
+					"required":false,
+					"properties":{
+						"container": {
+							"type":"object",
+							"id": "http://jsonschema.net/children/0/container",
+							"required":false,
+							"properties":{
+								"children": {
+									"type":"array",
+									"id": "http://jsonschema.net/children/0/container/children",
+									"required":false,
+									"items":
+										{
+											"type":"object",
+											"id": "http://jsonschema.net/children/0/container/children/0",
+											"required":false,
+											"properties":{
+												"chart": {
+													"type":"object",
+													"id": "http://jsonschema.net/children/0/container/children/0/chart",
+													"required":false,
+													"properties":{
+														"chartType": {
+															"type":"string",
+															"id": "http://jsonschema.net/children/0/container/children/0/chart/chartType",
+															"required":false
+														},
+														"options": {
+															"type":"object",
+															"id": "http://jsonschema.net/children/0/container/children/0/chart/options",
+															"required":false
+														}
+													}
+												},
+												"datasource": {
+													"type":"object",
+													"id": "http://jsonschema.net/children/0/container/children/0/datasource",
+													"required":false,
+													"properties":{
+														"config": {
+															"type":"object",
+															"id": "http://jsonschema.net/children/0/container/children/0/datasource/config",
+															"required":false,
+															"properties":{
+																"filters": {
+																	"type":"object",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters",
+																	"required":false,
+																	"properties":{
+																		"date_group": {
+																			"type":"null",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/date_group",
+																			"required":false
+																		},
+																		"end_date": {
+																			"type":"null",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/end_date",
+																			"required":false
+																		},
+																		"metadata": {
+																			"type":"array",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/metadata",
+																			"required":false,
+																			"items":
+																				{
+																					"type":"object",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/metadata/0",
+																					"required":false,
+																					"properties":{
+																						"label": {
+																							"type":"string",
+																							"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/metadata/0/label",
+																							"required":false
+																						},
+																						"text": {
+																							"type":"string",
+																							"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/metadata/0/text",
+																							"required":false
+																						},
+																						"value": {
+																							"type":"string",
+																							"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/metadata/0/value",
+																							"required":false
+																						}
+																					}
+																				}
+
+
+																		},
+																		"metric": {
+																			"type":"string",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/metric",
+																			"required":false
+																		},
+																		"official": {
+																			"type":"null",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/official",
+																			"required":false
+																		},
+																		"product_name": {
+																			"type":"string",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/product_name",
+																			"required":false
+																		},
+																		"runby": {
+																			"type":"null",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/runby",
+																			"required":false
+																		},
+																		"start_date": {
+																			"type":"object",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/start_date",
+																			"required":false,
+																			"properties":{
+																				"filter_type": {
+																					"type":"string",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/start_date/filter_type",
+																					"required":false
+																				},
+																				"filter_value": {
+																					"type":"number",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/start_date/filter_value",
+																					"required":false
+																				},
+																				"specify_time": {
+																					"type":"boolean",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/start_date/specify_time",
+																					"required":false
+																				},
+																				"text": {
+																					"type":"string",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/start_date/text",
+																					"required":false
+																				}
+																			}
+																		},
+																		"test": {
+																			"type":"string",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/filters/test",
+																			"required":false
+																		}
+																	}
+																},
+																"results": {
+																	"type":"object",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results",
+																	"required":false,
+																	"properties":{
+																		"date_group": {
+																			"type":"string",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/date_group",
+																			"required":false
+																		},
+																		"fields": {
+																			"type":"array",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/fields",
+																			"required":false
+																		},
+																		"labels": {
+																			"type":"array",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/labels",
+																			"required":false,
+																			"items":
+																				{
+																					"type":"object",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/labels/0",
+																					"required":false,
+																					"properties":{
+																						"label": {
+																							"type":"string",
+																							"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/labels/0/label",
+																							"required":false
+																						}
+																					}
+																				}
+
+
+																		},
+																		"measure_values": {
+																			"type":"boolean",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/measure_values",
+																			"required":false
+																		},
+																		"measures": {
+																			"type":"array",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/measures",
+																			"required":false,
+																			"items":
+																				{
+																					"type":"object",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/measures/0",
+																					"required":false,
+																					"properties":{
+																						"name": {
+																							"type":"string",
+																							"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/measures/0/name",
+																							"required":false
+																						}
+																					}
+																				}
+
+
+																		},
+																		"pivot_config": {
+																			"type":"object",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/pivot_config",
+																			"required":false,
+																			"properties":{
+																				"column_field": {
+																					"type":"string",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/pivot_config/column_field",
+																					"required":false
+																				},
+																				"row_field": {
+																					"type":"string",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/pivot_config/row_field",
+																					"required":false
+																				},
+																				"value_field": {
+																					"type":"string",
+																					"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/pivot_config/value_field",
+																					"required":false
+																				}
+																			}
+																		},
+																		"pivot": {
+																			"type":"boolean",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/pivot",
+																			"required":false
+																		},
+																		"show_date": {
+																			"type":"boolean",
+																			"id": "http://jsonschema.net/children/0/container/children/0/datasource/config/results/show_date",
+																			"required":false
+																		}
+																	}
+																}
+															}
+														},
+														"custom_query": {
+															"type":"boolean",
+															"id": "http://jsonschema.net/children/0/container/children/0/datasource/custom_query",
+															"required":false
+														},
+														"query": {
+															"type":"string",
+															"id": "http://jsonschema.net/children/0/container/children/0/datasource/query",
+															"required":false
+														},
+														"view": {
+															"type":"object",
+															"id": "http://jsonschema.net/children/0/container/children/0/datasource/view",
+															"required":false,
+															"properties":{
+																"columns": {
+																	"type":"array",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/view/columns",
+																	"required":false
+																},
+																"filter": {
+																	"type":"array",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/view/filter",
+																	"required":false
+																},
+																"sort_column_start": {
+																	"type":"number",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/view/sort_column_start",
+																	"required":false
+																},
+																"sort_columns": {
+																	"type":"boolean",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/view/sort_columns",
+																	"required":false
+																},
+																"sort": {
+																	"type":"array",
+																	"id": "http://jsonschema.net/children/0/container/children/0/datasource/view/sort",
+																	"required":false
+																}
+															}
+														}
+													}
+												},
+												"id": {
+													"type":"string",
+													"id": "http://jsonschema.net/children/0/container/children/0/id",
+													"required":false
+												},
+												"layout": {
+													"type":"object",
+													"id": "http://jsonschema.net/children/0/container/children/0/layout",
+													"required":false,
+													"properties":{
+														"columnspan": {
+															"type":"number",
+															"id": "http://jsonschema.net/children/0/container/children/0/layout/columnspan",
+															"required":false
+														},
+														"cssClasses": {
+															"type":"string",
+															"id": "http://jsonschema.net/children/0/container/children/0/layout/cssClasses",
+															"required":false
+														}
+													}
+												},
+												"title": {
+													"type":"string",
+													"id": "http://jsonschema.net/children/0/container/children/0/title",
+													"required":false
+												},
+												"type": {
+													"type":"string",
+													"id": "http://jsonschema.net/children/0/container/children/0/type",
+													"required":false
+												}
+											}
+										}
+
+
+								},
+								"columns": {
+									"type":"number",
+									"id": "http://jsonschema.net/children/0/container/columns",
+									"required":false
+								},
+								"flow": {
+									"type":"string",
+									"id": "http://jsonschema.net/children/0/container/flow",
+									"required":false
+								},
+								"height": {
+									"type":"number",
+									"id": "http://jsonschema.net/children/0/container/height",
+									"required":false
+								}
+							}
+						},
+						"id": {
+							"type":"string",
+							"id": "http://jsonschema.net/children/0/id",
+							"required":false
+						},
+						"layout": {
+							"type":"object",
+							"id": "http://jsonschema.net/children/0/layout",
+							"required":false,
+							"properties":{
+								"cssClasses": {
+									"type":"string",
+									"id": "http://jsonschema.net/children/0/layout/cssClasses",
+									"required":false
+								}
+							}
+						},
+						"title": {
+							"type":"string",
+							"id": "http://jsonschema.net/children/0/title",
+							"required":false
+						},
+						"type": {
+							"type":"string",
+							"id": "http://jsonschema.net/children/0/type",
+							"required":false
+						}
+					}
+				}
+
+
+		},
+		"id": {
+			"type":"string",
+			"id": "http://jsonschema.net/id",
+			"required":false
+		},
+		"owner": {
+			"type":"string",
+			"id": "http://jsonschema.net/owner",
+			"required":false
+		},
+		"title": {
+			"type":"string",
+			"id": "http://jsonschema.net/title",
+			"required":false
+		},
+		"type": {
+			"type":"string",
+			"id": "http://jsonschema.net/type",
+			"required":false
+		},
+		"version": {
+			"type":"string",
+			"id": "http://jsonschema.net/version",
+			"required":false
+		}
+	},
+	"items":
+		{
+			"required":false
+		}
+
+
+}
