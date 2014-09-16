@@ -170,6 +170,8 @@ QueryConfigModel.prototype.initializeDefaults = function() {
 
   this.filters.official = true;
 
+  this.results.row_limit = 100;
+
   this.results.show_date = true;
   this.results.date_group = QueryDateGroupings.DAY;
 
