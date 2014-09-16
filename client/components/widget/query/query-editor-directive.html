@@ -51,49 +51,27 @@
   <div>
 
     <tabset>
-      <tab heading="Query">
+      <tab heading="Filters">
         <div>
           <div class="sidebar-group">
-            <div class="sidebar-group-title">Query Builder</div>
-          </div>
-
-          <div ng-show="queryEditorCtrl.datasource.custom_query">
-            <div class="sidebar-group">
-              <div class="sidebar-group-note">Use the SQL Editor at the bottom of the page to provide
-                  your own SQL statement.  For more information see:
-                <ul>
-                  <li><a href="https://developers.google.com/bigquery/query-reference" target="_blank">
-                    BigQuery SQL Reference</a></li>
-                  <li><a href="https://sites.google.com/a/google.com/perfkit/perfkitusers/perfkit-bigquery-how-to">
-                    Perfkit Query Cookbook</a></li>
-                </ul>
-              </div>
-              <div class="sidebar-item-label">
-                <button type="button" class="btn btn-default"
-                        ng-click="queryEditorCtrl.explorer.restoreBuilder()">
-                  Use SQL Builder
-                </button>
-              </div>
-            </div>
+            <button type="button" class="btn btn-primary"
+                    ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
+              Refresh
+            </button>
+            <button type="button" class="btn btn-default perfkit-footer-button"
+                    ng-click="queryEditorCtrl.explorer.customizeSql()"
+                    ng-hide="queryEditorCtrl.datasource.custom_query">
+              Customize SQL
+            </button>
+            <button type="button" class="btn btn-default perfkit-footer-button"
+                    ng-click="queryEditorCtrl.explorer.restoreBuilder()"
+                    ng-show="queryEditorCtrl.datasource.custom_query">
+              Build Query
+            </button>
           </div>
 
           <div ng-hide="queryEditorCtrl.datasource.custom_query">
             <div class="sidebar-group">
-              <div class="sidebar-group-note">Use the controls below to create a basic query against
-                the Perfkit Samples Mart.</div>
-              <button type="button" class="btn btn-primary"
-                      ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
-                Refresh
-              </button>
-              <button type="button" class="btn btn-default"
-                      ng-click="queryEditorCtrl.explorer.customizeSql()">
-                Edit SQL
-              </button>
-            </div>
-
-            <div class="sidebar-group">
-              <div class="sidebar-group-title">Filters</div>
-
               <div class="sidebar-item">
                 <div class="sidebar-item-label">start date</div>
                 <div class="sidebar-item-value">
@@ -217,7 +195,7 @@
               </button>
               <button type="button" class="btn btn-default perfkit-footer-button"
                       ng-click="queryEditorCtrl.explorer.customizeSql()">
-                Edit SQL
+                Customize SQL
               </button>
             </div>
           </div>
@@ -235,12 +213,12 @@
             <button type="button" class="btn btn-default perfkit-footer-button"
                     ng-click="queryEditorCtrl.explorer.customizeSql()"
                     ng-hide="queryEditorCtrl.datasource.custom_query">
-              Edit SQL
+              Customize SQL
             </button>
             <button type="button" class="btn btn-default"
                     ng-click="queryEditorCtrl.explorer.restoreBuilder()"
                     ng-show="queryEditorCtrl.datasource.custom_query">
-              Use SQL Builder
+              Build Query
             </button>
           </div>
 
@@ -317,6 +295,17 @@
 
           <div class="sidebar-group">
             <div class="sidebar-group-title">Results Shape</div>
+
+            <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.custom_query">
+              <div class="sidebar-item-label">
+                row limit
+              </div>
+              <div class="sidebar-item-value">
+                <input class="form-control"
+                       type="number"
+                       ng-model="queryEditorCtrl.datasource.config.results.row_limit">
+              </div>
+            </div>
 
             <div class="sidebar-item">
               <div class="sidebar-item-label">
