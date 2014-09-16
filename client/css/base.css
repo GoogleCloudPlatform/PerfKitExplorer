@@ -335,6 +335,7 @@ h2 {
 .google-visualization-charteditor-dialog {
   width: auto;
   margin: auto;
+  z-index: 65535;
 }
 
 .google-visualization-charteditor-dialog * {
