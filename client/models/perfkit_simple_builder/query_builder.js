@@ -71,7 +71,8 @@ var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
  *
  */
 explorer.models.perfkit_simple_builder.QueryBuilderService = function(
-    $filter) {};
+    $filter) {
+};
 var QueryBuilderService =
     explorer.models.perfkit_simple_builder.QueryBuilderService;
 
@@ -161,9 +162,12 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
 /**
  * Returns a SQL statement based on the state of a query.
  * @param {!QueryConfigModel} model a QueryConfigModel that describes a query.
+ * @param {?string} defaultProjectId
+ * @param {?string} defaultDatasetName
+ * @param {?string} defaultTableName
  * @return {string} A formatted SQL statement.
  */
-QueryBuilderService.prototype.getSql = function(model) {
+QueryBuilderService.prototype.getSql = function(model, defaultProjectId, defaultDatasetName, defaultTableName) {
   var fieldFilters = [];
 
   if (model.filters.start_date) {
@@ -306,9 +310,18 @@ QueryBuilderService.prototype.getSql = function(model) {
       fieldFilters,
       []);
 
+  var project_id = model.results.project_id || defaultProjectId;
+  var dataset_name = model.results.dataset_name || defaultDatasetName;
+  var table_name = model.results.table_name || defaultTableName;
+  var table_id = dataset_name + '.' + table_name;
+
+  if (project_id) {
+    table_id = project_id + ':' + table_id;
+  }
+
   var sql = BigQueryBuilder.formatQuery(
       BigQueryBuilder.buildSelectArgs(queryProperties),
-      ['samples_mart.results'],
+      [table_id],
       BigQueryBuilder.buildWhereArgs(queryProperties),
       BigQueryBuilder.buildGroupArgs(queryProperties),
       fieldSortOrders,

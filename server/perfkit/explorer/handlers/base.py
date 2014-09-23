@@ -123,6 +123,8 @@ class RequestHandlerBase(webapp2.RequestHandler):
     template_values['current_user_email'] = users.get_current_user().email()
     template_values['current_user_admin'] = str(
         users.is_current_user_admin()).lower()
+    template_values['default_query_project_id'] = data_source_config.Services.GetServiceUri(
+      DEFAULT_ENVIRONMENT, 'project_id')
     template_values['analytics_id'] = ANALYTICS_KEY
 
     template = _JINJA_ENVIRONMENT.get_template(template_file)

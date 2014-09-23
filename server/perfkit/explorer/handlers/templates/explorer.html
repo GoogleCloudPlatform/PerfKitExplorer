@@ -41,6 +41,7 @@
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
+    var DEFAULT_QUERY_PROJECT_ID = '[[default_query_project_id]]';
   </script>
 
   <!-- Perfkit -->
@@ -159,6 +160,39 @@
                      ng-model="dashboardCtrl.dashboard.current.model.version">
             </div>
           </div>
+        </div>
+
+        <div class="sidebar-group">
+
+          <div class="sidebar-group-title">Datasource Defaults</div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">project id</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.project_id"
+                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_PROJECT_ID }}">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">dataset</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.dataset_name"
+                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_DATASET_NAME }}">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">table</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.table_name"
+                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_TABLE_NAME }}">
+            </div>
+          </div>
+
         </div>
 
         <div class="sidebar-group">
