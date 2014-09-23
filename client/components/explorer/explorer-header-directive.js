@@ -266,6 +266,16 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
       this.editDashboard = function() {
         this.explorer.model.readOnly = false;
       };
+
+      /** @export */
+      this.downloadDashboard = function() {
+        var selectedDashboard = this.dashboard.current.model;
+
+        window.open(
+                '/dashboard/view?id=' + selectedDashboard.id +
+                '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
+      };
+
     }
   };
 };

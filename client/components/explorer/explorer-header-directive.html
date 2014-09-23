@@ -39,6 +39,8 @@
                 ng-show="ctrl.dashboard.current.model.id"
                 ng-click="ctrl.saveDashboardCopy()">Save as...</button>
         <button type="button" class="btn btn-default"
+                ng-click="ctrl.downloadDashboard()">Download</button>
+        <button type="button" class="btn btn-default"
                 ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
                 ng-click="ctrl.deleteCurrentDashboard()">Delete</button>
         <button type="button" class="btn btn-default"
