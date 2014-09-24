@@ -245,16 +245,6 @@
 
       <tab heading="Results">
         <div>
-          <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
-            <div class="sidebar-group-note">
-              Limited options are available when creating a Custom SQL statement.  Use the
-              <a href="#" ng-click="queryEditorCtrl.explorer.viewSql()">Edit SQL</a> button at
-              the bottom of the page to modify the SQL statement, or the
-              <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
-              button below to use the Query Builder UI.
-            </div>
-          </div>
-
           <div class="sidebar-group">
 
             <button type="button" class="btn btn-primary"
@@ -271,6 +261,16 @@
                     ng-show="queryEditorCtrl.datasource.custom_query">
               Build Query
             </button>
+          </div>
+
+          <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
+            <div class="sidebar-group-note">
+              Limited options are available when creating a Custom SQL statement.  Use the
+              <a href="#" ng-click="queryEditorCtrl.explorer.viewSql()">Edit SQL</a> button at
+              the bottom of the page to modify the SQL statement, or the
+              <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
+              button below to use the Query Builder UI.
+            </div>
           </div>
 
           <div class="sidebar-group" ng-show="!queryEditorCtrl.datasource.custom_query">
