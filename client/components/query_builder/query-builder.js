@@ -53,23 +53,31 @@ QueryBuilder.formatQuery = function(
     selectArgs, fromArgs, opt_whereArgs, opt_groupArgs, opt_orderArgs,
     opt_rowLimit) {
   /**
-   * Prefixes a tab to a string.
-   * @param {string} str the string that a tab will be prefixed to.
-   * @return {string} the original string prefixed by a tab.
-   */
-  var addTab = function(str) {
-    return '\t' + str;
-  };
-
-  /**
    * Adds arguments to the query array.
    * @param {string} keyword The sequel keyword related to the arguments.  For
    *     example 'SELECT' or 'WHERE'.
    * @param {string} lineJoiner The string to use to join elements of args.
    * @param {!Array.<string>=} opt_args The array of arguments to add to the
    *     query.
+   * @param {?string=} opt_prefix The string to prefix each arg with.
+   * @param {?string=} opt_suffix The string to postfix each arg with.
    */
-  var addArgsToQuery = function(keyword, lineJoiner, opt_args) {
+  var addArgsToQuery = function(keyword, lineJoiner, opt_args, opt_prefix, opt_suffix) {
+    /**
+     * Prefixes a tab to a string.
+     * @param {string} str the string that a tab will be prefixed to.
+     * @return {string} the original string prefixed by a tab.
+     */
+    var addTab = function(str) {
+      var result = '\t';
+
+      if (opt_prefix) { result += opt_prefix; }
+      result += str;
+      if (opt_suffix) { result += opt_suffix; }
+
+      return result;
+    };
+
     if (goog.isDef(opt_args) && opt_args.length > 0) {
       query.push(keyword);
       opt_args = opt_args.map(addTab);
@@ -80,7 +88,7 @@ QueryBuilder.formatQuery = function(
   var query = [];
 
   addArgsToQuery('SELECT', ',\n', selectArgs);
-  addArgsToQuery('FROM', ',\n', fromArgs);
+  addArgsToQuery('FROM', ',\n', fromArgs, '[', ']');
   addArgsToQuery('WHERE', ' AND\n', opt_whereArgs);
   addArgsToQuery('GROUP BY', ',\n', opt_groupArgs);
   addArgsToQuery('ORDER BY', ',\n', opt_orderArgs);

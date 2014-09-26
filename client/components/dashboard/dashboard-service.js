@@ -40,7 +40,6 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 var WidgetType = explorer.models.WidgetType;
 
 
-
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -100,6 +99,27 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
    * @export
    */
   this.selectedContainer = null;
+
+  /**
+   *
+   * @type {string}
+   * @export
+   */
+  this.DEFAULT_PROJECT_ID = DEFAULT_QUERY_PROJECT_ID;
+
+  /**
+   *
+   * @type {string}
+   * @export
+   */
+  this.DEFAULT_DATASET_NAME = 'samples_mart';
+
+  /**
+   *
+   * @type {string}
+   * @export
+   */
+  this.DEFAULT_TABLE_NAME = 'results';
 
   this.errors = [];
 };
@@ -215,7 +235,10 @@ DashboardService.prototype.refreshWidget = function(widget) {
 
   if (widget.model.datasource.custom_query !== true) {
     widget.model.datasource.query = this.queryBuilderService_.getSql(
-        widget.model.datasource.config);
+        widget.model.datasource.config,
+        this.current.model.project_id,
+        this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
+        this.current.model.table_name || this.DEFAULT_TABLE_NAME);
   }
 
   if (!widget.model.datasource.query) {

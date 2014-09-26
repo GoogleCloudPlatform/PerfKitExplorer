@@ -51,9 +51,10 @@
   <div>
 
     <tabset>
-      <tab heading="Filters">
+      <tab heading="Filters" ng-hide="queryEditorCtrl.datasource.custom_query">
         <div>
           <div class="sidebar-group">
+
             <button type="button" class="btn btn-primary"
                     ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
               Refresh
@@ -72,6 +73,8 @@
 
           <div ng-hide="queryEditorCtrl.datasource.custom_query">
             <div class="sidebar-group">
+              <div class="sidebar-group-title">Field Filters</div>
+
               <div class="sidebar-item">
                 <div class="sidebar-item-label">start date</div>
                 <div class="sidebar-item-value">
@@ -189,6 +192,42 @@
             </div>
 
             <div class="sidebar-group">
+
+              <div class="sidebar-group-title">Datasource</div>
+
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">project id</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.project_id"
+                         placeholder="{{ queryEditorCtrl.dashboard.current.model.project_id ||
+                                         queryEditorCtrl.dashboard.DEFAULT_PROJECT_ID }}">
+                </div>
+              </div>
+
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">dataset</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.dataset_name"
+                         placeholder="{{ queryEditorCtrl.dashboard.current.model.dataset_name ||
+                                         queryEditorCtrl.dashboard.DEFAULT_DATASET_NAME }}">
+                </div>
+              </div>
+
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">table</div>
+                <div class="sidebar-item-value">
+                  <input class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.table_name"
+                         placeholder="{{ queryEditorCtrl.dashboard.current.model.table_name ||
+                                         queryEditorCtrl.dashboard.DEFAULT_TABLE_NAME }}">
+                </div>
+              </div>
+
+            </div>
+
+            <div class="sidebar-group">
               <button type="button" class="btn btn-primary"
                       ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
                 Refresh
@@ -198,6 +237,7 @@
                 Customize SQL
               </button>
             </div>
+
           </div>
 
         </div>
@@ -206,6 +246,7 @@
       <tab heading="Results">
         <div>
           <div class="sidebar-group">
+
             <button type="button" class="btn btn-primary"
                     ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
               Refresh
@@ -220,6 +261,16 @@
                     ng-show="queryEditorCtrl.datasource.custom_query">
               Build Query
             </button>
+          </div>
+
+          <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
+            <div class="sidebar-group-note">
+              Limited options are available when creating a Custom SQL statement.  Use the
+              <a href="#" ng-click="queryEditorCtrl.explorer.viewSql()">Edit SQL</a> button at
+              the bottom of the page to modify the SQL statement, or the
+              <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
+              button above to use the Query Builder UI.
+            </div>
           </div>
 
           <div class="sidebar-group" ng-show="!queryEditorCtrl.datasource.custom_query">
@@ -291,21 +342,13 @@
                 </span>
               </div>
             </div>
+
           </div>
 
           <div class="sidebar-group">
             <div class="sidebar-group-title">Results Shape</div>
 
             <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.custom_query">
-              <div class="sidebar-item-label">
-                row limit
-              </div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       type="number"
-                       ng-model="queryEditorCtrl.datasource.config.results.row_limit">
-              </div>
-            </div>
 
             <div class="sidebar-item">
               <div class="sidebar-item-label">

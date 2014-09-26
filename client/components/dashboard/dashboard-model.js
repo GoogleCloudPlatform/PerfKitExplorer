@@ -56,6 +56,30 @@ explorer.components.dashboard.DashboardModel = function() {
   this.type = 'dashboard';
 
   /**
+   * Specifies the project id that the query will connect to.  If not provided, will use the dashboard-level project
+   * id, or the app-engine default.
+   * @type {?string}
+   * @export
+   */
+  this.project_id = null;
+
+  /**
+   * Specifies the dataset that the query will connect to.  If not provided, will use the dashboard-level dataset
+   * name, or the app-engine default.
+   * @type {?string}
+   * @export
+   */
+  this.dataset_name = null;
+
+  /**
+   * Specifies the table that the query will connect to.  If not provided, will use the dashboard-level table name
+   * or the app-engine default.
+   * @type {?string}
+   * @export
+   */
+  this.table_name = null;
+
+  /**
    * @type {!Array.<(ContainerWidgetConfig|ContainerWidgetModel)>}
    * @expose
    */
