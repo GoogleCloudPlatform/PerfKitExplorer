@@ -50,8 +50,95 @@
 
   <div>
 
-    <tabset>
-      <tab heading="Filters" ng-hide="queryEditorCtrl.datasource.custom_query">
+    <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
+
+      <div class="sidebar-group-note">
+        Limited options are available when creating a Custom SQL statement.  Use the
+        <a href="#" ng-click="queryEditorCtrl.explorer.viewSql()">Edit SQL</a> button at
+        the bottom of the page to modify the SQL statement, or the
+        <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
+        button above to use the Query Builder UI.
+      </div>
+
+      <div class="sidebar-group">
+
+        <button type="button" class="btn btn-primary"
+                ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
+          Refresh
+        </button>
+        <button type="button" class="btn btn-default perfkit-footer-button"
+                ng-click="queryEditorCtrl.explorer.restoreBuilder()">
+          Build Query
+        </button>
+      </div>
+
+      <div class="sidebar-group-title">Results Shape</div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-item-label">
+          <input type="checkbox"
+                 ng-model="queryEditorCtrl.datasource.config.results.pivot"> pivot results
+        </div>
+      </div>
+
+      <div ng-show="queryEditorCtrl.datasource.config.results.pivot">
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">row field</div>
+          <div class="sidebar-item-value">
+            <input class="form-control"
+                   ng-model="queryEditorCtrl.datasource.config.results.pivot_config.row_field">
+          </div>
+        </div>
+
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">column field</div>
+          <div class="sidebar-item-value">
+            <input class="form-control"
+                   ng-model="queryEditorCtrl.datasource.config.results.pivot_config.column_field">
+          </div>
+        </div>
+
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">value field</div>
+          <div class="sidebar-item-value">
+            <input class="form-control"
+                   ng-model="queryEditorCtrl.datasource.config.results.pivot_config.value_field">
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-item-label">
+          row limit
+        </div>
+        <div class="sidebar-item-value">
+          <input class="form-control"
+                 type="number"
+                 ng-model="queryEditorCtrl.datasource.config.results.row_limit">
+        </div>
+      </div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-item-label">
+          <input type="checkbox"
+                 ng-model="queryEditorCtrl.datasource.view.sort_columns"> sort columns
+        </div>
+      </div>
+
+      <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">start column index</div>
+          <div class="sidebar-item-value">
+            <input class="form-control"
+                   type="number" min="0" require="false"
+                   ng-model="queryEditorCtrl.datasource.view.sort_column_start">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <tabset ng-hide="queryEditorCtrl.datasource.custom_query">
+      <tab heading="Filters">
         <div>
           <div class="sidebar-group">
 
@@ -60,14 +147,8 @@
               Refresh
             </button>
             <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="queryEditorCtrl.explorer.customizeSql()"
-                    ng-hide="queryEditorCtrl.datasource.custom_query">
+                    ng-click="queryEditorCtrl.explorer.customizeSql()">
               Customize SQL
-            </button>
-            <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="queryEditorCtrl.explorer.restoreBuilder()"
-                    ng-show="queryEditorCtrl.datasource.custom_query">
-              Build Query
             </button>
           </div>
 
@@ -252,25 +333,9 @@
               Refresh
             </button>
             <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="queryEditorCtrl.explorer.customizeSql()"
-                    ng-hide="queryEditorCtrl.datasource.custom_query">
+                    ng-click="queryEditorCtrl.explorer.customizeSql()">
               Customize SQL
             </button>
-            <button type="button" class="btn btn-default"
-                    ng-click="queryEditorCtrl.explorer.restoreBuilder()"
-                    ng-show="queryEditorCtrl.datasource.custom_query">
-              Build Query
-            </button>
-          </div>
-
-          <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
-            <div class="sidebar-group-note">
-              Limited options are available when creating a Custom SQL statement.  Use the
-              <a href="#" ng-click="queryEditorCtrl.explorer.viewSql()">Edit SQL</a> button at
-              the bottom of the page to modify the SQL statement, or the
-              <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
-              button above to use the Query Builder UI.
-            </div>
           </div>
 
           <div class="sidebar-group" ng-show="!queryEditorCtrl.datasource.custom_query">
@@ -343,74 +408,6 @@
               </div>
             </div>
 
-          </div>
-
-          <div class="sidebar-group">
-            <div class="sidebar-group-title">Results Shape</div>
-
-            <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.custom_query">
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                <input type="checkbox"
-                       ng-model="queryEditorCtrl.datasource.config.results.pivot"> pivot results
-              </div>
-            </div>
-
-            <div ng-show="queryEditorCtrl.datasource.config.results.pivot">
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">row field</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.row_field">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">column field</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.column_field">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">value field</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.value_field">
-                </div>
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                row limit
-              </div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       type="number"
-                       ng-model="queryEditorCtrl.datasource.config.results.row_limit">
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                <input type="checkbox"
-                       ng-model="queryEditorCtrl.datasource.view.sort_columns"> sort columns
-              </div>
-            </div>
-
-            <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">start column index</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         type="number" min="0" require="false"
-                         ng-model="queryEditorCtrl.datasource.view.sort_column_start">
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </tab>
