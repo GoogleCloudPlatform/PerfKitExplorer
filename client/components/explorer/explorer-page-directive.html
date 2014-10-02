@@ -52,7 +52,7 @@
     }
 
     .perfkit2-page-rightwell {
-      height: 50px;
+      width: 50px;
       overflow-x: auto;
       overflow-y: auto;
       border-left: 1px solid red;
@@ -64,13 +64,36 @@
       overflow-x: auto;
       overflow-y: auto;
     }
+
+    /* CSS Properties to make CodeMirror editor fill its contents. */
+    .CodeMirror {
+      border: 1px solid #eee;
+      height: auto;
+    }
+
+    .CodeMirror-scroll {
+      overflow-y: hidden;
+      overflow-x: auto;
+    }
   </style>
-  <div class="perfkit2-page-header">
-    HEADER
+
+  <div class="perfkit-page-alerts">
+    <alert ng-repeat="error in explorerCtrl.explorer.errorService.errors | limitTo:3"
+           type="error.errorType | lowercase"
+           close="explorerCtrl.explorer.errorService.removeErrorAt($index)">
+      {{ error.text }}</alert>
   </div>
-  <div class="perfkit2-page-body">
-    <div class="perfkit2-page-leftwell" id="perfkit2-page-leftwell">
-      LEFTWELL
+
+  <div class="perfkit2-page-header">
+    <explorer-header></explorer-header>
+  </div>
+
+  <div class="perfkit2-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
+    <div class="perfkit2-page-leftwell" id="perfkit2-page-leftwell"
+         ng-controller="QueryEditorCtrl as queryEditorCtrl"
+         ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
+
+      <query-editor />
     </div>
     <div resize="right" resize-element-id="perfkit2-page-leftwell">&nbsp;</div>
     <div class="perfkit2-page-content">
