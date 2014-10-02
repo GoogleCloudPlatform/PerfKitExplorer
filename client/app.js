@@ -24,7 +24,10 @@ goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDi
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.layout.ResizeDirective');
+goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
 goog.require('p3rf.perfkit.explorer.components.multibox.MultiboxDirective');
 goog.require('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
@@ -107,6 +110,8 @@ explorer.application.module.service('dashboardVersionService',
     explorer.components.dashboard.DashboardVersionService);
 explorer.application.module.service('errorService',
     explorer.components.error.ErrorService);
+explorer.application.module.service('resizeService',
+    explorer.components.layout.ResizeService);
 explorer.application.module.service('queryEditorService',
     explorer.components.widget.query.QueryEditorService);
 explorer.application.module.service('queryResultDataService',
@@ -166,8 +171,12 @@ explorer.application.module.directive('container',
     explorer.components.container.ContainerDirective);
 explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.MetadataPickerDirective);
+explorer.application.module.directive('resize',
+    explorer.components.layout.ResizeDirective);
 explorer.application.module.directive('explorerHeader',
     explorer.components.explorer.ExplorerHeaderDirective);
+explorer.application.module.directive('explorerPage',
+    explorer.components.explorer.ExplorerPageDirective);
 explorer.application.module.directive('multibox',
     explorer.components.multibox.MultiboxDirective);
 explorer.application.module.directive('popupbox',

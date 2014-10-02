@@ -32,6 +32,14 @@ class ExplorePageHandler(base.RequestHandlerBase):
     self.RenderHtml('explorer.html', {})
 
 
+class Explore2PageHandler(base.RequestHandlerBase):
+  """Http handler for the Report HTML page."""
+
+  def get(self):
+    """Request handler for GET operations."""
+    self.RenderHtml('explorer2.html', {})
+
+
 class DashboardAdminPageHandler(base.RequestHandlerBase):
   """Http handler for the Report HTML page."""
 
@@ -45,4 +53,5 @@ app = webapp2.WSGIApplication(
     [('/', MainPageHandler),
      ('/review', ExplorePageHandler),
      ('/explore', ExplorePageHandler),
+     ('/explore2', Explore2PageHandler),
      ('/dashboard-admin', DashboardAdminPageHandler)], debug=True)

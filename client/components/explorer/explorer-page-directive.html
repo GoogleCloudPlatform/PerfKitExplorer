@@ -1,0 +1,88 @@
+<div class="perfkit2-page-canvas">
+  <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .perfkit2-page-canvas {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      width: 100%;
+    }
+
+    .perfkit2-page-body {
+      display: flex;
+      flex-grow: 1;
+    }
+
+    .perfkit2-resize-left, .perfkit2-resize-right {
+      cursor: col-resize;
+      width: 5px;
+      background-color: grey;
+    }
+
+    .perfkit2-resize-top, .perfkit2-resize-bottom {
+      cursor: row-resize;
+      height: 5px;
+      background-color: grey;
+    }
+
+    .perfkit2-page-header {
+      height: 50px;
+      border-bottom: 1px solid red;
+    }
+
+    .perfkit2-page-leftwell {
+      width: 50px;
+      border-right: 1px solid red;
+      overflow-x: auto;
+      overflow-y: auto;
+    }
+
+    .perfkit2-page-content {
+      flex-grow: 1;
+      overflow-x: auto;
+      overflow-y: auto;
+    }
+
+    .perfkit2-page-rightwell {
+      height: 50px;
+      overflow-x: auto;
+      overflow-y: auto;
+      border-left: 1px solid red;
+    }
+
+    .perfkit2-page-footer {
+      height: 50px;
+      border-top: 1px solid red;
+      overflow-x: auto;
+      overflow-y: auto;
+    }
+  </style>
+  <div class="perfkit2-page-header">
+    HEADER
+  </div>
+  <div class="perfkit2-page-body">
+    <div class="perfkit2-page-leftwell" id="perfkit2-page-leftwell">
+      LEFTWELL
+    </div>
+    <div resize="right" resize-element-id="perfkit2-page-leftwell">&nbsp;</div>
+    <div class="perfkit2-page-content">
+      CONTENT
+    </div>
+    <div resize="left" resize-element-id="perfkit2-page-rightwell">&nbsp;</div>
+    <div class="perfkit2-page-rightwell" id="perfkit2-page-rightwell">
+      RIGHTWELL
+    </div>
+  </div>
+  <div resize="top" resize-element-id="perfkit2-page-footer">&nbsp;</div>
+  <div class="perfkit2-page-footer" id="perfkit2-page-footer">
+    FOOTER
+  </div>
+</div>
