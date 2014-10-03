@@ -189,14 +189,18 @@
               <div class="sidebar-item">
                 <div class="sidebar-item-label">product</div>
                 <div class="sidebar-item-value">
-                  <input class="form-control"
+                  <div class="input-group">
+                    <input class="form-control"
                          popupbox
                          popupbox-template-url="picklist_template.html"
                          popupbox-data="queryEditorCtrl.query.picklists['product_name']"
                          popupbox-model="queryEditorCtrl.datasource.config.filters.product_name"
                          ng-model="queryEditorCtrl.datasource.config.filters.product_name">
-                  <span class="glyphicon glyphicon-refresh"
-                        ng-click="queryEditorCtrl.refreshPicklist('product_name')"></span>
+                    <span class="input-group-addon">
+                      <i class="glyphicon glyphicon-refresh"
+                        ng-click="queryEditorCtrl.refreshPicklist('product_name')"></i>
+                    </span>
+                  </div>
                 </div>
               </div>
 
