@@ -617,5 +617,14 @@ DashboardService.prototype.deleteDashboard = function(dashboard) {
 };
 
 
+/**
+ * @param {DashboardModel} dashboard
+ * @export
+ */
+DashboardService.prototype.addContributor = function(dashboard) {
+  this.current.model.contributors.push({'email': ''});
+};
+
+
 
 });  // goog.scope

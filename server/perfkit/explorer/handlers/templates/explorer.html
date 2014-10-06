@@ -133,6 +133,7 @@
                      ng-model="dashboardCtrl.dashboard.current.model.id">
             </div>
           </div>
+
           <div class="sidebar-item">
             <div class="sidebar-item-label">title</div>
             <div class="sidebar-item-value">
@@ -141,6 +142,7 @@
                      ng-model="dashboardCtrl.dashboard.current.model.title">
             </div>
           </div>
+
           <div class="sidebar-item">
             <div class="sidebar-item-label">owner</div>
             <div class="sidebar-item-value">
@@ -150,6 +152,21 @@
                      ng-model="dashboardCtrl.dashboard.current.model.owner">
             </div>
           </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">contributors</div>
+            <div class="sidebar-item-value">
+              <span
+                  multibox
+                  multibox-display-prop="email"
+                  multibox-popup-prop="email"
+                  multibox-focus-on-select="true"
+                  multibox-on-insert-option="dashboardCtrl.dashboard.addContributor()"
+                  multibox-selected-options="dashboardCtrl.dashboard.current.model.contributors">
+              </span>
+            </div>
+          </div>
+
 
           <div class="sidebar-item" ng-show="explorerCtrl.explorer.CURRENT_USER_ADMIN === true">
             <div class="sidebar-item-label">version</div>
