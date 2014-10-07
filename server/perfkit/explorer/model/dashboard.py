@@ -187,24 +187,49 @@ class Dashboard(db.Model):
 
     dashboard_row.put()
 
-  def isContributor(self, email):
-    """Returns True if any of the data.contributors email addresses is the provided email address.
+  def isOwner(self):
+    """Returns True if the current user is an admin, or the owner.
 
     Args:
-      email: A string representing a user's email address.
+      user: A GAE user object.
+
+    Returns:
+      True if the provided user is an owner or admin for the current dashboard.  Otherwise, false.
+    """
+    email = users.get_current_user().email().lower()
+
+    return (users.is_current_user_admin() or
+        email == self.created_by.lower() or)
+
+  def isContributor(self):
+    """Returns True if any of the data.contributors email addresses is the current user.
+
+    Args:
+      user: A GAE user object.
 
     Returns:
       True if the provided email address exists in data.contributors.  Otherwise, false.
     """
     data = self.GetDashboardData()
+    email = users.get_current_user().email().lower()
 
     if 'contributors' in data:
       for contributor in data['contributors']:
-        if contributor['email'] == email:
+        if contributor['email'].lower() == email:
           return True
 
     return False
 
+  def canEdit(self):
+    """Returns True if the current user is an admin, the owner or a contributor.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided user is an owner, admin or contributor for the current dashboard.  Otherwise, false.
+    """
+    return (self.isOwner() or self.isContributor())
 
   def GetDashboardData(self):
     """Returns a JSON representation of the 'data' field.
