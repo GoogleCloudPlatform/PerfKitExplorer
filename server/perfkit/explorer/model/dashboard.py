@@ -196,10 +196,9 @@ class Dashboard(db.Model):
     Returns:
       True if the provided user is an owner or admin for the current dashboard.  Otherwise, false.
     """
-    email = users.get_current_user().email().lower()
-
-    return (users.is_current_user_admin() or
-        email == self.created_by.lower() or)
+    return (
+      users.is_current_user_admin() or
+      users.get_current_user() == self.created_by)
 
   def isContributor(self):
     """Returns True if any of the data.contributors email addresses is the current user.
