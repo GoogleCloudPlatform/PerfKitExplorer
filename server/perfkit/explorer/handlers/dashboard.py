@@ -197,10 +197,12 @@ class EditDashboardHandler(base.RequestHandlerBase):
 
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
-      if (not users.is_current_user_admin() and
-          row.created_by != users.get_current_user()):
-        msg = ('This dashboard is owned by {owner}, and cannot be modified.'
-               .format(owner=row.created_by))
+      if (#not users.is_current_user_admin() and
+          row.created_by != users.get_current_user() and
+          not row.isContributor(users.get_current_user().email())):
+        msg = ('You are not an owner or contributor for this dashboard, and cannot modify it.  Contact '
+               '{owner} for access.'
+               .format(owner=row.created_by.email()))
         self.RenderJson(
             data={error_fields.MESSAGE: msg},
             status=400)

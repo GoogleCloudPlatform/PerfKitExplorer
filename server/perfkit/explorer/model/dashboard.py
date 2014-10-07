@@ -9,6 +9,7 @@ GAE Model for the datastore."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
 
 from google.appengine.api import users
 from google.appengine.ext import db
@@ -185,6 +186,25 @@ class Dashboard(db.Model):
     dashboard_row.data = json.dumps(data)
 
     dashboard_row.put()
+
+  def isContributor(self, email):
+    """Returns True if any of the data.contributors email addresses is the provided email address.
+
+    Args:
+      email: A string representing a user's email address.
+
+    Returns:
+      True if the provided email address exists in data.contributors.  Otherwise, false.
+    """
+    data = self.GetDashboardData()
+
+    if 'contributors' in data:
+      for contributor in data['contributors']:
+        if contributor['email'] == email:
+          return True
+
+    return False
+
 
   def GetDashboardData(self):
     """Returns a JSON representation of the 'data' field.
