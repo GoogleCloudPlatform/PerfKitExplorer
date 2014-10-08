@@ -211,8 +211,8 @@ class EditDashboardHandler(base.RequestHandlerBase):
         data['writers'] = []
 
       new_writers = data.get('writers')
-      writers_changed = row.writersChanged(data.get('contributors')
-      owners_changed = data[fields.OWNER] != new_owner.email()
+      writers_changed = row.writersChanged(data.get('contributors'))
+      owners_changed = (data[fields.OWNER] != new_owner.email())
 
       if owners_changed or writers_changed:
         if (not row.isOwner()):
