@@ -34,7 +34,6 @@ python %closurelib%/closure/bin/build/closurebuilder.py ^
  --compiler_flags="--formatting=PRETTY_PRINT" ^
  --output_file=deploy/client/perfkit_scripts.js >> last_compile.log
 
-
 SET CSS_TEMPFILE=deploy\perfkit_styles_raw.css
 ECHO ** Combine the client/*.css stylesheets into a single file.
 ECHO. /* Concatenated CSS */ > %CSS_TEMPFILE%
