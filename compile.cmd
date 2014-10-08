@@ -1,5 +1,12 @@
 @ECHO OFF
 
+REM PerfKit Explorer deployment script for Windows clients.
+REM Requirements:
+REM   * Java 7 JRE
+REM   * Python 2.7
+REM   * Google App Engine
+REM   * Closure Compiler
+
 ECHO ** Clean out the existing deployment content.
 rmdir /S /Q deploy
 
