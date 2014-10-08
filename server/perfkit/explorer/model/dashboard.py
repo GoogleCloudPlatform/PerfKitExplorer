@@ -26,17 +26,18 @@ class Error(Exception):
 
 
 class InitializeError(Error):
+  pass
 
-  def __init__(self, message):
-    self.message = message
-    super(InitializeError, self).__init__(message)
+
+class SecurityError(Error):
+  pass
 
 
 class UserValidator(db.Model):
   user = db.UserProperty(required=True)
 
-  @staticmethod
-  def GetUserFromEmail(email):
+  @classmethod
+  def GetUserFromEmail(cls, email):
     """Return a stable user_id string based on an email address.
 
     Args:
@@ -56,6 +57,30 @@ class UserValidator(db.Model):
 
     return user
 
+  @classmethod
+  def GetUsersFromEmails(cls, emails):
+    """Return a list of GAE Users based on a list of email addresses.  Also returns a list of invalid email addresses.
+
+    Args:
+      emails: An array of strings, each representing an email address of a valid GAE User.
+
+    Returns:
+      * A list of GAE Users.
+      * A list of email addresses that failed to validate.
+    """
+    return_users = []
+    return_failed_emails = []
+
+    for email in emails:
+      user = cls.GetUserFromEmail(email)
+
+      if user:
+        return_users.append(user)
+      else:
+        return_failed_emails.append(email)
+
+    return return_users, return_failed_emails
+
 
 class Dashboard(db.Model):
   """Models a Dashboard definition (as JSON).
@@ -66,6 +91,7 @@ class Dashboard(db.Model):
 
   created_by = db.UserProperty()
   modified_by = db.UserProperty()
+  writers = db.UserProperty(repeated=True)
   title = db.StringProperty(default='')
   data = db.TextProperty(default='')
   public = db.BooleanProperty(default=False)
@@ -187,6 +213,18 @@ class Dashboard(db.Model):
 
     dashboard_row.put()
 
+  def writersChanged(self, new_writers):
+    """Returns True if the owner or writers have changed, False if not.
+
+    Args:
+      new_contributors: A list of objects that contain email addresses.
+    """
+    old_emails = [user.email() for user in self.writers]
+    new_emails = [user.get('email') for user in new_writers]
+
+    return cmp(old_emails, new_emails) != 0
+
+
   def isOwner(self):
     """Returns True if the current user is an admin, or the owner.
 
@@ -212,10 +250,9 @@ class Dashboard(db.Model):
     data = self.GetDashboardData()
     email = users.get_current_user().email().lower()
 
-    if 'contributors' in data:
-      for contributor in data['contributors']:
-        if contributor['email'].lower() == email:
-          return True
+    for user in self.writers:
+      if user.email().lower() == email:
+        return True
 
     return False
 
