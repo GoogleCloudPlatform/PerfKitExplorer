@@ -393,7 +393,7 @@ class ListDashboardHandler(base.RequestHandlerBase):
       mine = self.request.get(fields.MINE)
       owner = self.request.get(fields.OWNER)
 
-      query = dashboard_model.Dashboard.all()
+      query = dashboard_model.Dashboard.query()
 
       filter_expr = '%s =' % fields.CREATED_BY
       if owner:
