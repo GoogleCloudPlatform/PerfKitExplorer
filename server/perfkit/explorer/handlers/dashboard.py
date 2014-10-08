@@ -395,17 +395,17 @@ class ListDashboardHandler(base.RequestHandlerBase):
 
       query = dashboard_model.Dashboard.query()
 
-      filter_expr = '%s =' % fields.CREATED_BY
+      filter_expr = 'ndb.GenericProperty(\'%s\') =' % fields.CREATED_BY
       if owner:
         owner_user = dashboard_model.UserValidator.GetUserFromEmail(owner)
 
         if owner_user:
-          query.filter(filter_expr, owner_user)
+          query.filter(ndb.GenericProperty(fields.CREATED_BY) == owner_user)
         else:
           self.RenderJson({fields.DATA: []})
           return
       elif mine:
-        query.filter(filter_expr, users.get_current_user())
+        query.filter(ndb.GenericProperty(fields.CREATED_BY) == users.get_current_user())
 
       query.order(fields.TITLE)
       results = query.fetch(limit=1000)
