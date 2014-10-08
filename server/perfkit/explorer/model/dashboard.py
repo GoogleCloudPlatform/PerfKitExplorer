@@ -12,7 +12,7 @@ import json
 import logging
 
 from google.appengine.api import users
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 import dashboard_fields as fields
 
@@ -33,8 +33,8 @@ class SecurityError(Error):
   pass
 
 
-class UserValidator(db.Model):
-  user = db.UserProperty(required=True)
+class UserValidator(ndb.Model):
+  user = ndb.UserProperty(required=True)
 
   @classmethod
   def GetUserFromEmail(cls, email):
@@ -82,19 +82,19 @@ class UserValidator(db.Model):
     return return_users, return_failed_emails
 
 
-class Dashboard(db.Model):
+class Dashboard(ndb.Model):
   """Models a Dashboard definition (as JSON).
 
   Tracks the contents of the dashboard (data, stored as JSON string), plus the
   user who created and last modified the dashboard.
   """
 
-  created_by = db.UserProperty()
-  modified_by = db.UserProperty()
-  writers = db.UserProperty(repeated=True)
-  title = db.StringProperty(default='')
-  data = db.TextProperty(default='')
-  public = db.BooleanProperty(default=False)
+  created_by = ndb.UserProperty()
+  modified_by = ndb.UserProperty()
+  writers = ndb.UserProperty(repeated=True)
+  title = ndb.StringProperty(default='')
+  data = ndb.TextProperty(default='')
+  public = ndb.BooleanProperty(default=False)
 
   @staticmethod
   def GetDashboard(dashboard_id, required=True):
