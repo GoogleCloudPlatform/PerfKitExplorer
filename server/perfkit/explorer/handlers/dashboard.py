@@ -40,6 +40,7 @@ import base
 from perfkit.explorer.model import dashboard as dashboard_model
 from perfkit.explorer.model import dashboard_fields as fields
 from perfkit.explorer.model import error_fields
+from perfkit.explorer.util import user_validator
 
 import webapp2
 
@@ -346,7 +347,7 @@ class ListDashboardHandler(base.RequestHandlerBase):
 
       filter_property = ndb.GenericProperty(fields.CREATED_BY)
       if owner:
-        owner_user = dashboard_model.UserValidator.GetUserFromEmail(owner)
+        owner_user = user_validator.UserValidator.GetUserFromEmail(owner)
 
         if owner_user:
           query.filter(filter_property == owner_user)

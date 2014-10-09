@@ -12,9 +12,9 @@ import json
 import logging
 
 from google.appengine.api import users
-from google.appengine.ext import db
 from google.appengine.ext import ndb
 
+from perfkit.explorer.util import user_validator
 import dashboard_fields as fields
 
 
@@ -31,31 +31,6 @@ class InitializeError(Error):
   def __init__(self, message):
     self.message = message
     super(InitializeError, self).__init__(message)
-
-
-class UserValidator(db.Model):
-  user = db.UserProperty(required=True)
-
-  @staticmethod
-  def GetUserFromEmail(email):
-    """Return a stable user_id string based on an email address.
-
-    Args:
-      email: Email address of the user.
-
-    Returns:
-      A GAE User instance, or None if the email doesn't resolve.
-    """
-    u = users.User(email)
-    key = UserValidator(user=u).put()
-    obj = UserValidator.get(key)
-    user = obj.user
-    obj.delete()
-
-    if not user.user_id():
-      return None
-
-    return user
 
 
 class Dashboard (ndb.Model):
@@ -172,7 +147,7 @@ class Dashboard (ndb.Model):
       raise InitializeError(message)
 
     owner_email = Dashboard.GetCanonicalEmail(owner_email)
-    new_owner = UserValidator.GetUserFromEmail(owner_email)
+    new_owner = user_validator.UserValidator.GetUserFromEmail(owner_email)
 
     if not new_owner:
       message = 'No owner with email ' + owner_email + ' was found.'.format(
@@ -241,7 +216,7 @@ class Dashboard (ndb.Model):
       A GAE User object representing the owner of the dashboard.
     """
     if owner_string:
-      owner = UserValidator.GetUserFromEmail(owner_string)
+      owner = user_validator.UserValidator.GetUserFromEmail(owner_string)
       if not owner:
         raise users.UserNotFoundError()
     else:
