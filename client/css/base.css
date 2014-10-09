@@ -232,15 +232,6 @@ h2 {
   padding-bottom: 4px;
 }
 
-.sidebar-input-full, .sidebar-item-value > input {
-  width: 180px;
-  margin-right: 4px;
-}
-
-.sidebar-item-value > input[type='checkbox'] {
-  width: auto;
-}
-
 /* Butter Bar */
 #butter {
   border-bottom-left-radius: 4px;
