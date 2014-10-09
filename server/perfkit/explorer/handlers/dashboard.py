@@ -44,6 +44,7 @@ from perfkit.explorer.model import error_fields
 import webapp2
 
 from google.appengine.api import users
+from google.appengine.ext import ndb
 
 
 class ViewDashboardHandler(base.RequestHandlerBase):
@@ -407,13 +408,13 @@ class ListDashboardHandler(base.RequestHandlerBase):
       elif mine:
         query.filter(ndb.GenericProperty(fields.CREATED_BY) == users.get_current_user())
 
-      query.order(fields.TITLE)
+      query.order(dashboard_model.Dashboard.title)
       results = query.fetch(limit=1000)
 
       response = []
       for result in results:
         response.append({
-            fields.ID: result.key().id(),
+            fields.ID: result.key.integer_id(),
             fields.OWNER: result.created_by.email(),
             fields.TITLE: (result.title or
                            dashboard_model.DEFAULT_DASHBOARD_TITLE)})
