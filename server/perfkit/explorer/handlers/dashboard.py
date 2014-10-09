@@ -193,14 +193,23 @@ class EditDashboardHandler(base.RequestHandlerBase):
         logging.error(warning)
         data[error_fields.WARNINGS] = [warning]
 
-      data[fields.OWNER] = new_owner.email()
-
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
-      if (not users.is_current_user_admin() and
-          row.created_by != users.get_current_user()):
-        msg = ('This dashboard is owned by {owner}, and cannot be modified.'
-               .format(owner=row.created_by))
+      if (data[fields.OWNER] != new_owner.email()):
+        if (not row.isOwner()):
+          msg = ('You are not an owner of this dashboard, and cannot transfer ownership.  Contact '
+                 '{owner} for reassignment if this is in error.'
+                 .format(owner=row.created_by.email()))
+          self.RenderJson(
+              data={error_fields.MESSAGE: msg},
+              status=400)
+          return
+        data[fields.OWNER] = new_owner.email()
+
+      if (not row.canEdit()):
+        msg = ('You are not an owner or contributor for this dashboard, and cannot modify it.  Contact '
+               '{owner} for access.'
+               .format(owner=row.created_by.email()))
         self.RenderJson(
             data={error_fields.MESSAGE: msg},
             status=400)
@@ -258,11 +267,20 @@ class RenameDashboardHandler(base.RequestHandlerBase):
 
   def post(self):
     """Request handler for POST operations."""
+    dashboard_id = self.GetIntegerParam(fields.ID)
+    row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
+
+    if (not row.canEdit()):
+      msg = ('You are not an owner or contributor for this dashboard, and cannot modify it.  Contact '
+             '{owner} for access.'
+             .format(owner=row.created_by.email()))
+      self.RenderJson(
+          data={error_fields.MESSAGE: msg},
+          status=400)
+      return
 
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
       title = self.GetStringParam(fields.TITLE)
-
       dashboard_model.Dashboard.RenameDashboard(dashboard_id, title)
     except (base.InitializeError, dashboard_model.InitializeError) as err:
       self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
@@ -285,6 +303,16 @@ class EditDashboardOwnerHandler(base.RequestHandlerBase):
 
     try:
       dashboard_id = self.GetIntegerParam(fields.ID)
+      row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
+
+      if (not row.isOwner()):
+        msg = ('You are not an owner of this dashboard, and cannot transfer ownership.  Contact '
+               '{owner} for reassignment if this is in error.'
+               .format(owner=row.created_by.email()))
+        self.RenderJson(
+            data={error_fields.MESSAGE: msg},
+            status=400)
+        return
       email = self.GetStringParam(fields.EMAIL)
 
       dashboard_model.Dashboard.EditDashboardOwner(dashboard_id, email)
@@ -309,8 +337,7 @@ class DeleteDashboardHandler(base.RequestHandlerBase):
 
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
-      if (not users.is_current_user_admin() and
-          row.created_by != users.get_current_user()):
+      if (row.isOwner()):
         msg = ('This dashboard is owned by {owner}, and cannot be modified.'
                .format(owner=row.created_by))
         self.RenderJson(

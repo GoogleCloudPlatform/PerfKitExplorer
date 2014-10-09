@@ -170,6 +170,23 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
 };
 
 
+DashboardVersionService.UpdateContainer = function(dashboard, updateFn) {
+  angular.forEach(dashboard.children, function(container) {
+    updateFn(container);
+  });
+};
+
+
+DashboardVersionService.UpdateWidget = function(dashboard, updateContainerFn, updateWidgetFn) {
+  angular.forEach(dashboard.children, function(container) {
+    updateContainerFn && updateContainerFn(container);
+    angular.forEach(container.children, function(widget) {
+      updateWidgetFn && updateWidgetFn(widget);
+    });
+  });
+};
+
+
 /**
  * Static list of version info and verification/update scripts.  See
  * DashboardVersionModel for a detailed description of version structure, or
@@ -178,165 +195,112 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
  * @type {Array.<!DashboardVersionModel>}
  */
 var VERSIONS = [
-  {'version': '4',
+  {'version': '5',
     'verify': function(dashboard) {
-      var rtnVal = true;
-
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-
-          if (!goog.isDef(widget.datasource.config.results.show_date)) {
-            rtnVal = false;
-            break;
-          }
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
+      var rtnVal = goog.isDef(dashboard.contributors);
 
       return rtnVal;
     },
     'update': function(dashboard) {
-      // Apply updates to each widget.
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-          if (!goog.isDef(widget.datasource.config.results.show_date)) {
-            var oldGrouping = widget.datasource.config.results.date_group;
-            widget.datasource.config.results.show_date = false;
-            widget.datasource.config.results.date_group = '';
-
-            switch (oldGrouping) {
-              case 'Daily':
-                widget.datasource.config.results.show_date = true;
-                widget.datasource.config.results.date_group = 'DAY';
-                break;
-              case 'Weekly':
-                widget.datasource.config.results.show_date = true;
-                widget.datasource.config.results.date_group = 'WEEK';
-                break;
-            }
-          }
-
-          if (!goog.isDef(widget.datasource.config.results.fields)) {
-            widget.datasource.config.results.fields = [];
-          }
-
-          if (!goog.isDef(widget.datasource.config.results.measures)) {
-            widget.datasource.config.results.measures = [];
-          }
-
-          widgetCtr++;
-        }
-        containerCtr++;
+      if (!goog.isDef(dashboard.contributors)) {
+        dashboard.contributors = [];
       }
+    }
+  },
+  {'version': '4',
+    'verify': function(dashboard) {
+      var rtnVal = true;
+
+      DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+        if (!goog.isDef(widget.datasource.config.results.show_date)) {
+          rtnVal = false;
+        };
+      });
+
+      return rtnVal;
+    },
+    'update': function(dashboard) {
+      DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+        if (!goog.isDef(widget.datasource.config.results.show_date)) {
+          var oldGrouping = widget.datasource.config.results.date_group;
+          widget.datasource.config.results.show_date = false;
+          widget.datasource.config.results.date_group = '';
+
+          switch (oldGrouping) {
+            case 'Daily':
+              widget.datasource.config.results.show_date = true;
+              widget.datasource.config.results.date_group = 'DAY';
+              break;
+            case 'Weekly':
+              widget.datasource.config.results.show_date = true;
+              widget.datasource.config.results.date_group = 'WEEK';
+              break;
+          }
+        }
+
+        if (!goog.isDef(widget.datasource.config.results.fields)) {
+          widget.datasource.config.results.fields = [];
+        }
+
+        if (!goog.isDef(widget.datasource.config.results.measures)) {
+          widget.datasource.config.results.measures = [];
+        }
+      });
     }
   },
   {'version': '3',
     'verify': function(dashboard) {
       var rtnVal = true;
 
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-
-          if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
-            rtnVal = false;
-            break;
-          }
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
+      DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+        if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
+          rtnVal = false;
+        };
+      });
 
       return rtnVal;
     },
     'update': function(dashboard) {
-      // Apply updates to each widget.
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
+      DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
           if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
             widget.datasource.config.results.pivot = false;
             widget.datasource.config.results.pivot_config = new PivotConfigModel();
           }
-
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
+      });
     }},
   {'version': '2',
     'verify': function(dashboard) {
       var rtnVal = true;
 
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-
-          if (!goog.isDef(widget.datasource.config) ||
-              !goog.isDef(widget.datasource.custom_query)) {
-            rtnVal = false;
-            break;
-          }
-          widgetCtr++;
+      DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+        if (!goog.isDef(widget.datasource.config) ||
+            !goog.isDef(widget.datasource.custom_query)) {
+          rtnVal = false;
         }
-        containerCtr++;
-      }
+      });
 
       return rtnVal;
     },
     'update': function(dashboard) {
       // Apply updates to each widget.
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-          if (!goog.isDef(widget.datasource.custom_query)) {
-            widget.datasource.custom_query = !goog.string.isEmptySafe(
-                widget.datasource.query);
-          }
-
-          if (!widget.datasource.config) {
-            widget.datasource.config = new QueryConfigModel();
-          }
-
-          // If a querystring is present, apply it to the config object.
-          if (widget.datasource.querystring) {
-            QueryConfigModel.applyQueryString(
-                widget.datasource.config,
-                widget.datasource.querystring);
-            delete widget.datasource.querystring;
-          }
-
-          widgetCtr++;
+      DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+        if (!goog.isDef(widget.datasource.custom_query)) {
+          widget.datasource.custom_query = !goog.string.isEmptySafe(
+              widget.datasource.query);
         }
-        containerCtr++;
-      }
+
+        if (!widget.datasource.config) {
+          widget.datasource.config = new QueryConfigModel();
+        }
+
+        // If a querystring is present, apply it to the config object.
+        if (widget.datasource.querystring) {
+          QueryConfigModel.applyQueryString(
+              widget.datasource.config,
+              widget.datasource.querystring);
+          delete widget.datasource.querystring;
+        }
+      });
     }},
   {'version': '1',
     'verify': function(dashboard) {
