@@ -31,8 +31,8 @@ class InitializeError(Error):
     super(InitializeError, self).__init__(message)
 
 
-class UserValidator(db.Model):
-  user = db.UserProperty(required=True)
+class UserValidator (ndb.Model):
+  user = ndb.UserProperty(required=True)
 
   @staticmethod
   def GetUserFromEmail(email):
@@ -46,7 +46,7 @@ class UserValidator(db.Model):
     """
     u = users.User(email)
     key = UserValidator(user=u).put()
-    obj = UserValidator.get(key)
+    obj = UserValidator.key.get()
     user = obj.user
     obj.delete()
 
@@ -56,18 +56,18 @@ class UserValidator(db.Model):
     return user
 
 
-class Dashboard(db.Model):
+class Dashboard (ndb.Model):
   """Models a Dashboard definition (as JSON).
 
   Tracks the contents of the dashboard (data, stored as JSON string), plus the
   user who created and last modified the dashboard.
   """
 
-  created_by = db.UserProperty()
-  modified_by = db.UserProperty()
-  title = db.StringProperty(default='')
-  data = db.TextProperty(default='')
-  public = db.BooleanProperty(default=False)
+  created_by = ndb.UserProperty()
+  modified_by = ndb.UserProperty()
+  title = ndb.StringProperty(default='')
+  data = ndb.TextProperty(default='')
+  public = ndb.BooleanProperty(default=False)
 
   @staticmethod
   def GetDashboard(dashboard_id, required=True):
