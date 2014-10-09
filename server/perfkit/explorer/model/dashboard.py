@@ -12,6 +12,7 @@ import json
 import logging
 
 from google.appengine.api import users
+from google.appengine.ext import db
 from google.appengine.ext import ndb
 
 import dashboard_fields as fields
@@ -32,8 +33,8 @@ class InitializeError(Error):
     super(InitializeError, self).__init__(message)
 
 
-class UserValidator (ndb.Model):
-  user = ndb.UserProperty(required=True)
+class UserValidator(db.Model):
+  user = db.UserProperty(required=True)
 
   @staticmethod
   def GetUserFromEmail(email):
@@ -47,15 +48,13 @@ class UserValidator (ndb.Model):
     """
     u = users.User(email)
     key = UserValidator(user=u).put()
-    obj = key.get()
-    logging.error(obj)
+    obj = UserValidator.get(key)
     user = obj.user
+    obj.delete()
 
     if not user.user_id():
-      logging.error('Cannot find a user for %s', email)
       return None
 
-    key.delete()
     return user
 
 
