@@ -9,9 +9,10 @@ GAE Model for the datastore."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
 
 from google.appengine.api import users
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 import dashboard_fields as fields
 
@@ -46,13 +47,15 @@ class UserValidator (ndb.Model):
     """
     u = users.User(email)
     key = UserValidator(user=u).put()
-    obj = UserValidator.key.get()
+    obj = key.get()
+    logging.error(obj)
     user = obj.user
-    obj.delete()
 
     if not user.user_id():
+      logging.error('Cannot find a user for %s', email)
       return None
 
+    key.delete()
     return user
 
 
@@ -124,7 +127,7 @@ class Dashboard (ndb.Model):
       new_dashboard.title = dashboard_row.title
 
     new_dashboard.data = json.dumps(data)
-    return new_dashboard.put().id()
+    return new_dashboard.put().integer_id()
 
   @staticmethod
   def RenameDashboard(dashboard_id, new_name):
@@ -202,12 +205,12 @@ class Dashboard (ndb.Model):
         return json.loads(str_value)
       except ValueError:
         message = ('The "data" field in dashboard row {id} must be valid JSON.'
-                   '  Found:\n{value}').format(id=self.key().id(),
+                   '  Found:\n{value}').format(id=self.key.integer_id(),
                                                value=str_value)
         raise InitializeError(message)
     else:
       message = 'The "data" field in dashboard row {id} is required.'.format(
-          id=self.key().id())
+          id=self.key.integer_id())
       raise InitializeError(message)
 
   @staticmethod
