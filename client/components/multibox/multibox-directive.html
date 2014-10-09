@@ -1,16 +1,18 @@
-<div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
+<div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
   <input
-      class="multibox-input-control form-control sidebar-input-full"
+      class="multibox-input-control form-control"
       placeholder="field name"
       ng-model="option[displayProp]"
       ng-blur="blurInput($event)"
       ng-focus="focusInput($event, option)">
-  <span class="glyphicon glyphicon-remove"
-        ng-click="unselectOptionAt($index)"></span>
+  <span class="input-group-addon">
+    <i class="glyphicon glyphicon-remove"
+       ng-click="unselectOptionAt($index)"></i>
+  </span>
 </div>
 <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-  <input class="multibox-insert-control form-control sidebar-input-full"
-      ng-click="addInput()" ng-focus="addInput()" readonly>
+  <input class="multibox-insert-control form-control"
+      ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
 </div>
 <div class="multibox-popup perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
   <div class="perfkit-popup-item"

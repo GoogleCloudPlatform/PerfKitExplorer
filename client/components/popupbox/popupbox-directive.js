@@ -119,6 +119,14 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       };
 
       /**
+       * When a value is selected, sets the popupboxModel and closes the popup.
+       * @param {*} value The value that should be selected.
+       */
+      scope.getDisplayValue = function(data) {
+        return data;
+      };
+
+      /**
        * Hides the popup.
        */
       scope.hidePopup = function() {
