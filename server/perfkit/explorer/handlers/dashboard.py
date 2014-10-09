@@ -322,7 +322,7 @@ class DeleteDashboardHandler(base.RequestHandlerBase):
             status=400)
         return
 
-      row.delete()
+      row.key.delete()
     except (base.InitializeError, dashboard_model.InitializeError) as err:
       self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
 
