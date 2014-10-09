@@ -175,7 +175,7 @@ DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
 
   var owner = window.prompt(
     'Please provide an email address for the new owner:',
-    selectedDashboard.owner.email);
+    selectedDashboard.owner);
 
   if (owner) {
     var promise = this.dashboardDataService.editOwner(
