@@ -40,10 +40,12 @@ import base
 from perfkit.explorer.model import dashboard as dashboard_model
 from perfkit.explorer.model import dashboard_fields as fields
 from perfkit.explorer.model import error_fields
+from perfkit.explorer.util import user_validator
 
 import webapp2
 
 from google.appengine.api import users
+from google.appengine.ext import ndb
 
 
 class ViewDashboardHandler(base.RequestHandlerBase):
@@ -104,7 +106,7 @@ class CreateDashboardHandler(base.RequestHandlerBase):
       dashboard = dashboard_model.Dashboard()
       dashboard.created_by = created_by
       dashboard.title = title
-      dashboard_id = dashboard.put().id()
+      dashboard_id = dashboard.put().integer_id()
 
       # Now that we have an ID, save the data with an ID attached.
       data[fields.ID] = str(dashboard_id)
@@ -146,7 +148,7 @@ class UploadDashboardHandler(base.RequestHandlerBase):
       dashboard = dashboard_model.Dashboard()
       dashboard.created_by = created_by
       dashboard.title = title
-      dashboard_id = dashboard.put().id()
+      dashboard_id = dashboard.put().integer_id()
 
       # Now that we have an ID, save the data with an ID attached.
       data[fields.ID] = str(dashboard_id)
@@ -289,6 +291,8 @@ class EditDashboardOwnerHandler(base.RequestHandlerBase):
 
       dashboard_model.Dashboard.EditDashboardOwner(dashboard_id, email)
     except (base.InitializeError, dashboard_model.InitializeError) as err:
+      logging.error('EditDashboardOwnerHandler() failed:')
+      logging.error(err)
       self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
 
 
@@ -318,7 +322,7 @@ class DeleteDashboardHandler(base.RequestHandlerBase):
             status=400)
         return
 
-      row.delete()
+      row.key.delete()
     except (base.InitializeError, dashboard_model.InitializeError) as err:
       self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
 
@@ -339,27 +343,27 @@ class ListDashboardHandler(base.RequestHandlerBase):
       mine = self.request.get(fields.MINE)
       owner = self.request.get(fields.OWNER)
 
-      query = dashboard_model.Dashboard.all()
+      query = dashboard_model.Dashboard.query()
 
-      filter_expr = '%s =' % fields.CREATED_BY
+      filter_property = ndb.GenericProperty(fields.CREATED_BY)
       if owner:
-        owner_user = dashboard_model.UserValidator.GetUserFromEmail(owner)
+        owner_user = user_validator.UserValidator.GetUserFromEmail(owner)
 
         if owner_user:
-          query.filter(filter_expr, owner_user)
+          query.filter(filter_property == owner_user)
         else:
           self.RenderJson({fields.DATA: []})
           return
       elif mine:
-        query.filter(filter_expr, users.get_current_user())
+        query.filter(filter_property == users.get_current_user())
 
-      query.order(fields.TITLE)
+      query.order(dashboard_model.Dashboard.title)
       results = query.fetch(limit=1000)
 
       response = []
       for result in results:
         response.append({
-            fields.ID: result.key().id(),
+            fields.ID: result.key.integer_id(),
             fields.OWNER: result.created_by.email(),
             fields.TITLE: (result.title or
                            dashboard_model.DEFAULT_DASHBOARD_TITLE)})
