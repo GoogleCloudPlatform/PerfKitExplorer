@@ -88,7 +88,7 @@ explorer.components.dashboard.DashboardVersionService = function($filter) {
    * @type {!Array.<!DashboardVersionModel>}
    * @export
    */
-  this.versions = this.loadVersions();
+  this.versions = this.initVersions();
 
   /**
    * @type {?DashboardVersionModel}
@@ -169,7 +169,8 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
           console.log('The model specifies v' + dashboard.version + ', but is not valid.');
         }
       } catch (err) {
-          console.log('The model specifies v' + dashboard.version + ', but is not valid.');
+        console.log('The model specifies v' + dashboard.version + ', but an error occurred:');
+        console.log(err);
       }
     }
   }

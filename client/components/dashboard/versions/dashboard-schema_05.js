@@ -4,17 +4,17 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersi
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.version.DashboardVersionUtil;
+  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
-  p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4 = function() {
-    this.version = 5;
+  p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV5 = function() {
+    this.version = '5';
   };
   var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV5;
 
   DashboardSchema.prototype.verify = function(dashboard) {
-    var rtnVal = goog.isDef(dashboard.contributors);
+    if (!goog.isDef(dashboard.contributors)) { return false; }
 
-    return rtnVal;
+    return true;
   };
 
   DashboardSchema.prototype.update = function(dashboard) {

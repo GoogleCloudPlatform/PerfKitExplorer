@@ -4,27 +4,26 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersi
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.version.DashboardVersionUtil;
+  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4 = function() {
-    this.version = 4;
+    this.version = '4';
   };
   var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4;
 
   DashboardSchema.prototype.verify = function(dashboard) {
-    var rtnVal = true;
-
-    DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+    return DashboardVersionUtil.VerifyDashboard(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config.results.show_date)) {
-        rtnVal = false;
+        console.log('results.show_date is missing');
+        return false;
       };
-    });
 
-    return rtnVal;
+      return true;
+    });
   };
 
   DashboardSchema.prototype.update = function(dashboard) {
-    DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+    DashboardVersionUtil.UpdateWidget(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config.results.show_date)) {
         var oldGrouping = widget.datasource.config.results.date_group;
         widget.datasource.config.results.show_date = false;

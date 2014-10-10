@@ -4,29 +4,27 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersi
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.version.DashboardVersionUtil;
+  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
-  p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV1 = function() {
-    this.version = 2;
+  p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV2 = function() {
+    this.version = '2';
   };
   var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV2;
 
   DashboardSchema.prototype.verify = function(dashboard) {
-    var rtnVal = true;
-
-    DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+    return DashboardVersionUtil.VerifyDashboard(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config) ||
           !goog.isDef(widget.datasource.custom_query)) {
-        rtnVal = false;
+        return false;
       }
-    });
 
-    return rtnVal;
+      return true;
+    });
   };
 
   DashboardSchema.prototype.update = function(dashboard) {
     // Apply updates to each widget.
-    DashboardVersionService.UpdateWidget(dashboard, null, function(widget) {
+    DashboardVersionUtil.UpdateWidget(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.custom_query)) {
         widget.datasource.custom_query = !goog.string.isEmptySafe(
             widget.datasource.query);
