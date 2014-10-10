@@ -43,7 +43,7 @@ class Dashboard (ndb.Model):
 
   created_by = ndb.UserProperty()
   modified_by = ndb.UserProperty()
-  writers = ndb.UserProperty(repeated=True)
+  writers = ndb.StringProperty(repeated=True)
   title = ndb.StringProperty(default='')
   data = ndb.TextProperty(default='')
   public = ndb.BooleanProperty(default=False)
@@ -173,7 +173,7 @@ class Dashboard (ndb.Model):
     Args:
       new_contributors: A list of objects that contain email addresses.
     """
-    old_emails = [user.email() for user in self.writers]
+    old_emails = [user for user in self.writers]
     new_emails = [user.get('email') for user in new_writers]
 
     return cmp(old_emails, new_emails) != 0
@@ -189,7 +189,7 @@ class Dashboard (ndb.Model):
       True if the provided user is an owner or admin for the current dashboard.  Otherwise, false.
     """
     return (
-      users.is_current_user_admin() or
+#      users.is_current_user_admin() or
       users.get_current_user() == self.created_by)
 
   def isContributor(self):
@@ -204,8 +204,8 @@ class Dashboard (ndb.Model):
     data = self.GetDashboardData()
     email = users.get_current_user().email().lower()
 
-    for user in self.writers:
-      if user.email().lower() == email:
+    for user_email in self.writers:
+      if user_email.lower() == email:
         return True
 
     return False

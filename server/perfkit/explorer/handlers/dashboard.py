@@ -107,7 +107,6 @@ class CreateDashboardHandler(base.RequestHandlerBase):
 
       dashboard = dashboard_model.Dashboard()
       dashboard.created_by = users.get_current_user()
-      dashboard.owner = owner
       dashboard.title = title
       dashboard_id = dashboard.put().integer_id()
 
@@ -203,6 +202,7 @@ class EditDashboardHandler(base.RequestHandlerBase):
             current_owner_email)
       except users.UserNotFoundError:
         new_owner = users.get_current_user()
+        data[fields.OWNER] = new_owner.email()
         warning = (
             'The user {current} does not exist.  Owner set to {new}.'.format(
                 current=current_owner_email, new=new_owner.email()))
@@ -230,7 +230,7 @@ class EditDashboardHandler(base.RequestHandlerBase):
           data[fields.OWNER] = new_owner.email()
 
         if writers_changed:
-          row.writers = dashboard_model.UserValidator.GetUsersFromEmails(new_writers)
+          row.writers = [writer['email'] for writer in new_writers]
 
       row.data = json.dumps(data)
       row.title = title
@@ -365,9 +365,9 @@ class DeleteDashboardHandler(base.RequestHandlerBase):
 
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
-      if (row.isOwner()):
+      if not(row.isOwner()):
         msg = ('This dashboard is owned by {owner}, and cannot be modified.'
-               .format(owner=row.created_by))
+               .format(owner=row.created_by.email()))
         self.RenderJson(
             data={error_fields.MESSAGE: msg},
             status=403)

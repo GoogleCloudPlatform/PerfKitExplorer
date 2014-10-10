@@ -1,3 +1,17 @@
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+
+Utility methods for GAE User validation.
+"""
+
+__author__ = 'joemu@google.com (Joe Allan Muharsky)'
+
+
+import logging
+
 from google.appengine.api import users
 from google.appengine.ext import db
 
@@ -5,7 +19,7 @@ class UserValidator(db.Model):
   user = db.UserProperty(required=True)
 
   @classmethod
-  def GetUserFromEmail(email):
+  def GetUserFromEmail(cls, email):
     """Return a GAE User based on an email address.
 
     Args:
@@ -25,23 +39,3 @@ class UserValidator(db.Model):
       return None
 
     return user
-
-  @classmethod
-  def GetUsersFromEmails(emails):
-    """Returns a list of GAE Users based on a list of email addresses.
-
-    Args:
-      emails: An array of strings representing user email addresses.
-
-    Returns:
-      A list of GAE Users.
-    """
-    result = []
-
-    for email in emails:
-      user = cls.GetUserFromEmail(email)
-
-      if user:
-        result.append(user)
-
-    return result
