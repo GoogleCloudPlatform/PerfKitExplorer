@@ -51,7 +51,7 @@ var WidgetType = explorer.models.WidgetType;
  * @ngInject
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
-    widgetFactoryService, dashboardDataService, queryBuilderService) {
+    widgetFactoryService, dashboardDataService, queryBuilderService, dashboardVersionService) {
   /**
    * @type {!ArrayUtilService}
    * @private
@@ -71,6 +71,12 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   this.dashboardDataService_ = dashboardDataService;
 
   /**
+   * @type {!DashboardVersionService}
+   * @private
+   */
+  this.dashboardVersionService_ = dashboardVersionService;
+
+  /**
    * @type {!QueryBuilderService}
    * @private
    */
@@ -80,7 +86,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
    * @type {!DashboardConfig}
    * @export
    */
-  this.current = new DashboardConfig();
+  this.current = this.initializeDashboard();
 
   /**
    * @type {!Array.<WidgetConfig>}
@@ -124,6 +130,17 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;
+
+
+/**
+ * Initialize a new dashboard.
+ */
+DashboardService.prototype.initializeDashboard = function() {
+  var dashboard = new DashboardConfig();
+  dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
+
+  return dashboard;
+}
 
 
 /**
