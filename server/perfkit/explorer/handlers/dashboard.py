@@ -350,14 +350,14 @@ class ListDashboardHandler(base.RequestHandlerBase):
         owner_user = user_validator.UserValidator.GetUserFromEmail(owner)
 
         if owner_user:
-          query.filter(filter_property == owner_user)
+          query = query.filter(filter_property == owner_user)
         else:
           self.RenderJson({fields.DATA: []})
           return
       elif mine:
-        query.filter(filter_property == users.get_current_user())
+        query = query.filter(filter_property == users.get_current_user())
 
-      query.order(dashboard_model.Dashboard.title)
+      query = query.order(dashboard_model.Dashboard.title)
       results = query.fetch(limit=1000)
 
       response = []
