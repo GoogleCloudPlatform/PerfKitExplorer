@@ -201,7 +201,6 @@ class Dashboard (ndb.Model):
     Returns:
       True if the provided email address exists in data.contributors.  Otherwise, false.
     """
-    data = self.GetDashboardData()
     email = users.get_current_user().email().lower()
 
     for user_email in self.writers:
