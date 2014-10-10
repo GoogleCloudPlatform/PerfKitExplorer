@@ -4,9 +4,9 @@ from google.appengine.ext import db
 class UserValidator(db.Model):
   user = db.UserProperty(required=True)
 
-  @staticmethod
+  @classmethod
   def GetUserFromEmail(email):
-    """Return a stable user_id string based on an email address.
+    """Return a GAE User based on an email address.
 
     Args:
       email: Email address of the user.
@@ -25,3 +25,23 @@ class UserValidator(db.Model):
       return None
 
     return user
+
+  @classmethod
+  def GetUsersFromEmails(emails):
+    """Returns a list of GAE Users based on a list of email addresses.
+
+    Args:
+      emails: An array of strings representing user email addresses.
+
+    Returns:
+      A list of GAE Users.
+    """
+    result = []
+
+    for email in emails:
+      user = cls.GetUserFromEmail(email)
+
+      if user:
+        result.append(user)
+
+    return result

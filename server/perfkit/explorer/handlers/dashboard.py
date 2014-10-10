@@ -185,7 +185,7 @@ class EditDashboardHandler(base.RequestHandlerBase):
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
       if (not row.canEdit()):
-        msg = ('You are not an owner or contributor for this dashboard, and cannot modify it.  Contact '
+        msg = ('You are not an owner or writer for this dashboard, and cannot modify it.  Contact '
                '{owner} for access.'
                .format(owner=row.created_by.email()))
         self.RenderJson(
@@ -213,7 +213,7 @@ class EditDashboardHandler(base.RequestHandlerBase):
         data['writers'] = []
 
       new_writers = data.get('writers')
-      writers_changed = row.writersChanged(data.get('contributors'))
+      writers_changed = row.writersChanged(data.get('writers'))
       owners_changed = (data[fields.OWNER] != new_owner.email())
 
       if owners_changed or writers_changed:
@@ -291,7 +291,7 @@ class RenameDashboardHandler(base.RequestHandlerBase):
     row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
     if (not row.canEdit()):
-      msg = ('You are not an owner or contributor for this dashboard, and cannot modify it.  Contact '
+      msg = ('You are not an owner or writer for this dashboard, and cannot modify it.  Contact '
              '{owner} for access.'
              .format(owner=row.created_by.email()))
       self.RenderJson(

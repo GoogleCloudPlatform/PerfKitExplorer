@@ -102,6 +102,8 @@ class Dashboard (ndb.Model):
     else:
       new_dashboard.title = dashboard_row.title
 
+    data[fields.WRITERS] = []
+
     new_dashboard.data = json.dumps(data)
     return new_dashboard.put().integer_id()
 
