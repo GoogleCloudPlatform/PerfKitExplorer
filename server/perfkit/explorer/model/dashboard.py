@@ -189,7 +189,7 @@ class Dashboard (ndb.Model):
       True if the provided user is an owner or admin for the current dashboard.  Otherwise, false.
     """
     return (
-#      users.is_current_user_admin() or
+      users.is_current_user_admin() or
       users.get_current_user() == self.created_by)
 
   def isContributor(self):
