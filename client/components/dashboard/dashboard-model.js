@@ -53,7 +53,7 @@ explorer.components.dashboard.DashboardModel = function() {
    * @type {Array.<!string>}
    * @expose
    */
-  this.contributors = [];
+  this.writers = [];
 
   /**
    * @type {?string}
