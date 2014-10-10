@@ -232,14 +232,6 @@ h2 {
   padding-bottom: 4px;
 }
 
-.sidebar-input-full, .sidebar-item-value > input {
-  margin-right: 4px;
-}
-
-.sidebar-item-value > input[type='checkbox'] {
-  width: auto;
-}
-
 /* Style overrides for Bootstrap + GViz Chart Editor */
 .google-visualization-charteditor-dialog {
   width: auto;

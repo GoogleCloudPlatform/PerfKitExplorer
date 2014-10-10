@@ -19,25 +19,27 @@
               data.slice(0, popupboxModel.length).toUpperCase() == popupboxModel.toUpperCase())}"
            ng-repeat="data in popupboxData"
            ng-click="selectValue(data);">
-        {{ data }}
+        {{ getDisplayValue(data) }}
       </div>
     </div>
   </script>
 
   <!-- Custom template for the label picker when filtering on values. -->
   <script type="text/ng-template" id="metadata_picker.template">
-    <div class="multibox-row" ng-repeat="option in multiboxSelectedOptions">
+    <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
       <input
-          class="multibox-input-control form-control sidebar-input-full"
+          class="multibox-input-control form-control"
           ng-model="option.text"
           ng-blur="blurInput($event)"
           ng-focus="focusInput($event, option)">
-      <span class="glyphicon glyphicon-remove"
-            ng-click="unselectOptionAt($index)"></span>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-remove"
+           ng-click="unselectOptionAt($index)"></i>
+      </span>
     </div>
     <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-      <input class="multibox-insert-control form-control sidebar-input-full"
-          ng-click="addInput()" ng-focus="addInput()" readonly>
+      <input class="multibox-insert-control form-control"
+          ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
     </div>
     <div class="multibox-popup perfkit-popup" tabindex="-1">
       <div
@@ -188,61 +190,61 @@
 
               <div class="sidebar-item">
                 <div class="sidebar-item-label">product</div>
-                <div class="sidebar-item-value">
-                  <div class="input-group">
-                    <input class="form-control"
+                <div class="sidebar-item-value input-group">
+                  <input class="form-control"
                          popupbox
-                         popupbox-template-url="picklist_template.html"
                          popupbox-data="queryEditorCtrl.query.picklists['product_name']"
                          popupbox-model="queryEditorCtrl.datasource.config.filters.product_name"
                          ng-model="queryEditorCtrl.datasource.config.filters.product_name">
-                    <span class="input-group-addon">
-                      <i class="glyphicon glyphicon-refresh"
-                        ng-click="queryEditorCtrl.refreshPicklist('product_name')"></i>
-                    </span>
-                  </div>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"
+                       ng-click="queryEditorCtrl.refreshPicklist('product_name')"></i>
+                  </span>
                 </div>
               </div>
 
               <div class="sidebar-item">
                 <div class="sidebar-item-label">test</div>
-                <div class="sidebar-item-value">
+                <div class="sidebar-item-value input-group">
                   <input class="form-control"
                          popupbox
-                         popupbox-template-url="picklist_template.html"
                          popupbox-data="queryEditorCtrl.query.picklists['test']"
                          popupbox-model="queryEditorCtrl.datasource.config.filters.test"
                          ng-model="queryEditorCtrl.datasource.config.filters.test">
-                  <span class="glyphicon glyphicon-refresh"
-                        ng-click="queryEditorCtrl.refreshPicklist('test')"></span>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"
+                       ng-click="queryEditorCtrl.refreshPicklist('test')"></i>
+                  </span>
                 </div>
               </div>
 
               <div class="sidebar-item">
                 <div class="sidebar-item-label">metric</div>
-                <div class="sidebar-item-value">
+                <div class="sidebar-item-value input-group">
                   <input class="form-control"
                          popupbox
-                         popupbox-template-url="picklist_template.html"
                          popupbox-data="queryEditorCtrl.query.picklists['metric']"
                          popupbox-model="queryEditorCtrl.datasource.config.filters.metric"
                          ng-model="queryEditorCtrl.datasource.config.filters.metric">
-                  <span class="glyphicon glyphicon-refresh"
-                        ng-click="queryEditorCtrl.refreshPicklist('metric')"></span>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"
+                       ng-click="queryEditorCtrl.refreshPicklist('metric')"></i>
+                  </span>
                 </div>
               </div>
 
               <div class="sidebar-item">
                 <div class="sidebar-item-label">run by</div>
-                <div class="sidebar-item-value">
+                <div class="sidebar-item-value input-group">
                   <input class="form-control"
                          popupbox
-                         popupbox-template-url="picklist_template.html"
                          popupbox-data="queryEditorCtrl.query.picklists['owner']"
                          popupbox-model="queryEditorCtrl.datasource.config.filters.runby"
                          ng-model="queryEditorCtrl.datasource.config.filters.runby">
-                  <span class="glyphicon glyphicon-refresh"
-                        ng-click="queryEditorCtrl.refreshPicklist('owner')"></span>
+                  <span class="input-group-addon">
+                    <i class="glyphicon glyphicon-refresh"
+                       ng-click="queryEditorCtrl.refreshPicklist('owner')"></i>
+                  </span>
                 </div>
               </div>
               <div class="sidebar-item">
