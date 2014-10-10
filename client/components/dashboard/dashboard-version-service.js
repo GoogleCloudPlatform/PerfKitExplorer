@@ -26,27 +26,8 @@
  *
  * While this will be expanded to a generic schema/upgrade component, this
  * module will initially be the sole repository of all dashboard version info.
- * The current versions (at the bottom of this file as VERSIONS) are:
+ * See components.dashboard.version.* for a list of existing versions and notes.
  *
- * v1   2013-Aug    Initial release of the dashboard explorer.  Supports widgets
- *                  with datasource and chart top-level elements.
- * v2   2014-Feb    Testing release for datasource configs.  Introduces the
- *                  datasource.custom_query and datasource.config elements.
- *                  The datasource.config element supercedes
- *                  datasource.querystring, and will replace it on .update().
- *                  The owner has now been converted from an email/string
- *                  to an object with an email and nickname property.  Existing
- *                  widgets will be set to custom_query=true to avoid accidental
- *                  overwrites of custom logic.
- * v3   2014-May    Add two new fields to datasource.config.results:
- *                  pivot (boolean): If true, the data will be pivoted.
- *                  pivot_config (PivotConfigModel): Describes the column, row and
- *                  value fields for pivot transformation.
- * v4   2014-May    Adds additional fields to datasource.config.results:
- *                  show_date (boolean): If true, the date column will be displayed.
- *                  date_group (string): Modified.  Now supports Hour, Day, Week,
- *                  Month, Year.
- *                  fields (Array.<string>): A list of fields to return.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -85,12 +66,14 @@ var versions = explorer.components.dashboard.versions;
  */
 explorer.components.dashboard.DashboardVersionService = function($filter) {
   /**
+   * A list of all known versions, from newest to oldest.
    * @type {!Array.<!DashboardVersionModel>}
    * @export
    */
   this.versions = this.initVersions();
 
   /**
+   * The version to target for updates.  By default, this is the most recent version.
    * @type {?DashboardVersionModel}
    * @export
    */
@@ -133,22 +116,12 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
 
 
 /**
- * Initializes the version list.
- */
-DashboardVersionService.prototype.initVersions = function() {
-  return [
-    new versions.DashboardSchemaV5(),
-    new versions.DashboardSchemaV4(),
-    new versions.DashboardSchemaV3(),
-    new versions.DashboardSchemaV2(),
-    new versions.DashboardSchemaV1()
-  ];
-};
-
-
-/**
- * @param {!DashboardModel} dashboard
- * @return {!DashboardVersionModel}
+ * Returns the version number of a dashboard.  If dashboard.version is specified, then
+ * it is verified and returned.  If not, then it is evaluated avainst the known versions to
+ * determine the most recent match.
+ * @param {!DashboardModel} dashboard The dashboard to evaluate.
+ * @return {!DashboardVersionModel} The most recent version instance that matches the
+ * dashboard's schema.
  * @export
  */
 DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
@@ -186,5 +159,19 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
   }
   throw new Error('The model does not appear to be a valid dashboard.');
 };
+
+/**
+ * Initializes the version list.
+ */
+DashboardVersionService.prototype.initVersions = function() {
+  return [
+    new versions.DashboardSchemaV5(),
+    new versions.DashboardSchemaV4(),
+    new versions.DashboardSchemaV3(),
+    new versions.DashboardSchemaV2(),
+    new versions.DashboardSchemaV1()
+  ];
+};
+
 
 });  // goog.scope
