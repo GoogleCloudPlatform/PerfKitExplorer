@@ -14,6 +14,7 @@ import logging
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+from perfkit.explorer.util import user_validator
 import dashboard_fields as fields
 
 
@@ -33,56 +34,7 @@ class SecurityError(Error):
   pass
 
 
-class UserValidator(ndb.Model):
-  user = ndb.UserProperty(required=True)
-
-  @classmethod
-  def GetUserFromEmail(cls, email):
-    """Return a stable user_id string based on an email address.
-
-    Args:
-      email: Email address of the user.
-
-    Returns:
-      A GAE User instance, or None if the email doesn't resolve.
-    """
-    u = users.User(email)
-    key = UserValidator(user=u).put()
-    obj = UserValidator.get(key)
-    user = obj.user
-    obj.delete()
-
-    if not user.user_id():
-      return None
-
-    return user
-
-  @classmethod
-  def GetUsersFromEmails(cls, emails):
-    """Return a list of GAE Users based on a list of email addresses.  Also returns a list of invalid email addresses.
-
-    Args:
-      emails: An array of strings, each representing an email address of a valid GAE User.
-
-    Returns:
-      * A list of GAE Users.
-      * A list of email addresses that failed to validate.
-    """
-    return_users = []
-    return_failed_emails = []
-
-    for email in emails:
-      user = cls.GetUserFromEmail(email)
-
-      if user:
-        return_users.append(user)
-      else:
-        return_failed_emails.append(email)
-
-    return return_users, return_failed_emails
-
-
-class Dashboard(ndb.Model):
+class Dashboard (ndb.Model):
   """Models a Dashboard definition (as JSON).
 
   Tracks the contents of the dashboard (data, stored as JSON string), plus the
@@ -151,7 +103,7 @@ class Dashboard(ndb.Model):
       new_dashboard.title = dashboard_row.title
 
     new_dashboard.data = json.dumps(data)
-    return new_dashboard.put().id()
+    return new_dashboard.put().integer_id()
 
   @staticmethod
   def RenameDashboard(dashboard_id, new_name):
@@ -197,7 +149,7 @@ class Dashboard(ndb.Model):
       raise InitializeError(message)
 
     owner_email = Dashboard.GetCanonicalEmail(owner_email)
-    new_owner = UserValidator.GetUserFromEmail(owner_email)
+    new_owner = user_validator.UserValidator.GetUserFromEmail(owner_email)
 
     if not new_owner:
       message = 'No owner with email ' + owner_email + ' was found.'.format(
@@ -283,12 +235,12 @@ class Dashboard(ndb.Model):
         return json.loads(str_value)
       except ValueError:
         message = ('The "data" field in dashboard row {id} must be valid JSON.'
-                   '  Found:\n{value}').format(id=self.key().id(),
+                   '  Found:\n{value}').format(id=self.key.integer_id(),
                                                value=str_value)
         raise InitializeError(message)
     else:
       message = 'The "data" field in dashboard row {id} is required.'.format(
-          id=self.key().id())
+          id=self.key.integer_id())
       raise InitializeError(message)
 
   @staticmethod
@@ -320,7 +272,7 @@ class Dashboard(ndb.Model):
       A GAE User object representing the owner of the dashboard.
     """
     if owner_string:
-      owner = UserValidator.GetUserFromEmail(owner_string)
+      owner = user_validator.UserValidator.GetUserFromEmail(owner_string)
       if not owner:
         raise users.UserNotFoundError()
     else:
