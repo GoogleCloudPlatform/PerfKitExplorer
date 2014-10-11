@@ -200,16 +200,6 @@ CodeEditorCtrl.prototype.openQuerySqlEditor = function() {
 
 
 /**
- * Opens the code editor, and focuses on the Query's SQL.
- * @export
- */
-CodeEditorCtrl.prototype.openLog = function() {
-  this.settings.selectedMode = 'LOG';
-  this.settings.isOpen = true;
-};
-
-
-/**
  * Closes the code editor.
  * @export
  */
