@@ -272,32 +272,36 @@
                  ng-repeat="mode in codeEditorCtrl.settings.modes"
                  btn-radio="mode">{{ mode }}</button>
           </div>
-          <div class="perfkit-toolbar-section">
-            <button type="button" class="btn btn-primary"
-                    ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
-              Refresh
-            </button>
-            <button type="button" class="btn btn-default"
-                    ng-show="!codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="codeEditorCtrl.explorer.customizeSql()">
-              Edit SQL
-            </button>
-            <button type="button" class="btn btn-default"
-                    ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="codeEditorCtrl.explorer.restoreBuilder()">
-              Use SQL Builder
-            </button>
-            <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="codeEditorCtrl.openLog()">
-              Error Log
-            </button>
-          </div>
-          <div class="perfkit-toolbar-section" ng-show="codeEditorCtrl.settings.selectedMode == 'LOG'">
-            <button type="button" class="btn btn-default"
-                    ng-show="explorerCtrl.explorer.errorService.errors.length > 0"
-                    ng-click="explorerCtrl.explorer.errorService.removeAllErrors()">
-              Close {{ explorerCtrl.explorer.errorService.errors.length }} warning<span ng-show="explorerCtrl.explorer.errorService.errors.length > 1">s</span>
-            </button>
+          <div class="perfkit-toolbar-section" ng-switch="codeEditorCtrl.settings.selectedMode">
+            <div ng-switch-when="JSON">
+              <button type="button" class="btn btn-primary"
+                      ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
+                Refresh
+              </button>
+            </div>
+            <div ng-switch-when="SQL">
+              <button type="button" class="btn btn-primary"
+                      ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
+                Refresh
+              </button>
+              <button type="button" class="btn btn-default"
+                      ng-show="!codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                      ng-click="codeEditorCtrl.explorer.customizeSql()">
+                Edit SQL
+              </button>
+              <button type="button" class="btn btn-default"
+                      ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                      ng-click="codeEditorCtrl.explorer.restoreBuilder()">
+                Use SQL Builder
+              </button>
+            </div>
+            <div ng-switch-when="LOG">
+              <button type="button" class="btn btn-default"
+                      ng-show="explorerCtrl.explorer.errorService.errors.length > 0"
+                      ng-click="explorerCtrl.explorer.errorService.removeAllErrors()">
+                Clear {{ explorerCtrl.explorer.errorService.errors.length }} warning<span ng-show="explorerCtrl.explorer.errorService.errors.length > 1">s</span>
+              </button>
+            </div>
           </div>
         </div>
         <div ng-switch="codeEditorCtrl.settings.selectedMode">
@@ -349,8 +353,11 @@
           Edit SQL
         </button>
         <button type="button" class="btn btn-default perfkit-footer-button"
-                ng-click="codeEditorCtrl.openLog()">
-          Error Log
+                ng-click="ctrl.explorer.showLog()"
+                ng-show="explorerCtrl.explorer.errorService.errors.length > 0 &&
+                         !(explorerCtrl.explorer.model.code_editor.isOpen &&
+                           explorerCtrl.explorer.model.code_editor.selectedMode == 'LOG')">
+          Show {{ explorerCtrl.explorer.errorService.errors.length }} warning<span ng-show="explorerCtrl.explorer.errorService.errors.length != 1">s</span>
         </button>
       </div>
     </div>

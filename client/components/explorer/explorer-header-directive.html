@@ -168,6 +168,16 @@
       </div>
     </div>
 
+    <div class="perfkit-toolbar-section"
+        ng-show="ctrl.errorService.errors.length > 0 &&
+                 !(ctrl.explorer.model.code_editor.isOpen &&
+                   ctrl.explorer.model.code_editor.selectedMode == 'LOG')">
+      <button type="button" class="btn btn-default"
+          ng-click="ctrl.explorer.showLog()">
+        Show {{ ctrl.errorService.errors.length }} warning<span ng-show="ctrl.errorService.errors.length != 1">s</span>
+      </button>
+    </div>
+
     <div style="float: right;" ng-hide="ctrl.explorer.model.readOnly">
       <button type="button" class="btn btn-default dropdown-toggle">
         <span class="glyphicon glyphicon-cog"></span>

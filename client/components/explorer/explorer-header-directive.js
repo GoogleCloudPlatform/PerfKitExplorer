@@ -29,7 +29,7 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
-    controller: function($scope, explorerService, dashboardService) {
+    controller: function($scope, explorerService, dashboardService, errorService) {
       /** @export */
       this.explorer = explorerService;
 
@@ -38,6 +38,9 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
 
       /** @export */
       this.dashboards = this.explorer.model.dashboards;
+
+      /** @export */
+      this.errorService = errorService;
 
       /** @export */
       this.currentMode = 'dashboard';
