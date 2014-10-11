@@ -1,0 +1,17 @@
+div.perfkit-log {
+  height: 200px;
+  background-color: white;
+}
+
+table.perfkit-log {
+  width: 100%;
+}
+
+table.perfkit-log tr:hover {
+  background-color: #eee;
+}
+
+table.perfkit-log td {
+  padding: 4px;
+}
+

@@ -91,6 +91,17 @@ ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
 
 
 /**
+ * Removes all errors.
+ * @export
+ */
+ErrorService.prototype.removeAllErrors = function() {
+  while (errors.length > 0) {
+    error.pop();
+  }
+};
+
+
+/**
  * Removes an error from a specific index.
  * @param {!number} errorIndex The index in the errors collection that should
  *     be removed.

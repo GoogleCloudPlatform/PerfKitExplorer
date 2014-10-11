@@ -1,0 +1,12 @@
+<div class="perfkit-log">
+  <table class="perfkit-log">
+    <tr ng-repeat="error in errorService.errors">
+      <td>
+        {{ error.text }}
+      </td>
+      <td style="text-align: right;">
+        <button class="glyphicon glyphicon-remove" ng-click="errorService.removeErrorAt($index)" />
+      </td>
+    </tr>
+  </table>
+</div>
