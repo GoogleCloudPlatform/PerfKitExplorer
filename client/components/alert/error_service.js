@@ -95,8 +95,8 @@ ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
  * @export
  */
 ErrorService.prototype.removeAllErrors = function() {
-  while (errors.length > 0) {
-    error.pop();
+  while (this.errors.length > 0) {
+    this.errors.pop();
   }
 };
 

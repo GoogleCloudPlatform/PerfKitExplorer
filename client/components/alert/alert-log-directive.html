@@ -1,5 +1,10 @@
 <div class="perfkit-log">
   <table class="perfkit-log">
+    <tr ng-show="errorService.errors.length == 0">
+      <td>
+        (0 warnings)
+      </td>
+    </tr>
     <tr ng-repeat="error in errorService.errors">
       <td>
         {{ error.text }}
