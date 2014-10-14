@@ -31,12 +31,12 @@ explorer.components.dashboard.DashboardConfigDirective = function() {
       'ngModel': '='
     },
     templateUrl: '/static/components/dashboard/dashboard-config-directive.html',
-    controller: function($scope, explorerSvc, dashboardService) {
+    controller: function($scope, explorerService, dashboardService) {
       /** @export */
       $scope.dashboardSvc = dashboardService;
 
       /** @export */
-      $scope.explorerSvc = explorerSvc;
+      $scope.explorerSvc = explorerService;
     }
   };
 };
