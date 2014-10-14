@@ -60,7 +60,7 @@ goog.scope(function() {
 
       if (verifyWidgetFn) {
         for (var j = 0, widgetCount = container.children.length; j < widgetCount; ++j) {
-          widget = container.children[i];
+          widget = container.children[j];
 
           if (!verifyWidgetFn(widget)) {
             return false;
