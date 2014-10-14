@@ -22,7 +22,7 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.explorer.DashboardConfigDirective = function() {
+explorer.components.dashboard.DashboardConfigDirective = function() {
   return {
     restrict: 'E',
     replace: true,
