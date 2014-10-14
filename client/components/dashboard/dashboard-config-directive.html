@@ -1,6 +1,8 @@
 <div class="sidebar-group">
   <div class="sidebar-group-title">Dashboard</div>
 
+  <div class="sidebar-group-title">Dashboard</div>
+
   <div class="sidebar-item">
     <div class="sidebar-item-label">id</div>
     <div class="sidebar-item-value">
@@ -8,7 +10,7 @@
              class="form-control"
              type="text"
              readonly="true"
-             ng-model="model.id">
+             ng-model="ngModel.id">
     </div>
   </div>
   <div class="sidebar-item">
@@ -16,7 +18,7 @@
     <div class="sidebar-item-value">
       <input type="text"
              class="form-control"
-             ng-model="model.title">
+             ng-model="ngModel.title">
     </div>
   </div>
   <div class="sidebar-item">
@@ -25,7 +27,7 @@
       <input id="dashboard-id"
              type="text"
              class="form-control"
-             ng-model="model.owner">
+             ng-model="ngModel.owner">
     </div>
   </div>
 
@@ -35,7 +37,7 @@
       <input id="dashboard-id"
              type="text"
              class="form-control"
-             ng-model="model.version">
+             ng-model="ngModel.version">
     </div>
   </div>
 </div>
@@ -48,7 +50,7 @@
     <div class="sidebar-item-label">project id</div>
     <div class="sidebar-item-value">
       <input class="form-control"
-             ng-model="model.project_id"
+             ng-model="ngModel.project_id"
              placeholder="{{ dashboardSvc.DEFAULT_PROJECT_ID }}">
     </div>
   </div>
@@ -57,7 +59,7 @@
     <div class="sidebar-item-label">dataset</div>
     <div class="sidebar-item-value">
       <input class="form-control"
-             ng-model="model.dataset_name"
+             ng-model="ngModel.dataset_name"
              placeholder="{{ dashboardSvc.DEFAULT_DATASET_NAME }}">
     </div>
   </div>
@@ -66,7 +68,7 @@
     <div class="sidebar-item-label">table</div>
     <div class="sidebar-item-value">
       <input class="form-control"
-             ng-model="model.table_name"
+             ng-model="ngModel.table_name"
              placeholder="{{ dashboardSvc.DEFAULT_TABLE_NAME }}">
     </div>
   </div>

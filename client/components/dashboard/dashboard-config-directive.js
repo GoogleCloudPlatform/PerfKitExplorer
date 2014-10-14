@@ -33,10 +33,10 @@ explorer.components.explorer.DashboardConfigDirective = function() {
     templateUrl: '/static/components/dashboard/dashboard-config-directive.html',
     controller: function($scope, explorerSvc, dashboardService) {
       /** @export */
-      this.dashboardSvc = dashboardService;
+      $scope.dashboardSvc = dashboardService;
 
       /** @export */
-      this.explorerSvc = explorerSvc;
+      $scope.explorerSvc = explorerSvc;
     }
   };
 };
