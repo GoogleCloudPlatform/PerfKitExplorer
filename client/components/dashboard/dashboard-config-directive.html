@@ -1,0 +1,75 @@
+<div class="sidebar-group">
+  <div class="sidebar-group-title">Dashboard</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">id</div>
+    <div class="sidebar-item-value">
+      <input id="dashboard-id"
+             class="form-control"
+             type="text"
+             readonly="true"
+             ng-model="model.id">
+    </div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">title</div>
+    <div class="sidebar-item-value">
+      <input type="text"
+             class="form-control"
+             ng-model="model.title">
+    </div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">owner</div>
+    <div class="sidebar-item-value">
+      <input id="dashboard-id"
+             type="text"
+             class="form-control"
+             ng-model="model.owner">
+    </div>
+  </div>
+
+  <div class="sidebar-item" ng-show="explorerSvc.CURRENT_USER_ADMIN === true">
+    <div class="sidebar-item-label">version</div>
+    <div class="sidebar-item-value">
+      <input id="dashboard-id"
+             type="text"
+             class="form-control"
+             ng-model="model.version">
+    </div>
+  </div>
+</div>
+
+<div class="sidebar-group">
+
+  <div class="sidebar-group-title">Datasource Defaults</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">project id</div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             ng-model="model.project_id"
+             placeholder="{{ dashboardSvc.DEFAULT_PROJECT_ID }}">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">dataset</div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             ng-model="model.dataset_name"
+             placeholder="{{ dashboardSvc.DEFAULT_DATASET_NAME }}">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">table</div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             ng-model="model.table_name"
+             placeholder="{{ dashboardSvc.DEFAULT_TABLE_NAME }}">
+    </div>
+  </div>
+
+</div>
+
