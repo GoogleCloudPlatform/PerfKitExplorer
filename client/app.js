@@ -13,6 +13,7 @@ goog.provide('p3rf.perfkit.explorer.application.module');
 
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
@@ -165,6 +166,8 @@ explorer.application.module.directive('gvizChartWidget',
     explorer.components.widget.data_viz.gviz.gvizChart);
 explorer.application.module.directive('container',
     explorer.components.container.ContainerDirective);
+explorer.application.module.directive('containerConfig',
+  explorer.components.container.ContainerConfigDirective)
 explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.MetadataPickerDirective);
 explorer.application.module.directive('explorerHeader',
