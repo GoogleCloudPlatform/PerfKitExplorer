@@ -34,6 +34,7 @@ goog.require('p3rf.perfkit.explorer.components.util.FileModelDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
@@ -161,6 +162,8 @@ explorer.application.module.factory('GvizDataView',
 
 
 /** Register all directives. **/
+explorer.application.module.directive('chartConfig',
+    explorer.components.widget.data_viz.gviz.ChartConfigDirective);
 explorer.application.module.directive('gvizChartWidget',
     explorer.components.widget.data_viz.gviz.gvizChart);
 explorer.application.module.directive('container',
