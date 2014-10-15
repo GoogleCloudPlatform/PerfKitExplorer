@@ -33,7 +33,7 @@ explorer.components.code_editor.CodeEditorSettingsModel = function() {
    * @type {Array.<string>}
    * @export
    */
-  this.modes = ['JSON', 'SQL'];
+  this.modes = ['JSON', 'SQL', 'LOG'];
 
   /**
    * @type {boolean}
