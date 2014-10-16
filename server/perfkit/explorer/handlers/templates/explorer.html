@@ -105,36 +105,15 @@
     <div class="perfkit-page-sidebar-right"
          ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
       <div>
-
-        <div>
-          <a  href="#"
-              class="perfkit-jfk-close-button perfkit-sidebar-close-button"
-              ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
-          </a>
-        </div>
-
-        <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
-
-        <div class="sidebar-group">
-          <div class="sidebar-group-title">Container</div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">display columns</div>
-            <div class="sidebar-item-value">
-              <input type="number" min="1" class="form-control"
-                     ng-model="dashboardCtrl.dashboard.selectedContainer.model.container.columns">
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">height</div>
-            <div class="sidebar-item-value">
-              <input input type="number" min="1" class="form-control"
-                     ng-model="dashboardCtrl.dashboard.selectedContainer.model.container.height">
-            </div>
-          </div>
-        </div>
+        <a  href="#"
+            class="glyphicon glyphicon-remove perfkit-sidebar-close-button"
+            ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
+        </a>
       </div>
+
+      <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
+
+      <container-config ng-model="dashboardCtrl.dashboard.selectedContainer.model"></container-config>
 
       <div ng-controller="WidgetEditorCtrl as widgetEditorCtrl"
            ng-show="dashboardCtrl.dashboard.selectedWidget.model.chart">
