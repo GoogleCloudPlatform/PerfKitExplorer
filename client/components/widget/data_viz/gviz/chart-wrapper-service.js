@@ -58,7 +58,7 @@ var ChartWrapperService = (
  * Loads a list of available charts from a JSON file.
  */
 ChartWrapperService.prototype.loadCharts = function() {
-  this.http_.get('/static/components/widgets/data_viz/gviz/gviz-charts.json').
+  this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
       success(angular.bind(this, function(response) {
         $.merge(this.allCharts, response);
       })).
