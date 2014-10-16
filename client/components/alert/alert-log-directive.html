@@ -1,0 +1,14 @@
+<div class="perfkit-log">
+  <table class="perfkit-log">
+    <tr class="note" ng-show="errorService.errors.length == 0">
+      <td class="note">
+        (0 warnings)
+      </td>
+    </tr>
+    <tr class="warning" ng-repeat="error in errorService.errors">
+      <td tooltip="click to dismiss" ng-click="errorService.removeErrorAt($index)">
+        {{ error.text }}
+      </td>
+    </tr>
+  </table>
+</div>

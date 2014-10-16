@@ -1,12 +1,26 @@
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file or at
+https://developers.google.com/open-source/licenses/bsd
+
+Utility methods for GAE User validation.
+"""
+
+__author__ = 'joemu@google.com (Joe Allan Muharsky)'
+
+
+import logging
+
 from google.appengine.api import users
 from google.appengine.ext import db
 
 class UserValidator(db.Model):
   user = db.UserProperty(required=True)
 
-  @staticmethod
-  def GetUserFromEmail(email):
-    """Return a stable user_id string based on an email address.
+  @classmethod
+  def GetUserFromEmail(cls, email):
+    """Return a GAE User based on an email address.
 
     Args:
       email: Email address of the user.

@@ -147,6 +147,10 @@ DashboardDataService.prototype.postDashboard = function(content, endpoint,
     deferred.resolve(data);
   }));
   promise.then(null, angular.bind(this, function(error) {
+    if (error.data && error.data.message) {
+      this.errorService_.addError(ErrorTypes.DANGER, error.data.message, opt_id);
+    }
+
     deferred.reject(error);
   }));
 

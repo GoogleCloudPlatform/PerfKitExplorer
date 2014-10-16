@@ -634,5 +634,15 @@ DashboardService.prototype.deleteDashboard = function(dashboard) {
 };
 
 
+/**
+ * Adds an empty entry to the list of authorized writers.
+ * @param {DashboardModel} dashboard
+ * @export
+ */
+DashboardService.prototype.addWriter = function(dashboard) {
+  this.current.model.writers.push({'email': ''});
+};
+
+
 
 });  // goog.scope

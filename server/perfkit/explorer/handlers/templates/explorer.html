@@ -52,13 +52,6 @@
 
 <div class="perfkit-page">
 
-  <div class="perfkit-page-alerts">
-    <alert ng-repeat="error in explorerCtrl.explorer.errorService.errors | limitTo:3"
-           type="error.errorType | lowercase"
-           close="explorerCtrl.explorer.errorService.removeErrorAt($index)">
-      {{ error.text }}</alert>
-  </div>
-
   <explorer-header></explorer-header>
 
   <div class="perfkit-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
@@ -120,7 +113,97 @@
           </a>
         </div>
 
-        <dashboard-config ng-model="dashboardCtrl.dashboard.current.model" />
+        <div class="sidebar-group">
+          <div class="sidebar-group-title">Dashboard</div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">id</div>
+            <div class="sidebar-item-value">
+              <input id="dashboard-id"
+                     class="form-control"
+                     type="text"
+                     readonly="true"
+                     ng-model="dashboardCtrl.dashboard.current.model.id">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">title</div>
+            <div class="sidebar-item-value">
+              <input type="text"
+                     class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.title">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">owner</div>
+            <div class="sidebar-item-value">
+              <input id="dashboard-id"
+                     type="text"
+                     class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.owner">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">writers</div>
+            <div class="sidebar-item-value">
+              <span
+                  multibox
+                  multibox-display-prop="email"
+                  multibox-popup-prop="email"
+                  multibox-focus-on-select="true"
+                  multibox-on-insert-option="dashboardCtrl.dashboard.addWriter()"
+                  multibox-selected-options="dashboardCtrl.dashboard.current.model.writers">
+              </span>
+            </div>
+          </div>
+
+
+          <div class="sidebar-item" ng-show="explorerCtrl.explorer.CURRENT_USER_ADMIN === true">
+            <div class="sidebar-item-label">version</div>
+            <div class="sidebar-item-value">
+              <input id="dashboard-id"
+                     type="text"
+                     class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.version">
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-group">
+
+          <div class="sidebar-group-title">Datasource Defaults</div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">project id</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.project_id"
+                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_PROJECT_ID }}">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">dataset</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.dataset_name"
+                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_DATASET_NAME }}">
+            </div>
+          </div>
+
+          <div class="sidebar-item">
+            <div class="sidebar-item-label">table</div>
+            <div class="sidebar-item-value">
+              <input class="form-control"
+                     ng-model="dashboardCtrl.dashboard.current.model.table_name"
+                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_TABLE_NAME }}">
+            </div>
+          </div>
+
+        </div>
 
         <div class="sidebar-group">
           <div class="sidebar-group-title">Container</div>
@@ -162,21 +245,36 @@
                  ng-repeat="mode in codeEditorCtrl.settings.modes"
                  btn-radio="mode">{{ mode }}</button>
           </div>
-          <div class="perfkit-toolbar-section">
-            <button type="button" class="btn btn-primary"
-                    ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
-              Refresh
-            </button>
-            <button type="button" class="btn btn-default"
-                    ng-show="!codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="codeEditorCtrl.explorer.customizeSql()">
-              Edit SQL
-            </button>
-            <button type="button" class="btn btn-default"
-                    ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="codeEditorCtrl.explorer.restoreBuilder()">
-              Use SQL Builder
-            </button>
+          <div class="perfkit-toolbar-section" ng-switch="codeEditorCtrl.settings.selectedMode">
+            <div ng-switch-when="JSON">
+              <button type="button" class="btn btn-primary"
+                      ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
+                Refresh
+              </button>
+            </div>
+            <div ng-switch-when="SQL">
+              <button type="button" class="btn btn-primary"
+                      ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
+                Refresh
+              </button>
+              <button type="button" class="btn btn-default"
+                      ng-show="!codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                      ng-click="codeEditorCtrl.explorer.customizeSql()">
+                Edit SQL
+              </button>
+              <button type="button" class="btn btn-default"
+                      ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                      ng-click="codeEditorCtrl.explorer.restoreBuilder()">
+                Use SQL Builder
+              </button>
+            </div>
+            <div ng-switch-when="LOG">
+              <button type="button" class="btn btn-default"
+                      ng-show="explorerCtrl.explorer.errorService.errors.length > 0"
+                      ng-click="explorerCtrl.explorer.errorService.removeAllErrors()">
+                Clear {{ explorerCtrl.explorer.errorService.errors.length }} warning<span ng-show="explorerCtrl.explorer.errorService.errors.length > 1">s</span>
+              </button>
+            </div>
           </div>
         </div>
         <div ng-switch="codeEditorCtrl.settings.selectedMode">
@@ -205,6 +303,9 @@
               </div>
             </div>
           </div>
+          <div ng-switch-when="LOG">
+            <alert-log />
+          </div>
         </div>
       </div>
 
@@ -223,6 +324,13 @@
                 ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
                 ng-click="codeEditorCtrl.openQuerySqlEditor()">
           Edit SQL
+        </button>
+        <button type="button" class="btn btn-default perfkit-footer-button"
+                ng-click="ctrl.explorer.showLog()"
+                ng-show="explorerCtrl.explorer.errorService.errors.length > 0 &&
+                         !(explorerCtrl.explorer.model.code_editor.isOpen &&
+                           explorerCtrl.explorer.model.code_editor.selectedMode == 'LOG')">
+          Show {{ explorerCtrl.explorer.errorService.errors.length }} warning<span ng-show="explorerCtrl.explorer.errorService.errors.length != 1">s</span>
         </button>
       </div>
     </div>
