@@ -30,7 +30,7 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(GvizCha
     scope: {
       'ngModel': '='
     },
-    templateUrl: '/static/components/charts/chart-config-directive.html',
+    templateUrl: '/static/components/widget/data_viz/gviz/chart-config-directive.html',
     controller: function($scope) {
       /** @export */
       scope.chartSvc = GvizChartWrapper;
