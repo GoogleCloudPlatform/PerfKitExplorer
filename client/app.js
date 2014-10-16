@@ -163,13 +163,10 @@ explorer.application.module.factory('GvizDataView',
 
 
 /** Register all directives. **/
-<<<<<<< HEAD
 explorer.application.module.directive('chartConfig',
     explorer.components.widget.data_viz.gviz.ChartConfigDirective);
-=======
 explorer.application.module.directive('alertLog',
     explorer.components.alert.AlertLogDirective);
->>>>>>> master
 explorer.application.module.directive('gvizChartWidget',
     explorer.components.widget.data_viz.gviz.gvizChart);
 explorer.application.module.directive('container',

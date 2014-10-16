@@ -22,7 +22,7 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(GvizChartWrapper) {
+explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(chartWrapperService) {
   return {
     restrict: 'E',
     replace: true,
@@ -33,7 +33,7 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(GvizCha
     templateUrl: '/static/components/widget/data_viz/gviz/chart-config-directive.html',
     controller: function($scope) {
       /** @export */
-      scope.chartSvc = GvizChartWrapper;
+      $scope.chartSvc = chartWrapperService;
     }
   };
 };
