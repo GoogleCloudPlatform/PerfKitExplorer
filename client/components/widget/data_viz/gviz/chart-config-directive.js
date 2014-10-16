@@ -22,7 +22,8 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(chartWrapperService) {
+explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
+    chartWrapperService, dashboardService) {
   return {
     restrict: 'E',
     replace: true,
@@ -34,6 +35,9 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(chartWr
     controller: function($scope) {
       /** @export */
       $scope.chartSvc = chartWrapperService;
+
+      /** @export */
+      $scope.dashboardSvc = dashboardService;
     }
   };
 };

@@ -36,7 +36,8 @@
 
     // Initialize Google Visualizations
     try {
-      google.load('visualization', '1.1', {packages: ['corechart', 'charteditor', 'calendar']});
+      google.load('visualization', '1.1', {packages: [
+        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey']});
     } catch (err) { }
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
