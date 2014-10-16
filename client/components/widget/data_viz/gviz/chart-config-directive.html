@@ -20,6 +20,10 @@
             <option value="{{ chart.className }}" ng-repeat="chart in chartSvc.allCharts">{{ chart.title }}</option>
           </select>
         </div>
+        <div class="sidebar-item-value">
+          <a ng-href="https://developers.google.com/chart/interactive/docs/gallery/{{ chart.className }}"
+             target="gvizDocs">Open documentation</a>
+        </div>
       </div>
 
       <div class="sidebar-item">
