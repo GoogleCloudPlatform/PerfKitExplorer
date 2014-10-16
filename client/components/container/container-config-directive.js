@@ -30,7 +30,7 @@ explorer.components.container.ContainerConfigDirective = function() {
     scope: {
       'ngModel': '='
     },
-    templateUrl: '/static/components/containers/container-config-directive.html'
+    templateUrl: '/static/components/container/container-config-directive.html'
   };
 };
 
