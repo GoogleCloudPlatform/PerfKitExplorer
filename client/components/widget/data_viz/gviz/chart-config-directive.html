@@ -14,17 +14,9 @@
     <div class="sidebar-item">
       <div class="sidebar-item-label">chart type</div>
       <div class="sidebar-item-value">
-        <!-- TODO: Drive this list from data (probably a JSON configuration file). -->
         <select ng-model="ngModel.chart.chartType"
                 class="sidebar-input-full form-control">
-          <option value="AreaChart">Area Chart</option>
-          <option value="BarChart">Bar Chart</option>
-          <option value="ColumnChart">Column Chart</option>
-          <option value="ComboChart">Combo Chart</option>
-          <option value="LineChart">Line Chart</option>
-          <option value="PieChart">Pie Chart</option>
-          <option value="ScatterChart">Scatter Chart</option>
-          <option value="Table">Table</option>
+          <option value="{{ chart.className }}" ng-repeat="chart in chartSvc.allCharts">{{ chart.title }}</option>
         </select>
       </div>
     </div>

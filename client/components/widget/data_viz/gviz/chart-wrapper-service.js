@@ -29,17 +29,45 @@ var ChartModel = explorer.models.ChartModel;
  * @constructor
  * @ngInject
  */
-explorer.components.widget.data_viz.gviz.ChartWrapperService = function(
+explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
     GvizChartWrapper) {
+  /**
+   * @private
+   */
+  this.http_ = $http;
+
   /**
    * @type {function(new:google.visualization.ChartWrapper)}
    * @private
    */
   this.GvizChartWrapper_ = GvizChartWrapper;
+
+  /**
+   * @type {Array<{{title: string, className: string}}>
+   * @export
+   */
+  this.allCharts = [];
+
+  this.loadCharts();
 };
 var ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 
+
+/**
+ * Loads a list of available charts from a JSON file.
+ */
+ChartWrapperService.prototype.loadCharts = function() {
+  this.http_.get('/static/components/widgets/data_viz/gviz/gviz-charts.json').
+      success(angular.bind(this, function(response) {
+        $.merge(this.allCharts, response);
+      })).
+      error(angular.bind(this, function(response) {
+        while (this.allCharts.length > 0) {
+          this.allCharts.pop();
+        }
+      }));
+};
 
 /**
  * Returns a new instance of a google.visualization.ChartWrapper.
