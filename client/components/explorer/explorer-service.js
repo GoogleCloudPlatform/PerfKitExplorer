@@ -203,6 +203,16 @@ ExplorerService.prototype.editDashboard = function() {
 
 
 /**
+ * Displays the log.
+ * @export
+ */
+ExplorerService.prototype.showLog = function() {
+  this.model.code_editor.isOpen = true;
+  this.model.code_editor.selectedMode = 'LOG';
+};
+
+
+/**
  * Updates the query and state of the selected widget's datasource.
  * @export
  */

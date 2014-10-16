@@ -29,6 +29,7 @@
     <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
       <input
           class="multibox-input-control form-control"
+          placeholder="{{ multiboxPlaceholder }}"
           ng-model="option.text"
           ng-blur="blurInput($event)"
           ng-focus="focusInput($event, option)">
@@ -256,6 +257,7 @@
                 <div class="sidebar-item-value">
                   <span
                       multibox
+                      multibox-placeholder="'label:value'"
                       multibox-display-prop="text"
                       multibox-focus-on-select="true"
                       multibox-data="queryEditorCtrl.query.picklists['metadata']"
@@ -362,6 +364,7 @@
               <div class="sidebar-item-value">
                 <span
                     multibox
+                    multibox-placeholder="'field name'"
                     multibox-display-prop="name"
                     multibox-focus-on-select="true"
                     multibox-data="queryEditorCtrl.query.samples_mart_fields"
@@ -379,6 +382,7 @@
               <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
                 <span
                     multibox
+                    multibox-placeholder="'bqsql function'"
                     multibox-display-prop="name"
                     multibox-focus-on-select="true"
                     multibox-data="queryEditorCtrl.query.samples_mart_measures"
@@ -393,6 +397,7 @@
               <div class="sidebar-item-value">
                 <span
                     multibox
+                    multibox-placeholder="'label'"
                     multibox-display-prop="label"
                     multibox-popup-prop="name"
                     multibox-focus-on-select="true"

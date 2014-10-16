@@ -50,6 +50,12 @@ explorer.components.dashboard.DashboardModel = function() {
   this.owner = this.getDefaultOwner();
 
   /**
+   * @type {Array.<!string>}
+   * @expose
+   */
+  this.writers = [];
+
+  /**
    * @type {?string}
    * @expose
    */

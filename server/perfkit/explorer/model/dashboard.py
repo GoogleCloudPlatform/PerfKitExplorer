@@ -27,10 +27,11 @@ class Error(Exception):
 
 
 class InitializeError(Error):
+  pass
 
-  def __init__(self, message):
-    self.message = message
-    super(InitializeError, self).__init__(message)
+
+class SecurityError(Error):
+  pass
 
 
 class Dashboard (ndb.Model):
@@ -42,6 +43,7 @@ class Dashboard (ndb.Model):
 
   created_by = ndb.UserProperty()
   modified_by = ndb.UserProperty()
+  writers = ndb.StringProperty(repeated=True)
   title = ndb.StringProperty(default='')
   data = ndb.TextProperty(default='')
   public = ndb.BooleanProperty(default=False)
@@ -99,6 +101,8 @@ class Dashboard (ndb.Model):
       data[fields.TITLE] = title
     else:
       new_dashboard.title = dashboard_row.title
+
+    data[fields.WRITERS] = []
 
     new_dashboard.data = json.dumps(data)
     return new_dashboard.put().integer_id()
@@ -162,6 +166,59 @@ class Dashboard (ndb.Model):
     dashboard_row.data = json.dumps(data)
 
     dashboard_row.put()
+
+  def writersChanged(self, new_writers):
+    """Returns True if the owner or writers have changed, False if not.
+
+    Args:
+      new_contributors: A list of objects that contain email addresses.
+    """
+    old_emails = [user for user in self.writers]
+    new_emails = [user.get('email') for user in new_writers]
+
+    return cmp(old_emails, new_emails) != 0
+
+
+  def isOwner(self):
+    """Returns True if the current user is an admin, or the owner.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided user is an owner or admin for the current dashboard.  Otherwise, false.
+    """
+    return (
+      users.is_current_user_admin() or
+      users.get_current_user() == self.created_by)
+
+  def isContributor(self):
+    """Returns True if any of the data.contributors email addresses is the current user.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided email address exists in data.contributors.  Otherwise, false.
+    """
+    email = users.get_current_user().email().lower()
+
+    for user_email in self.writers:
+      if user_email.lower() == email:
+        return True
+
+    return False
+
+  def canEdit(self):
+    """Returns True if the current user is an admin, the owner or a contributor.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided user is an owner, admin or contributor for the current dashboard.  Otherwise, false.
+    """
+    return (self.isOwner() or self.isContributor())
 
   def GetDashboardData(self):
     """Returns a JSON representation of the 'data' field.

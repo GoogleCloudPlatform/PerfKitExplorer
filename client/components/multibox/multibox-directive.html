@@ -1,7 +1,7 @@
 <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
   <input
       class="multibox-input-control form-control"
-      placeholder="field name"
+      placeholder="{{ multiboxPlaceholder }}"
       ng-model="option[displayProp]"
       ng-blur="blurInput($event)"
       ng-focus="focusInput($event, option)">
