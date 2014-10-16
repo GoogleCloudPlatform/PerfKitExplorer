@@ -36,7 +36,8 @@
 
     // Initialize Google Visualizations
     try {
-      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
+      google.load('visualization', '1.1', {packages: [
+        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey']});
     } catch (err) { }
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
@@ -115,52 +116,8 @@
 
       <container-config ng-model="dashboardCtrl.dashboard.selectedContainer.model"></container-config>
 
-      <div ng-controller="WidgetEditorCtrl as widgetEditorCtrl"
-           ng-show="dashboardCtrl.dashboard.selectedWidget.model.chart">
+      <chart-config ng-model="dashboardCtrl.dashboard.selectedWidget.model"></chart-config>
 
-        <div class="sidebar-group">
-          <div class="sidebar-group-title">Chart</div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">title</div>
-            <div class="sidebar-item-value">
-              <input type="text" class="form-control" ng-model="dashboardCtrl.dashboard.selectedWidget.model.title">
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">chart type</div>
-            <div class="sidebar-item-value">
-              <!-- TODO: Drive this list from data (probably a JSON configuration file). -->
-              <select ng-model="dashboardCtrl.dashboard.selectedWidget.model.chart.chartType"
-                      class="sidebar-input-full form-control">
-                <option value="AreaChart">Area Chart</option>
-                <option value="BarChart">Bar Chart</option>
-                <option value="ColumnChart">Column Chart</option>
-                <option value="ComboChart">Combo Chart</option>
-                <option value="LineChart">Line Chart</option>
-                <option value="PieChart">Pie Chart</option>
-                <option value="ScatterChart">Scatter Chart</option>
-                <option value="Table">Table</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">column span</div>
-            <div class="sidebar-item-value">
-              <input type="number" min="1" class="form-control"
-                     ng-model="dashboardCtrl.dashboard.selectedWidget.model.layout.columnspan">
-            </div>
-          </div>
-
-          <div class="sidebar-group-buttons">
-            <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
-              Chart editor
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
