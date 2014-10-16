@@ -15,6 +15,7 @@ goog.require('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
@@ -183,4 +184,6 @@ explorer.application.module.directive('perfkitWidget',
     explorer.components.widget.perfkitWidget);
 explorer.application.module.directive('fileModel',
     explorer.components.util.FileModelDirective);
+explorer.application.module.directive('dashboardConfig',
+    explorer.components.dashboard.DashboardConfigDirective);
 });  // goog.scope
