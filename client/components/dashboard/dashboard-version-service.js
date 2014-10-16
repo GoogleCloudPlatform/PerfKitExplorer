@@ -26,33 +26,22 @@
  *
  * While this will be expanded to a generic schema/upgrade component, this
  * module will initially be the sole repository of all dashboard version info.
- * The current versions (at the bottom of this file as VERSIONS) are:
+ * See components.dashboard.version.* for a list of existing versions and notes.
  *
- * v1   2013-Aug    Initial release of the dashboard explorer.  Supports widgets
- *                  with datasource and chart top-level elements.
- * v2   2014-Feb    Testing release for datasource configs.  Introduces the
- *                  datasource.custom_query and datasource.config elements.
- *                  The datasource.config element supercedes
- *                  datasource.querystring, and will replace it on .update().
- *                  The owner has now been converted from an email/string
- *                  to an object with an email and nickname property.  Existing
- *                  widgets will be set to custom_query=true to avoid accidental
- *                  overwrites of custom logic.
- * v3   2014-May    Add two new fields to datasource.config.results:
- *                  pivot (boolean): If true, the data will be pivoted.
- *                  pivot_config (PivotConfigModel): Describes the column, row and
- *                  value fields for pivot transformation.
- * v4   2014-May    Adds additional fields to datasource.config.results:
- *                  show_date (boolean): If true, the date column will be displayed.
- *                  date_group (string): Modified.  Now supports Hour, Day, Week,
- *                  Month, Year.
- *                  fields (Array.<string>): A list of fields to return.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV1');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV2');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV3');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV5');
+
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
+
+
 goog.require('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
@@ -64,6 +53,7 @@ var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 var DatasourceModel = explorer.models.DatasourceModel;
 var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
+var versions = explorer.components.dashboard.versions;
 
 
 
@@ -76,12 +66,14 @@ var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
  */
 explorer.components.dashboard.DashboardVersionService = function($filter) {
   /**
+   * A list of all known versions, from newest to oldest.
    * @type {!Array.<!DashboardVersionModel>}
    * @export
    */
-  this.versions = VERSIONS;
+  this.versions = this.initVersions();
 
   /**
+   * The version to target for updates.  By default, this is the most recent version.
    * @type {?DashboardVersionModel}
    * @export
    */
@@ -124,8 +116,12 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
 
 
 /**
- * @param {!DashboardModel} dashboard
- * @return {!DashboardVersionModel}
+ * Returns the version number of a dashboard.  If dashboard.version is specified, then
+ * it is verified and returned.  If not, then it is evaluated avainst the known versions to
+ * determine the most recent match.
+ * @param {!DashboardModel} dashboard The dashboard to evaluate.
+ * @return {!DashboardVersionModel} The most recent version instance that matches the
+ * dashboard's schema.
  * @export
  */
 DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
@@ -137,22 +133,17 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
         'version', dashboard.version.toString(), this.versions);
 
     if (version == null) {
-      throw new Error(
-          'The model specifies v' + dashboard.version +
-          ', which does not exist.');
+      throw new Error('The model specifies v' + dashboard.version + ', which does not exist.');
     } else {
       try {
         if (version.verify(dashboard)) {
           return version;
         } else {
-          console.log(
-              'The model specifies v' + dashboard.version +
-              ', but is not valid.');
+          console.log('The model specifies v' + dashboard.version + ', but is not valid.');
         }
       } catch (err) {
-          console.log(
-              'The model specifies v' + dashboard.version +
-              ', but is not valid.');
+        console.log('The model specifies v' + dashboard.version + ', but an error occurred:');
+        console.log(err);
       }
     }
   }
@@ -169,183 +160,18 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
   throw new Error('The model does not appear to be a valid dashboard.');
 };
 
-
 /**
- * Static list of version info and verification/update scripts.  See
- * DashboardVersionModel for a detailed description of version structure, or
- * this module docstring for an explanation of how they're implemented.
- *
- * @type {Array.<!DashboardVersionModel>}
+ * Initializes the version list.
  */
-var VERSIONS = [
-  {'version': '4',
-    'verify': function(dashboard) {
-      var rtnVal = true;
+DashboardVersionService.prototype.initVersions = function() {
+  return [
+    new versions.DashboardSchemaV5(),
+    new versions.DashboardSchemaV4(),
+    new versions.DashboardSchemaV3(),
+    new versions.DashboardSchemaV2(),
+    new versions.DashboardSchemaV1()
+  ];
+};
 
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-
-          if (!goog.isDef(widget.datasource.config.results.show_date)) {
-            rtnVal = false;
-            break;
-          }
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
-
-      return rtnVal;
-    },
-    'update': function(dashboard) {
-      // Apply updates to each widget.
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-          if (!goog.isDef(widget.datasource.config.results.show_date)) {
-            var oldGrouping = widget.datasource.config.results.date_group;
-            widget.datasource.config.results.show_date = false;
-            widget.datasource.config.results.date_group = '';
-
-            switch (oldGrouping) {
-              case 'Daily':
-                widget.datasource.config.results.show_date = true;
-                widget.datasource.config.results.date_group = 'DAY';
-                break;
-              case 'Weekly':
-                widget.datasource.config.results.show_date = true;
-                widget.datasource.config.results.date_group = 'WEEK';
-                break;
-            }
-          }
-
-          if (!goog.isDef(widget.datasource.config.results.fields)) {
-            widget.datasource.config.results.fields = [];
-          }
-
-          if (!goog.isDef(widget.datasource.config.results.measures)) {
-            widget.datasource.config.results.measures = [];
-          }
-
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
-    }
-  },
-  {'version': '3',
-    'verify': function(dashboard) {
-      var rtnVal = true;
-
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-
-          if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
-            rtnVal = false;
-            break;
-          }
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
-
-      return rtnVal;
-    },
-    'update': function(dashboard) {
-      // Apply updates to each widget.
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-          if (!goog.isDef(widget.datasource.config.results.pivot_config)) {
-            widget.datasource.config.results.pivot = false;
-            widget.datasource.config.results.pivot_config = new PivotConfigModel();
-          }
-
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
-    }},
-  {'version': '2',
-    'verify': function(dashboard) {
-      var rtnVal = true;
-
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-
-          if (!goog.isDef(widget.datasource.config) ||
-              !goog.isDef(widget.datasource.custom_query)) {
-            rtnVal = false;
-            break;
-          }
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
-
-      return rtnVal;
-    },
-    'update': function(dashboard) {
-      // Apply updates to each widget.
-      var containerCtr = 0;
-      while (containerCtr < dashboard.children.length) {
-        var container = dashboard.children[containerCtr];
-
-        var widgetCtr = 0;
-        while (widgetCtr < container.container.children.length) {
-          var widget = container.container.children[widgetCtr];
-          if (!goog.isDef(widget.datasource.custom_query)) {
-            widget.datasource.custom_query = !goog.string.isEmptySafe(
-                widget.datasource.query);
-          }
-
-          if (!widget.datasource.config) {
-            widget.datasource.config = new QueryConfigModel();
-          }
-
-          // If a querystring is present, apply it to the config object.
-          if (widget.datasource.querystring) {
-            QueryConfigModel.applyQueryString(
-                widget.datasource.config,
-                widget.datasource.querystring);
-            delete widget.datasource.querystring;
-          }
-
-          widgetCtr++;
-        }
-        containerCtr++;
-      }
-    }},
-  {'version': '1',
-    'verify': function(dashboard) {
-      var rtnVal = true;
-
-      if (!goog.isDef(dashboard.type)) { return false; }
-
-      return rtnVal;
-    }}
-];
 
 });  // goog.scope

@@ -87,6 +87,11 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
       multiboxData: '=',
 
       /**
+       * Watermark text in empty input boxes.
+       */
+      multiboxPlaceholder: '=',
+
+      /**
        * A list of selected options.
        */
       multiboxSelectedOptions: '=',
