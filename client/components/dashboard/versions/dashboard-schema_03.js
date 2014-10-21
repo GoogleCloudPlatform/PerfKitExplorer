@@ -19,6 +19,7 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV3');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 
 
 goog.scope(function() {
