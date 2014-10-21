@@ -24,6 +24,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigMod
 
 goog.scope(function() {
   var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
+  var PivotConfigModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel;
 
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV3 = function() {
     this.version = '3';
