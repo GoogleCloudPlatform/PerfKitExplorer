@@ -20,8 +20,9 @@ pushd third_party/py
 find . -type f -name '*.py' | cpio -p -a -m -d ../../deploy/server/third_party/
 popd
 
-# Copy client/*.html template files to deploy/client.
+# Copy client/*.html and json template files to deploy/client.
 find client -name '*.html' | cpio -pamd deploy/
+find client -name '*.json' | cpio -pamd deploy/
 
 
 # Compile client/*.js files to deploy/client/perfkit_scripts.js.
