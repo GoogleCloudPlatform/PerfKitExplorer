@@ -52,6 +52,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
 goog.require('p3rf.perfkit.explorer.mocks.mocks');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
@@ -192,4 +193,6 @@ explorer.application.module.directive('fileModel',
     explorer.components.util.FileModelDirective);
 explorer.application.module.directive('dashboardConfig',
     explorer.components.dashboard.DashboardConfigDirective);
+explorer.application.module.directive('widgetEditor',
+    explorer.components.widget.query.WidgetEditorDirective);
 });  // goog.scope
