@@ -1,68 +1,68 @@
 <div>
-  <div ng-switch="settings.isOpen">
+  <div ng-switch="footerCtrl.settings.isOpen">
     <div ng-switch-when="true" class="perfkit-footer-open">
       <div class="perfkit-footer-toolbar">
         <span class="glyphicon glyphicon-remove" style="float: right"
               ng-click="closeCodeEditor()"></span>
         <div class="btn-group perfkit-toolbar-section">
           <button type="button" class="btn btn-default"
-               ng-model="settings.selectedMode"
-               ng-repeat="mode in settings.modes"
+               ng-model="footerCtrl.settings.selectedMode"
+               ng-repeat="mode in footerCtrl.settings.modes"
                btn-radio="mode">{{ mode }}</button>
         </div>
-        <div class="perfkit-toolbar-section" ng-switch="settings.selectedMode">
+        <div class="perfkit-toolbar-section" ng-switch="footerCtrl.settings.selectedMode">
           <div ng-switch-when="JSON">
             <button type="button" class="btn btn-primary"
-                    ng-click="dashboard.refreshWidget(dashboard.selectedWidget)">
+                    ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
               Refresh
             </button>
           </div>
           <div ng-switch-when="SQL">
             <button type="button" class="btn btn-primary"
-                    ng-click="dashboard.refreshWidget(dashboard.selectedWidget)">
+                    ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
               Refresh
             </button>
             <button type="button" class="btn btn-default"
-                    ng-show="!dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="explorer.customizeSql()">
+                    ng-show="!footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                    ng-click="footerCtrl.explorer.customizeSql()">
               Edit SQL
             </button>
             <button type="button" class="btn btn-default"
-                    ng-show="dashboard.selectedWidget && dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="explorer.restoreBuilder()">
+                    ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+                    ng-click="footerCtrl.explorer.restoreBuilder()">
               Use SQL Builder
             </button>
           </div>
           <div ng-switch-when="LOG">
             <button type="button" class="btn btn-default"
-                    ng-show="explorerCtrl.explorer.errorService.errors.length > 0"
-                    ng-click="explorerCtrl.explorer.errorService.removeAllErrors()">
-              Clear {{ explorer.errorService.errors.length }} warning<span ng-show="explorer.errorService.errors.length > 1">s</span>
+                    ng-show="footerCtrl.explorer.errorService.errors.length > 0"
+                    ng-click="footerCtrl.explorer.errorService.removeAllErrors()">
+              Clear {{ footerCtrl.explorer.errorService.errors.length }} warning<span ng-show="footerCtrl.explorer.errorService.errors.length > 1">s</span>
             </button>
           </div>
         </div>
       </div>
-      <div ng-switch="settings.selectedMode">
+      <div ng-switch="footerCtrl.settings.selectedMode">
         <div ng-switch-when="JSON">
           <div>
-            <textarea codemirror="editorOptionsJSON"
-                      ng-model="currentJson.text">
+            <textarea codemirror="footerCtrl.editorOptionsJSON"
+                      ng-model="footerCtrl.currentJson.text">
             </textarea>
           </div>
         </div>
         <div ng-switch-when="SQL">
-          <div ng-switch="dashboard.selectedWidget.model.datasource.custom_query">
+          <div ng-switch="footerCtrl.dashboard.selectedWidget.model.datasource.custom_query">
             <div ng-switch-when="true">
               <div>
-                <textarea codemirror="editorOptionsSQL"
-                          ng-model="dashboard.selectedWidget.model.datasource.query">
+                <textarea codemirror="footerCtrl.editorOptionsSQL"
+                          ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
                 </textarea>
               </div>
             </div>
             <div ng-switch-default>
               <div>
-                <textarea codemirror="editorOptionsSQLView"
-                          ng-model="dashboard.selectedWidget.model.datasource.query">
+                <textarea codemirror="footerCtrl.editorOptionsSQLView"
+                          ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
                 </textarea>
               </div>
             </div>
@@ -76,26 +76,26 @@
 
     <div ng-switch-default class="perfkit-footer-toolbar">
       <button type="button" class="btn btn-default perfkit-footer-button"
-              ng-show="dashboard.selectedWidget"
+              ng-show="footerCtrl.dashboard.selectedWidget"
               ng-click="openWidgetJsonEditor()">
         Edit Widget JSON
       </button>
       <button type="button" class="btn btn-default perfkit-footer-button"
-              ng-show="dashboard.selectedWidget && !dashboard.selectedWidget.model.datasource.custom_query"
-              ng-click="openQuerySqlEditor()">
+              ng-show="footerCtrl.dashboard.selectedWidget && !footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+              ng-click="footerCtrl.openQuerySqlEditor()">
         View SQL
       </button>
       <button type="button" class="btn btn-default perfkit-footer-button"
-              ng-show="dashboard.selectedWidget && dashboard.selectedWidget.model.datasource.custom_query"
-              ng-click="openQuerySqlEditor()">
+              ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+              ng-click="footerCtrl.openQuerySqlEditor()">
         Edit SQL
       </button>
       <button type="button" class="btn btn-default perfkit-footer-button"
-              ng-click="explorer.showLog()"
-              ng-show="explorer.errorService.errors.length > 0 &&
-                       !(explorer.model.code_editor.isOpen &&
-                         explorer.model.code_editor.selectedMode == 'LOG')">
-        Show {{ explorer.errorService.errors.length }} warning<span ng-show="explorer.errorService.errors.length != 1">s</span>
+              ng-click="footerCtrl.explorer.showLog()"
+              ng-show="footerCtrl.explorer.errorService.errors.length > 0 &&
+                       !(footerCtrl.explorer.model.code_editor.isOpen &&
+                         footerCtrl.explorer.model.code_editor.selectedMode == 'LOG')">
+        Show {{ footerCtrl.explorer.errorService.errors.length }} warning<span ng-show="footerCtrl.explorer.errorService.errors.length != 1">s</span>
       </button>
     </div>
   </div>

@@ -30,10 +30,8 @@ explorer.components.widget.query.WidgetEditorDirective = function() {
     restrict: 'E',
     replace: true,
     transclude: true,
-    scope: {
-      'ngModel': '='
-    },
     templateUrl: '/static/components/widget/query/widget-editor-directive.html',
+    controllerAs: 'footerCtrl',
     controller: CodeEditorCtrl
   };
 };
