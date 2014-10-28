@@ -3,12 +3,14 @@
         "project_id": "",
         "project_name": "",
         "samples-mart": "",
-        "analytics-key": ""
+        "analytics-key": "",
+        "cache-duration": 0
     },
     "testing": {
         "project_id": "PROJECT_NUMBER",
         "project_name": "PROJECT_NAME",
         "samples-mart": "PROJECT_NAME.DATASET_NAME",
-        "analytics-key": "ANALYTICS_KEY"
+        "analytics-key": "ANALYTICS_KEY",
+        "cache-duration": 0
     }
-}
+ }

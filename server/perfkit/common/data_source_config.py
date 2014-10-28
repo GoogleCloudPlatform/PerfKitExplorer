@@ -48,6 +48,7 @@ class Environments(object):
     return [cls.PRODUCTION, cls.TESTING]
 
 
+# TODO: Rename Services to Options, as we're genericizing the config store.
 class Services(object):
   """Class to enumerate constants for supported services."""
 
@@ -60,12 +61,13 @@ class Services(object):
   PROJECT_ID = 'project_id'
   PROJECT_NAME = 'project_name'
   SAMPLES_MART = 'samples-mart'
+  CACHE_DURATION = 'cache-duration'
 
   @classmethod
   def All(cls):
     """Returns all known services."""
     return [cls.API_KEY, cls.DATA_QUEUE, cls.DATA_STORE, cls.PROJECT_ID,
-            cls.PROJECT_NAME, cls.SAMPLES_MART, cls.ANALYTICS_KEY]
+            cls.PROJECT_NAME, cls.SAMPLES_MART, cls.ANALYTICS_KEY, cls.CACHE_DURATION]
 
   @classmethod
   def GetServiceData(cls):
