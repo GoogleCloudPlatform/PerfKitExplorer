@@ -171,7 +171,8 @@ class SqlDataHandler(base.RequestHandlerBase):
       request_data = json.loads(self.request.body)
       query = request_data['datasource']['query']
       config = request_data['datasource']['config']
-      cache_duration = config.Services.GetServiceUri(self.env, config.Services.CACHE_DURATION) or None
+      cache_duration = data_source_config.Services.GetServiceUri(
+        self.env, data_source_config.Services.CACHE_DURATION) or None
 
       response = client.Query(query, cache_duration=cache_duration)
 
