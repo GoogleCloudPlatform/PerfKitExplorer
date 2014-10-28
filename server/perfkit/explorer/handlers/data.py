@@ -21,6 +21,7 @@ import base
 from perfkit.common import big_query_client
 from perfkit.common import big_query_result_util as result_util
 from perfkit.common import big_query_result_pivot
+from perfkit.common import data_source_config as config
 from perfkit.common import gae_big_query_client
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
@@ -170,7 +171,10 @@ class SqlDataHandler(base.RequestHandlerBase):
       request_data = json.loads(self.request.body)
       query = request_data['datasource']['query']
       config = request_data['datasource']['config']
-      response = client.Query(query)
+      cache_duration = data_source_config.Services.GetServiceUri(
+        self.env, data_source_config.Services.CACHE_DURATION) or None
+
+      response = client.Query(query, cache_duration=cache_duration)
 
       if config['results']['pivot']:
         pivot_config = config['results']['pivot_config']
