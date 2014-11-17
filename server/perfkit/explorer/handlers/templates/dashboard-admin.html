@@ -88,7 +88,25 @@
       </div>
     </div>
 
-    <div class="perfkit-page-content" ng-grid="pageCtrl.data">
+    <style>
+      .content-table {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div class="perfkit-page-content">
+      <table class="content-table">
+        <tr>
+          <th>Title</th>
+          <th>Owner</th>
+          <th>ID</th>
+        </tr>
+        <tr ng-repeat="dashboard in pageCtrl.pageService.dashboards">
+          <td>{{ dashboard.title }}</td>
+          <td>{{ dashboard.owner }}</td>
+          <td>{{ dashboard.id }}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
