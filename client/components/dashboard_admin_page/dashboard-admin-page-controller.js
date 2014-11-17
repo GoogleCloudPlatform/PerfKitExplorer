@@ -93,6 +93,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
     data: 'pageService.dashboards',
     multiSelect: false,
     selectedItems: this.pageService.selectedDashboards,
+    virtualizationThreshold: 1000,
     columnDefs: [
       {field: 'title', displayName: 'Title',
         cellTemplate:
