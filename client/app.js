@@ -68,7 +68,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderSe
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var requiredModules = [
-  'ui.codemirror', 'ui.bootstrap', 'ngGrid'];
+  'ui.codemirror', 'ui.bootstrap', 'ui.grid'];
 
 var useMockData = (
     explorer.mocks.mocks.isMockParamTrue());
