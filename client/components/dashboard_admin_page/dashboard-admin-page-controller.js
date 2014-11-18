@@ -50,7 +50,8 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @ngInject
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
-    $scope, $location, $modal, dashboardDataService, dashboardAdminPageService) {
+    $scope, $location, $modal, dashboardDataService, dashboardAdminPageService,
+    uiGridSelectionService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -75,10 +76,10 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.dashboardDataService = dashboardDataService;
 
-  /** @private {DashboardAdminPageService} */
+  /** @private @type {DashboardAdminPageService} */
   $scope.pageService = dashboardAdminPageService;
 
-  /** @export {DashboardAdminPageService */
+  /** @export @type {DashboardAdminPageService */
   this.pageService = dashboardAdminPageService;
 
   /**
@@ -89,22 +90,27 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.errors = [];
 
-  this.data = {
+  this.gridOptions = {
     data: 'pageService.dashboards',
+    enableFiltering: true,
+    enableRowHeaderSelection: false,
     multiSelect: false,
-    selectedItems: this.pageService.selectedDashboards,
-    virtualizationThreshold: 1000,
+    virtualizationThreshold: 100,
     columnDefs: [
-      {field: 'title', displayName: 'Title',
+      {name: 'title', displayName: 'Title',
         cellTemplate:
-            '<div class="ngCellText" ng-class="col.colIndex()">' +
-            '    <a ng-click="pageCtrl.openDashboard(row.entity)">' +
+            '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
+            '    <a ng-click="getExternalScopes().pageCtrl.openDashboard(row.entity)">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
-      {field: 'owner', displayName: 'Owner'},
-      {field: 'id', displayName: 'ID'}
+      {name: 'owner', displayName: 'Owner', width: 240},
+      {name: 'id', displayName: 'ID', width: 160}
     ]
   };
+
+  this.gridOptions.onRegisterApi = angular.bind(this, function(gridApi) {
+    this.pageService.selection = gridApi.selection;
+  });
 
   /**
    * @type {boolean}
@@ -142,10 +148,12 @@ DashboardAdminPageCtrl.prototype.initPage = function() {
  * @returns {DashboardModel}
  */
 DashboardAdminPageCtrl.prototype.verifySelection = function() {
-  if (this.data.selectedItems.length == 0) {
+  var selection = this.getSelected();
+
+  if (!selection) {
     throw 'verifySelection() failed: No dashboard selected.';
   }
-  return this.data.selectedItems[0];
+  return selection;
 };
 
 
@@ -257,6 +265,7 @@ DashboardAdminPageCtrl.prototype.listAllDashboards = function() {
   this.pageService.model.filter_owner = false;
   this.pageService.model.owner = '';
   this.pageService.model.mine = false;
+  this.gridOptions.columnDefs[1].visible = true;
 
   this.listDashboards();
 };
@@ -270,10 +279,34 @@ DashboardAdminPageCtrl.prototype.listMyDashboards = function() {
   this.pageService.model.filter_owner = false;
   this.pageService.model.owner = '';
   this.pageService.model.mine = true;
+  this.gridOptions.columnDefs[1].visible = false;
 
   this.listDashboards();
 };
 
+
+/**
+ * Returns the selected dashboard.
+ * @return {?DashboardModel}
+ * @export
+ */
+DashboardAdminPageCtrl.prototype.getSelected = function() {
+  if (!this.pageService.selection) {
+    return null;
+  }
+
+  var selectedItems = this.pageService.selection.getSelectedRows();
+
+  switch (selectedItems.length) {
+    case 0:
+      return null;
+    case 1:
+      return selectedItems[0];
+    default:
+      console.log('Multiple items not supported.');
+      return selectedItems[0];
+  }
+};
 
 /**
  * Lists dashboards owned by a specific user.

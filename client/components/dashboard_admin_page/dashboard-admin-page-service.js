@@ -49,10 +49,10 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
   this.errors = [];
 
   /**
-   * @type {Array.<!DashboardModel>}
-   * @export
+   * The selection service is initialized in the gridOptions onRegisterApi.
+   * @export @type {Array.<uiGridSelectionService>}
    */
-  this.selectedDashboards = [];
+  this.selection = null;
 
   /** @private {DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
@@ -74,9 +74,7 @@ var DashboardAdminPageService = explorer.components.dashboard_admin_page.Dashboa
  * @export
  */
 DashboardAdminPageService.prototype.listDashboards = function() {
-  while (this.selectedDashboards.length > 0) {
-    this.selectedDashboards.pop();
-  }
+  this.selection && this.selection.clearSelectedRows();
 
   var promise = this.dashboardDataService_.list(
       this.model.mine, this.model.owner);

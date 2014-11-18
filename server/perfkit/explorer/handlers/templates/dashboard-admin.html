@@ -43,29 +43,24 @@
     <div class="perfkit-header-section perfkit-toolbar">
       <button type="button" class="btn btn-default"
               ng-click="pageCtrl.createDashboard()">Create</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.openDashboard(pageCtrl.data.selectedItems.0)">Open</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.data.selectedItems.0.owner)">More from this owner</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.copyDashboard()">Copy</button>
-      <button type="button" class="btn btn-default"
-              ng-click="pageCtrl.uploadDashboard()">Upload</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.downloadDashboard()">Download</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.renameDashboard()">Rename</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.editDashboardOwner()">Edit owner</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.deleteDashboard()">Delete</button>
+      <span ng-show="pageCtrl.getSelected()">
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.openDashboard(pageCtrl.getSelected())">Open</button>
+        <button type="button" class="btn btn-default" ng-hide="pageCtrl.pageService.model.mine"
+                ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.getSelected().owner)">More from this owner</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.copyDashboard()">Copy</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.uploadDashboard()">Upload</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.downloadDashboard()">Download</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.renameDashboard()">Rename</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.editDashboardOwner()">Edit owner</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.deleteDashboard()">Delete</button>
+      </span>
     </div>
   </div>
 
@@ -78,17 +73,10 @@
       <div class="perfkit-page-sidebar-option"
            ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
-      <div class="perfkit-page-sidebar-option"
-           ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.filter_owner}"
-           ng-click="pageCtrl.listDashboardsByOwner()">By owner email</div>
-      <div class="perfkit-page-sidebar-option">
-        <div ng-show="pageCtrl.pageService.model.filter_owner">
-          <input ng-model="pageCtrl.pageService.model.owner">
-        </div>
-      </div>
     </div>
 
-    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions" />
+    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions"
+         ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection />
   </div>
 </div>
 </body>
