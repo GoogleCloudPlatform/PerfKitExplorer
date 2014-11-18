@@ -172,6 +172,7 @@ body {
 a {
   color: #1155CC;
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:visited {

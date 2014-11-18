@@ -8,8 +8,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-mocks.js"></script>
 
   <!-- AngularUI Grid -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.11/ng-grid.css" rel="stylesheet">
+  <script src="/static/third_party/uiGrid/ui-grid.js"></script>
+  <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
 
   <!-- CodeMirror3 Editor -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
@@ -44,28 +44,23 @@
       <button type="button" class="btn btn-default"
               ng-click="pageCtrl.createDashboard()">Create</button>
       <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.openDashboard(pageCtrl.data.selectedItems.0)">Open</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.data.selectedItems.0.owner)">More from this owner</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.copyDashboard()">Copy</button>
-      <button type="button" class="btn btn-default"
               ng-click="pageCtrl.uploadDashboard()">Upload</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.downloadDashboard()">Download</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.renameDashboard()">Rename</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.editDashboardOwner()">Edit owner</button>
-      <button type="button" class="btn btn-default"
-              ng-show="pageCtrl.data.selectedItems.0"
-              ng-click="pageCtrl.deleteDashboard()">Delete</button>
+      <span ng-show="pageCtrl.getSelected()">
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.openDashboard(pageCtrl.getSelected())">Open</button>
+        <button type="button" class="btn btn-default" ng-hide="pageCtrl.pageService.model.mine"
+                ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.getSelected().owner)">More from this owner</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.copyDashboard()">Copy</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.downloadDashboard()">Download</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.renameDashboard()">Rename</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.editDashboardOwner()">Edit owner</button>
+        <button type="button" class="btn btn-default"
+                ng-click="pageCtrl.deleteDashboard()">Delete</button>
+      </span>
     </div>
   </div>
 
@@ -78,18 +73,10 @@
       <div class="perfkit-page-sidebar-option"
            ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
-      <div class="perfkit-page-sidebar-option"
-           ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.filter_owner}"
-           ng-click="pageCtrl.listDashboardsByOwner()">By owner email</div>
-      <div class="perfkit-page-sidebar-option">
-        <div ng-show="pageCtrl.pageService.model.filter_owner">
-          <input ng-model="pageCtrl.pageService.model.owner">
-        </div>
-      </div>
     </div>
 
-    <div class="perfkit-page-content" ng-grid="pageCtrl.data">
-    </div>
+    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions" external-scopes="gridScope"
+         ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection />
   </div>
 </div>
 </body>

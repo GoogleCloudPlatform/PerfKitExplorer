@@ -24,6 +24,11 @@ popd
 find client -name '*.html' | cpio -pamd deploy/
 find client -name '*.json' | cpio -pamd deploy/
 
+# Copy third_party/js/*.* files to deploy/server/third_party
+pushd third_party/js
+find . -type f -name '*.*' | cpio -p -a -m -d ../../deploy/client/third_party/
+popd
+
 
 # Compile client/*.js files to deploy/client/perfkit_scripts.js.
 python $closurelib/closure/bin/build/closurebuilder.py \
