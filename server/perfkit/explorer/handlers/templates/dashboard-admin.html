@@ -75,7 +75,7 @@
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
     </div>
 
-    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions"
+    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions" external-scopes="gridScope"
          ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection />
   </div>
 </div>
