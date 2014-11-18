@@ -43,6 +43,8 @@
     <div class="perfkit-header-section perfkit-toolbar">
       <button type="button" class="btn btn-default"
               ng-click="pageCtrl.createDashboard()">Create</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.uploadDashboard()">Upload</button>
       <span ng-show="pageCtrl.getSelected()">
         <button type="button" class="btn btn-default"
                 ng-click="pageCtrl.openDashboard(pageCtrl.getSelected())">Open</button>
@@ -50,8 +52,6 @@
                 ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.getSelected().owner)">More from this owner</button>
         <button type="button" class="btn btn-default"
                 ng-click="pageCtrl.copyDashboard()">Copy</button>
-        <button type="button" class="btn btn-default"
-                ng-click="pageCtrl.uploadDashboard()">Upload</button>
         <button type="button" class="btn btn-default"
                 ng-click="pageCtrl.downloadDashboard()">Download</button>
         <button type="button" class="btn btn-default"
