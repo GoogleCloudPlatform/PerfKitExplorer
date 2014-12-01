@@ -303,6 +303,16 @@
                 </div>
               </div>
 
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">table format</div>
+                <div class="sidebar-item-value">
+                  <select class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.table_format"
+                         placeholder="{{ queryEditorCtrl.dashboard.current.model.table_format ||
+                                         queryEditorCtrl.dashboard.DEFAULT_TABLE_FORMAT }}">
+                </div>
+              </div>
+
             </div>
 
             <div class="sidebar-group">
