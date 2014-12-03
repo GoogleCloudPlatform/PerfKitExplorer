@@ -25,12 +25,14 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultDataServi
 goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ErrorTypes = explorer.components.error.ErrorTypes;
 var ErrorService = explorer.components.error.ErrorService;
+var ExplorerService = explorer.components.explorer.ExplorerService;
 
 
 
@@ -39,6 +41,7 @@ var ErrorService = explorer.components.error.ErrorService;
  *
  * @param {!ErrorService} errorService
  * @param {!angular.$http} $http
+ * @param {!angular.$filter} $filter
  * @param {angular.$cacheFactory} $cacheFactory
  * @param {!angular.$q} $q
  * @param {function(new:google.visualization.DataTable, ...)} GvizDataTable
@@ -46,7 +49,7 @@ var ErrorService = explorer.components.error.ErrorService;
  * @ngInject
  */
 explorer.components.widget.query.QueryResultDataService = function(
-    errorService, $http, $cacheFactory, $q, GvizDataTable) {
+    explorerService, errorService, $http, $filter, $cacheFactory, $q, GvizDataTable) {
   /**
    * @type {!angular.$http}
    * @private
@@ -59,6 +62,12 @@ explorer.components.widget.query.QueryResultDataService = function(
    * @private
    */
   this.cache_ = $cacheFactory('queryResultDataServiceCache', {capacity: 10});
+
+  /** @private @type {!ExplorerService} */
+  this.explorerService_ = explorerService;
+
+  /** @private @type {!angular.$filter} */
+  this.filter_ = $filter;
 
   /**
    * @type {!ErrorService}
@@ -189,6 +198,18 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
+        if (this.explorerService_.model.logStatistics) {
+          var rows = response['data']['totalRows']
+          var size = response['data']['totalBytesProcessed']
+          var speed = response['data']['elapsedTime']
+
+          this.errorService_.addError(
+              ErrorTypes.INFO,
+              'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
+              'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
+              'in ' + this.filter_('number')(speed, 2) + ' sec.');
+        }
+
         var data = response['data']['results'];
         this.parseDates_(data);
 

@@ -307,9 +307,10 @@
                 <div class="sidebar-item-label">table format</div>
                 <div class="sidebar-item-value">
                   <select class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.table_format"
-                         placeholder="{{ queryEditorCtrl.dashboard.current.model.table_format ||
-                                         queryEditorCtrl.dashboard.DEFAULT_TABLE_FORMAT }}">
+                         ng-model="queryEditorCtrl.datasource.config.results.table_partition">
+                    <option>OneTable</option>
+                    <option>PerDay</option>
+                  </select>
                 </div>
               </div>
 

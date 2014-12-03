@@ -2,8 +2,8 @@
   <div ng-switch="footerCtrl.settings.isOpen">
     <div ng-switch-when="true" class="perfkit-footer-open">
       <div class="perfkit-footer-toolbar">
-        <span class="glyphicon glyphicon-remove" style="float: right"
-              ng-click="closeCodeEditor()"></span>
+        <span class="glyphicon glyphicon-remove perfkit-glyph-button" style="float: right"
+              ng-click="footerCtrl.closeCodeEditor()"></span>
         <div class="btn-group perfkit-toolbar-section">
           <button type="button" class="btn btn-default"
                ng-model="footerCtrl.settings.selectedMode"

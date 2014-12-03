@@ -31,6 +31,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 
 
 goog.scope(function() {
@@ -47,6 +48,7 @@ var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
 var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 /**
@@ -151,9 +153,9 @@ QueryBuilderService.prototype.createSimpleFilter = function(
  * @return {string} A BigQuery function representing the relative date.
  */
 QueryBuilderService.prototype.getRelativeDateFunction = function(dateFilter) {
-  return ('TIMESTAMP_TO_SEC(DATE_ADD(CURRENT_TIMESTAMP(), -' +
+  return ('DATE_ADD(CURRENT_TIMESTAMP(), -' +
       dateFilter.filter_value + ', "' +
-      dateFilter.filter_type + '"))');
+      dateFilter.filter_type + '")');
 };
 
 
@@ -163,7 +165,7 @@ QueryBuilderService.prototype.getRelativeDateFunction = function(dateFilter) {
  * @return {string} A BigQuery function representing the relative date.
  */
 QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
-  return ('TIMESTAMP_TO_SEC(TIMESTAMP(\'' + dateFilter.text + '\'))');
+  return ('TIMESTAMP(\'' + dateFilter.text + '\')');
 };
 
 
@@ -187,13 +189,13 @@ QueryBuilderService.prototype.getSql = function(model, defaultProjectId, default
       case DateFilterType.CUSTOM:
         startFilter = this.getAbsoluteDateFunction(model.filters.start_date);
         startDateClause = new FilterClause(
-            [startFilter], FilterClause.MatchRule.GE, true);
+            ['TIMESTAMP_TO_SEC(' + startFilter + ')'], FilterClause.MatchRule.GE, true);
 
         break;
       default:
         startFilter = this.getRelativeDateFunction(model.filters.start_date);
         startDateClause = new FilterClause(
-            [startFilter], FilterClause.MatchRule.GE, true);
+            ['TIMESTAMP_TO_SEC(' + startFilter + ')'], FilterClause.MatchRule.GE, true);
 
         break;
     }
@@ -206,12 +208,12 @@ QueryBuilderService.prototype.getSql = function(model, defaultProjectId, default
       case DateFilterType.CUSTOM:
         endFilter = this.getAbsoluteDateFunction(model.filters.end_date);
         endDateClause = new FilterClause(
-            [endFilter], FilterClause.MatchRule.LE, true);
+            ['TIMESTAMP_TO_SEC(' + endFilter + ')'], FilterClause.MatchRule.LE, true);
 
         break;
       default:
         endDateClause = new FilterClause(
-            [endFilter], FilterClause.MatchRule.LE, true);
+            ['TIMESTAMP_TO_SEC(' + endFilter + ')'], FilterClause.MatchRule.LE, true);
 
         break;
     }
@@ -327,7 +329,7 @@ QueryBuilderService.prototype.getSql = function(model, defaultProjectId, default
 
   var tableExpr = '';
 
-  if (model.results.table_partition == QueryTablePartition.PERDAY) {
+  if (model.results.table_partition == QueryTablePartitioning.PERDAY) {
     if (!startFilter) {
       throw 'Start date is required when PERDAY table partitioning is used.';
     }
@@ -336,8 +338,7 @@ QueryBuilderService.prototype.getSql = function(model, defaultProjectId, default
       endFilter = 'CURRENT_TIMESTAMP()';
     }
 
-    tableExpression = '(TABLE_DATE_RANGE([' + tableId + '], samples_mart.results_, ' +
-        startFilter + ', ' + endFilter + '))';
+    tableExpression = '(TABLE_DATE_RANGE([' + tableId + '], ' + startFilter + ', ' + endFilter + '))';
   } else {
     tableExpression = '[' + tableId + ']';
   }

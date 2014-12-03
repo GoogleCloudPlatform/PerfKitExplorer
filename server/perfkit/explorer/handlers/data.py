@@ -23,13 +23,15 @@ referenced with GET requests.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
+import time
 
 import base
 
 from perfkit.common import big_query_client
 from perfkit.common import big_query_result_util as result_util
 from perfkit.common import big_query_result_pivot
-from perfkit.common import data_source_config as config
+from perfkit.common import data_source_config
 from perfkit.common import gae_big_query_client
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
@@ -174,6 +176,7 @@ class SqlDataHandler(base.RequestHandlerBase):
   def post(self):
     """Request handler for POST operations."""
     try:
+      start_time = time.time()
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
       client = DataHandlerUtil.GetDataClient(self.env)
       request_data = json.loads(self.request.body)
@@ -194,9 +197,11 @@ class SqlDataHandler(base.RequestHandlerBase):
             values_name=pivot_config['value_field'])
         transformer.Transform()
 
-      self.RenderJson({
-          'results': result_util.ReplyFormatter.RowsToDataTableFormat(
-              response)})
+      response['results'] = result_util.ReplyFormatter.RowsToDataTableFormat(response)
+
+      elapsed_time = time.time() - start_time
+      response['elapsedTime'] = elapsed_time
+      self.RenderJson(response)
 
     # If 'expected' errors occur (specifically dealing with SQL problems),
     # return JSON with descriptive text so that we can give the user a
