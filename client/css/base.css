@@ -112,17 +112,27 @@ html, body {
   width: 240px;
 }
 
-.perfkit-sidebar-close-button {
-  float: right;
-  margin-right: 5px;
-  margin-top: -6px;
-}
-
 .perfkit-page-content {
   flex-grow: 100;
   -webkit-flex-grow: 100;
   overflow-x: auto;
   overflow-y: auto;
+}
+
+.perfkit-footer-button {
+  float: right;
+}
+
+.perfkit-sidebar-button {
+  float: right;
+  top: 9px;
+  right: 8px;
+}
+
+.perfkit-glyph-button:hover {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
 }
 
 .perfkit-page-footer {
