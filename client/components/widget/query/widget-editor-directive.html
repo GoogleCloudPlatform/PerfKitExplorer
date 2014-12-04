@@ -2,7 +2,7 @@
   <div ng-switch="footerCtrl.settings.isOpen">
     <div ng-switch-when="true" class="perfkit-footer-open">
       <div class="perfkit-footer-toolbar">
-        <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-sidebar-button"
+        <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-footer-button"
               ng-click="footerCtrl.closeCodeEditor()"></span>
         <div class="btn-group perfkit-toolbar-section">
           <button type="button" class="btn btn-default"
@@ -75,22 +75,22 @@
     </div>
 
     <div ng-switch-default class="perfkit-footer-toolbar">
-      <button type="button" class="btn btn-default perfkit-footer-button"
+      <button type="button" class="btn btn-default"
               ng-show="footerCtrl.dashboard.selectedWidget"
               ng-click="openWidgetJsonEditor()">
         Edit Widget JSON
       </button>
-      <button type="button" class="btn btn-default perfkit-footer-button"
+      <button type="button" class="btn btn-default"
               ng-show="footerCtrl.dashboard.selectedWidget && !footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
               ng-click="footerCtrl.openQuerySqlEditor()">
         View SQL
       </button>
-      <button type="button" class="btn btn-default perfkit-footer-button"
+      <button type="button" class="btn btn-default"
               ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
               ng-click="footerCtrl.openQuerySqlEditor()">
         Edit SQL
       </button>
-      <button type="button" class="btn btn-default perfkit-footer-button"
+      <button type="button" class="btn btn-default"
               ng-click="footerCtrl.explorer.showLog()"
               ng-show="footerCtrl.explorer.errorService.errors.length > 0 &&
                        !(footerCtrl.explorer.model.code_editor.isOpen &&
