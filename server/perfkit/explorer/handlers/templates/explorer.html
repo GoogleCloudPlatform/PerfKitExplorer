@@ -117,7 +117,8 @@
     </div>
   </div>
 
-  <div class="perfkit-page-footer">
+  <div class="perfkit-page-footer"
+       ng-show="explorerCtrl.dashboard.selectedWidget || explorerCtrl.explorer.model.code_editor.isOpen">
     <widget-editor></widget-editor>
   </div>
 </div>
