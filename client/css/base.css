@@ -112,12 +112,6 @@ html, body {
   width: 240px;
 }
 
-.perfkit-sidebar-close-button {
-  float: right;
-  margin-right: 5px;
-  margin-top: -6px;
-}
-
 .perfkit-page-content {
   flex-grow: 100;
   -webkit-flex-grow: 100;
