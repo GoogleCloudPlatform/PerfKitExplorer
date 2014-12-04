@@ -125,6 +125,12 @@ html, body {
   overflow-y: auto;
 }
 
+.perfkit-glyph-button:hover {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
 .perfkit-page-footer {
   background-color: rgb(241, 241, 241);
   border-top: 1px solid rgb(229, 229, 229);
