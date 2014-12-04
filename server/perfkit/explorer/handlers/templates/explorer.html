@@ -105,12 +105,8 @@
 
     <div class="perfkit-page-sidebar-right"
          ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
-      <div>
-        <a  href="#"
-            class="glyphicon glyphicon-remove perfkit-sidebar-close-button"
-            ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
-        </a>
-      </div>
+      <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-footer-button"
+            ng-click="dashboardCtrl.dashboard.selectWidget(null, null)"></span>
 
       <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
 
