@@ -253,12 +253,9 @@ DashboardService.prototype.selectContainer = function(container) {
 
 
 /**
- * Changes the widget datasource status to TOFETCH.
- *
- * @param {!WidgetConfig} widget
- * @export
+ * Rewrites the current widget's query based on the config.
  */
-DashboardService.prototype.refreshWidget = function(widget) {
+DashboardService.prototype.rewriteQuery = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
   if (widget.model.datasource.custom_query !== true) {
@@ -266,14 +263,26 @@ DashboardService.prototype.refreshWidget = function(widget) {
         widget.model.datasource.config,
         this.current.model.project_id,
         this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
-        this.current.model.table_name || this.DEFAULT_TABLE_NAME);
+        this.current.model.table_name || this.DEFAULT_TABLE_NAME,
+        this.current.model.table_partition
+    );
   }
+};
 
-  if (!widget.model.datasource.query) {
-    return;
+
+/**
+ * Updates the widget's query, if application, and changes the widget
+ * datasource status to TOFETCH.
+ *
+ * @param {!WidgetConfig} widget
+ * @export
+ */
+DashboardService.prototype.refreshWidget = function(widget) {
+  this.rewriteQuery(widget);
+
+  if (widget.model.datasource.query) {
+    widget.state().datasource.status = ResultsDataStatus.TOFETCH;
   }
-
-  widget.state().datasource.status = ResultsDataStatus.TOFETCH;
 };
 
 
@@ -289,8 +298,9 @@ DashboardService.prototype.customizeSql = function(widget) {
   }
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
-  widget.model.datasource.query = this.queryBuilderService_.getSql(
-      widget.model.datasource.config);
+
+  this.rewriteQuery(widget);
+
   widget.model.datasource.custom_query = true;
 };
 

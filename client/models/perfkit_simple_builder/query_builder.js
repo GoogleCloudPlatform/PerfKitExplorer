@@ -321,6 +321,8 @@ QueryBuilderService.prototype.getSql = function(model, defaultProjectId, default
   var projectId = model.results.project_id || defaultProjectId;
   var datasetName = model.results.dataset_name || defaultDatasetName;
   var tableName = model.results.table_name || defaultTableName;
+  var tablePartition = model.results.table_partition || defaultTablePartition;
+
   var tableId = datasetName + '.' + tableName;
 
   if (projectId) {
