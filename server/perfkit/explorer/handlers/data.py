@@ -29,7 +29,7 @@ import base
 from perfkit.common import big_query_client
 from perfkit.common import big_query_result_util as result_util
 from perfkit.common import big_query_result_pivot
-from perfkit.common import data_source_config as config
+from perfkit.common import data_source_config
 from perfkit.common import gae_big_query_client
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
