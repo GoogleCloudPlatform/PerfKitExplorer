@@ -177,7 +177,8 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
  * @param {?string} defaultTableName
  * @return {string} A formatted SQL statement.
  */
-QueryBuilderService.prototype.getSql = function(model, defaultProjectId, defaultDatasetName, defaultTableName) {
+QueryBuilderService.prototype.getSql = function(
+    model, defaultProjectId, defaultDatasetName, defaultTableName, defaultTablePartition) {
   var fieldFilters = [];
   var startFilter = null;
   var endFilter = null;

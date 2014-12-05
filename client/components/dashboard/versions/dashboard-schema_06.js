@@ -51,7 +51,7 @@ goog.scope(function() {
 
   DashboardSchema.prototype.update = function(dashboard) {
     if (!goog.isDef(dashboard.table_partition)) {
-      dashboard.table_partition = 'OneTable';
+      dashboard.table_partition = null;
     }
 
     DashboardVersionUtil.UpdateDashboard(dashboard, null, function(widget) {
