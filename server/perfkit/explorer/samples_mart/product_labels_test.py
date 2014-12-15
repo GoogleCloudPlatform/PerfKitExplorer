@@ -18,9 +18,29 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import unittest
 
-from .. import big_query_client
+<<<<<<< HEAD
+<<<<<<< HEAD
+from perfkit import test_util
+from perfkit.common import big_query_client as client
+=======
+from perfkit.common import big_query_client as client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config as config
+>>>>>>> 8a69a25... =Add tests for data handler.
+
 import product_labels
-import test_util
+<<<<<<< HEAD
+
+=======
+from perfkit import test_util
+>>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.
+=======
+from perfkit import test_util
+from perfkit.common import big_query_client as client
+
+import product_labels
+
+>>>>>>> 083b3ae... =Fix flake8 issues.
 
 EXPECTED_DATA = [
     {'name': u'attributes', 'count': 6,
@@ -38,7 +58,21 @@ EXPECTED_DATA = [
 class ProductLabelsQueryTest(unittest.TestCase):
 
   def setUp(self):
-    big_query_client.DATASET_ID = 'samples_mart_testdata'
+<<<<<<< HEAD
+<<<<<<< HEAD
+    client.DATASET_ID = 'samples_mart_testdata'
+    test_util.SetConfigPaths()
+=======
+    client.DISCOVERY_FILE = '../../../../config/big_query_v2_rest.json'
+    client.DATASET_ID = 'samples_mart_testdata'
+    config.CONFIG_FILE = '../../../../config/data_source_config.json'
+    credentials_lib.DEFAULT_CREDENTIALS = '../../../../config/credentials.json'
+>>>>>>> 8a69a25... =Add tests for data handler.
+=======
+    client.DATASET_ID = 'samples_mart_testdata'
+    test_util.SetConfigPaths()
+>>>>>>> 083b3ae... =Fix flake8 issues.
+
     self.data_client = test_util.GetDataClient(mocked=True)
     self.data_client.mock_reply = {'totalRows': 0,
                                    'jobReference': 0,

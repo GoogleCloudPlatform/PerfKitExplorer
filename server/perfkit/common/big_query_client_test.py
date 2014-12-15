@@ -26,6 +26,7 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 import hashlib
 import logging
 import random
+import time
 import unittest
 
 from apiclient.errors import HttpError
@@ -33,9 +34,11 @@ import httplib2
 import mox
 import pytest
 
-import big_query_client
-import credentials_lib
-import data_source_config
+from perfkit import test_util
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config
+
 
 TEMP_DATASET_ID = big_query_client.TEMP_DATASET_ID
 
@@ -66,6 +69,8 @@ class BigQueryClientTest(unittest.TestCase):
 
   def setUp(self):
     self.mox = mox.Mox()
+
+    test_util.SetConfigPaths()
 
     self.client = big_query_client.BigQueryClient(
         credentials_lib.DEFAULT_CREDENTIALS,
@@ -149,7 +154,9 @@ class BigQueryClientTest(unittest.TestCase):
     self.assertEquals(expected_rows, rows)
 
   @pytest.mark.maintenance
+  @pytest.mark.xfail
   def testCopyTable(self):
+    # TODO: Re-enable test when BQ copy issue is resolved.
     table_name = self.AddTempTableRef()
 
     self.client.CopyTable(source_dataset='unit_test_data',
@@ -170,6 +177,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.client.DeleteTable(dataset_name=TEMP_DATASET_ID,
                             table_name=table_name)
+    time.sleep(30)
 
     self.RemoveTempTableRef(table_name=table_name)
 

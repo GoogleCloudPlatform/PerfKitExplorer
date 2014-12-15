@@ -20,6 +20,8 @@ import unittest
 import data_source_config
 import mox
 
+from perfkit import test_util
+
 
 class Error(Exception):
   pass
@@ -27,13 +29,16 @@ class Error(Exception):
 
 class DataSourceConfigTest(unittest.TestCase):
   UNSUPPORTED = 'unsupported'
-  MOCK_CONFIG_FILE = 'data_source_config_mock.json'
+  MOCK_CONFIG_FILE = 'config/data_source_config_mock.json'
   ORIGINAL_CONFIG_FILE = data_source_config.CONFIG_FILE
 
   def setUp(self):
     self.mox = mox.Mox()
 
-    data_source_config.CONFIG_FILE = DataSourceConfigTest.MOCK_CONFIG_FILE
+    test_util.SetConfigPaths()
+
+    data_source_config.CONFIG_FILE = (
+      test_util.GetRootPath() + DataSourceConfigTest.MOCK_CONFIG_FILE)
 
   def tearDown(self):
     try:
@@ -48,12 +53,12 @@ class DataSourceConfigTest(unittest.TestCase):
     """Verifies the correct uri for a valid environment and service."""
 
     environment_name = data_source_config.Environments.PRODUCTION
-    service_name = data_source_config.Services.DATA_QUEUE
+    service_name = data_source_config.Services.PROJECT_ID
 
     service_uri = data_source_config.Services.GetServiceUri(environment_name,
                                                             service_name)
 
-    self.assertEquals(service_uri, 'DUMMY_DATA_QUEUE')
+    self.assertEquals(service_uri, 'DUMMY_PROJECT_ID')
 
   def testUnsupportedEnvironment(self):
     """Verifies the Error raised when the Environment name is incorrect."""
@@ -64,7 +69,7 @@ class DataSourceConfigTest(unittest.TestCase):
                   'be a valid environment.')
 
     environment_name = DataSourceConfigTest.UNSUPPORTED
-    service_name = data_source_config.Services.DATA_QUEUE
+    service_name = data_source_config.Services.PROJECT_ID
 
     self.assertRaisesRegexp(
         data_source_config.Error,
@@ -99,7 +104,7 @@ class DataSourceConfigTest(unittest.TestCase):
     self.mox.ReplayAll()
 
     environment_name = DataSourceConfigTest.UNSUPPORTED
-    service_name = data_source_config.Services.DATA_QUEUE
+    service_name = data_source_config.Services.PROJECT_ID
 
     self.assertRaisesRegexp(
         data_source_config.Error,
@@ -131,7 +136,7 @@ class DataSourceConfigTest(unittest.TestCase):
     """Verifies the Error raised when the environment name is not provided."""
 
     environment_name = None
-    service_name = data_source_config.Services.DATA_QUEUE
+    service_name = data_source_config.Services.PROJECT_ID
 
     self.assertRaisesRegexp(
         data_source_config.Error,
@@ -167,7 +172,8 @@ class DataSourceConfigTest(unittest.TestCase):
 
       # Verify that each service exists.
       for service_name in services:
-        self.assertTrue(service_name in environment)
+        self.assertTrue(service_name in environment,
+                        'Service %s not found' % service_name)
 
       # Verify that there are not more services than supported.
       self.assertEqual(len(environment), len(services))

@@ -20,12 +20,23 @@ import logging
 
 import unittest
 
+from perfkit import test_util
+<<<<<<< HEAD
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config as config
+=======
+
 import big_query_client
 import credentials_lib
 import data_source_config as config
+>>>>>>> 6f4ba1e... =Add util to credentials_lib
 
 
 class CredentialsLibTest(unittest.TestCase):
+
+  def setUp(self):
+    test_util.SetConfigPaths()
 
   def testGetAuthorizedCredentials(self):
     for env in config.Environments.All():
@@ -39,7 +50,7 @@ class CredentialsLibTest(unittest.TestCase):
     Only tests reading from google storage, not other scopes.
     """
     for env in config.Environments.All():
-      logging.info('Using Credentials for %s', env)
+      logging.info('*** Using Credentials for %s', env)
       client = big_query_client.BigQueryClient(
           credentials_lib.DEFAULT_CREDENTIALS, env)
       response = client.TableExists('samples_mart', 'results')

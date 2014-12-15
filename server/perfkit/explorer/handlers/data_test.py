@@ -18,17 +18,28 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
 import json
+import logging
+import pytest
 import webtest
 import unittest
 
-from p3rf.perfkit.data_clients import big_query_client
-from p3rf.perfkit.data_clients import credentials_lib
-from p3rf.perfkit.data_clients import data_source_config as config
-from p3rf.perfkit.explorer.server.handlers import base
-from p3rf.perfkit.explorer.server.handlers import data
+<<<<<<< HEAD
+<<<<<<< HEAD
+from perfkit import test_util
+=======
+>>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
+=======
+from perfkit import test_util
+>>>>>>> 083b3ae... =Fix flake8 issues.
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config as config
+from perfkit.explorer.handlers import base
+from perfkit.explorer.handlers import data
 
 
-# TODO: Add a mock data_client to eliminate live data connections.
+# TODO: Change tests to verify generated SQL rather than results to remove
+#     live service dependency.
 # TODO: Add fuzz/null testing for required parameters. (low pri)
 class DataTest(unittest.TestCase):
 
@@ -40,26 +51,32 @@ class DataTest(unittest.TestCase):
 
     self.app = webtest.TestApp(data.app)
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+    test_util.SetConfigPaths()
+=======
+=======
+<<<<<<< Updated upstream
+>>>>>>> 8a69a25... =Add tests for data handler.
+    credentials_lib.DEFAULT_CREDENTIALS = '../../../../config/credentials.json'
+=======
+    big_query_client.DISCOVERY_FILE = (
+      '../../../../config/big_query_v2_rest.json')
+>>>>>>> Stashed changes
+    config.CONFIG_FILE = '../../../../config/data_source_config.json'
+>>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
+=======
+    test_util.SetConfigPaths()
+>>>>>>> 083b3ae... =Fix flake8 issues.
+
     # Rewrite the DataHandlerUtil methods to return local clients.
     data.DataHandlerUtil.GetDataClient = self._GetTestDataClient
 
-  def _GetTestDataClient(self, env):
-    # Ignore env and hardcode to testing.
-    env = env
+  def _GetTestDataClient(self, env=None):
     return big_query_client.BigQueryClient(
         env=config.Environments.TESTING,
         credential_file=credentials_lib.DEFAULT_CREDENTIALS)
-
-  def testUrlHandlers(self):
-    """Verifies that URLs resolve to the correct handlers."""
-    self.expect(data.FieldDataHandler.get).any_args()
-    self.app.get('/data/fields')
-
-    self.expect(data.MetadataDataHandler.get).any_args()
-    self.app.get('/data/metadata')
-
-    self.expect(data.SqlDataHandler.post).any_args()
-    self.app.post(url='/data/sql')
 
   def testFieldsHandler(self):
     expected_result = [{u'name': u'jdoe'}]
@@ -116,6 +133,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['labels'], expected_result)
 
+  @pytest.mark.testing
   def testSqlHandler(self):
     sql = ('SELECT\n'
            '\tproduct_name,\n'
@@ -143,9 +161,14 @@ class DataTest(unittest.TestCase):
                                     {'v': 'create-widgets'},
                                     {'v': 6.872222222222222}]}]}}
 
+    data = {'datasource': {'query': sql, 'config': {'results': {}}}}
     resp = self.app.post(url='/data/sql',
-                         status=200,
-                         params=[('query', sql)])
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.maxDiff = None
+    logging.error(resp.json)
+    logging.error(expected_result)
     self.assertEqual(resp.json, expected_result)
 
 

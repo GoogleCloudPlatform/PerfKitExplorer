@@ -20,6 +20,17 @@ import datetime
 import webtest
 import unittest
 
+from google.appengine.ext import testbed
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+from perfkit import test_util
+=======
+from perfkit.common import data_source_config as config
+>>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
+=======
+from perfkit import test_util
+>>>>>>> 083b3ae... =Fix flake8 issues.
 from perfkit.explorer.handlers import base
 from perfkit.explorer.handlers import pages
 
@@ -40,18 +51,18 @@ class PagesTest(unittest.TestCase):
     super(PagesTest, self).setUp()
     self.app = webtest.TestApp(pages.app)
 
-  def testUrlHandlers(self):
-    self.expect(pages.MainPageHandler.get).any_args()
-    self.app.get('/')
+<<<<<<< HEAD
+<<<<<<< HEAD
+    test_util.SetConfigPaths()
+=======
+    config.CONFIG_FILE = '../../../../config/data_source_config.json'
+>>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
+=======
+    test_util.SetConfigPaths()
+>>>>>>> 083b3ae... =Fix flake8 issues.
 
-    self.expect(pages.ComparePageHandler.get).any_args()
-    self.app.get('/compare')
-
-    self.expect(pages.ExplorePageHandler.get).any_args()
-    self.app.get('/explore')
-
-    self.expect(pages.ExplorePageHandler.get).any_args()
-    self.app.get('/review')
+    self.testbed = testbed.Testbed()
+    self.testbed.activate()
 
   def testDefaultPage(self):
     # TODO: Add a token to each page that can be used to better validate
@@ -60,17 +71,17 @@ class PagesTest(unittest.TestCase):
 
     self.assertIsNotNone(resp.html)
 
-  def testComparePage(self):
-    # TODO: Add a token to each page that can be used to better validate
-    # behavior.
-    resp = self.app.get(url='/compare', status=200)
-
-    self.assertIsNotNone(resp.html)
-
   def testExplorePage(self):
     # TODO: Add a token to each page that can be used to better validate
     # behavior.
     resp = self.app.get(url='/explore', status=200)
+
+    self.assertIsNotNone(resp.html)
+
+  def testAdminPage(self):
+    # TODO: Add a token to each page that can be used to better validate
+    # behavior.
+    resp = self.app.get(url='/dashboard-admin', status=200)
 
     self.assertIsNotNone(resp.html)
 

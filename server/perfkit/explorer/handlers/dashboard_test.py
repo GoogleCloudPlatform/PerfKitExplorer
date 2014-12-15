@@ -19,15 +19,15 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
 import os
-import pytest
 import webtest
 import unittest
 
 from google.appengine.api import users
 from google.appengine.ext import testbed
 
-from . import dashboard
-from ..model import dashboard as dashboard_model
+from perfkit.explorer.handlers import dashboard
+from perfkit.explorer.model import dashboard as dashboard_model
+from perfkit.explorer.util import user_validator
 
 DEFAULT_USERS = [{'id': '1', 'email': 'test01@mydomain.com'},
                  {'id': '2', 'email': 'newowner@mydomain.com'}]
@@ -43,6 +43,7 @@ class DashboardTest(unittest.TestCase):
     self.testbed = testbed.Testbed()
     self.testbed.activate()
     self.testbed.init_datastore_v3_stub()
+    self.testbed.init_memcache_stub()
     self.testbed.init_user_stub()
 
     os.environ['USER_EMAIL'] = DEFAULT_USERS[0]['email']
@@ -69,6 +70,15 @@ class DashboardTest(unittest.TestCase):
       return users.User(owner_email)
     except StopIteration:
       raise users.UserNotFoundError()
+
+  def assertJsonEqual(self, actual, expected):
+    if isinstance(actual, basestring):
+      actual = json.loads(actual)
+
+    if isinstance(expected, basestring):
+      expected = json.loads(expected)
+
+    return self.assertEquals(actual, expected)
 
   def tearDown(self):
     dashboard_model.Dashboard.GetDashboardOwner = (
@@ -141,9 +151,9 @@ class DashboardTest(unittest.TestCase):
     self.assertDictEqual(resp.json, expected_response)
 
   def testGetUserEmailFromOwner(self):
-    expected_email = 'test01@mydomain.com'
-    actual_user = dashboard_model.UserValidator.GetUserFromEmail(
-        'test01@mydomain.com')
+    expected_email = 'test01@google.com'
+    actual_user = user_validator.UserValidator.GetUserFromEmail(
+        'test01@google.com')
     self.assertEquals(actual_user.email(), expected_email)
 
   def testGetCanonicalEmail(self):
@@ -151,7 +161,6 @@ class DashboardTest(unittest.TestCase):
     actual_email = dashboard_model.Dashboard.GetCanonicalEmail('test01')
     self.assertEquals(actual_email, expected_email)
 
-  @pytest.mark.testing
   def testEditDashboard(self):
     original_data = '{"title": "foo"}'
 
@@ -159,15 +168,15 @@ class DashboardTest(unittest.TestCase):
         created_by=users.get_current_user(),
         data=original_data).put().id()
 
-    updated_data = ('{{"id": {id:}, "title": "bar", '
-                    '"owner": "{owner}"}}').format(
-                        id=dashboard_id, owner=DEFAULT_USERS[0]['email'])
+    updated_data = {"id": dashboard_id, "writers": [], "title": "bar",
+                    "owner": DEFAULT_USERS[0]['email']}
     self.app.post(url='/dashboard/edit',
                   status=200,
                   params=[('id', dashboard_id),
-                          ('data', updated_data)])
+                          ('data', json.dumps(updated_data))])
     stored_dashboard = dashboard_model.Dashboard.get_by_id(dashboard_id)
-    self.assertEqual(stored_dashboard.data, updated_data)
+
+    self.assertJsonEqual(stored_dashboard.data, updated_data)
 
   def testEditDashboardOwner(self):
     original_data = '{"title": "untitled"}'
@@ -177,13 +186,14 @@ class DashboardTest(unittest.TestCase):
         created_by=users.get_current_user(),
         data=original_data).put().id()
     updated_data = (
-        '{{"title": "untitled", "owner": "{owner:}"}}').format(owner=new_owner)
+        '{{"title": "untitled", "owner": "{owner:}"}}').format(
+        owner=new_owner)
     self.app.post(url='/dashboard/edit-owner',
                   status=200,
                   params=[('id', dashboard_id),
                           ('email', new_owner)])
     stored_dashboard = dashboard_model.Dashboard.get_by_id(dashboard_id)
-    self.assertEqual(stored_dashboard.data, updated_data)
+    self.assertJsonEqual(stored_dashboard.data, updated_data)
 
   def testEditDashboardOwnerWithoutDomain(self):
     nodomain_owner = 'newowner'
@@ -196,48 +206,14 @@ class DashboardTest(unittest.TestCase):
         data=original_data).put().id()
     expected_data = (
         '{{"title": "untitled", "owner": "{owner:}"}}').format(
-            owner=new_owner)
+        owner=new_owner)
 
     self.app.post(url='/dashboard/edit-owner',
                   status=200,
                   params=[('id', dashboard_id),
                           ('email', nodomain_owner)])
     stored_dashboard = dashboard_model.Dashboard.get_by_id(dashboard_id)
-    self.assertEqual(stored_dashboard.data, expected_data)
-
-  def testEditDashboardInvalidOwner(self):
-    original_data = '{"title": "untitled"}'
-    provided_owner_email = 'invalid_user@mydomain.com'
-    actual_owner_email = DEFAULT_USERS[0]['email']
-
-    dashboard_id = dashboard_model.Dashboard(
-        created_by=users.get_current_user(),
-        data=original_data).put().id()
-    updated_data = json.dumps({
-        'id': dashboard_id,
-        'title': 'untitled',
-        'owner': provided_owner_email})
-
-    expected_warning = (
-        'The user {provided_email:} does not exist.  '
-        'Owner set to {owner_email:}.'.format(
-            provided_email=provided_owner_email,
-            owner_email=actual_owner_email))
-    expected_response = {
-        'id': dashboard_id,
-        'title': 'untitled',
-        'owner': actual_owner_email,
-        'warnings': [expected_warning]}
-
-    response = self.app.post(url='/dashboard/edit',
-                             status=200,
-                             params=[('id', dashboard_id),
-                                     ('data', updated_data)])
-    self.assertIsNotNone(response.json)
-    self.assertDictEqual(expected_response, response.json)
-
-    stored_dashboard = dashboard_model.Dashboard.get_by_id(dashboard_id)
-    self.assertEqual(stored_dashboard.data, json.dumps(expected_response))
+    self.assertJsonEqual(stored_dashboard.data, expected_data)
 
   def testViewDashboardMissingParameters(self):
     expected_response = {'message': 'The "id" parameter is required.'}
@@ -253,10 +229,13 @@ class DashboardTest(unittest.TestCase):
 
   def testEditDashboardMissingParameters(self):
     expected_response_id = {'message': 'The "id" parameter is required.'}
-    expected_response_data = {'message': 'The "data" parameter is required.'}
+    expected_response_data = {
+        'message': 'The "data" parameter is required.'}
 
     resp = self.app.post(url='/dashboard/edit', status=400)
     self.assertEqual(resp.json, expected_response_id)
+
+    dashboard_model.Dashboard(created_by=users.get_current_user()).put()
 
     resp = self.app.post(url='/dashboard/edit',
                          status=400,
@@ -264,8 +243,8 @@ class DashboardTest(unittest.TestCase):
     self.assertEqual(resp.json, expected_response_data)
 
   def testViewDashboardInvalidParameters(self):
-    expected_response = {'message': ('The "id" parameter must be an integer.  '
-                                     'Found "invalid".')}
+    expected_response = {'message': ('The "id" parameter must be an '
+                                     'integer.  Found "invalid".')}
 
     resp = self.app.get(url='/dashboard/view',
                         status=400,
@@ -284,6 +263,8 @@ class DashboardTest(unittest.TestCase):
   def testEditDashboardInvalidParameters(self):
     message = 'The "id" parameter must be an integer.  Found "invalid".'
     expected_response = {'message': message}
+
+    dashboard_model.Dashboard(created_by=users.get_current_user()).put()
 
     resp = self.app.post(url='/dashboard/edit',
                          status=400,
@@ -321,13 +302,13 @@ class DashboardTest(unittest.TestCase):
     provided_data = 'INVALID'
     message = ('The "data" field in dashboard row 1 must be valid JSON.  '
                'Found:\nINVALID')
-    expected_reponse = {'message': message}
+    expected_response = {'message': message}
 
     dashboard_id = dashboard_model.Dashboard(data=provided_data).put().id()
     resp = self.app.get(url='/dashboard/view',
                         status=400,
                         params=[('id', dashboard_id)])
-    self.assertDictEqual(resp.json, expected_reponse)
+    self.assertDictEqual(resp.json, expected_response)
 
 
 if __name__ == '__main__':

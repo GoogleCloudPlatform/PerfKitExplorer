@@ -135,6 +135,22 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
    */
   this.DEFAULT_TABLE_NAME = 'results';
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  /** @export @type {string} */
+  this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
+
+  /** @export @type {Array.<!QueryTablePartitioning>} */
+  this.TABLE_PARTITIONS = [
+      QueryTablePartitioning.ONETABLE,
+      QueryTablePartitioning.PERDAY,
+  ];
+
+>>>>>>> 426b929... Merge changes from stash.
+=======
+>>>>>>> 01cad8f... =Remove Partitioning code from wrong branch.
+  /** @export @type {Array.<!ErrorModel>} */
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;

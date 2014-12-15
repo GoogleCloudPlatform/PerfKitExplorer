@@ -1,0 +1,100 @@
+"""Copyright 2014 Google Inc. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+Basic helper methods."""
+
+__author__ = 'joemu@google.com (Joe Allan Muharsky)'
+
+from datetime import datetime
+import inspect
+<<<<<<< HEAD:server/perfkit/test_util.py
+import logging
+=======
+>>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.:server/perfkit/test_util.py
+import os
+
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config
+from perfkit.common import mock_big_query_client
+
+# Default date ranges, currently chosen arbitrarily.
+# TODO: Update these values to coincide with official Mock Data.
+MIN_SAMPLE_DATE = datetime(2012, 12, 13)
+MAX_SAMPLE_DATE = datetime(2012, 12, 22)
+CONTEXT_DATE = datetime(2012, 12, 15)
+
+
+def GetDataClient(mocked=False):
+  """Returns a BigQueryClient with default credentials in the testing env."""
+  if mocked:
+    return mock_big_query_client.MockBigQueryClient(
+        credential_file=credentials_lib.DEFAULT_CREDENTIALS,
+        env=data_source_config.Environments.TESTING)
+  else:
+    return big_query_client.BigQueryClient(
+        credential_file=credentials_lib.DEFAULT_CREDENTIALS,
+        env=data_source_config.Environments.TESTING)
+
+
+<<<<<<< HEAD
+<<<<<<< HEAD:server/perfkit/test_util.py
+=======
+>>>>>>> 083b3ae... =Fix flake8 issues.
+def SetConfigPaths():
+  """Sets the paths to various json config files."""
+  big_query_client.DISCOVERY_FILE = (
+    GetRootPath() + 'config/big_query_v2_rest.json')
+  data_source_config.CONFIG_FILE = (
+    GetRootPath() +'config/data_source_config.json')
+  credentials_lib.DEFAULT_CREDENTIALS = (
+    GetRootPath() + 'config/credentials.json')
+
+
+<<<<<<< HEAD
+=======
+>>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.:server/perfkit/test_util.py
+=======
+>>>>>>> 083b3ae... =Fix flake8 issues.
+def GetRootPath():
+  """Returns the path to the root folder.  The root folder is identified by
+    having the /config folder as a child and containing an app.yaml file."""
+  current_path = GetCurrentPath()
+  root_path = current_path
+
+  if IsRootPath(root_path):
+    return root_path
+
+  while not root_path == '/' and os.path.exists(root_path):
+    if IsRootPath(root_path):
+      return root_path + '/'
+    else:
+      try:
+        root_path = os.path.split(root_path)[0]
+      except TypeError as err:
+        logging.error('Type error on %s', root_path)
+
+  raise Exception('Path "{path}" has no project root.'
+                  .format(path=current_path))
+
+
+def IsRootPath(path):
+  """Returns True if path has app.yaml and config in it.  Otherwise false."""
+  return os.path.exists(path + '/app.yaml') and os.path.exists(path + '/config')
+
+
+def GetCurrentPath():
+  """Returns the path of the current file.  Exists for test/mock purposes."""
+  current_file = inspect.getfile(inspect.currentframe())
+  return os.path.dirname(current_file)
