@@ -135,7 +135,11 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
 
   $scope.$watch(
       angular.bind(this, function() {
-        return dashboardService.selectedWidget;
+        if (dashboardService.selectedWidget) {
+          return dashboardService.selectedWidget.model;
+        } else {
+          return null;
+        }
       }),
       angular.bind(this, function() {
         if (dashboardService.selectedWidget) {
