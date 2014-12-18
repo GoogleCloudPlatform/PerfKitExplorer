@@ -19,6 +19,7 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 import unittest
 import data_source_config
 import mox
+import os
 
 from perfkit import test_util
 
@@ -38,7 +39,8 @@ class DataSourceConfigTest(unittest.TestCase):
     test_util.SetConfigPaths()
 
     data_source_config.CONFIG_FILE = (
-        test_util.GetRootPath() + DataSourceConfigTest.MOCK_CONFIG_FILE)
+        os.path.join(test_util.GetRootPath(),
+                     DataSourceConfigTest.MOCK_CONFIG_FILE))
 
   def tearDown(self):
     try:
