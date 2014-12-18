@@ -23,7 +23,6 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
-goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 
 
@@ -37,46 +36,72 @@ var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePa
 
 /** @constructor */
 explorer.components.dashboard.DashboardModel = function() {
-  /** @export @type {?string} */
+  /**
+   * @type {?string}
+   * @expose
+   */
   this.id = null;
 
-  /** @export @type {string} */
+  /**
+   * @type {string}
+   * @expose
+   */
   this.title = 'Untitled Dashboard';
 
-  /** @export @type {string} */
+  /**
+   * @type {string}
+   * @expose
+   */
   this.version = '';
 
-  /** @export @type {?string} */
+  /**
+   * @type {?string}
+   * @expose
+   */
   this.owner = this.getDefaultOwner();
 
-  /** @export @type {Array.<!string>} */
+  /**
+   * @type {Array.<!string>}
+   * @expose
+   */
   this.writers = [];
 
-  /** @export @type {?string} */
+  /**
+   * @type {?string}
+   * @expose
+   */
   this.type = 'dashboard';
 
   /**
-   * Specifies the default project id that the query will connect to.
-   * @export @type {?string}
+   * Overrides the default project id that widget queries will connect to.
+   * This may be further overridden by widget-level settings.
+   * @type {?string}
+   * @export
    */
   this.project_id = null;
 
   /**
-   * Specifies the default dataset that the query will connect to.
-   * @export @type {?string}
+   * Overrides the default dataset that widget queries will connect to.  This
+   * may be overridden by widget-level settings.
+   * @type {?string}
+   * @export
    */
   this.dataset_name = null;
 
   /**
-   * Specifies the default table that the query will connect to.
-   * @export @type {?string}
+   * Overrides the default table that widget queries will connect to.  This
+   * may be overridden by widget-level settings.
+   * @type {?string}
+   * @export
    */
   this.table_name = null;
 
   /**
-   * Specifies the default type of partitioning used on the table.  For more information, see the docstring for
-   * QueryTablePartitioning.
-   * @export @type {?QueryTablePartitioning}
+   * Specifies the default type of partitioning used on the table.  This may
+   * be overridden by widget-level seeings.  For more information, see the
+   * docstring for QueryTablePartitioning.
+   * @type {?QueryTablePartitioning}
+   * @export
    */
   this.table_partition = null;
 
