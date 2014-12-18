@@ -36,23 +36,17 @@ var DashboardModel = explorer.components.dashboard.DashboardModel;
 
 /** @constructor */
 explorer.components.explorer.ExplorerModel = function() {
-  /**
-   * @type {!Array.<(DashboardConfig|DashboardModel)>}
-   * @export
-   */
+  /** @export @type {!Array.<(DashboardConfig|DashboardModel)>} */
   this.dashboards = [];
 
-  /**
-   * @type {?boolean}
-   * @export
-   */
+  /** @export @type {?boolean} */
   this.readOnly = null;
 
-  /**
-   * @type {!boolean}
-   * @export
-   */
+  /** @export @type {!boolean} */
   this.hideToolbar = false;
+
+  /** @export @type {!boolean} */
+  this.logStatistics = false;
 
   /** @type {!CodeEditorSettingsModel} */
   this.code_editor = new CodeEditorSettingsModel();

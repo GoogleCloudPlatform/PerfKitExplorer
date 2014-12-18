@@ -113,6 +113,10 @@ ExplorerService.prototype.initExplorer = function() {
     this.model.readOnly = true;
   }
 
+  if (this.location_.search().logStatistics == 'true') {
+    this.model.logStatistics = true;
+  }
+
   if (this.location_.search().hideToolbar == 'true') {
     this.model.hideToolbar = true;
   }
