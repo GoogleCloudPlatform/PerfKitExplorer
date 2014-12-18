@@ -104,8 +104,12 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @export @type {Array.<!QueryTablePartitioning>} */
   this.TABLE_PARTITIONS = [
-      QueryTablePartitioning.ONETABLE,
-      QueryTablePartitioning.PERDAY,
+    {'partition': QueryTablePartitioning.ONETABLE,
+     'label': 'Single Table',
+     'tooltip': 'All data is stored in a single table.'},
+    {'partition': QueryTablePartitioning.PERDAY,
+     'label': 'Table per Day',
+     'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 
   /** @export @type {Array.<!ErrorModel>} */
