@@ -168,9 +168,23 @@ class MetadataDataHandler(base.RequestHandlerBase):
 class SqlDataHandler(base.RequestHandlerBase):
   """Http handler for returning the results of a SQL statement (/data/sql).
 
-  This handler will look for a SQL query in the POST data with the parameter
-  name 'query'.  This query will be executed, and the result returned as
-  Json.
+  This handler will look for a SQL query in the POST data with a datasource
+  parameter.  Notably, the following elements are expected:
+
+  {'datasource': {
+     'query': 'SELECT foo FROM bar',
+     'config': {
+       ... // Unused properties for a strict SQL statement.
+       'results': {
+         'pivot': false,
+         'pivot_config': {
+           'row_field': '',
+           'column_field': '',
+           'value_field': '',
+         }
+       }
+     }
+  }
 
   This handler returns an array of arrays in the following format:
     [['product_name', 'test', 'min', 'avg'],

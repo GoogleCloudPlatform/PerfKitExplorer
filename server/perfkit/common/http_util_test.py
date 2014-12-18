@@ -16,41 +16,41 @@ class MockRequest(object):
 class DashboardTest(unittest.TestCase):
 
   def testGetString(self):
-    expectedValue = 'TEST_VALUE'
+    expected_value = 'TEST_VALUE'
 
     params = MockRequest({
-        'name': expectedValue
+        'name': expected_value
     })
 
-    actualValue = http_util.GetStringParam(params, 'name')
-    self.assertEqual(expectedValue, actualValue)
+    actual_value = http_util.GetStringParam(params, 'name')
+    self.assertEqual(expected_value, actual_value)
 
   def testGetStringNotProvided(self):
-    expectedValue = 'TEST_VALUE'
+    expected_value = 'TEST_VALUE'
 
     params = MockRequest({
-        'name': expectedValue
+        'name': expected_value
     })
 
-    actualValue = http_util.GetStringParam(params, 'name')
-    self.assertEqual(expectedValue, actualValue)
+    actual_value = http_util.GetStringParam(params, 'name')
+    self.assertEqual(expected_value, actual_value)
 
   def testGetStringDefault(self):
-    expectedValue = 'TEST_VALUE'
+    expected_value = 'TEST_VALUE'
 
     params = MockRequest({})
 
-    actualValue = http_util.GetStringParam(params, 'name',
-                                           default=expectedValue)
-    self.assertEqual(expectedValue, actualValue)
+    actual_value = http_util.GetStringParam(params, 'name',
+                                           default=expected_value)
+    self.assertEqual(expected_value, actual_value)
 
   def testGetStringOptional(self):
-    expectedValue = None
+    expected_value = None
 
     params = MockRequest({})
 
-    actualValue = http_util.GetStringParam(params, 'name', required=False)
-    self.assertEqual(expectedValue, actualValue)
+    actual_value = http_util.GetStringParam(params, 'name', required=False)
+    self.assertEqual(expected_value, actual_value)
 
   def testGetStringRequiredNotProvided(self):
     params = MockRequest({
@@ -62,29 +62,29 @@ class DashboardTest(unittest.TestCase):
                       params, 'name', True)
 
   def testGetStringRequiredDefaultOverride(self):
-    expectedValue = 'TEST_VALUE'
+    expected_value = 'TEST_VALUE'
     params = MockRequest({})
 
-    self.assertEqual(expectedValue,
+    self.assertEqual(expected_value,
                      http_util.GetStringParam(
-                         params, 'name', True, expectedValue))
+                         params, 'name', True, expected_value))
 
   def testGetBooleanTrue(self):
     providedValue = '1'
-    expectedValue = True
+    expected_value = True
 
     params = MockRequest({'isopen': providedValue})
 
-    self.assertEquals(expectedValue,
+    self.assertEquals(expected_value,
                       http_util.GetBoolParam(params, 'isopen'))
 
   def testGetBooleanFalse(self):
     providedValue = '0'
-    expectedValue = False
+    expected_value = False
 
     params = MockRequest({'isopen': providedValue})
 
-    self.assertEquals(expectedValue,
+    self.assertEquals(expected_value,
                       http_util.GetBoolParam(params, 'isopen'))
 
   def testGetBooleanInvalid(self):
@@ -98,11 +98,11 @@ class DashboardTest(unittest.TestCase):
 
   def testGetJSON(self):
     providedValue = '{"name": "value"}'
-    expectedValue = {'name': 'value'}
+    expected_value = {'name': 'value'}
 
     params = MockRequest({'data': providedValue})
 
-    self.assertEquals(expectedValue,
+    self.assertEquals(expected_value,
                       http_util.GetJsonParam(params, 'data'))
 
   def testGetJSONInvalid(self):

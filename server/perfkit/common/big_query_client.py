@@ -585,7 +585,7 @@ class BigQueryClient(object):
           results of all the pages of data into a single response.
       cache_duration: The number of seconds that the query should be cached.
           Note this functionality is not available in the base client, but
-          rather from ancestor classes (such as gae_big_query_client) that
+          rather from subclasses (such as GaeBigQueryClient) that
           have caching implementations.
 
     Returns:
@@ -628,7 +628,6 @@ class BigQueryClient(object):
           rows += query_reply['rows']
 
       query_reply['rows'] = rows
-      logging.error(rows)
       result_util.ReplyFormatter.ConvertValuesToTypedData(query_reply)
       return query_reply
     except HttpError as err:
