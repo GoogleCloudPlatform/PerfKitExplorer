@@ -41,7 +41,7 @@ class DashboardTest(unittest.TestCase):
     params = MockRequest({})
 
     actual_value = http_util.GetStringParam(params, 'name',
-                                           default=expected_value)
+                                            default=expected_value)
     self.assertEqual(expected_value, actual_value)
 
   def testGetStringOptional(self):
