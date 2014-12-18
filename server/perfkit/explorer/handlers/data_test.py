@@ -18,12 +18,10 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
 import json
-import logging
 import pytest
 import webtest
 import unittest
 
-from testfixtures import Replacer, test_time
 from perfkit import test_util
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
