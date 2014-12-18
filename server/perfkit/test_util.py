@@ -12,11 +12,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Methods for creating data clients and navigators with default config."""
+Basic helper methods."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 from datetime import datetime
+import inspect
+import os
 
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
@@ -40,3 +42,43 @@ def GetDataClient(mocked=False):
     return big_query_client.BigQueryClient(
         credential_file=credentials_lib.DEFAULT_CREDENTIALS,
         env=data_source_config.Environments.TESTING)
+
+
+def SetConfigPaths():
+  """Sets the paths to various json config files."""
+  big_query_client.DISCOVERY_FILE = (
+      GetRootPath() + 'config/big_query_v2_rest.json')
+  data_source_config.CONFIG_FILE = (
+      GetRootPath() + 'config/data_source_config.json')
+  credentials_lib.DEFAULT_CREDENTIALS = (
+      GetRootPath() + 'config/credentials.json')
+
+
+def GetRootPath():
+  """Returns the path to the root folder.  The root folder is identified by
+    having the /config folder as a child and containing an app.yaml file."""
+  current_path = GetCurrentPath()
+  root_path = current_path
+
+  if IsRootPath(root_path):
+    return root_path
+
+  while not root_path == '/' and os.path.exists(root_path):
+    if IsRootPath(root_path):
+      return root_path + '/'
+    else:
+      root_path = os.path.split(root_path)[0]
+
+  raise Exception('Path "{path}" has no project root.'
+                  .format(path=current_path))
+
+
+def IsRootPath(path):
+  """Returns True if path has app.yaml and config in it.  Otherwise false."""
+  return os.path.exists(path + '/app.yaml') and os.path.exists(path + '/config')
+
+
+def GetCurrentPath():
+  """Returns the path of the current file.  Exists for test/mock purposes."""
+  current_file = inspect.getfile(inspect.currentframe())
+  return os.path.dirname(current_file)

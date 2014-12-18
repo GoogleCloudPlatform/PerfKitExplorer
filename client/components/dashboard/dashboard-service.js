@@ -135,6 +135,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
    */
   this.DEFAULT_TABLE_NAME = 'results';
 
+  /** @export @type {Array.<!ErrorModel>} */
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;

@@ -28,7 +28,6 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import os
 import json
-import logging
 
 
 # Specifies the timeout for individual requests (in seconds) for Cloud Storage
@@ -63,9 +62,6 @@ class Services(object):
   LABEL = 'services'
 
   ANALYTICS_KEY = 'analytics-key'
-  API_KEY = 'api_key'
-  DATA_QUEUE = 'data-queue'
-  DATA_STORE = 'data-store'
   PROJECT_ID = 'project_id'
   PROJECT_NAME = 'project_name'
   SAMPLES_MART = 'samples-mart'
@@ -74,8 +70,8 @@ class Services(object):
   @classmethod
   def All(cls):
     """Returns all known services."""
-    return [cls.API_KEY, cls.DATA_QUEUE, cls.DATA_STORE, cls.PROJECT_ID,
-            cls.PROJECT_NAME, cls.SAMPLES_MART, cls.ANALYTICS_KEY, cls.CACHE_DURATION]
+    return [cls.PROJECT_ID, cls.PROJECT_NAME,
+            cls.SAMPLES_MART, cls.ANALYTICS_KEY, cls.CACHE_DURATION]
 
   @classmethod
   def GetServiceData(cls):

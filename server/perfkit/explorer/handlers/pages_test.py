@@ -20,6 +20,9 @@ import datetime
 import webtest
 import unittest
 
+from google.appengine.ext import testbed
+
+from perfkit import test_util
 from perfkit.explorer.handlers import base
 from perfkit.explorer.handlers import pages
 
@@ -40,18 +43,10 @@ class PagesTest(unittest.TestCase):
     super(PagesTest, self).setUp()
     self.app = webtest.TestApp(pages.app)
 
-  def testUrlHandlers(self):
-    self.expect(pages.MainPageHandler.get).any_args()
-    self.app.get('/')
+    test_util.SetConfigPaths()
 
-    self.expect(pages.ComparePageHandler.get).any_args()
-    self.app.get('/compare')
-
-    self.expect(pages.ExplorePageHandler.get).any_args()
-    self.app.get('/explore')
-
-    self.expect(pages.ExplorePageHandler.get).any_args()
-    self.app.get('/review')
+    self.testbed = testbed.Testbed()
+    self.testbed.activate()
 
   def testDefaultPage(self):
     # TODO: Add a token to each page that can be used to better validate
@@ -60,17 +55,17 @@ class PagesTest(unittest.TestCase):
 
     self.assertIsNotNone(resp.html)
 
-  def testComparePage(self):
-    # TODO: Add a token to each page that can be used to better validate
-    # behavior.
-    resp = self.app.get(url='/compare', status=200)
-
-    self.assertIsNotNone(resp.html)
-
   def testExplorePage(self):
     # TODO: Add a token to each page that can be used to better validate
     # behavior.
     resp = self.app.get(url='/explore', status=200)
+
+    self.assertIsNotNone(resp.html)
+
+  def testAdminPage(self):
+    # TODO: Add a token to each page that can be used to better validate
+    # behavior.
+    resp = self.app.get(url='/dashboard-admin', status=200)
 
     self.assertIsNotNone(resp.html)
 
