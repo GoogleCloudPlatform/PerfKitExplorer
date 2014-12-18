@@ -47,11 +47,11 @@ def GetDataClient(mocked=False):
 def SetConfigPaths():
   """Sets the paths to various json config files."""
   big_query_client.DISCOVERY_FILE = (
-      os.path.join(GetRootPath(), 'config/big_query_v2_rest.json')
+      os.path.join(GetRootPath(), 'config/big_query_v2_rest.json'))
   data_source_config.CONFIG_FILE = (
-      os.path.join(GetRootPath(), 'config/data_source_config.json')
+      os.path.join(GetRootPath(), 'config/data_source_config.json'))
   credentials_lib.DEFAULT_CREDENTIALS = (
-      os.path.join(GetRootPath(), 'config/credentials.json')
+      os.path.join(GetRootPath(), 'config/credentials.json'))
 
 
 def GetRootPath():
