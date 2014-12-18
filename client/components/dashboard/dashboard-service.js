@@ -263,9 +263,17 @@ DashboardService.prototype.customizeSql = function(widget) {
   }
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
+<<<<<<< HEAD
 
   this.rewriteQuery(widget);
 
+=======
+    widget.model.datasource.query = this.queryBuilderService_.getSql(
+        widget.model.datasource.config,
+        this.current.model.project_id,
+        this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
+        this.current.model.table_name || this.DEFAULT_TABLE_NAME);
+>>>>>>> master
   widget.model.datasource.custom_query = true;
 };
 

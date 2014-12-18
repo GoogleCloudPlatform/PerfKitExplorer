@@ -105,7 +105,7 @@
 
     <div class="perfkit-page-sidebar-right"
          ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
-      <span class="glyphicon glyphicon-remove perfkit-glyph-button" style="float: right; top: 9px; right: 8px;"
+      <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-sidebar-button"
             ng-click="dashboardCtrl.dashboard.selectWidget(null, null)"></span>
 
       <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
@@ -117,7 +117,8 @@
     </div>
   </div>
 
-  <div class="perfkit-page-footer">
+  <div class="perfkit-page-footer"
+       ng-show="explorerCtrl.dashboard.selectedWidget || explorerCtrl.explorer.model.code_editor.isOpen">
     <widget-editor></widget-editor>
   </div>
 </div>

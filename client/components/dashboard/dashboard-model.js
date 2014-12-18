@@ -76,9 +76,9 @@ explorer.components.dashboard.DashboardModel = function() {
   /**
    * Specifies the default type of partitioning used on the table.  For more information, see the docstring for
    * QueryTablePartitioning.
-   * @export @type {QueryTablePartitioning}
+   * @export @type {?QueryTablePartitioning}
    */
-  this.table_partition = QueryTablePartitioning.ONETABLE;
+  this.table_partition = null;
 
   /**
    * @type {!Array.<(ContainerWidgetConfig|ContainerWidgetModel)>}

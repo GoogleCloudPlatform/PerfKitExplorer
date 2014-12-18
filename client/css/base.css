@@ -119,8 +119,14 @@ html, body {
   overflow-y: auto;
 }
 
+.perfkit-footer-button {
+  float: right;
+}
+
 .perfkit-sidebar-button {
   float: right;
+  top: 9px;
+  right: 8px;
 }
 
 .perfkit-glyph-button:hover {
