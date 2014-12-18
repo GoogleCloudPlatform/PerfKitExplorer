@@ -216,8 +216,12 @@ class SqlDataHandler(base.RequestHandlerBase):
             values_name=pivot_config['value_field'])
         transformer.Transform()
 
+<<<<<<< HEAD
       response['results'] = (
           result_util.ReplyFormatter.RowsToDataTableFormat(response))
+=======
+      response['results'] = result_util.ReplyFormatter.RowsToDataTableFormat(response)
+>>>>>>> 4b84c9f21a824f3f4af631c4161dba2e6b7bb98a
 
       elapsed_time = time.time() - start_time
       response['elapsedTime'] = elapsed_time
