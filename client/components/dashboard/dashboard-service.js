@@ -30,6 +30,7 @@ goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 goog.require('goog.array');
 goog.require('goog.asserts');
 
@@ -42,6 +43,8 @@ var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var QueryBuilderService = (
     explorer.models.perfkit_simple_builder.QueryBuilderService);
+var QueryTablePartitioning = (
+    explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 var ResultsDataStatus = explorer.models.ResultsDataStatus;
 var WidgetConfig = explorer.models.WidgetConfig;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
@@ -60,82 +63,53 @@ var WidgetType = explorer.models.WidgetType;
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     widgetFactoryService, dashboardDataService, queryBuilderService, dashboardVersionService) {
-  /**
-   * @type {!ArrayUtilService}
-   * @private
-   */
+  /** @private @type {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /**
-   * @type {!WidgetFactoryService}
-   * @private
-   */
+  /** @private @type {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /**
-   * @type {!DashboardDataService}
-   * @private
-   */
+  /** @private @type {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /**
-   * @type {!DashboardVersionService}
-   * @private
-   */
+  /** @private @type {!DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
 
-  /**
-   * @type {!QueryBuilderService}
-   * @private
-   */
+  /** @private @type {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
-  /**
-   * @type {!DashboardConfig}
-   * @export
-   */
+  /** @export @type {!DashboardConfig} */
   this.current = this.initializeDashboard();
 
-  /**
-   * @type {!Array.<WidgetConfig>}
-   * @export
-   */
+  /** @export @type {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
 
-  /**
-   * @type {WidgetConfig}
-   * @export
-   */
+  /** @export @type {WidgetConfig} */
   this.selectedWidget = null;
 
-  /**
-   * @type {ContainerWidgetConfig}
-   * @export
-   */
+  /** @export @type {ContainerWidgetConfig} */
   this.selectedContainer = null;
 
-  /**
-   *
-   * @type {string}
-   * @export
-   */
+  /** @export @type {string} */
   this.DEFAULT_PROJECT_ID = DEFAULT_QUERY_PROJECT_ID;
 
-  /**
-   *
-   * @type {string}
-   * @export
-   */
+  /** @export @type {string} */
   this.DEFAULT_DATASET_NAME = 'samples_mart';
 
-  /**
-   *
-   * @type {string}
-   * @export
-   */
+  /** @export @type {string} */
   this.DEFAULT_TABLE_NAME = 'results';
 
   /** @export @type {string} */
+  this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
+
+  /** @export @type {string} */
+  this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
+
+  /** @export @type {Array.<!QueryTablePartitioning>} */
+  this.TABLE_PARTITIONS = [
+      QueryTablePartitioning.ONETABLE,
+      QueryTablePartitioning.PERDAY,
+  ];
 
   /** @export @type {Array.<!ErrorModel>} */
   this.errors = [];
@@ -253,12 +227,9 @@ DashboardService.prototype.selectContainer = function(container) {
 
 
 /**
- * Changes the widget datasource status to TOFETCH.
- *
- * @param {!WidgetConfig} widget
- * @export
+ * Rewrites the current widget's query based on the config.
  */
-DashboardService.prototype.refreshWidget = function(widget) {
+DashboardService.prototype.rewriteQuery = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
   if (widget.model.datasource.custom_query !== true) {
@@ -266,14 +237,26 @@ DashboardService.prototype.refreshWidget = function(widget) {
         widget.model.datasource.config,
         this.current.model.project_id,
         this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
-        this.current.model.table_name || this.DEFAULT_TABLE_NAME);
+        this.current.model.table_name || this.DEFAULT_TABLE_NAME,
+        this.current.model.table_partition
+    );
   }
+};
 
-  if (!widget.model.datasource.query) {
-    return;
+
+/**
+ * Updates the widget's query, if application, and changes the widget
+ * datasource status to TOFETCH.
+ *
+ * @param {!WidgetConfig} widget
+ * @export
+ */
+DashboardService.prototype.refreshWidget = function(widget) {
+  this.rewriteQuery(widget);
+
+  if (widget.model.datasource.query) {
+    widget.state().datasource.status = ResultsDataStatus.TOFETCH;
   }
-
-  widget.state().datasource.status = ResultsDataStatus.TOFETCH;
 };
 
 
@@ -289,11 +272,9 @@ DashboardService.prototype.customizeSql = function(widget) {
   }
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
-    widget.model.datasource.query = this.queryBuilderService_.getSql(
-        widget.model.datasource.config,
-        this.current.model.project_id,
-        this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
-        this.current.model.table_name || this.DEFAULT_TABLE_NAME);
+
+  this.rewriteQuery(widget);
+
   widget.model.datasource.custom_query = true;
 };
 
