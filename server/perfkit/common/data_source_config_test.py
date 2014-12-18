@@ -38,7 +38,7 @@ class DataSourceConfigTest(unittest.TestCase):
     test_util.SetConfigPaths()
 
     data_source_config.CONFIG_FILE = (
-      test_util.GetRootPath() + DataSourceConfigTest.MOCK_CONFIG_FILE)
+        test_util.GetRootPath() + DataSourceConfigTest.MOCK_CONFIG_FILE)
 
   def tearDown(self):
     try:

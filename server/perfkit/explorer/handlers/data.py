@@ -82,19 +82,7 @@ class FieldDataHandler(base.RequestHandlerBase):
   def get(self):
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     filters = http_util.GetJsonParam(self.request, 'filters')
-=======
-    filters = http_util.RequestUtil.GetJsonParam('filters')
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-    filters = http_util.GetJsonParam('filters')
->>>>>>> ca25a76... =Removed bad class references.
-=======
-    filters = http_util.GetJsonParam(self.request, 'filters')
->>>>>>> 67dff71... =Fix requests.
 
     start_date = filters['start_date']
     end_date = filters['end_date']
@@ -157,19 +145,7 @@ class MetadataDataHandler(base.RequestHandlerBase):
     client = DataHandlerUtil.GetDataClient(self.env)
     query = product_labels.ProductLabelsQuery(data_client=client,
                                               dataset_name=DATASET_NAME)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     filters = http_util.GetJsonParam(self.request, 'filters')
-=======
-    filters = http_util.RequestUtil.GetJsonParam('filters')
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-    filters = http_util.GetJsonParam('filters')
->>>>>>> ca25a76... =Removed bad class references.
-=======
-    filters = http_util.GetJsonParam(self.request, 'filters')
->>>>>>> 67dff71... =Fix requests.
 
     start_date = None
     if 'start_date' in filters and filters['start_date']:

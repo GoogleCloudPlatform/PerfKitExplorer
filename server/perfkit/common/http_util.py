@@ -112,7 +112,3 @@ def GetStringParam(request, param_name, required=True, default=None):
       message = ('The "{param:}" parameter is required.').format(
           param=param_name)
       raise ParameterError(message)
-<<<<<<< HEAD
-
-=======
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.

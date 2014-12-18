@@ -23,14 +23,7 @@ import pytest
 import webtest
 import unittest
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 from perfkit import test_util
-=======
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-from perfkit import test_util
->>>>>>> 083b3ae... =Fix flake8 issues.
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
 from perfkit.common import data_source_config as config
@@ -51,24 +44,7 @@ class DataTest(unittest.TestCase):
 
     self.app = webtest.TestApp(data.app)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     test_util.SetConfigPaths()
-=======
-=======
-<<<<<<< Updated upstream
->>>>>>> 8a69a25... =Add tests for data handler.
-    credentials_lib.DEFAULT_CREDENTIALS = '../../../../config/credentials.json'
-=======
-    big_query_client.DISCOVERY_FILE = (
-      '../../../../config/big_query_v2_rest.json')
->>>>>>> Stashed changes
-    config.CONFIG_FILE = '../../../../config/data_source_config.json'
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-    test_util.SetConfigPaths()
->>>>>>> 083b3ae... =Fix flake8 issues.
 
     # Rewrite the DataHandlerUtil methods to return local clients.
     data.DataHandlerUtil.GetDataClient = self._GetTestDataClient

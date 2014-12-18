@@ -364,11 +364,11 @@ class BigQueryClientTest(unittest.TestCase):
 
   @pytest.mark.query
   def testSampleQueryResultsMaxErrors(self):
-    query_results = {'totalRows': 50, 'rows': [0]*100}
+    query_results = {'totalRows': 50, 'rows': [0] * 100}
     self.assertRaises(big_query_client.SamplingError,
                       self.client.SampleQueryResultsMax, query_results, 50)
 
-    query_results = {'totalRows': 100, 'rows': [0]*100}
+    query_results = {'totalRows': 100, 'rows': [0] * 100}
     self.assertRaises(big_query_client.SamplingError,
                       self.client.SampleQueryResultsMax, query_results, -1)
     self.assertRaises(big_query_client.SamplingError,
@@ -416,7 +416,7 @@ class BigQueryClientTest(unittest.TestCase):
 
   @pytest.mark.query
   def testSampleQueryResultsFractionErrors(self):
-    query_results = {'totalRows': 100, 'rows': [0]*100}
+    query_results = {'totalRows': 100, 'rows': [0] * 100}
     self.assertRaises(big_query_client.SamplingError,
                       self.client.SampleQueryResultsFraction, query_results,
                       1.1)

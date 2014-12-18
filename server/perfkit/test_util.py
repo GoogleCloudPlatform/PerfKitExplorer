@@ -18,10 +18,6 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 from datetime import datetime
 import inspect
-<<<<<<< HEAD:server/perfkit/test_util.py
-import logging
-=======
->>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.:server/perfkit/test_util.py
 import os
 
 from perfkit.common import big_query_client
@@ -48,25 +44,16 @@ def GetDataClient(mocked=False):
         env=data_source_config.Environments.TESTING)
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD:server/perfkit/test_util.py
-=======
->>>>>>> 083b3ae... =Fix flake8 issues.
 def SetConfigPaths():
   """Sets the paths to various json config files."""
   big_query_client.DISCOVERY_FILE = (
-    GetRootPath() + 'config/big_query_v2_rest.json')
+      GetRootPath() + 'config/big_query_v2_rest.json')
   data_source_config.CONFIG_FILE = (
-    GetRootPath() +'config/data_source_config.json')
+      GetRootPath() + 'config/data_source_config.json')
   credentials_lib.DEFAULT_CREDENTIALS = (
-    GetRootPath() + 'config/credentials.json')
+      GetRootPath() + 'config/credentials.json')
 
 
-<<<<<<< HEAD
-=======
->>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.:server/perfkit/test_util.py
-=======
->>>>>>> 083b3ae... =Fix flake8 issues.
 def GetRootPath():
   """Returns the path to the root folder.  The root folder is identified by
     having the /config folder as a child and containing an app.yaml file."""
@@ -80,10 +67,7 @@ def GetRootPath():
     if IsRootPath(root_path):
       return root_path + '/'
     else:
-      try:
-        root_path = os.path.split(root_path)[0]
-      except TypeError as err:
-        logging.error('Type error on %s', root_path)
+      root_path = os.path.split(root_path)[0]
 
   raise Exception('Path "{path}" has no project root.'
                   .format(path=current_path))

@@ -226,7 +226,7 @@ class BigQueryClient(object):
     Returns:
       The results of the request.
     """
-    for _ in xrange(num_tries -1):
+    for _ in xrange(num_tries - 1):
       try:
         return request.execute()
       except HttpError as e:
@@ -382,9 +382,9 @@ class BigQueryClient(object):
 
     Insert jobs in BigQuery are used to execute asynchronous operations.  The
     type of job determines the operation taking place, and includes load (from
-    GZip/JSON file), query (doesn't return results, but can target a destination
-    table instead), extract (from BigQuery to Cloud Storage), and copy (one
-    table to another).
+    GZip/JSON file), query (doesn't return results, but can target a
+    destination table instead), extract (from BigQuery to Cloud Storage), and
+    copy (one table to another).
 
     More documentation on insert jobs in BigQuery can be found at:
         https://developers.google.com/bigquery/docs/reference/v2/jobs/insert

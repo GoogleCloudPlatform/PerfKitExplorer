@@ -84,7 +84,7 @@ def GetAuthorizedCredentials(credential_path, env):
     msg = (
         'Could not find credentials.\ncred_to_use: %s\nclient_id: %s\n'
         'user_agent: %s\nscope: %s') % (cred_to_use, client_id, user_agent,
-            CREDENTIALS_SCOPE)
+                                        CREDENTIALS_SCOPE)
     raise Error(msg)
 
   return credentials.authorize(httplib2.Http(timeout=config.DEFAULT_TIMEOUT))

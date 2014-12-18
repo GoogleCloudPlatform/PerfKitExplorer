@@ -67,11 +67,7 @@ class DashboardTest(unittest.TestCase):
 
     self.assertEqual(expectedValue,
                      http_util.GetStringParam(
-<<<<<<< HEAD
-                       params, 'name', True, expectedValue))
-=======
                          params, 'name', True, expectedValue))
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
 
   def testGetBooleanTrue(self):
     providedValue = '1'

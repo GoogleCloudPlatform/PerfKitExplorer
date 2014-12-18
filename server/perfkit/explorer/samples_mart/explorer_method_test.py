@@ -19,56 +19,16 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 import pytest
 import unittest
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
 from perfkit import test_util
 
-import explorer_method
-=======
-=======
-from perfkit import test_util as util
->>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.
-from perfkit.common import big_query_client as client
-from perfkit.common import credentials_lib
-from perfkit.common import data_source_config as config
-=======
-from perfkit import test_util
->>>>>>> 083b3ae... =Fix flake8 issues.
-
-import explorer_method
-<<<<<<< HEAD
-import test_util
->>>>>>> 8a69a25... =Add tests for data handler.
-=======
->>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.
+from perfkit.explorer.samples_mart import explorer_method
 
 
 class ExplorerQueryTest(unittest.TestCase):
   """Tests event structure and storage of the ExploreMethod abstract class."""
 
   def setUp(self):
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     test_util.SetConfigPaths()
-=======
-    client.DISCOVERY_FILE = '../../../../config/big_query_v2_rest.json'
-    config.CONFIG_FILE = '../../../../config/data_source_config.json'
-    credentials_lib.DEFAULT_CREDENTIALS = '../../../../config/credentials.json'
-=======
-    logging.error(util.GetRootPath())
-    client.DISCOVERY_FILE = util.GetRootPath() + 'config/big_query_v2_rest.json'
-    config.CONFIG_FILE = (
-      util.GetRootPath() +'config/data_source_config.json')
-    credentials_lib.DEFAULT_CREDENTIALS = (
-      util.GetRootPath() + 'config/credentials.json')
->>>>>>> aab390e... =Added utility function for finding root path for config/json files, modified explorer_test accordingly, and moved test_util to parent folder.
-
->>>>>>> 8a69a25... =Add tests for data handler.
-=======
-    test_util.SetConfigPaths()
->>>>>>> 083b3ae... =Fix flake8 issues.
     self._setUpConstants()
 
   @pytest.mark.explorer
@@ -154,10 +114,6 @@ class ExplorerQueryTest(unittest.TestCase):
 
   def _setUpConstants(self):
     self.EXPECTED_RESULT = {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 083b3ae... =Fix flake8 issues.
         'jobReference': None,
         'totalRows': 2,
         'schema': {'fields': [{'name': 'field1', 'type': 'STRING'},
@@ -172,25 +128,6 @@ class ExplorerQueryTest(unittest.TestCase):
                         {'v': '22'},
                         {'v': '15.5234'},
                         {'v': 'False'}]}]}
-<<<<<<< HEAD
-=======
-    'jobReference': None,
-    'totalRows': 2,
-    'schema': {'fields': [{'name': 'field1', 'type': 'STRING'},
-                          {'name': 'field2', 'type': 'INTEGER'},
-                          {'name': 'alias3', 'type': 'FLOAT'},
-                          {'name': 'alias4', 'type': 'BOOLEAN'}]},
-    'rows': [{'f': [{'v': 'value1-1'},
-                    {'v': '3560000000'},
-                    {'v': '52.6'},
-                    {'v': 'True'}]},
-             {'f': [{'v': 'value2-1'},
-                    {'v': '22'},
-                    {'v': '15.5234'},
-                    {'v': 'False'}]}]}
->>>>>>> 8a69a25... =Add tests for data handler.
-=======
->>>>>>> 083b3ae... =Fix flake8 issues.
 
     self.EXPECTED_PROCESSED_RESULT = {
         'jobReference': None,
@@ -209,18 +146,8 @@ class ExplorerQueryTest(unittest.TestCase):
                   'alias4': False}]}
 
     self.EXPECTED_FIELDS = ['field1',
-<<<<<<< HEAD
-<<<<<<< HEAD
                             'field2',
                             'field3 AS alias3']
-=======
-                       'field2',
-                       'field3 AS alias3']
->>>>>>> 8a69a25... =Add tests for data handler.
-=======
-                            'field2',
-                            'field3 AS alias3']
->>>>>>> 083b3ae... =Fix flake8 issues.
 
     self.EXPECTED_DATASET = 'dataset1'
 
@@ -230,27 +157,12 @@ class ExplorerQueryTest(unittest.TestCase):
     self.EXPECTED_WHERES = ['field4 = \'string-value\'']
 
     self.EXPECTED_GROUPS = ['field1',
-<<<<<<< HEAD
-<<<<<<< HEAD
                             'field2']
 
     self.EXPECTED_ORDERS = ['alias3',
                             'field2',
                             'field1']
-=======
-                       'field2']
 
-    self.EXPECTED_ORDERS = ['alias3',
-                       'field2',
-                       'field1']
->>>>>>> 8a69a25... =Add tests for data handler.
-=======
-                            'field2']
-
-    self.EXPECTED_ORDERS = ['alias3',
-                            'field2',
-                            'field1']
->>>>>>> 083b3ae... =Fix flake8 issues.
 
     self.EXPECTED_SQL_BASE = (
         'SELECT\n\tfield1,\n\tfield2,\n\tfield3 AS alias3\n'

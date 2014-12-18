@@ -21,16 +21,9 @@ import logging
 import unittest
 
 from perfkit import test_util
-<<<<<<< HEAD
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
 from perfkit.common import data_source_config as config
-=======
-
-import big_query_client
-import credentials_lib
-import data_source_config as config
->>>>>>> 6f4ba1e... =Add util to credentials_lib
 
 
 class CredentialsLibTest(unittest.TestCase):

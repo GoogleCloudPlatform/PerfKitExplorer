@@ -98,15 +98,7 @@ class RequestHandlerBase(webapp2.RequestHandler):
             DEFAULT_ENVIRONMENT, data_source_config.Services.PROJECT_ID))
     template_values['analytics_id'] = (
         data_source_config.Services.GetServiceUri(
-<<<<<<< HEAD
-<<<<<<< HEAD
             DEFAULT_ENVIRONMENT, data_source_config.Services.ANALYTICS_KEY))
-=======
-          DEFAULT_ENVIRONMENT, data_source_config.Services.ANALYTICS_KEY))
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-            DEFAULT_ENVIRONMENT, data_source_config.Services.ANALYTICS_KEY))
->>>>>>> 083b3ae... =Fix flake8 issues.
 
     template = _JINJA_ENVIRONMENT.get_template(template_file)
     self.response.headers['Content-Type'] = 'text/html; charset=utf-8'

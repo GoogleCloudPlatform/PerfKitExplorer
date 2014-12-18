@@ -22,15 +22,7 @@ import unittest
 
 from google.appengine.ext import testbed
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 from perfkit import test_util
-=======
-from perfkit.common import data_source_config as config
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-from perfkit import test_util
->>>>>>> 083b3ae... =Fix flake8 issues.
 from perfkit.explorer.handlers import base
 from perfkit.explorer.handlers import pages
 
@@ -51,15 +43,7 @@ class PagesTest(unittest.TestCase):
     super(PagesTest, self).setUp()
     self.app = webtest.TestApp(pages.app)
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     test_util.SetConfigPaths()
-=======
-    config.CONFIG_FILE = '../../../../config/data_source_config.json'
->>>>>>> 2d825fa... =Move conversion functions to http_util, fix tests in dashboard, pages and http_util tests.
-=======
-    test_util.SetConfigPaths()
->>>>>>> 083b3ae... =Fix flake8 issues.
 
     self.testbed = testbed.Testbed()
     self.testbed.activate()
