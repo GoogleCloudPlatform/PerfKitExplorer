@@ -47,38 +47,17 @@ def GetDataClient(mocked=False):
 def SetConfigPaths():
   """Sets the paths to various json config files."""
   big_query_client.DISCOVERY_FILE = (
-      GetRootPath() + 'config/big_query_v2_rest.json')
+      os.path.join(GetRootPath(), 'config/big_query_v2_rest.json')
   data_source_config.CONFIG_FILE = (
-      GetRootPath() + 'config/data_source_config.json')
+      os.path.join(GetRootPath(), 'config/data_source_config.json')
   credentials_lib.DEFAULT_CREDENTIALS = (
-      GetRootPath() + 'config/credentials.json')
+      os.path.join(GetRootPath(), 'config/credentials.json')
 
 
 def GetRootPath():
   """Returns the path to the root folder.  The root folder is identified by
     having the /config folder as a child and containing an app.yaml file."""
-  current_path = GetCurrentPath()
-  root_path = current_path
-
-  if IsRootPath(root_path):
-    return root_path
-
-  while not root_path == '/' and os.path.exists(root_path):
-    if IsRootPath(root_path):
-      return root_path + '/'
-    else:
-      root_path = os.path.split(root_path)[0]
-
-  raise Exception('Path "{path}" has no project root.'
-                  .format(path=current_path))
-
-
-def IsRootPath(path):
-  """Returns True if path has app.yaml and config in it.  Otherwise false."""
-  return os.path.exists(path + '/app.yaml') and os.path.exists(path + '/config')
-
-
-def GetCurrentPath():
-  """Returns the path of the current file.  Exists for test/mock purposes."""
-  current_file = inspect.getfile(inspect.currentframe())
-  return os.path.dirname(current_file)
+  root_path = os.path.join(os.path.dirname(__file__), '..', '..')
+  assert os.path.isfile(os.path.join(root_path, 'app.yaml'))
+  assert os.path.isdir(os.path.join(root_path, 'config'))
+  return root_path
