@@ -18,9 +18,11 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import unittest
 
-from .. import big_query_client
-import product_labels
-import test_util
+from perfkit import test_util
+from perfkit.common import big_query_client as client
+
+from perfkit.explorer.samples_mart import product_labels
+
 
 EXPECTED_DATA = [
     {'name': u'attributes', 'count': 6,
@@ -38,7 +40,9 @@ EXPECTED_DATA = [
 class ProductLabelsQueryTest(unittest.TestCase):
 
   def setUp(self):
-    big_query_client.DATASET_ID = 'samples_mart_testdata'
+    client.DATASET_ID = 'samples_mart_testdata'
+    test_util.SetConfigPaths()
+
     self.data_client = test_util.GetDataClient(mocked=True)
     self.data_client.mock_reply = {'totalRows': 0,
                                    'jobReference': 0,

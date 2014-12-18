@@ -95,4 +95,4 @@ class BigQueryResultPivotTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
-  googletest.main()
+  unittest.main()

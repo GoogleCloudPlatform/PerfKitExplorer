@@ -112,4 +112,3 @@ class GaeBigQueryClient(big_query_client.BigQueryClient):
   def HasCache():
     """Returns true as the gae client has a cache."""
     return True
-

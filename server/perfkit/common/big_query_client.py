@@ -29,7 +29,6 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 import hashlib
 import json
 import logging
-import pkgutil
 import random
 import time
 import uuid
@@ -37,10 +36,10 @@ import uuid
 from apiclient.discovery import build_from_document
 from apiclient.errors import HttpError
 
-import big_query_result_util as result_util
-import credentials_lib
-import data_source_config as config
-import http_util
+from perfkit.common import big_query_result_util as result_util
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config as config
+from perfkit.common import http_util
 
 
 DISCOVERY_FILE = 'config/big_query_v2_rest.json'
@@ -227,7 +226,7 @@ class BigQueryClient(object):
     Returns:
       The results of the request.
     """
-    for _ in xrange(num_tries -1):
+    for _ in xrange(num_tries - 1):
       try:
         return request.execute()
       except HttpError as e:
@@ -383,9 +382,9 @@ class BigQueryClient(object):
 
     Insert jobs in BigQuery are used to execute asynchronous operations.  The
     type of job determines the operation taking place, and includes load (from
-    GZip/JSON file), query (doesn't return results, but can target a destination
-    table instead), extract (from BigQuery to Cloud Storage), and copy (one
-    table to another).
+    GZip/JSON file), query (doesn't return results, but can target a
+    destination table instead), extract (from BigQuery to Cloud Storage), and
+    copy (one table to another).
 
     More documentation on insert jobs in BigQuery can be found at:
         https://developers.google.com/bigquery/docs/reference/v2/jobs/insert
@@ -532,6 +531,7 @@ class BigQueryClient(object):
                                            tableId=table_name).execute()
       return True
     except HttpError, err:
+      logging.error(err)
       msg = http_util.GetHttpErrorResponse(err)
       if msg.startswith('Not Found: Table '):
         return False
@@ -556,6 +556,7 @@ class BigQueryClient(object):
       True if a table was deleted, False if no table existed.
     """
     try:
+      logging.error('Deleting table %s', table_name)
       self.service.tables().delete(projectId=self.project_id,
                                    datasetId=dataset_name,
                                    tableId=table_name).execute()
@@ -568,7 +569,8 @@ class BigQueryClient(object):
         logging.error(msg + '\n' + err.content)
         raise err
 
-  def Query(self, query, timeout=None, max_results_per_page=None):
+  def Query(self, query, timeout=None, max_results_per_page=None,
+            cache_duration=None):
     """Issues a query to Big Query and returns the response.
 
     Note that multiple pages of data will be loaded returned as a single data
@@ -581,6 +583,10 @@ class BigQueryClient(object):
       max_results_per_page: The maximum results returned per page.  Most
           callers shouldn't need to set this as this method combines the
           results of all the pages of data into a single response.
+      cache_duration: The number of seconds that the query should be cached.
+          Note this functionality is not available in the base client, but
+          rather from ancestor classes (such as gae_big_query_client) that
+          have caching implementations.
 
     Returns:
       The query results.  See big query's docs for the results format:
@@ -622,6 +628,7 @@ class BigQueryClient(object):
           rows += query_reply['rows']
 
       query_reply['rows'] = rows
+      logging.error(rows)
       result_util.ReplyFormatter.ConvertValuesToTypedData(query_reply)
       return query_reply
     except HttpError as err:

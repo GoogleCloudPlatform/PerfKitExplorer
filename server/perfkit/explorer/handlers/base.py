@@ -71,45 +71,6 @@ class RequestHandlerBase(webapp2.RequestHandler):
   def env(self):
     return self.request.get('env', DEFAULT_ENVIRONMENT)
 
-  def GetIntegerParam(self, param_name, required=True, default=None):
-    str_value = self.GetStringParam(param_name, required)
-
-    if str_value:
-      try:
-        return int(str_value)
-      except ValueError:
-        message = ('The "{param:}" parameter must be an integer.  '
-                   'Found "{value}".').format(param=param_name, value=str_value)
-        raise InitializeError(message)
-    else:
-      return default
-
-  def GetJsonParam(self, param_name, required=True, default=None):
-    str_value = self.GetStringParam(param_name, required)
-
-    if str_value:
-      try:
-        return json.loads(str_value)
-      except ValueError:
-        message = ('The "{param:}" parameter must be valid JSON.  '
-                   'Found:\n{value}').format(param=param_name, value=str_value)
-        raise InitializeError(message)
-    else:
-      return default
-
-  def GetStringParam(self, param_name, required=True, default=None):
-    str_value = self.request.get(param_name)
-
-    if str_value:
-      return str(str_value)
-    else:
-      if not required:
-        return default
-      else:
-        message = ('The "{param:}" parameter is required.').format(
-            param=param_name)
-        raise InitializeError(message)
-
   def RenderHtml(self, template_file, template_values, status=200):
     """Renders HTML given a template filename and values.
 
@@ -127,13 +88,17 @@ class RequestHandlerBase(webapp2.RequestHandler):
     template_values['static_dir'] = ('/_static/%s' %
                                      os.environ['CURRENT_VERSION_ID'])
     template_values['env'] = self.env
-    template_values['current_user_email'] = users.get_current_user().email()
+
+    if users.get_current_user():
+      template_values['current_user_email'] = users.get_current_user().email()
     template_values['current_user_admin'] = str(
         users.is_current_user_admin()).lower()
-    template_values['default_query_project_id'] = data_source_config.Services.GetServiceUri(
-      DEFAULT_ENVIRONMENT, data_source_config.Services.PROJECT_ID)
-    template_values['analytics_id'] = data_source_config.Services.GetServiceUri(
-      DEFAULT_ENVIRONMENT, data_source_config.Services.ANALYTICS_KEY)
+    template_values['default_query_project_id'] = (
+        data_source_config.Services.GetServiceUri(
+            DEFAULT_ENVIRONMENT, data_source_config.Services.PROJECT_ID))
+    template_values['analytics_id'] = (
+        data_source_config.Services.GetServiceUri(
+            DEFAULT_ENVIRONMENT, data_source_config.Services.ANALYTICS_KEY))
 
     template = _JINJA_ENVIRONMENT.get_template(template_file)
     self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
@@ -153,6 +118,7 @@ class RequestHandlerBase(webapp2.RequestHandler):
     self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
 
     if filename:
-      self.response.headers["Content-Disposition"] = 'attachment; filename=' + filename
+      self.response.headers["Content-Disposition"] = (
+          'attachment; filename=' + filename)
 
     self.response.out.write(_JsonEncoder(sort_keys=True).encode(data))

@@ -103,7 +103,6 @@ class ExplorerQueryBase(object):
 
     sql = self.GetSql()
     reply = self._data_client.Query(query=sql)
-
     for processor in self.reply_processors:
       processor(reply=reply)
 
