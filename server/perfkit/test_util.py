@@ -17,7 +17,6 @@ Basic helper methods."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 from datetime import datetime
-import inspect
 import os
 
 from perfkit.common import big_query_client
