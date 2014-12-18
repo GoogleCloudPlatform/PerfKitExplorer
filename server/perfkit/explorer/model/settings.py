@@ -16,12 +16,7 @@ GAE Model for PerfKit settings."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
-import json
-
-from google.appengine.api import users
 from google.appengine.ext import db
-
-import dashboard_fields as fields
 
 
 DEFAULT_SETTINGS_ID = 'PERFKIT_SCOPE'

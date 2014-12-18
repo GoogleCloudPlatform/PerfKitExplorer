@@ -51,6 +51,5 @@ class DashboardAdminPageHandler(base.RequestHandlerBase):
 # Main WSGI app as specified in app.yaml
 app = webapp2.WSGIApplication(
     [('/', MainPageHandler),
-     ('/review', ExplorePageHandler),
      ('/explore', ExplorePageHandler),
      ('/dashboard-admin', DashboardAdminPageHandler)], debug=True)

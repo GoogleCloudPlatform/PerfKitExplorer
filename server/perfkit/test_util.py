@@ -12,11 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Methods for creating data clients and navigators with default config."""
+Basic helper methods."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 from datetime import datetime
+import os
 
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
@@ -40,3 +41,22 @@ def GetDataClient(mocked=False):
     return big_query_client.BigQueryClient(
         credential_file=credentials_lib.DEFAULT_CREDENTIALS,
         env=data_source_config.Environments.TESTING)
+
+
+def SetConfigPaths():
+  """Sets the paths to various json config files."""
+  big_query_client.DISCOVERY_FILE = (
+      os.path.join(GetRootPath(), 'config/big_query_v2_rest.json'))
+  data_source_config.CONFIG_FILE = (
+      os.path.join(GetRootPath(), 'config/data_source_config.json'))
+  credentials_lib.DEFAULT_CREDENTIALS = (
+      os.path.join(GetRootPath(), 'config/credentials.json'))
+
+
+def GetRootPath():
+  """Returns the path to the root folder.  The root folder is identified by
+    having the /config folder as a child and containing an app.yaml file."""
+  root_path = os.path.join(os.path.dirname(__file__), '..', '..')
+  assert os.path.isfile(os.path.join(root_path, 'app.yaml'))
+  assert os.path.isdir(os.path.join(root_path, 'config'))
+  return root_path

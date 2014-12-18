@@ -72,11 +72,9 @@ class BigQueryClientResultUtilTest(unittest.TestCase):
         'cols': [{'id': 'string1', 'label': 'string1', 'type': 'string'},
                  {'id': 'int1', 'label': 'int1', 'type': 'number'},
                  {'id': 'float1', 'label': 'float1', 'type': 'number'},
-                 {'id': 'bool1', 'label': 'bool1', 'type': 'boolean'}
-                ],
+                 {'id': 'bool1', 'label': 'bool1', 'type': 'boolean'}],
         'rows': [{'c': [{'v': 'foo'}, {'v': 23}, {'v': -42.35}, {'v': True}]},
-                 {'c': [{'v': 'bar'}, {'v': 31}, {'v': 15.35}, {'v': False}]}
-                ]
+                 {'c': [{'v': 'bar'}, {'v': 31}, {'v': 15.35}, {'v': False}]}]
     }
 
     actual = util.ReplyFormatter.RowsToDataTableFormat(source_data)

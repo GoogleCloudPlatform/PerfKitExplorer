@@ -17,7 +17,6 @@ GAE Model for the datastore."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
-import logging
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -42,7 +41,7 @@ class SecurityError(Error):
   pass
 
 
-class Dashboard (ndb.Model):
+class Dashboard(ndb.Model):
   """Models a Dashboard definition (as JSON).
 
   Tracks the contents of the dashboard (data, stored as JSON string), plus the
@@ -194,20 +193,23 @@ class Dashboard (ndb.Model):
       user: A GAE user object.
 
     Returns:
-      True if the provided user is an owner or admin for the current dashboard.  Otherwise, false.
+      True if the provided user is an owner or admin for the current dashboard.
+      Otherwise, false.
     """
     return (
-      users.is_current_user_admin() or
-      users.get_current_user() == self.created_by)
+        users.is_current_user_admin() or
+        users.get_current_user() == self.created_by)
 
   def isContributor(self):
-    """Returns True if any of the data.contributors email addresses is the current user.
+    """Returns True if any of the data.contributors email addresses is the
+    current user.
 
     Args:
       user: A GAE user object.
 
     Returns:
-      True if the provided email address exists in data.contributors.  Otherwise, false.
+      True if the provided email address exists in data.contributors.
+      Otherwise, false.
     """
     email = users.get_current_user().email().lower()
 
@@ -218,13 +220,15 @@ class Dashboard (ndb.Model):
     return False
 
   def canEdit(self):
-    """Returns True if the current user is an admin, the owner or a contributor.
+    """Returns True if the current user is an admin, the owner or a
+    contributor.
 
     Args:
       user: A GAE user object.
 
     Returns:
-      True if the provided user is an owner, admin or contributor for the current dashboard.  Otherwise, false.
+      True if the provided user is an owner, admin or contributor for the
+      current dashboard.  Otherwise, false.
     """
     return (self.isOwner() or self.isContributor())
 
@@ -235,7 +239,8 @@ class Dashboard (ndb.Model):
       A JSON object representation of the dashboard's data.
 
     Raises:
-      InitializeError: If the data field contains invalid JSON or doesn't exist.
+      InitializeError: If the data field contains invalid JSON or doesn't
+      exist.
     """
     str_value = self.data
 
