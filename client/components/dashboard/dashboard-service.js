@@ -246,7 +246,7 @@ DashboardService.prototype.rewriteQuery = function(widget) {
 
 
 /**
- * Updates the widget's query, if application, and changes the widget
+ * Updates the widget's query, if applicable, and changes the widget
  * datasource status to TOFETCH.
  *
  * @param {!WidgetConfig} widget
