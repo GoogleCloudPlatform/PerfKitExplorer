@@ -18,7 +18,6 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
 import json
-import logging
 import pytest
 import webtest
 import unittest
@@ -123,29 +122,26 @@ class DataTest(unittest.TestCase):
            '\tproduct_name,\n'
            '\ttest')
 
-    expected_result = {
-        'results': {'cols': [{'id': 'product_name',
-                              'label': 'product_name',
-                              'type': 'string'},
-                             {'id': 'test',
-                              'label': 'test',
-                              'type': 'string'},
-                             {'id': 'avg',
-                              'label': 'avg',
-                              'type': 'number'}],
-                    'rows': [{'c': [{'v': 'widget-factory'},
-                                    {'v': 'create-widgets'},
-                                    {'v': 6.872222222222222}]}]}}
+    expected_results = {'cols': [{'id': 'product_name',
+                                  'label': 'product_name',
+                                  'type': 'string'},
+                                 {'id': 'test',
+                                  'label': 'test',
+                                  'type': 'string'},
+                                 {'id': 'avg',
+                                  'label': 'avg',
+                                  'type': 'number'}],
+                        'rows': [{'c': [{'v': 'widget-factory'},
+                                        {'v': 'create-widgets'},
+                                        {'v': 6.872222222222222}]}]}
 
     data = {'datasource': {'query': sql, 'config': {'results': {}}}}
+
     resp = self.app.post(url='/data/sql',
                          params=json.dumps(data),
                          headers={'Content-type': 'application/json',
                                   'Accept': 'text/plain'})
-    self.maxDiff = None
-    logging.error(resp.json)
-    logging.error(expected_result)
-    self.assertEqual(resp.json, expected_result)
+    self.assertEqual(resp.json['results'], expected_results)
 
 
 if __name__ == '__main__':

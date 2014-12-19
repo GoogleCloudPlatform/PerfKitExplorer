@@ -23,6 +23,7 @@ referenced with GET requests.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import time
 
 import base
 
@@ -194,6 +195,7 @@ class SqlDataHandler(base.RequestHandlerBase):
   def post(self):
     """Request handler for POST operations."""
     try:
+      start_time = time.time()
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
       client = DataHandlerUtil.GetDataClient(self.env)
       request_data = json.loads(self.request.body)
@@ -214,9 +216,12 @@ class SqlDataHandler(base.RequestHandlerBase):
             values_name=pivot_config['value_field'])
         transformer.Transform()
 
-      self.RenderJson({
-          'results': result_util.ReplyFormatter.RowsToDataTableFormat(
-              response)})
+      response['results'] = (
+          result_util.ReplyFormatter.RowsToDataTableFormat(response))
+
+      elapsed_time = time.time() - start_time
+      response['elapsedTime'] = elapsed_time
+      self.RenderJson(response)
 
     # If 'expected' errors occur (specifically dealing with SQL problems),
     # return JSON with descriptive text so that we can give the user a

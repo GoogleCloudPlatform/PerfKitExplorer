@@ -82,5 +82,17 @@
     </div>
   </div>
 
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">table format</div>
+    <div class="sidebar-item-value">
+      <select class="form-control"
+              ng-model="ngModel.table_partition">
+        <option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
+                value="{{ option.partition }}"
+                title="{{ option.tooltip }}">{{ option.label }}</option>
+      </select>
+    </div>
+  </div>
+
 </div>
 

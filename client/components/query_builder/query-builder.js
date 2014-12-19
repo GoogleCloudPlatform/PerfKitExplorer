@@ -96,7 +96,7 @@ QueryBuilder.formatQuery = function(
   var query = [];
 
   addArgsToQuery('SELECT', ',\n', selectArgs);
-  addArgsToQuery('FROM', ',\n', fromArgs, '[', ']');
+  addArgsToQuery('FROM', ',\n', fromArgs);
   addArgsToQuery('WHERE', ' AND\n', opt_whereArgs);
   addArgsToQuery('GROUP BY', ',\n', opt_groupArgs);
   addArgsToQuery('ORDER BY', ',\n', opt_orderArgs);

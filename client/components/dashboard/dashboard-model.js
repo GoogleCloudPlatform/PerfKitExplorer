@@ -23,11 +23,14 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
+
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 
@@ -70,33 +73,35 @@ explorer.components.dashboard.DashboardModel = function() {
   this.type = 'dashboard';
 
   /**
-   * Specifies the project id that the query will connect to.  If not provided, will use the dashboard-level project
-   * id, or the app-engine default.
+   * Overrides the default project id that widget queries will connect to.
+   * This may be further overridden by widget-level settings.
    * @type {?string}
    * @export
    */
   this.project_id = null;
 
   /**
-   * Specifies the dataset that the query will connect to.  If not provided, will use the dashboard-level dataset
-   * name, or the app-engine default.
+   * Overrides the default dataset that widget queries will connect to.  This
+   * may be overridden by widget-level settings.
    * @type {?string}
    * @export
    */
   this.dataset_name = null;
 
   /**
-   * Specifies the table that the query will connect to.  If not provided, will use the dashboard-level table name
-   * or the app-engine default.
+   * Overrides the default table that widget queries will connect to.  This
+   * may be overridden by widget-level settings.
    * @type {?string}
    * @export
    */
   this.table_name = null;
 
   /**
-   * Specifies the default type of partitioning used on the table.  For more information, see the docstring for
-   * QueryTablePartitioning.
-   * @export @type {?QueryTablePartitioning}
+   * Specifies the default type of partitioning used on the table.  This may
+   * be overridden by widget-level seeings.  For more information, see the
+   * docstring for QueryTablePartitioning.
+   * @type {?QueryTablePartitioning}
+   * @export
    */
   this.table_partition = null;
 

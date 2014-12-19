@@ -31,6 +31,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 
 
 goog.scope(function() {
@@ -47,6 +48,7 @@ var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
 var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 /**
@@ -151,9 +153,9 @@ QueryBuilderService.prototype.createSimpleFilter = function(
  * @return {string} A BigQuery function representing the relative date.
  */
 QueryBuilderService.prototype.getRelativeDateFunction = function(dateFilter) {
-  return ('TIMESTAMP_TO_SEC(DATE_ADD(CURRENT_TIMESTAMP(), -' +
+  return ('DATE_ADD(CURRENT_TIMESTAMP(), -' +
       dateFilter.filter_value + ', "' +
-      dateFilter.filter_type + '"))');
+      dateFilter.filter_type + '")');
 };
 
 
@@ -163,7 +165,7 @@ QueryBuilderService.prototype.getRelativeDateFunction = function(dateFilter) {
  * @return {string} A BigQuery function representing the relative date.
  */
 QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
-  return ('TIMESTAMP_TO_SEC(TIMESTAMP(\'' + dateFilter.text + '\'))');
+  return ('TIMESTAMP(\'' + dateFilter.text + '\')');
 };
 
 
@@ -175,45 +177,44 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
  * @param {?string} defaultTableName
  * @return {string} A formatted SQL statement.
  */
-QueryBuilderService.prototype.getSql = function(model, defaultProjectId, defaultDatasetName, defaultTableName) {
+QueryBuilderService.prototype.getSql = function(
+    model, defaultProjectId, defaultDatasetName, defaultTableName, defaultTablePartition) {
   var fieldFilters = [];
+  var startFilter = null;
+  var endFilter = null;
 
   if (model.filters.start_date) {
-    var startFilter = null;
     var startDateClause = null;
 
     switch (model.filters.start_date.filter_type) {
       case DateFilterType.CUSTOM:
         startFilter = this.getAbsoluteDateFunction(model.filters.start_date);
-
         startDateClause = new FilterClause(
-            [startFilter], FilterClause.MatchRule.GE, true);
+            ['TIMESTAMP_TO_SEC(' + startFilter + ')'], FilterClause.MatchRule.GE, true);
 
         break;
       default:
+        startFilter = this.getRelativeDateFunction(model.filters.start_date);
         startDateClause = new FilterClause(
-            [this.getRelativeDateFunction(model.filters.start_date)],
-            FilterClause.MatchRule.GE, true);
+            ['TIMESTAMP_TO_SEC(' + startFilter + ')'], FilterClause.MatchRule.GE, true);
 
         break;
     }
   }
 
   if (model.filters.end_date) {
-    var endFilter = null;
     var endDateClause = null;
 
     switch (model.filters.end_date.filter_type) {
       case DateFilterType.CUSTOM:
         endFilter = this.getAbsoluteDateFunction(model.filters.end_date);
         endDateClause = new FilterClause(
-            [endFilter], FilterClause.MatchRule.LE, true);
+            ['TIMESTAMP_TO_SEC(' + endFilter + ')'], FilterClause.MatchRule.LE, true);
 
         break;
       default:
         endDateClause = new FilterClause(
-            [this.getRelativeDateFunction(model.filters.end_date)],
-            FilterClause.MatchRule.LE, true);
+            ['TIMESTAMP_TO_SEC(' + endFilter + ')'], FilterClause.MatchRule.LE, true);
 
         break;
     }
@@ -318,18 +319,36 @@ QueryBuilderService.prototype.getSql = function(model, defaultProjectId, default
       fieldFilters,
       []);
 
-  var project_id = model.results.project_id || defaultProjectId;
-  var dataset_name = model.results.dataset_name || defaultDatasetName;
-  var table_name = model.results.table_name || defaultTableName;
-  var table_id = dataset_name + '.' + table_name;
+  var projectId = model.results.project_id || defaultProjectId;
+  var datasetName = model.results.dataset_name || defaultDatasetName;
+  var tableName = model.results.table_name || defaultTableName;
+  var tablePartition = model.results.table_partition || defaultTablePartition;
 
-  if (project_id) {
-    table_id = project_id + ':' + table_id;
+  var tableId = datasetName + '.' + tableName;
+
+  if (projectId) {
+    tableId = projectId + ':' + tableId;
+  }
+
+  var tableExpr = '';
+
+  if (model.results.table_partition == QueryTablePartitioning.PERDAY) {
+    if (!startFilter) {
+      throw 'Start date is required when PERDAY table partitioning is used.';
+    }
+
+    if (!endFilter) {
+      endFilter = 'CURRENT_TIMESTAMP()';
+    }
+
+    tableExpression = '(TABLE_DATE_RANGE([' + tableId + '], ' + startFilter + ', ' + endFilter + '))';
+  } else {
+    tableExpression = '[' + tableId + ']';
   }
 
   var sql = BigQueryBuilder.formatQuery(
       BigQueryBuilder.buildSelectArgs(queryProperties),
-      [table_id],
+      [tableExpression],
       BigQueryBuilder.buildWhereArgs(queryProperties),
       BigQueryBuilder.buildGroupArgs(queryProperties),
       fieldSortOrders,

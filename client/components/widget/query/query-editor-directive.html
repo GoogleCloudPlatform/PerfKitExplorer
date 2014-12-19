@@ -303,6 +303,18 @@
                 </div>
               </div>
 
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">table format</div>
+                <div class="sidebar-item-value">
+                  <select class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.table_partition">
+                    <option ng-repeat="option in queryEditorCtrl.dashboard.TABLE_PARTITIONS"
+                            value="{{ option.partition }}"
+                            title="{{ option.tooltip }}">{{ option.label }}</option>
+                  </select>
+                </div>
+              </div>
+
             </div>
 
             <div class="sidebar-group">
