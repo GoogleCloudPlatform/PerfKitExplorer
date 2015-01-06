@@ -22,6 +22,7 @@ goog.provide('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
@@ -113,6 +114,8 @@ explorer.application.module.service('arrayUtilService',
     explorer.components.util.ArrayUtilService);
 explorer.application.module.service('explorerService',
     explorer.components.explorer.ExplorerService);
+explorer.application.module.service('configService',
+  explorer.components.config.ConfigService);
 explorer.application.module.service('dashboardDataService',
     explorer.components.dashboard.DashboardDataService);
 explorer.application.module.service('dashboardService',
