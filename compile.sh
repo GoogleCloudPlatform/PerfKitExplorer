@@ -32,7 +32,7 @@ popd
 
 # Compile client/*.js files to deploy/client/perfkit_scripts.js.
 python $closurelib/closure/bin/build/closurebuilder.py \
- --root=$closurelib/ \
+ --root=third_party/js/closure/goog/ \
  --root=client/ \
  --namespace="p3rf.perfkit.explorer.application.module" \
  --output_mode=compiled \
