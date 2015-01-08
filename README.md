@@ -38,23 +38,11 @@ Set up your workstation
 
 7. Create a root folder for your source code (i.e.: `~/projects`) and navigate to it.
 
-8. Download the Closure Tools.
+8. Create a GitHub account at http://www.github.com.
 
-         git clone https://github.com/google/closure-library
+9. Clone this repository:
 
-    Modify your environment (i.e. `~/.bashrc`) so that `closurelib` is an alias/shortcut
-    to the extracted/installed path to closure-library. Example:
-
-         closurelib=~/projects/closure-library
-         export closurelib
-
-9. Create a GitHub account at http://www.github.com
-   a. Generate and register an SSH key based on GitHub Instructions.
-   https://help.github.com/articles/generating-ssh-keys
-
-10. Clone this repository:
-
-         git clone git@github.com:GoogleCloudPlatform/PerfKitExplorer.git
+         git clone https://github.com/GoogleCloudPlatform/PerfKitExplorer.git
 
    If you have connected and authenticated correctly, the source code for
    PerfKit Explorer will download.
@@ -67,6 +55,11 @@ Set up your workstation
              ...
              compile.sh
              app.yaml
+
+10. Change to the PerfKitExplorer folder and download the Closure Tools, which are included as
+    a submodule in the project:
+
+         git submodule update --init
 
 Create the App Engine project
 =============================
