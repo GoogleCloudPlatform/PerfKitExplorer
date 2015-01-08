@@ -199,9 +199,9 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
         deferred.reject(response.data);
       } else {
         if (this.explorerService_.model.logStatistics) {
-          var rows = response['data']['totalRows']
-          var size = response['data']['totalBytesProcessed']
-          var speed = response['data']['elapsedTime']
+          var rows = response.data.totalRows;
+          var size = response.data.totalBytesProcessed;
+          var speed = response.data.elapsedTime;
 
           this.errorService_.addError(
               ErrorTypes.INFO,
@@ -210,7 +210,7 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
               'in ' + this.filter_('number')(speed, 2) + ' sec.');
         }
 
-        var data = response['data']['results'];
+        var data = response.data.results;
         this.parseDates_(data);
 
         var dataTable = new this.GvizDataTable_(data);

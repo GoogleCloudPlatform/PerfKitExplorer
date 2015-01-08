@@ -24,13 +24,13 @@ goog.require('p3rf.perfkit.explorer.models.DataViewModel');
 
 describe('dataViewService', function() {
   var DataViewModel = p3rf.perfkit.explorer.models.DataViewModel;
-  var svc, gvizDataViewMock, GvizDataTable;
+  var svc, gvizDataViewMock, gvizDataTable;
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(dataViewService, _GvizDataTable_) {
+  beforeEach(inject(function(dataViewService, GvizDataTable) {
     svc = dataViewService;
-    GvizDataTable = _GvizDataTable_;
+    gvizDataTable = GvizDataTable;
   }));
 
   describe('create', function() {
@@ -72,7 +72,7 @@ describe('dataViewService', function() {
         ]
       };
 
-      dataTable = new GvizDataTable(data);
+      dataTable = new gvizDataTable(data);
     });
 
     it('should return the correct dataViewJson.', function() {

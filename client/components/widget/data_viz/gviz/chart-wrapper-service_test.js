@@ -58,8 +58,8 @@ describe('chartWrapperService', function() {
     it('should return a ChartModel object.', function() {
       var chartType = {obj: 'chartType'};
       var gvizOptions = {obj: 'gvizOptions'};
-      chartWrapperMock.getChartType.andReturn(chartType);
-      chartWrapperMock.getOptions.andReturn(gvizOptions);
+      chartWrapperMock.getChartType.and.returnValue(chartType);
+      chartWrapperMock.getOptions.and.returnValue(gvizOptions);
       var chartWrapper = svc.create();
 
       var model = svc.getChartModel(chartWrapper);

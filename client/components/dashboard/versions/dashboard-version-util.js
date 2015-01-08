@@ -36,7 +36,7 @@ goog.scope(function() {
    */
   DashboardVersionUtil.UpdateDashboard = function(dashboard, updateContainerFn, updateWidgetFn) {
     angular.forEach(dashboard.children, function(containerConfig) {
-      updateContainerFn && !updateContainerFn(containerConfig.container);
+      updateContainerFn && updateContainerFn(containerConfig.container);
 
       if (updateWidgetFn) {
         angular.forEach(containerConfig.container.children, function(widget) {

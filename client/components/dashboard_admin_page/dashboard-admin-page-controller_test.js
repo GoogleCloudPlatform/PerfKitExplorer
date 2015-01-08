@@ -76,7 +76,7 @@ describe('DashboardAdminPageCtrl', function() {
         function() {
           spyOn(ctrlPrototype, 'listDashboards');
 
-          ctrlPrototype.initPage.andCallThrough();
+          ctrlPrototype.initPage.and.callThrough();
           ctrl.initPage();
           expect(ctrlPrototype.listDashboards).toHaveBeenCalled();
         }
