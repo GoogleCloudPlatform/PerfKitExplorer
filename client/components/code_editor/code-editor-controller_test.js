@@ -20,7 +20,6 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
-goog.require('p3rf.perfkit.explorer.mocks.gvizMocks');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
@@ -33,7 +32,6 @@ describe('CodeEditorCtrl', function() {
       explorer.components.code_editor.CodeEditorCtrl.prototype;
 
   beforeEach(module('explorer'));
-//  beforeEach(module('googleVisualizationMocks'));
 
   beforeEach(inject(function($rootScope, $controller, _dashboardService_,
       _widgetFactoryService_) {
