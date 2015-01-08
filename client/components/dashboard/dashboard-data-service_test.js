@@ -20,6 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataServiceMock');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartState');
 goog.require('p3rf.perfkit.explorer.models.DatasourceState');

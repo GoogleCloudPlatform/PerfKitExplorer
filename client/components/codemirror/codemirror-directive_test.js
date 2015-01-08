@@ -84,7 +84,7 @@ describe('uiCodemirror', function() {
 
     beforeEach(function() {
       var fromTextArea = CodeMirror.fromTextArea;
-      spyOn(CodeMirror, 'fromTextArea').andCallFake(function() {
+      spyOn(CodeMirror, 'fromTextArea').and.callFake(function() {
         codemirror = fromTextArea.apply(this, arguments);
         return codemirror;
       });
@@ -98,7 +98,7 @@ describe('uiCodemirror', function() {
         $compile('<div><textarea codemirror="{oof: \'baar\'}" ' +
                  'ng-model="foo"></textarea></div>')(scope);
         $timeout.flush();
-        expect(CodeMirror.fromTextArea.mostRecentCall.args[1].oof).
+        expect(CodeMirror.fromTextArea.calls.mostRecent().args[1].oof).
             toEqual('baar');
       });
 
@@ -109,7 +109,7 @@ describe('uiCodemirror', function() {
         $compile('<div><textarea codemirror ng-model="foo">' +
                  '</textarea></div>')(scope);
         $timeout.flush();
-        expect(CodeMirror.fromTextArea.mostRecentCall.args[1].bar).
+        expect(CodeMirror.fromTextArea.calls.mostRecent().args[1].bar).
             toEqual('baz');
       });
     });
@@ -128,7 +128,7 @@ describe('uiCodemirror', function() {
         expect(codemirror.refresh).toHaveBeenCalled();
         scope.$apply('bar = false');
         $timeout.flush();
-        expect(spy.callCount).toEqual(2);
+        expect(spy.calls.count()).toEqual(2);
       });
     });
 

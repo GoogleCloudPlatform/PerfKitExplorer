@@ -19,6 +19,7 @@
 
 goog.provide('p3rf.perfkit.explorer.application.module');
 
+goog.require('p3rf.perfkit.explorer.mocks.gvizMocks');
 goog.require('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
@@ -68,7 +69,8 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderSe
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var requiredModules = [
-  'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize', 'ui.grid.resizeColumns', 'ui.grid.selection'];
+  'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
+  'ui.grid.resizeColumns', 'ui.grid.selection'];
 
 var useMockData = (
     explorer.mocks.mocks.isMockParamTrue());
@@ -110,6 +112,8 @@ explorer.application.module.filter('getByProperty',
  */
 explorer.application.module.service('arrayUtilService',
     explorer.components.util.ArrayUtilService);
+explorer.application.module.service('configService',
+    explorer.components.config.ConfigService);
 explorer.application.module.service('explorerService',
     explorer.components.explorer.ExplorerService);
 explorer.application.module.service('dashboardDataService',

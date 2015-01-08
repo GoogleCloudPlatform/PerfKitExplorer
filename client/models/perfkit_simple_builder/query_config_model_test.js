@@ -22,6 +22,7 @@ goog.require('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 
 goog.require('goog.date');
 
@@ -33,6 +34,7 @@ var DatasourceModel = explorer.models.DatasourceModel;
 var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
 var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+var QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
 
 describe('TestQueryConfigModel', function() {
   var query;
@@ -52,10 +54,6 @@ describe('TestQueryConfigModel', function() {
       expect(query.getSql).not.toBeNull();
     });
 
-    it('should initialize the appropriate defaults.', function() {
-      expect(query.results.date_group).toEqual('OneGroup');
-    });
-
     it('should initialize the appropriate filters.', function() {
       expect(query.filters.start_date.filter_type).toEqual(DateFilterType.WEEK);
       expect(query.filters.start_date.filter_value).toEqual(2);
@@ -67,111 +65,10 @@ describe('TestQueryConfigModel', function() {
     });
 
     it('should initialize the appropriate results.', function() {
-      expect(query.results.date_group).toEqual('OneGroup');
+      expect(query.results.date_group).toEqual(QueryDateGroupings.DAY);
       expect(query.results.labels).toEqual([]);
     });
   });
-
-  describe('queryStringToConfig', function() {
-    it('should convert a simple querystring to a config and remove the string.',
-        function() {
-          var providedString = 'start_date=2014-03-06';
-          var expectedConfig = new QueryConfigModel();
-          expectedConfig.filters.start_date = new DateFilter(
-              '2014-03-06', 'CUSTOM');
-
-          var actualConfig = new QueryConfigModel();
-          QueryConfigModel.applyQueryString(actualConfig, providedString);
-
-          expect(actualConfig).toEqual(expectedConfig);
-        }
-    );
-
-    it('should populate end date if provided.',
-        function() {
-          var providedString = 'end_date=2014-03-06';
-          var expectedConfig = new QueryConfigModel();
-          expectedConfig.filters.end_date = new DateFilter(
-              '2014-03-06', 'CUSTOM');
-
-          var actualConfig = new QueryConfigModel();
-          QueryConfigModel.applyQueryString(actualConfig, providedString);
-
-          expect(actualConfig).toEqual(expectedConfig);
-        }
-    );
-
-    it('should not override unspecified parameters.',
-        function() {
-          var providedString = 'end_date=2014-03-06';
-          var expectedProduct = 'test product';
-          var expectedConfig = new QueryConfigModel();
-          expectedConfig.filters.end_date = new DateFilter(
-              '2014-03-06', 'CUSTOM');
-          expectedConfig.filters.product_name = expectedProduct;
-
-          var actualConfig = new QueryConfigModel();
-          actualConfig.filters.product_name = expectedProduct;
-          QueryConfigModel.applyQueryString(actualConfig, providedString);
-
-          expect(actualConfig).toEqual(expectedConfig);
-        }
-    );
-
-    it('should support all basic query parameters.',
-        function() {
-          var providedString = [
-            'start_date=2014-03-06',
-            'end_date=2014-04-02',
-            'date_group=OneGroup',
-            'product_name=SAMPLE_PRODUCT',
-            'test=SAMPLE_TEST',
-            'metric=SAMPLE_METRIC',
-            'official=true',
-            'runby=SAMPLE_RUNBY',
-            'metadata=Color%3Ablue',
-            'metadata=Shape%3Acircle',
-            'labelcol=Weight',
-            'labelcol=Cost'].join('&');
-          var expectedProduct = 'test product';
-          var expectedFilters = {
-            'start_date': {
-              'filter_type': 'CUSTOM', 'filter_value': '2014-03-06',
-              'text': '2014-03-06', 'specify_time': false},
-            'end_date': {
-              'filter_type': 'CUSTOM', 'filter_value': '2014-04-02',
-              'text': '2014-04-02', 'specify_time': false},
-            'product_name': 'SAMPLE_PRODUCT',
-            'test': 'SAMPLE_TEST',
-            'metric': 'SAMPLE_METRIC',
-            'official': true,
-            'runby': 'SAMPLE_RUNBY',
-            'metadata': [
-              {'label': 'Color', 'value': 'blue', 'text': 'Color:blue'},
-              {'label': 'Shape', 'value': 'circle', 'text': 'Shape:circle'}
-            ]};
-          var expectedResults = {
-            'date_group': 'OneGroup',
-            'pivot': false,
-            'pivot_config': {
-              'row_field': '',
-              'column_field': '',
-              'value_field': ''
-            },
-            'labels': [
-              {'label': 'Weight'},
-              {'label': 'Cost'}
-            ]};
-
-          var actualConfig = new QueryConfigModel();
-          QueryConfigModel.applyQueryString(actualConfig, providedString);
-
-          expect(actualConfig.filters).toEqual(expectedFilters);
-          expect(actualConfig.results).toEqual(expectedResults);
-        }
-    );
-  });
-
 
   describe('getMetadataFilterFromString', function() {
 

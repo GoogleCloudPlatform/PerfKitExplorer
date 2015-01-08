@@ -19,6 +19,7 @@
 
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.mocks.fieldCubeDataServiceMock');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PicklistModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('goog.Uri');
