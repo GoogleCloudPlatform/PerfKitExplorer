@@ -17,6 +17,8 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
+goog.provide('p3rf.perfkit.explorer.mocks.fieldCubeDataServiceMock');
+
 var fieldCubeDataServiceMock = angular.module('fieldCubeDataServiceMock', []);
 
 

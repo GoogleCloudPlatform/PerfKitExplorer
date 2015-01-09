@@ -41,7 +41,6 @@ goog.scope(function() {
   DashboardSchema.prototype.verify = function(dashboard) {
     return DashboardVersionUtil.VerifyDashboard(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config.results.show_date)) {
-        console.log('results.show_date is missing');
         return false;
       };
 

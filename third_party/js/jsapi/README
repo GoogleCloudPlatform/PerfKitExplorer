@@ -1,0 +1,5 @@
+The jsapi.js file is included to provide local access to the Google Loader
+API to load Visualization libraries for karma test execution purposes.  To
+read more about the JSAPI script, see:
+
+https://developers.google.com/loader/

@@ -19,6 +19,7 @@
 
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.mocks.queryResultDataServiceMock');
 
 
 describe('queryResultDataService', function() {
@@ -72,7 +73,7 @@ describe('queryResultDataService', function() {
   describe('parseDates_', function() {
     var data;
 
-    beforeEach(function(resultsDataService) {
+    beforeEach(function() {
       data = {
         cols: [
           {id: 'date', label: 'Date', type: 'date'},
@@ -116,7 +117,7 @@ describe('queryResultDataService', function() {
           var dataTable = null;
           var query = endpoint;
           var params = {'datasource': {'query': 'fakeQuery1'}};
-            httpBackend.expectPOST(query, params).respond(mockData);
+          httpBackend.expectPOST(query, params).respond(mockData);
 
           var promise = svc.fetchResults({query: 'fakeQuery1'});
           promise.then(function(data) {
@@ -134,7 +135,7 @@ describe('queryResultDataService', function() {
               dataTableCached = null;
           var query = endpoint;
           var params = {'datasource': {'query': 'fakeQuery2'}};
-            httpBackend.expectPOST(query, params).respond(mockData);
+          httpBackend.expectPOST(query, params).respond(mockData);
 
           // Fetch the data one time
           var promise = svc.fetchResults({query: 'fakeQuery2'});

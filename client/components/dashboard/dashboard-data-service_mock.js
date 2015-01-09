@@ -17,6 +17,9 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
+goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDataServiceMock');
+
+
 var dashboardDataServiceMock = angular.module('dashboardDataServiceMock', []);
 
 

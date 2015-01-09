@@ -20,6 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
+goog.require('p3rf.perfkit.explorer.mocks.gvizMocks');
 
 describe('DashboardCtrl', function() {
   var explorer = p3rf.perfkit.explorer;
@@ -51,7 +52,7 @@ describe('DashboardCtrl', function() {
         dashboardDataService = _dashboardDataService_;
 
         spyOn(ctrlPrototype, 'initDashboard');
-        spyOn(ctrlPrototype, 'fetchDashboard').andCallThrough();
+        spyOn(ctrlPrototype, 'fetchDashboard').and.callThrough();
 
         ctrl = $controller(
             explorer.components.dashboard.DashboardCtrl,
@@ -72,7 +73,7 @@ describe('DashboardCtrl', function() {
 
     it('should by default create a new container with one widget.',
         function() {
-          ctrlPrototype.initDashboard.andCallThrough();
+          ctrlPrototype.initDashboard.and.callThrough();
           expect(ctrl.dashboard.widgets.length).toEqual(0);
 
           ctrl.initDashboard();
@@ -86,7 +87,7 @@ describe('DashboardCtrl', function() {
     it('should fetch a dashboard if there is a dashboardId ' +
        'in the url.',
         function() {
-          ctrlPrototype.initDashboard.andCallThrough();
+          ctrlPrototype.initDashboard.and.callThrough();
           location.search({dashboard: 'fakeId'});
           rootScope.$apply();
 

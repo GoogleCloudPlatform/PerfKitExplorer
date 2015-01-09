@@ -48,31 +48,23 @@ describe('TestQueryBuilder', function() {
 
       var expected_sql = [
         'SELECT',
-        '\tproduct_name,',
-        '\ttest,',
-        '\tmetric,',
-        '\towner,',
-        '\tMIN(value) AS min,',
-        '\tAVG(value) AS avg,',
-        '\tMAX(value) AS max,',
-        '\tSTDDEV(value) AS stddev,',
-        '\tVARIANCE(value) AS variance,',
-        '\tCOUNT(value) AS count',
+        '\tUSEC_TO_TIMESTAMP(UTC_USEC_TO_DAY(INTEGER(timestamp * 1000000))) AS date,',
+        '\tNTH(99, QUANTILES(value, 100)) AS p99',
         'FROM',
-        '\tsamples_mart.results',
+        '\t[DEFAULT_DATASET.DEFAULT_PROJECT]',
         'GROUP BY',
-        '\tproduct_name,',
-        '\ttest,',
-        '\tmetric,',
-        '\towner',
+        '\tdate',
         'ORDER BY',
         '\tproduct_name,',
         '\ttest,',
-        '\tmetric',
-        'LIMIT 5000;'].join('\n');
+        '\tmetric,',
+        '\tdate',
+        'LIMIT 100;'].join('\n');
 
       query.filters.start_date = null;
-      expect(svc.getSql(query)).toEqual(expected_sql);
+
+      var actual_sql = svc.getSql(query, null, 'DEFAULT_DATASET', 'DEFAULT_PROJECT');
+      expect(actual_sql).toEqual(expected_sql);
     });
 
     it('should return the SQL statement for a complex query.', function() {
@@ -80,36 +72,27 @@ describe('TestQueryBuilder', function() {
 
       var expected_sql = [
         'SELECT',
-        '\ttest,',
-        '\tmetric,',
-        '\towner,',
-        '\tMIN(value) AS min,',
-        '\tAVG(value) AS avg,',
-        '\tMAX(value) AS max,',
-        '\tSTDDEV(value) AS stddev,',
-        '\tVARIANCE(value) AS variance,',
-        '\tCOUNT(value) AS count',
+        '\tUSEC_TO_TIMESTAMP(UTC_USEC_TO_DAY(INTEGER(timestamp * 1000000))) AS date,',
+        '\tNTH(99, QUANTILES(value, 100)) AS p99',
         'FROM',
-        '\tsamples_mart.results',
+        '\t[DEFAULT_DATASET.DEFAULT_PROJECT]',
         'WHERE',
-        ('\ttimestamp >= TIMESTAMP_TO_SEC(DATE_ADD(CURRENT_TIMESTAMP(), ' +
-         '-2, "WEEK")) AND'),
+        '\ttimestamp >= TIMESTAMP_TO_SEC(DATE_ADD(CURRENT_TIMESTAMP(), -2, "WEEK")) AND',
         '\tproduct_name = "test_product"',
         'GROUP BY',
-        '\ttest,',
-        '\tmetric,',
-        '\towner',
+        '\tdate',
         'ORDER BY',
         '\ttest,',
-        '\tmetric',
-        'LIMIT 5000;'].join('\n');
+        '\tmetric,',
+        '\tdate',
+        'LIMIT 100;'].join('\n');
 
       query.filters.start_date.filter_type = DateFilterType.WEEK;
       query.filters.start_date.filter_value = 2;
-
       query.filters.product_name = 'test_product';
 
-      expect(svc.getSql(query)).toEqual(expected_sql);
+      var actual_sql = svc.getSql(query, null, 'DEFAULT_DATASET', 'DEFAULT_PROJECT');
+      expect(actual_sql).toEqual(expected_sql);
     });
   });
 
