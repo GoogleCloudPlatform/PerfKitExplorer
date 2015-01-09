@@ -23,14 +23,14 @@ module.exports = function(config) {
       // these are only watched and served
       {pattern: 'client/**/*!(_test).js', included: false},
       // external deps
-      {pattern: '../closure-library/closure/goog/deps.js', included: false, served: false},
-      {pattern: '../closure-library/closure/goog/**/*.js', included: false}
+      {pattern: 'lib/closure-library/closure/goog/deps.js', included: false, served: false},
+      {pattern: 'lib/closure-library/closure/goog/**/*.js', included: false}
     ],
 
     preprocessors: {
       'client/**/*_test.js': ['closure', 'closure-iit'],
       'client/**/*!(_test).js': ['closure'],
-      '../closure-library/closure/goog/deps.js': ['closure-deps']
+      'lib/closure-library/closure/goog/deps.js': ['closure-deps']
     },
 
     reporters: ['progress'],
