@@ -85,24 +85,24 @@ var ConfigService = explorer.components.config.ConfigService;
  * @param {!object} data A JSON object containing config data.
  */
 ConfigService.prototype.populate = function(data) {
-  if (data['default_project']) {
-    this.default_project = data['default_project'];
+  if (data.default_project) {
+    this.default_project = data.default_project;
   }
 
-  if (data['default_dataset']) {
-    this.default_dataset = data['default_dataset'];
+  if (data.default_dataset) {
+    this.default_dataset = data.default_dataset;
   }
 
-  if (data['default_table']) {
-    this.default_table = data['default_table'];
+  if (data.default_table) {
+    this.default_table = data.default_table;
   }
 
-  if (data['analytics_key']) {
-    this.analytics_key = data['analytics_key'];
+  if (data.analytics_key) {
+    this.analytics_key = data.analytics_key;
   }
 
-  if (data['cache_duration']) {
-    this.cache_duration = data['cache_duration'];
+  if (data.cache_duration) {
+    this.cache_duration = data.cache_duration;
   }
 };
 
@@ -110,7 +110,7 @@ ConfigService.prototype.populate = function(data) {
 /**
  * Provides a copy of the object as JSON.
  *
- * @return {!object} A JSON representation of the config properties.
+ * @return {!Object} A JSON representation of the config properties.
  */
 ConfigService.prototype.toJSON = function() {
   return {
@@ -119,7 +119,7 @@ ConfigService.prototype.toJSON = function() {
     'default_table': this.default_table,
     'analytics_key': this.analytics_key,
     'cache_duration': this.cache_duration
-  }
+  };
 };
 
 
@@ -127,13 +127,13 @@ ConfigService.prototype.toJSON = function() {
  * Reloads the global config from the server.
  */
 ConfigService.prototype.refresh = function() {
-  var request = $http.get('/config');
+  var promise = this.http_.get('/config');
 
   promise.then(
       angular.bind(this, function(config) {
-        this.populate(config);
+        this.populate(config.data);
       })
-  )
+  );
 };
 
 
@@ -141,10 +141,10 @@ ConfigService.prototype.refresh = function() {
  * Updates the global config on the server.
  */
 ConfigService.prototype.update = function() {
-  var request = $http.post('/config', this.toJSON());
+  var promise = this.http_.post('/config', this.toJSON());
 
   promise.then(function() {
-      console.log('Updated.');
+      console.log('Global config updated.');
   });
 };
 
