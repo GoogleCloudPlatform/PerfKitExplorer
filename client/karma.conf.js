@@ -17,7 +17,7 @@ module.exports = function(config) {
       'third_party/js/jsapi/jsapi.js',
       'test/js/globals.js',
       // closure base
-      {pattern: '../closure-library/closure/goog/base.js'},
+      {pattern: 'lib/closure-library/closure/goog/base.js'},
       // included files - tests
       {pattern: 'client/**/*_test.js'},
       // these are only watched and served
