@@ -37,9 +37,13 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
-    controller: function($scope, explorerService, dashboardService, errorService) {
+    controller: function($scope, $modal,
+        explorerService, dashboardService, errorService) {
       /** @export */
       this.explorer = explorerService;
+
+      /** @private */
+      this.modal_ = $modal;
 
       /** @export */
       this.dashboard = dashboardService;
@@ -286,6 +290,14 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
                 '/dashboard/view?id=' + selectedDashboard.id +
                 '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
       };
+
+      /** @export */
+      this.editConfig = function() {
+        this.modal_.open({
+          templateUrl: '/static/components/config/config-dialog.html',
+          controller: 'ConfigDialogCtrl as dialog'
+        });
+};
 
     }
   };

@@ -379,6 +379,18 @@ DashboardAdminPageCtrl.prototype.uploadDashboard = function() {
   });
 };
 
+
+/**
+ * @export
+ */
+DashboardAdminPageCtrl.prototype.editConfig = function() {
+  this.modal_.open({
+    templateUrl: '/static/components/config/config-dialog.html',
+    controller: 'ConfigDialogCtrl as dialog'
+  });
+};
+
+
 /**
  * @export
  */

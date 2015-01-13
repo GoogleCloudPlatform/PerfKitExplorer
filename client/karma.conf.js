@@ -9,6 +9,7 @@ module.exports = function(config) {
     frameworks: ['jasmine', 'closure'],
 
     files: [
+      'third_party/js/jquery/jquery.js',
       'third_party/js/angularjs/angular.js',
       'third_party/js/angularjs/angular-mocks.js',
       'third_party/js/bootstrap-ui/bootstrap-ui.js',
@@ -22,24 +23,30 @@ module.exports = function(config) {
       {pattern: 'client/**/*_test.js'},
       // these are only watched and served
       {pattern: 'client/**/*!(_test).js', included: false},
+      // these are only watched and served
+      {pattern: 'client/**/*.html'},
       // external deps
       {pattern: 'lib/closure-library/closure/goog/deps.js', included: false, served: false},
       {pattern: 'lib/closure-library/closure/goog/**/*.js', included: false}
     ],
 
     preprocessors: {
+      'client/**/*.html': ['html2js'],
       'client/**/*_test.js': ['closure', 'closure-iit'],
       'client/**/*!(_test).js': ['closure'],
       'lib/closure-library/closure/goog/deps.js': ['closure-deps']
     },
 
-    reporters: ['progress'],
-    browsers: ['Chrome'],
-    autoWatch: true,
-    singleRun: true
-  });
+    ngHtml2JsPreprocessor: {
+      stripPrefix: 'client/',
+      prependPrefix: '/static/',
+      moduleName: 'p3rf.perfkit.explorer.templates'
+    },
 
-  // Load the plugin from the workspace.
-  // You don't need this if you just install karma-closure through NPM.
-  config.plugins.push(require('../third_party/js/karma-closure/plugin'));
+    reporters: ['progress', 'html'],
+    browsers: ['Chrome'],
+
+    autoWatch: true,
+    singleRun: false
+  });
 };

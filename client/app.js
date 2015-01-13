@@ -22,6 +22,8 @@ goog.provide('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigDialogCtrl');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
@@ -151,6 +153,8 @@ explorer.application.module.service('dashboardAdminPageService',
 /**
  * Register all controllers.
  */
+explorer.application.module.controller('ConfigDialogCtrl',
+    explorer.components.config.ConfigDialogCtrl);
 explorer.application.module.controller('ExplorerCtrl',
     explorer.components.explorer.ExplorerCtrl);
 explorer.application.module.controller('DashboardCtrl',
@@ -183,6 +187,8 @@ explorer.application.module.directive('alertLog',
     explorer.components.alert.AlertLogDirective);
 explorer.application.module.directive('gvizChartWidget',
     explorer.components.widget.data_viz.gviz.gvizChart);
+explorer.application.module.directive('explorerConfig',
+    explorer.components.config.ConfigDirective);
 explorer.application.module.directive('container',
     explorer.components.container.ContainerDirective);
 explorer.application.module.directive('containerConfig',
