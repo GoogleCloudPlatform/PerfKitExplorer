@@ -45,31 +45,31 @@ describe('ConfigDialogCtrl', function() {
          $modalInstance: modalInstance});
   }));
 
-	describe('ok', function() {
-		it('should update the config.', function() {
-			spyOn(ctrl.configService, 'update');
+  describe('ok', function() {
+    it('should update the config.', function() {
+      spyOn(ctrl.configService, 'update');
 
-			ctrl.ok();
-			expect(ctrl.configService.update).toHaveBeenCalled();
-			expect(modalInstance.close).toHaveBeenCalled();
-		});
-	});
+      ctrl.ok();
+      expect(ctrl.configService.update).toHaveBeenCalled();
+      expect(modalInstance.close).toHaveBeenCalled();
+    });
+  });
 
 
-	describe('cancel', function() {
-		it('should dismiss the dialog.', function() {
-			ctrl.cancel();
-			expect(modalInstance.dismiss).toHaveBeenCalled();
-		});
+  describe('cancel', function() {
+    it('should dismiss the dialog.', function() {
+      ctrl.cancel();
+      expect(modalInstance.dismiss).toHaveBeenCalled();
+    });
 
-		it('should revert settings to their original values.', function() {
-		  var provided_project = 'PROVIDED_PROJECT';
+    it('should revert settings to their original values.', function() {
+      var provided_project = 'PROVIDED_PROJECT';
       var expected_project = ctrl.configService.default_project;
 
       ctrl.configService.default_project = provided_project;
-			ctrl.cancel();
+      ctrl.cancel();
 
-			expect(ctrl.configService.default_project).toBe(expected_project);
-		});
-	});
+      expect(ctrl.configService.default_project).toBe(expected_project);
+    });
+  });
 });

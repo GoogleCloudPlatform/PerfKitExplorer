@@ -26,13 +26,13 @@ describe('configDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
 
-	var explorer = p3rf.perfkit.explorer;
+  var explorer = p3rf.perfkit.explorer;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_, _$templateCache_,
-  		_$httpBackend_, _configService_) {
+      _$httpBackend_, _configService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
@@ -45,87 +45,87 @@ describe('configDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        	$compile('<explorer-config />')(scope);
+          $compile('<explorer-config />')(scope);
       }
       expect(compile).not.toThrow();
     });
 
-		it('should contain the expected elements.', function() {
-			var configElement = angular.element('<explorer-config />');
+    it('should contain the expected elements.', function() {
+      var configElement = angular.element('<explorer-config />');
 
-			$compile(configElement)(scope);
-			scope.$digest();
+      $compile(configElement)(scope);
+      scope.$digest();
 
-			var projectElement = configElement.find('input#default_project');
-			expect(projectElement.length).toBe(1);
+      var projectElement = configElement.find('input#default_project');
+      expect(projectElement.length).toBe(1);
 
-			var datasetElement = configElement.find('input#default_dataset');
-			expect(datasetElement.length).toBe(1);
+      var datasetElement = configElement.find('input#default_dataset');
+      expect(datasetElement.length).toBe(1);
 
-			var tableElement = configElement.find('input#default_table');
-			expect(tableElement.length).toBe(1);
+      var tableElement = configElement.find('input#default_table');
+      expect(tableElement.length).toBe(1);
 
-			var analyticsKeyElement = configElement.find('input#analytics_key');
-			expect(analyticsKeyElement.length).toBe(1);
+      var analyticsKeyElement = configElement.find('input#analytics_key');
+      expect(analyticsKeyElement.length).toBe(1);
 
-			var cacheDurationElement = configElement.find('input#cache_duration');
-			expect(cacheDurationElement.length).toBe(1);
-		});
+      var cacheDurationElement = configElement.find('input#cache_duration');
+      expect(cacheDurationElement.length).toBe(1);
+    });
   });
 
-	describe('service binding', function() {
-		var configElement;
+  describe('service binding', function() {
+    var configElement;
 
-	  beforeEach(inject(function() {
-			configElement = angular.element('<explorer-config />');
+    beforeEach(inject(function() {
+      configElement = angular.element('<explorer-config />');
 
-			$compile(configElement)(scope);
-			scope.$digest();
-	  }));
+      $compile(configElement)(scope);
+      scope.$digest();
+    }));
 
-		describe('should reflect the current values in the service for ',
-				function() {
-			var providedProject = 'PROVIDED_PROJECT';
-			var providedDataset = 'PROVIDED_DATASET';
-			var providedTable = 'PROVIDED_TABLE';
-			var providedAnalyticsKey = 'PROVIDED_ANALYTICS_KEY';
-			var providedCacheDuration = 30;
-			var expectedCacheDuration = '30';
+    describe('should reflect the current values in the service for ',
+        function() {
+      var providedProject = 'PROVIDED_PROJECT';
+      var providedDataset = 'PROVIDED_DATASET';
+      var providedTable = 'PROVIDED_TABLE';
+      var providedAnalyticsKey = 'PROVIDED_ANALYTICS_KEY';
+      var providedCacheDuration = 30;
+      var expectedCacheDuration = '30';
 
-			beforeEach(function() {
-				configService.default_project = providedProject;
-				configService.default_dataset = providedDataset;
-				configService.default_table = providedTable;
-				configService.analytics_key = providedAnalyticsKey;
-				configService.cache_duration = providedCacheDuration;
+      beforeEach(function() {
+        configService.default_project = providedProject;
+        configService.default_dataset = providedDataset;
+        configService.default_table = providedTable;
+        configService.analytics_key = providedAnalyticsKey;
+        configService.cache_duration = providedCacheDuration;
 
-				scope.$digest();
-			});
+        scope.$digest();
+      });
 
-			it('default project.', function() {
-				var projectElement = configElement.find('input#default_project');
-				expect(projectElement.eq(0).val()).toBe(providedProject);
-			});
+      it('default project.', function() {
+        var projectElement = configElement.find('input#default_project');
+        expect(projectElement.eq(0).val()).toBe(providedProject);
+      });
 
-			it('default dataset`.', function() {
-				var datasetElement = configElement.find('input#default_dataset');
-				expect(datasetElement.eq(0).val()).toBe(providedDataset);
-			});
+      it('default dataset`.', function() {
+        var datasetElement = configElement.find('input#default_dataset');
+        expect(datasetElement.eq(0).val()).toBe(providedDataset);
+      });
 
-			it('default table.', function() {
-				var tableElement = configElement.find('input#default_table');
-				expect(tableElement.eq(0).val()).toBe(providedTable);
-			});
+      it('default table.', function() {
+        var tableElement = configElement.find('input#default_table');
+        expect(tableElement.eq(0).val()).toBe(providedTable);
+      });
 
-			it('analytics key.', function() {
-				var analyticsKeyElement = configElement.find('input#analytics_key');
-				expect(analyticsKeyElement.eq(0).val()).toBe(providedAnalyticsKey);
-			});
+      it('analytics key.', function() {
+        var analyticsKeyElement = configElement.find('input#analytics_key');
+        expect(analyticsKeyElement.eq(0).val()).toBe(providedAnalyticsKey);
+      });
 
-			it('cache duration.', function() {
-				var cacheDurationElement = configElement.find('input#cache_duration');
-				expect(cacheDurationElement.eq(0).val()).toBe(expectedCacheDuration);
-			});
-		});
-	});
+      it('cache duration.', function() {
+        var cacheDurationElement = configElement.find('input#cache_duration');
+        expect(cacheDurationElement.eq(0).val()).toBe(expectedCacheDuration);
+      });
+    });
+  });
 });
