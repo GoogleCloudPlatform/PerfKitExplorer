@@ -57,7 +57,7 @@ explorer.components.config.ConfigDialogCtrl = function(
   this.modalInstance_ = $modalInstance;
 
   /** @export @type {ConfigService} */
-  this.configService_ = configService;
+  this.configService = configService;
 
   /** @private @type {!Object} */
   this.originalConfig_ = configService.toJSON();
@@ -70,7 +70,7 @@ var ConfigDialogCtrl = (
  * @export
  */
 ConfigDialogCtrl.prototype.ok = function() {
-  this.configService_.update();
+  this.configService.update();
   this.modalInstance_.close();
 };
 
@@ -80,7 +80,7 @@ ConfigDialogCtrl.prototype.ok = function() {
  * @export
  */
 ConfigDialogCtrl.prototype.cancel = function() {
-  this.configService_.populate(this.originalConfig_);
+  this.configService.populate(this.originalConfig_);
   this.modalInstance_.dismiss('cancel');
 };
 

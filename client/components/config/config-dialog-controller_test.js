@@ -47,10 +47,10 @@ describe('ConfigDialogCtrl', function() {
 
 	describe('ok', function() {
 		it('should update the config.', function() {
-			spyOn(ctrl.configService_, 'update');
+			spyOn(ctrl.configService, 'update');
 
 			ctrl.ok();
-			expect(ctrl.configService_.update).toHaveBeenCalled();
+			expect(ctrl.configService.update).toHaveBeenCalled();
 			expect(modalInstance.close).toHaveBeenCalled();
 		});
 	});
@@ -64,12 +64,12 @@ describe('ConfigDialogCtrl', function() {
 
 		it('should revert settings to their original values.', function() {
 		  var provided_project = 'PROVIDED_PROJECT';
-      var expected_project = ctrl.configService_.default_project;
+      var expected_project = ctrl.configService.default_project;
 
-      ctrl.configService_.default_project = provided_project;
+      ctrl.configService.default_project = provided_project;
 			ctrl.cancel();
 
-			expect(ctrl.configService_.default_project).toBe(expected_project);
+			expect(ctrl.configService.default_project).toBe(expected_project);
 		});
 	});
 });
