@@ -47,11 +47,11 @@ describe('configService', function() {
 
   describe('populate', function() {
     it('should populate based on the provided object.', function() {
-      provided_default_project = 'PROVIDED_PROJECT';
-      provided_default_dataset = 'PROVIDED_DATASET';
-      provided_default_table = 'PROVIDED_TABLE';
-      provided_analytics_key = 'PROVIDED_ANALYTICS_KEY';
-      provided_cache_duration = 30;
+      var provided_default_project = 'PROVIDED_PROJECT';
+      var provided_default_dataset = 'PROVIDED_DATASET';
+      var provided_default_table = 'PROVIDED_TABLE';
+      var provided_analytics_key = 'PROVIDED_ANALYTICS_KEY';
+      var provided_cache_duration = 30;
 
       provided_data = {
         'default_project': provided_default_project,
@@ -68,6 +68,30 @@ describe('configService', function() {
       expect(svc.default_table).toEqual(provided_default_table);
       expect(svc.analytics_key).toEqual(provided_analytics_key);
       expect(svc.cache_duration).toEqual(provided_cache_duration);
+    });
+
+    it('should populate empty values.', function() {
+      svc.default_project = 'DEFAULT_PROJECT';
+      svc.default_dataset = 'DEFAULT_DATASET';
+      svc.default_table = 'DEFAULT_TABLE';
+      svc.analytics_key = 'ANALYTICS_KEY';
+      svc.cache_duration = 30;
+
+      empty_data = {
+        'default_project': '',
+        'default_dataset': '',
+        'default_table': '',
+        'analytics_key': '',
+        'cache_duration': 0
+      };
+
+      svc.populate(empty_data);
+
+      expect(svc.default_project).toEqual(empty_data.default_project);
+      expect(svc.default_dataset).toEqual(empty_data.default_dataset);
+      expect(svc.default_table).toEqual(empty_data.default_table);
+      expect(svc.analytics_key).toEqual(empty_data.analytics_key);
+      expect(svc.cache_duration).toEqual(empty_data.cache_duration);
     });
 
     it('should maintain defaults for unprovided values.', function() {

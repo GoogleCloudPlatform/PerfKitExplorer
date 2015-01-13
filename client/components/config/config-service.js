@@ -85,23 +85,23 @@ var ConfigService = explorer.components.config.ConfigService;
  * @param {!object} data A JSON object containing config data.
  */
 ConfigService.prototype.populate = function(data) {
-  if (data.default_project) {
+  if (goog.isDef(data.default_project)) {
     this.default_project = data.default_project;
   }
 
-  if (data.default_dataset) {
+  if (goog.isDef(data.default_dataset)) {
     this.default_dataset = data.default_dataset;
   }
 
-  if (data.default_table) {
+  if (goog.isDef(data.default_table)) {
     this.default_table = data.default_table;
   }
 
-  if (data.analytics_key) {
+  if (goog.isDef(data.analytics_key)) {
     this.analytics_key = data.analytics_key;
   }
 
-  if (data.cache_duration) {
+  if (goog.isDef(data.cache_duration)) {
     this.cache_duration = data.cache_duration;
   }
 };

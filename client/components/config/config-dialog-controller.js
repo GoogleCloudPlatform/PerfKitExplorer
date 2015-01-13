@@ -58,6 +58,11 @@ explorer.components.config.ConfigDialogCtrl = function(
 
   /** @export @type {ConfigService} */
   this.configService_ = configService;
+
+  /** @private @type {!Object} */
+  this.originalConfig_ = configService.toJSON();
+  console.log('Set originalConfig_:');
+  console.log(this.originalConfig_);
 };
 var ConfigDialogCtrl = (
     explorer.components.config.ConfigDialogCtrl);
@@ -76,6 +81,7 @@ ConfigDialogCtrl.prototype.ok = function() {
  * @export
  */
 ConfigDialogCtrl.prototype.cancel = function() {
+  this.configService_.populate(this.originalConfig_);
   this.modalInstance_.dismiss('cancel');
 };
 

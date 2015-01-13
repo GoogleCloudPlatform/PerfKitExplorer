@@ -60,5 +60,15 @@ describe('ConfigDialogCtrl', function() {
 			ctrl.cancel();
 			expect(modalInstance.dismiss).toHaveBeenCalled();
 		});
+
+		it('should revert settings to their original values.', function() {
+		  var provided_project = 'PROVIDED_PROJECT';
+      var expected_project = ctrl.configService_.default_project;
+
+      ctrl.configService_.default_project = provided_project;
+			ctrl.cancel();
+
+			expect(ctrl.configService_.default_project).toBe(expected_project);
+		});
 	});
 });
