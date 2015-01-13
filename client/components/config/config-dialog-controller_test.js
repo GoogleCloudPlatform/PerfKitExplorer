@@ -51,6 +51,7 @@ describe('ConfigDialogCtrl', function() {
 
 			ctrl.ok();
 			expect(ctrl.configService_.update).toHaveBeenCalled();
+			expect(modalInstance.close).toHaveBeenCalled();
 		});
 	});
 

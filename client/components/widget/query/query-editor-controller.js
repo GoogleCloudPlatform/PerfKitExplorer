@@ -20,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
 
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
@@ -34,6 +35,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var ConfigService = explorer.components.config.ConfigService;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 var DateGroupings = explorer.models.perfkit_simple_builder.DateGroupings;
@@ -63,7 +65,7 @@ var ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @ngInject
  */
 explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
-    explorerService, dashboardService, queryEditorService,
+    configService, explorerService, dashboardService, queryEditorService,
     queryBuilderService) {
   /**
    * @type {!angular.Scope}
@@ -76,6 +78,12 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
    * @private
    */
   this.filter_ = $filter;
+
+  /**
+   * @type {!ConfigService}
+   * @export
+   */
+  this.config = configService;
 
   /**
    * @type {!QueryEditorService}

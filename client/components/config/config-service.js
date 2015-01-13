@@ -14,6 +14,10 @@
  * limitations under the License.
  *
  * @fileoverview Service for the configuration of the Explorer app.
+ *
+ * The initial settings are loaded from a global var INITIAL_CONFIG.  This
+ * is set by the server-side templates when rendering the page, to minimize
+ * initial roundtrips.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -49,32 +53,31 @@ explorer.components.config.ConfigService = function($http, $location) {
    * @type {!string}
    * @export
    */
-  this.default_project = '';
+  this.default_project = INITIAL_CONFIG.default_project;
 
   /**
    * @type {!string}
    * @export
    */
-  this.default_dataset = '';
+  this.default_dataset = INITIAL_CONFIG.default_dataset;
 
   /**
    * @type {!string}
    * @export
    */
-  this.default_table = '';
+  this.default_table = INITIAL_CONFIG.default_table;
 
   /**
    * @type {!string}
    * @export
    */
-  this.analytics_key = '';
+  this.analytics_key = INITIAL_CONFIG.analytics_key;
 
   /**
    * @type {!number}
    * @export
    */
-  this.cache_duration = 0;
-
+  this.cache_duration = INITIAL_CONFIG.cache_duration;
 };
 var ConfigService = explorer.components.config.ConfigService;
 
