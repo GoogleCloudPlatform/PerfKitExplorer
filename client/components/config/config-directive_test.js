@@ -77,7 +77,8 @@ describe('configDirective', function() {
     var configElement;
 
     beforeEach(inject(function() {
-      configElement = angular.element('<explorer-config />');
+      scope.data = configService.toJSON();
+      configElement = angular.element('<explorer-config ng-model="data" />');
 
       $compile(configElement)(scope);
       scope.$digest();
@@ -93,11 +94,11 @@ describe('configDirective', function() {
       var expectedCacheDuration = '30';
 
       beforeEach(function() {
-        configService.default_project = providedProject;
-        configService.default_dataset = providedDataset;
-        configService.default_table = providedTable;
-        configService.analytics_key = providedAnalyticsKey;
-        configService.cache_duration = providedCacheDuration;
+        scope.data.default_project = providedProject;
+        scope.data.default_dataset = providedDataset;
+        scope.data.default_table = providedTable;
+        scope.data.analytics_key = providedAnalyticsKey;
+        scope.data.cache_duration = providedCacheDuration;
 
         scope.$digest();
       });
@@ -107,7 +108,7 @@ describe('configDirective', function() {
         expect(projectElement.eq(0).val()).toBe(providedProject);
       });
 
-      it('default dataset`.', function() {
+      it('default dataset.', function() {
         var datasetElement = configElement.find('input#default_dataset');
         expect(datasetElement.eq(0).val()).toBe(providedDataset);
       });

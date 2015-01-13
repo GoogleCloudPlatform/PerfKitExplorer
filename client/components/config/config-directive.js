@@ -37,10 +37,10 @@ goog.scope(function() {
       restrict: 'E',
       replace: true,
       transclude: true,
-      templateUrl: '/static/components/config/config-directive.html',
-      controller: function($scope, configService) {
-        $scope.config = configService;
-      }
+      scope: {
+        'ngModel': '='
+      },
+      templateUrl: '/static/components/config/config-directive.html'
     };
   };
 

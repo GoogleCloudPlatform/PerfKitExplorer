@@ -113,16 +113,19 @@ ConfigService.prototype.populate = function(data) {
 /**
  * Provides a copy of the object as JSON.
  *
+ * @param {?Object} data An object that the properties will be applied to.
  * @return {!Object} A JSON representation of the config properties.
  */
-ConfigService.prototype.toJSON = function() {
-  return {
-    'default_project': this.default_project,
-    'default_dataset': this.default_dataset,
-    'default_table': this.default_table,
-    'analytics_key': this.analytics_key,
-    'cache_duration': this.cache_duration
-  };
+ConfigService.prototype.toJSON = function(data) {
+  var result = data || {};
+
+  result.default_project = this.default_project;
+  result.default_dataset = this.default_dataset;
+  result.default_table = this.default_table;
+  result.analytics_key = this.analytics_key;
+  result.cache_duration = this.cache_duration;
+
+  return result;
 };
 
 

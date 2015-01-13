@@ -159,6 +159,41 @@ describe('configService', function() {
       svc.populate(provided_data);
       expect(svc.toJSON()).toEqual(provided_data);
     });
+
+    it('should overwrite properties of a provided object.', function() {
+      provided_default_project = 'PROVIDED_PROJECT';
+      provided_default_dataset = 'PROVIDED_DATASET';
+      provided_default_table = 'PROVIDED_TABLE';
+      provided_analytics_key = 'PROVIDED_ANALYTICS_KEY';
+      provided_cache_duration = 30;
+      provided_other_value = 'PROVIDED_OTHER_VALUE';
+      provided_other_project = 'PROVIDED_OTHER_PROJECT';
+
+      provided_object = {
+        'other_property': provided_other_value,
+        'default_project': provided_other_project
+      };
+
+      provided_data = {
+        'default_project': provided_default_project,
+        'default_dataset': provided_default_dataset,
+        'default_table': provided_default_table,
+        'analytics_key': provided_analytics_key,
+        'cache_duration': provided_cache_duration
+      };
+
+      expected_data = {
+        'other_property': provided_other_value,
+        'default_project': provided_default_project,
+        'default_dataset': provided_default_dataset,
+        'default_table': provided_default_table,
+        'analytics_key': provided_analytics_key,
+        'cache_duration': provided_cache_duration
+      };
+
+      svc.populate(provided_data);
+      expect(svc.toJSON(provided_object)).toEqual(expected_data);
+    });
   });
 
   describe('update', function() {
