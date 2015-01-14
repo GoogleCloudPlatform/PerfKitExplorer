@@ -1,0 +1,14 @@
+<div class="modal-header">
+  <h3 class="modal-title">Global Configuration</h3>
+</div>
+<div class="modal-body">
+  <explorer-config ng-model="dialog.workingConfig" />
+</div>
+<div class="modal-footer">
+  <button class="btn btn-default"
+          ng-click="dialog.refresh()">Refresh</button>
+  <button class="btn btn-primary"
+          ng-click="dialog.ok()">Update</button>
+  <button class="btn btn-warning"
+          ng-click="dialog.cancel()">Cancel</button>
+</div>

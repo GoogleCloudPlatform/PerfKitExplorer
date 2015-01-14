@@ -31,7 +31,7 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', '[[analytics_id]]', 'googleplex.com');
+    ga('create', '[[analytics_key]]', 'googleplex.com');
     ga('send', 'pageview');
 
     // Initialize Google Visualizations
@@ -42,7 +42,9 @@
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
-    var DEFAULT_QUERY_PROJECT_ID = '[[default_query_project_id]]';
+    [% autoescape false %]
+    var INITIAL_CONFIG =  [[initial_config]];
+    [% endautoescape %]
   </script>
 
   <!-- Perfkit -->

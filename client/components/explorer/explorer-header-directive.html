@@ -178,7 +178,7 @@
       </button>
     </div>
 
-    <div style="float: right;" ng-hide="ctrl.explorer.model.readOnly">
+    <div style="float: right;">
       <button type="button" class="btn btn-default" ng-model="ctrl.explorer.model.logStatistics" btn-checkbox>
         Log Statistics
       </button>
@@ -196,6 +196,11 @@
         <li ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
             ng-click="ctrl.deleteCurrentDashboard()">
           <a>Delete</a>
+        </li>
+        <li class="divider"></li>
+        <li ng-show="ctrl.explorer.CURRENT_USER_ADMIN"
+            ng-click="ctrl.editConfig()">
+          <a>Edit config</a>
         </li>
       </ul>
     </div>

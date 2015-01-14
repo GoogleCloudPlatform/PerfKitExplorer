@@ -20,9 +20,12 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
+
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var ConfigService = explorer.components.config.ConfigService;
 
 
 /**
@@ -30,7 +33,7 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.dashboard.DashboardConfigDirective = function() {
+explorer.components.dashboard.DashboardConfigDirective = function(configService) {
   return {
     restrict: 'E',
     replace: true,
@@ -39,7 +42,11 @@ explorer.components.dashboard.DashboardConfigDirective = function() {
       'ngModel': '='
     },
     templateUrl: '/static/components/dashboard/dashboard-config-directive.html',
-    controller: function($scope, explorerService, dashboardService) {
+    controller: function($scope,
+        configService, explorerService, dashboardService) {
+      /** @export */
+      $scope.configSvc = configService;
+
       /** @export */
       $scope.dashboardSvc = dashboardService;
 

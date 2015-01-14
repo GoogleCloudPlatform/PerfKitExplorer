@@ -37,6 +37,12 @@ handlers:
   login: required
   secure: always
 
+# URLs from /config are used to get and update the global config.
+- url: /config
+  script: perfkit.explorer.handlers.explorer_config.app
+  login: admin
+  secure: always
+
 # URLs from /data/* are Data Providers, and return data in Json format.  This
 # is used by the Explorer Pages (mapped below), and can also be used by
 # external consumers.

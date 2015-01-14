@@ -5,11 +5,10 @@ var DEFAULT_QUERY_PROJECT_ID = 'SAMPLE_PROJECT';
 google.load('visualization', '1.1', {packages: [
     'corechart', 'charteditor', 'calendar', 'geochart', 'sankey']});
 
-// TODO: Break this out into a GVizMock library.
-/**var google = {
-  visualization: {
-    DataTable: function() {},
-    DataView: function() {}
-  }
+var INITIAL_CONFIG = {
+  'default_project': '',
+  'default_dataset': '',
+  'default_table': '',
+  'analytics_key': '',
+  'cache_duration': 0
 };
-**/

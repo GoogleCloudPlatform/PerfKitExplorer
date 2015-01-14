@@ -91,15 +91,6 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   this.selectedContainer = null;
 
   /** @export @type {string} */
-  this.DEFAULT_PROJECT_ID = DEFAULT_QUERY_PROJECT_ID;
-
-  /** @export @type {string} */
-  this.DEFAULT_DATASET_NAME = 'samples_mart';
-
-  /** @export @type {string} */
-  this.DEFAULT_TABLE_NAME = 'results';
-
-  /** @export @type {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
 
   /** @export @type {Array.<!QueryTablePartitioning>} */

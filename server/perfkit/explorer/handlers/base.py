@@ -31,11 +31,13 @@ import webapp2
 from google.appengine.api import users
 
 from perfkit.common import data_source_config
+from perfkit.explorer.model import explorer_config
 
 
 _TEMPLATES_PATH = os.path.join(os.path.dirname(__file__), 'templates')
 _JINJA_ENVIRONMENT = jinja2.Environment(
     autoescape=True, extensions=['jinja2.ext.autoescape'],
+    block_start_string='[%', block_end_string='%]',
     variable_start_string='[[', variable_end_string=']]',
     loader=jinja2.FileSystemLoader(_TEMPLATES_PATH))
 DEFAULT_ENVIRONMENT = 'prod'
@@ -93,12 +95,10 @@ class RequestHandlerBase(webapp2.RequestHandler):
       template_values['current_user_email'] = users.get_current_user().email()
     template_values['current_user_admin'] = str(
         users.is_current_user_admin()).lower()
-    template_values['default_query_project_id'] = (
-        data_source_config.Services.GetServiceUri(
-            DEFAULT_ENVIRONMENT, data_source_config.Services.PROJECT_ID))
-    template_values['analytics_id'] = (
-        data_source_config.Services.GetServiceUri(
-            DEFAULT_ENVIRONMENT, data_source_config.Services.ANALYTICS_KEY))
+    current_config = explorer_config.ExplorerConfigModel.Get().to_dict()
+
+    template_values['analytics_key'] = current_config['analytics_key']
+    template_values['initial_config'] = json.dumps(current_config)
 
     template = _JINJA_ENVIRONMENT.get_template(template_file)
     self.response.headers['Content-Type'] = 'text/html; charset=utf-8'

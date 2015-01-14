@@ -27,6 +27,9 @@
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
+    [% autoescape false %]
+    var INITIAL_CONFIG =  [[initial_config]];
+    [% endautoescape %]
   </script>
 
   <!-- Perfkit -->
@@ -61,6 +64,19 @@
         <button type="button" class="btn btn-default"
                 ng-click="pageCtrl.deleteDashboard()">Delete</button>
       </span>
+
+      <div style="float: right;">
+        <button type="button" class="btn btn-default dropdown-toggle">
+          <span class="glyphicon glyphicon-cog"></span>
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu pull-right">
+          <li ng-show="pageCtrl.pageService.CURRENT_USER_ADMIN"
+              ng-click="pageCtrl.editConfig()">
+            <a>Edit config</a>
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 
