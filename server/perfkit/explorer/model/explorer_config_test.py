@@ -41,9 +41,9 @@ class ExplorerConfigModelTest(unittest.TestCase):
     provided_data = {'default_project': 'MODIFIED_PROJECT'}
 
     self.assertRaises(
-      explorer_config.SecurityError,
-      explorer_config.ExplorerConfigModel.Update,
-      provided_data)
+        explorer_config.SecurityError,
+        explorer_config.ExplorerConfigModel.Update,
+        provided_data)
 
   def testUpdateDefault(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
