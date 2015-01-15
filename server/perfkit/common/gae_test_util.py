@@ -17,20 +17,22 @@ Helper functions and add-ons for Google App Engine related stuff."""
 import os
 
 
+os.environ['APPLICATION_ID'] = 'perfkit-test'
+
 ADMIN_USER_ENV = {
   'USER_EMAIL': 'admin@mydomain.com',
   'USER_ID': 'admin',
-  'USER_IS_ADMIN': 1
+  'USER_IS_ADMIN': '1'
 }
 
 NORMAL_USER_ENV = {
   'USER_EMAIL': 'normie@mydomain.com',
   'USER_ID': 'normie',
-  'USER_IS_ADMIN': 0
+  'USER_IS_ADMIN': '0'
 }
 
 
-def SetCurrentUser(testbed, is_admin=False):
+def setCurrentUser(testbed, is_admin=False):
   if is_admin:
     testbed.setup_env(overwrite=True, **ADMIN_USER_ENV)
   else:

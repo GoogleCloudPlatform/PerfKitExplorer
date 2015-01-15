@@ -23,6 +23,7 @@ import unittest
 
 from google.appengine.ext import testbed
 
+from perfkit.common import gae_test_util
 from perfkit.explorer.handlers import explorer_config
 from perfkit.explorer.model import explorer_config as explorer_config_model
 
@@ -38,6 +39,7 @@ class ExplorerConfigTest(unittest.TestCase):
     self.testbed.activate()
     self.testbed.init_datastore_v3_stub()
     self.testbed.init_memcache_stub()
+    self.testbed.init_user_stub()
 
   def tearDown(self):
     self.testbed.deactivate()
@@ -55,6 +57,7 @@ class ExplorerConfigTest(unittest.TestCase):
     self.assertDictEqual(resp.json, expected_data)
 
   def testPostDefault(self):
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
     provided_project = 'PROVIDED_PROJECT'
     expected_data = {
         'default_project': provided_project,

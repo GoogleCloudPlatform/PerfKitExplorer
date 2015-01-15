@@ -1,5 +1,6 @@
 import unittest
 
+from google.appengine.ext import ndb
 from google.appengine.ext import testbed
 
 from perfkit.common import gae_test_util
@@ -20,7 +21,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.testbed.deactivate()
 
   def testGetDefault(self):
-    gae_test_util.setCurrentUser(is_admin=False)
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
 
     expected_config = {
         'default_project': explorer_config.DEFAULT_PROJECT,
@@ -35,7 +36,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.assertEquals(expected_config, actual_config)
 
   def testUpdateRejectForNonAdmin(self):
-    gae_test_util.setCurrentUser(is_admin=False)
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
 
     provided_data = {'default_project': 'MODIFIED_PROJECT'}
 
@@ -45,7 +46,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
       provided_data)
 
   def testUpdateDefault(self):
-    gae_test_util.setCurrentUser(is_admin=True)
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
 
     provided_project = 'MODIFIED_PROJECT'
     provided_data = {'default_project': provided_project}
@@ -64,22 +65,20 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.assertEquals(expected_config, actual_config)
 
   def testUpdateExisting(self):
-    gae_test_util.setCurrentUser(is_admin=True)
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
 
-    provided_project = 'MODIFIED_PROJECT'
+    provided_project = 'EXPECTED_PROJECT'
     provided_data = {'default_project': provided_project}
 
+    initial_config = explorer_config.ExplorerConfigModel.Get()
+    self.assertNotEqual(initial_config.default_project, provided_project)
     expected_config = {
         'default_project': provided_project,
-        'default_dataset': explorer_config.DEFAULT_DATASET,
-        'default_table': explorer_config.DEFAULT_TABLE,
-        'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'default_dataset': initial_config.default_dataset,
+        'default_table': initial_config.default_table,
+        'analytics_key': initial_config.analytics_key,
+        'cache_duration': initial_config.cache_duration
     }
-
-    initial_config = explorer_config.ExplorerConfigModel.Get()
-    self.assertEquals(
-        initial_config.default_project, explorer_config.DEFAULT_PROJECT)
 
     explorer_config.ExplorerConfigModel.Update(provided_data)
 
@@ -88,7 +87,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.assertEquals(expected_config, actual_config)
 
   def testLoad(self):
-    gae_test_util.setCurrentUser(is_admin=True)
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
     provided_project = 'MODIFIED_PROJECT'
     provided_data = {'default_project': provided_project}
 
