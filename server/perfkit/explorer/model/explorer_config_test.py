@@ -2,18 +2,8 @@ import unittest
 
 from google.appengine.ext import testbed
 
+from perfkit.common import gae_test_util
 from perfkit.explorer.model import explorer_config
-
-
-ADMIN_USER = {
-  'USER_EMAIL': 'admin@example.com',
-  'USER_ID': '123',
-  'USER_IS_ADMIN': '1'}
-
-NORMAL_USER = {
-  'USER_EMAIL': 'user@example.com',
-  'USER_ID': '456',
-  'USER_IS_ADMIN': '0'}
 
 
 class ExplorerConfigModelTest(unittest.TestCase):
@@ -29,16 +19,8 @@ class ExplorerConfigModelTest(unittest.TestCase):
   def tearDown(self):
     self.testbed.deactivate()
 
-  def setAdminStatus(self, is_admin):
-    if is_admin:
-      user_env = ADMIN_USER
-    else:
-      user_env = NORMAL_USER
-
-    self.testbed.setup_env(overwrite = True, **user_env)
-
   def testGetDefault(self):
-    self.setAdminStatus(is_admin=False)
+    gae_test_util.setCurrentUser(is_admin=False)
 
     expected_config = {
         'default_project': explorer_config.DEFAULT_PROJECT,
@@ -53,7 +35,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.assertEquals(expected_config, actual_config)
 
   def testUpdateRejectForNonAdmin(self):
-    self.setAdminStatus(is_admin=False)
+    gae_test_util.setCurrentUser(is_admin=False)
 
     provided_data = {'default_project': 'MODIFIED_PROJECT'}
 
@@ -63,7 +45,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
       provided_data)
 
   def testUpdateDefault(self):
-    self.setAdminStatus(is_admin=True)
+    gae_test_util.setCurrentUser(is_admin=True)
 
     provided_project = 'MODIFIED_PROJECT'
     provided_data = {'default_project': provided_project}
@@ -82,7 +64,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.assertEquals(expected_config, actual_config)
 
   def testUpdateExisting(self):
-    self.setAdminStatus(is_admin=True)
+    gae_test_util.setCurrentUser(is_admin=True)
 
     provided_project = 'MODIFIED_PROJECT'
     provided_data = {'default_project': provided_project}
@@ -106,7 +88,7 @@ class ExplorerConfigModelTest(unittest.TestCase):
     self.assertEquals(expected_config, actual_config)
 
   def testLoad(self):
-    self.setAdminStatus(is_admin=True)
+    gae_test_util.setCurrentUser(is_admin=True)
     provided_project = 'MODIFIED_PROJECT'
     provided_data = {'default_project': provided_project}
 
