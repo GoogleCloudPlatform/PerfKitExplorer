@@ -17,7 +17,7 @@ Unit test for credentials_lib."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import logging
-
+import pytest
 import unittest
 
 from perfkit import test_util
@@ -37,6 +37,7 @@ class CredentialsLibTest(unittest.TestCase):
       credentials_lib.GetAuthorizedCredentials(
           credentials_lib.DEFAULT_CREDENTIALS, env)
 
+  @pytest.mark.integration
   def testUseCredentials(self):
     """Makes sure credentials are valid.
 
