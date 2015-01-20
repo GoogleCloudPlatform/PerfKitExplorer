@@ -570,7 +570,7 @@ class BigQueryClient(object):
         raise err
 
   def Query(self, query, timeout=None, max_results_per_page=None,
-            cache_duration=None, project_id=self.project_id):
+            cache_duration=None, project_id=None):
     """Issues a query to Big Query and returns the response.
 
     Note that multiple pages of data will be loaded returned as a single data
@@ -595,6 +595,7 @@ class BigQueryClient(object):
       http://goto.google.com/big_query_query_results
     """
     try:
+      project_id = project_id or self.project_id
       timeout_ms = (timeout or DEFAULT_QUERY_TIMEOUT) * 1000
       job_collection = self.service.jobs()
       query_data = {'query': query, 'timeoutMs': timeout_ms}
