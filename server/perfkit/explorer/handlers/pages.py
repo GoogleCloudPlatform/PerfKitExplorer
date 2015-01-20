@@ -52,4 +52,5 @@ class DashboardAdminPageHandler(base.RequestHandlerBase):
 app = webapp2.WSGIApplication(
     [('/', MainPageHandler),
      ('/explore', ExplorePageHandler),
+     ('/review', ExplorePageHandler),
      ('/dashboard-admin', DashboardAdminPageHandler)], debug=True)
