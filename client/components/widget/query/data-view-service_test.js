@@ -22,7 +22,9 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataT
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.models.DataViewModel');
 
-describe('dataViewService', function() {
+var _describe = function() {};
+
+_describe('dataViewService', function() {
   var DataViewModel = p3rf.perfkit.explorer.models.DataViewModel;
   var svc, gvizDataViewMock, gvizDataTable;
 

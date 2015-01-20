@@ -31,8 +31,8 @@ describe('dashboardVersionModel', function() {
         var model = new DashboardVersionModel();
 
         expect(model.version).toBe('');
-        expect(model.verify).toBeNull;
-        expect(model.update).toBeNull;
+        expect(model.verify).toBeNull();
+        expect(model.update).toBeNull();
       }
   );
 

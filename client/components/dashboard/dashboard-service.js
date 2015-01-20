@@ -23,6 +23,7 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -40,6 +41,7 @@ var ArrayUtilService = explorer.components.util.ArrayUtilService;
 var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
+var DashboardParam = explorer.components.dashboard.DashboardParam;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var QueryBuilderService = (
     explorer.models.perfkit_simple_builder.QueryBuilderService);
@@ -58,11 +60,13 @@ var WidgetType = explorer.models.WidgetType;
  * @param {!WidgetFactoryService} widgetFactoryService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
+ * @param {!angular.Location} $location
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
-    widgetFactoryService, dashboardDataService, queryBuilderService, dashboardVersionService) {
+    widgetFactoryService, dashboardDataService, queryBuilderService,
+    dashboardVersionService, $location) {
   /** @private @type {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
@@ -78,6 +82,9 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private @type {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
+  /** @private @type {!angular.Location} */
+  this.location_ = $location;
+
   /** @export @type {!DashboardConfig} */
   this.current = this.initializeDashboard();
 
@@ -89,6 +96,9 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @export @type {ContainerWidgetConfig} */
   this.selectedContainer = null;
+
+  /** @export @type {Array.<!DashboardParam>} */
+  this.params = [];
 
   /** @export @type {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
@@ -110,6 +120,17 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 
 /**
+ * Empties the list of params.
+ * @private
+ */
+DashboardService.prototype.clearParams = function() {
+  while (this.params.length > 0) {
+    this.params.pop();
+  }
+};
+
+
+/**
  * Initialize a new dashboard.
  */
 DashboardService.prototype.initializeDashboard = function() {
@@ -117,7 +138,7 @@ DashboardService.prototype.initializeDashboard = function() {
   dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
 
   return dashboard;
-}
+};
 
 
 /**
@@ -172,9 +193,30 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
   this.current = dashboardConfig;
   if (dashboardConfig) {
     this.widgets = dashboardConfig.model.children;
+    this.initializeParams();
   } else {
     this.widgets = [];
   }
+};
+
+
+/**
+ * Initializes the current dashboard's parameters.
+ *
+ * The DashboardModel stores the available params and default values for the
+ * dashboard, while the DashboardService stores the current effective values
+ * based on the querystring and default values.
+ */
+DashboardService.prototype.initializeParams = function() {
+  this.clearParams();
+
+  angular.forEach(this.current.params, angular.bind(this, function(param) {
+    var paramValue = this.location_.search()[param.name] || param.value;
+
+    if (paramValue !== '') {
+      this.params.push(new DashboardParam(param.name, paramValue));
+    }
+  }));
 };
 
 
@@ -386,7 +428,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
   var index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
-  if (container.model.container.children.length == 0) {
+  if (container.model.container.children.length === 0) {
     this.removeContainer(container);
   } else {
     container.model.container.columns -= widget.model.layout.columnspan;
@@ -412,7 +454,7 @@ DashboardService.prototype.moveWidgetToContainer = function(
   var index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
-  if (container.model.container.children.length == 0) {
+  if (container.model.container.children.length === 0) {
     this.removeContainer(container);
   } else {
     container.model.container.columns -= widget.model.layout.columnspan;
@@ -558,7 +600,7 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
   var containerIndex = this.widgets.indexOf(container);
   var targetContainer = null;
 
-  if (containerIndex == 0) {
+  if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;

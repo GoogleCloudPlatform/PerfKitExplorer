@@ -19,6 +19,7 @@
 
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -29,7 +30,8 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('dashboardService', function() {
   var explorer = p3rf.perfkit.explorer;
-  var svc, widget, chartWidget, container, widgetFactoryService;
+  var svc, widget, chartWidget, container, widgetFactoryService, $location;
+  var DashboardParam = explorer.components.dashboard.DashboardParam;
   var WidgetConfig = explorer.models.WidgetConfig;
   var WidgetType = explorer.models.WidgetType;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
@@ -39,12 +41,14 @@ describe('dashboardService', function() {
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(dashboardService, _widgetFactoryService_) {
+  beforeEach(inject(function(dashboardService, _widgetFactoryService_,
+      _$location_) {
     svc = dashboardService;
     widgetFactoryService = _widgetFactoryService_;
     widget = new WidgetConfig(widgetFactoryService);
     chartWidget = new ChartWidgetConfig(widgetFactoryService);
     container = new ContainerWidgetConfig(widgetFactoryService);
+    $location = _$location_;
   }));
 
   it('should initialize the appropriate objects.', function() {
@@ -477,4 +481,62 @@ describe('dashboardService', function() {
         }
     );
   });
+
+  describe('initializeParams', function() {
+    it('should populate based on config-provided values.', function() {
+      provided_params = [
+        new DashboardParam('param1', 'value1'),
+        new DashboardParam('param2', 'value2')
+      ];
+
+      svc.current = {
+        'params': provided_params
+      };
+
+      svc.initializeParams();
+
+      expect(svc.params).toEqual(provided_params);
+    });
+  });
+
+  describe('initializeParams', function() {
+    it('should overwrite default values with url parms.', function() {
+      expected_value = 'UPDATED_VALUE';
+
+      provided_params = [
+        new DashboardParam('param1', 'value1'),
+        new DashboardParam('param2', 'value2')
+      ];
+
+      $location.search().param1 = expected_value;
+
+      svc.current = {
+        'params': provided_params
+      };
+
+      svc.initializeParams();
+
+      expect(svc.params[0].value).toEqual(expected_value);
+    });
+  });
+
+  describe('initializeParams', function() {
+    it('should ignore params not defined in the dashboard.', function() {
+      provided_params = [
+        new DashboardParam('param1', 'value1'),
+        new DashboardParam('param2', 'value2')
+      ];
+
+      $location.search().param3 = 'UNSUPPORTED_VALUE';
+
+      svc.current = {
+        'params': provided_params
+      };
+
+      svc.initializeParams();
+
+      expect(svc.params).toEqual(provided_params);
+    });
+  });
+
 });

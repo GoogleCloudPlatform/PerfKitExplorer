@@ -41,6 +41,78 @@ describe('TestQueryBuilder', function() {
     svc = queryBuilderService;
   }));
 
+  describe('replaceTokens', function() {
+    it('should replace existing tokens.', function() {
+      var providedQuery = 'SELECT foo FROM %%TABLE%%';
+      var expectedValue = 'MyProject.MyDs.MyTableName';
+      var providedParams = [
+        {'name': 'TABLE', 'value': expectedValue}
+      ];
+      var expectedQuery = 'SELECT foo FROM ' + expectedValue;
+
+      var actualQuery = svc.replaceTokens(providedQuery, providedParams);
+      expect(actualQuery).toEqual(expectedQuery);
+    });
+
+    it('should replace multiple tokens.', function() {
+      var providedQuery = 'SELECT foo FROM %%TABLE%% WHERE bar > %%VAL%%';
+      var expectedTable = 'MyProject.MyDs.MyTableName';
+      var expectedVal = '42';
+
+      var providedParams = [
+        {'name': 'TABLE', 'value': expectedTable},
+        {'name': 'VAL', 'value': expectedVal}
+      ];
+      var expectedQuery = (
+          'SELECT foo FROM ' + expectedTable + ' WHERE bar > ' + expectedVal);
+
+      var actualQuery = svc.replaceTokens(providedQuery, providedParams);
+      expect(actualQuery).toEqual(expectedQuery);
+    });
+
+    it('should replace duplicate tokens.', function() {
+      var providedQuery = 'SELECT foo FROM %%TABLE%%_foo, %%TABLE%%_bar';
+      var expectedTable = 'MyProject.MyDs.MyTableName';
+
+      var providedParams = [
+        {'name': 'TABLE', 'value': expectedTable}
+      ];
+      var expectedQuery = (
+          'SELECT foo FROM ' + expectedTable + '_foo, ' +
+          expectedTable + '_bar');
+
+      var actualQuery = svc.replaceTokens(providedQuery, providedParams);
+      expect(actualQuery).toEqual(expectedQuery);
+    });
+
+    it('should ignore unused tokens.', function() {
+      var providedQuery = 'SELECT foo FROM %%TABLE%%';
+      var expectedTable = 'MyProject.MyDs.MyTableName';
+
+      var providedParams = [
+        {'name': 'TABLE', 'value': expectedTable},
+        {'name': 'OTHER_PARAM', 'value': 'UNUSED'}
+      ];
+      var expectedQuery = 'SELECT foo FROM ' + expectedTable;
+
+      var actualQuery = svc.replaceTokens(providedQuery, providedParams);
+      expect(actualQuery).toEqual(expectedQuery);
+    });
+
+    it('should replace tokens with numbers.', function() {
+      var providedQuery = 'SELECT foo FROM table WHERE x > %%VALUE%%';
+      var expectedValue = 42;
+
+      var providedParams = [
+        {'name': 'VALUE', 'value': 42}
+      ];
+      var expectedQuery = 'SELECT foo FROM table WHERE x > ' + expectedValue;
+
+      var actualQuery = svc.replaceTokens(providedQuery, providedParams);
+      expect(actualQuery).toEqual(expectedQuery);
+    });
+  });
+
   describe('getSql', function() {
 
     it('should return the SQL statement for a default query.', function() {

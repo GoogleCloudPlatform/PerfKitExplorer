@@ -47,6 +47,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchem
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4');
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV5');
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV7');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
 
@@ -137,11 +138,11 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
   var version = null;
 
   // If a version # if provided, use it to validate.
-  if (goog.isDef(dashboard.version) && dashboard.version != '') {
+  if (goog.isDef(dashboard.version) && dashboard.version !== '') {
     version = this.filter_('getByProperty')(
         'version', dashboard.version.toString(), this.versions);
 
-    if (version == null) {
+    if (version === null) {
       throw new Error('The model specifies v' + dashboard.version + ', which does not exist.');
     } else {
       try {
@@ -174,6 +175,7 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
  */
 DashboardVersionService.prototype.initVersions = function() {
   return [
+    new versions.DashboardSchemaV7(),
     new versions.DashboardSchemaV6(),
     new versions.DashboardSchemaV5(),
     new versions.DashboardSchemaV4(),
