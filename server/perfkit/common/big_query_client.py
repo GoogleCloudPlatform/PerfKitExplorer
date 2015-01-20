@@ -570,7 +570,7 @@ class BigQueryClient(object):
         raise err
 
   def Query(self, query, timeout=None, max_results_per_page=None,
-            cache_duration=None):
+            cache_duration=None, project_id=self.project_id):
     """Issues a query to Big Query and returns the response.
 
     Note that multiple pages of data will be loaded returned as a single data
@@ -587,6 +587,8 @@ class BigQueryClient(object):
           Note this functionality is not available in the base client, but
           rather from subclasses (such as GaeBigQueryClient) that
           have caching implementations.
+      project_id: The project to connect to.  Defaults to self.project_id,
+          initialized from data_source_config.
 
     Returns:
       The query results.  See big query's docs for the results format:
@@ -600,7 +602,7 @@ class BigQueryClient(object):
         query_data['maxResults'] = max_results_per_page
       logging.info('Executing BigQuery for project %s, query:\n\n%s',
                    self.project_id, query_data)
-      request = job_collection.query(projectId=self.project_id,
+      request = job_collection.query(projectId=project_id,
                                      body=query_data)
       query_reply = self._ExecuteRequestWithRetries(request)
 
