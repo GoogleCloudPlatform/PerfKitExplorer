@@ -66,7 +66,7 @@ class PagesTest(unittest.TestCase):
   def testReviewPage(self):
     # TODO: Add a token to each page that can be used to better validate
     # behavior.
-    resp = self.app.get(url='/review', status=200)
+    resp = self.app.get(url='/review', status=301)
 
     self.assertIsNotNone(resp.html)
 
