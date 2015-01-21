@@ -25,7 +25,7 @@ import webapp2
 
 
 class MainPageHandler(base.RequestHandlerBase):
-  """Http handler for the main Explorer HTML page."""
+  """Http handler for the default page.  Redirects to the admin page."""
 
   def get(self):
     """Request handler for GET operations."""
@@ -33,15 +33,23 @@ class MainPageHandler(base.RequestHandlerBase):
 
 
 class ExplorePageHandler(base.RequestHandlerBase):
-  """Http handler for the Report HTML page."""
+  """Http handler for the Dashboard Explorer HTML page."""
 
   def get(self):
     """Request handler for GET operations."""
     self.RenderHtml('explorer.html', {})
 
 
+class ReviewPageHandler(base.RequestHandlerBase):
+  """Http handler for the review url.  Redirects to the Explorer page."""
+
+  def get(self):
+    """Request handler for GET operations."""
+    self.redirect('/explorer', True)
+
+
 class DashboardAdminPageHandler(base.RequestHandlerBase):
-  """Http handler for the Report HTML page."""
+  """Http handler for the Dashboard Admin HTML page."""
 
   def get(self):
     """Request handler for GET operations."""
@@ -52,4 +60,5 @@ class DashboardAdminPageHandler(base.RequestHandlerBase):
 app = webapp2.WSGIApplication(
     [('/', MainPageHandler),
      ('/explore', ExplorePageHandler),
+     ('/review', ReviewPageHandler),
      ('/dashboard-admin', DashboardAdminPageHandler)], debug=True)
