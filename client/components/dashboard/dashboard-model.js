@@ -103,7 +103,7 @@ explorer.components.dashboard.DashboardModel = function() {
    * @type {?QueryTablePartitioning}
    * @export
    */
-  this.table_partition = null;
+  this.table_partition = '';
 
   /**
    * @type {!Array.<(ContainerWidgetConfig|ContainerWidgetModel)>}

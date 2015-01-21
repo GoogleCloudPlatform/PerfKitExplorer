@@ -65,9 +65,12 @@ var WidgetType = explorer.models.WidgetType;
  */
 explorer.components.dashboard.DashboardService = function(
     $filter, arrayUtilService, widgetFactoryService, dashboardDataService,
-    queryBuilderService, dashboardVersionService) {
+    queryBuilderService, dashboardVersionService, configService) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
+
+  /** @export {!ConfigService} */
+  this.config = configService;
 
   /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
@@ -229,15 +232,31 @@ DashboardService.prototype.selectContainer = function(container) {
  */
 DashboardService.prototype.rewriteQuery = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
+  goog.asserts.assert(this.current, 'Bad state: No dashboard selected.');
+
+  var widgetConfig = widget.model.datasource.config;
+
+  var project_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.project_id,
+      this.current.model.project_id,
+      this.config.default_project]);
+  var dataset_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.dataset_name,
+      this.current.model.dataset_name,
+      this.config.default_dataset]);
+  var table_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.table_name,
+      this.current.model.table_name,
+      this.config.default_table]);
+  var table_partition = this.arrayUtilService_.getFirst([
+      widgetConfig.results.table_partition,
+      this.current.model.table_partition,
+      this.DEFAULT_TABLE_PARTITION]);
 
   if (widget.model.datasource.custom_query !== true) {
     widget.model.datasource.query = this.queryBuilderService_.getSql(
         widget.model.datasource.config,
-        this.current.model.project_id,
-        this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
-        this.current.model.table_name || this.DEFAULT_TABLE_NAME,
-        this.current.model.table_partition
-    );
+        project_name, dataset_name, table_name, table_partition);
   }
 };
 
