@@ -133,7 +133,7 @@ class BigQueryClientTest(unittest.TestCase):
             table=table_name))
     self.temp_tables.discard((TEMP_DATASET_ID, table_name))
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQuery(self):
     query = ('SELECT number, letter, symbol '
              'FROM unit_test_data.query_test '
@@ -143,7 +143,7 @@ class BigQueryClientTest(unittest.TestCase):
                      {u'f': [{u'v': 3}, {u'v': u'c'}, {u'v': u'#'}]}]
     self.assertEquals(expected_rows, rows)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryMultiPage(self):
     query = ('SELECT number, letter, symbol '
              'FROM unit_test_data.query_test '
@@ -153,10 +153,8 @@ class BigQueryClientTest(unittest.TestCase):
                      {u'f': [{u'v': 3}, {u'v': u'c'}, {u'v': u'#'}]}]
     self.assertEquals(expected_rows, rows)
 
-  @pytest.mark.maintenance
-  @pytest.mark.xfail
+  @pytest.mark.integration
   def testCopyTable(self):
-    # TODO: Re-enable test when BQ copy issue is resolved.
     table_name = self.AddTempTableRef()
 
     self.client.CopyTable(source_dataset='unit_test_data',
@@ -181,7 +179,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.RemoveTempTableRef(table_name=table_name)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testCopyTableMissingSource(self):
     destination_table = self.client.GetRandomTableName()
     source_table = self.client.GetRandomTableName()
@@ -199,7 +197,7 @@ class BigQueryClientTest(unittest.TestCase):
         destination_dataset=TEMP_DATASET_ID,
         destination_table=destination_table)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testDeleteTable(self):
     table_name = self.AddTempTableRef()
 
@@ -226,7 +224,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.RemoveTempTableRef(table_name)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testTableExists(self):
     table_name = self.AddTempTableRef()
 
@@ -252,7 +250,7 @@ class BigQueryClientTest(unittest.TestCase):
     self.assertFalse(self.client.TableExists(dataset_name=TEMP_DATASET_ID,
                                              table_name=table_name))
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testListTableData(self):
     def VerifyListTable(reply):
       self.assertEquals(len(reply['rows']), 3)
@@ -264,7 +262,7 @@ class BigQueryClientTest(unittest.TestCase):
                               table_name='query_test',
                               page_callback=VerifyListTable)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testListTableDataMultiPage(self):
     self.page_counter = 0
 
@@ -289,7 +287,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.assertEquals(self.page_counter, 2)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryLargeResults(self):
     def _CallbackHandler(reply):
       self.assertEquals(len(reply['rows']), 2)
@@ -303,7 +301,7 @@ class BigQueryClientTest(unittest.TestCase):
     self.client.QueryLargeResults(query=query,
                                   page_callback=_CallbackHandler)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryLargeResultsExplicitTable(self):
     """Verifies that the BigQuery works with a specific table name.
 
@@ -336,7 +334,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.RemoveTempTableRef(table_name=temp_table_name)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryInto(self):
     query = 'SELECT number, letter, symbol FROM unit_test_data.query_test'
     table_name = self.AddTempTableRef()
@@ -483,7 +481,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.assertEqual(source_data, expected_data)
 
-  @pytest.mark.jobs
+  @pytest.mark.integration
   def testGetByJobId(self):
     job = self.client.GetJobByID('job_95d2c143954e4975a7c9c0731203a91a')
     self.assertEquals('1354925437485', job['statistics']['endTime'])
