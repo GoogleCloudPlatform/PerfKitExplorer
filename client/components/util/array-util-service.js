@@ -48,4 +48,20 @@ ArrayUtilService.prototype.swap = function(array, from, to) {
   array[to] = element;
 };
 
+
+/**
+ * Returns the first non-null item in the array.
+ * @param {Array.<*>} array
+ * @returns {*} The first non-null element in the array, or null if not found.
+ */
+ArrayUtilService.prototype.getFirst = function(array) {
+  for (var ctr = 0, len = array.length; ctr < len; ++ctr) {
+    if (!goog.string.isEmptySafe(array[ctr])) {
+      return array[ctr];
+    }
+  }
+
+  return null;
+};
+
 });  // goog.scope
