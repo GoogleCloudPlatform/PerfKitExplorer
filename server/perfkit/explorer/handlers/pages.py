@@ -25,7 +25,7 @@ import webapp2
 
 
 class MainPageHandler(base.RequestHandlerBase):
-  """Http handler for the root URL.  Redirects to the Admin page."""
+  """Http handler for the main Explorer HTML page."""
 
   def get(self):
     """Request handler for GET operations."""
@@ -33,7 +33,7 @@ class MainPageHandler(base.RequestHandlerBase):
 
 
 class ExplorePageHandler(base.RequestHandlerBase):
-  """Http handler for the Dashboard Explorer HTML page."""
+  """Http handler for the Report HTML page."""
 
   def get(self):
     """Request handler for GET operations."""
@@ -41,15 +41,15 @@ class ExplorePageHandler(base.RequestHandlerBase):
 
 
 class ReviewPageHandler(base.RequestHandlerBase):
-  """Http handler for the Review page.  This redirects to the Explorer page."""
+  """Http handler for the main Explorer HTML page."""
 
   def get(self):
     """Request handler for GET operations."""
-    self.redirect('/explore', True)
+    self.redirect('/explorer', True)
 
 
 class DashboardAdminPageHandler(base.RequestHandlerBase):
-  """Http handler for the Dashboard Admin HTML page."""
+  """Http handler for the Report HTML page."""
 
   def get(self):
     """Request handler for GET operations."""

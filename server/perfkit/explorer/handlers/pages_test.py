@@ -54,6 +54,7 @@ class PagesTest(unittest.TestCase):
     # TODO: Add a token to each page that can be used to better validate
     # behavior.
     resp = self.app.get(url='/', status=301)
+
     self.assertIsNotNone(resp.html)
 
   def testExplorePage(self):
