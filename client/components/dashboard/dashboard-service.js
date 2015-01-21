@@ -66,40 +66,40 @@ var WidgetType = explorer.models.WidgetType;
 explorer.components.dashboard.DashboardService = function(
     $filter, arrayUtilService, widgetFactoryService, dashboardDataService,
     queryBuilderService, dashboardVersionService) {
-  /** @private */
+  /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
-  /** @private @type {!ArrayUtilService} */
+  /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /** @private @type {!WidgetFactoryService} */
+  /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /** @private @type {!DashboardDataService} */
+  /** @private {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /** @private @type {!DashboardVersionService} */
+  /** @private {!DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
 
-  /** @private @type {!QueryBuilderService} */
+  /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
-  /** @export @type {!DashboardConfig} */
+  /** @export {!DashboardConfig} */
   this.current = this.initializeDashboard();
 
-  /** @export @type {!Array.<WidgetConfig>} */
+  /** @export {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
 
-  /** @export @type {WidgetConfig} */
+  /** @export {WidgetConfig} */
   this.selectedWidget = null;
 
-  /** @export @type {ContainerWidgetConfig} */
+  /** @export {ContainerWidgetConfig} */
   this.selectedContainer = null;
 
-  /** @export @type {string} */
+  /** @export {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
 
-  /** @export @type {Array.<!QueryTablePartitioning>} */
+  /** @export {Array.<!QueryTablePartitioning>} */
   this.TABLE_PARTITIONS = [
     {'partition': QueryTablePartitioning.ONETABLE,
      'label': 'Single Table',
@@ -109,7 +109,7 @@ explorer.components.dashboard.DashboardService = function(
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 
-  /** @export @type {Array.<!ErrorModel>} */
+  /** @export {Array.<!ErrorModel>} */
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;
