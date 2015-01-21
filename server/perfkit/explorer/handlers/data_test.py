@@ -53,6 +53,7 @@ class DataTest(unittest.TestCase):
         env=config.Environments.TESTING,
         credential_file=credentials_lib.DEFAULT_CREDENTIALS)
 
+  @pytest.mark.integration
   def testFieldsHandler(self):
     expected_result = [{u'name': u'jdoe'}]
 
@@ -67,6 +68,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['rows'], expected_result)
 
+  @pytest.mark.integration
   def testAllMetdataHandler(self):
     expected_result = [{u'count': 6, u'name': u'attributes',
                         u'values': [{u'count': 3, u'name': u'important'},
@@ -89,6 +91,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['labels'], expected_result)
 
+  @pytest.mark.integration
   def testFilteredMetadataHandler(self):
     expected_result = [{u'count': 1, u'name': u'perfect', u'values': []},
                        {u'count': 3, u'name': u'shape',
@@ -108,7 +111,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['labels'], expected_result)
 
-  @pytest.mark.testing
+  @pytest.mark.integration
   def testSqlHandler(self):
     sql = ('SELECT\n'
            '\tproduct_name,\n'
