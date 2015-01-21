@@ -46,7 +46,7 @@ class ExplorerQueryBase(object):
   # TODO: Update implementing classes to be data-driven configuration
   #              rather than hard-coded modules.
 
-  def __init__(self, data_client=None, project_name=None, dataset_name=None):
+  def __init__(self, data_client=None, dataset_name=None):
     """Create credentials and storage service.
 
     If a data_client is not provided, a credential_file will be used to get
@@ -55,11 +55,9 @@ class ExplorerQueryBase(object):
     Args:
       data_client: A class that provides data connectivity.  Typically a
           BigQueryClient instance or specialization.
-      project_name: The name of the BigQuery project that contains the results.
       dataset_name: The name of the BigQuery dataset that contains the results.
     """
     self._data_client = data_client
-    self.project_name = project_name
     self.dataset_name = dataset_name or big_query_client.DATASET_ID
 
     self._Initialize()
@@ -104,7 +102,7 @@ class ExplorerQueryBase(object):
       raise ArgumentError('The \'tables\' list is required.')
 
     sql = self.GetSql()
-    reply = self._data_client.Query(query=sql, project_id=self.project_name)
+    reply = self._data_client.Query(query=sql)
     for processor in self.reply_processors:
       processor(reply=reply)
 

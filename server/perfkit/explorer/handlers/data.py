@@ -23,6 +23,7 @@ referenced with GET requests.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
 import time
 
 import base
@@ -93,12 +94,12 @@ class FieldDataHandler(base.RequestHandlerBase):
     metric = filters['metric']
     field_name = self.request.GET.get('field_name')
 
+    config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
-    config = explorer_config.Get()
+    client.project_id = config.default_project
 
     query = explorer_method.ExplorerQueryBase(
         data_client=client,
-        project_name=config.default_project,
         dataset_name=config.default_dataset)
     query.fields = [field_name + ' AS name']
     query.tables = ['lookup_field_cube']
@@ -148,11 +149,12 @@ class MetadataDataHandler(base.RequestHandlerBase):
   def get(self):
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+    config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
-    config = explorer_config.Get()
+    client.project_id = config.default_project
+
     query = product_labels.ProductLabelsQuery(
         data_client=client,
-        project_name=config.default_project,
         dataset_name=config.default_dataset)
     filters = http_util.GetJsonParam(self.request, 'filters')
 
@@ -205,20 +207,18 @@ class SqlDataHandler(base.RequestHandlerBase):
     try:
       start_time = time.time()
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+
+      config = explorer_config.ExplorerConfigModel.Get()
       client = DataHandlerUtil.GetDataClient(self.env)
-      config = explorer_config.Get()
+      client.project_id = config.default_project
 
       request_data = json.loads(self.request.body)
       query = request_data['datasource']['query']
       query_config = request_data['datasource']['config']
 
-      cache_duration = data_source_config.Services.GetServiceUri(
-          self.env, data_source_config.Services.CACHE_DURATION) or None
+      cache_duration = config.cache_duration or None
 
-      response = client.Query(
-          query,
-          cache_duration=cache_duration,
-          project_id=config.default_project)
+      response = client.Query(query, cache_duration=cache_duration)
 
       if query_config['results'].get('pivot'):
         pivot_config = query_config['results']['pivot_config']
