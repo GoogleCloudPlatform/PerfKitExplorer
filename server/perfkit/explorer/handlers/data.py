@@ -23,6 +23,7 @@ referenced with GET requests.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
 import time
 
 import base
@@ -33,6 +34,7 @@ from perfkit.common import big_query_result_pivot
 from perfkit.common import data_source_config
 from perfkit.common import gae_big_query_client
 from perfkit.common import http_util
+from perfkit.explorer.model import explorer_config
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
 
@@ -92,9 +94,13 @@ class FieldDataHandler(base.RequestHandlerBase):
     metric = filters['metric']
     field_name = self.request.GET.get('field_name')
 
+    config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
-    query = explorer_method.ExplorerQueryBase(data_client=client,
-                                              dataset_name=DATASET_NAME)
+    client.project_id = config.default_project
+
+    query = explorer_method.ExplorerQueryBase(
+        data_client=client,
+        dataset_name=config.default_dataset)
     query.fields = [field_name + ' AS name']
     query.tables = ['lookup_field_cube']
     query.wheres = []
@@ -143,9 +149,13 @@ class MetadataDataHandler(base.RequestHandlerBase):
   def get(self):
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+    config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
-    query = product_labels.ProductLabelsQuery(data_client=client,
-                                              dataset_name=DATASET_NAME)
+    client.project_id = config.default_project
+
+    query = product_labels.ProductLabelsQuery(
+        data_client=client,
+        dataset_name=config.default_dataset)
     filters = http_util.GetJsonParam(self.request, 'filters')
 
     start_date = None
@@ -197,17 +207,21 @@ class SqlDataHandler(base.RequestHandlerBase):
     try:
       start_time = time.time()
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+
+      config = explorer_config.ExplorerConfigModel.Get()
       client = DataHandlerUtil.GetDataClient(self.env)
+      client.project_id = config.default_project
+
       request_data = json.loads(self.request.body)
       query = request_data['datasource']['query']
-      config = request_data['datasource']['config']
-      cache_duration = data_source_config.Services.GetServiceUri(
-          self.env, data_source_config.Services.CACHE_DURATION) or None
+      query_config = request_data['datasource']['config']
+
+      cache_duration = config.cache_duration or None
 
       response = client.Query(query, cache_duration=cache_duration)
 
-      if config['results'].get('pivot'):
-        pivot_config = config['results']['pivot_config']
+      if query_config['results'].get('pivot'):
+        pivot_config = query_config['results']['pivot_config']
 
         transformer = big_query_result_pivot.BigQueryPivotTransformer(
             reply=response,

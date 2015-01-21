@@ -54,46 +54,52 @@ var WidgetType = explorer.models.WidgetType;
 /**
  * See module docstring for more information about purpose and usage.
  *
+ * @param {!angular.Filter} queryBuilderService
  * @param {!ArrayUtilService} arrayUtilService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
+ * @param {!DashboardVersionService} dashboardVersionService
  * @constructor
  * @ngInject
  */
-explorer.components.dashboard.DashboardService = function(arrayUtilService,
-    widgetFactoryService, dashboardDataService, queryBuilderService, dashboardVersionService) {
-  /** @private @type {!ArrayUtilService} */
+explorer.components.dashboard.DashboardService = function(
+    $filter, arrayUtilService, widgetFactoryService, dashboardDataService,
+    queryBuilderService, dashboardVersionService) {
+  /** @private {!angular.Filter} */
+  this.filter_ = $filter;
+
+  /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /** @private @type {!WidgetFactoryService} */
+  /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /** @private @type {!DashboardDataService} */
+  /** @private {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /** @private @type {!DashboardVersionService} */
+  /** @private {!DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
 
-  /** @private @type {!QueryBuilderService} */
+  /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
-  /** @export @type {!DashboardConfig} */
+  /** @export {!DashboardConfig} */
   this.current = this.initializeDashboard();
 
-  /** @export @type {!Array.<WidgetConfig>} */
+  /** @export {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
 
-  /** @export @type {WidgetConfig} */
+  /** @export {WidgetConfig} */
   this.selectedWidget = null;
 
-  /** @export @type {ContainerWidgetConfig} */
+  /** @export {ContainerWidgetConfig} */
   this.selectedContainer = null;
 
-  /** @export @type {string} */
+  /** @export {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
 
-  /** @export @type {Array.<!QueryTablePartitioning>} */
+  /** @export {Array.<!QueryTablePartitioning>} */
   this.TABLE_PARTITIONS = [
     {'partition': QueryTablePartitioning.ONETABLE,
      'label': 'Single Table',
@@ -103,7 +109,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 
-  /** @export @type {Array.<!ErrorModel>} */
+  /** @export {Array.<!ErrorModel>} */
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;
@@ -117,7 +123,7 @@ DashboardService.prototype.initializeDashboard = function() {
   dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
 
   return dashboard;
-}
+};
 
 
 /**
@@ -386,7 +392,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
   var index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
-  if (container.model.container.children.length == 0) {
+  if (container.model.container.children.length === 0) {
     this.removeContainer(container);
   } else {
     container.model.container.columns -= widget.model.layout.columnspan;
@@ -412,7 +418,7 @@ DashboardService.prototype.moveWidgetToContainer = function(
   var index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
-  if (container.model.container.children.length == 0) {
+  if (container.model.container.children.length === 0) {
     this.removeContainer(container);
   } else {
     container.model.container.columns -= widget.model.layout.columnspan;
@@ -558,7 +564,7 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
   var containerIndex = this.widgets.indexOf(container);
   var targetContainer = null;
 
-  if (containerIndex == 0) {
+  if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
@@ -594,7 +600,7 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
   var index = container.model.container.children.indexOf(widget);
   var targetContainer = null;
 
-  if (containerIndex == (this.widgets.length - 1)) {
+  if (containerIndex === (this.widgets.length - 1)) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
@@ -631,5 +637,15 @@ DashboardService.prototype.addWriter = function(dashboard) {
 };
 
 
+/**
+ * Returns a partition object matching the specified name.
+ * @param {string} partitionName
+ * @return {Object}
+ * @export
+ */
+DashboardService.prototype.getTablePartition = function(partitionName) {
+  return this.filter_('getByProperty')(
+      'partition', partitionName, this.TABLE_PARTITIONS);
+};
 
 });  // goog.scope
