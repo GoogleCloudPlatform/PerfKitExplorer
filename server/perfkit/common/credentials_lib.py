@@ -40,13 +40,13 @@ class CredentialKeyError(Error):
 
 
 def GetAuthorizedCredentials(credential_path, env):
-  """Builds authorized credentials used for talking to apiary services.
+  """Builds authorized credentials used for communicating with backend services.
 
   As the file are stored in the repo and are frequently read only, we copy the
   credentials file to a temp file that is writable.  We need the file to be
   writable so we can update the access token in the file.  Otherwise we ask
-  apiary for a access token each time we need to auth, this can lead to us
-  exceeding apiary's rate limits.
+  for an access token each time we need to auth, this can lead to us
+  exceeding API rate limits.
 
   Args:
     credential_path: The path to a credentials file.
@@ -55,7 +55,7 @@ def GetAuthorizedCredentials(credential_path, env):
 
   Returns:
     An authorized credentials object that can be used to build client libraries
-    and issue authorized requests to apiary services.
+    and issue authorized requests to backend services.
 
   Raises:
     CredentialKeyError: If the env value passed is not a valid environment.
@@ -94,7 +94,7 @@ def _CopyCredentialsToTemp(src_path):
   """Copies credentials to a writable temp file."""
   # TODO: Make sure using different temporary files each time
   # is sufficient.  This is a simpler solution than using the same file, but it
-  # may not sufficiently lower the number of calls we issue to apiary.
+  # may not sufficiently lower the number of calls we issue to service APIs.
   temp_file = tempfile.NamedTemporaryFile(delete=False)
   shutil.copyfile(src_path, temp_file.name)
   return temp_file.name
