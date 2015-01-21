@@ -43,7 +43,7 @@ goog.scope(function() {
     return DashboardVersionUtil.VerifyDashboard(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config.results.table_partition)) {
         return false;
-      };
+      }
 
       return true;
     });
@@ -51,13 +51,13 @@ goog.scope(function() {
 
   DashboardSchema.prototype.update = function(dashboard) {
     if (!goog.isDef(dashboard.table_partition)) {
-      dashboard.table_partition = null;
+      dashboard.table_partition = '';
     }
 
     DashboardVersionUtil.UpdateDashboard(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config.results.table_partition)) {
-        widget.datasource.config.results.table_partition = null;
-      };
+        widget.datasource.config.results.table_partition = '';
+      }
     });
   };
 });
