@@ -52,7 +52,7 @@ ArrayUtilService.prototype.swap = function(array, from, to) {
 /**
  * Returns the first non-null item in the array.
  * @param {Array.<*>} array
- * @param {?bool} required If true, an error will be thrown if no item is found.
+ * @param {bool=} required If true, an error will be thrown if no item is found.
  *    Defaults to false.
  * @returns {*} The first non-null element in the array.  If no item is found,
  *    either null is returned or an error is raised, depending on the value of

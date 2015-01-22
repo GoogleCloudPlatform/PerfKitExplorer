@@ -108,7 +108,8 @@ explorer.models.perfkit_simple_builder.QueryDateGroupings = {
   DAY: 'Day',
   HOUR: 'Hour'
 };
-var QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
+var QueryDateGroupings = (
+    explorer.models.perfkit_simple_builder.QueryDateGroupings);
 
 
 /**
@@ -134,7 +135,8 @@ explorer.models.perfkit_simple_builder.SamplesMartFields = {
   METRIC_URI: 'metric_uri',
   SAMPLE_URI: 'sample_uri'
 };
-var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
+var SamplesMartFields = (
+    explorer.models.perfkit_simple_builder.SamplesMartFields);
 
 
 /**
@@ -155,7 +157,8 @@ explorer.models.perfkit_simple_builder.SamplesMartMeasures = {
   PCT_99: '99%',
   PCT_9999: '99.99%'
 };
-var SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
+var SamplesMartMeasures = (
+    explorer.models.perfkit_simple_builder.SamplesMartMeasures);
 
 
 /**
@@ -169,17 +172,23 @@ var QueryShapes = explorer.models.perfkit_simple_builder.QueryShapes;
 
 
 /**
- * Describes the possible structures of a BigQuery table.  The default (OnTable) assumes a single table with all
- * data.  PerDate tables contain a table for each individual day.  The Table Wildcard Functions are used to determine
- * which tables will be queries.  For more information on Table Wildcard Functions, see:
+ * Describes the possible structures of a BigQuery table.
+ *   Default - unset value.  Used to refer to parent scope settings, such as
+ *       the widget leaving it blank in favor of the dashboard setting.
+ *   OneTable - assumes a single table with all data.
+ *   PerDate - contains a table for each individual day.  The Table Wildcard
+ *       Functions are used to determine which tables will be queries.  For
+ *       more information on Table Wildcard Functions, see:
  *   https://cloud.google.com/bigquery/query-reference#tablewildcardfunctions
  * @enum {string}
  */
 explorer.models.perfkit_simple_builder.QueryTablePartitioning = {
+  DEFAULT: '',
   ONETABLE: 'OneTable',
   PERDAY: 'PerDay'
 };
-var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
+var QueryTablePartitioning = (
+    explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 
 
 /**
@@ -201,8 +210,8 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
 
   /**
    * A list of 'name' objects where name is a string describing the measure.
-   * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as well
-   * as percentiles (99%, etc.).
+   * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as
+   * well as percentiles (99%, etc.).
    * @export @type {Array.<!FieldResult>}
    */
   this.measures = [];
@@ -220,32 +229,32 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   this.row_limit = null;
 
   /**
-   * Specifies the project id that the query will connect to.  If not provided, will use the dashboard-level project
-   * id, or the app-engine default.
+   * Specifies the project id that the query will connect to.  If not provided,
+   * will use the dashboard-level project id, or the app-engine default.
    * @export @type {?string}
    */
   this.project_id = null;
 
   /**
-   * Specifies the dataset that the query will connect to.  If not provided, will use the dashboard-level dataset
-   * name, or the app-engine default.
+   * Specifies the dataset that the query will connect to.  If not provided,
+   * will use the dashboard-level dataset name, or the app-engine default.
    * @export @type {?string}
    */
   this.dataset_name = null;
 
   /**
-   * Specifies the table that the query will connect to.  If not provided, will use the dashboard-level table name
-   * or the app-engine default.
+   * Specifies the table that the query will connect to.  If not provided, will
+   * use the dashboard-level table name or the app-engine default.
    * @export @type {?string}
    */
   this.table_name = null;
 
   /**
-   * Specifies the type of partitioning used on the table.  For more information, see the docstring for
-   * QueryTablePartitioning.
+   * Specifies the type of partitioning used on the table.  For more
+   * information, see the docstring for QueryTablePartitioning.
    * @export @type {QueryTablePartitioning}
    */
-  this.table_partition = '';
+  this.table_partition = QueryTablePartitioning.DEFAULT;
 };
 
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
