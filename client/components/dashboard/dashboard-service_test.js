@@ -123,6 +123,16 @@ describe('dashboardService', function() {
 
   describe('refreshWidget', function() {
 
+    beforeEach(inject(function() {
+      configService.populate({
+        'default_project': 'TEST_PROJECT',
+        'default_dataset': 'TEST_DATASET',
+        'default_table': 'TEST_TABLE',
+        'analytics_key': 'TEST_ANALYTICS_KEY',
+        'cache_duration': 30
+      });
+    }));
+
     it('should change the widget datasource status to TOFETCH.', function() {
       chartWidget.state().datasource.status = ResultsDataStatus.FETCHED;
       svc.refreshWidget(chartWidget);

@@ -40,5 +40,14 @@ describe('arrayUtilService', function() {
 
       expect(actualValue).toBe(expectedValue);
     });
+
+    it('should raise if no valid items are provided and required is true.',
+        function() {
+          providedValues = ['', null, undefined];
+
+          expect(function() {
+            svc.getFirst(providedValues, true);
+          }).toThrowError('getFirst failed: No non-null item found.');
+        });
   });
 });

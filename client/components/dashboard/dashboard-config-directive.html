@@ -87,7 +87,7 @@
     <div class="sidebar-item-value">
       <select class="form-control"
               ng-model="ngModel.table_partition">
-        <option value="">
+        <option value="" selected>
           {{ dashboardSvc.getTablePartition(
                  dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)
         </option>
