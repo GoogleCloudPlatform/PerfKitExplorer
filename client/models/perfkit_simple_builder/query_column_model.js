@@ -150,7 +150,6 @@ explorer.models.perfkit_simple_builder.SamplesMartMeasures = {
   STDDEV: 'STDDEV',
   COUNT: 'COUNT',
   LAST: 'LAST',
-  MEAN: 'MEAN',
   SUM: 'SUM',
   VARIANCE: 'VARIANCE',
   PCT_50: '50%',
