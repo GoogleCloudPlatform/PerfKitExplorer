@@ -18,6 +18,7 @@
  */
 
 goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
@@ -30,26 +31,34 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderSe
 describe('explorerService', function() {
   var explorer = p3rf.perfkit.explorer;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  var ConfigService = explorer.components.config.ConfigService;
   var QueryBuilderService =
       explorer.models.perfkit_simple_builder.QueryBuilderService;
   var ResultsDataStatus = explorer.models.ResultsDataStatus;
   var WidgetConfig = explorer.models.WidgetConfig;
-  var svc;
-  var dashboardService;
-  var queryBuilderService;
-  var widgetFactoryService;
+  var svc, configService, dashboardService, queryBuilderService,
+      widgetFactoryService;
 
   var mockQuery = 'mock query';
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(explorerService, $httpBackend,
+  beforeEach(inject(function(explorerService, _configService_, $httpBackend,
       _dashboardService_, _queryBuilderService_, _widgetFactoryService_) {
         svc = explorerService;
+        configService = _configService_;
         dashboardService = _dashboardService_;
         queryBuilderService = _queryBuilderService_;
         widgetFactoryService = _widgetFactoryService_;
         httpBackend = $httpBackend;
+
+        configService.populate({
+          'default_project': 'TEST_PROJECT',
+          'default_dataset': 'TEST_DATASET',
+          'default_table': 'TEST_TABLE',
+          'analytics_key': 'TEST_ANALYTICS_KEY',
+          'cache_duration': 30
+        });
       }));
 
   it('should initialize the appropriate objects.', function() {
