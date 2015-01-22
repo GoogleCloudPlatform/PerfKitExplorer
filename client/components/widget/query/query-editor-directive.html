@@ -308,7 +308,7 @@
                 <div class="sidebar-item-value">
                   <select class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.table_partition">
-                    <option value="">
+                    <option value="" selected>
                       {{ queryEditorCtrl.dashboard.getTablePartition(
                              queryEditorCtrl.dashboard.current.model.table_partition ||
                              queryEditorCtrl.dashboard.DEFAULT_TABLE_PARTITION).label }} (default)

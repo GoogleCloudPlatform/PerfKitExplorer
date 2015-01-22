@@ -239,19 +239,19 @@ DashboardService.prototype.rewriteQuery = function(widget) {
   var project_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.project_id,
       this.current.model.project_id,
-      this.config.default_project]);
+      this.config.default_project], true);
   var dataset_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.dataset_name,
       this.current.model.dataset_name,
-      this.config.default_dataset]);
+      this.config.default_dataset], true);
   var table_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_name,
       this.current.model.table_name,
-      this.config.default_table]);
+      this.config.default_table], true);
   var table_partition = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_partition,
       this.current.model.table_partition,
-      this.DEFAULT_TABLE_PARTITION]);
+      this.DEFAULT_TABLE_PARTITION], true);
 
   if (widget.model.datasource.custom_query !== true) {
     widget.model.datasource.query = this.queryBuilderService_.getSql(

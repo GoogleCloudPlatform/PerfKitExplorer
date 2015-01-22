@@ -245,7 +245,7 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
    * QueryTablePartitioning.
    * @export @type {QueryTablePartitioning}
    */
-  this.table_partition = null;
+  this.table_partition = '';
 };
 
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
