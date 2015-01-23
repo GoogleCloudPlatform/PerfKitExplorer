@@ -21,6 +21,7 @@ Explorer application.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import base
+import urllib
 import webapp2
 
 
@@ -45,7 +46,8 @@ class ReviewPageHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
-    self.redirect('/explorer', True)
+    url = '/explore?' + urllib.urlencode(self.request.params)
+    self.redirect(url, True)
 
 
 class DashboardAdminPageHandler(base.RequestHandlerBase):
