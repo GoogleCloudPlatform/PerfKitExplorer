@@ -177,13 +177,6 @@ QueryConfigModel.applyQueryString = function(config, querystring) {
  * Initializes the default values for filters and results.
  */
 QueryConfigModel.prototype.initializeDefaults = function() {
-  this.filters.start_date.filter_type = DateFilterType.WEEK;
-  this.filters.start_date.filter_value = 2;
-  // TODO: Refactor date picker so that 'text' is not required in the model.
-  this.filters.start_date.text = 'last 2 weeks';
-
-  this.filters.official = true;
-
   this.results.row_limit = DEFAULT_ROW_LIMIT;
 
   this.results.show_date = true;
