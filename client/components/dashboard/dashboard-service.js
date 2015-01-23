@@ -20,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
@@ -38,6 +39,7 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
 var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+var ConfigService = explorer.components.config.ConfigService;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
@@ -60,6 +62,7 @@ var WidgetType = explorer.models.WidgetType;
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
  * @param {!DashboardVersionService} dashboardVersionService
+ * @param {!ConfigService} configService
  * @constructor
  * @ngInject
  */

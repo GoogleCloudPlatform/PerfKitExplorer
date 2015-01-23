@@ -41,6 +41,13 @@ describe('arrayUtilService', function() {
       expect(actualValue).toBe(expectedValue);
     });
 
+    it('should return null if no items are provided and required is false.',
+        function() {
+          providedValues = ['', null, undefined];
+
+          expect(svc.getFirst(providedValues, false)).toBeNull();
+        });
+
     it('should raise if no valid items are provided and required is true.',
         function() {
           providedValues = ['', null, undefined];

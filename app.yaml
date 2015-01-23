@@ -1,4 +1,4 @@
-application: google.com:gae-perf-kit-explorer-test
+application: UNSET
 version: 21
 runtime: python27  # Which runtime to use.
 api_version: 1     # Which version of the API to use for that runtime.
