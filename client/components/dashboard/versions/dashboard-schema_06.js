@@ -25,10 +25,13 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
+  var explorer = p3rf.perfkit.explorer;
+  var DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
+  var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6 = function() {
     this.version = '6';
@@ -40,10 +43,18 @@ goog.scope(function() {
       return false;
     }
 
-    return DashboardVersionUtil.VerifyDashboard(dashboard, null, function(widget) {
+    return DashboardVersionUtil.VerifyDashboard(
+        dashboard, null, function(widget) {
+      // Add the filters object if it doesn't exist.
+      // TODO: Replace this in the future with a PartialDashboard updater
+      // that completes a miminal dashboard model.
+      if (!goog.isDef(widget.datasource.config.filters)) {
+        widget.datasource.config.filters = new QueryFilterModel();
+      }
+
       if (!goog.isDef(widget.datasource.config.results.table_partition)) {
         return false;
-      };
+      }
 
       return true;
     });
@@ -51,13 +62,20 @@ goog.scope(function() {
 
   DashboardSchema.prototype.update = function(dashboard) {
     if (!goog.isDef(dashboard.table_partition)) {
-      dashboard.table_partition = null;
+      dashboard.table_partition = '';
     }
 
     DashboardVersionUtil.UpdateDashboard(dashboard, null, function(widget) {
+      // Add the filters object if it doesn't exist.
+      // TODO: Replace this in the future with a PartialDashboard updater
+      // that completes a miminal dashboard model.
+      if (!goog.isDef(widget.datasource.config.filters)) {
+        widget.datasource.config.filters = new QueryFilterModel();
+      }
+
       if (!goog.isDef(widget.datasource.config.results.table_partition)) {
-        widget.datasource.config.results.table_partition = null;
-      };
+        widget.datasource.config.results.table_partition = '';
+      }
     });
   };
 });

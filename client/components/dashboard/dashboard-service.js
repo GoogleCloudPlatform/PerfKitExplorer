@@ -20,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
@@ -39,6 +40,7 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
 var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+var ConfigService = explorer.components.config.ConfigService;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardParam = explorer.components.dashboard.DashboardParam;
@@ -60,50 +62,58 @@ var WidgetType = explorer.models.WidgetType;
  * @param {!WidgetFactoryService} widgetFactoryService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
+ * @param {!ConfigService} configService
+ * @param {!angular.Filter} $filter
  * @param {!angular.Location} $location
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     widgetFactoryService, dashboardDataService, queryBuilderService,
-    dashboardVersionService, $location) {
-  /** @private @type {!ArrayUtilService} */
+    dashboardVersionService, configService, $filter, $location) {
+  /** @private {!angular.Filter} */
+  this.filter_ = $filter;
+
+  /** @export {!ConfigService} */
+  this.config = configService;
+
+  /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /** @private @type {!WidgetFactoryService} */
+  /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /** @private @type {!DashboardDataService} */
+  /** @private {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /** @private @type {!DashboardVersionService} */
+  /** @private {!DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
 
-  /** @private @type {!QueryBuilderService} */
+  /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
   /** @private @type {!angular.Location} */
   this.location_ = $location;
 
-  /** @export @type {!DashboardConfig} */
+  /** @export {!DashboardConfig} */
   this.current = this.initializeDashboard();
 
-  /** @export @type {!Array.<WidgetConfig>} */
+  /** @export {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
 
-  /** @export @type {WidgetConfig} */
+  /** @export {WidgetConfig} */
   this.selectedWidget = null;
 
-  /** @export @type {ContainerWidgetConfig} */
+  /** @export {ContainerWidgetConfig} */
   this.selectedContainer = null;
 
-  /** @export @type {Array.<!DashboardParam>} */
+  /** @export {Array.<!DashboardParam>} */
   this.params = [];
 
-  /** @export @type {string} */
+  /** @export {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
 
-  /** @export @type {Array.<!QueryTablePartitioning>} */
+  /** @export {Array.<!QueryTablePartitioning>} */
   this.TABLE_PARTITIONS = [
     {'partition': QueryTablePartitioning.ONETABLE,
      'label': 'Single Table',
@@ -113,7 +123,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 
-  /** @export @type {Array.<!ErrorModel>} */
+  /** @export {Array.<!ErrorModel>} */
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;
@@ -265,15 +275,31 @@ DashboardService.prototype.selectContainer = function(container) {
  */
 DashboardService.prototype.rewriteQuery = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
+  goog.asserts.assert(this.current, 'Bad state: No dashboard selected.');
+
+  var widgetConfig = widget.model.datasource.config;
+
+  var project_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.project_id,
+      this.current.model.project_id,
+      this.config.default_project], true);
+  var dataset_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.dataset_name,
+      this.current.model.dataset_name,
+      this.config.default_dataset], true);
+  var table_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.table_name,
+      this.current.model.table_name,
+      this.config.default_table], true);
+  var table_partition = this.arrayUtilService_.getFirst([
+      widgetConfig.results.table_partition,
+      this.current.model.table_partition,
+      this.DEFAULT_TABLE_PARTITION], true);
 
   if (widget.model.datasource.custom_query !== true) {
     widget.model.datasource.query = this.queryBuilderService_.getSql(
         widget.model.datasource.config,
-        this.current.model.project_id,
-        this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
-        this.current.model.table_name || this.DEFAULT_TABLE_NAME,
-        this.current.model.table_partition
-    );
+        project_name, dataset_name, table_name, table_partition);
   }
 };
 
@@ -636,7 +662,7 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
   var index = container.model.container.children.indexOf(widget);
   var targetContainer = null;
 
-  if (containerIndex == (this.widgets.length - 1)) {
+  if (containerIndex === (this.widgets.length - 1)) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
@@ -673,5 +699,15 @@ DashboardService.prototype.addWriter = function(dashboard) {
 };
 
 
+/**
+ * Returns a partition object matching the specified name.
+ * @param {string} partitionName
+ * @return {Object}
+ * @export
+ */
+DashboardService.prototype.getTablePartition = function(partitionName) {
+  return this.filter_('getByProperty')(
+      'partition', partitionName, this.TABLE_PARTITIONS);
+};
 
 });  // goog.scope

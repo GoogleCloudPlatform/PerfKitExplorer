@@ -87,6 +87,11 @@
     <div class="sidebar-item-value">
       <select class="form-control"
               ng-model="ngModel.table_partition">
+        <option value="" selected>
+          {{ dashboardSvc.getTablePartition(
+                 dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)
+        </option>
+
         <option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
                 value="{{ option.partition }}"
                 title="{{ option.tooltip }}">{{ option.label }}</option>

@@ -279,7 +279,7 @@
                   <input class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.project_id"
                          placeholder="{{ queryEditorCtrl.dashboard.current.model.project_id ||
-                                         queryEditorCtrl.config.DEFAULT_PROJECT_ID }}">
+                                         queryEditorCtrl.config.default_project }}">
                 </div>
               </div>
 
@@ -289,7 +289,7 @@
                   <input class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.dataset_name"
                          placeholder="{{ queryEditorCtrl.dashboard.current.model.dataset_name ||
-                                         queryEditorCtrl.config.DEFAULT_DATASET_NAME }}">
+                                         queryEditorCtrl.config.default_dataset }}">
                 </div>
               </div>
 
@@ -299,7 +299,7 @@
                   <input class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.table_name"
                          placeholder="{{ queryEditorCtrl.dashboard.current.model.table_name ||
-                                         queryEditorCtrl.config.DEFAULT_TABLE_NAME }}">
+                                         queryEditorCtrl.config.default_table }}">
                 </div>
               </div>
 
@@ -308,6 +308,12 @@
                 <div class="sidebar-item-value">
                   <select class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.table_partition">
+                    <option value="" selected>
+                      {{ queryEditorCtrl.dashboard.getTablePartition(
+                             queryEditorCtrl.dashboard.current.model.table_partition ||
+                             queryEditorCtrl.dashboard.DEFAULT_TABLE_PARTITION).label }} (default)
+                    </option>
+
                     <option ng-repeat="option in queryEditorCtrl.dashboard.TABLE_PARTITIONS"
                             value="{{ option.partition }}"
                             title="{{ option.tooltip }}">{{ option.label }}</option>

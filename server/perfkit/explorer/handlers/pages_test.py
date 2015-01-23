@@ -47,6 +47,8 @@ class PagesTest(unittest.TestCase):
 
     self.testbed = testbed.Testbed()
     self.testbed.activate()
+    self.testbed.init_datastore_v3_stub()
+    self.testbed.init_memcache_stub()
 
   def testDefaultPage(self):
     # TODO: Add a token to each page that can be used to better validate
@@ -59,6 +61,13 @@ class PagesTest(unittest.TestCase):
     # TODO: Add a token to each page that can be used to better validate
     # behavior.
     resp = self.app.get(url='/explore', status=200)
+
+    self.assertIsNotNone(resp.html)
+
+  def testReviewPage(self):
+    # TODO: Add a token to each page that can be used to better validate
+    # behavior.
+    resp = self.app.get(url='/review', status=301)
 
     self.assertIsNotNone(resp.html)
 
