@@ -109,13 +109,7 @@ html, body {
   font-size: 13px;
   overflow-x: hidden;
   overflow-y: auto;
-  width: 220px;
-}
-
-.perfkit-sidebar-close-button {
-  float: right;
-  margin-right: 5px;
-  margin-top: -6px;
+  width: 240px;
 }
 
 .perfkit-page-content {
@@ -123,6 +117,22 @@ html, body {
   -webkit-flex-grow: 100;
   overflow-x: auto;
   overflow-y: auto;
+}
+
+.perfkit-footer-button {
+  float: right;
+}
+
+.perfkit-sidebar-button {
+  float: right;
+  top: 9px;
+  right: 8px;
+}
+
+.perfkit-glyph-button:hover {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
 }
 
 .perfkit-page-footer {
@@ -172,6 +182,7 @@ body {
 a {
   color: #1155CC;
   text-decoration: none;
+  cursor: pointer;
 }
 
 a:visited {

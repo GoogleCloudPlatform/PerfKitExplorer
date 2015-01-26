@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Main entry module for data specified in app.yaml.
 
@@ -15,13 +23,18 @@ referenced with GET requests.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
+import time
 
 import base
 
 from perfkit.common import big_query_client
 from perfkit.common import big_query_result_util as result_util
 from perfkit.common import big_query_result_pivot
+from perfkit.common import data_source_config
 from perfkit.common import gae_big_query_client
+from perfkit.common import http_util
+from perfkit.explorer.model import explorer_config
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
 
@@ -44,8 +57,9 @@ class DataHandlerUtil(object):
   def GetDataClient(cls, env):
     """Returns an instance of a data client for the specified environment.
 
-    This is used for testability and GAE support purposes to replace the default
-    GAE-enabled data client with a "local" one for running unit tests.
+    This is used for testability and GAE support purposes to replace the
+    default GAE-enabled data client with a "local" one for running unit
+    tests.
 
     Args:
       env: The environment to connect to.  For more detail, see
@@ -61,8 +75,9 @@ class FieldDataHandler(base.RequestHandlerBase):
   """Http handler for getting a list of distinct Field values (/data/fields).
 
   This handler allows start/end date, project_name, test and metric to be
-  supplied as GET parameters for filtering, and field_name determines the field
-  to return.  It returns, and returns an array of dicts in the following format:
+  supplied as GET parameters for filtering, and field_name determines the
+  field to return.  It returns, and returns an array of dicts in the
+  following format:
     [{'value': 'time-to-complete'},
      {'value': 'weight'}]
   """
@@ -70,7 +85,7 @@ class FieldDataHandler(base.RequestHandlerBase):
   def get(self):
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
-    filters = self.GetJsonParam('filters')
+    filters = http_util.GetJsonParam(self.request, 'filters')
 
     start_date = filters['start_date']
     end_date = filters['end_date']
@@ -79,9 +94,13 @@ class FieldDataHandler(base.RequestHandlerBase):
     metric = filters['metric']
     field_name = self.request.GET.get('field_name')
 
+    config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
-    query = explorer_method.ExplorerQueryBase(data_client=client,
-                                              dataset_name=DATASET_NAME)
+    client.project_id = config.default_project
+
+    query = explorer_method.ExplorerQueryBase(
+        data_client=client,
+        dataset_name=config.default_dataset)
     query.fields = [field_name + ' AS name']
     query.tables = ['lookup_field_cube']
     query.wheres = []
@@ -89,14 +108,16 @@ class FieldDataHandler(base.RequestHandlerBase):
     if start_date:
       query.wheres.append(
           'day_timestamp >= %s' %
-          explorer_method.ExplorerQueryBase.GetTimestampFromFilterExpression(
-              start_date))
+          (explorer_method.ExplorerQueryBase
+           .GetTimestampFromFilterExpression(
+               start_date)))
 
     if end_date:
       query.wheres.append(
           'day_timestamp <= %s' %
-          explorer_method.ExplorerQueryBase.GetTimestampFromFilterExpression(
-              end_date))
+          (explorer_method.ExplorerQueryBase
+           .GetTimestampFromFilterExpression(
+               end_date)))
 
     if product_name and field_name != 'product_name':
       query.wheres.append('product_name = "%s"' % product_name)
@@ -119,8 +140,8 @@ class FieldDataHandler(base.RequestHandlerBase):
 class MetadataDataHandler(base.RequestHandlerBase):
   """Http handler for getting a list of Metadata (Label/Values).
 
-  This handler requires project_name and test to be supplied as GET parameters,
-  and returns an array of dicts in the following format:
+  This handler requires project_name and test to be supplied as GET
+  parameters, and returns an array of dicts in the following format:
     [{'label': 'time-to-complete'},
      {'label': 'weight', 'value': '20'}]
   """
@@ -128,10 +149,14 @@ class MetadataDataHandler(base.RequestHandlerBase):
   def get(self):
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+    config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
-    query = product_labels.ProductLabelsQuery(data_client=client,
-                                              dataset_name=DATASET_NAME)
-    filters = self.GetJsonParam('filters')
+    client.project_id = config.default_project
+
+    query = product_labels.ProductLabelsQuery(
+        data_client=client,
+        dataset_name=config.default_dataset)
+    filters = http_util.GetJsonParam(self.request, 'filters')
 
     start_date = None
     if 'start_date' in filters and filters['start_date']:
@@ -154,8 +179,23 @@ class MetadataDataHandler(base.RequestHandlerBase):
 class SqlDataHandler(base.RequestHandlerBase):
   """Http handler for returning the results of a SQL statement (/data/sql).
 
-  This handler will look for a SQL query in the POST data with the parameter
-  name 'query'.  This query will be executed, and the result returned as Json.
+  This handler will look for a SQL query in the POST data with a datasource
+  parameter.  Notably, the following elements are expected:
+
+  {'datasource': {
+     'query': 'SELECT foo FROM bar',
+     'config': {
+       ... // Unused properties for a strict SQL statement.
+       'results': {
+         'pivot': false,
+         'pivot_config': {
+           'row_field': '',
+           'column_field': '',
+           'value_field': '',
+         }
+       }
+     }
+  }
 
   This handler returns an array of arrays in the following format:
     [['product_name', 'test', 'min', 'avg'],
@@ -165,15 +205,23 @@ class SqlDataHandler(base.RequestHandlerBase):
   def post(self):
     """Request handler for POST operations."""
     try:
+      start_time = time.time()
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+
+      config = explorer_config.ExplorerConfigModel.Get()
       client = DataHandlerUtil.GetDataClient(self.env)
+      client.project_id = config.default_project
+
       request_data = json.loads(self.request.body)
       query = request_data['datasource']['query']
-      config = request_data['datasource']['config']
-      response = client.Query(query)
+      query_config = request_data['datasource']['config']
 
-      if config['results']['pivot']:
-        pivot_config = config['results']['pivot_config']
+      cache_duration = config.cache_duration or None
+
+      response = client.Query(query, cache_duration=cache_duration)
+
+      if query_config['results'].get('pivot'):
+        pivot_config = query_config['results']['pivot_config']
 
         transformer = big_query_result_pivot.BigQueryPivotTransformer(
             reply=response,
@@ -182,9 +230,12 @@ class SqlDataHandler(base.RequestHandlerBase):
             values_name=pivot_config['value_field'])
         transformer.Transform()
 
-      self.RenderJson({
-          'results': result_util.ReplyFormatter.RowsToDataTableFormat(
-              response)})
+      response['results'] = (
+          result_util.ReplyFormatter.RowsToDataTableFormat(response))
+
+      elapsed_time = time.time() - start_time
+      response['elapsedTime'] = elapsed_time
+      self.RenderJson(response)
 
     # If 'expected' errors occur (specifically dealing with SQL problems),
     # return JSON with descriptive text so that we can give the user a

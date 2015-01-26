@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Transforms BigQuery data with a single-row/column pivot.
 
@@ -165,7 +173,9 @@ class BigQueryPivotTransformer(object):
 
       # If the target cell already has a value, throw an error.
       if self.transformed_rows[row_index]['f'][column_index]['v']:
-        logging.error('Pivot failed: value already exists at row "%s", col "%s".', row_name, column_name)
+        logging.error(
+            'Pivot failed: value already exists at row "%s", col "%s".',
+            row_name, column_name)
         raise DuplicateValueError()
 
       # Set the value of the target cell.

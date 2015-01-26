@@ -1,15 +1,22 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 GAE Model for the datastore."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
-import logging
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -27,13 +34,14 @@ class Error(Exception):
 
 
 class InitializeError(Error):
-
-  def __init__(self, message):
-    self.message = message
-    super(InitializeError, self).__init__(message)
+  pass
 
 
-class Dashboard (ndb.Model):
+class SecurityError(Error):
+  pass
+
+
+class Dashboard(ndb.Model):
   """Models a Dashboard definition (as JSON).
 
   Tracks the contents of the dashboard (data, stored as JSON string), plus the
@@ -42,6 +50,7 @@ class Dashboard (ndb.Model):
 
   created_by = ndb.UserProperty()
   modified_by = ndb.UserProperty()
+  writers = ndb.StringProperty(repeated=True)
   title = ndb.StringProperty(default='')
   data = ndb.TextProperty(default='')
   public = ndb.BooleanProperty(default=False)
@@ -99,6 +108,8 @@ class Dashboard (ndb.Model):
       data[fields.TITLE] = title
     else:
       new_dashboard.title = dashboard_row.title
+
+    data[fields.WRITERS] = []
 
     new_dashboard.data = json.dumps(data)
     return new_dashboard.put().integer_id()
@@ -163,6 +174,64 @@ class Dashboard (ndb.Model):
 
     dashboard_row.put()
 
+  def writersChanged(self, new_writers):
+    """Returns True if the owner or writers have changed, False if not.
+
+    Args:
+      new_contributors: A list of objects that contain email addresses.
+    """
+    old_emails = [user for user in self.writers]
+    new_emails = [user.get('email') for user in new_writers]
+
+    return cmp(old_emails, new_emails) != 0
+
+
+  def isOwner(self):
+    """Returns True if the current user is an admin, or the owner.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided user is an owner or admin for the current dashboard.
+      Otherwise, false.
+    """
+    return (
+        users.is_current_user_admin() or
+        users.get_current_user() == self.created_by)
+
+  def isContributor(self):
+    """Returns True if any of the data.contributors email addresses is the
+    current user.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided email address exists in data.contributors.
+      Otherwise, false.
+    """
+    email = users.get_current_user().email().lower()
+
+    for user_email in self.writers:
+      if user_email.lower() == email:
+        return True
+
+    return False
+
+  def canEdit(self):
+    """Returns True if the current user is an admin, the owner or a
+    contributor.
+
+    Args:
+      user: A GAE user object.
+
+    Returns:
+      True if the provided user is an owner, admin or contributor for the
+      current dashboard.  Otherwise, false.
+    """
+    return (self.isOwner() or self.isContributor())
+
   def GetDashboardData(self):
     """Returns a JSON representation of the 'data' field.
 
@@ -170,7 +239,8 @@ class Dashboard (ndb.Model):
       A JSON object representation of the dashboard's data.
 
     Raises:
-      InitializeError: If the data field contains invalid JSON or doesn't exist.
+      InitializeError: If the data field contains invalid JSON or doesn't
+      exist.
     """
     str_value = self.data
 

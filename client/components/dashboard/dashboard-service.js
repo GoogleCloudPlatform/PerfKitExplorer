@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview dashboardService is an angular service used to maintain the
  * data related to the dashboard and to manage the dashboard's widgets.
@@ -12,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
@@ -22,6 +31,7 @@ goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 goog.require('goog.array');
 goog.require('goog.asserts');
 
@@ -29,11 +39,14 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
 var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+var ConfigService = explorer.components.config.ConfigService;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var QueryBuilderService = (
     explorer.models.perfkit_simple_builder.QueryBuilderService);
+var QueryTablePartitioning = (
+    explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 var ResultsDataStatus = explorer.models.ResultsDataStatus;
 var WidgetConfig = explorer.models.WidgetConfig;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
@@ -43,90 +56,66 @@ var WidgetType = explorer.models.WidgetType;
 /**
  * See module docstring for more information about purpose and usage.
  *
+ * @param {!angular.Filter} queryBuilderService
  * @param {!ArrayUtilService} arrayUtilService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
+ * @param {!DashboardVersionService} dashboardVersionService
+ * @param {!ConfigService} configService
  * @constructor
  * @ngInject
  */
-explorer.components.dashboard.DashboardService = function(arrayUtilService,
-    widgetFactoryService, dashboardDataService, queryBuilderService, dashboardVersionService) {
-  /**
-   * @type {!ArrayUtilService}
-   * @private
-   */
+explorer.components.dashboard.DashboardService = function(
+    $filter, arrayUtilService, widgetFactoryService, dashboardDataService,
+    queryBuilderService, dashboardVersionService, configService) {
+  /** @private {!angular.Filter} */
+  this.filter_ = $filter;
+
+  /** @export {!ConfigService} */
+  this.config = configService;
+
+  /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /**
-   * @type {!WidgetFactoryService}
-   * @private
-   */
+  /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /**
-   * @type {!DashboardDataService}
-   * @private
-   */
+  /** @private {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /**
-   * @type {!DashboardVersionService}
-   * @private
-   */
+  /** @private {!DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
 
-  /**
-   * @type {!QueryBuilderService}
-   * @private
-   */
+  /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
-  /**
-   * @type {!DashboardConfig}
-   * @export
-   */
+  /** @export {!DashboardConfig} */
   this.current = this.initializeDashboard();
 
-  /**
-   * @type {!Array.<WidgetConfig>}
-   * @export
-   */
+  /** @export {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
 
-  /**
-   * @type {WidgetConfig}
-   * @export
-   */
+  /** @export {WidgetConfig} */
   this.selectedWidget = null;
 
-  /**
-   * @type {ContainerWidgetConfig}
-   * @export
-   */
+  /** @export {ContainerWidgetConfig} */
   this.selectedContainer = null;
 
-  /**
-   *
-   * @type {string}
-   * @export
-   */
-  this.DEFAULT_PROJECT_ID = DEFAULT_QUERY_PROJECT_ID;
+  /** @export {string} */
+  this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
 
-  /**
-   *
-   * @type {string}
-   * @export
-   */
-  this.DEFAULT_DATASET_NAME = 'samples_mart';
+  /** @export {Array.<!QueryTablePartitioning>} */
+  this.TABLE_PARTITIONS = [
+    {'partition': QueryTablePartitioning.ONETABLE,
+     'label': 'Single Table',
+     'tooltip': 'All data is stored in a single table.'},
+    {'partition': QueryTablePartitioning.PERDAY,
+     'label': 'Table per Day',
+     'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
+  ];
 
-  /**
-   *
-   * @type {string}
-   * @export
-   */
-  this.DEFAULT_TABLE_NAME = 'results';
-
+  /** @export {Array.<!ErrorModel>} */
   this.errors = [];
 };
 var DashboardService = explorer.components.dashboard.DashboardService;
@@ -140,7 +129,7 @@ DashboardService.prototype.initializeDashboard = function() {
   dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
 
   return dashboard;
-}
+};
 
 
 /**
@@ -242,27 +231,52 @@ DashboardService.prototype.selectContainer = function(container) {
 
 
 /**
- * Changes the widget datasource status to TOFETCH.
+ * Rewrites the current widget's query based on the config.
+ */
+DashboardService.prototype.rewriteQuery = function(widget) {
+  goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
+  goog.asserts.assert(this.current, 'Bad state: No dashboard selected.');
+
+  var widgetConfig = widget.model.datasource.config;
+
+  var project_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.project_id,
+      this.current.model.project_id,
+      this.config.default_project], true);
+  var dataset_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.dataset_name,
+      this.current.model.dataset_name,
+      this.config.default_dataset], true);
+  var table_name = this.arrayUtilService_.getFirst([
+      widgetConfig.results.table_name,
+      this.current.model.table_name,
+      this.config.default_table], true);
+  var table_partition = this.arrayUtilService_.getFirst([
+      widgetConfig.results.table_partition,
+      this.current.model.table_partition,
+      this.DEFAULT_TABLE_PARTITION], true);
+
+  if (widget.model.datasource.custom_query !== true) {
+    widget.model.datasource.query = this.queryBuilderService_.getSql(
+        widget.model.datasource.config,
+        project_name, dataset_name, table_name, table_partition);
+  }
+};
+
+
+/**
+ * Updates the widget's query, if applicable, and changes the widget
+ * datasource status to TOFETCH.
  *
  * @param {!WidgetConfig} widget
  * @export
  */
 DashboardService.prototype.refreshWidget = function(widget) {
-  goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
+  this.rewriteQuery(widget);
 
-  if (widget.model.datasource.custom_query !== true) {
-    widget.model.datasource.query = this.queryBuilderService_.getSql(
-        widget.model.datasource.config,
-        this.current.model.project_id,
-        this.current.model.dataset_name || this.DEFAULT_DATASET_NAME,
-        this.current.model.table_name || this.DEFAULT_TABLE_NAME);
+  if (widget.model.datasource.query) {
+    widget.state().datasource.status = ResultsDataStatus.TOFETCH;
   }
-
-  if (!widget.model.datasource.query) {
-    return;
-  }
-
-  widget.state().datasource.status = ResultsDataStatus.TOFETCH;
 };
 
 
@@ -278,8 +292,9 @@ DashboardService.prototype.customizeSql = function(widget) {
   }
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
-  widget.model.datasource.query = this.queryBuilderService_.getSql(
-      widget.model.datasource.config);
+
+  this.rewriteQuery(widget);
+
   widget.model.datasource.custom_query = true;
 };
 
@@ -399,7 +414,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
   var index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
-  if (container.model.container.children.length == 0) {
+  if (container.model.container.children.length === 0) {
     this.removeContainer(container);
   } else {
     container.model.container.columns -= widget.model.layout.columnspan;
@@ -425,7 +440,7 @@ DashboardService.prototype.moveWidgetToContainer = function(
   var index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
-  if (container.model.container.children.length == 0) {
+  if (container.model.container.children.length === 0) {
     this.removeContainer(container);
   } else {
     container.model.container.columns -= widget.model.layout.columnspan;
@@ -571,7 +586,7 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
   var containerIndex = this.widgets.indexOf(container);
   var targetContainer = null;
 
-  if (containerIndex == 0) {
+  if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
@@ -607,7 +622,7 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
   var index = container.model.container.children.indexOf(widget);
   var targetContainer = null;
 
-  if (containerIndex == (this.widgets.length - 1)) {
+  if (containerIndex === (this.widgets.length - 1)) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
@@ -634,5 +649,25 @@ DashboardService.prototype.deleteDashboard = function(dashboard) {
 };
 
 
+/**
+ * Adds an empty entry to the list of authorized writers.
+ * @param {DashboardModel} dashboard
+ * @export
+ */
+DashboardService.prototype.addWriter = function(dashboard) {
+  this.current.model.writers.push({'email': ''});
+};
+
+
+/**
+ * Returns a partition object matching the specified name.
+ * @param {string} partitionName
+ * @return {Object}
+ * @export
+ */
+DashboardService.prototype.getTablePartition = function(partitionName) {
+  return this.filter_('getByProperty')(
+      'partition', partitionName, this.TABLE_PARTITIONS);
+};
 
 });  // goog.scope

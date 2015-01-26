@@ -1,0 +1,44 @@
+<div>
+  <div ng-controller="WidgetEditorCtrl as widgetEditorCtrl"
+       ng-show="ngModel.chart">
+
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Chart</div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-item-label">title</div>
+        <div class="sidebar-item-value">
+          <input type="text" class="form-control" ng-model="ngModel.title">
+        </div>
+      </div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-item-label">chart type</div>
+        <div class="sidebar-item-value">
+          <select ng-model="ngModel.chart.chartType"
+                  class="sidebar-input-full form-control">
+            <option value="{{ chart.className }}" ng-repeat="chart in chartSvc.allCharts">{{ chart.title }}</option>
+          </select>
+        </div>
+        <div class="sidebar-item-value">
+          <a ng-href="https://developers.google.com/chart/interactive/docs/gallery/{{ ngModel.chart.chartType | lowercase }}"
+             target="gvizDocs">Open documentation</a>
+        </div>
+      </div>
+
+      <div class="sidebar-item">
+        <div class="sidebar-item-label">column span</div>
+        <div class="sidebar-item-value">
+          <input type="number" min="1" class="form-control"
+                 ng-model="ngModel.layout.columnspan">
+        </div>
+      </div>
+
+      <div class="sidebar-group-buttons">
+        <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
+          Chart editor
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

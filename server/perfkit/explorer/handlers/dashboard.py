@@ -1,14 +1,22 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Main entry module for dashboard data specified in app.yaml.
 
-This module contains the Http handlers for dashboard data requests (as JSON) in
-the Perfkit Explorer application (as well as other consumers).  GAE's data store
-is used to store, retrieve and manage JSON representations of Explorer
+This module contains the Http handlers for dashboard data requests (as JSON)
+in the Perfkit Explorer application (as well as other consumers).  GAE's data
+store is used to store, retrieve and manage JSON representations of Explorer
 dashboards.
 
 The following API is supported:
@@ -27,8 +35,8 @@ POST methods:
   /dashboard/create - Returns the dashboard JSON with the ID added.
   /dashboard/edit?id={number} - Returns status 200 if successful.
 
-  * note that all POST methods contain a parameter fields.DATA that contains the
-    dashboard JSON.
+  * note that all POST methods contain a parameter fields.DATA that contains
+    the dashboard JSON.
 """
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
@@ -37,6 +45,7 @@ import json
 import logging
 
 import base
+from perfkit.common import http_util
 from perfkit.explorer.model import dashboard as dashboard_model
 from perfkit.explorer.model import dashboard_fields as fields
 from perfkit.explorer.model import error_fields
@@ -54,33 +63,38 @@ class ViewDashboardHandler(base.RequestHandlerBase):
   This GET method is used to retrieve the JSON for a dashboard by its numeric
   id.
 
-  Supported Modes: GET
+  Supported Modes: GET, POST
   GET parameters:
-    id: int.  The unique numeric identifier for the dashboard.  This value is
-        required.
+      id: int.  The unique numeric identifier for the dashboard.  This value
+        is required.
 
   Returns:
-    JSON representation of the dashboard, as a string.
+      JSON representation of the dashboard, as a string.
   """
 
   def get(self):
     """Request handler for GET operations."""
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
+      dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
       data = row.GetDashboardData()
-      filename = self.GetStringParam('filename', required=False)
+      filename = http_util.GetStringParam(
+          self.request, 'filename', required=False)
 
       self.RenderJson(data, filename=filename)
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except Exception as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
+
+  def post(self):
+    self.get()
 
 
 class CreateDashboardHandler(base.RequestHandlerBase):
   """Http handler for creating a dashboard definition.
 
-  This POST method is used to save a JSON definition of a dashboard, and returns
-  a JSON packet with the selected ID.
+  This POST method is used to save a JSON definition of a dashboard, and
+  returns a JSON packet with the selected ID.
 
   Supported Modes: POST
   POST parameters:
@@ -95,34 +109,35 @@ class CreateDashboardHandler(base.RequestHandlerBase):
 
     try:
       owner_email = None
-      data = self.GetJsonParam(fields.DATA)
+      data = http_util.GetJsonParam(self.request, fields.DATA)
 
-      if fields.OWNER in data:
-        owner_email = data[fields.OWNER]
+      owner_email = data.get(fields.OWNER)
 
       title = dashboard_model.Dashboard.GetDashboardTitle(data)
-      created_by = dashboard_model.Dashboard.GetDashboardOwner(owner_email)
+      owner = dashboard_model.Dashboard.GetDashboardOwner(owner_email)
 
       dashboard = dashboard_model.Dashboard()
-      dashboard.created_by = created_by
+      dashboard.created_by = users.get_current_user()
       dashboard.title = title
       dashboard_id = dashboard.put().integer_id()
 
       # Now that we have an ID, save the data with an ID attached.
       data[fields.ID] = str(dashboard_id)
-      data[fields.OWNER] = created_by.email()
+      data[fields.OWNER] = owner_email or owner.email()
       dashboard.data = json.dumps(data)
       dashboard.put()
 
       self.RenderJson(data)
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
 
 
 class UploadDashboardHandler(base.RequestHandlerBase):
   """Http handler for uploading a dashboard definition.
 
-  This POST method is used to upload a file from the requester's computer, and
+  This POST method is used to upload a file from the requester's computer.
 
   Supported Modes: POST
   POST parameters:
@@ -137,13 +152,14 @@ class UploadDashboardHandler(base.RequestHandlerBase):
 
     try:
       owner_email = None
-      data = self.GetJsonParam(fields.DATA)
+      data = http_util.GetJsonParam(self.request, fields.DATA)
 
       if fields.OWNER in data:
         owner_email = data[fields.OWNER]
 
       title = dashboard_model.Dashboard.GetDashboardTitle(data)
-      created_by = dashboard_model.Dashboard.GetDashboardOwner(owner_email)
+      created_by = dashboard_model.Dashboard.GetDashboardOwner(
+          owner_email)
 
       dashboard = dashboard_model.Dashboard()
       dashboard.created_by = created_by
@@ -157,8 +173,10 @@ class UploadDashboardHandler(base.RequestHandlerBase):
       dashboard.put()
 
       self.RenderJson(data)
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
 
 
 class EditDashboardHandler(base.RequestHandlerBase):
@@ -178,8 +196,19 @@ class EditDashboardHandler(base.RequestHandlerBase):
     current_owner_email = None
 
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
-      data = self.GetJsonParam(fields.DATA)
+      dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
+      row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
+
+      if (not row.canEdit()):
+        msg = ('You are not an owner or writer for this dashboard, '
+               'and cannot modify it.  Contact {owner} for access.'
+               .format(owner=row.created_by.email()))
+        self.RenderJson(
+            data={error_fields.MESSAGE: msg},
+            status=403)
+        return
+
+      data = http_util.GetJsonParam(self.request, fields.DATA)
       title = dashboard_model.Dashboard.GetDashboardTitle(data)
       if fields.OWNER in data:
         current_owner_email = data[fields.OWNER]
@@ -189,33 +218,48 @@ class EditDashboardHandler(base.RequestHandlerBase):
             current_owner_email)
       except users.UserNotFoundError:
         new_owner = users.get_current_user()
+        data[fields.OWNER] = new_owner.email()
         warning = (
-            'The user {current} does not exist.  Owner set to {new}.'.format(
+            'The user {current} does not exist.  Owner set to {new}.'
+            .format(
                 current=current_owner_email, new=new_owner.email()))
         logging.error(warning)
         data[error_fields.WARNINGS] = [warning]
 
-      data[fields.OWNER] = new_owner.email()
+      if 'writers' not in data:
+        data['writers'] = []
 
-      row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
+      new_writers = data.get('writers')
+      writers_changed = row.writersChanged(data.get('writers'))
+      owners_changed = (data[fields.OWNER] != new_owner.email())
 
-      if (not users.is_current_user_admin() and
-          row.created_by != users.get_current_user()):
-        msg = ('This dashboard is owned by {owner}, and cannot be modified.'
-               .format(owner=row.created_by))
-        self.RenderJson(
-            data={error_fields.MESSAGE: msg},
-            status=400)
-        return
+      if owners_changed or writers_changed:
+        if (not row.isOwner()):
+          msg = ('You are not an owner of this dashboard, and cannot'
+                 'transfer ownership.  Contact {owner} for '
+                 'reassignment if this is in error.'
+                 .format(owner=row.created_by.email()))
+          self.RenderJson(
+              data={error_fields.MESSAGE: msg},
+              status=403)
+          return
+
+        if owners_changed:
+          data[fields.OWNER] = new_owner.email()
+
+        if writers_changed:
+          row.writers = [writer['email'] for writer in new_writers]
 
       row.data = json.dumps(data)
       row.title = title
-      row.created_by = new_owner
+      row.owner = new_owner
       row.modified_by = users.get_current_user()
       row.put()
       self.RenderJson(data)
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
 
 
 class CopyDashboardHandler(base.RequestHandlerBase):
@@ -233,17 +277,23 @@ class CopyDashboardHandler(base.RequestHandlerBase):
     The ID of the new dashboard.
   """
 
-  def post(self):
+  def get(self):
     """Request handler for POST operations."""
 
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
-      title = self.GetStringParam(fields.TITLE, False)
+      dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
+      title = http_util.GetStringParam(self.request, fields.TITLE, False)
 
-      new_id = dashboard_model.Dashboard.CopyDashboard(dashboard_id, title)
+      new_id = dashboard_model.Dashboard.CopyDashboard(
+          dashboard_id, title)
       self.RenderJson(data={fields.ID: new_id})
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
+
+  def post(self):
+    self.get()
 
 
 class RenameDashboardHandler(base.RequestHandlerBase):
@@ -258,16 +308,30 @@ class RenameDashboardHandler(base.RequestHandlerBase):
     title: string.  The new title of the dashboard.
   """
 
-  def post(self):
+  def get(self):
     """Request handler for POST operations."""
+    dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
+    row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
+
+    if (not row.canEdit()):
+      msg = ('You are not an owner or writer for this dashboard, and '
+             'cannot modify it.  Contact {owner} for access.'
+             .format(owner=row.created_by.email()))
+      self.RenderJson(
+          data={error_fields.MESSAGE: msg},
+          status=403)
+      return
 
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
-      title = self.GetStringParam(fields.TITLE)
-
+      title = http_util.GetStringParam(self.request, fields.TITLE)
       dashboard_model.Dashboard.RenameDashboard(dashboard_id, title)
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
+
+  def post(self):
+    self.get()
 
 
 class EditDashboardOwnerHandler(base.RequestHandlerBase):
@@ -282,18 +346,34 @@ class EditDashboardOwnerHandler(base.RequestHandlerBase):
     email: string.  The email of the new owner.
   """
 
-  def post(self):
+  def get(self):
     """Request handler for POST operations."""
 
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
-      email = self.GetStringParam(fields.EMAIL)
+      dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
+      row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
+
+      if (not row.isOwner()):
+        msg = ('You are not an owner of this dashboard, and cannot '
+               'transfer ownership.  Contact {owner} for '
+               'reassignment if this is in error.'
+               .format(owner=row.created_by.email()))
+        self.RenderJson(
+            data={error_fields.MESSAGE: msg},
+            status=403)
+        return
+      email = http_util.GetStringParam(self.request, fields.EMAIL)
 
       dashboard_model.Dashboard.EditDashboardOwner(dashboard_id, email)
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
       logging.error('EditDashboardOwnerHandler() failed:')
       logging.error(err)
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
+
+  def post(self):
+    self.get()
 
 
 class DeleteDashboardHandler(base.RequestHandlerBase):
@@ -306,25 +386,29 @@ class DeleteDashboardHandler(base.RequestHandlerBase):
     id: number.  The ID of the dashboard.
   """
 
-  def post(self):
+  def get(self):
     """Request handler for POST operations."""
     try:
-      dashboard_id = self.GetIntegerParam(fields.ID)
+      dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
 
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
 
-      if (not users.is_current_user_admin() and
-          row.created_by != users.get_current_user()):
-        msg = ('This dashboard is owned by {owner}, and cannot be modified.'
-               .format(owner=row.created_by))
+      if not(row.isOwner()):
+        msg = ('This dashboard is owned by {owner}, and cannot be '
+               'modified.'.format(owner=row.created_by.email()))
         self.RenderJson(
             data={error_fields.MESSAGE: msg},
-            status=400)
+            status=403)
         return
 
       row.key.delete()
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
-      self.RenderJson(data={error_fields.MESSAGE: err.message}, status=400)
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
+      self.RenderJson(
+          data={error_fields.MESSAGE: err.message}, status=400)
+
+  def post(self):
+    self.get()
 
 
 class ListDashboardHandler(base.RequestHandlerBase):
@@ -333,7 +417,8 @@ class ListDashboardHandler(base.RequestHandlerBase):
   Supported Modes: GET
   GET parameters:
     owner: string.  The owner, if any, to filter on.
-    mine: boolean.  If true, only returns dashboards owned by the current user.
+    mine: boolean.  If true, only returns dashboards owned by the current
+      user.
   """
 
   def get(self):
@@ -347,17 +432,19 @@ class ListDashboardHandler(base.RequestHandlerBase):
 
       filter_property = ndb.GenericProperty(fields.CREATED_BY)
       if owner:
-        owner_user = user_validator.UserValidator.GetUserFromEmail(owner)
+        owner_user = user_validator.UserValidator.GetUserFromEmail(
+            owner)
 
         if owner_user:
-          query.filter(filter_property == owner_user)
+          query = query.filter(filter_property == owner_user)
         else:
           self.RenderJson({fields.DATA: []})
           return
       elif mine:
-        query.filter(filter_property == users.get_current_user())
+        query = query.filter(
+            filter_property == users.get_current_user())
 
-      query.order(dashboard_model.Dashboard.title)
+      query = query.order(dashboard_model.Dashboard.title)
       results = query.fetch(limit=1000)
 
       response = []
@@ -369,7 +456,8 @@ class ListDashboardHandler(base.RequestHandlerBase):
                            dashboard_model.DEFAULT_DASHBOARD_TITLE)})
 
       self.RenderJson({fields.DATA: response})
-    except (base.InitializeError, dashboard_model.InitializeError) as err:
+    except (base.InitializeError, dashboard_model.InitializeError,
+            http_util.ParameterError) as err:
       self.RenderJson(data={error_fields.MESSAGE: err}, status=400)
 
   def post(self):

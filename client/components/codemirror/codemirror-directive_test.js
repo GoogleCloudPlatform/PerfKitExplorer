@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Test for codemirror, an angular directive that wraps
  * codemirror.
@@ -76,7 +84,7 @@ describe('uiCodemirror', function() {
 
     beforeEach(function() {
       var fromTextArea = CodeMirror.fromTextArea;
-      spyOn(CodeMirror, 'fromTextArea').andCallFake(function() {
+      spyOn(CodeMirror, 'fromTextArea').and.callFake(function() {
         codemirror = fromTextArea.apply(this, arguments);
         return codemirror;
       });
@@ -90,7 +98,7 @@ describe('uiCodemirror', function() {
         $compile('<div><textarea codemirror="{oof: \'baar\'}" ' +
                  'ng-model="foo"></textarea></div>')(scope);
         $timeout.flush();
-        expect(CodeMirror.fromTextArea.mostRecentCall.args[1].oof).
+        expect(CodeMirror.fromTextArea.calls.mostRecent().args[1].oof).
             toEqual('baar');
       });
 
@@ -101,7 +109,7 @@ describe('uiCodemirror', function() {
         $compile('<div><textarea codemirror ng-model="foo">' +
                  '</textarea></div>')(scope);
         $timeout.flush();
-        expect(CodeMirror.fromTextArea.mostRecentCall.args[1].bar).
+        expect(CodeMirror.fromTextArea.calls.mostRecent().args[1].bar).
             toEqual('baz');
       });
     });
@@ -120,7 +128,7 @@ describe('uiCodemirror', function() {
         expect(codemirror.refresh).toHaveBeenCalled();
         scope.$apply('bar = false');
         $timeout.flush();
-        expect(spy.callCount).toEqual(2);
+        expect(spy.calls.count()).toEqual(2);
       });
     });
 

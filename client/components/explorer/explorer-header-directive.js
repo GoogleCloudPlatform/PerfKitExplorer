@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview ExplorerHeaderDirective encapsulates HTML, style and behavior
  *     for the page header of Explorer.
@@ -29,15 +37,22 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
-    controller: function($scope, explorerService, dashboardService) {
+    controller: function($scope, $modal,
+        explorerService, dashboardService, errorService) {
       /** @export */
       this.explorer = explorerService;
+
+      /** @private */
+      this.modal_ = $modal;
 
       /** @export */
       this.dashboard = dashboardService;
 
       /** @export */
       this.dashboards = this.explorer.model.dashboards;
+
+      /** @export */
+      this.errorService = errorService;
 
       /** @export */
       this.currentMode = 'dashboard';
@@ -275,6 +290,14 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
                 '/dashboard/view?id=' + selectedDashboard.id +
                 '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
       };
+
+      /** @export */
+      this.editConfig = function() {
+        this.modal_.open({
+          templateUrl: '/static/components/config/config-dialog.html',
+          controller: 'ConfigDialogCtrl as dialog'
+        });
+};
 
     }
   };

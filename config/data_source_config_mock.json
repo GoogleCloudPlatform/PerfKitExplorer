@@ -3,12 +3,14 @@
         "project_id": "DUMMY_PROJECT_ID",
         "project_name": "DUMMY_PROJECT_NAME",
         "samples-mart": "DUMMY_SAMPLES_MART",
-        "analytics-key": "DUMMY_ANALYTICS_KEY"
+        "analytics-key": "DUMMY_ANALYTICS_KEY",
+        "cache-duration": 0
     },
     "testing": {
         "project_id": "DUMMY_PROJECT_ID",
         "project_name": "DUMMY_PROJECT_NAME",
         "samples-mart": "DUMMY_SAMPLES_MART",
-        "analytics-key": "DUMMY_ANALYTICS_KEY"
+        "analytics-key": "DUMMY_ANALYTICS_KEY",
+        "cache-duration": 0
     }
 }

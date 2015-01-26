@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Library for loading credentials files."""
 
@@ -32,13 +40,13 @@ class CredentialKeyError(Error):
 
 
 def GetAuthorizedCredentials(credential_path, env):
-  """Builds authorized credentials used for talking to apiary services.
+  """Builds authorized credentials used for communicating with backend services.
 
   As the file are stored in the repo and are frequently read only, we copy the
   credentials file to a temp file that is writable.  We need the file to be
   writable so we can update the access token in the file.  Otherwise we ask
-  apiary for a access token each time we need to auth, this can lead to us
-  exceeding apiary's rate limits.
+  for an access token each time we need to auth, this can lead to us
+  exceeding API rate limits.
 
   Args:
     credential_path: The path to a credentials file.
@@ -47,7 +55,7 @@ def GetAuthorizedCredentials(credential_path, env):
 
   Returns:
     An authorized credentials object that can be used to build client libraries
-    and issue authorized requests to apiary services.
+    and issue authorized requests to backend services.
 
   Raises:
     CredentialKeyError: If the env value passed is not a valid environment.
@@ -76,7 +84,7 @@ def GetAuthorizedCredentials(credential_path, env):
     msg = (
         'Could not find credentials.\ncred_to_use: %s\nclient_id: %s\n'
         'user_agent: %s\nscope: %s') % (cred_to_use, client_id, user_agent,
-            CREDENTIALS_SCOPE)
+                                        CREDENTIALS_SCOPE)
     raise Error(msg)
 
   return credentials.authorize(httplib2.Http(timeout=config.DEFAULT_TIMEOUT))
@@ -86,7 +94,7 @@ def _CopyCredentialsToTemp(src_path):
   """Copies credentials to a writable temp file."""
   # TODO: Make sure using different temporary files each time
   # is sufficient.  This is a simpler solution than using the same file, but it
-  # may not sufficiently lower the number of calls we issue to apiary.
+  # may not sufficiently lower the number of calls we issue to service APIs.
   temp_file = tempfile.NamedTemporaryFile(delete=False)
   shutil.copyfile(src_path, temp_file.name)
   return temp_file.name

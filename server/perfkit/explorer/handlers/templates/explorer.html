@@ -9,8 +9,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-mocks.js"></script>
 
   <!-- AngularUI Grid -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.css" rel="stylesheet">
+  <script src="/static/third_party/uiGrid/ui-grid.js"></script>
+  <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
 
   <!-- CodeMirror3 Editor -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
@@ -31,17 +31,20 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-    ga('create', '[[analytics_id]]', 'googleplex.com');
+    ga('create', '[[analytics_key]]', 'googleplex.com');
     ga('send', 'pageview');
 
     // Initialize Google Visualizations
     try {
-      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
+      google.load('visualization', '1.1', {packages: [
+        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey']});
     } catch (err) { }
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
-    var DEFAULT_QUERY_PROJECT_ID = '[[default_query_project_id]]';
+    [% autoescape false %]
+    var INITIAL_CONFIG =  [[initial_config]];
+    [% endautoescape %]
   </script>
 
   <!-- Perfkit -->
@@ -51,13 +54,6 @@
 <body>
 
 <div class="perfkit-page">
-
-  <div class="perfkit-page-alerts">
-    <alert ng-repeat="error in explorerCtrl.explorer.errorService.errors | limitTo:3"
-           type="error.errorType | lowercase"
-           close="explorerCtrl.explorer.errorService.removeErrorAt($index)">
-      {{ error.text }}</alert>
-  </div>
 
   <explorer-header></explorer-header>
 
@@ -111,238 +107,21 @@
 
     <div class="perfkit-page-sidebar-right"
          ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
-      <div>
+      <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-sidebar-button"
+            ng-click="dashboardCtrl.dashboard.selectWidget(null, null)"></span>
 
-        <div>
-          <a  href="#"
-              class="perfkit-jfk-close-button perfkit-sidebar-close-button"
-              ng-click="dashboardCtrl.dashboard.selectWidget(null, null)">
-          </a>
-        </div>
+      <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
 
-        <div class="sidebar-group">
-          <div class="sidebar-group-title">Dashboard</div>
+      <container-config ng-model="dashboardCtrl.dashboard.selectedContainer.model"></container-config>
 
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">id</div>
-            <div class="sidebar-item-value">
-              <input id="dashboard-id"
-                     class="form-control"
-                     type="text"
-                     readonly="true"
-                     ng-model="dashboardCtrl.dashboard.current.model.id">
-            </div>
-          </div>
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">title</div>
-            <div class="sidebar-item-value">
-              <input type="text"
-                     class="form-control"
-                     ng-model="dashboardCtrl.dashboard.current.model.title">
-            </div>
-          </div>
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">owner</div>
-            <div class="sidebar-item-value">
-              <input id="dashboard-id"
-                     type="text"
-                     class="form-control"
-                     ng-model="dashboardCtrl.dashboard.current.model.owner">
-            </div>
-          </div>
+      <chart-config ng-model="dashboardCtrl.dashboard.selectedWidget.model"></chart-config>
 
-          <div class="sidebar-item" ng-show="explorerCtrl.explorer.CURRENT_USER_ADMIN === true">
-            <div class="sidebar-item-label">version</div>
-            <div class="sidebar-item-value">
-              <input id="dashboard-id"
-                     type="text"
-                     class="form-control"
-                     ng-model="dashboardCtrl.dashboard.current.model.version">
-            </div>
-          </div>
-        </div>
-
-        <div class="sidebar-group">
-
-          <div class="sidebar-group-title">Datasource Defaults</div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">project id</div>
-            <div class="sidebar-item-value">
-              <input class="form-control"
-                     ng-model="dashboardCtrl.dashboard.current.model.project_id"
-                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_PROJECT_ID }}">
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">dataset</div>
-            <div class="sidebar-item-value">
-              <input class="form-control"
-                     ng-model="dashboardCtrl.dashboard.current.model.dataset_name"
-                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_DATASET_NAME }}">
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">table</div>
-            <div class="sidebar-item-value">
-              <input class="form-control"
-                     ng-model="dashboardCtrl.dashboard.current.model.table_name"
-                     placeholder="{{ dashboardCtrl.dashboard.DEFAULT_TABLE_NAME }}">
-            </div>
-          </div>
-
-        </div>
-
-        <div class="sidebar-group">
-          <div class="sidebar-group-title">Container</div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">display columns</div>
-            <div class="sidebar-item-value">
-              <input type="number" min="1" class="form-control"
-                     ng-model="dashboardCtrl.dashboard.selectedContainer.model.container.columns">
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">height</div>
-            <div class="sidebar-item-value">
-              <input input type="number" min="1" class="form-control"
-                     ng-model="dashboardCtrl.dashboard.selectedContainer.model.container.height">
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div ng-controller="WidgetEditorCtrl as widgetEditorCtrl"
-           ng-show="dashboardCtrl.dashboard.selectedWidget.model.chart">
-
-        <div class="sidebar-group">
-          <div class="sidebar-group-title">Chart</div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">title</div>
-            <div class="sidebar-item-value">
-              <input type="text" class="form-control" ng-model="dashboardCtrl.dashboard.selectedWidget.model.title">
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">chart type</div>
-            <div class="sidebar-item-value">
-              <!-- TODO: Drive this list from data (probably a JSON configuration file). -->
-              <select ng-model="dashboardCtrl.dashboard.selectedWidget.model.chart.chartType"
-                      class="sidebar-input-full form-control">
-                <option value="AreaChart">Area Chart</option>
-                <option value="BarChart">Bar Chart</option>
-                <option value="ColumnChart">Column Chart</option>
-                <option value="ComboChart">Combo Chart</option>
-                <option value="LineChart">Line Chart</option>
-                <option value="PieChart">Pie Chart</option>
-                <option value="ScatterChart">Scatter Chart</option>
-                <option value="Table">Table</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="sidebar-item">
-            <div class="sidebar-item-label">column span</div>
-            <div class="sidebar-item-value">
-              <input type="number" min="1" class="form-control"
-                     ng-model="dashboardCtrl.dashboard.selectedWidget.model.layout.columnspan">
-            </div>
-          </div>
-
-          <div class="sidebar-group-buttons">
-            <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
-              Chart editor
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
   <div class="perfkit-page-footer"
-       ng-hide="explorerCtrl.explorer.model.readOnly || !explorerCtrl.dashboard.selectedWidget"
-       ng-controller="CodeEditorCtrl as codeEditorCtrl">
-    <div ng-switch="codeEditorCtrl.settings.isOpen">
-      <div ng-switch-when="true" class="perfkit-footer-open">
-        <div class="perfkit-footer-toolbar">
-          <span class="glyphicon glyphicon-remove" style="float: right"
-                ng-click="codeEditorCtrl.closeCodeEditor()"></span>
-          <div class="btn-group perfkit-toolbar-section">
-            <button type="button" class="btn btn-default"
-                 ng-model="codeEditorCtrl.settings.selectedMode"
-                 ng-repeat="mode in codeEditorCtrl.settings.modes"
-                 btn-radio="mode">{{ mode }}</button>
-          </div>
-          <div class="perfkit-toolbar-section">
-            <button type="button" class="btn btn-primary"
-                    ng-click="codeEditorCtrl.dashboard.refreshWidget(codeEditorCtrl.dashboard.selectedWidget)">
-              Refresh
-            </button>
-            <button type="button" class="btn btn-default"
-                    ng-show="!codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="codeEditorCtrl.explorer.customizeSql()">
-              Edit SQL
-            </button>
-            <button type="button" class="btn btn-default"
-                    ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                    ng-click="codeEditorCtrl.explorer.restoreBuilder()">
-              Use SQL Builder
-            </button>
-          </div>
-        </div>
-        <div ng-switch="codeEditorCtrl.settings.selectedMode">
-          <div ng-switch-when="JSON">
-            <div>
-              <textarea codemirror="codeEditorCtrl.editorOptionsJSON"
-                        ng-model="codeEditorCtrl.currentJson.text">
-              </textarea>
-            </div>
-          </div>
-          <div ng-switch-when="SQL">
-            <div ng-switch="codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query">
-              <div ng-switch-when="true">
-                <div>
-                  <textarea codemirror="codeEditorCtrl.editorOptionsSQL"
-                            ng-model="codeEditorCtrl.dashboard.selectedWidget.model.datasource.query">
-                  </textarea>
-                </div>
-              </div>
-              <div ng-switch-default>
-                <div>
-                  <textarea codemirror="codeEditorCtrl.editorOptionsSQLView"
-                            ng-model="codeEditorCtrl.dashboard.selectedWidget.model.datasource.query">
-                  </textarea>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div ng-switch-default class="perfkit-footer-toolbar">
-        <button type="button" class="btn btn-default perfkit-footer-button"
-                ng-show="codeEditorCtrl.dashboard.selectedWidget"
-                ng-click="codeEditorCtrl.openWidgetJsonEditor()">
-          Edit Widget JSON
-        </button>
-        <button type="button" class="btn btn-default perfkit-footer-button"
-                ng-show="codeEditorCtrl.dashboard.selectedWidget && !codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                ng-click="codeEditorCtrl.openQuerySqlEditor()">
-          View SQL
-        </button>
-        <button type="button" class="btn btn-default perfkit-footer-button"
-                ng-show="codeEditorCtrl.dashboard.selectedWidget && codeEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                ng-click="codeEditorCtrl.openQuerySqlEditor()">
-          Edit SQL
-        </button>
-      </div>
-    </div>
+       ng-show="explorerCtrl.dashboard.selectedWidget || explorerCtrl.explorer.model.code_editor.isOpen">
+    <widget-editor></widget-editor>
   </div>
 </div>
 </body>

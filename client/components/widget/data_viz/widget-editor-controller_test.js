@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Tests for the WidgetEditor controller.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -36,7 +44,7 @@ describe('WidgetEditorCtrl', function() {
 
       widgetEditorServiceMock = {
         showEditor: jasmine.createSpy().
-            andReturn(showEditorDeferred.promise)
+            and.returnValue(showEditorDeferred.promise)
       };
       return widgetEditorServiceMock;
     };
@@ -52,7 +60,7 @@ describe('WidgetEditorCtrl', function() {
         widgetFactoryService = _widgetFactoryService_;
 
         // Spies on watches called functions
-        spyOn(ctrlPrototype, 'updateSelectedChart').andCallThrough();
+        spyOn(ctrlPrototype, 'updateSelectedChart').and.callThrough();
 
         ctrl = $controller(
             explorer.components.widget.data_viz.WidgetEditorCtrl,
@@ -72,16 +80,16 @@ describe('WidgetEditorCtrl', function() {
 
     it('should be called when the selected widget reference changed.',
         function() {
-          expect(ctrlPrototype.updateSelectedChart.callCount).toEqual(0);
+          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(0);
           dashboardService.selectedWidget =
               new ChartWidgetConfig(widgetFactoryService);
           rootScope.$apply();
-          expect(ctrlPrototype.updateSelectedChart.callCount).toEqual(1);
+          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(1);
 
           dashboardService.selectedWidget =
               new ChartWidgetConfig(widgetFactoryService);
           rootScope.$apply();
-          expect(ctrlPrototype.updateSelectedChart.callCount).toEqual(2);
+          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(2);
         }
     );
 

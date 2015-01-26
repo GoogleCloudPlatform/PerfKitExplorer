@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview dashboardDataService is an angular service used to fetch,
  * cache, create, update and delete the persisted data of a dashboard
@@ -147,6 +155,10 @@ DashboardDataService.prototype.postDashboard = function(content, endpoint,
     deferred.resolve(data);
   }));
   promise.then(null, angular.bind(this, function(error) {
+    if (error.data && error.data.message) {
+      this.errorService_.addError(ErrorTypes.DANGER, error.data.message, opt_id);
+    }
+
     deferred.reject(error);
   }));
 

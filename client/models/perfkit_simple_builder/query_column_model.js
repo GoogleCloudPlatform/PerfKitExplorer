@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Model for query column/result data.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -15,6 +23,7 @@ goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult'
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
+goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartFields');
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartMeasures');
 
@@ -99,7 +108,8 @@ explorer.models.perfkit_simple_builder.QueryDateGroupings = {
   DAY: 'Day',
   HOUR: 'Hour'
 };
-var QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
+var QueryDateGroupings = (
+    explorer.models.perfkit_simple_builder.QueryDateGroupings);
 
 
 /**
@@ -125,7 +135,8 @@ explorer.models.perfkit_simple_builder.SamplesMartFields = {
   METRIC_URI: 'metric_uri',
   SAMPLE_URI: 'sample_uri'
 };
-var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
+var SamplesMartFields = (
+    explorer.models.perfkit_simple_builder.SamplesMartFields);
 
 
 /**
@@ -139,14 +150,14 @@ explorer.models.perfkit_simple_builder.SamplesMartMeasures = {
   STDDEV: 'STDDEV',
   COUNT: 'COUNT',
   LAST: 'LAST',
-  MEAN: 'MEAN',
   SUM: 'SUM',
   VARIANCE: 'VARIANCE',
   PCT_50: '50%',
   PCT_99: '99%',
   PCT_9999: '99.99%'
 };
-var SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
+var SamplesMartMeasures = (
+    explorer.models.perfkit_simple_builder.SamplesMartMeasures);
 
 
 /**
@@ -159,92 +170,90 @@ explorer.models.perfkit_simple_builder.QueryShapes = {
 var QueryShapes = explorer.models.perfkit_simple_builder.QueryShapes;
 
 
+/**
+ * Describes the possible structures of a BigQuery table.
+ *   Default - unset value.  Used to refer to parent scope settings, such as
+ *       the widget leaving it blank in favor of the dashboard setting.
+ *   OneTable - assumes a single table with all data.
+ *   PerDate - contains a table for each individual day.  The Table Wildcard
+ *       Functions are used to determine which tables will be queries.  For
+ *       more information on Table Wildcard Functions, see:
+ *   https://cloud.google.com/bigquery/query-reference#tablewildcardfunctions
+ * @enum {string}
+ */
+explorer.models.perfkit_simple_builder.QueryTablePartitioning = {
+  DEFAULT: '',
+  ONETABLE: 'OneTable',
+  PERDAY: 'PerDay'
+};
+var QueryTablePartitioning = (
+    explorer.models.perfkit_simple_builder.QueryTablePartitioning);
+
 
 /**
  * Angular service that provides the column configuration of a Samples query.
  * @constructor
  */
 explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
-  /**
-   * @type {!boolean}
-   * @export
-   */
+  /** @export @type {!boolean} */
   this.show_date = false;
 
-  /**
-   * @type {!QueryDateGroupings}
-   * @export
-   */
+  /** @export @type {!QueryDateGroupings} */
   this.date_group = QueryDateGroupings.NONE;
 
-  /**
-   * @type {!Array.<!FieldResult>}
-   * @export
-   */
+  /** @export @type {!Array.<!FieldResult>} */
   this.fields = [];
 
-  /**
-   * @type {!boolean}
-   * @export
-   */
+  /** @export @type {!boolean} */
   this.measure_values = false;
 
   /**
    * A list of 'name' objects where name is a string describing the measure.
-   * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as well
-   * as percentiles (99%, etc.).
-   * @type {Array.<!FieldResult>}
-   * @export
+   * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as
+   * well as percentiles (99%, etc.).
+   * @export @type {Array.<!FieldResult>}
    */
   this.measures = [];
 
-  /**
-   * @type {Array.<!LabelResult>}
-   * @export
-   */
+  /** @export @type {Array.<!LabelResult>} */
   this.labels = [];
 
-  /**
-   * @type {!boolean}
-   * @export
-   */
+  /** @export @type {!boolean} */
   this.pivot = false;
 
-  /**
-   * @type {!PivotConfigModel}
-   * @export
-   */
+  /** @export @type {!PivotConfigModel} */
   this.pivot_config = new PivotConfigModel();
 
-  /**
-   * @type {?number}
-   * @export
-   */
+  /** @type @type {?number} */
   this.row_limit = null;
 
   /**
-   * Specifies the project id that the query will connect to.  If not provided, will use the dashboard-level project
-   * id, or the app-engine default.
-   * @type {?string}
-   * @export
+   * Specifies the project id that the query will connect to.  If not provided,
+   * will use the dashboard-level project id, or the app-engine default.
+   * @export @type {?string}
    */
   this.project_id = null;
 
   /**
-   * Specifies the dataset that the query will connect to.  If not provided, will use the dashboard-level dataset
-   * name, or the app-engine default.
-   * @type {?string}
-   * @export
+   * Specifies the dataset that the query will connect to.  If not provided,
+   * will use the dashboard-level dataset name, or the app-engine default.
+   * @export @type {?string}
    */
   this.dataset_name = null;
 
   /**
-   * Specifies the table that the query will connect to.  If not provided, will use the dashboard-level table name
-   * or the app-engine default.
-   * @type {?string}
-   * @export
+   * Specifies the table that the query will connect to.  If not provided, will
+   * use the dashboard-level table name or the app-engine default.
+   * @export @type {?string}
    */
   this.table_name = null;
+
+  /**
+   * Specifies the type of partitioning used on the table.  For more
+   * information, see the docstring for QueryTablePartitioning.
+   * @export @type {QueryTablePartitioning}
+   */
+  this.table_partition = QueryTablePartitioning.DEFAULT;
 };
 
 var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;

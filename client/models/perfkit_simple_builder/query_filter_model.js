@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Model classes for query filters and constraints.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -124,63 +132,84 @@ var DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
  */
 p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel = (
     function() {
-      /**
-       * If given, only samples where the timestamp field is greater than or equal to the start date will be returned.
-       * @type {p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter}
-       * @export
-       */
-      this.start_date = new DateFilter();
+  /**
+   * If given, only samples where the timestamp field is greater than or equal
+   * to the start date will be returned.
+   * @type {p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter}
+   * @export
+   */
+  this.start_date = new DateFilter();
 
-      /**
-       * If given, only samples where the timestamp field is less than the end date will be returned.
-       * @type {?p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter}
-       * @export
-       */
-      this.end_date = null;
+  /**
+   * If given, only samples where the timestamp field is less than the end date
+   * will be returned.
+   * @type {?p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter}
+   * @export
+   */
+  this.end_date = null;
 
-      /**
-       * If given, only samples with the same 'product_name' field value will be returned.
-       * @type {?string}
-       * @export
-       */
-      this.product_name = null;
+  /**
+   * If given, only samples with the same 'product_name' field value will be
+   * returned.
+   * @type {?string}
+   * @export
+   */
+  this.product_name = null;
 
-      /**
-       * If given, only samples with the same 'test' field value will be returned.
-       * @type {?string}
-       * @export
-       */
-      this.test = null;
+  /**
+   * If given, only samples with the same 'test' field value will be returned.
+   * @type {?string}
+   * @export
+   */
+  this.test = null;
 
-      /**
-       * If given, only samples with the same 'metric' field value will be returned.
-       * @type {?string}
-       * @export
-       */
-      this.metric = null;
+  /**
+   * If given, only samples with the same 'metric' field value will be returned.
+   * @type {?string}
+   * @export
+   */
+  this.metric = null;
 
-      /**
-       * If given, only samples marked with the sample 'official' field value (true or false) will be returned.
-       * @type {?string}
-       * @export
-       */
-      this.official = null;
+  /**
+   * If given, only samples marked with the sample 'official' field value (true
+   * or false) will be returned.
+   * @type {?string}
+   * @export
+   */
+  this.official = null;
 
-      /**
-       * If given, only samples with a matching 'owner' field will be returned.
-       * @type {?string}
-       * @export
-       */
-      this.runby = null;
+  /**
+   * If given, only samples with a matching 'owner' field will be returned.
+   * @type {?string}
+   * @export
+   */
+  this.runby = null;
 
-      /**
-       * If given, only samples matching the provided label:value pairs will be returned.
-       * @type {Array.<!p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter>}
-       * @export
-       */
-      this.metadata = [];
-    });
-var QueryFilterModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel;
+  /**
+   * If given, only samples matching the provided label:value pairs will be
+   * returned.
+   * @type {Array.<!p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter>}
+   * @export
+   */
+  this.metadata = [];
 
+  this.initializeDefaults();
+});
+var QueryFilterModel = (
+    p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel);
+
+
+/**
+ * Initialize default values.
+ */
+QueryFilterModel.prototype.initializeDefaults = function() {
+  // TODO: Move default settings to a config-backed service.
+  this.start_date.filter_type = DateFilterType.WEEK;
+  this.start_date.filter_value = 2;
+  // TODO: Refactor date picker so that 'text' is not required in the model.
+  this.start_date.text = 'last 2 weeks';
+
+  this.official = true;
+};
 
 });  // goog.scope

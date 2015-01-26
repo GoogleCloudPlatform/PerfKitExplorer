@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Tests for data handlers in the Perfkit Explorer application."""
 
@@ -10,17 +18,20 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
 import json
+import pytest
 import webtest
 import unittest
 
-from p3rf.perfkit.data_clients import big_query_client
-from p3rf.perfkit.data_clients import credentials_lib
-from p3rf.perfkit.data_clients import data_source_config as config
-from p3rf.perfkit.explorer.server.handlers import base
-from p3rf.perfkit.explorer.server.handlers import data
+from perfkit import test_util
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config as config
+from perfkit.explorer.handlers import base
+from perfkit.explorer.handlers import data
 
 
-# TODO: Add a mock data_client to eliminate live data connections.
+# TODO: Change tests to verify generated SQL rather than results to remove
+#     live service dependency.
 # TODO: Add fuzz/null testing for required parameters. (low pri)
 class DataTest(unittest.TestCase):
 
@@ -32,27 +43,17 @@ class DataTest(unittest.TestCase):
 
     self.app = webtest.TestApp(data.app)
 
+    test_util.SetConfigPaths()
+
     # Rewrite the DataHandlerUtil methods to return local clients.
     data.DataHandlerUtil.GetDataClient = self._GetTestDataClient
 
-  def _GetTestDataClient(self, env):
-    # Ignore env and hardcode to testing.
-    env = env
+  def _GetTestDataClient(self, env=None):
     return big_query_client.BigQueryClient(
         env=config.Environments.TESTING,
         credential_file=credentials_lib.DEFAULT_CREDENTIALS)
 
-  def testUrlHandlers(self):
-    """Verifies that URLs resolve to the correct handlers."""
-    self.expect(data.FieldDataHandler.get).any_args()
-    self.app.get('/data/fields')
-
-    self.expect(data.MetadataDataHandler.get).any_args()
-    self.app.get('/data/metadata')
-
-    self.expect(data.SqlDataHandler.post).any_args()
-    self.app.post(url='/data/sql')
-
+  @pytest.mark.integration
   def testFieldsHandler(self):
     expected_result = [{u'name': u'jdoe'}]
 
@@ -67,6 +68,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['rows'], expected_result)
 
+  @pytest.mark.integration
   def testAllMetdataHandler(self):
     expected_result = [{u'count': 6, u'name': u'attributes',
                         u'values': [{u'count': 3, u'name': u'important'},
@@ -89,6 +91,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['labels'], expected_result)
 
+  @pytest.mark.integration
   def testFilteredMetadataHandler(self):
     expected_result = [{u'count': 1, u'name': u'perfect', u'values': []},
                        {u'count': 3, u'name': u'shape',
@@ -108,6 +111,7 @@ class DataTest(unittest.TestCase):
 
     self.assertEqual(resp.json['labels'], expected_result)
 
+  @pytest.mark.integration
   def testSqlHandler(self):
     sql = ('SELECT\n'
            '\tproduct_name,\n'
@@ -121,24 +125,26 @@ class DataTest(unittest.TestCase):
            '\tproduct_name,\n'
            '\ttest')
 
-    expected_result = {
-        'results': {'cols': [{'id': 'product_name',
-                              'label': 'product_name',
-                              'type': 'string'},
-                             {'id': 'test',
-                              'label': 'test',
-                              'type': 'string'},
-                             {'id': 'avg',
-                              'label': 'avg',
-                              'type': 'number'}],
-                    'rows': [{'c': [{'v': 'widget-factory'},
-                                    {'v': 'create-widgets'},
-                                    {'v': 6.872222222222222}]}]}}
+    expected_results = {'cols': [{'id': 'product_name',
+                                  'label': 'product_name',
+                                  'type': 'string'},
+                                 {'id': 'test',
+                                  'label': 'test',
+                                  'type': 'string'},
+                                 {'id': 'avg',
+                                  'label': 'avg',
+                                  'type': 'number'}],
+                        'rows': [{'c': [{'v': 'widget-factory'},
+                                        {'v': 'create-widgets'},
+                                        {'v': 6.872222222222222}]}]}
+
+    data = {'datasource': {'query': sql, 'config': {'results': {}}}}
 
     resp = self.app.post(url='/data/sql',
-                         status=200,
-                         params=[('query', sql)])
-    self.assertEqual(resp.json, expected_result)
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['results'], expected_results)
 
 
 if __name__ == '__main__':

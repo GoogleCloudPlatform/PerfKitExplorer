@@ -1,0 +1,103 @@
+<div class="sidebar-group">
+  <div class="sidebar-group-title">Dashboard</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">id</div>
+    <div class="sidebar-item-value">
+      <input id="dashboard-id"
+             class="form-control"
+             type="text"
+             readonly="true"
+             ng-model="ngModel.id">
+    </div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">title</div>
+    <div class="sidebar-item-value">
+      <input type="text"
+             class="form-control"
+             ng-model="ngModel.title">
+    </div>
+  </div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">owner</div>
+    <div class="sidebar-item-value">
+      <input id="dashboard-id"
+             type="text"
+             class="form-control"
+             ng-model="ngModel.owner">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">writers</div>
+    <div class="sidebar-item-value">
+      <span
+          multibox
+          multibox-display-prop="email"
+          multibox-popup-prop="email"
+          multibox-focus-on-select="true"
+          multibox-on-insert-option="dashboardSvc.addWriter()"
+          multibox-selected-options="dashboardSvc.current.model.writers">
+      </span>
+    </div>
+  </div>
+
+  <div class="sidebar-item" ng-show="explorerSvc.CURRENT_USER_ADMIN === true">
+    <div class="sidebar-item-label">version</div>
+    <div class="sidebar-item-value">
+      <input id="dashboard-id"
+             type="text"
+             class="form-control"
+             ng-model="ngModel.version">
+    </div>
+  </div>
+
+  <div class="sidebar-group-title">Datasource Defaults</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">project id</div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             ng-model="ngModel.project_id"
+             placeholder="{{ configSvc.default_project }}">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">dataset</div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             ng-model="ngModel.dataset_name"
+             placeholder="{{ configSvc.default_dataset }}">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">table</div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             ng-model="ngModel.table_name"
+             placeholder="{{ configSvc.default_table }}">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">table format</div>
+    <div class="sidebar-item-value">
+      <select class="form-control"
+              ng-model="ngModel.table_partition">
+        <option value="" selected>
+          {{ dashboardSvc.getTablePartition(
+                 dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)
+        </option>
+
+        <option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
+                value="{{ option.partition }}"
+                title="{{ option.tooltip }}">{{ option.label }}</option>
+      </select>
+    </div>
+  </div>
+
+</div>
+

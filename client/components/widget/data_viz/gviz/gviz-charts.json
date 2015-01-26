@@ -1,0 +1,21 @@
+[
+  {"title": "Area", "className": "AreaChart"},
+  {"title": "Bar", "className": "BarChart"},
+  {"title": "Calendar", "className": "Calendar"},
+  {"title": "Candlestick", "className": "CandlestickChart"},
+  {"title": "Column", "className": "ColumnChart"},
+  {"title": "Combo", "className": "ComboChart"},
+  {"title": "Gauge", "className": "Gauge"},
+  {"title": "Geo", "className": "GeoChart"},
+  {"title": "Histogram", "className": "Histogram"},
+  {"title": "Line", "className": "LineChart"},
+  {"title": "Org", "className": "OrgChart"},
+  {"title": "Pie", "className": "PieChart"},
+  {"title": "Sankey", "className": "Sankey"},
+  {"title": "Scatter", "className": "ScatterChart"},
+  {"title": "Stepped Area", "className": "SteppedAreaChart"},
+  {"title": "Table", "className": "Table"},
+  {"title": "Timeline", "className": "Timeline"},
+  {"title": "Tree Map", "className": "TreeMap"},
+  {"title": "Word Tree", "className": "WordTree"}
+]

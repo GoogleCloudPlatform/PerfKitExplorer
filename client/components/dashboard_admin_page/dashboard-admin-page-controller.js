@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview DashboardAdminPageCtrl is an angular controller representing
  * the page for Dashboard Administration.
@@ -42,7 +50,8 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @ngInject
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
-    $scope, $location, $modal, dashboardDataService, dashboardAdminPageService) {
+    $scope, $location, $modal, dashboardDataService, dashboardAdminPageService,
+    uiGridSelectionService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -67,10 +76,10 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.dashboardDataService = dashboardDataService;
 
-  /** @private {DashboardAdminPageService} */
+  /** @private @type {DashboardAdminPageService} */
   $scope.pageService = dashboardAdminPageService;
 
-  /** @export {DashboardAdminPageService */
+  /** @export @type {DashboardAdminPageService */
   this.pageService = dashboardAdminPageService;
 
   /**
@@ -81,21 +90,34 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
    */
   this.errors = [];
 
-  this.data = {
+  this.gridOptions = {
     data: 'pageService.dashboards',
+    enableFiltering: true,
+    enableRowHeaderSelection: false,
     multiSelect: false,
-    selectedItems: this.pageService.selectedDashboards,
+    virtualizationThreshold: 100,
     columnDefs: [
-      {field: 'title', displayName: 'Title',
+      {name: 'title', displayName: 'Title',
         cellTemplate:
-            '<div class="ngCellText" ng-class="col.colIndex()">' +
-            '    <a ng-click="pageCtrl.openDashboard(row.entity)">' +
+            '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
+            '    <a ng-click="getExternalScopes().openDashboard(row.entity)">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
-      {field: 'owner', displayName: 'Owner'},
-      {field: 'id', displayName: 'ID'}
+      {name: 'owner', displayName: 'Owner', width: 240},
+      {name: 'id', displayName: 'ID', width: 160}
     ]
   };
+
+  var self = this;
+  $scope.gridScope = {
+    openDashboard: function(dashboard) {
+      self.openDashboard(dashboard);
+    }
+  };
+
+  this.gridOptions.onRegisterApi = angular.bind(this, function(gridApi) {
+    this.pageService.selection = gridApi.selection;
+  });
 
   /**
    * @type {boolean}
@@ -110,7 +132,6 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
         if (new_val == '') { return; }
         this.listDashboards();
       }));
-
 
   this.initPage();
 };
@@ -133,10 +154,12 @@ DashboardAdminPageCtrl.prototype.initPage = function() {
  * @returns {DashboardModel}
  */
 DashboardAdminPageCtrl.prototype.verifySelection = function() {
-  if (this.data.selectedItems.length == 0) {
+  var selection = this.getSelected();
+
+  if (!selection) {
     throw 'verifySelection() failed: No dashboard selected.';
   }
-  return this.data.selectedItems[0];
+  return selection;
 };
 
 
@@ -248,6 +271,7 @@ DashboardAdminPageCtrl.prototype.listAllDashboards = function() {
   this.pageService.model.filter_owner = false;
   this.pageService.model.owner = '';
   this.pageService.model.mine = false;
+  this.gridOptions.columnDefs[1].visible = true;
 
   this.listDashboards();
 };
@@ -261,10 +285,34 @@ DashboardAdminPageCtrl.prototype.listMyDashboards = function() {
   this.pageService.model.filter_owner = false;
   this.pageService.model.owner = '';
   this.pageService.model.mine = true;
+  this.gridOptions.columnDefs[1].visible = false;
 
   this.listDashboards();
 };
 
+
+/**
+ * Returns the selected dashboard.
+ * @return {?DashboardModel}
+ * @export
+ */
+DashboardAdminPageCtrl.prototype.getSelected = function() {
+  if (!this.pageService.selection) {
+    return null;
+  }
+
+  var selectedItems = this.pageService.selection.getSelectedRows();
+
+  switch (selectedItems.length) {
+    case 0:
+      return null;
+    case 1:
+      return selectedItems[0];
+    default:
+      console.log('Multiple items not supported.');
+      return selectedItems[0];
+  }
+};
 
 /**
  * Lists dashboards owned by a specific user.
@@ -330,6 +378,18 @@ DashboardAdminPageCtrl.prototype.uploadDashboard = function() {
     controller: 'FileUploadDialogCtrl as dialog'
   });
 };
+
+
+/**
+ * @export
+ */
+DashboardAdminPageCtrl.prototype.editConfig = function() {
+  this.modal_.open({
+    templateUrl: '/static/components/config/config-dialog.html',
+    controller: 'ConfigDialogCtrl as dialog'
+  });
+};
+
 
 /**
  * @export

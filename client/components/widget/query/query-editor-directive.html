@@ -29,6 +29,7 @@
     <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
       <input
           class="multibox-input-control form-control"
+          placeholder="{{ multiboxPlaceholder }}"
           ng-model="option.text"
           ng-blur="blurInput($event)"
           ng-focus="focusInput($event, option)">
@@ -256,6 +257,7 @@
                 <div class="sidebar-item-value">
                   <span
                       multibox
+                      multibox-placeholder="'label:value'"
                       multibox-display-prop="text"
                       multibox-focus-on-select="true"
                       multibox-data="queryEditorCtrl.query.picklists['metadata']"
@@ -277,7 +279,7 @@
                   <input class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.project_id"
                          placeholder="{{ queryEditorCtrl.dashboard.current.model.project_id ||
-                                         queryEditorCtrl.dashboard.DEFAULT_PROJECT_ID }}">
+                                         queryEditorCtrl.config.default_project }}">
                 </div>
               </div>
 
@@ -287,7 +289,7 @@
                   <input class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.dataset_name"
                          placeholder="{{ queryEditorCtrl.dashboard.current.model.dataset_name ||
-                                         queryEditorCtrl.dashboard.DEFAULT_DATASET_NAME }}">
+                                         queryEditorCtrl.config.default_dataset }}">
                 </div>
               </div>
 
@@ -297,7 +299,25 @@
                   <input class="form-control"
                          ng-model="queryEditorCtrl.datasource.config.results.table_name"
                          placeholder="{{ queryEditorCtrl.dashboard.current.model.table_name ||
-                                         queryEditorCtrl.dashboard.DEFAULT_TABLE_NAME }}">
+                                         queryEditorCtrl.config.default_table }}">
+                </div>
+              </div>
+
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">table format</div>
+                <div class="sidebar-item-value">
+                  <select class="form-control"
+                         ng-model="queryEditorCtrl.datasource.config.results.table_partition">
+                    <option value="" selected>
+                      {{ queryEditorCtrl.dashboard.getTablePartition(
+                             queryEditorCtrl.dashboard.current.model.table_partition ||
+                             queryEditorCtrl.dashboard.DEFAULT_TABLE_PARTITION).label }} (default)
+                    </option>
+
+                    <option ng-repeat="option in queryEditorCtrl.dashboard.TABLE_PARTITIONS"
+                            value="{{ option.partition }}"
+                            title="{{ option.tooltip }}">{{ option.label }}</option>
+                  </select>
                 </div>
               </div>
 
@@ -362,6 +382,7 @@
               <div class="sidebar-item-value">
                 <span
                     multibox
+                    multibox-placeholder="'field name'"
                     multibox-display-prop="name"
                     multibox-focus-on-select="true"
                     multibox-data="queryEditorCtrl.query.samples_mart_fields"
@@ -379,6 +400,7 @@
               <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
                 <span
                     multibox
+                    multibox-placeholder="'bqsql function'"
                     multibox-display-prop="name"
                     multibox-focus-on-select="true"
                     multibox-data="queryEditorCtrl.query.samples_mart_measures"
@@ -393,6 +415,7 @@
               <div class="sidebar-item-value">
                 <span
                     multibox
+                    multibox-placeholder="'label'"
                     multibox-display-prop="label"
                     multibox-popup-prop="name"
                     multibox-focus-on-select="true"

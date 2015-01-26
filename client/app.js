@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Primary module for the Explorer application.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -11,9 +19,15 @@
 
 goog.provide('p3rf.perfkit.explorer.application.module');
 
+goog.require('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigDialogCtrl');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigDirective');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
@@ -36,6 +50,7 @@ goog.require('p3rf.perfkit.explorer.components.util.FileModelDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartEditor');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
@@ -51,6 +66,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
 goog.require('p3rf.perfkit.explorer.mocks.mocks');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
@@ -58,7 +74,8 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderSe
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var requiredModules = [
-  'ui.codemirror', 'ui.bootstrap', 'ngGrid'];
+  'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
+  'ui.grid.resizeColumns', 'ui.grid.selection'];
 
 var useMockData = (
     explorer.mocks.mocks.isMockParamTrue());
@@ -102,6 +119,8 @@ explorer.application.module.service('arrayUtilService',
     explorer.components.util.ArrayUtilService);
 explorer.application.module.service('explorerService',
     explorer.components.explorer.ExplorerService);
+explorer.application.module.service('configService',
+  explorer.components.config.ConfigService);
 explorer.application.module.service('dashboardDataService',
     explorer.components.dashboard.DashboardDataService);
 explorer.application.module.service('dashboardService',
@@ -139,6 +158,8 @@ explorer.application.module.service('dashboardAdminPageService',
 /**
  * Register all controllers.
  */
+explorer.application.module.controller('ConfigDialogCtrl',
+    explorer.components.config.ConfigDialogCtrl);
 explorer.application.module.controller('ExplorerCtrl',
     explorer.components.explorer.ExplorerCtrl);
 explorer.application.module.controller('DashboardCtrl',
@@ -165,10 +186,18 @@ explorer.application.module.factory('GvizDataView',
 
 
 /** Register all directives. **/
+explorer.application.module.directive('chartConfig',
+    explorer.components.widget.data_viz.gviz.ChartConfigDirective);
+explorer.application.module.directive('alertLog',
+    explorer.components.alert.AlertLogDirective);
 explorer.application.module.directive('gvizChartWidget',
     explorer.components.widget.data_viz.gviz.gvizChart);
+explorer.application.module.directive('explorerConfig',
+    explorer.components.config.ConfigDirective);
 explorer.application.module.directive('container',
     explorer.components.container.ContainerDirective);
+explorer.application.module.directive('containerConfig',
+  explorer.components.container.ContainerConfigDirective)
 explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.MetadataPickerDirective);
 explorer.application.module.directive('resize',
@@ -189,4 +218,8 @@ explorer.application.module.directive('perfkitWidget',
     explorer.components.widget.perfkitWidget);
 explorer.application.module.directive('fileModel',
     explorer.components.util.FileModelDirective);
+explorer.application.module.directive('dashboardConfig',
+    explorer.components.dashboard.DashboardConfigDirective);
+explorer.application.module.directive('widgetEditor',
+    explorer.components.widget.query.WidgetEditorDirective);
 });  // goog.scope

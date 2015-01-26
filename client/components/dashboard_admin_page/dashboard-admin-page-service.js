@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Service for state and content of the Dashboard Admin page.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -41,13 +49,16 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
   this.errors = [];
 
   /**
-   * @type {Array.<!DashboardModel>}
-   * @export
+   * The selection service is initialized in the gridOptions onRegisterApi.
+   * @export @type {Array.<uiGridSelectionService>}
    */
-  this.selectedDashboards = [];
+  this.selection = null;
 
   /** @private {DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
+
+  /** @export @type {!string} */
+  this.CURRENT_USER_ADMIN = CURRENT_USER_ADMIN;
 
   /** @export {!boolean} */
   this.isLoading = false;
@@ -66,9 +77,7 @@ var DashboardAdminPageService = explorer.components.dashboard_admin_page.Dashboa
  * @export
  */
 DashboardAdminPageService.prototype.listDashboards = function() {
-  while (this.selectedDashboards.length > 0) {
-    this.selectedDashboards.pop();
-  }
+  this.selection && this.selection.clearSelectedRows();
 
   var promise = this.dashboardDataService_.list(
       this.model.mine, this.model.owner);

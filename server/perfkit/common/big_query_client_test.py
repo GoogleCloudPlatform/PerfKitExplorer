@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Unit test for big_query_client_test.
 
@@ -18,6 +26,7 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 import hashlib
 import logging
 import random
+import time
 import unittest
 
 from apiclient.errors import HttpError
@@ -25,9 +34,11 @@ import httplib2
 import mox
 import pytest
 
-import big_query_client
-import credentials_lib
-import data_source_config
+from perfkit import test_util
+from perfkit.common import big_query_client
+from perfkit.common import credentials_lib
+from perfkit.common import data_source_config
+
 
 TEMP_DATASET_ID = big_query_client.TEMP_DATASET_ID
 
@@ -58,6 +69,8 @@ class BigQueryClientTest(unittest.TestCase):
 
   def setUp(self):
     self.mox = mox.Mox()
+
+    test_util.SetConfigPaths()
 
     self.client = big_query_client.BigQueryClient(
         credentials_lib.DEFAULT_CREDENTIALS,
@@ -120,7 +133,7 @@ class BigQueryClientTest(unittest.TestCase):
             table=table_name))
     self.temp_tables.discard((TEMP_DATASET_ID, table_name))
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQuery(self):
     query = ('SELECT number, letter, symbol '
              'FROM unit_test_data.query_test '
@@ -130,7 +143,7 @@ class BigQueryClientTest(unittest.TestCase):
                      {u'f': [{u'v': 3}, {u'v': u'c'}, {u'v': u'#'}]}]
     self.assertEquals(expected_rows, rows)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryMultiPage(self):
     query = ('SELECT number, letter, symbol '
              'FROM unit_test_data.query_test '
@@ -140,7 +153,7 @@ class BigQueryClientTest(unittest.TestCase):
                      {u'f': [{u'v': 3}, {u'v': u'c'}, {u'v': u'#'}]}]
     self.assertEquals(expected_rows, rows)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testCopyTable(self):
     table_name = self.AddTempTableRef()
 
@@ -162,10 +175,11 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.client.DeleteTable(dataset_name=TEMP_DATASET_ID,
                             table_name=table_name)
+    time.sleep(30)
 
     self.RemoveTempTableRef(table_name=table_name)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testCopyTableMissingSource(self):
     destination_table = self.client.GetRandomTableName()
     source_table = self.client.GetRandomTableName()
@@ -183,7 +197,7 @@ class BigQueryClientTest(unittest.TestCase):
         destination_dataset=TEMP_DATASET_ID,
         destination_table=destination_table)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testDeleteTable(self):
     table_name = self.AddTempTableRef()
 
@@ -210,7 +224,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.RemoveTempTableRef(table_name)
 
-  @pytest.mark.maintenance
+  @pytest.mark.integration
   def testTableExists(self):
     table_name = self.AddTempTableRef()
 
@@ -236,7 +250,7 @@ class BigQueryClientTest(unittest.TestCase):
     self.assertFalse(self.client.TableExists(dataset_name=TEMP_DATASET_ID,
                                              table_name=table_name))
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testListTableData(self):
     def VerifyListTable(reply):
       self.assertEquals(len(reply['rows']), 3)
@@ -248,7 +262,7 @@ class BigQueryClientTest(unittest.TestCase):
                               table_name='query_test',
                               page_callback=VerifyListTable)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testListTableDataMultiPage(self):
     self.page_counter = 0
 
@@ -273,7 +287,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.assertEquals(self.page_counter, 2)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryLargeResults(self):
     def _CallbackHandler(reply):
       self.assertEquals(len(reply['rows']), 2)
@@ -287,7 +301,7 @@ class BigQueryClientTest(unittest.TestCase):
     self.client.QueryLargeResults(query=query,
                                   page_callback=_CallbackHandler)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryLargeResultsExplicitTable(self):
     """Verifies that the BigQuery works with a specific table name.
 
@@ -320,7 +334,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.RemoveTempTableRef(table_name=temp_table_name)
 
-  @pytest.mark.query
+  @pytest.mark.integration
   def testQueryInto(self):
     query = 'SELECT number, letter, symbol FROM unit_test_data.query_test'
     table_name = self.AddTempTableRef()
@@ -348,11 +362,11 @@ class BigQueryClientTest(unittest.TestCase):
 
   @pytest.mark.query
   def testSampleQueryResultsMaxErrors(self):
-    query_results = {'totalRows': 50, 'rows': [0]*100}
+    query_results = {'totalRows': 50, 'rows': [0] * 100}
     self.assertRaises(big_query_client.SamplingError,
                       self.client.SampleQueryResultsMax, query_results, 50)
 
-    query_results = {'totalRows': 100, 'rows': [0]*100}
+    query_results = {'totalRows': 100, 'rows': [0] * 100}
     self.assertRaises(big_query_client.SamplingError,
                       self.client.SampleQueryResultsMax, query_results, -1)
     self.assertRaises(big_query_client.SamplingError,
@@ -400,7 +414,7 @@ class BigQueryClientTest(unittest.TestCase):
 
   @pytest.mark.query
   def testSampleQueryResultsFractionErrors(self):
-    query_results = {'totalRows': 100, 'rows': [0]*100}
+    query_results = {'totalRows': 100, 'rows': [0] * 100}
     self.assertRaises(big_query_client.SamplingError,
                       self.client.SampleQueryResultsFraction, query_results,
                       1.1)
@@ -467,7 +481,7 @@ class BigQueryClientTest(unittest.TestCase):
 
     self.assertEqual(source_data, expected_data)
 
-  @pytest.mark.jobs
+  @pytest.mark.integration
   def testGetByJobId(self):
     job = self.client.GetJobByID('job_95d2c143954e4975a7c9c0731203a91a')
     self.assertEquals('1354925437485', job['statistics']['endTime'])

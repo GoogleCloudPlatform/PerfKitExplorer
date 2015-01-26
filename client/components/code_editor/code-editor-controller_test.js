@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Tests for the CodeEditor controller.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -24,7 +32,6 @@ describe('CodeEditorCtrl', function() {
       explorer.components.code_editor.CodeEditorCtrl.prototype;
 
   beforeEach(module('explorer'));
-  beforeEach(module('googleVisualizationMocks'));
 
   beforeEach(inject(function($rootScope, $controller, _dashboardService_,
       _widgetFactoryService_) {
@@ -34,8 +41,8 @@ describe('CodeEditorCtrl', function() {
         widgetFactoryService = _widgetFactoryService_;
 
         // Spies on watches called functions
-        spyOn(ctrlPrototype, 'saveJsonToText').andCallThrough();
-        spyOn(ctrlPrototype, 'saveTextToJson').andCallThrough();
+        spyOn(ctrlPrototype, 'saveJsonToText').and.callThrough();
+        spyOn(ctrlPrototype, 'saveTextToJson').and.callThrough();
 
         ctrl = $controller(
             explorer.components.code_editor.CodeEditorCtrl,
@@ -57,18 +64,18 @@ describe('CodeEditorCtrl', function() {
 
     it('should be called when the selected object changed.',
         function() {
-          expect(ctrlPrototype.saveJsonToText.callCount).toEqual(0);
+          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(0);
           rootScope.$apply();
-          expect(ctrlPrototype.saveJsonToText.callCount).toEqual(1);
+          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(1);
           dashboardService.selectedWidget =
               new ChartWidgetConfig(widgetFactoryService);
           rootScope.$apply();
-          expect(ctrlPrototype.saveJsonToText.callCount).toEqual(2);
+          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(2);
 
           dashboardService.selectedWidget.model.chart.options.title =
               'fake title';
           rootScope.$apply();
-          expect(ctrlPrototype.saveJsonToText.callCount).toEqual(3);
+          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(3);
         }
     );
 
@@ -90,16 +97,15 @@ describe('CodeEditorCtrl', function() {
 
     it('should be called when the currentJson reference changed.',
         function() {
-          expect(ctrlPrototype.saveTextToJson.callCount).toEqual(0);
           rootScope.$apply();
-          expect(ctrlPrototype.saveTextToJson.callCount).toEqual(1);
+          expect(ctrlPrototype.saveTextToJson.calls.count()).toEqual(1);
           ctrl.currentJson.text = 'fake model 1';
           rootScope.$apply();
-          expect(ctrlPrototype.saveTextToJson.callCount).toEqual(2);
+          expect(ctrlPrototype.saveTextToJson.calls.count()).toEqual(2);
 
           ctrl.currentJson.text = 'fake model 2';
           rootScope.$apply();
-          expect(ctrlPrototype.saveTextToJson.callCount).toEqual(3);
+          expect(ctrlPrototype.saveTextToJson.calls.count()).toEqual(3);
         }
     );
 

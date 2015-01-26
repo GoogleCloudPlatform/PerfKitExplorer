@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Unit tests for the ProductLabelsQuery class."""
 
@@ -10,9 +18,11 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import unittest
 
-from .. import big_query_client
-import product_labels
-import test_util
+from perfkit import test_util
+from perfkit.common import big_query_client as client
+
+from perfkit.explorer.samples_mart import product_labels
+
 
 EXPECTED_DATA = [
     {'name': u'attributes', 'count': 6,
@@ -30,7 +40,9 @@ EXPECTED_DATA = [
 class ProductLabelsQueryTest(unittest.TestCase):
 
   def setUp(self):
-    big_query_client.DATASET_ID = 'samples_mart_testdata'
+    client.DATASET_ID = 'samples_mart_testdata'
+    test_util.SetConfigPaths()
+
     self.data_client = test_util.GetDataClient(mocked=True)
     self.data_client.mock_reply = {'totalRows': 0,
                                    'jobReference': 0,

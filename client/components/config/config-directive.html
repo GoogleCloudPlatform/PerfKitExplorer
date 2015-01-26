@@ -1,0 +1,65 @@
+<div>
+
+  <div class="sidebar-group-note">
+    Use the fields below to modify the server-side configuration.  This will
+    apply to all future refreshes of the Explorer and Admin pages, and the
+    /config service.
+  </div>
+
+  <div class="sidebar-group-title">BigQuery Settings</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <label for="default_project">default project</label></div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             id="default_project"
+             ng-model="ngModel.default_project">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <label for="default_dataset">default dataset</label></div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             id="default_dataset"
+             ng-model="ngModel.default_dataset">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <label for="default_table">default table</label></div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             id="default_table"
+             ng-model="ngModel.default_table">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <label for="cache_duration">cache duration (in seconds)</label></div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             id="cache_duration"
+             type="number"
+             min="0"
+             ng-model="ngModel.cache_duration">
+    </div>
+  </div>
+
+  <div class="sidebar-group-title">Miscellaneous</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <label for="analytics_key">Google Analytics key</label></div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             id="analytics_key"
+             ng-model="ngModel.analytics_key">
+    </div>
+  </div>
+
+</div>

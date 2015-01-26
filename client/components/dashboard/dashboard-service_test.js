@@ -1,15 +1,24 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Tests for the dashboardService service.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
 goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
@@ -17,22 +26,30 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
 
 describe('dashboardService', function() {
   var explorer = p3rf.perfkit.explorer;
-  var svc, widget, chartWidget, container, widgetFactoryService;
+  var svc, widget, chartWidget, container, configService, widgetFactoryService;
   var WidgetConfig = explorer.models.WidgetConfig;
   var WidgetType = explorer.models.WidgetType;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var ContainerWidgetConfig =
       explorer.components.container.ContainerWidgetConfig;
+  var QueryBuilderService =
+      explorer.models.perfkit_simple_builder.QueryBuilderService;
   var ResultsDataStatus = explorer.models.ResultsDataStatus;
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(dashboardService, _widgetFactoryService_) {
+  beforeEach(inject(function(dashboardService,
+                             _queryBuilderService_,
+                             _configService_,
+                             _widgetFactoryService_) {
     svc = dashboardService;
+    configService = _configService_;
+    queryBuilderService = _queryBuilderService_;
     widgetFactoryService = _widgetFactoryService_;
     widget = new WidgetConfig(widgetFactoryService);
     chartWidget = new ChartWidgetConfig(widgetFactoryService);
@@ -105,6 +122,16 @@ describe('dashboardService', function() {
   });
 
   describe('refreshWidget', function() {
+
+    beforeEach(inject(function() {
+      configService.populate({
+        'default_project': 'TEST_PROJECT',
+        'default_dataset': 'TEST_DATASET',
+        'default_table': 'TEST_TABLE',
+        'analytics_key': 'TEST_ANALYTICS_KEY',
+        'cache_duration': 30
+      });
+    }));
 
     it('should change the widget datasource status to TOFETCH.', function() {
       chartWidget.state().datasource.status = ResultsDataStatus.FETCHED;
@@ -468,5 +495,115 @@ describe('dashboardService', function() {
               toEqual(0);
         }
     );
+  });
+
+  describe('rewriteQuery()', function() {
+
+    var providedWidget, providedConfig, sampleDashboardValues,
+        sampleWidgetValues;
+
+    beforeEach(inject(function() {
+      spyOn(queryBuilderService, 'getSql');
+
+      providedWidget = {
+        'model': {
+          'datasource': {
+            'custom_query': false,
+            'query': '',
+            'config': {
+              'results': {
+                'project_id': '',
+                'dataset_name': '',
+                'table_name': '',
+                'table_partition': ''
+              }
+            }
+          }
+        }
+      };
+
+      providedConfig = providedWidget.model.datasource.config;
+
+      configService.populate({
+        'default_project': 'CONFIG_PROJECT',
+        'default_dataset': 'CONFIG_DATASET',
+        'default_table': 'CONFIG_TABLE',
+        'table_partition': 'CONFIG_PARTITION'
+      });
+
+      sampleDashboardValues = {
+        'project_id': 'DASH_PROJECT',
+        'dataset_name': 'DASH_DATASET',
+        'table_name': 'DASH_TABLE',
+        'table_partition': 'DASH_PARTITION'
+      };
+
+      sampleWidgetValues = {
+        'project_id': 'WIDGET_PROJECT',
+        'dataset_name': 'WIDGET_DATASET',
+        'table_name': 'WIDGET_TABLE',
+        'table_partition': 'WIDGET_PARTITION'
+      };
+    }));
+
+    it('should use widget values if available.', function() {
+      providedConfig.results.project_id = sampleWidgetValues.project_id;
+      providedConfig.results.dataset_name = sampleWidgetValues.dataset_name;
+      providedConfig.results.table_name = sampleWidgetValues.table_name;
+      providedConfig.results.table_partition = (
+          sampleWidgetValues.table_partition);
+
+      svc.rewriteQuery(providedWidget);
+
+      expect(queryBuilderService.getSql).toHaveBeenCalledWith(
+          providedConfig,
+          sampleWidgetValues.project_id,
+          sampleWidgetValues.dataset_name,
+          sampleWidgetValues.table_name,
+          sampleWidgetValues.table_partition);
+    });
+
+    it('should use dashboard values if absence of widget values.', function() {
+      svc.current.model.project_id = sampleDashboardValues.project_id;
+      svc.current.model.dataset_name = sampleDashboardValues.dataset_name;
+      svc.current.model.table_name = sampleDashboardValues.table_name;
+      svc.current.model.table_partition = (
+          sampleDashboardValues.table_partition);
+
+      svc.rewriteQuery(providedWidget);
+
+      expect(queryBuilderService.getSql).toHaveBeenCalledWith(
+          providedConfig,
+          sampleDashboardValues.project_id,
+          sampleDashboardValues.dataset_name,
+          sampleDashboardValues.table_name,
+          sampleDashboardValues.table_partition);
+    });
+
+    it('should use config values if absence of widget and dashboard ' +
+       'values.', function() {
+      svc.rewriteQuery(providedWidget);
+
+      expect(queryBuilderService.getSql).toHaveBeenCalledWith(
+          providedConfig,
+          configService.default_project,
+          configService.default_dataset,
+          configService.default_table,
+          svc.DEFAULT_TABLE_PARTITION);
+    });
+
+    it('should use a mix of scopes to populate values.', function() {
+      svc.current.model.project_id = sampleDashboardValues.project_id;
+      providedConfig.results.dataset_name = sampleWidgetValues.dataset_name;
+
+      svc.rewriteQuery(providedWidget);
+
+      expect(queryBuilderService.getSql).toHaveBeenCalledWith(
+          providedConfig,
+          sampleDashboardValues.project_id,
+          sampleWidgetValues.dataset_name,
+          configService.default_table,
+          svc.DEFAULT_TABLE_PARTITION);
+    });
   });
 });

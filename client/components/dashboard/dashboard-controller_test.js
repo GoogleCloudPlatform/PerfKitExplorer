@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Tests for the DashboardController controller.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -12,6 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
+goog.require('p3rf.perfkit.explorer.mocks.gvizMocks');
 
 describe('DashboardCtrl', function() {
   var explorer = p3rf.perfkit.explorer;
@@ -43,7 +52,7 @@ describe('DashboardCtrl', function() {
         dashboardDataService = _dashboardDataService_;
 
         spyOn(ctrlPrototype, 'initDashboard');
-        spyOn(ctrlPrototype, 'fetchDashboard').andCallThrough();
+        spyOn(ctrlPrototype, 'fetchDashboard').and.callThrough();
 
         ctrl = $controller(
             explorer.components.dashboard.DashboardCtrl,
@@ -64,7 +73,7 @@ describe('DashboardCtrl', function() {
 
     it('should by default create a new container with one widget.',
         function() {
-          ctrlPrototype.initDashboard.andCallThrough();
+          ctrlPrototype.initDashboard.and.callThrough();
           expect(ctrl.dashboard.widgets.length).toEqual(0);
 
           ctrl.initDashboard();
@@ -78,7 +87,7 @@ describe('DashboardCtrl', function() {
     it('should fetch a dashboard if there is a dashboardId ' +
        'in the url.',
         function() {
-          ctrlPrototype.initDashboard.andCallThrough();
+          ctrlPrototype.initDashboard.and.callThrough();
           location.search({dashboard: 'fakeId'});
           rootScope.$apply();
 

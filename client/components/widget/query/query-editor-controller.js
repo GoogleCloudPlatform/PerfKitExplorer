@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview QueryEditorController is an angular controller used to edit
  * the datasource's query of the selected widget.
@@ -12,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
 
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
@@ -26,6 +35,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var ConfigService = explorer.components.config.ConfigService;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 var DateGroupings = explorer.models.perfkit_simple_builder.DateGroupings;
@@ -55,7 +65,7 @@ var ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @ngInject
  */
 explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
-    explorerService, dashboardService, queryEditorService,
+    configService, explorerService, dashboardService, queryEditorService,
     queryBuilderService) {
   /**
    * @type {!angular.Scope}
@@ -68,6 +78,12 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
    * @private
    */
   this.filter_ = $filter;
+
+  /**
+   * @type {!ConfigService}
+   * @export
+   */
+  this.config = configService;
 
   /**
    * @type {!QueryEditorService}
@@ -127,7 +143,11 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
 
   $scope.$watch(
       angular.bind(this, function() {
-        return dashboardService.selectedWidget;
+        if (dashboardService.selectedWidget) {
+          return dashboardService.selectedWidget.model;
+        } else {
+          return null;
+        }
       }),
       angular.bind(this, function() {
         if (dashboardService.selectedWidget) {

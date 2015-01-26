@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Model definition for a dashboard. Dashboards are
  * retrieved in the JSON format from a REST service (see DashboardDataService).
@@ -15,11 +23,14 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
+
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 
@@ -50,34 +61,49 @@ explorer.components.dashboard.DashboardModel = function() {
   this.owner = this.getDefaultOwner();
 
   /**
+   * @type {Array.<!string>}
+   * @expose
+   */
+  this.writers = [];
+
+  /**
    * @type {?string}
    * @expose
    */
   this.type = 'dashboard';
 
   /**
-   * Specifies the project id that the query will connect to.  If not provided, will use the dashboard-level project
-   * id, or the app-engine default.
+   * Overrides the default project id that widget queries will connect to.
+   * This may be further overridden by widget-level settings.
    * @type {?string}
    * @export
    */
   this.project_id = null;
 
   /**
-   * Specifies the dataset that the query will connect to.  If not provided, will use the dashboard-level dataset
-   * name, or the app-engine default.
+   * Overrides the default dataset that widget queries will connect to.  This
+   * may be overridden by widget-level settings.
    * @type {?string}
    * @export
    */
   this.dataset_name = null;
 
   /**
-   * Specifies the table that the query will connect to.  If not provided, will use the dashboard-level table name
-   * or the app-engine default.
+   * Overrides the default table that widget queries will connect to.  This
+   * may be overridden by widget-level settings.
    * @type {?string}
    * @export
    */
   this.table_name = null;
+
+  /**
+   * Specifies the default type of partitioning used on the table.  This may
+   * be overridden by widget-level seeings.  For more information, see the
+   * docstring for QueryTablePartitioning.
+   * @type {?QueryTablePartitioning}
+   * @export
+   */
+  this.table_partition = QueryTablePartitioning.DEFAULT;
 
   /**
    * @type {!Array.<(ContainerWidgetConfig|ContainerWidgetModel)>}

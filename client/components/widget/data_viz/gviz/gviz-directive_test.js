@@ -1,9 +1,17 @@
 /**
  * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
- * Use of this source code is governed by a BSD-style
- * license that can be found in the LICENSE file or at
- * https://developers.google.com/open-source/licenses/bsd
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * @fileoverview Tests for the gvizDirective component.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -33,6 +41,7 @@ describe('gvizDirective', function() {
   var compile, rootScope, timeout, chartWrapperMock, gvizChartErrorCallback,
       queryResultDataServiceMock, fetchResultsDeferred, model, state,
       dataViewServiceMock, dataViewsJson, widgetFactoryService;
+  var httpBackend;
 
   function setupData(isFetched) {
     // Default query
@@ -45,6 +54,7 @@ describe('gvizDirective', function() {
   function setupComponent() {
     var component = compile(
         '<gviz-chart-widget widget-config="widgetConfig"/>')(rootScope);
+    httpBackend.expectGET("/static/components/widget/data_viz/gviz/gviz-charts.json").respond({});
     rootScope.$apply();
     timeout.flush();
 
@@ -66,7 +76,7 @@ describe('gvizDirective', function() {
 
       queryResultDataServiceMock = {
         fetchResults: jasmine.createSpy().
-            andReturn(fetchResultsDeferred.promise)
+            and.returnValue(fetchResultsDeferred.promise)
       };
       return queryResultDataServiceMock;
     };
@@ -74,7 +84,7 @@ describe('gvizDirective', function() {
     $provide.service('queryResultDataService', queryResultDataService);
   }));
 
-  beforeEach(inject(function($templateCache) {
+  beforeEach(inject(function($templateCache, $httpBackend) {
     var template =
         '<div>' +
         '<div class="perfkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
@@ -86,6 +96,7 @@ describe('gvizDirective', function() {
         '<div class="spinner" ng-show="isDataFetching()"></div>' +
         '</div>';
 
+    httpBackend = $httpBackend;
     $templateCache.put(
         '/static/components/widget/data_viz/gviz/gviz-directive.html',
         template);
@@ -103,7 +114,7 @@ describe('gvizDirective', function() {
         dataViewServiceMock = dataViewService;
 
         // Return 10 rows by default
-        GvizDataTable.prototype.getNumberOfRows.andReturn(10);
+        GvizDataTable.prototype.getNumberOfRows.and.returnValue(10);
 
         // Setup fake data for component's attributes
         rootScope.widgetConfig =
@@ -116,7 +127,7 @@ describe('gvizDirective', function() {
         state().parent = new ContainerWidgetConfig(widgetFactoryService);
         model.datasource.query = 'fake query';
 
-        gvizEventsMock.addListener.andCallFake(
+        gvizEventsMock.addListener.and.callFake(
             function(chartWrapper, eventName, callback) {
               if (eventName === 'error') {
                 gvizChartErrorCallback = callback;
@@ -125,7 +136,7 @@ describe('gvizDirective', function() {
         );
 
         dataViewsJson = {obj: 'fake dataViewsJson'};
-        spyOn(dataViewServiceMock, 'create').andReturn(dataViewsJson);
+        spyOn(dataViewServiceMock, 'create').and.returnValue(dataViewsJson);
       }));
 
   it('should update the chartWrapper when the configuration change.',
@@ -138,7 +149,7 @@ describe('gvizDirective', function() {
 
         expect(chartWrapperMock.setChartType).
             toHaveBeenCalledWith(model.chart.chartType);
-        var optionsArg = chartWrapperMock.setOptions.mostRecentCall.args[0];
+        var optionsArg = chartWrapperMock.setOptions.calls.mostRecent().args[0];
         expect(optionsArg.obj).toEqual('options');
 
         // Change the configuration
@@ -149,7 +160,7 @@ describe('gvizDirective', function() {
 
         expect(chartWrapperMock.setChartType).
             toHaveBeenCalledWith(model.chart.chartType);
-        optionsArg = chartWrapperMock.setOptions.mostRecentCall.args[0];
+        optionsArg = chartWrapperMock.setOptions.calls.mostRecent().args[0];
         expect(optionsArg.obj).toEqual('options2');
       }
   );
@@ -165,7 +176,7 @@ describe('gvizDirective', function() {
         model.chart.options.height = 999;
         rootScope.$apply();
 
-        var optionsArg = chartWrapperMock.setOptions.mostRecentCall.args[0];
+        var optionsArg = chartWrapperMock.setOptions.calls.mostRecent().args[0];
         expect(optionsArg).not.toBeNull();
         expect(optionsArg.height).toEqual(123);
       }
@@ -316,7 +327,7 @@ describe('gvizDirective', function() {
 
     it('should update its state to NODATA when empty data have been fetched.',
         function() {
-          GvizDataTable.prototype.getNumberOfRows.andReturn(0);
+          GvizDataTable.prototype.getNumberOfRows.and.returnValue(0);
           setupData();
           setupComponent();
 
@@ -363,7 +374,7 @@ describe('gvizDirective', function() {
 
           rootScope.$apply();
           rootScope.$apply();
-          expect(chartWrapperMock.draw.callCount).toEqual(1);
+          expect(chartWrapperMock.draw.calls.count()).toEqual(1);
         }
     );
 
@@ -376,7 +387,7 @@ describe('gvizDirective', function() {
 
           rootScope.$apply();
           rootScope.$apply();
-          expect(chartWrapperMock.draw.callCount).toEqual(1);
+          expect(chartWrapperMock.draw.calls.count()).toEqual(1);
         }
     );
 
@@ -384,7 +395,7 @@ describe('gvizDirective', function() {
         function() {
           setupData(true);
           setupComponent();
-          expect(chartWrapperMock.draw.callCount).toEqual(1);
+          expect(chartWrapperMock.draw.calls.count()).toEqual(1);
 
           // Simulate new data have been fetched
           state().datasource.status = ResultsDataStatus.FETCHING;
@@ -393,7 +404,7 @@ describe('gvizDirective', function() {
 
           rootScope.$apply();
           timeout.flush();
-          expect(chartWrapperMock.draw.callCount).toEqual(2);
+          expect(chartWrapperMock.draw.calls.count()).toEqual(2);
         }
     );
 
@@ -484,8 +495,8 @@ describe('gvizDirective', function() {
       model.datasource.view.columns = [1, 0];
       rootScope.$apply();
 
-      expect(dataViewServiceMock.create.callCount).toEqual(2);
-      expect(chartWrapperMock.setView.callCount).toEqual(2);
+      expect(dataViewServiceMock.create.calls.count()).toEqual(2);
+      expect(chartWrapperMock.setView.calls.count()).toEqual(2);
     });
 
     it('should be applied when data changes.', function() {
@@ -497,13 +508,13 @@ describe('gvizDirective', function() {
       state().datasource.status = ResultsDataStatus.FETCHED;
       rootScope.$apply();
 
-      expect(dataViewServiceMock.create.callCount).toEqual(2);
-      expect(chartWrapperMock.setView.callCount).toEqual(2);
+      expect(dataViewServiceMock.create.calls.count()).toEqual(2);
+      expect(chartWrapperMock.setView.calls.count()).toEqual(2);
     });
 
     it('should not be applied when the DataView has an error.', function() {
       var expectedError = {error: {property: 'sort', message: 'fake message'}};
-      dataViewServiceMock.create.andReturn(expectedError);
+      dataViewServiceMock.create.and.returnValue(expectedError);
       setupData(true);
       setupComponent();
 
@@ -514,13 +525,13 @@ describe('gvizDirective', function() {
     it('should trigger a draw after being applied.', function() {
       setupData(true);
       setupComponent();
-      expect(chartWrapperMock.draw.callCount).toEqual(1);
+      expect(chartWrapperMock.draw.calls.count()).toEqual(1);
 
       // Modify the model to trigger a new dataview apply
       model.datasource.view.columns = [1, 0];
       rootScope.$apply();
       timeout.flush();
-      expect(chartWrapperMock.draw.callCount).toEqual(2);
+      expect(chartWrapperMock.draw.calls.count()).toEqual(2);
     });
   });
 });

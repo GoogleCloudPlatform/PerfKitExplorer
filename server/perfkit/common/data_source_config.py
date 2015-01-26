@@ -1,8 +1,16 @@
 """Copyright 2014 Google Inc. All rights reserved.
 
-Use of this source code is governed by a BSD-style
-license that can be found in the LICENSE file or at
-https://developers.google.com/open-source/licenses/bsd
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 A module containing data source configuration for Perfkit.
 
@@ -20,7 +28,6 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import os
 import json
-import logging
 
 
 # Specifies the timeout for individual requests (in seconds) for Cloud Storage
@@ -48,24 +55,23 @@ class Environments(object):
     return [cls.PRODUCTION, cls.TESTING]
 
 
+# TODO: Rename Services to Options, as we're genericizing the config store.
 class Services(object):
   """Class to enumerate constants for supported services."""
 
   LABEL = 'services'
 
   ANALYTICS_KEY = 'analytics-key'
-  API_KEY = 'api_key'
-  DATA_QUEUE = 'data-queue'
-  DATA_STORE = 'data-store'
   PROJECT_ID = 'project_id'
   PROJECT_NAME = 'project_name'
   SAMPLES_MART = 'samples-mart'
+  CACHE_DURATION = 'cache-duration'
 
   @classmethod
   def All(cls):
     """Returns all known services."""
-    return [cls.API_KEY, cls.DATA_QUEUE, cls.DATA_STORE, cls.PROJECT_ID,
-            cls.PROJECT_NAME, cls.SAMPLES_MART, cls.ANALYTICS_KEY]
+    return [cls.PROJECT_ID, cls.PROJECT_NAME,
+            cls.SAMPLES_MART, cls.ANALYTICS_KEY, cls.CACHE_DURATION]
 
   @classmethod
   def GetServiceData(cls):

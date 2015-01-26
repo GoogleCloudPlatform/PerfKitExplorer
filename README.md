@@ -2,8 +2,9 @@ PerfKit Explorer Installation Guide
 ===================================
 PerfKit is a service & web front end for composing queries and dashboards, and sharing the results.
 
-Note the installation instructions below are based on using a Google Cloud Platform Compute instance, using the Debian Backports image. 
-Instructions for platform installation may vary depending on your operating system and patch levels.
+Note the installation instructions below are based on using a Google Cloud Platform Compute instance, using the
+Debian Backports image. Instructions for platform installation may vary depending on your operating system and
+patch levels.
 
 Set up your workstation
 =======================
@@ -31,23 +32,17 @@ Set up your workstation
 
          gcloud auth login
 
-6. Create a root folder for your source code (i.e.: `~/projects`) and navigate to it.
-7. Download the Closure Tools.
+6. Install the [Google App Engine SDK for Python](https://cloud.google.com/appengine/downloads).
 
-         git clone https://github.com/google/closure-library
+   * note: You will need to add the App Engine SDK to your PATH so that you can find appcfg.py.
 
-    Modify your environment (i.e. `~/.bashrc`) so that `closurelib` is an alias/shortcut
-    to the extracted/installed path to closure-library. Example:
+7. Create a root folder for your source code (i.e.: `~/projects`) and navigate to it.
 
-         closurelib=~/projects/closure-library
-         export closurelib
+8. Create a GitHub account at http://www.github.com.
 
-8. Create a GitHub account at http://www.github.com
-   a. Generate and register an SSH key based on GitHub Instructions.
-   https://help.github.com/articles/generating-ssh-keys
 9. Clone this repository:
 
-         git clone git@github.com:GoogleCloudPlatform/PerfKitExplorer.git
+         git clone https://github.com/GoogleCloudPlatform/PerfKitExplorer.git
 
    If you have connected and authenticated correctly, the source code for
    PerfKit Explorer will download.
@@ -61,6 +56,11 @@ Set up your workstation
              compile.sh
              app.yaml
 
+10. Change to the PerfKitExplorer folder and download the Closure Tools, which are included as
+    a submodule in the project:
+
+         git submodule update --init
+
 Create the App Engine project
 =============================
 1. Create a Google Cloud project at https://console.developers.google.com/project.
@@ -70,8 +70,10 @@ Create the BigQuery repository
 ==============================
 1. Create a Google Cloud project, or user the same one you used for the App
    Engine project.
+
 2. Enable billing for your Cloud Project (available from links on the left-hand side)
    https://console.developers.google.com/project/apps~MYPROJECT/settings
+
 3. Create a dataset (ex: samples_mart):
 
          bq mk --project=MYPROJECT samples_mart
@@ -98,8 +100,8 @@ Compile and Deploy PerfKit Explorer
 
          cd ~/projects/PerfKitExplorer
 
-2. Modify the `app.yaml` file so that the application and version tags are
-   appropriate. For example:
+2. Modify the `app.yaml` file so that the application name matches the project id you created in
+   the 'Create the App Engine project' step, and the version string is set appropriately. For example:
 
          application: perfkit-explorer-demo
          version: beta
@@ -107,7 +109,7 @@ Compile and Deploy PerfKit Explorer
 3. Modify the `config/data_source_config.json` so that the production tags are
    appropriate for the repository you created in the previous step. For example:
 
-         project_id: 123456789
+         project_id: perfkit-explorer-demo
          project_name: perfkit-samples
          samples-mart: perfkit-samples.samples_mart
          analytics-key: UA-12345
@@ -117,6 +119,7 @@ Compile and Deploy PerfKit Explorer
          bash compile.sh
 
 5. You will now find a `~/projects/PerfKitExplorer/deploy` folder. Navigate to it.
+
 6. Deploy PerfKit Explorer to App Engine.
 
          appcfg.py --oauth2 update .
