@@ -1,7 +1,7 @@
-<div>
-  <div ng-switch="footerCtrl.settings.isOpen">
-    <div ng-switch-when="true" class="perfkit-footer-open">
-      <div class="perfkit-footer-toolbar">
+<div style="height:100%">
+  <div ng-switch="footerCtrl.settings.isOpen" style="height:100%">
+    <div ng-switch-when="true" class="perfkit-footer-open" style="display:table; height:100%; width: 100%">
+      <div class="perfkit-footer-toolbar" style="display:table-row">
         <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-footer-button"
               ng-click="footerCtrl.closeCodeEditor()"></span>
         <div class="btn-group perfkit-toolbar-section">
@@ -42,8 +42,8 @@
           </div>
         </div>
       </div>
-      <div ng-switch="footerCtrl.settings.selectedMode">
-        <div ng-switch-when="JSON">
+      <div ng-switch="footerCtrl.settings.selectedMode" style="display:table-row">
+        <div ng-switch-when="JSON" fill>
           <div>
             <textarea codemirror="footerCtrl.editorOptionsJSON"
                       ng-model="footerCtrl.currentJson.text">
@@ -53,14 +53,14 @@
         <div ng-switch-when="SQL">
           <div ng-switch="footerCtrl.dashboard.selectedWidget.model.datasource.custom_query">
             <div ng-switch-when="true">
-              <div>
+              <div fill>
                 <textarea codemirror="footerCtrl.editorOptionsSQL"
                           ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
                 </textarea>
               </div>
             </div>
             <div ng-switch-default>
-              <div>
+              <div fill>
                 <textarea codemirror="footerCtrl.editorOptionsSQLView"
                           ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
                 </textarea>

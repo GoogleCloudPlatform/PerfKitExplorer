@@ -9,8 +9,8 @@
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-mocks.js"></script>
 
   <!-- AngularUI Grid -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/ng-grid/2.0.7/ng-grid.css" rel="stylesheet">
+  <script src="/static/third_party/uiGrid/ui-grid.js"></script>
+  <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
 
   <!-- CodeMirror3 Editor -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
@@ -41,7 +41,9 @@
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
-    var DEFAULT_QUERY_PROJECT_ID = '[[default_query_project_id]]';
+    [% autoescape false %]
+    var INITIAL_CONFIG =  [[initial_config]];
+    [% endautoescape %]
   </script>
 
   <!-- Perfkit -->

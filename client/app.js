@@ -47,6 +47,7 @@ goog.require('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.util.GetByPropertyFilter');
 goog.require('p3rf.perfkit.explorer.components.util.FileModelDirective');
+goog.require('p3rf.perfkit.explorer.components.util.FillDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
@@ -198,6 +199,8 @@ explorer.application.module.directive('container',
     explorer.components.container.ContainerDirective);
 explorer.application.module.directive('containerConfig',
   explorer.components.container.ContainerConfigDirective)
+explorer.application.module.directive('fill',
+    explorer.components.util.FillDirective);
 explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.MetadataPickerDirective);
 explorer.application.module.directive('resize',

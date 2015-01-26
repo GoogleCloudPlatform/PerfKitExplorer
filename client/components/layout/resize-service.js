@@ -16,12 +16,19 @@ var ResizeDirections = p3rf.perfkit.explorer.components.layout.ResizeDirections;
 
 
 /**
+ * @param {!angular.Scope}
  * @returns {!ResizeService}
  * @ngInject
  * @export
  * @constructor
  */
-p3rf.perfkit.explorer.components.layout.ResizeService = function() {
+p3rf.perfkit.explorer.components.layout.ResizeService = function($rootScope) {
+  /**
+   * @private
+   * @type {!angular.Scope}
+   */
+  this.rootScope_ = $rootScope;
+
   /**
    * @export
    * @type {boolean}
@@ -105,4 +112,6 @@ ResizeService.prototype.doResize = function(event) {
 
       break;
   }
+
+  this.rootScope_.$broadcast('layoutChanged');
 };

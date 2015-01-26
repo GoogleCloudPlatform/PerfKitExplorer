@@ -94,22 +94,39 @@
   </div>
 
   <div class="perfkit2-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
+
     <div class="perfkit2-page-leftwell" id="perfkit2-page-leftwell"
          ng-controller="QueryEditorCtrl as queryEditorCtrl">
 
       <query-editor />
+
     </div>
+
     <div resize="right" resize-element-id="perfkit2-page-leftwell">&nbsp;</div>
+
     <div class="perfkit2-page-content">
       CONTENT
     </div>
+
     <div resize="left" resize-element-id="perfkit2-page-rightwell">&nbsp;</div>
+
     <div class="perfkit2-page-rightwell" id="perfkit2-page-rightwell">
-      RIGHTWELL
+
+      <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
+
+      <container-config ng-model="dashboardCtrl.dashboard.selectedContainer.model"></container-config>
+
+      <chart-config ng-model="dashboardCtrl.dashboard.selectedWidget.model"></chart-config>
+
     </div>
+
   </div>
+
   <div resize="top" resize-element-id="perfkit2-page-footer">&nbsp;</div>
+
   <div class="perfkit2-page-footer" id="perfkit2-page-footer">
-    FOOTER
+
+    <widget-editor></widget-editor>
+
   </div>
 </div>
