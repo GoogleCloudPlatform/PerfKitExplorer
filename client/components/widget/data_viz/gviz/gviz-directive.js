@@ -383,7 +383,7 @@ gvizChart.ERR_SAFE_MODE =
 /** @type {string} */
 gvizChart.ERR_NO_QUERY =
     'No query provided. Please select the widget, describe a ' +
-    'query to the left and press \'REFRESH\'.  Or click \'EDIT SQL\' to ' +
+    'query to the left and press \'REFRESH\'.  Or click \'VIEW SQL\' to ' +
     'provide your own custom query.';
 
 

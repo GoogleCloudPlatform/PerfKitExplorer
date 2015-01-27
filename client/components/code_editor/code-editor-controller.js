@@ -51,8 +51,7 @@ var ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @ngInject
  */
 explorer.components.code_editor.CodeEditorCtrl = function(
-    $scope, explorerService, dashboardService, widgetFactoryService,
-    resizeService) {
+    $scope, explorerService, dashboardService, widgetFactoryService) {
   /**
    * @type {!WidgetFactoryService}
    * @private
@@ -70,11 +69,6 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * @export
    */
   this.dashboard = dashboardService;
-
-  /**
-   * @private {!ResizeService}
-   */
-  this.resizeService_ = resizeService;
 
   /**
    * Shortcut property to the code_editor section of the ExplorerSettingsModel.
@@ -121,18 +115,6 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   this.editorOptionsSQL = {
     lineWrapping: false,
     lineNumbers: true,
-    mode: 'sql'
-  };
-
-  /**
-   * Options for the CodeMirror editor.
-   * @type {!Object}
-   * @export
-   */
-  this.editorOptionsSQLView = {
-    lineWrapping: false,
-    lineNumbers: true,
-    readOnly: true,
     mode: 'sql'
   };
 
@@ -262,6 +244,16 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
         this.saveState = SaveState.SAVING_TO_OBJECT;
       }
     }
+  }
+};
+
+CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
+  switch (mode) {
+    case 'JSON':
+    case 'SQL':
+      return (this.dashboard.selectedWidget !== null);
+    default:
+      return true;
   }
 };
 

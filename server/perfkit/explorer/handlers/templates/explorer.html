@@ -36,7 +36,8 @@
 
     // Initialize Google Visualizations
     try {
-      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
+      google.load('visualization', '1', {packages: [
+        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey']});
     } catch (err) { }
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
@@ -50,7 +51,7 @@
   <script src="/static/perfkit_scripts.js"></script>
   <link type="text/css" rel="stylesheet" href="/static/perfkit_styles.css" />
 </head>
-<body>
+<body ng-keydown="explorerCtrl.checkKeyDown($event)">
 
   <explorer-page />
 

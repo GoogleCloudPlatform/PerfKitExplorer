@@ -46,12 +46,7 @@ explorer.components.widget.perfkitWidget = function() {
       widgetConfig: '='
     },
     // TODO: Use templateUrl instead of hardcoded template strings.
-    template: '<div ng-style="layoutStyle"' +
-              'ng-class="{\'perfkit-widget-selected\': ' +
-              'widgetConfig.state().selected}">' +
-              '<div class="perfkit-widget-body ' +
-              '{{ widgetConfig.model.layout.cssClasses }}" ' +
-              'ng-transclude></div></div>',
+    templateUrl: '/static/components/widget/widget-directive.html',
     link: function(scope, element, attributes) {
       var basis;
 

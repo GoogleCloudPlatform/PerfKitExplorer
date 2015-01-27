@@ -78,9 +78,9 @@ explorer.components.explorer.ExplorerService = function(
   this.dashboardsLoading = false;
 
   /** @type {DashboardService}
-   *  @private
+   *  @export
    */
-  this.dashboard_ = dashboardService;
+  this.dashboard = dashboardService;
 
   /**
    * @type {!ExplorerModel}
@@ -162,12 +162,16 @@ ExplorerService.prototype.listDashboards = function() {
  * Updates the query and state of the selected widget's datasource.
  * @export
  */
-ExplorerService.prototype.customizeSql = function() {
-  var widget = this.dashboard_.selectedWidget;
+ExplorerService.prototype.customizeSql = function(rewrite) {
+  if (!rewrite === true) {
+    rewrite = false;
+  }
+
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
-  this.dashboard_.customizeSql(widget);
+  this.dashboard.customizeSql(widget, rewrite);
   this.model.readOnly = false;
   this.model.code_editor.isOpen = true;
 
@@ -180,7 +184,7 @@ ExplorerService.prototype.customizeSql = function() {
  * @export
  */
 ExplorerService.prototype.editJson = function() {
-  var widget = this.dashboard_.selectedWidget;
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -194,10 +198,14 @@ ExplorerService.prototype.editJson = function() {
  * Shows the SQL editor.
  * @export
  */
-ExplorerService.prototype.viewSql = function() {
-  var widget = this.dashboard_.selectedWidget;
+ExplorerService.prototype.viewSql = function(rewrite) {
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
+  }
+
+  if (rewrite === true) {
+    this.dashboard.rewriteQuery(widget);
   }
 
   this.model.code_editor.isOpen = true;
@@ -219,7 +227,7 @@ ExplorerService.prototype.hideSql = function() {
  * @export
  */
 ExplorerService.prototype.editDashboard = function() {
-  var widget = this.dashboard_.selectedWidget;
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -239,12 +247,20 @@ ExplorerService.prototype.showLog = function() {
 };
 
 
+ExplorerService.prototype.unselectWidget = function() {
+  this.dashboard.unselectWidget();
+
+  if (this.model.code_editor.selectedMode !== 'LOG') {
+    this.model.code_editor.isOpen = false;
+  }
+};
+
 /**
  * Updates the query and state of the selected widget's datasource.
  * @export
  */
 ExplorerService.prototype.restoreBuilder = function() {
-  var widget = this.dashboard_.selectedWidget;
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -259,8 +275,7 @@ ExplorerService.prototype.restoreBuilder = function() {
     if (!window.confirm(msg)) { return; }
   }
 
-  this.dashboard_.restoreBuilder(widget);
-  this.model.code_editor.isOpen = false;
+  this.dashboard.restoreBuilder(widget);
 };
 
 

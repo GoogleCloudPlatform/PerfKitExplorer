@@ -13,13 +13,15 @@
   <div class="perfkit2-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
 
     <div class="perfkit2-page-leftwell" id="perfkit2-page-leftwell"
-         ng-controller="QueryEditorCtrl as queryEditorCtrl">
+         ng-controller="QueryEditorCtrl as queryEditorCtrl"
+         ng-show="explorerCtrl.dashboard.selectedWidget">
 
       <query-editor />
 
     </div>
 
-    <div resize="right" resize-element-id="perfkit2-page-leftwell">&nbsp;</div>
+    <div resize="right" resize-element-id="perfkit2-page-leftwell"
+         ng-show="explorerCtrl.dashboard.selectedWidget">&nbsp;</div>
 
     <div class="perfkit2-page-content">
 
@@ -27,9 +29,11 @@
 
     </div>
 
-    <div resize="left" resize-element-id="perfkit2-page-rightwell">&nbsp;</div>
+    <div resize="left" resize-element-id="perfkit2-page-rightwell"
+         ng-show="explorerCtrl.dashboard.selectedWidget">&nbsp;</div>
 
-    <div class="perfkit2-page-rightwell" id="perfkit2-page-rightwell">
+    <div class="perfkit2-page-rightwell" id="perfkit2-page-rightwell"
+         ng-show="explorerCtrl.dashboard.selectedWidget">
 
       <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
 

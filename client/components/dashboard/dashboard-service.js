@@ -284,16 +284,18 @@ DashboardService.prototype.refreshWidget = function(widget) {
  * Changes the widget datasource to accept a custom SQL statement.
  *
  * @param {!WidgetConfig} widget
+ * @param {!bool} rewrite If true, rewrites the query based on the QueryBuilder
+ *    settings.  Otherwise, leaves the query as-is.  Defaults to false.
  * @export
  */
-DashboardService.prototype.customizeSql = function(widget) {
+DashboardService.prototype.customizeSql = function(widget, rewrite) {
   if (!widget.model.datasource) {
     throw new Error('Selected widget doesn\'t have a datasource property.');
   }
 
-  widget.state().datasource.status = ResultsDataStatus.NODATA;
-
-  this.rewriteQuery(widget);
+  if (rewrite === true) {
+    this.rewriteQuery(widget);
+  }
 
   widget.model.datasource.custom_query = true;
 };
@@ -306,9 +308,8 @@ DashboardService.prototype.customizeSql = function(widget) {
  * @export
  */
 DashboardService.prototype.restoreBuilder = function(widget) {
-  widget.model.datasource.query = '';
-  widget.state().datasource.status = ResultsDataStatus.NODATA;
   widget.model.datasource.custom_query = false;
+  this.rewriteQuery(widget);
 };
 
 
@@ -420,7 +421,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
     container.model.container.columns -= widget.model.layout.columnspan;
   }
 
-  this.selectedWidget = null;
+  this.unselectWidget();
 };
 
 
@@ -493,6 +494,18 @@ DashboardService.prototype.removeContainer = function(container) {
 
   var index = this.widgets.indexOf(container);
   this.widgets.splice(index, 1);
+  this.unselectWidget();
+};
+
+
+/**
+ * Unselected the currently selected widget and container, if any.
+ */
+DashboardService.prototype.unselectWidget = function() {
+  if (this.selectedWidget) {
+    this.selectedWidget.state().selected = false;
+  }
+
   this.selectedWidget = null;
   this.selectedContainer = null;
 };

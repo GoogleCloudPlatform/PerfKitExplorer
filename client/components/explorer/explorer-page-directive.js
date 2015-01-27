@@ -19,12 +19,16 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 
 
+var KEY_ESCAPE = 27;
+
+
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.explorer.ExplorerPageDirective = function(resizeService) {
+explorer.components.explorer.ExplorerPageDirective = function(
+    resizeService, explorerService) {
   return {
     restrict: 'E',
     replace: true,
@@ -32,7 +36,6 @@ explorer.components.explorer.ExplorerPageDirective = function(resizeService) {
     templateUrl: '/static/components/explorer/explorer-page-directive.html',
     controllerAs: 'pageCtrl',
     controller: function($scope) {
-
     },
     link: function(scope, element, attr) {
       element.on('mouseup', angular.bind(this, function(event) {

@@ -20,7 +20,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 
 
-DEFAULT_PROJECT = ''
+DEFAULT_PROJECT = 'unset'
 DEFAULT_DATASET = 'samples_mart'
 DEFAULT_TABLE = 'results'
 DEFAULT_ANALYTICS_KEY = ''

@@ -33,6 +33,8 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 var ExplorerService = explorer.components.explorer.ExplorerService;
 
 
+/** @export {!number} */
+var KEY_ESCAPE = 27;
 
 /**
  * Root controller for the Explorer page.
@@ -109,6 +111,23 @@ explorer.components.explorer.ExplorerCtrl = function(
   this.initExplorer();
 };
 var ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
+
+
+  /**
+   *
+   * @param event
+   * @export
+   */
+ExplorerCtrl.prototype.checkKeyDown = function(event) {
+  if (event.keyCode === KEY_ESCAPE) {
+    if (document.activeElement === null ||
+         document.activeElement === document.body) {
+      this.explorer.unselectWidget();
+    } else {
+      document.activeElement.blur();
+    }
+  }
+};
 
 
 /**

@@ -43,6 +43,10 @@ explorer.components.codemirror.CodeMirrorDirective = function(
   return {
     restrict: 'A',
     require: 'ngModel',
+    scope: {
+      onChange: '&',
+      cmOptions: '='
+    },
     link: function(scope, elm, attrs, ngModel) {
       var options, opts, onChange, deferCodeMirror, codeMirror;
 
@@ -52,10 +56,14 @@ explorer.components.codemirror.CodeMirrorDirective = function(
       }
 
       options = uiCodemirrorConfig.codemirror || {};
-      opts = angular.extend({}, options, scope.$eval(attrs['codemirror']));
+      opts = angular.extend({}, options, scope.cmOptions);
 
       onChange = function(aEvent) {
         return function(instance, changeObj) {
+          if (scope.onChange) {
+            scope.onChange();
+          }
+
           var newValue = instance.getValue();
           if (newValue !== ngModel.$viewValue) {
             ngModel.$setViewValue(newValue);

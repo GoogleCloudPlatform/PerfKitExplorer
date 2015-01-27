@@ -9,6 +9,7 @@
             <button type="button" class="btn btn-default"
                  ng-model="footerCtrl.settings.selectedMode"
                  ng-repeat="mode in footerCtrl.settings.modes"
+                 ng-disabled="!footerCtrl.getModeEnabled(mode)"
                  btn-radio="mode">{{ mode }}</button>
           </div>
           <div class="perfkit-toolbar-section" ng-switch="footerCtrl.settings.selectedMode">
@@ -25,8 +26,8 @@
               </button>
               <button type="button" class="btn btn-default"
                       ng-show="!footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                      ng-click="footerCtrl.explorer.customizeSql()">
-                Edit SQL
+                      ng-click="footerCtrl.explorer.customizeSql(true)">
+                Customize SQL
               </button>
               <button type="button" class="btn btn-default"
                       ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
@@ -49,27 +50,19 @@
         <div class="perfkit-footer-body-cell">
           <div ng-switch-when="JSON" fill>
             <div>
-              <textarea codemirror="footerCtrl.editorOptionsJSON"
+              <textarea codemirror
+                        cm-options="footerCtrl.editorOptionsJSON"
                         ng-model="footerCtrl.currentJson.text">
               </textarea>
             </div>
           </div>
           <div ng-switch-when="SQL" fill>
-            <div ng-switch="footerCtrl.dashboard.selectedWidget.model.datasource.custom_query">
-              <div ng-switch-when="true">
-                <div>
-                  <textarea codemirror="footerCtrl.editorOptionsSQL"
-                            ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
-                  </textarea>
-                </div>
-              </div>
-              <div ng-switch-default>
-                <div>
-                  <textarea codemirror="footerCtrl.editorOptionsSQLView"
-                            ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
-                  </textarea>
-                </div>
-              </div>
+            <div>
+              <textarea codemirror
+                        cm-options="footerCtrl.editorOptionsSQL"
+                        ng-change="footerCtrl.explorer.customizeSql()"
+                        ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
+              </textarea>
             </div>
           </div>
           <div ng-switch-when="LOG" fill>
