@@ -36,20 +36,26 @@ var DashboardModel = explorer.components.dashboard.DashboardModel;
 
 /** @constructor */
 explorer.components.explorer.ExplorerModel = function() {
-  /** @export @type {!Array.<(DashboardConfig|DashboardModel)>} */
+  /** @export {!Array.<(DashboardConfig|DashboardModel)>} */
   this.dashboards = [];
 
-  /** @export @type {?boolean} */
+  /** @export {?boolean} */
   this.readOnly = null;
 
-  /** @export @type {!boolean} */
+  /** @export {!boolean} */
   this.hideToolbar = false;
 
-  /** @export @type {!boolean} */
+  /** @export {!boolean} */
   this.logStatistics = false;
 
-  /** @type {!CodeEditorSettingsModel} */
+  /** @export {!CodeEditorSettingsModel} */
   this.code_editor = new CodeEditorSettingsModel();
+
+  /** @export {!boolean} */
+  this.footerVisible = false;
+
+  /** @export {!boolean} */
+  this.dashboardIsLoading = false;
 };
 var ExplorerModel = explorer.components.explorer.ExplorerModel;
 

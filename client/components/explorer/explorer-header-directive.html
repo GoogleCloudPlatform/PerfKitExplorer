@@ -151,6 +151,11 @@
             <span class="glyphicon glyphicon-arrow-down"></span>
           </button>
           <button type="button" class="btn btn-default"
+                  ng-class="{'disabled': ctrl.selectedWidget == null}"
+                  ng-click="ctrl.explorer.viewSql()">
+            View SQL
+          </button>
+          <button type="button" class="btn btn-default"
                   ng-show="!ctrl.dashboard.selectedWidget.model.datasource.custom_query"
                   ng-class="{'disabled': ctrl.selectedWidget == null}"
                   ng-click="ctrl.explorer.customizeSql()">
@@ -160,6 +165,11 @@
                   ng-show="ctrl.dashboard.selectedWidget && ctrl.dashboard.selectedWidget.model.datasource.custom_query"
                   ng-click="ctrl.explorer.restoreBuilder()">
             Use SQL Builder
+          </button>
+          <button type="button" class="btn btn-default"
+                  ng-class="{'disabled': ctrl.selectedWidget == null}"
+                  ng-click="ctrl.explorer.editJson()">
+            Edit JSON
           </button>
           <button type="button" class="btn btn-default"
                   ng-class="{'disabled': ctrl.selectedWidget == null}"

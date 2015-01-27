@@ -41,19 +41,27 @@ explorer.components.util.FillDirective = (function ($rootScope, resizeService) {
     link: function (scope, element, attr) {
       this.resizeElement = function () {
         var targetElement = element[0];
-        var container = element[0].parentNode;
-        var containerStyle = window.getComputedStyle(container);
+        var originalDisplay = targetElement.style.display;
 
-        targetElement.style.height = containerStyle.height;
-        targetElement.style.width = containerStyle.width;
+        try {
+          targetElement.style.display = 'none';
+
+          var container = element[0].parentNode;
+          var containerStyle = window.getComputedStyle(container);
+
+          targetElement.style.height = containerStyle.height;
+          targetElement.style.width = containerStyle.width;
+        } finally {
+          targetElement.style.display = originalDisplay;
+        }
       };
 
       window.addEventListener('resize', this.resizeElement);
-      $rootScope.$on('layoutChanged', this.resizeElement());
+      $rootScope.$on('layoutChanged', this.resizeElement);
 
       this.resizeElement();
     }
-  }
+  };
 });
 
 });

@@ -1,0 +1,33 @@
+<div class="perfkit2-page-content-cell">
+  <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
+
+  <div ng-repeat="container in dashboardSvc.widgets" class="perfkit-container"
+       ng-class="{'perfkit-container-selected': widget.state().selected}">
+
+    <container class="perfkit-container-content" container-config="container">
+      <perfkit-widget class="perfkit-widget"
+              ng-repeat="widget in container.model.container.children"
+              widget-config="widget">
+        <div class="perfkit-widget-header"
+             ng-click="dashboardSvc.selectWidget(widget, container)">
+          <span class="glyphicon glyphicon-remove" style="float: right; margin-left: 4px"
+                ng-hide="explorerSvc.model.readOnly"
+                ng-click="dashboardSvc.removeWidget(widget, container)"></span>
+          <span class="glyphicon glyphicon-refresh" style="float: right; margin-left: 4px"
+                ng-click="dashboardSvc.refreshWidget(widget)"></span>
+          <div class="perfkit-widget-title" ng-bind="widget.model.title"></div>
+        </div>
+        <div class="perfkit-widget-content"
+             ng-click="dashboardSvc.selectWidget(widget, container)">
+          <gviz-chart-widget widget-config="widget"/>
+        </div>
+      </perfkit-widget>
+    </container>
+  </div>
+
+  <div ng-hide="explorerSvc.model.readOnly">
+    <button class="btn btn-primary"
+            ng-click="dashboardSvc.addContainer()">INSERT CONTAINER</button>
+  </div>
+</div>
+

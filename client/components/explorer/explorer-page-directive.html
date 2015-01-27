@@ -1,87 +1,4 @@
 <div class="perfkit2-page-canvas">
-  <style>
-    html, body {
-      height: 100%;
-      width: 100%;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    .perfkit2-page-canvas {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      width: 100%;
-    }
-
-    .perfkit2-page-body {
-      display: flex;
-      flex-grow: 1;
-    }
-
-    .perfkit2-resize-left, .perfkit2-resize-right {
-      cursor: col-resize;
-      width: 5px;
-      background-color: grey;
-    }
-
-    .perfkit2-resize-top, .perfkit2-resize-bottom {
-      cursor: row-resize;
-      height: 5px;
-      background-color: grey;
-    }
-
-    .perfkit2-page-header {
-      height: 93px;
-      background-color: rgb(241, 241, 241);
-      border-bottom: 1px solid red;
-      flex-shrink: 0;
-    }
-
-    .perfkit2-page-leftwell {
-      width: 225px;
-      border-right: 1px solid red;
-      overflow-x: auto;
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-
-    .perfkit2-page-content {
-      flex-grow: 1;
-      overflow-x: auto;
-      overflow-y: auto;
-    }
-
-    .perfkit2-page-rightwell {
-      width: 200px;
-      overflow-x: auto;
-      overflow-y: auto;
-      border-left: 1px solid red;
-      flex-shrink: 0;
-    }
-
-    .perfkit2-page-footer {
-      height: 200px;
-      border-top: 1px solid red;
-      overflow-x: auto;
-      overflow-y: auto;
-      flex-shrink: 0;
-    }
-
-    /* CSS Properties to make CodeMirror editor fill its contents. */
-    .CodeMirror {
-      border: 1px solid #eee;
-      height: auto;
-    }
-
-    .CodeMirror-scroll {
-      overflow-y: hidden;
-      overflow-x: auto;
-    }
-  </style>
-
   <div class="perfkit-page-alerts">
     <alert ng-repeat="error in explorerCtrl.explorer.errorService.errors | limitTo:3"
            type="error.errorType | lowercase"
@@ -105,7 +22,9 @@
     <div resize="right" resize-element-id="perfkit2-page-leftwell">&nbsp;</div>
 
     <div class="perfkit2-page-content">
-      CONTENT
+
+      <dashboard ng-model="dashboardCtrl.dashboard.current.model" />
+
     </div>
 
     <div resize="left" resize-element-id="perfkit2-page-rightwell">&nbsp;</div>
@@ -114,7 +33,9 @@
 
       <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
 
-      <container-config ng-model="dashboardCtrl.dashboard.selectedContainer.model"></container-config>
+      <container-config
+          ng-model="dashboardCtrl.dashboard.selectedContainer.model"
+          ng-show="dashboardCtrl.dashboard.selectedContainer"></container-config>
 
       <chart-config ng-model="dashboardCtrl.dashboard.selectedWidget.model"></chart-config>
 
@@ -122,9 +43,13 @@
 
   </div>
 
-  <div resize="top" resize-element-id="perfkit2-page-footer">&nbsp;</div>
+  <div
+      resize="top" resize-element-id="perfkit2-page-footer"
+      ng-show="explorerCtrl.explorer.model.code_editor.isOpen">&nbsp;</div>
 
-  <div class="perfkit2-page-footer" id="perfkit2-page-footer">
+  <div
+      class="perfkit2-page-footer" id="perfkit2-page-footer"
+      ng-show="explorerCtrl.explorer.model.code_editor.isOpen">
 
     <widget-editor></widget-editor>
 

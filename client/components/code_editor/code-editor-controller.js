@@ -51,7 +51,8 @@ var ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @ngInject
  */
 explorer.components.code_editor.CodeEditorCtrl = function(
-    $scope, explorerService, dashboardService, widgetFactoryService) {
+    $scope, explorerService, dashboardService, widgetFactoryService,
+    resizeService) {
   /**
    * @type {!WidgetFactoryService}
    * @private
@@ -69,6 +70,11 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * @export
    */
   this.dashboard = dashboardService;
+
+  /**
+   * @private {!ResizeService}
+   */
+  this.resizeService_ = resizeService;
 
   /**
    * Shortcut property to the code_editor section of the ExplorerSettingsModel.
@@ -151,6 +157,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   $scope.$watch(
       angular.bind(this, function() { return this.currentJson.text; }),
       angular.bind(this, this.saveTextToJson));
+
 };
 var CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
 

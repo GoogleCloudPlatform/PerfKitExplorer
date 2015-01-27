@@ -135,29 +135,6 @@ html, body {
   text-decoration: underline;
 }
 
-.perfkit-page-footer {
-  background-color: rgb(241, 241, 241);
-  border-top: 1px solid rgb(229, 229, 229);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-}
-
-.perfkit-footer-open {
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
-
-.perfkit-footer-toolbar {
-  height: 48px;
-  padding: 4px;
-}
-
-.perfkit-footer-close-button {
-  float: right;
-  margin-right: 5px;
-}
-
 .pagination {
   margin: 0;
 }

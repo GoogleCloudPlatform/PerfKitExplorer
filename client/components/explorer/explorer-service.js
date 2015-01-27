@@ -176,6 +176,21 @@ ExplorerService.prototype.customizeSql = function() {
 
 
 /**
+ * Shows the JSON editor for the selected widget.
+ * @export
+ */
+ExplorerService.prototype.editJson = function() {
+  var widget = this.dashboard_.selectedWidget;
+  if (!widget) {
+    throw new Error('No selected widget.');
+  }
+
+  this.model.code_editor.isOpen = true;
+  this.model.code_editor.selectedMode = 'JSON';
+};
+
+
+/**
  * Shows the SQL editor.
  * @export
  */

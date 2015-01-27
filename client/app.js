@@ -30,6 +30,7 @@ goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
@@ -198,7 +199,9 @@ explorer.application.module.directive('explorerConfig',
 explorer.application.module.directive('container',
     explorer.components.container.ContainerDirective);
 explorer.application.module.directive('containerConfig',
-  explorer.components.container.ContainerConfigDirective)
+    explorer.components.container.ContainerConfigDirective);
+explorer.application.module.directive('dashboard',
+    explorer.components.dashboard.DashboardDirective);
 explorer.application.module.directive('fill',
     explorer.components.util.FillDirective);
 explorer.application.module.directive('metadataPicker',

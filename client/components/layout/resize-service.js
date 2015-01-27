@@ -2,6 +2,8 @@ goog.provide('p3rf.perfkit.explorer.components.layout.ResizeService');
 
 goog.require('goog.math');
 
+goog.scope(function() {
+
 /**
  * @enum
  * @constructor
@@ -113,5 +115,14 @@ ResizeService.prototype.doResize = function(event) {
       break;
   }
 
+  this.notifyLayoutChanged();
+};
+
+/**
+ * Broadcasts a notification that layout has changed.
+ */
+ResizeService.prototype.notifyLayoutChanged = function() {
   this.rootScope_.$broadcast('layoutChanged');
 };
+
+});
