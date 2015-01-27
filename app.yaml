@@ -24,6 +24,15 @@ handlers:
   static_dir: client
   login: required
 
+# Use version number as part of static file URLs so that long expiration times
+# will not affect changes in new deployments.  This is accomplished by the
+# handler providing a template variable static_dir, see
+# _RequestHandler.RenderHtml in perfkit.explorer.handlers.base.
+- url: /_static/.+?/(.*)
+  static_files: client/\1
+  upload: client/(.*)
+  secure: always
+
 # Provides interactive console for debugging purposes in production.
 # This is equivalent to /_ah/admin in dev_app_server.
 - url: /_ah/dev_console(/.*)?
