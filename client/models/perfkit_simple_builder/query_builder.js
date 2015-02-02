@@ -319,10 +319,10 @@ QueryBuilderService.prototype.getSql = function(
       fieldFilters,
       []);
 
-  var projectId = model.results.project_id || defaultProjectId;
-  var datasetName = model.results.dataset_name || defaultDatasetName;
-  var tableName = model.results.table_name || defaultTableName;
-  var tablePartition = model.results.table_partition || defaultTablePartition;
+  var projectId = defaultProjectId;
+  var datasetName = defaultDatasetName;
+  var tableName = defaultTableName;
+  var tablePartition = defaultTablePartition;
 
   var tableId = datasetName + '.' + tableName;
 
