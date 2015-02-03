@@ -172,13 +172,14 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
 /**
  * Returns a SQL statement based on the state of a query.
  * @param {!QueryConfigModel} model a QueryConfigModel that describes a query.
- * @param {?string} defaultProjectId
- * @param {?string} defaultDatasetName
- * @param {?string} defaultTableName
+ * @param {string} projectId
+ * @param {string} datasetName
+ * @param {string} tableName
+ * @param {QueryTablePartitioning} tablePartition
  * @return {string} A formatted SQL statement.
  */
 QueryBuilderService.prototype.getSql = function(
-    model, defaultProjectId, defaultDatasetName, defaultTableName, defaultTablePartition) {
+    model, projectId, datasetName, tableName, tablePartition) {
   var fieldFilters = [];
   var startFilter = null;
   var endFilter = null;
@@ -319,11 +320,6 @@ QueryBuilderService.prototype.getSql = function(
       fieldFilters,
       []);
 
-  var projectId = model.results.project_id || defaultProjectId;
-  var datasetName = model.results.dataset_name || defaultDatasetName;
-  var tableName = model.results.table_name || defaultTableName;
-  var tablePartition = model.results.table_partition || defaultTablePartition;
-
   var tableId = datasetName + '.' + tableName;
 
   if (projectId) {
@@ -332,7 +328,7 @@ QueryBuilderService.prototype.getSql = function(
 
   var tableExpr = '';
 
-  if (model.results.table_partition == QueryTablePartitioning.PERDAY) {
+  if (tablePartition == QueryTablePartitioning.PERDAY) {
     if (!startFilter) {
       throw 'Start date is required when PERDAY table partitioning is used.';
     }
