@@ -92,6 +92,12 @@ explorer.models.WidgetModel = function() {
   this.title = '';
 
   /**
+   * @type {string}
+   * @expose
+   */
+  this.url = '';
+
+  /**
    * @type {?string}
    * @expose
    */
