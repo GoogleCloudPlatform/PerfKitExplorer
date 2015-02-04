@@ -50,7 +50,7 @@ describe('dashboardService', function() {
                              _queryBuilderService_,
                              _configService_,
                              _widgetFactoryService_,
-                             $location) {
+                             _$location_) {
     svc = dashboardService;
     configService = _configService_;
     queryBuilderService = _queryBuilderService_;
