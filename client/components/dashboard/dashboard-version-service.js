@@ -142,8 +142,8 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
     version = this.filter_('getByProperty')(
         'version', dashboard.version.toString(), this.versions);
 
-    if (version === null) {
-      throw new Error('The model specifies v' + dashboard.version + ', which does not exist.');
+    if (version == null) {
+      console.log('The model specifies v' + dashboard.version + ', which does not exist.');
     } else {
       try {
         if (version.verify(dashboard)) {
