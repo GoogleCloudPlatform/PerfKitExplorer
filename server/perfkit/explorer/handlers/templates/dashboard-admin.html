@@ -3,28 +3,18 @@
 <head>
   <title>Perfkit - Dashboard Administration</title>
   <!-- JQuery & Angular -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-mocks.js"></script>
+  <script src="/static/third_party/jquery/jquery.js"></script>
+  <script src="/static/third_party/angularjs/angular.js"></script>
+  <script src="/static/third_party/angularjs/angular-mocks.js"></script>
 
   <!-- AngularUI Grid -->
   <script src="/static/third_party/uiGrid/ui-grid.js"></script>
   <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
 
-  <!-- CodeMirror3 Editor -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
-
   <!-- Bootstrap & Bootstrap UI -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script src="/static/third_party/bootstrap-ui/bootstrap-ui.js"></script>
 
   <script>
-    // Initialize Google Visualizations
-    try {
-      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
-    } catch (err) { }
-
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
     [% autoescape false %]
@@ -49,6 +39,8 @@
               ng-click="pageCtrl.createDashboard()">Create</button>
       <button type="button" class="btn btn-default"
               ng-click="pageCtrl.uploadDashboard()">Upload</button>
+      <button type="button" class="btn btn-primary"
+              ng-click="pageCtrl.listDashboards()">Refresh</button>
       <span ng-show="pageCtrl.getSelected()">
         <button type="button" class="btn btn-default"
                 ng-click="pageCtrl.openDashboard(pageCtrl.getSelected())">Open</button>
@@ -90,6 +82,17 @@
       <div class="perfkit-page-sidebar-option"
            ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
+      <div class="perfkit-page-sidebar-option">
+        <input type="checkbox"
+               ng-model="pageCtrl.pageService.model.filter_query">
+        <span>Filter by Query Contents</span>
+      </div>
+      <div class="perfkit-page-sidebar-option"
+           ng-show="pageCtrl.pageService.model.filter_query">
+        <input type="text"
+               class="form-control"
+               ng-model="pageCtrl.pageService.model.filter_query_expr">
+      </div>
     </div>
 
     <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions" external-scopes="gridScope"

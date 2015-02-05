@@ -39,10 +39,7 @@ var DashboardModel = explorer.components.dashboard.DashboardModel;
  */
 explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
     dashboardDataService) {
-  /**
-   * @type {Array.<!DashboardModel>}
-   * @export
-   */
+  /** @export {Array.<!DashboardModel>} */
   this.dashboards = [];
 
   /** @export {Array.<!string>} */
@@ -50,7 +47,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
 
   /**
    * The selection service is initialized in the gridOptions onRegisterApi.
-   * @export @type {Array.<uiGridSelectionService>}
+   * @export {Array.<uiGridSelectionService>}
    */
   this.selection = null;
 
@@ -63,10 +60,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
   /** @export {!boolean} */
   this.isLoading = false;
 
-  /**
-   * @type {!DashboardAdminPageModel}
-   * @export
-   */
+  /** @export {!DashboardAdminPageModel} */
   this.model = new PageModel();
 };
 var DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
@@ -77,10 +71,16 @@ var DashboardAdminPageService = explorer.components.dashboard_admin_page.Dashboa
  * @export
  */
 DashboardAdminPageService.prototype.listDashboards = function() {
-  this.selection && this.selection.clearSelectedRows();
+  if (this.selection) {
+    this.selection.clearSelectedRows();
+  }
 
+  var query_regex = null;
+  if (this.model.filter_query) {
+    query_regex = this.model.filter_query_expr;
+  }
   var promise = this.dashboardDataService_.list(
-      this.model.mine, this.model.owner);
+      this.model.mine, this.model.owner, query_regex);
   this.isLoading = true;
 
   promise.then(angular.bind(this, function(response) {

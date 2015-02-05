@@ -253,15 +253,19 @@ DashboardDataService.prototype.editOwner = function(
  *     current user.  This setting is not useful is opt_owner is specified.
  * @param {string=} opt_owner If provided, limits the list to dashboards owned
  *     by the provided email address.
+ * @param {string=} opt_query_regex If provided, limits the list to dashboards
+ *     with queries that match the provided regex expression.
  *
  * @return {!angular.$q.Promise}
  */
-DashboardDataService.prototype.list = function(opt_mine, opt_owner) {
+DashboardDataService.prototype.list = function(
+    opt_mine, opt_owner, opt_query_regex) {
   var deferred = this.q_.defer();
 
   var queryData = {
     'owner': opt_owner || null,
-    'mine': opt_mine || null
+    'mine': opt_mine || null,
+    'query_regex': opt_query_regex || null
   };
   var promise = this.post('/dashboard/list', queryData, null);
 

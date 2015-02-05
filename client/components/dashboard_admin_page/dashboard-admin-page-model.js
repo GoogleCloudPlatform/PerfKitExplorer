@@ -27,23 +27,20 @@ var explorer = p3rf.perfkit.explorer;
 
 /** @constructor */
 explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
-  /**
-   * @type {bool}
-   * @expose
-   */
+  /** @export {bool} */
   this.filter_owner = false;
 
-  /**
-   * @type {?string}
-   * @expose
-   */
+  /** @export {?string} */
   this.owner = null;
 
-  /**
-   * @type {?bool}
-   * @expose
-   */
+  /** @export {?bool} */
   this.mine = null;
+
+  /** @export {!bool} */
+  this.filter_query = false;
+
+  /** @export {!string} */
+  this.filter_query_expr = '';
 };
 var DashboardAdminPageModel = (
     explorer.components.dashboard_admin_page.DashboardAdminPageModel);
