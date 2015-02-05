@@ -115,7 +115,8 @@ explorer.components.codemirror.CodeMirrorDirective = function(
 
         // Watch ui-refresh and refresh the directive
         if (attrs.uiRefresh) {
-          scope.$watch(attrs.uiRefresh, function(newVal, oldVal) {
+          scope.$watch(function() { return attrs.uiRefresh; },
+                       function(newVal, oldVal) {
             // Skip the initial watch firing
             if (newVal !== oldVal) {
               $timeout(function() { codeMirror.refresh(); });

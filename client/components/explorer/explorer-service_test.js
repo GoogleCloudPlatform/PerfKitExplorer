@@ -138,7 +138,7 @@ describe('explorerService', function() {
             boundWidget.state().datasource.status = ResultsDataStatus.NODATA;
             dashboardService.selectedWidget = boundWidget;
 
-            svc.customizeSql();
+            svc.customizeSql(true);
 
             expect(boundWidget.model.datasource.query).toEqual(mockQuery);
             expect(boundWidget.state().datasource.status).

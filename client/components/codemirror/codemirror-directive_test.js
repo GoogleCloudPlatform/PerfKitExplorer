@@ -95,7 +95,7 @@ describe('uiCodemirror', function() {
         // Must have a parentNode for insertBefore (see
         // https://github.com/marijnh/CodeMirror/blob/v3.11/lib/codemirror.js
         // #L3390)
-        $compile('<div><textarea codemirror="{oof: \'baar\'}" ' +
+        $compile('<div><textarea codemirror cm-options="{oof: \'baar\'}" ' +
                  'ng-model="foo"></textarea></div>')(scope);
         $timeout.flush();
         expect(CodeMirror.fromTextArea.calls.mostRecent().args[1].oof).
@@ -119,14 +119,15 @@ describe('uiCodemirror', function() {
         // Must have a parentNode for insertBefore (see
         // https://github.com/marijnh/CodeMirror/blob/v3.11/lib/codemirror.js
         // #L3390)
+        scope.$apply('bar = true');
         $compile('<div><textarea codemirror ng-model="foo" ' +
-                 'ui-refresh="bar"></textarea></div>')(scope);
+                 'ui-refresh="{{ bar }}"></textarea></div>')(scope);
         $timeout.flush();
         var spy = spyOn(codemirror, 'refresh');
-        scope.$apply('bar = true');
+        scope.$apply('bar = false');
         $timeout.flush();
         expect(codemirror.refresh).toHaveBeenCalled();
-        scope.$apply('bar = false');
+        scope.$apply('bar = true');
         $timeout.flush();
         expect(spy.calls.count()).toEqual(2);
       });
