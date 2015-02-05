@@ -513,7 +513,7 @@ describe('dashboardService', function() {
         'params': provided_params
       };
 
-      svc.initializeParams();
+      svc.initializeParams_();
 
       expect(svc.params).toEqual(provided_params);
     });
@@ -532,7 +532,7 @@ describe('dashboardService', function() {
         'params': provided_params
       };
 
-      svc.initializeParams();
+      svc.initializeParams_();
 
       expect(svc.params[0].value).toEqual(expected_value);
     });
@@ -549,7 +549,7 @@ describe('dashboardService', function() {
         'params': provided_params
       };
 
-      svc.initializeParams();
+      svc.initializeParams_();
 
       expect(svc.params).toEqual(provided_params);
     });

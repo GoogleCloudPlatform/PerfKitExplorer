@@ -96,7 +96,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   this.location_ = $location;
 
   /** @export {!DashboardConfig} */
-  this.current = this.initializeDashboard();
+  this.current = this.initializeDashboard_();
 
   /** @export {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
@@ -131,7 +131,7 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * Empties the list of params.
- * @private
+ * @export
  */
 DashboardService.prototype.clearParams = function() {
   while (this.params.length > 0) {
@@ -142,10 +142,12 @@ DashboardService.prototype.clearParams = function() {
 
 /**
  * Initialize a new dashboard.
+ * @private
  */
-DashboardService.prototype.initializeDashboard = function() {
+DashboardService.prototype.initializeDashboard_ = function() {
   var dashboard = new DashboardConfig();
-  dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
+  dashboard.model.version = (
+      this.dashboardVersionService_.currentVersion.version);
 
   return dashboard;
 };
@@ -153,6 +155,7 @@ DashboardService.prototype.initializeDashboard = function() {
 
 /**
  * Saves the current dashboard on the server.
+ * @export
  */
 DashboardService.prototype.saveDashboard = function() {
   var dashboard = this.current;
@@ -203,7 +206,7 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
   this.current = dashboardConfig;
   if (dashboardConfig) {
     this.widgets = dashboardConfig.model.children;
-    this.initializeParams();
+    this.initializeParams_();
   } else {
     this.widgets = [];
   }
@@ -216,8 +219,9 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
  * The DashboardModel stores the available params and default values for the
  * dashboard, while the DashboardService stores the current effective values
  * based on the querystring and default values.
+ * @private
  */
-DashboardService.prototype.initializeParams = function() {
+DashboardService.prototype.initializeParams_ = function() {
   this.clearParams();
 
   angular.forEach(this.current.params, angular.bind(this, function(param) {
