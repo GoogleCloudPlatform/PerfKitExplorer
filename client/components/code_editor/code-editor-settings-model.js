@@ -35,7 +35,7 @@ explorer.components.code_editor.CodeEditorSettingsModel = function() {
    * @type {string}
    * @export
    */
-  this.selectedMode = 'JSON';
+  this.selectedMode = '';
 
   /**
    * @type {Array.<string>}

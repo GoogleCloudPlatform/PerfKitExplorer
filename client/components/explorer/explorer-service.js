@@ -49,7 +49,8 @@ var ExplorerModel = explorer.components.explorer.ExplorerModel;
  * @ngInject
  */
 explorer.components.explorer.ExplorerService = function(
-    arrayUtilService, dashboardDataService, dashboardService, errorService, $location) {
+    arrayUtilService, dashboardDataService, dashboardService, errorService,
+    $location) {
   /**
    * @type {!ArrayUtilService}
    * @private
