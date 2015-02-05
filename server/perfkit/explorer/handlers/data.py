@@ -213,7 +213,13 @@ class SqlDataHandler(base.RequestHandlerBase):
       client.project_id = config.default_project
 
       request_data = json.loads(self.request.body)
-      query = request_data['datasource']['query']
+      datasource = request_data['datasource']
+
+      query = datasource.get('query_exec') or datasource.get('query')
+
+      if not query:
+        raise TypeError('datasource.query must be provided.')
+
       query_config = request_data['datasource']['config']
 
       cache_duration = config.cache_duration or None

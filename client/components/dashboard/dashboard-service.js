@@ -131,7 +131,7 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * Empties the list of params.
- * @export
+ * @private
  */
 DashboardService.prototype.clearParams = function() {
   while (this.params.length > 0) {
@@ -142,12 +142,10 @@ DashboardService.prototype.clearParams = function() {
 
 /**
  * Initialize a new dashboard.
- * @private
  */
 DashboardService.prototype.initializeDashboard_ = function() {
   var dashboard = new DashboardConfig();
-  dashboard.model.version = (
-      this.dashboardVersionService_.currentVersion.version);
+  dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
 
   return dashboard;
 };
@@ -155,7 +153,6 @@ DashboardService.prototype.initializeDashboard_ = function() {
 
 /**
  * Saves the current dashboard on the server.
- * @export
  */
 DashboardService.prototype.saveDashboard = function() {
   var dashboard = this.current;
@@ -219,12 +216,12 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
  * The DashboardModel stores the available params and default values for the
  * dashboard, while the DashboardService stores the current effective values
  * based on the querystring and default values.
- * @private
  */
 DashboardService.prototype.initializeParams_ = function() {
   this.clearParams();
 
-  angular.forEach(this.current.params, angular.bind(this, function(param) {
+  angular.forEach(
+      this.current.model.params, angular.bind(this, function(param) {
     var paramValue = this.location_.search()[param.name] || param.value;
 
     if (paramValue !== '') {
@@ -276,8 +273,12 @@ DashboardService.prototype.selectContainer = function(container) {
 
 /**
  * Rewrites the current widget's query based on the config.
+ * @param {!Widget} widget The widget to rewrite the query against.
+ * @param {!bool=} replaceParams If true, parameters (%%NAME%%) will be
+ *     replaced with the current param value (from the dashboard or url).
+ *     Defaults to false.
  */
-DashboardService.prototype.rewriteQuery = function(widget) {
+DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
   goog.asserts.assert(this.current, 'Bad state: No dashboard selected.');
 
@@ -300,11 +301,13 @@ DashboardService.prototype.rewriteQuery = function(widget) {
       this.current.model.table_partition,
       this.DEFAULT_TABLE_PARTITION], true);
 
-  if (widget.model.datasource.custom_query !== true) {
-    widget.model.datasource.query = this.queryBuilderService_.getSql(
+  this.initializeParams_();
+  var params = replaceParams ? this.params : null;
+
+  return this.queryBuilderService_.getSql(
         widget.model.datasource.config,
-        project_name, dataset_name, table_name, table_partition);
-  }
+        project_name, dataset_name, table_name, table_partition, params);
+
 };
 
 
@@ -316,7 +319,10 @@ DashboardService.prototype.rewriteQuery = function(widget) {
  * @export
  */
 DashboardService.prototype.refreshWidget = function(widget) {
-  this.rewriteQuery(widget);
+  if (widget.model.datasource.custom_query !== true) {
+    widget.model.datasource.query = this.rewriteQuery(widget, false);
+    widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
+  }
 
   if (widget.model.datasource.query) {
     widget.state().datasource.status = ResultsDataStatus.TOFETCH;
@@ -337,7 +343,8 @@ DashboardService.prototype.customizeSql = function(widget) {
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
 
-  this.rewriteQuery(widget);
+  widget.model.datasource.query = this.rewriteQuery(widget, false);
+  widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
 
   widget.model.datasource.custom_query = true;
 };
@@ -688,8 +695,17 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
  * @param {DashboardModel} dashboard
  * @export
  */
-DashboardService.prototype.deleteDashboard = function(dashboard) {
-  return this.dashboardDataService_.delete(dashboard.id);
+DashboardService.prototype.deleteDashboard = function() {
+  return this.dashboardDataService_.delete(this.current.model.id);
+};
+
+
+/**
+ * Adds an empty entry to the list of authorized writers.
+ * @export
+ */
+DashboardService.prototype.addWriter = function() {
+  this.current.model.writers.push({'email': ''});
 };
 
 
@@ -698,8 +714,8 @@ DashboardService.prototype.deleteDashboard = function(dashboard) {
  * @param {DashboardModel} dashboard
  * @export
  */
-DashboardService.prototype.addWriter = function(dashboard) {
-  this.current.model.writers.push({'email': ''});
+DashboardService.prototype.addParam = function(dashboard) {
+  this.current.model.params.push(new DashboardParam());
 };
 
 
@@ -712,6 +728,17 @@ DashboardService.prototype.addWriter = function(dashboard) {
 DashboardService.prototype.getTablePartition = function(partitionName) {
   return this.filter_('getByProperty')(
       'partition', partitionName, this.TABLE_PARTITIONS);
+};
+
+
+/**
+ * Returns the title of the provided artifact, with tokens replaced with params.
+ * @param artifact The dashboard or widget model to get the title for.
+ * @returns {string} A title with tokens replaced with param values.
+ */
+DashboardService.prototype.getTitle = function(artifact) {
+  this.initializeParams_();
+  return this.queryBuilderService_.replaceTokens(artifact.title, this.params);
 };
 
 });  // goog.scope

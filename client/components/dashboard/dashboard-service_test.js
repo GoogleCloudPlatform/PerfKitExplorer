@@ -510,7 +510,9 @@ describe('dashboardService', function() {
       ];
 
       svc.current = {
-        'params': provided_params
+        'model': {
+          'params': provided_params
+        }
       };
 
       svc.initializeParams_();
@@ -529,7 +531,9 @@ describe('dashboardService', function() {
       $location.search().param1 = expected_value;
 
       svc.current = {
-        'params': provided_params
+        'model': {
+          'params': provided_params
+        }
       };
 
       svc.initializeParams_();
@@ -546,7 +550,9 @@ describe('dashboardService', function() {
       $location.search().param3 = 'UNSUPPORTED_VALUE';
 
       svc.current = {
-        'params': provided_params
+        'model': {
+          'params': provided_params
+        }
       };
 
       svc.initializeParams_();
@@ -618,7 +624,8 @@ describe('dashboardService', function() {
           sampleWidgetValues.project_id,
           sampleWidgetValues.dataset_name,
           sampleWidgetValues.table_name,
-          sampleWidgetValues.table_partition);
+          sampleWidgetValues.table_partition,
+          null);
     });
 
     it('should use dashboard values if absence of widget values.', function() {
@@ -635,7 +642,8 @@ describe('dashboardService', function() {
           sampleDashboardValues.project_id,
           sampleDashboardValues.dataset_name,
           sampleDashboardValues.table_name,
-          sampleDashboardValues.table_partition);
+          sampleDashboardValues.table_partition,
+          null);
     });
 
     it('should use config values if absence of widget and dashboard ' +
@@ -647,7 +655,8 @@ describe('dashboardService', function() {
           configService.default_project,
           configService.default_dataset,
           configService.default_table,
-          svc.DEFAULT_TABLE_PARTITION);
+          svc.DEFAULT_TABLE_PARTITION,
+          null);
     });
 
     it('should use a mix of scopes to populate values.', function() {
@@ -661,7 +670,8 @@ describe('dashboardService', function() {
           sampleDashboardValues.project_id,
           sampleWidgetValues.dataset_name,
           configService.default_table,
-          svc.DEFAULT_TABLE_PARTITION);
+          svc.DEFAULT_TABLE_PARTITION,
+          null);
     });
   });
 });

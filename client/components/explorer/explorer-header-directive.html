@@ -1,6 +1,6 @@
 <div class="perfkit-header">
   <div class="perfkit-header-section page-title">
-    <span ng-bind="ctrl.dashboard.current.model.title"></span>
+    <span ng-bind="ctrl.dashboard.getTitle(ctrl.dashboard.current.model)"></span>
   </div>
 
   <div class="perfkit-header-section perfkit-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
