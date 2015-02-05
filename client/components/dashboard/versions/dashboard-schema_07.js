@@ -25,25 +25,50 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV7');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
+  var explorer = p3rf.perfkit.explorer;
+  var DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
+  var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
-  p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV7 = function() {
+  explorer.components.dashboard.versions.DashboardSchemaV7 = function() {
     this.version = '7';
   };
-  var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV7;
+  var DashboardSchema = (
+      explorer.components.dashboard.versions.DashboardSchemaV7);
 
   DashboardSchema.prototype.verify = function(dashboard) {
     if (!goog.isDef(dashboard.params)) {
       return false;
     }
+
+    return DashboardVersionUtil.VerifyDashboard(
+        dashboard, null, function(widget) {
+      // Add the filters object if it doesn't exist.
+      // TODO: Replace this in the future with a PartialDashboard updater
+      // that completes a miminal dashboard model.
+      if (!goog.isDef(widget.datasource.config.filters)) {
+        widget.datasource.config.filters = new QueryFilterModel();
+      }
+
+      return true;
+    });
   };
 
   DashboardSchema.prototype.update = function(dashboard) {
     if (!goog.isDef(dashboard.params)) {
       dashboard.params = [];
     }
+
+    DashboardVersionUtil.UpdateDashboard(dashboard, null, function(widget) {
+      // Add the filters object if it doesn't exist.
+      // TODO: Replace this in the future with a PartialDashboard updater
+      // that completes a miminal dashboard model.
+      if (!goog.isDef(widget.datasource.config.filters)) {
+        widget.datasource.config.filters = new QueryFilterModel();
+      }
+    });
   };
 });
