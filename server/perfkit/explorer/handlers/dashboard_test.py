@@ -310,6 +310,139 @@ class DashboardTest(unittest.TestCase):
                         params=[('id', dashboard_id)])
     self.assertDictEqual(resp.json, expected_response)
 
+  def testListDashboardsByOwner(self):
+    provided_data = '{"type": "sample"}'
+
+    owned_dashboard_id = dashboard_model.Dashboard(
+        data=provided_data,
+        created_by=users.User('owned_email@mydomain.com')
+    ).put().id()
+
+    unowned_dashboard_id = dashboard_model.Dashboard(
+        data=provided_data,
+        created_by=users.User('unowned_email@mydomain.com')
+    ).put().id()
+
+    response = self.app.get(
+        url='/dashboard/list',
+        status=200,
+        params=[
+            ('owner', 'owned_email@mydomain.com'),
+            ('mine', False)]).json
+
+    self.assertTrue('data' in response)
+
+    actual_dashboards = response['data']
+    self.assertEquals(len(actual_dashboards), 1)
+
+    self.assertTrue('id' in actual_dashboards[0])
+    self.assertEquals(actual_dashboards[0]['id'], owned_dashboard_id)
+
+  def testListDashboardsByMine(self):
+    provided_data = '{"type": "sample"}'
+
+    owned_dashboard_id = dashboard_model.Dashboard(
+        data=provided_data,
+        created_by=users.User(DEFAULT_USERS[0]['email'])
+    ).put().id()
+
+    unowned_dashboard_id = dashboard_model.Dashboard(
+        data=provided_data,
+        created_by=users.User('unowned_email@mydomain.com')
+    ).put().id()
+
+    response = self.app.get(
+        url='/dashboard/list',
+        status=200,
+        params=[('mine', True)]).json
+
+    self.assertTrue('data' in response)
+    actual_dashboards = response['data']
+    self.assertEquals(len(actual_dashboards), 1)
+
+    self.assertTrue('id' in actual_dashboards[0])
+    self.assertEquals(actual_dashboards[0]['id'], owned_dashboard_id)
+
+  def testListDashboardsNoOwner(self):
+    provided_data = '{"type": "sample"}'
+
+    owned_dashboard_id = dashboard_model.Dashboard(
+        data=provided_data,
+        created_by=users.User('owned_email@mydomain.com')
+    ).put().id()
+
+    unowned_dashboard_id = dashboard_model.Dashboard(
+        data=provided_data,
+        created_by=users.User('unowned_email@mydomain.com')
+    ).put().id()
+
+    response = self.app.get(
+        url='/dashboard/list',
+        status=200,
+        params=[('mine', False)]).json
+
+    self.assertTrue('data' in response)
+
+    actual_dashboards = response['data']
+    self.assertEquals(len(actual_dashboards), 2)
+
+    self.assertTrue('id' in actual_dashboards[0])
+    self.assertEquals(actual_dashboards[0]['id'], owned_dashboard_id)
+
+    self.assertTrue('id' in actual_dashboards[1])
+    self.assertEquals(actual_dashboards[1]['id'], unowned_dashboard_id)
+
+  def testListDashboardsQuerySingleMatch(self):
+    matching_dashboard = {
+        "type": "sample",
+        "children": [
+            {
+                "container": {
+                    "children": [{
+                        "datasource": {
+                            "query": "SELECT foo FROM bar"
+                        }
+                    }]
+                }
+            }
+        ]
+    }
+    unmatching_dashboard = {
+        "type": "sample",
+        "children": [
+            {
+                "container": {
+                    "children": [{
+                        "datasource": {
+                            "query": "SELECT foo FROM rebar"
+                        }
+                    }]
+                }
+            }
+        ]
+    }
+    provided_query_regex = '.*FROM bar.*'
+    expected_count = 1
+
+    matching_dashboard_id = dashboard_model.Dashboard(
+        data=json.dumps(matching_dashboard),
+        created_by=users.get_current_user()).put().id()
+    dashboard_model.Dashboard(
+        data=json.dumps(unmatching_dashboard)).put()
+
+    response = self.app.get(
+        url='/dashboard/list',
+        status=200,
+        params=[('query_regex', provided_query_regex)]).json
+
+    self.assertTrue('data' in response)
+
+    actual_dashboards = response['data']
+    self.assertEquals(len(actual_dashboards), 1)
+
+    self.assertTrue('id' in actual_dashboards[0])
+    self.assertEquals(actual_dashboards[0]['id'], matching_dashboard_id)
+
 
 if __name__ == '__main__':
   unittest.main()

@@ -17,6 +17,7 @@ GAE Model for the datastore."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import re
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -173,6 +174,65 @@ class Dashboard(ndb.Model):
     dashboard_row.data = json.dumps(data)
 
     dashboard_row.put()
+
+  @staticmethod
+  def ListDashboards(owner=None, query_regex=None):
+    """Lists dashboards based on supplied filters.
+
+    Args:
+      owner: GAE User.  If provided, only dashboards owned by the provided
+          user are returned.
+      query_regex: string.  If provided, only dashboards with query (SQL)
+          matching the regex expression will be returned.
+    """
+    query = Dashboard.query()
+
+    filter_property = ndb.GenericProperty(fields.CREATED_BY)
+
+    if owner:
+      query = query.filter(filter_property == owner)
+
+    query = query.order(Dashboard.title)
+
+    if query_regex:
+      all_results = query.fetch()
+      results = [dashboard for dashboard in all_results
+                 if dashboard.ContainsQuery(query_regex)]
+    else:
+      results = query.fetch(limit=1000)
+
+    return results
+
+  def ContainsQuery(self, query_regex):
+    """Returns the number of widget queries that match the provided expression.
+
+    Args:
+      query_regex: string.  A Regex expression that is used to match queries.
+
+    Returns:
+      The number of widget queries matching the expression.
+    """
+    data = self.GetDashboardData()
+    matches = 0
+
+    assert('children' in data)
+    children = data['children']
+
+    for child in children:
+      assert('container' in child)
+
+      container = child['container']
+
+      assert('children' in container)
+
+      for widget in container['children']:
+        assert('datasource' in widget)
+
+        if 'query' in widget['datasource']:
+          if re.match(query_regex, widget['datasource']['query']):
+            matches = matches + 1
+
+    return matches
 
   def writersChanged(self, new_writers):
     """Returns True if the owner or writers have changed, False if not.

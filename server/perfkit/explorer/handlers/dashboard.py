@@ -425,8 +425,10 @@ class ListDashboardHandler(base.RequestHandlerBase):
     """Request handler for GET operations."""
 
     try:
-      mine = self.request.get(fields.MINE)
+      mine = http_util.GetBoolParam(self.request, fields.MINE, False)
       owner = self.request.get(fields.OWNER)
+      query_regex = self.request.get('query_regex')
+      owner_user = None
 
       query = dashboard_model.Dashboard.query()
 
@@ -441,19 +443,18 @@ class ListDashboardHandler(base.RequestHandlerBase):
           self.RenderJson({fields.DATA: []})
           return
       elif mine:
-        query = query.filter(
-            filter_property == users.get_current_user())
+        owner_user = users.get_current_user()
 
-      query = query.order(dashboard_model.Dashboard.title)
-      results = query.fetch(limit=1000)
-
-      response = []
-      for result in results:
-        response.append({
-            fields.ID: result.key.integer_id(),
-            fields.OWNER: result.created_by.email(),
-            fields.TITLE: (result.title or
-                           dashboard_model.DEFAULT_DASHBOARD_TITLE)})
+      results = dashboard_model.Dashboard.ListDashboards(
+          owner_user, query_regex)
+      logging.error(results)
+      response = [
+          {
+              fields.ID: result.key.integer_id(),
+              fields.OWNER: result.created_by.email(),
+              fields.TITLE: (result.title or
+                             dashboard_model.DEFAULT_DASHBOARD_TITLE)}
+          for result in results]
 
       self.RenderJson({fields.DATA: response})
     except (base.InitializeError, dashboard_model.InitializeError,
