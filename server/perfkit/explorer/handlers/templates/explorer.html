@@ -88,7 +88,7 @@
                   <span class="glyphicon glyphicon-refresh" style="float: right; margin-left: 4px"
                         ng-click="dashboardCtrl.dashboard.refreshWidget(widget)"></span>
                   <div class="perfkit-widget-title"
-                       ng-bind="dashboardCtrl.dashboard.getTitle(widget.model)"></div>
+                       ng-bind="dashboardCtrl.dashboard.tokenizeString(widget.model.title)"></div>
                 </div>
                 <div class="perfkit-widget-content"
                      ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">

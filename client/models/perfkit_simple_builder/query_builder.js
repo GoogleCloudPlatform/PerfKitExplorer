@@ -72,7 +72,6 @@ explorer.models.perfkit_simple_builder.Aggregation = {
 var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
 
 
-
 /**
  * The QueryBuilder service transforms a query model into SQL.
  *
@@ -82,6 +81,17 @@ var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
  */
 explorer.models.perfkit_simple_builder.QueryBuilderService = function(
     $filter) {
+  /**
+   * Specifies the character sequence that precedes parameter tokens.
+   * @export {string}
+   */
+  this.TOKEN_START_SYMBOL = '%%';
+
+  /**
+   * Specifies the character sequence that precedes parameter tokens.
+   * @export {string}
+   */
+  this.TOKEN_END_SYMBOL = '%%';
 };
 var QueryBuilderService =
     explorer.models.perfkit_simple_builder.QueryBuilderService;
@@ -171,14 +181,16 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
 
 /**
  * Replaces any tokens in the provided query with values from the params.
- * Tokens are identified by %%TOKEN_NAME%%
+ * Tokens are identified by strings that start and end with strings defined
+ * by TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.  By default, this would look
+ * like %%TOKEN_NAME%%.
  *
  * @param {string} query A SQL statement to modify.
  * @param {Array.<!DashboardParam>} params A list of parameters.
  */
 QueryBuilderService.prototype.replaceTokens = function(query, params) {
   angular.forEach(params, angular.bind(this, function(param) {
-    var find = '%%' + param.name + '%%';
+    var find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
     var re = new RegExp(find, 'g');
 
     query = query.replace(re, param.value);

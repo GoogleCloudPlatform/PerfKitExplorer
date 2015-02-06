@@ -131,7 +131,7 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * Empties the list of params.
- * @private
+ * @export
  */
 DashboardService.prototype.clearParams = function() {
   while (this.params.length > 0) {
@@ -692,7 +692,7 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
 
 
 /**
- * @param {DashboardModel} dashboard
+ * Triggers the delete confirmation for the currently selected dashboard.
  * @export
  */
 DashboardService.prototype.deleteDashboard = function() {
@@ -710,11 +710,10 @@ DashboardService.prototype.addWriter = function() {
 
 
 /**
- * Adds an empty entry to the list of authorized writers.
- * @param {DashboardModel} dashboard
+ * Adds an empty entry to the list of dashboard parameters.
  * @export
  */
-DashboardService.prototype.addParam = function(dashboard) {
+DashboardService.prototype.addParam = function() {
   this.current.model.params.push(new DashboardParam());
 };
 
@@ -733,12 +732,16 @@ DashboardService.prototype.getTablePartition = function(partitionName) {
 
 /**
  * Returns the title of the provided artifact, with tokens replaced with params.
- * @param artifact The dashboard or widget model to get the title for.
+ * Tokens are identified by strings wrapped in the QueryBuilderService
+ * properties TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.
+ *
+ * @param artifact {string} The string to replace.
  * @returns {string} A title with tokens replaced with param values.
+ * @export
  */
-DashboardService.prototype.getTitle = function(artifact) {
+DashboardService.prototype.tokenizeString = function(value) {
   this.initializeParams_();
-  return this.queryBuilderService_.replaceTokens(artifact.title, this.params);
+  return this.queryBuilderService_.replaceTokens(value, this.params);
 };
 
 });  // goog.scope

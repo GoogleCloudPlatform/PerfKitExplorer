@@ -502,7 +502,7 @@ describe('dashboardService', function() {
     );
   });
 
-  describe('initializeParams', function() {
+  describe('initializeParams_', function() {
     it('should populate based on config-provided values.', function() {
       provided_params = [
         new DashboardParam('param1', 'value1'),
