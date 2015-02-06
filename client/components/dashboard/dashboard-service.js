@@ -739,7 +739,7 @@ DashboardService.prototype.getTablePartition = function(partitionName) {
  * @returns {string} A title with tokens replaced with param values.
  * @export
  */
-DashboardService.prototype.tokenizeString = function(value) {
+DashboardService.prototype.replaceTokens = function(value) {
   this.initializeParams_();
   return this.queryBuilderService_.replaceTokens(value, this.params);
 };

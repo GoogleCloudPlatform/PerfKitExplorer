@@ -561,7 +561,7 @@ describe('dashboardService', function() {
     });
   });
 
-  describe('rewriteQuery()', function() {
+  describe('rewriteQuery', function() {
 
     var providedWidget, providedConfig, sampleDashboardValues,
         sampleWidgetValues;
