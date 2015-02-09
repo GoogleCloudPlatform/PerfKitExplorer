@@ -22,6 +22,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
@@ -33,6 +34,7 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var ExplorerService = explorer.components.explorer.ExplorerService;
+var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 var CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
@@ -171,7 +173,7 @@ CodeEditorCtrl.prototype.openCodeEditor = function() {
  * @export
  */
 CodeEditorCtrl.prototype.openWidgetJsonEditor = function() {
-  this.settings.selectedMode = 'JSON';
+  this.settings.selectedMode = CodeEditorMode.JSON;
   this.openCodeEditor();
 };
 
@@ -249,8 +251,8 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
 
 CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
   switch (mode) {
-    case 'JSON':
-    case 'SQL':
+    case CodeEditorMode.JSON:
+    case CodeEditorMode.SQL:
       return (this.dashboard.selectedWidget !== null);
     default:
       return true;

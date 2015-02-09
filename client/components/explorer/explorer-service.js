@@ -19,6 +19,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
@@ -32,6 +33,7 @@ goog.require('goog.asserts');
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
+var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var ErrorService = explorer.components.error.ErrorService;

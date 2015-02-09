@@ -17,11 +17,22 @@
  *     the CodeMirror editor.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
+goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 
+
+/**
+ * Constants for the editor modes.
+ */
+explorer.components.code_editor.CodeEditorMode = {
+  JSON: 'JSON',
+  SQL: 'SQL',
+  LOG: 'LOG'
+};
+var Mode = explorer.components.code_editor.CodeEditorMode;
 
 
 /**
@@ -41,7 +52,7 @@ explorer.components.code_editor.CodeEditorSettingsModel = function() {
    * @type {Array.<string>}
    * @export
    */
-  this.modes = ['JSON', 'SQL', 'LOG'];
+  this.modes = [Mode.JSON, Mode.SQL, Mode.LOG];
 
   /**
    * @type {boolean}
