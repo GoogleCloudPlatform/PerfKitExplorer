@@ -41,6 +41,7 @@ goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.layout.FillDirective');
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeDirective');
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
 goog.require('p3rf.perfkit.explorer.components.multibox.MultiboxDirective');
@@ -48,7 +49,6 @@ goog.require('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.util.GetByPropertyFilter');
 goog.require('p3rf.perfkit.explorer.components.util.FileModelDirective');
-goog.require('p3rf.perfkit.explorer.components.util.FillDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorService');
@@ -203,7 +203,7 @@ explorer.application.module.directive('containerConfig',
 explorer.application.module.directive('dashboard',
     explorer.components.dashboard.DashboardDirective);
 explorer.application.module.directive('fill',
-    explorer.components.util.FillDirective);
+    explorer.components.layout.FillDirective);
 explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.MetadataPickerDirective);
 explorer.application.module.directive('resize',

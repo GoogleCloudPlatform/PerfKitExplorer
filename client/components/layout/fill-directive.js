@@ -25,7 +25,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.util.FillDirective');
+goog.provide('p3rf.perfkit.explorer.components.layout.FillDirective');
 
 
 
@@ -35,7 +35,7 @@ var explorer = p3rf.perfkit.explorer;
 /**
  * @return {Object} Directive definition object.
  */
-explorer.components.util.FillDirective = (function ($rootScope, resizeService) {
+explorer.components.layout.FillDirective = (function ($rootScope, resizeService) {
   return {
     restrict: 'A',
     link: function (scope, element, attr) {
