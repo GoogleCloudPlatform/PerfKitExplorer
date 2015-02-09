@@ -20,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
@@ -33,12 +34,28 @@ var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
 var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
+/** @constructor */
+explorer.components.dashboard.DashboardParam = function(name, value) {
+  /**
+   * @type {string}
+   * @export
+   */
+  this.name = name || '';
+
+  /**
+   * @type {string}
+   * @export
+   */
+  this.value = value || '';
+};
+var DashboardParam = explorer.components.dashboard.DashboardParam;
+
 
 /** @constructor */
 explorer.components.dashboard.DashboardModel = function() {
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.id = null;
 
@@ -50,25 +67,25 @@ explorer.components.dashboard.DashboardModel = function() {
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.version = '';
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.owner = this.getDefaultOwner();
 
   /**
    * @type {Array.<!string>}
-   * @expose
+   * @export
    */
   this.writers = [];
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.type = 'dashboard';
 
@@ -107,9 +124,15 @@ explorer.components.dashboard.DashboardModel = function() {
 
   /**
    * @type {!Array.<(ContainerWidgetConfig|ContainerWidgetModel)>}
-   * @expose
+   * @export
    */
   this.children = [];
+
+  /**
+   * @type {!Array.<!DashboardParam>}
+   * @export
+   */
+  this.params = [];
 };
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 

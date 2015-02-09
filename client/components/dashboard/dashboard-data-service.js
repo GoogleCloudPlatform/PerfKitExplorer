@@ -151,7 +151,7 @@ DashboardDataService.prototype.postDashboard = function(content, endpoint,
   var promise = this.post(endpoint, queryData, postData);
 
   promise.then(angular.bind(this, function(response) {
-    var data = response['data'];
+    var data = response.data;
     deferred.resolve(data);
   }));
   promise.then(null, angular.bind(this, function(error) {
@@ -266,7 +266,7 @@ DashboardDataService.prototype.list = function(opt_mine, opt_owner) {
   var promise = this.post('/dashboard/list', queryData, null);
 
   promise.then(angular.bind(this, function(response) {
-    var data = response['data'];
+    var data = response.data;
     deferred.resolve(data);
   }));
   promise.then(null, angular.bind(this, function(error) {
@@ -296,7 +296,7 @@ DashboardDataService.prototype.fetchDashboardJsonModel = function(dashboardId) {
     var promise = this.http_.get(endpoint, { params: queryParameters });
 
     promise.then(angular.bind(this, function(response) {
-      var data = response['data'];
+      var data = response.data;
       this.cache_.put(cacheKey, data);
       deferred.resolve(data);
     }));

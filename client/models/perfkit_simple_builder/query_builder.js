@@ -72,7 +72,6 @@ explorer.models.perfkit_simple_builder.Aggregation = {
 var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
 
 
-
 /**
  * The QueryBuilder service transforms a query model into SQL.
  *
@@ -82,6 +81,17 @@ var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
  */
 explorer.models.perfkit_simple_builder.QueryBuilderService = function(
     $filter) {
+  /**
+   * Specifies the character sequence that precedes parameter tokens.
+   * @export {string}
+   */
+  this.TOKEN_START_SYMBOL = '%%';
+
+  /**
+   * Specifies the character sequence that precedes parameter tokens.
+   * @export {string}
+   */
+  this.TOKEN_END_SYMBOL = '%%';
 };
 var QueryBuilderService =
     explorer.models.perfkit_simple_builder.QueryBuilderService;
@@ -170,6 +180,27 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
 
 
 /**
+ * Replaces any tokens in the provided query with values from the params.
+ * Tokens are identified by strings that start and end with strings defined
+ * by TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.  By default, this would look
+ * like %%TOKEN_NAME%%.
+ *
+ * @param {string} query A SQL statement to modify.
+ * @param {Array.<!DashboardParam>} params A list of parameters.
+ */
+QueryBuilderService.prototype.replaceTokens = function(query, params) {
+  angular.forEach(params, angular.bind(this, function(param) {
+    var find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
+    var re = new RegExp(find, 'g');
+
+    query = query.replace(re, param.value);
+  }));
+
+  return query;
+};
+
+
+/**
  * Returns a SQL statement based on the state of a query.
  * @param {!QueryConfigModel} model a QueryConfigModel that describes a query.
  * @param {string} projectId
@@ -179,33 +210,32 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
  * @return {string} A formatted SQL statement.
  */
 QueryBuilderService.prototype.getSql = function(
-    model, projectId, datasetName, tableName, tablePartition) {
+    model, projectId, datasetName, tableName, tablePartition, params) {
   var fieldFilters = [];
-  var startFilter = null;
-  var endFilter = null;
+  var startFilter, endFilter = null;
+  var startDateClause, endDateClause = null;
+  var ctr, len, label = null;
 
   if (model.filters.start_date) {
-    var startDateClause = null;
-
     switch (model.filters.start_date.filter_type) {
       case DateFilterType.CUSTOM:
         startFilter = this.getAbsoluteDateFunction(model.filters.start_date);
         startDateClause = new FilterClause(
-            ['TIMESTAMP_TO_SEC(' + startFilter + ')'], FilterClause.MatchRule.GE, true);
+            ['TIMESTAMP_TO_SEC(' + startFilter + ')'],
+            FilterClause.MatchRule.GE, true);
 
         break;
       default:
         startFilter = this.getRelativeDateFunction(model.filters.start_date);
         startDateClause = new FilterClause(
-            ['TIMESTAMP_TO_SEC(' + startFilter + ')'], FilterClause.MatchRule.GE, true);
+            ['TIMESTAMP_TO_SEC(' + startFilter + ')'],
+            FilterClause.MatchRule.GE, true);
 
         break;
     }
   }
 
   if (model.filters.end_date) {
-    var endDateClause = null;
-
     switch (model.filters.end_date.filter_type) {
       case DateFilterType.CUSTOM:
         endFilter = this.getAbsoluteDateFunction(model.filters.end_date);
@@ -221,23 +251,47 @@ QueryBuilderService.prototype.getSql = function(
     }
   }
 
-  startDateClause && fieldFilters.push(
-      new Filter('timestamp', [startDateClause], Filter.DisplayMode.HIDDEN));
+  if (startDateClause) {
+    fieldFilters.push(
+        new Filter('timestamp', [startDateClause], Filter.DisplayMode.HIDDEN));
+  }
 
-  endDateClause && fieldFilters.push(
-      new Filter('timestamp', [endDateClause], Filter.DisplayMode.HIDDEN));
+  if (endDateClause) {
+    fieldFilters.push(
+        new Filter('timestamp', [endDateClause], Filter.DisplayMode.HIDDEN));
+  }
 
-  model.filters.product_name && fieldFilters.push(
-      this.createSimpleFilter('product_name', [model.filters.product_name], null, Filter.DisplayMode.HIDDEN));
+  if (model.filters.product_name) {
+    fieldFilters.push(
+        this.createSimpleFilter('product_name',
+                                [model.filters.product_name],
+                                null,
+                                Filter.DisplayMode.HIDDEN));
+  }
 
-  model.filters.test && fieldFilters.push(
-      this.createSimpleFilter('test', [model.filters.test], null, Filter.DisplayMode.HIDDEN));
+  if (model.filters.test) {
+    fieldFilters.push(
+        this.createSimpleFilter('test',
+                                [model.filters.test],
+                                null,
+                                Filter.DisplayMode.HIDDEN));
+  }
 
-  model.filters.metric && fieldFilters.push(
-      this.createSimpleFilter('metric', [model.filters.metric], null, Filter.DisplayMode.HIDDEN));
+  if (model.filters.metric) {
+    fieldFilters.push(
+        this.createSimpleFilter('metric',
+                                [model.filters.metric],
+                                null,
+                                Filter.DisplayMode.HIDDEN));
+  }
 
-  model.filters.runby && fieldFilters.push(
-      this.createSimpleFilter('owner', [model.filters.runby], null, Filter.DisplayMode.HIDDEN));
+  if (model.filters.runby) {
+    fieldFilters.push(
+        this.createSimpleFilter('owner',
+                                [model.filters.runby],
+                                null,
+                                Filter.DisplayMode.HIDDEN));
+  }
 
   var fieldSortOrders = [];
 
@@ -277,9 +331,8 @@ QueryBuilderService.prototype.getSql = function(
     fieldSortOrders.push('date');
   }
 
-  for (var ctr = 0, len = model.results.labels.length;
-       ctr < len; ctr++) {
-    var label = model.results.labels[ctr]['label'];
+  for (ctr = 0, len = model.results.labels.length; ctr < len; ctr++) {
+    label = model.results.labels[ctr].label;
     if (goog.isDef(label) && !goog.string.isEmpty(label)) {
       var field = 'REGEXP_EXTRACT(labels, r\'\\|' + label + ':(.*?)\\|\')';
       fieldFilters.push(this.createSimpleFilter(
@@ -287,15 +340,14 @@ QueryBuilderService.prototype.getSql = function(
     }
   }
 
-  if (model.filters.official == 'true') {
+  if (model.filters.official === 'true') {
     fieldFilters.push(this.createSimpleFilter('official', [true]));
-  } else if (model.filters.official == 'false') {
+  } else if (model.filters.official === 'false') {
     fieldFilters.push(this.createSimpleFilter('official', [false]));
   }
 
-  for (var ctr = 0, len = model.filters.metadata.length;
-       ctr < len; ctr++) {
-    var label = '|' + model.filters.metadata[ctr]['text'] + '|';
+  for (ctr = 0, len = model.filters.metadata.length; ctr < len; ctr++) {
+    label = '|' + model.filters.metadata[ctr].text + '|';
 
     fieldFilters.push(this.createSimpleFilter(
         'labels', [label],
@@ -349,6 +401,10 @@ QueryBuilderService.prototype.getSql = function(
       BigQueryBuilder.buildGroupArgs(queryProperties),
       fieldSortOrders,
       model.results.row_limit);
+
+  if (params) {
+    sql = this.replaceTokens(sql, params);
+  }
 
   return sql;
 };
