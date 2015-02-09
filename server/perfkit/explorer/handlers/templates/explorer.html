@@ -82,12 +82,12 @@
                       widget-config="widget">
                 <div class="perfkit-widget-header"
                      ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
-                  <span class="glyphicon glyphicon-remove" style="float: right; margin-left: 4px; cursor: pointer"
+                  <span class="glyphicon glyphicon-remove perfkit-widget-button"
                         ng-hide="explorerCtrl.explorer.model.readOnly"
                         ng-click="dashboardCtrl.dashboard.removeWidget(widget, container)"></span>
-                  <span class="glyphicon glyphicon-refresh" style="float: right; margin-left: 4px; cursor: pointer"
+                  <span class="glyphicon glyphicon-refresh perfkit-widget-button"
                         ng-click="dashboardCtrl.dashboard.refreshWidget(widget)"></span>
-                  <a style="float: right; margin-left: 4px"
+                  <a class="perfkit-widget-button"
                      ng-show="widget.model.url" ng-href="{{ widget.model.url }}">
                     <span class="glyphicon glyphicon-link"></span>
                   </a>
