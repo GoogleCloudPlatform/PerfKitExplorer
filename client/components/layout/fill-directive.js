@@ -33,9 +33,17 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 
 /**
+ * FillDirective is an attribute that causes an element to resize itself to
+ * fill the parent container's available size.  It will resize the affected
+ * element whenever the page or container is resized, or a 'layoutChanged'
+ * event is broadcast.
+ *
+ * @param {!Angular.RootScope} rootScope The root scope, used to listen for
+ *     custom events.
  * @return {Object} Directive definition object.
  */
-explorer.components.layout.FillDirective = (function ($rootScope, resizeService) {
+explorer.components.layout.FillDirective = (
+    function ($rootScope) {
   return {
     restrict: 'A',
     link: function (scope, element, attr) {
