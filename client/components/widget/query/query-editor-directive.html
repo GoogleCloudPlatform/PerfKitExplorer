@@ -56,11 +56,10 @@
     <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
 
       <div class="sidebar-group-note">
-        Limited options are available when creating a Custom SQL statement.  Use the
-        <a href="#" ng-click="queryEditorCtrl.explorer.viewSql()">Edit SQL</a> button at
-        the bottom of the page to modify the SQL statement, or the
+        Limited options are available when creating a Custom SQL statement.
+        Using the toolbar above, click the
         <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
-        button above to use the Query Builder UI.
+        button to use the Query Builder UI.
       </div>
 
       <div class="sidebar-group">
@@ -132,18 +131,6 @@
     <tabset ng-hide="queryEditorCtrl.datasource.custom_query">
       <tab heading="Filters">
         <div>
-          <div class="sidebar-group">
-
-            <button type="button" class="btn btn-primary"
-                    ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
-              Refresh
-            </button>
-            <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="queryEditorCtrl.explorer.customizeSql()">
-              Customize SQL
-            </button>
-          </div>
-
           <div ng-hide="queryEditorCtrl.datasource.custom_query">
             <div class="sidebar-group">
               <div class="sidebar-group-title">Field Filters</div>
@@ -320,20 +307,7 @@
                   </select>
                 </div>
               </div>
-
             </div>
-
-            <div class="sidebar-group">
-              <button type="button" class="btn btn-primary"
-                      ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
-                Refresh
-              </button>
-              <button type="button" class="btn btn-default perfkit-footer-button"
-                      ng-click="queryEditorCtrl.explorer.customizeSql()">
-                Customize SQL
-              </button>
-            </div>
-
           </div>
 
         </div>
@@ -348,7 +322,7 @@
               Refresh
             </button>
             <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="queryEditorCtrl.explorer.customizeSql()">
+                    ng-click="queryEditorCtrl.explorer.customizeSql(true)">
               Customize SQL
             </button>
           </div>

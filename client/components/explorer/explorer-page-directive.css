@@ -1,0 +1,84 @@
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.perfkit2-page-canvas {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.perfkit2-page-body {
+  display: flex;
+  flex-grow: 1;
+}
+
+.perfkit2-resize-left, .perfkit2-resize-right {
+  background-color: #F0F0F0;
+  cursor: col-resize;
+  flex-shrink: 0;
+  width: 5px;
+}
+
+.perfkit2-resize-top, .perfkit2-resize-bottom {
+  background-color: #F0F0F0;
+  cursor: row-resize;
+  flex-shrink: 0;
+  height: 5px;
+}
+
+.perfkit2-page-header {
+  height: 93px;
+  background-color: rgb(241, 241, 241);
+  flex-shrink: 0;
+}
+
+.perfkit2-page-leftwell {
+  width: 225px;
+  min-width: 225px;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.perfkit2-page-content {
+  flex-grow: 1;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.perfkit2-page-content-cell {
+  padding: 8px;
+}
+
+.perfkit2-page-rightwell {
+  width: 200px;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.perfkit2-page-footer {
+  height: 200px;
+  min-height: 100px;
+  overflow-x: auto;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* CSS Properties to make CodeMirror editor fill its contents. */
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
+
+.CodeMirror-scroll {
+  overflow-y: hidden;
+  overflow-x: auto;
+}

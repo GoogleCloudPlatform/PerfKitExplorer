@@ -131,7 +131,7 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * Empties the list of params.
- * @export
+ * @private
  */
 DashboardService.prototype.clearParams = function() {
   while (this.params.length > 0) {
@@ -322,6 +322,10 @@ DashboardService.prototype.refreshWidget = function(widget) {
   if (widget.model.datasource.custom_query !== true) {
     widget.model.datasource.query = this.rewriteQuery(widget, false);
     widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
+  } else {
+    widget.model.datasource.query_exec = (
+        this.queryBuilderService_.replaceTokens(
+            widget.model.datasource.query, this.params));
   }
 
   if (widget.model.datasource.query) {
@@ -334,18 +338,20 @@ DashboardService.prototype.refreshWidget = function(widget) {
  * Changes the widget datasource to accept a custom SQL statement.
  *
  * @param {!WidgetConfig} widget
+ * @param {!bool} rewrite If true, rewrites the query based on the QueryBuilder
+ *    settings.  Otherwise, leaves the query as-is.  Defaults to false.
  * @export
  */
-DashboardService.prototype.customizeSql = function(widget) {
+DashboardService.prototype.customizeSql = function(widget, rewrite) {
   if (!widget.model.datasource) {
     throw new Error('Selected widget doesn\'t have a datasource property.');
   }
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
 
-  widget.model.datasource.query = this.rewriteQuery(widget, false);
-  widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
-
+  if (rewrite === true) {
+    widget.model.datasource.query = this.rewriteQuery(widget, false);
+  }
   widget.model.datasource.custom_query = true;
 };
 
@@ -357,9 +363,8 @@ DashboardService.prototype.customizeSql = function(widget) {
  * @export
  */
 DashboardService.prototype.restoreBuilder = function(widget) {
-  widget.model.datasource.query = '';
-  widget.state().datasource.status = ResultsDataStatus.NODATA;
   widget.model.datasource.custom_query = false;
+  widget.model.datasource.query = this.rewriteQuery(widget, true);
 };
 
 
@@ -471,7 +476,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
     container.model.container.columns -= widget.model.layout.columnspan;
   }
 
-  this.selectedWidget = null;
+  this.unselectWidget();
 };
 
 
@@ -544,6 +549,18 @@ DashboardService.prototype.removeContainer = function(container) {
 
   var index = this.widgets.indexOf(container);
   this.widgets.splice(index, 1);
+  this.unselectWidget();
+};
+
+
+/**
+ * Unselect the currently selected widget and container, if any.
+ */
+DashboardService.prototype.unselectWidget = function() {
+  if (this.selectedWidget) {
+    this.selectedWidget.state().selected = false;
+  }
+
   this.selectedWidget = null;
   this.selectedContainer = null;
 };

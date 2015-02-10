@@ -117,14 +117,14 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
       scope.$watch('multiboxData',
           function(newVal, oldVal) {
             if (newVal && oldVal && newVal.length == oldVal.length) { return; }
-            if (goog.style.isElementShown(popup)) {
+            if (popup && goog.style.isElementShown(popup)) {
               scope.showPopup();
             }
           }, true);
 
       scope.$watch('activeOption',
           function(newVal, oldVal) {
-            if (goog.style.isElementShown(popup)) {
+            if (popup && goog.style.isElementShown(popup)) {
               scope.showPopup();
             }
           }, true);

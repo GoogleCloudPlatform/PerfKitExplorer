@@ -19,6 +19,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
@@ -32,6 +33,7 @@ goog.require('goog.asserts');
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ArrayUtilService = explorer.components.util.ArrayUtilService;
+var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 var DashboardModel = explorer.components.dashboard.DashboardModel;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var ErrorService = explorer.components.error.ErrorService;
@@ -49,7 +51,8 @@ var ExplorerModel = explorer.components.explorer.ExplorerModel;
  * @ngInject
  */
 explorer.components.explorer.ExplorerService = function(
-    arrayUtilService, dashboardDataService, dashboardService, errorService, $location) {
+    arrayUtilService, dashboardDataService, dashboardService, errorService,
+    $location) {
   /**
    * @type {!ArrayUtilService}
    * @private
@@ -78,9 +81,9 @@ explorer.components.explorer.ExplorerService = function(
   this.dashboardsLoading = false;
 
   /** @type {DashboardService}
-   *  @private
+   *  @export
    */
-  this.dashboard_ = dashboardService;
+  this.dashboard = dashboardService;
 
   /**
    * @type {!ExplorerModel}
@@ -99,6 +102,9 @@ explorer.components.explorer.ExplorerService = function(
    * @export
    */
   this.errors = [];
+
+  /** @export {!number} */
+  var KEY_ESCAPE = 27;
 
   this.initExplorer();
 };
@@ -162,16 +168,35 @@ ExplorerService.prototype.listDashboards = function() {
  * Updates the query and state of the selected widget's datasource.
  * @export
  */
-ExplorerService.prototype.customizeSql = function() {
-  var widget = this.dashboard_.selectedWidget;
+ExplorerService.prototype.customizeSql = function(rewrite) {
+  if (rewrite !== true) {
+    rewrite = false;
+  }
+
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
-  this.dashboard_.customizeSql(widget);
+  this.dashboard.customizeSql(widget, rewrite);
   this.model.readOnly = false;
   this.model.code_editor.isOpen = true;
 
-  this.model.code_editor.selectedMode = 'SQL';
+  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
+};
+
+
+/**
+ * Shows the JSON editor for the selected widget.
+ * @export
+ */
+ExplorerService.prototype.editJson = function() {
+  var widget = this.dashboard.selectedWidget;
+  if (!widget) {
+    throw new Error('No selected widget.');
+  }
+
+  this.model.code_editor.isOpen = true;
+  this.model.code_editor.selectedMode = CodeEditorMode.JSON;
 };
 
 
@@ -179,14 +204,18 @@ ExplorerService.prototype.customizeSql = function() {
  * Shows the SQL editor.
  * @export
  */
-ExplorerService.prototype.viewSql = function() {
-  var widget = this.dashboard_.selectedWidget;
+ExplorerService.prototype.viewSql = function(rewrite) {
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
 
+  if (rewrite === true) {
+    this.dashboard.rewriteQuery(widget);
+  }
+
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'SQL';
+  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
 };
 
 
@@ -204,13 +233,13 @@ ExplorerService.prototype.hideSql = function() {
  * @export
  */
 ExplorerService.prototype.editDashboard = function() {
-  var widget = this.dashboard_.selectedWidget;
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
 
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'SQL';
+  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
 };
 
 
@@ -220,16 +249,24 @@ ExplorerService.prototype.editDashboard = function() {
  */
 ExplorerService.prototype.showLog = function() {
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'LOG';
+  this.model.code_editor.selectedMode = CodeEditorMode.LOG;
 };
 
+
+ExplorerService.prototype.unselectWidget = function() {
+  this.dashboard.unselectWidget();
+
+  if (this.model.code_editor.selectedMode !== CodeEditorMode.LOG) {
+    this.model.code_editor.isOpen = false;
+  }
+};
 
 /**
  * Updates the query and state of the selected widget's datasource.
  * @export
  */
 ExplorerService.prototype.restoreBuilder = function() {
-  var widget = this.dashboard_.selectedWidget;
+  var widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -244,8 +281,7 @@ ExplorerService.prototype.restoreBuilder = function() {
     if (!window.confirm(msg)) { return; }
   }
 
-  this.dashboard_.restoreBuilder(widget);
-  this.model.code_editor.isOpen = false;
+  this.dashboard.restoreBuilder(widget);
 };
 
 

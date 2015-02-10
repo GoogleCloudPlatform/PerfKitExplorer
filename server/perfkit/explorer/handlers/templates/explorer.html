@@ -51,83 +51,9 @@
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
   <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
 </head>
-<body>
+<body ng-keydown="explorerCtrl.checkKeyDown($event)">
 
-<div class="perfkit-page">
+  <explorer-page />
 
-  <explorer-header></explorer-header>
-
-  <div class="perfkit-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
-
-    <div class="perfkit-page-sidebar-left"
-         ng-controller="QueryEditorCtrl as queryEditorCtrl"
-         ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
-
-      <query-editor />
-
-    </div>
-
-    <div class="perfkit-page-content">
-      <div id="result-table">
-        <div>
-
-          <div class="spinner" ng-show="dashboardCtrl.dashboardIsLoading"></div>
-
-          <div ng-repeat="container in dashboardCtrl.dashboard.widgets" class="perfkit-container"
-               ng-class="{'perfkit-container-selected': widget.state().selected}">
-
-            <container class="perfkit-container-content" container-config="container">
-              <perfkit-widget class="perfkit-widget"
-                      ng-repeat="widget in container.model.container.children"
-                      widget-config="widget">
-                <div class="perfkit-widget-header"
-                     ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
-                  <span class="glyphicon glyphicon-remove perfkit-widget-button"
-                        ng-hide="explorerCtrl.explorer.model.readOnly"
-                        ng-click="dashboardCtrl.dashboard.removeWidget(widget, container)"></span>
-                  <span class="glyphicon glyphicon-refresh perfkit-widget-button"
-                        ng-click="dashboardCtrl.dashboard.refreshWidget(widget)"></span>
-                  <a class="perfkit-widget-button"
-                     ng-show="widget.model.url" ng-href="{{ widget.model.url }}">
-                    <span class="glyphicon glyphicon-link"></span>
-                  </a>
-                  <div class="perfkit-widget-title"
-                       ng-bind="dashboardCtrl.dashboard.replaceTokens(widget.model.title)"></div>
-                </div>
-                <div class="perfkit-widget-content"
-                     ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">
-                  <gviz-chart-widget widget-config="widget"/>
-                </div>
-              </perfkit-widget>
-            </container>
-          </div>
-
-          <div ng-hide="explorerCtrl.explorer.model.readOnly">
-            <button class="btn btn-primary"
-                    ng-click="explorerCtrl.dashboard.addContainer()">INSERT CONTAINER</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="perfkit-page-sidebar-right"
-         ng-show="dashboardCtrl.dashboard.selectedContainer && !explorerCtrl.explorer.model.readOnly">
-      <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-sidebar-button"
-            ng-click="dashboardCtrl.dashboard.selectWidget(null, null)"></span>
-
-      <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
-
-      <container-config ng-model="dashboardCtrl.dashboard.selectedContainer.model"></container-config>
-
-      <chart-config ng-model="dashboardCtrl.dashboard.selectedWidget.model"></chart-config>
-
-    </div>
-  </div>
-
-  <div class="perfkit-page-footer"
-       ng-show="explorerCtrl.dashboard.selectedWidget || explorerCtrl.explorer.model.code_editor.isOpen">
-    <widget-editor></widget-editor>
-  </div>
-</div>
 </body>
 </html>

@@ -29,9 +29,16 @@ var explorer = p3rf.perfkit.explorer;
 
 /**
  * Directive for codemirror UI element for textareas.
+ *
+ * Supported attributes are:
+ *   {!Function=} onChange Function to run when the value is changed via the
+ *       codemirror editor.
+ *   {!Object} cmOptions The CodeMirror options object.  This includes the
+ *       selected text.
  * @param {!Object} uiCodemirrorConfig Config parameters for customizing.
  * @param {!angular.$timeout} $timeout Provides timeout function for deferring.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.codemirror.CodeMirrorDirective = function(
     uiCodemirrorConfig, $timeout) {
@@ -43,6 +50,10 @@ explorer.components.codemirror.CodeMirrorDirective = function(
   return {
     restrict: 'A',
     require: 'ngModel',
+    scope: {
+      onChange: '&',
+      cmOptions: '='
+    },
     link: function(scope, elm, attrs, ngModel) {
       var options, opts, onChange, deferCodeMirror, codeMirror;
 
@@ -52,10 +63,14 @@ explorer.components.codemirror.CodeMirrorDirective = function(
       }
 
       options = uiCodemirrorConfig.codemirror || {};
-      opts = angular.extend({}, options, scope.$eval(attrs['codemirror']));
+      opts = angular.extend({}, options, scope.cmOptions);
 
       onChange = function(aEvent) {
         return function(instance, changeObj) {
+          if (scope.onChange) {
+            scope.onChange();
+          }
+
           var newValue = instance.getValue();
           if (newValue !== ngModel.$viewValue) {
             ngModel.$setViewValue(newValue);
@@ -107,7 +122,8 @@ explorer.components.codemirror.CodeMirrorDirective = function(
 
         // Watch ui-refresh and refresh the directive
         if (attrs.uiRefresh) {
-          scope.$watch(attrs.uiRefresh, function(newVal, oldVal) {
+          scope.$watch(function() { return attrs.uiRefresh; },
+                       function(newVal, oldVal) {
             // Skip the initial watch firing
             if (newVal !== oldVal) {
               $timeout(function() { codeMirror.refresh(); });

@@ -22,6 +22,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
@@ -33,6 +34,7 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var DashboardService = explorer.components.dashboard.DashboardService;
 var ExplorerService = explorer.components.explorer.ExplorerService;
+var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 var CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
@@ -115,19 +117,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   this.editorOptionsSQL = {
     lineWrapping: false,
     lineNumbers: true,
-    mode: 'sql'
-  };
-
-  /**
-   * Options for the CodeMirror editor.
-   * @type {!Object}
-   * @export
-   */
-  this.editorOptionsSQLView = {
-    lineWrapping: false,
-    lineNumbers: true,
-    readOnly: true,
-    mode: 'sql'
+    mode: 'text/x-sql'
   };
 
   /**
@@ -151,6 +141,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   $scope.$watch(
       angular.bind(this, function() { return this.currentJson.text; }),
       angular.bind(this, this.saveTextToJson));
+
 };
 var CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
 
@@ -178,11 +169,22 @@ CodeEditorCtrl.prototype.openCodeEditor = function() {
 
 
 /**
+ * Opens the code editor.
+ * @export
+ */
+CodeEditorCtrl.prototype.changeSql = function() {
+  if (!this.dashboard.selectedWidget.model.datasource.custom_query) {
+    this.explorer.customizeSql(false);
+  }
+};
+
+
+/**
  * Opens the code editor, and focuses on the Widget's overall JSON.
  * @export
  */
 CodeEditorCtrl.prototype.openWidgetJsonEditor = function() {
-  this.settings.selectedMode = 'JSON';
+  this.settings.selectedMode = CodeEditorMode.JSON;
   this.openCodeEditor();
 };
 
@@ -202,7 +204,7 @@ CodeEditorCtrl.prototype.editQuerySql = function() {
  * @export
  */
 CodeEditorCtrl.prototype.openQuerySqlEditor = function() {
-  this.settings.selectedMode = 'SQL';
+  this.settings.selectedMode = CodeEditorMode.SQL;
   this.openCodeEditor();
 };
 
@@ -255,6 +257,24 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
         this.saveState = SaveState.SAVING_TO_OBJECT;
       }
     }
+  }
+};
+
+
+  /**
+   * Returns whether the mode should be enabled.  This is used to disable
+   * widget-specific modes (JSON and SQL) when no widget is selected.
+   * @param {CodeEditorMode} mode
+   * @returns {boolean} True if the mode should be enabled, otherwise False.
+   * @export
+   */
+CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
+  switch (mode) {
+    case CodeEditorMode.JSON:
+    case CodeEditorMode.SQL:
+      return (this.dashboard.selectedWidget !== null);
+    default:
+      return true;
   }
 };
 

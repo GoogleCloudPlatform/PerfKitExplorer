@@ -1,5 +1,4 @@
 .perfkit-header {
-  background-color: rgb(241, 241, 241);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
   width: 100%;
@@ -18,7 +17,6 @@
 }
 
 .perfkit-toolbar {
-  background-color: rgb(241, 241, 241);
   border-bottom: 1px solid rgb(229, 229, 229);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;

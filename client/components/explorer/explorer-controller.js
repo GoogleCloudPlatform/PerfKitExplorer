@@ -33,7 +33,6 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 var ExplorerService = explorer.components.explorer.ExplorerService;
 
 
-
 /**
  * Root controller for the Explorer page.
  *
@@ -109,6 +108,27 @@ explorer.components.explorer.ExplorerCtrl = function(
   this.initExplorer();
 };
 var ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
+
+
+/**
+ * Handles KeyDown events on the page.  Specific behavior is noted below.
+ *
+ * ESC: If an element has focus, de-focus it.  Otherwise, if a widget is
+ *     selected, de-select it.
+ *
+ * @param event
+ * @export
+ */
+ExplorerCtrl.prototype.checkKeyDown = function(event) {
+  if (event.keyCode === this.explorer.KEY_ESCAPE) {
+    if (document.activeElement === null ||
+         document.activeElement === document.body) {
+      this.explorer.unselectWidget();
+    } else {
+      document.activeElement.blur();
+    }
+  }
+};
 
 
 /**

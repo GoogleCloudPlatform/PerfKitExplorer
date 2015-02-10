@@ -1,0 +1,38 @@
+.perfkit-page-footer {
+  background-color: rgb(241, 241, 241);
+  border-top: 1px solid rgb(229, 229, 229);
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+}
+
+.perfkit-footer-open {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  display: table;
+}
+
+.perfkit-footer-toolbar {
+  display: table-row;
+  height: 48px;
+  padding: 4px;
+}
+
+.perfkit-footer-toolbar-cell {
+  display: table-cell;
+  padding-left: 6px;
+  vertical-align: middle;
+}
+
+.perfkit-footer-body {
+  display: table-row;
+}
+
+.perfkit-footer-body-cell {
+  display: table-cell;
+}
+
+.perfkit-footer-close-button {
+  float: right;
+  margin-right: 5px;
+}

@@ -105,12 +105,11 @@
           <div>Select a widget or container below</div>
         </div>
         <div ng-hide="ctrl.selectedWidget == null">
-          <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
+          <button type="button" class="btn btn-primary"
                   ng-click="ctrl.refreshSelectedWidget()">
             Refresh
           </button>
-          <button type="button" class="btn btn-primary dropdown-toggle">
+          <button type="button" class="btn btn-default dropdown-toggle">
             Insert
             <span class="caret"></span>
           </button>
@@ -118,12 +117,10 @@
             <li ng-click="ctrl.insertWidgetAt(0)">
               <a>left</a>
             </li>
-            <li ng-class="{'disabled': ctrl.selectedWidget == null}"
-                ng-click="ctrl.insertWidgetBeforeSelected()">
+            <li ng-click="ctrl.insertWidgetBeforeSelected()">
               <a>before</a>
             </li>
-            <li ng-class="{'disabled': ctrl.selectedWidget == null}"
-                ng-click="ctrl.insertWidgetAfterSelected()">
+            <li ng-click="ctrl.insertWidgetAfterSelected()">
               <a>after</a>
             </li>
             <li ng-click="ctrl.insertWidget()">
@@ -131,29 +128,29 @@
             </li>
           </ul>
           <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
                   ng-click="ctrl.moveWidgetToPreviousContainer()">
             <span class="glyphicon glyphicon-arrow-up"></span>
           </button>
           <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
                   ng-click="ctrl.moveWidgetToNext()">
             <span class="glyphicon glyphicon-arrow-right"></span>
           </button>
           <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
                   ng-click="ctrl.moveWidgetToPrevious()">
             <span class="glyphicon glyphicon-arrow-left"></span>
           </button>
           <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
                   ng-click="ctrl.moveWidgetToNextContainer()">
             <span class="glyphicon glyphicon-arrow-down"></span>
           </button>
           <button type="button" class="btn btn-default"
-                  ng-show="!ctrl.dashboard.selectedWidget.model.datasource.custom_query"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
-                  ng-click="ctrl.explorer.customizeSql()">
+                  ng-hide="ctrl.dashboard.selectedWidget.model.datasource.custom_query"
+                  ng-click="ctrl.explorer.viewSql(true)">
+            View SQL
+          </button>
+          <button type="button" class="btn btn-default"
+                  ng-show="ctrl.dashboard.selectedWidget.model.datasource.custom_query"
+                  ng-click="ctrl.explorer.viewSql(true)">
             Edit SQL
           </button>
           <button type="button" class="btn btn-default"
@@ -162,7 +159,10 @@
             Use SQL Builder
           </button>
           <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
+                  ng-click="ctrl.explorer.editJson()">
+            Edit JSON
+          </button>
+          <button type="button" class="btn btn-default"
                   ng-click="ctrl.removeSelectedWidget()">Delete</button>
         </div>
       </div>
