@@ -10,12 +10,17 @@
               widget-config="widget">
         <div class="perfkit-widget-header"
              ng-click="dashboardSvc.selectWidget(widget, container)">
-          <span class="glyphicon glyphicon-remove" style="float: right; margin-left: 4px"
+          <span class="glyphicon glyphicon-remove perfkit-widget-button"
                 ng-hide="explorerSvc.model.readOnly"
                 ng-click="dashboardSvc.removeWidget(widget, container)"></span>
-          <span class="glyphicon glyphicon-refresh" style="float: right; margin-left: 4px"
+          <span class="glyphicon glyphicon-refresh perfkit-widget-button"
                 ng-click="dashboardSvc.refreshWidget(widget)"></span>
-          <div class="perfkit-widget-title" ng-bind="widget.model.title"></div>
+          <a class="perfkit-widget-button"
+             ng-show="widget.model.url" ng-href="{{ widget.model.url }}">
+            <span class="glyphicon glyphicon-link"></span>
+          </a>
+          <div class="perfkit-widget-title"
+               ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
         </div>
         <div class="perfkit-widget-content"
              ng-click="dashboardSvc.selectWidget(widget, container)">
