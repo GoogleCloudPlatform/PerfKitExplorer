@@ -91,7 +91,8 @@
                      ng-show="widget.model.url" ng-href="{{ widget.model.url }}">
                     <span class="glyphicon glyphicon-link"></span>
                   </a>
-                  <div class="perfkit-widget-title" ng-bind="widget.model.title"></div>
+                  <div class="perfkit-widget-title"
+                       ng-bind="dashboardCtrl.dashboard.replaceTokens(widget.model.title)"></div>
                 </div>
                 <div class="perfkit-widget-content"
                      ng-click="dashboardCtrl.dashboard.selectWidget(widget, container)">

@@ -24,6 +24,7 @@ goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -42,6 +43,7 @@ var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 var ConfigService = explorer.components.config.ConfigService;
 var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
+var DashboardParam = explorer.components.dashboard.DashboardParam;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var QueryBuilderService = (
     explorer.models.perfkit_simple_builder.QueryBuilderService);
@@ -56,19 +58,19 @@ var WidgetType = explorer.models.WidgetType;
 /**
  * See module docstring for more information about purpose and usage.
  *
- * @param {!angular.Filter} queryBuilderService
  * @param {!ArrayUtilService} arrayUtilService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
- * @param {!DashboardVersionService} dashboardVersionService
  * @param {!ConfigService} configService
+ * @param {!angular.Filter} $filter
+ * @param {!angular.Location} $location
  * @constructor
  * @ngInject
  */
-explorer.components.dashboard.DashboardService = function(
-    $filter, arrayUtilService, widgetFactoryService, dashboardDataService,
-    queryBuilderService, dashboardVersionService, configService) {
+explorer.components.dashboard.DashboardService = function(arrayUtilService,
+    widgetFactoryService, dashboardDataService, queryBuilderService,
+    dashboardVersionService, configService, $filter, $location) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -90,8 +92,11 @@ explorer.components.dashboard.DashboardService = function(
   /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
+  /** @private @type {!angular.Location} */
+  this.location_ = $location;
+
   /** @export {!DashboardConfig} */
-  this.current = this.initializeDashboard();
+  this.current = this.initializeDashboard_();
 
   /** @export {!Array.<WidgetConfig>} */
   this.widgets = this.current.model.children;
@@ -101,6 +106,9 @@ explorer.components.dashboard.DashboardService = function(
 
   /** @export {ContainerWidgetConfig} */
   this.selectedContainer = null;
+
+  /** @export {Array.<!DashboardParam>} */
+  this.params = [];
 
   /** @export {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
@@ -122,9 +130,20 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 
 /**
+ * Empties the list of params.
+ * @export
+ */
+DashboardService.prototype.clearParams = function() {
+  while (this.params.length > 0) {
+    this.params.pop();
+  }
+};
+
+
+/**
  * Initialize a new dashboard.
  */
-DashboardService.prototype.initializeDashboard = function() {
+DashboardService.prototype.initializeDashboard_ = function() {
   var dashboard = new DashboardConfig();
   dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
 
@@ -184,9 +203,31 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
   this.current = dashboardConfig;
   if (dashboardConfig) {
     this.widgets = dashboardConfig.model.children;
+    this.initializeParams_();
   } else {
     this.widgets = [];
   }
+};
+
+
+/**
+ * Initializes the current dashboard's parameters.
+ *
+ * The DashboardModel stores the available params and default values for the
+ * dashboard, while the DashboardService stores the current effective values
+ * based on the querystring and default values.
+ */
+DashboardService.prototype.initializeParams_ = function() {
+  this.clearParams();
+
+  angular.forEach(
+      this.current.model.params, angular.bind(this, function(param) {
+    var paramValue = this.location_.search()[param.name] || param.value;
+
+    if (paramValue !== '') {
+      this.params.push(new DashboardParam(param.name, paramValue));
+    }
+  }));
 };
 
 
@@ -232,8 +273,12 @@ DashboardService.prototype.selectContainer = function(container) {
 
 /**
  * Rewrites the current widget's query based on the config.
+ * @param {!Widget} widget The widget to rewrite the query against.
+ * @param {!bool=} replaceParams If true, parameters (%%NAME%%) will be
+ *     replaced with the current param value (from the dashboard or url).
+ *     Defaults to false.
  */
-DashboardService.prototype.rewriteQuery = function(widget) {
+DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
   goog.asserts.assert(this.current, 'Bad state: No dashboard selected.');
 
@@ -256,11 +301,13 @@ DashboardService.prototype.rewriteQuery = function(widget) {
       this.current.model.table_partition,
       this.DEFAULT_TABLE_PARTITION], true);
 
-  if (widget.model.datasource.custom_query !== true) {
-    widget.model.datasource.query = this.queryBuilderService_.getSql(
+  this.initializeParams_();
+  var params = replaceParams ? this.params : null;
+
+  return this.queryBuilderService_.getSql(
         widget.model.datasource.config,
-        project_name, dataset_name, table_name, table_partition);
-  }
+        project_name, dataset_name, table_name, table_partition, params);
+
 };
 
 
@@ -272,7 +319,10 @@ DashboardService.prototype.rewriteQuery = function(widget) {
  * @export
  */
 DashboardService.prototype.refreshWidget = function(widget) {
-  this.rewriteQuery(widget);
+  if (widget.model.datasource.custom_query !== true) {
+    widget.model.datasource.query = this.rewriteQuery(widget, false);
+    widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
+  }
 
   if (widget.model.datasource.query) {
     widget.state().datasource.status = ResultsDataStatus.TOFETCH;
@@ -293,7 +343,8 @@ DashboardService.prototype.customizeSql = function(widget) {
 
   widget.state().datasource.status = ResultsDataStatus.NODATA;
 
-  this.rewriteQuery(widget);
+  widget.model.datasource.query = this.rewriteQuery(widget, false);
+  widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
 
   widget.model.datasource.custom_query = true;
 };
@@ -641,21 +692,29 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
 
 
 /**
- * @param {DashboardModel} dashboard
+ * Triggers the delete confirmation for the currently selected dashboard.
  * @export
  */
-DashboardService.prototype.deleteDashboard = function(dashboard) {
-  return this.dashboardDataService_.delete(dashboard.id);
+DashboardService.prototype.deleteDashboard = function() {
+  return this.dashboardDataService_.delete(this.current.model.id);
 };
 
 
 /**
  * Adds an empty entry to the list of authorized writers.
- * @param {DashboardModel} dashboard
  * @export
  */
-DashboardService.prototype.addWriter = function(dashboard) {
+DashboardService.prototype.addWriter = function() {
   this.current.model.writers.push({'email': ''});
+};
+
+
+/**
+ * Adds an empty entry to the list of dashboard parameters.
+ * @export
+ */
+DashboardService.prototype.addParam = function() {
+  this.current.model.params.push(new DashboardParam());
 };
 
 
@@ -668,6 +727,21 @@ DashboardService.prototype.addWriter = function(dashboard) {
 DashboardService.prototype.getTablePartition = function(partitionName) {
   return this.filter_('getByProperty')(
       'partition', partitionName, this.TABLE_PARTITIONS);
+};
+
+
+/**
+ * Returns the title of the provided artifact, with tokens replaced with params.
+ * Tokens are identified by strings wrapped in the QueryBuilderService
+ * properties TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.
+ *
+ * @param artifact {string} The string to replace.
+ * @returns {string} A title with tokens replaced with param values.
+ * @export
+ */
+DashboardService.prototype.replaceTokens = function(value) {
+  this.initializeParams_();
+  return this.queryBuilderService_.replaceTokens(value, this.params);
 };
 
 });  // goog.scope

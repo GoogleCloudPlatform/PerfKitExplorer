@@ -20,6 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -31,7 +32,9 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderSe
 
 describe('dashboardService', function() {
   var explorer = p3rf.perfkit.explorer;
-  var svc, widget, chartWidget, container, configService, widgetFactoryService;
+  var svc, widget, chartWidget, container, widgetFactoryService,
+      configService, $location;
+  var DashboardParam = explorer.components.dashboard.DashboardParam;
   var WidgetConfig = explorer.models.WidgetConfig;
   var WidgetType = explorer.models.WidgetType;
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
@@ -46,7 +49,8 @@ describe('dashboardService', function() {
   beforeEach(inject(function(dashboardService,
                              _queryBuilderService_,
                              _configService_,
-                             _widgetFactoryService_) {
+                             _widgetFactoryService_,
+                             _$location_) {
     svc = dashboardService;
     configService = _configService_;
     queryBuilderService = _queryBuilderService_;
@@ -54,6 +58,7 @@ describe('dashboardService', function() {
     widget = new WidgetConfig(widgetFactoryService);
     chartWidget = new ChartWidgetConfig(widgetFactoryService);
     container = new ContainerWidgetConfig(widgetFactoryService);
+    $location = _$location_;
   }));
 
   it('should initialize the appropriate objects.', function() {
@@ -497,7 +502,66 @@ describe('dashboardService', function() {
     );
   });
 
-  describe('rewriteQuery()', function() {
+  describe('initializeParams_', function() {
+    it('should populate based on config-provided values.', function() {
+      provided_params = [
+        new DashboardParam('param1', 'value1'),
+        new DashboardParam('param2', 'value2')
+      ];
+
+      svc.current = {
+        'model': {
+          'params': provided_params
+        }
+      };
+
+      svc.initializeParams_();
+
+      expect(svc.params).toEqual(provided_params);
+    });
+
+    it('should overwrite default values with url parms.', function() {
+      expected_value = 'UPDATED_VALUE';
+
+      provided_params = [
+        new DashboardParam('param1', 'value1'),
+        new DashboardParam('param2', 'value2')
+      ];
+
+      $location.search().param1 = expected_value;
+
+      svc.current = {
+        'model': {
+          'params': provided_params
+        }
+      };
+
+      svc.initializeParams_();
+
+      expect(svc.params[0].value).toEqual(expected_value);
+    });
+
+    it('should ignore params not defined in the dashboard.', function() {
+      provided_params = [
+        new DashboardParam('param1', 'value1'),
+        new DashboardParam('param2', 'value2')
+      ];
+
+      $location.search().param3 = 'UNSUPPORTED_VALUE';
+
+      svc.current = {
+        'model': {
+          'params': provided_params
+        }
+      };
+
+      svc.initializeParams_();
+
+      expect(svc.params).toEqual(provided_params);
+    });
+  });
+
+  describe('rewriteQuery', function() {
 
     var providedWidget, providedConfig, sampleDashboardValues,
         sampleWidgetValues;
@@ -560,7 +624,8 @@ describe('dashboardService', function() {
           sampleWidgetValues.project_id,
           sampleWidgetValues.dataset_name,
           sampleWidgetValues.table_name,
-          sampleWidgetValues.table_partition);
+          sampleWidgetValues.table_partition,
+          null);
     });
 
     it('should use dashboard values if absence of widget values.', function() {
@@ -577,7 +642,8 @@ describe('dashboardService', function() {
           sampleDashboardValues.project_id,
           sampleDashboardValues.dataset_name,
           sampleDashboardValues.table_name,
-          sampleDashboardValues.table_partition);
+          sampleDashboardValues.table_partition,
+          null);
     });
 
     it('should use config values if absence of widget and dashboard ' +
@@ -589,7 +655,8 @@ describe('dashboardService', function() {
           configService.default_project,
           configService.default_dataset,
           configService.default_table,
-          svc.DEFAULT_TABLE_PARTITION);
+          svc.DEFAULT_TABLE_PARTITION,
+          null);
     });
 
     it('should use a mix of scopes to populate values.', function() {
@@ -603,7 +670,8 @@ describe('dashboardService', function() {
           sampleDashboardValues.project_id,
           sampleWidgetValues.dataset_name,
           configService.default_table,
-          svc.DEFAULT_TABLE_PARTITION);
+          svc.DEFAULT_TABLE_PARTITION,
+          null);
     });
   });
 });
