@@ -57,8 +57,10 @@ explorer.components.layout.FillDirective = (
           var container = element[0].parentNode;
           var containerStyle = window.getComputedStyle(container);
 
-          targetElement.style.height = containerStyle.height;
-          targetElement.style.width = containerStyle.width;
+          if (containerStyle) {
+            targetElement.style.height = containerStyle.height;
+            targetElement.style.width = containerStyle.width;
+          }
         } finally {
           targetElement.style.display = originalDisplay;
         }

@@ -29,9 +29,16 @@ var explorer = p3rf.perfkit.explorer;
 
 /**
  * Directive for codemirror UI element for textareas.
+ *
+ * Supported attributes are:
+ *   {!Function=} onChange Function to run when the value is changed via the
+ *       codemirror editor.
+ *   {!Object} cmOptions The CodeMirror options object.  This includes the
+ *       selected text.
  * @param {!Object} uiCodemirrorConfig Config parameters for customizing.
  * @param {!angular.$timeout} $timeout Provides timeout function for deferring.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.codemirror.CodeMirrorDirective = function(
     uiCodemirrorConfig, $timeout) {

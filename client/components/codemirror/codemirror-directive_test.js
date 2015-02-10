@@ -119,15 +119,15 @@ describe('uiCodemirror', function() {
         // Must have a parentNode for insertBefore (see
         // https://github.com/marijnh/CodeMirror/blob/v3.11/lib/codemirror.js
         // #L3390)
-        scope.$apply('bar = true');
+        scope.$apply('bar = false');
         $compile('<div><textarea codemirror ng-model="foo" ' +
                  'ui-refresh="{{ bar }}"></textarea></div>')(scope);
         $timeout.flush();
         var spy = spyOn(codemirror, 'refresh');
-        scope.$apply('bar = false');
+        scope.$apply('bar = true');
         $timeout.flush();
         expect(codemirror.refresh).toHaveBeenCalled();
-        scope.$apply('bar = true');
+        scope.$apply('bar = false');
         $timeout.flush();
         expect(spy.calls.count()).toEqual(2);
       });

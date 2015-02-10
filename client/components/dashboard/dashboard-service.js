@@ -131,7 +131,7 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * Empties the list of params.
- * @export
+ * @private
  */
 DashboardService.prototype.clearParams = function() {
   while (this.params.length > 0) {
@@ -322,6 +322,10 @@ DashboardService.prototype.refreshWidget = function(widget) {
   if (widget.model.datasource.custom_query !== true) {
     widget.model.datasource.query = this.rewriteQuery(widget, false);
     widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
+  } else {
+    widget.model.datasource.query_exec = (
+        this.queryBuilderService_.replaceTokens(
+            widget.model.datasource.query, this.params));
   }
 
   if (widget.model.datasource.query) {
@@ -347,9 +351,7 @@ DashboardService.prototype.customizeSql = function(widget, rewrite) {
 
   if (rewrite === true) {
     widget.model.datasource.query = this.rewriteQuery(widget, false);
-    widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
   }
-
   widget.model.datasource.custom_query = true;
 };
 
@@ -362,7 +364,7 @@ DashboardService.prototype.customizeSql = function(widget, rewrite) {
  */
 DashboardService.prototype.restoreBuilder = function(widget) {
   widget.model.datasource.custom_query = false;
-  this.rewriteQuery(widget);
+  widget.model.datasource.query = this.rewriteQuery(widget, true);
 };
 
 

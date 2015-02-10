@@ -117,7 +117,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   this.editorOptionsSQL = {
     lineWrapping: false,
     lineNumbers: true,
-    mode: 'sql'
+    mode: 'text/x-sql'
   };
 
   /**
@@ -169,6 +169,17 @@ CodeEditorCtrl.prototype.openCodeEditor = function() {
 
 
 /**
+ * Opens the code editor.
+ * @export
+ */
+CodeEditorCtrl.prototype.changeSql = function() {
+  if (!this.dashboard.selectedWidget.model.datasource.custom_query) {
+    this.explorer.customizeSql(false);
+  }
+};
+
+
+/**
  * Opens the code editor, and focuses on the Widget's overall JSON.
  * @export
  */
@@ -193,7 +204,7 @@ CodeEditorCtrl.prototype.editQuerySql = function() {
  * @export
  */
 CodeEditorCtrl.prototype.openQuerySqlEditor = function() {
-  this.settings.selectedMode = 'SQL';
+  this.settings.selectedMode = CodeEditorMode.SQL;
   this.openCodeEditor();
 };
 

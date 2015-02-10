@@ -166,7 +166,7 @@ ExplorerService.prototype.listDashboards = function() {
  * @export
  */
 ExplorerService.prototype.customizeSql = function(rewrite) {
-  if (!rewrite === true) {
+  if (rewrite !== true) {
     rewrite = false;
   }
 
@@ -178,7 +178,7 @@ ExplorerService.prototype.customizeSql = function(rewrite) {
   this.model.readOnly = false;
   this.model.code_editor.isOpen = true;
 
-  this.model.code_editor.selectedMode = 'SQL';
+  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
 };
 
 
@@ -193,7 +193,7 @@ ExplorerService.prototype.editJson = function() {
   }
 
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'JSON';
+  this.model.code_editor.selectedMode = CodeEditorMode.JSON;
 };
 
 
@@ -212,7 +212,7 @@ ExplorerService.prototype.viewSql = function(rewrite) {
   }
 
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'SQL';
+  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
 };
 
 
@@ -236,7 +236,7 @@ ExplorerService.prototype.editDashboard = function() {
   }
 
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'SQL';
+  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
 };
 
 
@@ -246,14 +246,14 @@ ExplorerService.prototype.editDashboard = function() {
  */
 ExplorerService.prototype.showLog = function() {
   this.model.code_editor.isOpen = true;
-  this.model.code_editor.selectedMode = 'LOG';
+  this.model.code_editor.selectedMode = CodeEditorMode.LOG;
 };
 
 
 ExplorerService.prototype.unselectWidget = function() {
   this.dashboard.unselectWidget();
 
-  if (this.model.code_editor.selectedMode !== 'LOG') {
+  if (this.model.code_editor.selectedMode !== CodeEditorMode.LOG) {
     this.model.code_editor.isOpen = false;
   }
 };
