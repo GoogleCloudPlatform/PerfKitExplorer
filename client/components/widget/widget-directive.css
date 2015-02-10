@@ -141,3 +141,9 @@
   margin-right: -4px;
   margin-top: -2px;
 }
+
+.perfkit-widget-button {
+  float: right;
+  margin-left: 4px;
+  cursor: pointer
+}
