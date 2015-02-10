@@ -47,7 +47,7 @@ explorer.components.layout.FillDirective = (
   return {
     restrict: 'A',
     link: function (scope, element, attr) {
-      this.resizeElement = function () {
+      scope.resizeElement = function () {
         var targetElement = element[0];
         var originalDisplay = targetElement.style.display;
 
@@ -69,7 +69,7 @@ explorer.components.layout.FillDirective = (
       window.addEventListener('resize', this.resizeElement);
       $rootScope.$on('layoutChanged', this.resizeElement);
 
-      this.resizeElement();
+      scope.resizeElement();
     }
   };
 });

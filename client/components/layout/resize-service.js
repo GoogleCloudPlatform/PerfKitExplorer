@@ -25,6 +25,7 @@
 goog.provide('p3rf.perfkit.explorer.components.layout.ResizeService');
 
 goog.require('goog.math');
+goog.require('goog.style');
 
 
 goog.scope(function() {
@@ -38,7 +39,6 @@ goog.scope(function() {
  * the resizer to the right would make the element larger.
  *
  * @enum
- * @constructor
  */
 p3rf.perfkit.explorer.components.layout.ResizeDirections = {
   LEFT: 'LEFT',
@@ -137,7 +137,8 @@ ResizeService.prototype.endResize = function() {
  * Resizes the current resizeElement based on the current event state.
  * @param {!Event} event The event arguments.  clientX and clientY will be
  *     evaluated.
- * @export */
+ * @export
+ */
 ResizeService.prototype.doResize = function(event) {
   var heightOffset = 0;
   var widthOffset = 0;

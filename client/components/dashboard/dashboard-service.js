@@ -554,7 +554,7 @@ DashboardService.prototype.removeContainer = function(container) {
 
 
 /**
- * Unselected the currently selected widget and container, if any.
+ * Unselect the currently selected widget and container, if any.
  */
 DashboardService.prototype.unselectWidget = function() {
   if (this.selectedWidget) {

@@ -19,26 +19,19 @@
  */
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
 
 describe('dashboardDirective', function() {
-  var scope, $compile, $timeout, uiConfig;
+  var scope, $compile;
 
   var explorer = p3rf.perfkit.explorer;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
-  beforeEach(inject(function(
-      _$rootScope_, _$compile_, _$timeout_, _$templateCache_, _$httpBackend_,
-      _dashboardService_) {
+  beforeEach(inject(function(_$rootScope_, _$compile_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
-    $timeout = _$timeout_;
-    $httpBackend = _$httpBackend_;
-    $templateCache = _$templateCache_;
-    dashboardService = _dashboardService_;
   }));
 
   describe('compilation', function() {

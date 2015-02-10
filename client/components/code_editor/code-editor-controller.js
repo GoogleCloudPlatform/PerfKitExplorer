@@ -260,6 +260,14 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
   }
 };
 
+
+  /**
+   * Returns whether the mode should be enabled.  This is used to disable
+   * widget-specific modes (JSON and SQL) when no widget is selected.
+   * @param {CodeEditorMode} mode
+   * @returns {boolean} True if the mode should be enabled, otherwise False.
+   * @export
+   */
 CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
   switch (mode) {
     case CodeEditorMode.JSON:

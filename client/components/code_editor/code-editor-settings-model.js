@@ -26,6 +26,8 @@ var explorer = p3rf.perfkit.explorer;
 
 /**
  * Constants for the editor modes.
+ * @enum
+ * @export
  */
 explorer.components.code_editor.CodeEditorMode = {
   JSON: 'JSON',

@@ -33,9 +33,6 @@ var DashboardService = explorer.components.dashboard.DashboardService;
 var ExplorerService = explorer.components.explorer.ExplorerService;
 
 
-/** @export {!number} */
-var KEY_ESCAPE = 27;
-
 /**
  * Root controller for the Explorer page.
  *
@@ -123,7 +120,7 @@ var ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
  * @export
  */
 ExplorerCtrl.prototype.checkKeyDown = function(event) {
-  if (event.keyCode === KEY_ESCAPE) {
+  if (event.keyCode === this.explorer.KEY_ESCAPE) {
     if (document.activeElement === null ||
          document.activeElement === document.body) {
       this.explorer.unselectWidget();

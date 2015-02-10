@@ -14,12 +14,12 @@
 
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
 
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
+
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
-
-
-var KEY_ESCAPE = 27;
 
 
 /**
