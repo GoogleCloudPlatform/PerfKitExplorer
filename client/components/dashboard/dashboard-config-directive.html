@@ -1,4 +1,31 @@
 <div class="sidebar-group">
+  <!-- Custom template for the dashboard params editor. -->
+  <script type="text/ng-template" id="dashboard_params.template">
+    <div class="param-table">
+      <div class="param-row" ng-repeat="option in multiboxSelectedOptions">
+        <input
+            class="multibox-input-control"
+            placeholder="name"
+            ng-model="option.name"
+            ng-blur="blurInput($event)"
+            ng-focus="focusInput($event, option)">
+        <input
+            placeholder="default"
+            ng-model="option.value"
+            ng-blur="blurInput($event)"
+            ng-focus="focusInput($event, option)">
+        <button type="button" class="btn btn-default">
+          <i class="glyphicon glyphicon-remove"
+             ng-click="unselectOptionAt($index)"></i>
+        </button>
+      </div>
+      <div class="multibox-insert-row param-row">
+        <input class="multibox-insert-control"
+            ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
+      </div>
+    </div>
+  </script>
+
   <div class="sidebar-group-title">Dashboard</div>
 
   <div class="sidebar-item">
@@ -50,6 +77,21 @@
              type="text"
              class="form-control"
              ng-model="ngModel.version">
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">parameters</div>
+    <div class="sidebar-item-value">
+      <span
+          multibox
+          multibox-display-prop="text"
+          multibox-focus-on-select="true"
+          multibox-data="ngModel.params"
+          multibox-on-insert-option="dashboardSvc.addParam()"
+          multibox-selected-options="ngModel.params"
+          multibox-template-url="dashboard_params.template">
+      </span>
     </div>
   </div>
 
