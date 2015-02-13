@@ -1,11 +1,4 @@
 <div class="perfkit2-page-canvas">
-  <div class="perfkit-page-alerts">
-    <alert ng-repeat="error in explorerCtrl.explorer.errorService.errors | limitTo:3"
-           type="error.errorType | lowercase"
-           close="explorerCtrl.explorer.errorService.removeErrorAt($index)">
-      {{ error.text }}</alert>
-  </div>
-
   <div class="perfkit2-page-header">
     <explorer-header></explorer-header>
   </div>
