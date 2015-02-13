@@ -66,8 +66,8 @@ explorer.components.layout.FillDirective = (
         }
       };
 
-      window.addEventListener('resize', this.resizeElement);
-      $rootScope.$on('layoutChanged', this.resizeElement);
+      window.addEventListener('resize', scope.resizeElement);
+      $rootScope.$on('layoutChanged', scope.resizeElement);
 
       scope.resizeElement();
     }
