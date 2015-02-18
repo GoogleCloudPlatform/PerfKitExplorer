@@ -70,9 +70,16 @@ var WidgetType = explorer.models.WidgetType;
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     widgetFactoryService, dashboardDataService, queryBuilderService,
-    dashboardVersionService, configService, $filter, $location) {
+    dashboardVersionService, configService, $filter, $location, $rootScope,
+    $timeout) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
+
+  /** @private {!angular.RootScope} */
+  this.rootScope_ = $rootScope;
+
+  /** @private {!angular.Timeout} */
+  this.timeout_ = $timeout;
 
   /** @export {!ConfigService} */
   this.config = configService;
@@ -122,6 +129,15 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
      'label': 'Table per Day',
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
+
+  $rootScope.$watch(function() {
+    return $location.url();
+  },
+  angular.bind(this, function(newUrl, oldUrl) {
+    if (newUrl !== oldUrl) {
+      this.refreshDashboard();
+    }
+  }));
 
   /** @export {Array.<!ErrorModel>} */
   this.errors = [];
@@ -177,6 +193,45 @@ DashboardService.prototype.saveDashboard = function() {
   promise.then(null, angular.bind(this, function(error) {
     this.errors.push(error);
     console.log('Error while saving the dashboard', error);
+  }));
+};
+
+
+/**
+ * Iterates through the dashboard and applies functions to the contents.
+ * @param {!DashboardConfig} dashboard The dashboard config to iterate.
+ * @param {?Function(ContainerConfig)} updateContainerFn The function to apply
+ *    to each container.
+ * @param {?Function(WidgetConfig)} updateWidgetFn The function to apply to each
+ *    widget.
+ * @param updateWidgetFn
+ */
+DashboardService.prototype.updateDashboard = function(
+    dashboard, updateContainerFn, updateWidgetFn) {
+  angular.forEach(dashboard.model.children, function(containerConfig) {
+    updateContainerFn && updateContainerFn(containerConfig.model.container);
+    if (updateWidgetFn) {
+      angular.forEach(
+          containerConfig.model.container.children, function(widget) {
+        updateWidgetFn(widget);
+      });
+    }
+  });
+};
+
+
+/**
+ * Refreshes all widgets in the dashboard and re-applies parameters.
+ * @export
+ */
+DashboardService.prototype.refreshDashboard = function() {
+  this.initializeParams_();
+
+  this.timeout_(angular.bind(this, function() {
+    this.updateDashboard(
+        this.current, null, angular.bind(this, function(widget) {
+      this.refreshWidget(widget);
+    }));
   }));
 };
 
