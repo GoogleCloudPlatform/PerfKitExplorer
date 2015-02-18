@@ -25,21 +25,9 @@ xcopy .\server\*.html .\deploy\server\ /S >> last_compile.log
 ECHO ** Copy third_party/py files to deploy/server/third_party
 xcopy .\third_party\py\*.* .\deploy\server\third_party\ /S >> last_compile.log
 
-ECHO ** Copy client/*.html template files to deploy/client.
-xcopy .\client\*.html .\deploy\client\ /S >> last_compile.log
-
-ECHO ** Compile client/*.js files to deploy/client/perfkit_scripts.js.
-python %closurelib%/closure/bin/build/closurebuilder.py ^
- --root=%closurelib%/ ^
- --root=client/ ^
- --namespace="p3rf.perfkit.explorer.application.module" ^
- --output_mode=compiled ^
- --compiler_jar=bin/closure-compiler.jar ^
- --compiler_flags="--angular_pass" ^
- --compiler_flags="--compilation_level=WHITESPACE_ONLY" ^
- --compiler_flags="--language_in=ECMASCRIPT5" ^
- --compiler_flags="--formatting=PRETTY_PRINT" ^
- --output_file=deploy/client/perfkit_scripts.js >> last_compile.log
+ECHO "* Compile client/*.js (not tests) with Closure to deploy/client/perfkit_scripts.js."
+ECHO "* Compile client/*.html with Html2Js to deploy/client/perfkit_templates.js."
+gulp
 
 SET CSS_TEMPFILE=deploy\perfkit_styles_raw.css
 ECHO ** Combine the client/*.css stylesheets into a single file.
