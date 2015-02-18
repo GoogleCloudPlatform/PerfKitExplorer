@@ -65,13 +65,16 @@ var WidgetType = explorer.models.WidgetType;
  * @param {!ConfigService} configService
  * @param {!angular.Filter} $filter
  * @param {!angular.Location} $location
+ * @param {!angular.RootScope} $rootScope
+ * @param {!angular.Timeout} $timeout
+ * @param {!angular.Window} $window
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     widgetFactoryService, dashboardDataService, queryBuilderService,
     dashboardVersionService, configService, $filter, $location, $rootScope,
-    $timeout) {
+    $timeout, $window) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -135,7 +138,12 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   },
   angular.bind(this, function(newUrl, oldUrl) {
     if (newUrl !== oldUrl) {
-      this.refreshDashboard();
+      // If the dashboard changed, reload the page.
+      if ($location.search()['dashboard'] !== this.current.model.id) {
+        $window.location.reload();
+      } else {
+        this.refreshDashboard();
+      }
     }
   }));
 
