@@ -81,6 +81,8 @@
 
 .perfkit-widget-header {
   background: #ffffff;
+  display: flex;
+  flex-direction: row-reverse;
   min-height: 25px;
   padding: 4px 10px;
 }
@@ -90,11 +92,11 @@
 
 .perfkit-widget-title {
   display: inline-block;
-  vertical-align: middle;
+  flex-grow: 1;
   overflow-x: hidden;
-  white-space: nowrap;
-  max-width: 90%;
   text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
 }
 
 .perfkit-container-title {
@@ -143,7 +145,7 @@
 }
 
 .perfkit-widget-button {
-  float: right;
   margin-left: 4px;
-  cursor: pointer
+  cursor: pointer;
+
 }
