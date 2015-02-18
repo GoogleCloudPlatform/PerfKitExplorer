@@ -265,6 +265,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
       /**
        * Applies the current parameters to the widget's query.
+       *
+       * If the query is a custom query, it will rewrite .query_exec to replace
+       * parameter tokens with values.  If the query is a Query Builder query,
+       * it will rewrite .query tokens, and .query_exec with values.
        * @export
        */
       scope.applyParameters = function() {
