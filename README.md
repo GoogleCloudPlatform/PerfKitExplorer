@@ -56,10 +56,19 @@ Set up your workstation
              compile.sh
              app.yaml
 
-10. Change to the PerfKitExplorer folder and download the Closure Tools, which are included as
-    a submodule in the project:
+10. Change to the PerfKitExplorer folder and download the Closure Tools, which
+    are included as a submodule in the project:
 
          git submodule update --init
+
+11. Install NodeJS.
+
+         sudo apt-get install nodejs
+
+12. Install the Node Package Manager (NPM) packages for Gulp and dependencies.
+
+         npm install
+
 
 Create the App Engine project
 =============================
@@ -95,7 +104,7 @@ Create the BigQuery repository
 6. Add the service account from your App Engine project as an authorized use of your BigQuery project.
 
 Compile and Deploy PerfKit Explorer
-
+===================================
 1. Navigate to the PerfKitExplorer directory:
 
          cd ~/projects/PerfKitExplorer

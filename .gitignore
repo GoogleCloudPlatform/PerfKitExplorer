@@ -7,6 +7,9 @@ __pycache__/
 # Deployment folder.
 deploy/
 
+# Node Packages folder.
+node_modules/
+
 # C extensions
 *.so
 
