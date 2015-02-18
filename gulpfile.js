@@ -6,12 +6,75 @@ var ngHtml2Js = require('gulp-ng-html2js');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 
-gulp.task('default', function() {
 
-  gulp.src([
+var jsSourceFiles = [
       'client/**/*.js', '!client/**/*_test.js', '!client/karma.conf.js',
       'lib/closure-library/closure/goog/**/*.js',
-      '!lib/closure-library/closure/goog/**/*_test.js'])
+      '!lib/closure-library/closure/goog/**/*_test.js'];
+
+gulp.task('default', ['prod']);
+
+
+gulp.task('common', function() {
+  gulp.src(['*.yaml', '*.py'])
+    .pipe(gulp.dest('deploy'));
+
+  gulp.src('config/*.json')
+    .pipe(gulp.dest('deploy/config'));
+
+  gulp.src('server/**/*.py')
+    .pipe(gulp.dest('deploy/server'));
+
+  gulp.src('third_party/py/**/*.*')
+    .pipe(gulp.dest('deploy/server/third_party'));
+
+  gulp.src('third_party/js/**/*.*')
+    .pipe(gulp.dest('deploy/client/third_party'));
+
+  gulp.src('client/**/*.json')
+    .pipe(gulp.dest('deploy/client'));
+
+  gulp.src('client/**/*.css')
+    .pipe(concat('perfkit_styles.css'))
+    .pipe(gulp.dest('out'));
+});
+
+
+gulp.task('test', ['common'], function() {
+
+  gulp.src(jsSourceFiles)
+    .pipe(closureCompiler({
+      compilerPath: 'bin/closure-compiler.jar',
+      fileName: 'client/perfkit_scripts.js',
+      compilerFlags: {
+        angular_pass: true,
+        compilation_level: 'WHITESPACE_ONLY',
+        language_in: 'ECMASCRIPT5',
+        formatting: 'PRETTY_PRINT',
+        manage_closure_dependencies: true,
+        only_closure_dependencies: true,
+        process_closure_primitives: true,
+        closure_entry_point: 'p3rf.perfkit.explorer.application.module'
+      }
+    }))
+    .pipe(gulp.dest('deploy'));
+
+  gulp.src('server/**/*.html')
+    .pipe(gulp.dest('deploy/server'));
+
+  gulp.src('client/**/*.html')
+    .pipe(ngHtml2Js({
+        moduleName: 'p3rf.perfkit.explorer.templates',
+        prefix: '/static/'
+    }))
+    .pipe(concat('perfkit_templates.js'))
+    .pipe(gulp.dest('deploy/client'));
+});
+
+
+gulp.task('prod', ['common'], function() {
+
+  gulp.src(jsSourceFiles)
     .pipe(closureCompiler({
       compilerPath: 'bin/closure-compiler.jar',
       fileName: 'client/perfkit_scripts.js',
@@ -27,6 +90,14 @@ gulp.task('default', function() {
     }))
     .pipe(gulp.dest('deploy'));
 
+  gulp.src('server/**/*.html')
+    .pipe(minifyHtml({
+        empty: true,
+        spare: true,
+        quotes: true
+    }))
+    .pipe(gulp.dest('deploy/server'));
+
   gulp.src('client/**/*.html')
     .pipe(minifyHtml({
         empty: true,
@@ -40,8 +111,4 @@ gulp.task('default', function() {
     .pipe(concat('perfkit_templates.js'))
     .pipe(uglify())
     .pipe(gulp.dest('deploy/client'));
-
-  gulp.src('client/**/*.json')
-    .pipe(gulp.dest('deploy/client'));
-
 });
