@@ -8,8 +8,7 @@
       <perfkit-widget class="perfkit-widget"
               ng-repeat="widget in container.model.container.children"
               widget-config="widget">
-        <div class="perfkit-widget-header"
-             ng-click="dashboardSvc.selectWidget(widget, container)">
+        <div class="perfkit-widget-header">
           <span class="glyphicon glyphicon-remove perfkit-widget-button"
                 ng-hide="explorerSvc.model.readOnly"
                 ng-click="dashboardSvc.removeWidget(widget, container)"></span>
@@ -20,6 +19,7 @@
             <span class="glyphicon glyphicon-link"></span>
           </a>
           <div class="perfkit-widget-title"
+               ng-click="dashboardSvc.selectWidget(widget, container)"
                ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
         </div>
         <div class="perfkit-widget-content"

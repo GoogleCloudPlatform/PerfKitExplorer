@@ -68,7 +68,7 @@ Create the App Engine project
 
 Create the BigQuery repository
 ==============================
-1. Create a Google Cloud project, or user the same one you used for the App
+1. Create a Google Cloud project, or use the same one you used for the App
    Engine project.
 
 2. Enable billing for your Cloud Project (available from links on the left-hand side)
