@@ -1,0 +1,20 @@
+{
+  "name": "perfkit-explorer-deps",
+  "version": "1.0.0",
+  "description": "NPM dev/test dependencies for PerfKit Explorer",
+  "author": "Joe Allan Muharsky <jmuharsky@gmail.com>",
+  "dependencies": {
+    "gulp": "3.8.x"
+  },
+  "devDependencies": {
+    "gulp": "3.8.x",
+    "gulp-closure-compiler": "0.2.x",
+    "gulp-ng-html2js": "0.1.x",
+    "gulp-minify-html": "0.1.x",
+    "gulp-concat": "2.5.x",
+    "gulp-uglify": "1.1.x"
+  },
+  "preferGlobal": true,
+  "private": true,
+  "license": "Apache2"
+}

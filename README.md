@@ -67,12 +67,7 @@ Set up your workstation
 
 12. Install the Node Package Manager (NPM) packages for Gulp and dependencies.
 
-         npm install --global gulp
-         npm install --save-dev gulp
-         npm install --global gulp-ng-html2js
-         npm install --global gulp-minify-html
-         npm install --global gulp-concat
-         npm install --global gulp-uglify
+         npm install
 
 
 Create the App Engine project
