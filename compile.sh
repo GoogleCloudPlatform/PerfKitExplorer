@@ -28,7 +28,7 @@ cd ../..
 
 echo "* Compile client/*.js (not tests) with Closure to deploy/client/perfkit_scripts.js."
 echo "* Compile client/*.html with Html2Js to deploy/client/perfkit_templates.js."
-gulp
+$(npm bin)/gulp
 
 echo "* Compile client/*.css stylesheets to deploy/client/perfkit_styles.css."
 find client -name '*.css'| xargs \

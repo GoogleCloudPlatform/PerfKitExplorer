@@ -27,7 +27,7 @@ xcopy .\third_party\py\*.* .\deploy\server\third_party\ /S >> last_compile.log
 
 ECHO "* Compile client/*.js (not tests) with Closure to deploy/client/perfkit_scripts.js."
 ECHO "* Compile client/*.html with Html2Js to deploy/client/perfkit_templates.js."
-gulp
+node_modules/.bin/gulp
 
 SET CSS_TEMPFILE=deploy\perfkit_styles_raw.css
 ECHO ** Combine the client/*.css stylesheets into a single file.
