@@ -50,7 +50,10 @@ class ExplorerConfigTest(unittest.TestCase):
         'default_dataset': explorer_config_model.DEFAULT_DATASET,
         'default_table': explorer_config_model.DEFAULT_TABLE,
         'analytics_key': explorer_config_model.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config_model.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config_model.DEFAULT_CACHE_DURATION,
+        'table_partition': explorer_config_model.DEFAULT_TABLE_PARTITION,
+        'create_adminonly': explorer_config_model.DEFAULT_CREATE_ADMINONLY,
+        'view_adminonly': explorer_config_model.DEFAULT_VIEW_ADMINONLY
     }
 
     resp = self.app.get(url='/config')
@@ -64,7 +67,10 @@ class ExplorerConfigTest(unittest.TestCase):
         'default_dataset': explorer_config_model.DEFAULT_DATASET,
         'default_table': explorer_config_model.DEFAULT_TABLE,
         'analytics_key': explorer_config_model.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config_model.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config_model.DEFAULT_CACHE_DURATION,
+        'table_partition': explorer_config_model.DEFAULT_TABLE_PARTITION,
+        'create_adminonly': explorer_config_model.DEFAULT_CREATE_ADMINONLY,
+        'view_adminonly': explorer_config_model.DEFAULT_VIEW_ADMINONLY
     }
 
     self.app.post(url='/config', params=json.dumps(expected_data))

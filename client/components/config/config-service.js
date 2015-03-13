@@ -23,9 +23,13 @@
 
 goog.provide('p3rf.perfkit.explorer.components.config.ConfigService');
 
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
+
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var QueryTablePartitioning = (
+    explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 
 
 
@@ -38,48 +42,81 @@ var explorer = p3rf.perfkit.explorer;
  */
 explorer.components.config.ConfigService = function($http, $location) {
   /**
-   * @type {!Angular.HttpService}
-   * @private
+   * @private {!Angular.HttpService}
    */
   this.http_ = $http;
 
   /**
-   * @type {!Angular.LocationService}
-   * @private
+   * @private {!Angular.LocationService}
    */
   this.location_ = location;
 
   /**
-   * @type {!string}
-   * @export
+   * @export {!string}
    */
   this.default_project = INITIAL_CONFIG.default_project;
 
   /**
-   * @type {!string}
-   * @export
+   * @export {!string}
    */
   this.default_dataset = INITIAL_CONFIG.default_dataset;
 
   /**
-   * @type {!string}
-   * @export
+   * @export {!string}
    */
   this.default_table = INITIAL_CONFIG.default_table;
 
   /**
-   * @type {!string}
-   * @export
+   * @export {!string}
    */
   this.analytics_key = INITIAL_CONFIG.analytics_key;
 
   /**
-   * @type {!number}
-   * @export
+   * @export {!number}
    */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
+
+  /**
+   * @export {!string}
+   */
+  this.table_partition = INITIAL_CONFIG.table_partition;
+
+  /**
+   * @export {!boolean}
+   */
+  this.create_adminonly = INITIAL_CONFIG.create_adminonly;
+
+  /**
+   * @export {!boolean}
+   */
+  this.view_adminonly = INITIAL_CONFIG.view_adminonly;
+
+  /** @export {string} */
+  this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
+
+  /** @export {Array.<!QueryTablePartitioning>} */
+  this.TABLE_PARTITIONS = [
+    {'partition': QueryTablePartitioning.ONETABLE,
+     'label': 'Single Table',
+     'tooltip': 'All data is stored in a single table.'},
+    {'partition': QueryTablePartitioning.PERDAY,
+     'label': 'Table per Day',
+     'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
+  ];
 };
 var ConfigService = explorer.components.config.ConfigService;
+
+
+/**
+ * Returns a partition object matching the specified name.
+ * @param {string} partitionName
+ * @return {Object}
+ * @export
+ */
+ConfigService.prototype.getTablePartition = function(partitionName) {
+  return this.filter_('getByProperty')(
+      'partition', partitionName, this.TABLE_PARTITIONS);
+};
 
 
 /**
@@ -107,6 +144,18 @@ ConfigService.prototype.populate = function(data) {
   if (goog.isDef(data.cache_duration)) {
     this.cache_duration = data.cache_duration;
   }
+
+  if (goog.isDef(data.table_partition)) {
+    this.table_partition = data.table_partition;
+  }
+
+  if (goog.isDef(data.create_adminonly)) {
+    this.create_adminonly = data.create_adminonly;
+  }
+
+  if (goog.isDef(data.view_adminonly)) {
+    this.view_adminonly = data.view_adminonly;
+  }
 };
 
 
@@ -124,6 +173,9 @@ ConfigService.prototype.toJSON = function(data) {
   result.default_table = this.default_table;
   result.analytics_key = this.analytics_key;
   result.cache_duration = this.cache_duration;
+  result.table_partition = this.table_partition;
+  result.create_adminonly = this.create_adminonly;
+  result.view_adminonly = this.view_adminonly;
 
   return result;
 };

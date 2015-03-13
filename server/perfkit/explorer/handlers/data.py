@@ -84,6 +84,9 @@ class FieldDataHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
+    if not self.VerifyViewAccess():
+      return
+
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
     filters = http_util.GetJsonParam(self.request, 'filters')
 
@@ -147,6 +150,9 @@ class MetadataDataHandler(base.RequestHandlerBase):
   """
 
   def get(self):
+    if not self.VerifyViewAccess():
+      return
+
     """Request handler for GET operations."""
     urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
     config = explorer_config.ExplorerConfigModel.Get()
@@ -204,6 +210,9 @@ class SqlDataHandler(base.RequestHandlerBase):
 
   def post(self):
     """Request handler for POST operations."""
+    if not self.VerifyViewAccess():
+      return
+
     try:
       start_time = time.time()
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)

@@ -45,6 +45,9 @@ class ConfigHandler(base.RequestHandlerBase):
 
   def get(self):
     """Returns the global config."""
+    if not self.VerifyViewAccess():
+      return
+
     try:
       data = explorer_config.ExplorerConfigModel.Get().to_dict()
 

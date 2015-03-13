@@ -74,6 +74,9 @@ class ViewDashboardHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
+    if not self.VerifyViewAccess():
+      return
+
     try:
       dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
@@ -106,6 +109,9 @@ class CreateDashboardHandler(base.RequestHandlerBase):
 
   def post(self):
     """Request handler for POST operations."""
+
+    if not self.VerifyCreateAccess():
+      return
 
     try:
       owner_email = None
@@ -149,6 +155,9 @@ class UploadDashboardHandler(base.RequestHandlerBase):
 
   def post(self):
     """Request handler for POST operations."""
+
+    if not self.VerifyCreateAccess():
+      return
 
     try:
       owner_email = None
@@ -280,6 +289,9 @@ class CopyDashboardHandler(base.RequestHandlerBase):
   def get(self):
     """Request handler for POST operations."""
 
+    if not self.VerifyCreateAccess():
+      return
+
     try:
       dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
       title = http_util.GetStringParam(self.request, fields.TITLE, False)
@@ -348,7 +360,6 @@ class EditDashboardOwnerHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for POST operations."""
-
     try:
       dashboard_id = http_util.GetIntegerParam(self.request, fields.ID)
       row = dashboard_model.Dashboard.GetDashboard(dashboard_id)
@@ -423,6 +434,9 @@ class ListDashboardHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
+
+    if not self.VerifyViewAccess():
+      return
 
     try:
       mine = self.request.get(fields.MINE)

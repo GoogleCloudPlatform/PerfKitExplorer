@@ -20,12 +20,6 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 
 
-DEFAULT_PROJECT = 'unset'
-DEFAULT_DATASET = 'samples_mart'
-DEFAULT_TABLE = 'results'
-DEFAULT_ANALYTICS_KEY = ''
-DEFAULT_CACHE_DURATION = 0
-
 GLOBAL_CONFIG_KEY = 'perfkit.explorer.config'
 
 
@@ -42,6 +36,23 @@ class SecurityError(Error):
   pass
 
 
+class TablePartitions(object):
+  ONE_TABLE = 'OneTable'
+  PER_DAY = 'PerDay'
+
+  ALL = [ONE_TABLE, PER_DAY]
+
+
+DEFAULT_PROJECT = 'unset'
+DEFAULT_DATASET = 'samples_mart'
+DEFAULT_TABLE = 'results'
+DEFAULT_ANALYTICS_KEY = ''
+DEFAULT_CACHE_DURATION = 0
+DEFAULT_TABLE_PARTITION = TablePartitions.ONE_TABLE
+DEFAULT_CREATE_ADMINONLY = False
+DEFAULT_VIEW_ADMINONLY = False
+
+
 class ExplorerConfigModel(ndb.Model):
   """Models the data/service config for explorer."""
 
@@ -50,6 +61,10 @@ class ExplorerConfigModel(ndb.Model):
   default_table = ndb.StringProperty(default=DEFAULT_TABLE)
   analytics_key = ndb.StringProperty(default=DEFAULT_ANALYTICS_KEY)
   cache_duration = ndb.IntegerProperty(default=DEFAULT_CACHE_DURATION)
+  table_partition = ndb.StringProperty(default=DEFAULT_TABLE_PARTITION,
+                                       choices=TablePartitions.ALL)
+  create_adminonly = ndb.BooleanProperty(default=DEFAULT_CREATE_ADMINONLY)
+  view_adminonly = ndb.BooleanProperty(default=DEFAULT_VIEW_ADMINONLY)
 
   def Load(self, data):
     """Sets the properties of the current config according to the provided data.

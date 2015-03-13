@@ -21,6 +21,7 @@ Explorer application.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import base
+import httplib
 import urllib
 import webapp2
 
@@ -38,7 +39,8 @@ class ExplorePageHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
-    self.RenderHtml('explorer.html', {})
+    if self.VerifyViewAccess():
+      self.RenderHtml('explorer.html', {})
 
 
 class ReviewPageHandler(base.RequestHandlerBase):
@@ -55,7 +57,8 @@ class DashboardAdminPageHandler(base.RequestHandlerBase):
 
   def get(self):
     """Request handler for GET operations."""
-    self.RenderHtml('dashboard-admin.html', {})
+    if self.VerifyViewAccess():
+      self.RenderHtml('dashboard-admin.html', {})
 
 
 # Main WSGI app as specified in app.yaml

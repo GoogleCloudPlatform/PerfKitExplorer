@@ -40,6 +40,20 @@
 
   <div class="sidebar-item">
     <div class="sidebar-item-label">
+      <label for="table_partition">table partition</label></div>
+    <div class="sidebar-item-value">
+      <select class="form-control"
+              id="table_partition"
+              ng-model="ngModel.table_partition">
+        <option ng-repeat="option in configSvc.TABLE_PARTITIONS"
+                value="{{ option.partition }}"
+                title="{{ option.tooltip }}">{{ option.label }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
       <label for="cache_duration">cache duration (in seconds)</label></div>
     <div class="sidebar-item-value">
       <input class="form-control"
@@ -48,6 +62,24 @@
              min="0"
              ng-model="ngModel.cache_duration">
     </div>
+  </div>
+
+  <div class="sidebar-group-title">Security</div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox"
+             id="create_adminonly"
+             ng-model="ngModel.create_adminonly">
+      <label for="create_adminonly">Restrict Dashboard CREATE to administrators</label></div>
+  </div>
+
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox"
+             id="view_adminonly"
+             ng-model="ngModel.view_adminonly">
+      <label for="view_adminonly">Restrict Dashboard VIEW to administrators</label></div>
   </div>
 
   <div class="sidebar-group-title">Miscellaneous</div>

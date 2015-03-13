@@ -22,6 +22,8 @@ import pytest
 import webtest
 import unittest
 
+from google.appengine.ext import testbed
+
 from perfkit import test_util
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
@@ -42,6 +44,12 @@ class DataTest(unittest.TestCase):
     base.DEFAULT_ENVIRONMENT = config.Environments.TESTING
 
     self.app = webtest.TestApp(data.app)
+
+    self.testbed = testbed.Testbed()
+    self.testbed.activate()
+    self.testbed.init_datastore_v3_stub()
+    self.testbed.init_memcache_stub()
+    self.testbed.init_user_stub()
 
     test_util.SetConfigPaths()
 

@@ -32,7 +32,6 @@ goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
-goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 goog.require('goog.array');
 goog.require('goog.asserts');
 
@@ -47,8 +46,6 @@ var DashboardParam = explorer.components.dashboard.DashboardParam;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var QueryBuilderService = (
     explorer.models.perfkit_simple_builder.QueryBuilderService);
-var QueryTablePartitioning = (
-    explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 var ResultsDataStatus = explorer.models.ResultsDataStatus;
 var WidgetConfig = explorer.models.WidgetConfig;
 var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
@@ -119,19 +116,6 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @export {Array.<!DashboardParam>} */
   this.params = [];
-
-  /** @export {string} */
-  this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
-
-  /** @export {Array.<!QueryTablePartitioning>} */
-  this.TABLE_PARTITIONS = [
-    {'partition': QueryTablePartitioning.ONETABLE,
-     'label': 'Single Table',
-     'tooltip': 'All data is stored in a single table.'},
-    {'partition': QueryTablePartitioning.PERDAY,
-     'label': 'Table per Day',
-     'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
-  ];
 
   $rootScope.$watch(function() {
     return $location.url();
@@ -795,18 +779,6 @@ DashboardService.prototype.addWriter = function() {
  */
 DashboardService.prototype.addParam = function() {
   this.current.model.params.push(new DashboardParam());
-};
-
-
-/**
- * Returns a partition object matching the specified name.
- * @param {string} partitionName
- * @return {Object}
- * @export
- */
-DashboardService.prototype.getTablePartition = function(partitionName) {
-  return this.filter_('getByProperty')(
-      'partition', partitionName, this.TABLE_PARTITIONS);
 };
 
 

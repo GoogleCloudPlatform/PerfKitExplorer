@@ -28,7 +28,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
         'default_dataset': explorer_config.DEFAULT_DATASET,
         'default_table': explorer_config.DEFAULT_TABLE,
         'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION,
+        'table_partition': explorer_config.DEFAULT_TABLE_PARTITION,
+        'create_adminonly': explorer_config.DEFAULT_CREATE_ADMINONLY,
+        'view_adminonly': explorer_config.DEFAULT_VIEW_ADMINONLY
     }
 
     actual_config = explorer_config.ExplorerConfigModel.Get().to_dict()
@@ -56,7 +59,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
         'default_dataset': explorer_config.DEFAULT_DATASET,
         'default_table': explorer_config.DEFAULT_TABLE,
         'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION,
+        'table_partition': explorer_config.DEFAULT_TABLE_PARTITION,
+        'create_adminonly': explorer_config.DEFAULT_CREATE_ADMINONLY,
+        'view_adminonly': explorer_config.DEFAULT_VIEW_ADMINONLY
     }
 
     explorer_config.ExplorerConfigModel.Update(provided_data)
@@ -77,7 +83,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
         'default_dataset': initial_config.default_dataset,
         'default_table': initial_config.default_table,
         'analytics_key': initial_config.analytics_key,
-        'cache_duration': initial_config.cache_duration
+        'cache_duration': initial_config.cache_duration,
+        'table_partition': initial_config.table_partition,
+        'create_adminonly': initial_config.create_adminonly,
+        'view_adminonly': initial_config.create_adminonly
     }
 
     explorer_config.ExplorerConfigModel.Update(provided_data)
@@ -96,7 +105,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
         'default_dataset': explorer_config.DEFAULT_DATASET,
         'default_table': explorer_config.DEFAULT_TABLE,
         'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION,
+        'table_partition': explorer_config.DEFAULT_TABLE_PARTITION,
+        'create_adminonly': explorer_config.DEFAULT_CREATE_ADMINONLY,
+        'view_adminonly': explorer_config.DEFAULT_VIEW_ADMINONLY
     }
 
     initial_config_row = explorer_config.ExplorerConfigModel.Get()

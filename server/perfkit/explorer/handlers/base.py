@@ -22,6 +22,7 @@ paths and authentication.
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import datetime
+import httplib
 import json
 import os
 
@@ -72,6 +73,48 @@ class RequestHandlerBase(webapp2.RequestHandler):
   @property
   def env(self):
     return self.request.get('env', DEFAULT_ENVIRONMENT)
+
+  def VerifyCreateAccess(self):
+    """Evaluates if the current user is able to create artifacts.
+
+    This is done by checking the config value for create_adminonly.  If
+    False, the user is authorized.  Otherwise, the current user's admin
+    status is evaluated and returned.
+
+    Returns:
+      True if the user is authorized to create artifacts, otherwise false.
+    """
+    config = explorer_config.ExplorerConfigModel.Get()
+
+    if config.create_adminonly:
+      if not users.is_current_user_admin():
+        self.response.set_status(httplib.UNAUTHORIZED)
+        return False
+      else:
+        return True
+    else:
+      return True
+
+  def VerifyViewAccess(self):
+    """Evaluates if the current user is able to view pages.
+
+    This is done by checking the config value for view_adminonly.  If
+    False, the user is authorized.  Otherwise, the current user's admin
+    status is evaluated and returned.
+
+    Returns:
+      True if the user is authorized to create artifacts, otherwise false.
+    """
+    config = explorer_config.ExplorerConfigModel.Get()
+
+    if config.view_adminonly:
+      if not users.is_current_user_admin():
+        self.response.set_status(httplib.UNAUTHORIZED)
+        return False
+      else:
+        return True
+    else:
+      return True
 
   def RenderHtml(self, template_file, template_values, status=200):
     """Renders HTML given a template filename and values.
