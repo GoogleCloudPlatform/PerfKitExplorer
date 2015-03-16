@@ -103,9 +103,9 @@ class FieldDataHandler(base.RequestHandlerBase):
 
     query = explorer_method.ExplorerQueryBase(
         data_client=client,
-        dataset_name=config.default_dataset)
+        dataset_name=config.field_cube_dataset)
     query.fields = [field_name + ' AS name']
-    query.tables = ['lookup_field_cube']
+    query.tables = [config.field_cube_table]
     query.wheres = []
 
     if start_date:

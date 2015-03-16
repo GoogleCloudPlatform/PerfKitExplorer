@@ -132,7 +132,6 @@ class ExplorerQueryBase(object):
         date = datetime_util.StringToFirstSecond(date_filter['text'])
 
       date_bqstring = date.strftime('%Y-%m-%d %X.%f %z').strip()
-      logging.error(date_bqstring)
       return 'TIMESTAMP(\'{date:}\')'.format(date=date_bqstring)
     else:
       return 'DATE_ADD(CURRENT_TIMESTAMP(), -{interval:}, \'{unit:}\')'.format(

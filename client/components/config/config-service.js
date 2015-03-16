@@ -41,54 +41,40 @@ var QueryTablePartitioning = (
  * @ngInject
  */
 explorer.components.config.ConfigService = function($http, $location) {
-  /**
-   * @private {!Angular.HttpService}
-   */
+  /** @private {!Angular.HttpService} */
   this.http_ = $http;
 
-  /**
-   * @private {!Angular.LocationService}
-   */
+  /** @private {!Angular.LocationService} */
   this.location_ = location;
 
-  /**
-   * @export {!string}
-   */
+  /** @export {!string} */
   this.default_project = INITIAL_CONFIG.default_project;
 
-  /**
-   * @export {!string}
-   */
+  /** @export {!string} */
   this.default_dataset = INITIAL_CONFIG.default_dataset;
 
-  /**
-   * @export {!string}
-   */
+  /** @export {!string} */
   this.default_table = INITIAL_CONFIG.default_table;
 
-  /**
-   * @export {!string}
-   */
+  /** @export {!string} */
+  this.field_cube_dataset = INITIAL_CONFIG.field_cube_dataset;
+
+  /** @export {!string} */
+  this.field_cube_table = INITIAL_CONFIG.field_cube_table;
+
+  /** @export {!string} */
   this.analytics_key = INITIAL_CONFIG.analytics_key;
 
-  /**
-   * @export {!number}
-   */
+  /**@export {!number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
 
-  /**
-   * @export {!string}
-   */
+  /** @export {!string} */
   this.table_partition = INITIAL_CONFIG.table_partition;
 
-  /**
-   * @export {!boolean}
-   */
+  /** @export {!boolean} */
   this.create_adminonly = INITIAL_CONFIG.create_adminonly;
 
-  /**
-   * @export {!boolean}
-   */
+  /** @export {!boolean} */
   this.view_adminonly = INITIAL_CONFIG.view_adminonly;
 
   /** @export {string} */
@@ -137,6 +123,14 @@ ConfigService.prototype.populate = function(data) {
     this.default_table = data.default_table;
   }
 
+  if (goog.isDef(data.field_cube_dataset)) {
+    this.field_cube_dataset = data.field_cube_dataset;
+  }
+
+  if (goog.isDef(data.field_cube_table)) {
+    this.field_cube_table = data.field_cube_table;
+  }
+
   if (goog.isDef(data.analytics_key)) {
     this.analytics_key = data.analytics_key;
   }
@@ -171,6 +165,8 @@ ConfigService.prototype.toJSON = function(data) {
   result.default_project = this.default_project;
   result.default_dataset = this.default_dataset;
   result.default_table = this.default_table;
+  result.field_cube_dataset = this.field_cube_dataset;
+  result.field_cube_table = this.field_cube_table;
   result.analytics_key = this.analytics_key;
   result.cache_duration = this.cache_duration;
   result.table_partition = this.table_partition;

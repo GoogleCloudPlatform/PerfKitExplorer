@@ -346,7 +346,7 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   var table_partition = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_partition,
       this.current.model.table_partition,
-      this.DEFAULT_TABLE_PARTITION], true);
+      this.config.table_partition], true);
 
   this.initializeParams_();
   var params = replaceParams ? this.params : null;

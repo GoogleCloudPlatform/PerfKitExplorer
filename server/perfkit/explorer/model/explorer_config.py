@@ -46,6 +46,8 @@ class TablePartitions(object):
 DEFAULT_PROJECT = 'unset'
 DEFAULT_DATASET = 'samples_mart'
 DEFAULT_TABLE = 'results'
+DEFAULT_FIELD_CUBE_DATASET = 'fields_cube'
+DEFAULT_FIELD_CUBE_TABLE = 'lookup_field_cube'
 DEFAULT_ANALYTICS_KEY = ''
 DEFAULT_CACHE_DURATION = 0
 DEFAULT_TABLE_PARTITION = TablePartitions.ONE_TABLE
@@ -59,6 +61,8 @@ class ExplorerConfigModel(ndb.Model):
   default_project = ndb.StringProperty(default=DEFAULT_PROJECT)
   default_dataset = ndb.StringProperty(default=DEFAULT_DATASET)
   default_table = ndb.StringProperty(default=DEFAULT_TABLE)
+  field_cube_dataset = ndb.StringProperty(default=DEFAULT_FIELD_CUBE_DATASET)
+  field_cube_table = ndb.StringProperty(default=DEFAULT_FIELD_CUBE_TABLE)
   analytics_key = ndb.StringProperty(default=DEFAULT_ANALYTICS_KEY)
   cache_duration = ndb.IntegerProperty(default=DEFAULT_CACHE_DURATION)
   table_partition = ndb.StringProperty(default=DEFAULT_TABLE_PARTITION,
