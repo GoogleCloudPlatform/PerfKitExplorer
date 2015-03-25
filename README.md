@@ -109,11 +109,14 @@ Compile and Deploy PerfKit Explorer
 
          cd ~/projects/PerfKitExplorer
 
-2. Modify the `app.yaml` file so that the application name matches the project id you created in
-   the 'Create the App Engine project' step, and the version string is set appropriately. For example:
+2. Modify the `app.yaml` file so that the instance class is appropriate for your
+   needs, and the application name matches the project id you created in the
+   'Create the App Engine project' step, and the version string is set
+   appropriately. For example:
 
          application: perfkit-explorer-demo
          version: beta
+         instance_class: F2
 
 3. Modify the `config/data_source_config.json` so that the production tags are
    appropriate for the repository you created in the previous step. For example:
