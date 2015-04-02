@@ -9,28 +9,21 @@ patch levels.
 Set up your workstation
 =======================
 
-1. Install the Python 2.7 SDK:
+1. Install prerequisite packages:
 
-         sudo apt-get install python2.7
+         sudo apt-get install python2.7 openjdk-7-jdk git nodejs nodejs-legacy npm
 
-2. Install the Java 7 SDK:
-
-         sudo apt-get install openjdk-7-jdk
-
-3. Install Git:
-
-         sudo apt-get install git
+   * Python 2.7 runtime
+   * Java 7 SDK
+   * Git
+   * NodeJS (nodejs-legacy provides the required /usr/bin/node symlink)
+   * Node Package Manager (NPM)
 
 4. Install the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
 
          curl https://sdk.cloud.google.com | bash
 
-   * note: Choose "Python & PHP" from the languages options.
    * note: Restart your shell after installing gcloud to initialize the relevant paths.
-
-5. Authorize your workstation to connect to Google Cloud resources:
-
-         gcloud auth login
 
 6. Install the [Google App Engine SDK for Python](https://cloud.google.com/appengine/downloads).
 
@@ -38,11 +31,19 @@ Set up your workstation
 
 7. Create a root folder for your source code (i.e.: `~/projects`) and navigate to it.
 
-8. Create a GitHub account at http://www.github.com.
+8. (Optional) If you are planning to participate in the open source project, create
+   a GitHub account at http://www.github.com and make an editable copy of the
+   [PerfKitExplorer repository](https://github.com/GoogleCloudPlatform/PerfKitExplorer)
+   by clicking the "Fork" button at the top right. You can also set
+   this up later, but it's easier to make the fork now before cloning it.
 
-9. Clone this repository:
+9. Clone the repository:
 
          git clone https://github.com/GoogleCloudPlatform/PerfKitExplorer.git
+
+   or, if you created your own fork in the step above:
+
+         git clone https://github.com/MY_GITHUB_ID/PerfKitExplorer.git
 
    If you have connected and authenticated correctly, the source code for
    PerfKit Explorer will download.
@@ -61,19 +62,22 @@ Set up your workstation
 
          git submodule update --init
 
-11. Install NodeJS.
-
-         sudo apt-get install nodejs
-
-12. Install the Node Package Manager (NPM) packages for Gulp and dependencies.
+12. Install the NPM packages for Gulp and dependencies, this will
+    create a node_modules directory in the project.
 
          npm install
 
 
 Create the App Engine project
 =============================
+
+1. Authorize your workstation to connect to Google Cloud resources:
+
+         gcloud auth login
+
 1. Create a Google Cloud project at https://console.developers.google.com/project.
-2. Under the API's tab, enable the BigQuery service.
+2. In "APIs & Auth > APIs", enable the BigQuery service.
+   * This is enabled by default for new projects.
 
 Create the BigQuery repository
 ==============================
@@ -81,19 +85,18 @@ Create the BigQuery repository
    Engine project.
 
 2. Enable billing for your Cloud Project (available from links on the left-hand side)
-   https://console.developers.google.com/project/apps~MYPROJECT/settings
+   https://console.developers.google.com/project/MY_PROJECT_ID/settings
+   * _MY_PROJECT_ID_ is the unique "Project ID", not the human-readable project name.
 
 3. Create a dataset (ex: samples_mart):
 
-         bq mk --project=MYPROJECT samples_mart
+         bq mk --project=MY_PROJECT_ID samples_mart
 
-4. Change folders to the sample data folder:
+4. Upload sample data to a new table in your dataset (ex: results):
 
          pushd ~/projects/PerfKitExplorer/data/samples_mart
 
-5. Upload the sample data to a new table in your dataset (ex: results):
-
-         bq load --project=MYPROJECT \
+         bq load --project=MY_PROJECT_ID \
            --source_format=NEWLINE_DELIMITED_JSON \
            samples_mart.results \
            ./sample_results.json \
@@ -101,7 +104,9 @@ Create the BigQuery repository
 
          popd
 
-6. Add the service account from your App Engine project as an authorized use of your BigQuery project.
+6. If the App Engine and BigQuery projects are separate, add the
+   service account from your App Engine project as an authorized use
+   of your BigQuery project.
 
 Compile and Deploy PerfKit Explorer
 ===================================
@@ -109,10 +114,11 @@ Compile and Deploy PerfKit Explorer
 
          cd ~/projects/PerfKitExplorer
 
-2. Modify the `app.yaml` file so that the instance class is appropriate for your
-   needs, and the application name matches the project id you created in the
-   'Create the App Engine project' step, and the version string is set
-   appropriately. For example:
+2. Modify the `app.yaml` file so that the
+   [instance class](https://cloud.google.com/appengine/docs/adminconsole/performancesettings)
+   is appropriate for your needs, and the application name matches the
+   project id you created in the 'Create the App Engine project' step,
+   and the version string is set appropriately. For example:
 
          application: perfkit-explorer-demo
          version: beta
@@ -130,16 +136,27 @@ Compile and Deploy PerfKit Explorer
 
          bash compile.sh
 
-5. You will now find a `~/projects/PerfKitExplorer/deploy` folder. Navigate to it.
+5. You will now find a `~/projects/PerfKitExplorer/deploy` folder.
 
 6. Deploy PerfKit Explorer to App Engine.
 
-         appcfg.py --oauth2 update .
+         appcfg.py --oauth2 update deploy
 
 7. By default the application will be deployed to a build/version specific to
    your client. For example, with the following values:
 
+         application: MY_PROJECT_ID
          version: 15
-         application: MYPERFKIT
 
-    will deploy to http://15-dot-MYPERFKIT.appspot.com
+    will deploy to http://15-dot-MY_PROJECT_ID.appspot.com
+
+Set up a PerfKit dashboard
+==========================
+
+1. Open the project URL http://15-dot-MY_PROJECT_ID.appspot.com in your browser.
+
+1. Click "Edit Config" in the gear icon at the top right and set
+   "default project" to the project id.
+
+1. In Perfkit Dashboard Administration, click "Upload", and select
+   the sample dashboard file: *PerfKitExplorer/data/samples_mart/sample_dashboard.json*
