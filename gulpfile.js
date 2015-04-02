@@ -1,10 +1,17 @@
 var gulp = require('gulp');
 
-var closureCompiler = require('gulp-closure-compiler');
-var minifyHtml = require('gulp-minify-html');
-var ngHtml2Js = require('gulp-ng-html2js');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
+try {
+  var closureCompiler = require('gulp-closure-compiler');
+  var minifyHtml = require('gulp-minify-html');
+  var ngHtml2Js = require('gulp-ng-html2js');
+  var concat = require('gulp-concat');
+  var uglify = require('gulp-uglify');
+  var flatten = require('gulp-flatten');
+} catch (e) {
+  console.log(e.stack);
+  console.error('Required module not found. Please re-run "npm install".');
+  process.exit(1);
+}
 
 
 var jsSourceFiles = [
@@ -36,7 +43,7 @@ gulp.task('common', function() {
 
   gulp.src('client/**/*.css')
     .pipe(concat('perfkit_styles.css'))
-    .pipe(gulp.dest('out'));
+    .pipe(gulp.dest('build'));
 });
 
 
@@ -77,7 +84,7 @@ gulp.task('prod', ['common'], function() {
   gulp.src(jsSourceFiles)
     .pipe(closureCompiler({
       compilerPath: 'bin/closure-compiler.jar',
-      fileName: 'client/perfkit_scripts.js',
+      fileName: 'build/perfkit_scripts.js',
       compilerFlags: {
         angular_pass: true,
         compilation_level: 'WHITESPACE_ONLY',
@@ -88,7 +95,8 @@ gulp.task('prod', ['common'], function() {
         closure_entry_point: 'p3rf.perfkit.explorer.application.module'
       }
     }))
-    .pipe(gulp.dest('deploy'));
+    .pipe(flatten())
+    .pipe(gulp.dest('deploy/client'));
 
   gulp.src('server/**/*.html')
     .pipe(minifyHtml({

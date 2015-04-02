@@ -12,6 +12,7 @@
     "gulp-ng-html2js": "0.1.x",
     "gulp-minify-html": "0.1.x",
     "gulp-concat": "2.5.x",
+    "gulp-flatten": "0.0.x",
     "gulp-uglify": "1.1.x"
   },
   "preferGlobal": true,
