@@ -25,6 +25,7 @@ Set up your workstation
 
          curl https://sdk.cloud.google.com | bash
 
+   * note: Choose "Python & PHP" from the languages options.
    * note: Restart your shell after installing gcloud to initialize the relevant paths.
 
 5. Authorize your workstation to connect to Google Cloud resources:
