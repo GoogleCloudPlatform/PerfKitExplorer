@@ -20,6 +20,8 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
@@ -45,6 +47,8 @@ var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 var DashboardConfig = explorer.components.dashboard.DashboardConfig;
 var DashboardParam = explorer.components.dashboard.DashboardParam;
 var DashboardDataService = explorer.components.dashboard.DashboardDataService;
+var ErrorService = explorer.components.error.ErrorService;
+var ErrorTypes = explorer.components.error.ErrorTypes;
 var QueryBuilderService = (
     explorer.models.perfkit_simple_builder.QueryBuilderService);
 var QueryTablePartitioning = (
@@ -59,6 +63,7 @@ var WidgetType = explorer.models.WidgetType;
  * See module docstring for more information about purpose and usage.
  *
  * @param {!ArrayUtilService} arrayUtilService
+ * @param {!ErrorService} errorService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
@@ -72,9 +77,9 @@ var WidgetType = explorer.models.WidgetType;
  * @ngInject
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
-    widgetFactoryService, dashboardDataService, queryBuilderService,
-    dashboardVersionService, configService, $filter, $location, $rootScope,
-    $timeout, $window) {
+    errorService, widgetFactoryService, dashboardDataService,
+    queryBuilderService,  dashboardVersionService, configService, $filter,
+    $location, $rootScope, $timeout, $window) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -89,6 +94,9 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
+
+  /** @private {!ArrayUtilService} */
+  this.errorService_ = errorService;
 
   /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
@@ -350,19 +358,35 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   var project_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.project_id,
       this.current.model.project_id,
-      this.config.default_project], true);
+      this.config.default_project], false);
+  if (project_name === null) {
+    this.errorService_.addError(ErrorTypes.DANGER, 'Project name not found.');
+  }
+
   var dataset_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.dataset_name,
       this.current.model.dataset_name,
-      this.config.default_dataset], true);
+      this.config.default_dataset], false);
+  if (project_name === null) {
+    this.errorService_.addError(ErrorTypes.DANGER, 'Dataset name not found.');
+  }
+
   var table_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_name,
       this.current.model.table_name,
-      this.config.default_table], true);
+      this.config.default_table], false);
+  if (project_name === null) {
+    this.errorService_.addError(ErrorTypes.DANGER, 'Table name not found.');
+  }
+
   var table_partition = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_partition,
       this.current.model.table_partition,
-      this.DEFAULT_TABLE_PARTITION], true);
+      this.DEFAULT_TABLE_PARTITION], false);
+  if (project_name === null) {
+    this.errorService_.addError(ErrorTypes.DANGER,
+                                'Table partition not found.');
+  }
 
   this.initializeParams_();
   var params = replaceParams ? this.params : null;

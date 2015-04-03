@@ -31,31 +31,35 @@ var ErrorTypes = components.error.ErrorTypes;
 
 
 /**
- * @param {!angular.$rootScope} $rootScope Provides access to the root scope.
- * @param {!angular.$filter} $filter Angular filter service.
+ * @param {!angular.RootScope} $rootScope Provides access to the root scope.
+ * @param {!angular.Filter} $filter Angular filter service.
+ * @param {!angular.Window} $window Angular window service.
  * @ngInject
  * @constructor
  */
-components.error.ErrorService = function($rootScope, $filter) {
+components.error.ErrorService = function($rootScope, $filter, $window) {
   /** @type {angular.Filter} */
   this.filter_ = $filter;
 
+  /** @type {angular.Window} */
+  this.window_ = window;
+
+  /** @type {angular.RootScope} */
   this.rootScope_ = $rootScope;
 
-  /**
-   * @export @type {Array.<ErrorModel>}
-   */
+  /** @export {!Array.<ErrorModel>} */
   this.errors = [];
 
-  /**
-   * @export @type {Array.<!string>}
-   */
+  /** @export {!Array.<!string>} */
   this.errorTypes = ErrorTypes.All;
+
+  /** @export {!boolean} */
+  this.logToConsole = true;
 
   /**
    * The worst error severity to show.  For example, WARNING would show both
    * WARNING and DANGER alerts.
-   * @export @type {!string}
+   * @export {!ErrorTypes}
    */
   this.MAX_ERROR_SEVERITY = ErrorTypes.WARNING;
 };
@@ -94,6 +98,11 @@ ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
   }
   var error = new ErrorModel(errorType, text, opt_errorId);
   this.errors.push(error);
+
+  if (this.logToConsole === true) {
+    this.window_.console.log(text);
+  }
+
   return error;
 };
 
