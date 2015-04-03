@@ -19,25 +19,25 @@ Set up your workstation
    * NodeJS (nodejs-legacy provides the required /usr/bin/node symlink)
    * Node Package Manager (NPM)
 
-4. Install the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
+1. Install the [Google Cloud SDK](https://developers.google.com/cloud/sdk/):
 
          curl https://sdk.cloud.google.com | bash
 
    * note: Restart your shell after installing gcloud to initialize the relevant paths.
 
-6. Install the [Google App Engine SDK for Python](https://cloud.google.com/appengine/downloads).
+1. Install the [Google App Engine SDK for Python](https://cloud.google.com/appengine/downloads).
 
    * note: You will need to add the App Engine SDK to your PATH so that you can find appcfg.py.
 
-7. Create a root folder for your source code (i.e.: `~/projects`) and navigate to it.
+1. Create a root folder for your source code (i.e.: `~/projects`) and navigate to it.
 
-8. (Optional) If you are planning to participate in the open source project, create
+1. (Optional) If you are planning to participate in the open source project, create
    a GitHub account at http://www.github.com and make an editable copy of the
    [PerfKitExplorer repository](https://github.com/GoogleCloudPlatform/PerfKitExplorer)
    by clicking the "Fork" button at the top right. You can also set
    this up later, but it's easier to make the fork now before cloning it.
 
-9. Clone the repository:
+1. Clone the repository:
 
          git clone https://github.com/GoogleCloudPlatform/PerfKitExplorer.git
 
@@ -57,12 +57,12 @@ Set up your workstation
              compile.sh
              app.yaml
 
-10. Change to the PerfKitExplorer folder and download the Closure Tools, which
+1. Change to the PerfKitExplorer folder and download the Closure Tools, which
     are included as a submodule in the project:
 
          git submodule update --init
 
-12. Install the NPM packages for Gulp and dependencies, this will
+1. Install the NPM packages for Gulp and dependencies, this will
     create a node_modules directory in the project.
 
          npm install
@@ -76,7 +76,7 @@ Create the App Engine project
          gcloud auth login
 
 1. Create a Google Cloud project at https://console.developers.google.com/project.
-2. In "APIs & Auth > APIs", enable the BigQuery service.
+1. In "APIs & Auth > APIs", enable the BigQuery service.
    * This is enabled by default for new projects.
 
 Create the BigQuery repository
@@ -84,15 +84,15 @@ Create the BigQuery repository
 1. Create a Google Cloud project, or use the same one you used for the App
    Engine project.
 
-2. Enable billing for your Cloud Project (available from links on the left-hand side)
+1. Enable billing for your Cloud Project (available from links on the left-hand side)
    https://console.developers.google.com/project/MY_PROJECT_ID/settings
    * _MY_PROJECT_ID_ is the unique "Project ID", not the human-readable project name.
 
-3. Create a dataset (ex: samples_mart):
+1. Create a dataset (ex: samples_mart):
 
          bq mk --project=MY_PROJECT_ID samples_mart
 
-4. Upload sample data to a new table in your dataset (ex: results):
+1. Upload sample data to a new table in your dataset (ex: results):
 
          pushd ~/projects/PerfKitExplorer/data/samples_mart
 
@@ -104,7 +104,7 @@ Create the BigQuery repository
 
          popd
 
-6. If the App Engine and BigQuery projects are separate, add the
+1. If the App Engine and BigQuery projects are separate, add the
    service account from your App Engine project as an authorized use
    of your BigQuery project.
 
@@ -114,7 +114,7 @@ Compile and Deploy PerfKit Explorer
 
          cd ~/projects/PerfKitExplorer
 
-2. Modify the `app.yaml` file so that the
+1. Modify the `app.yaml` file so that the
    [instance class](https://cloud.google.com/appengine/docs/adminconsole/performancesettings)
    is appropriate for your needs, and the application name matches the
    project id you created in the 'Create the App Engine project' step,
@@ -124,7 +124,7 @@ Compile and Deploy PerfKit Explorer
          version: beta
          instance_class: F2
 
-3. Modify the `config/data_source_config.json` so that the production tags are
+1. Modify the `config/data_source_config.json` so that the production tags are
    appropriate for the repository you created in the previous step. For example:
 
          project_id: perfkit-explorer-demo
@@ -132,17 +132,17 @@ Compile and Deploy PerfKit Explorer
          samples-mart: perfkit-samples.samples_mart
          analytics-key: UA-12345
 
-4. Compile the application.
+1. Compile the application.
 
          bash compile.sh
 
-5. You will now find a `~/projects/PerfKitExplorer/deploy` folder.
+1. You will now find a `~/projects/PerfKitExplorer/deploy` folder.
 
-6. Deploy PerfKit Explorer to App Engine.
+1. Deploy PerfKit Explorer to App Engine.
 
          appcfg.py --oauth2 update deploy
 
-7. By default the application will be deployed to a build/version specific to
+1. By default the application will be deployed to a build/version specific to
    your client. For example, with the following values:
 
          application: MY_PROJECT_ID
