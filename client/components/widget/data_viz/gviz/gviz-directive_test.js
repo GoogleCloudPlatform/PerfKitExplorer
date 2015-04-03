@@ -103,15 +103,26 @@ describe('gvizDirective', function() {
   }));
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
-      gvizEvents, _GvizDataTable_, dataViewService, _widgetFactoryService_) {
+      gvizEvents, _GvizDataTable_, dataViewService, _configService_,
+      _widgetFactoryService_) {
         compile = $compile;
         rootScope = $rootScope;
         timeout = $timeout;
+        configService = _configService_;
         widgetFactoryService = _widgetFactoryService_;
         chartWrapperMock = GvizChartWrapper.prototype;
         gvizEventsMock = gvizEvents;
         GvizDataTable = _GvizDataTable_;
         dataViewServiceMock = dataViewService;
+
+        // Setup global config.
+        configService.populate({
+          'default_project': 'TEST_PROJECT',
+          'default_dataset': 'TEST_DATASET',
+          'default_table': 'TEST_TABLE',
+          'analytics_key': 'TEST_ANALYTICS_KEY',
+          'cache_duration': 30
+        });
 
         // Return 10 rows by default
         GvizDataTable.prototype.getNumberOfRows.and.returnValue(10);
