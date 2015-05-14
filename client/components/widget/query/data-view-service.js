@@ -24,7 +24,8 @@
  * Sample JSON configuration object (or DataViewModel):
  * {
  *     "sort_columns": false,
- *     "sort_column_start": null
+ *     "sort_column_start": null,
+ *     "sort_column_order": null,
  *     "columns": [
  *         0,
  *         1,
@@ -51,11 +52,12 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.models.DataViewModel');
+goog.require('p3rf.perfkit.explorer.models.SortOrder');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var DataViewModel = explorer.models.DataViewModel;
-
+var SortOrder = explorer.models.SortOrder;
 
 
 /**
@@ -113,7 +115,8 @@ DataViewService.prototype.create = function(dataTable, model) {
 
   if (model.sort_columns) {
     try {
-      view.setColumns(this.getSortedColumns(dataTable, model.sort_column_start))
+      view.setColumns(this.getSortedColumns(
+        dataTable, model.sort_column_start, model.sort_column_order));
     } catch (e) {
       // Catch errors when the columns property is invalid
       return {error: {property: 'columns', message: e.message}};
@@ -132,17 +135,19 @@ DataViewService.prototype.create = function(dataTable, model) {
       [viewJson, sortedViewJson] : [viewJson];
 };
 
+
 /**
- * Returns an array of DataView initializer objects corresponding to the
- * parameters provided (columns filtering, rows filtering and sorting) applied
- * to the DataTable provided.
+ * Returns an array of DataTable columns sorted according to the provided config.
  *
  * @param {!google.visualization.DataTable} dataTable
- * @param {?number} sortColumnStart The index of the column to begin sorting at.  This can be used to fix the first
- *    few columns of a tabular report.
+ * @param {?number} sortColumnStart The index of the column to begin sorting at.
+ *    This can be used to fix the first few columns of a tabular report.
+ * @param {!SortOrder=} opt_sortColumnOrder Specifies the order for the columns.
+ *    If not specified, will default to ascending.
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */
-DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart) {
+DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart,
+    opt_sortColumnOrder) {
   sortColumnStart = sortColumnStart || 0;
 
   if (sortColumnStart >= dataTable.getNumberOfColumns()) {
@@ -165,6 +170,10 @@ DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart
   }
 
   sortableColumnNames.sort();
+  
+  if (opt_sortColumnOrder === SortOrder.DESCENDING) {
+    sortableColumnNames.reverse();
+  }
 
   for (var i = 0; i < sortableColumnNames.length; ++i) {
     sortableIndex = allColumnNames.indexOf(sortableColumnNames[i]);

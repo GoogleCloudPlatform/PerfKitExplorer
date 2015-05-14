@@ -28,6 +28,7 @@ goog.provide('p3rf.perfkit.explorer.models.DataViewModel');
 goog.provide('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.provide('p3rf.perfkit.explorer.models.DatasourceState');
 goog.provide('p3rf.perfkit.explorer.models.ResultsDataStatus');
+goog.provide('p3rf.perfkit.explorer.models.SortOrder');
 
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetState');
@@ -38,6 +39,16 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 var WidgetType = explorer.models.WidgetType;
+
+
+/**
+ * @enum {string}
+ */
+explorer.models.SortOrder = {
+  ASCENDING: 'ascending',
+  DESCENDING: 'descending'
+};
+var SortOrder = explorer.models.SortOrder;
 
 
 /**
@@ -147,19 +158,28 @@ var DatasourceState = explorer.models.DatasourceState;
  */
 explorer.models.DataViewModel = function() {
   /**
-   * If true, the columns will appear in alphabetical order.  If false, they will be presented in order of appearance.
+   * If true, the columns will appear in alphabetical order.  If false, they
+   * will be presented in order of appearance.
    * @type {!boolean}
    * @export
    */
   this.sort_columns = false;
 
   /**
-   * If provided, specifies the first column index to sort.  This can be used with pivots, for example, to fix the
-   * columns that are row headings, and sort the "series" alphabetically.
+   * If provided, specifies the first column index to sort.  This can be used
+   * with pivots, for example, to fix the columns that are row headings, and
+   * sort the "series" alphabetically.
    * @type {?number}
    * @export
    */
   this.sort_column_start = null;
+  
+  /**
+   * Specifies the sort order for the columns.  If not provided, will default
+   * to ascending.
+   * @export {?SortOrder}
+   */
+   this.sort_column_order = null;
 
   /**
    * @type {!Array.<number>}
