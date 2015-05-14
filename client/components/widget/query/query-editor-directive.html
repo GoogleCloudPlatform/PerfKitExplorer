@@ -126,6 +126,20 @@
           </div>
         </div>
       </div>
+
+      <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">sort order</div>
+          <div class="sidebar-item-value">
+            <select class="form-control"
+                   ng-model="queryEditorCtrl.datasource.view.sort_column_order">
+              <option value="" selected>Ascending (default)</option>
+              <option value="ascending">Ascending</option>
+              <option value="descending">Descending</option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
 
     <tabset ng-hide="queryEditorCtrl.datasource.custom_query">
@@ -463,6 +477,21 @@
                 </div>
               </div>
             </div>
+
+            <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
+              <div class="sidebar-item">
+                <div class="sidebar-item-label">sort order</div>
+                <div class="sidebar-item-value">
+                  <select class="form-control"
+                         ng-model="queryEditorCtrl.datasource.view.sort_column_order">
+                    <option value="" selected>Ascending (default)</option>
+                    <option value="ascending">Ascending</option>
+                    <option value="descending">Descending</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </tab>
