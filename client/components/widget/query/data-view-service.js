@@ -56,8 +56,8 @@ goog.require('p3rf.perfkit.explorer.models.SortOrder');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
-var SortOrder = explorer.models.SortOrder;
 var DataViewModel = explorer.models.DataViewModel;
+var SortOrder = explorer.models.SortOrder;
 
 
 /**
@@ -73,10 +73,6 @@ explorer.components.widget.query.DataViewService = function(GvizDataView) {
    * @private
    */
   this.GvizDataView_ = GvizDataView;
-  
-  /**
-   * @type
-   */
 };
 var DataViewService = explorer.components.widget.query.DataViewService;
 
@@ -141,9 +137,7 @@ DataViewService.prototype.create = function(dataTable, model) {
 
 
 /**
- * Returns an array of DataView initializer objects corresponding to the
- * parameters provided (columns filtering, rows filtering and sorting) applied
- * to the DataTable provided.
+ * Returns an array of DataTable columns sorted according to the provided config.
  *
  * @param {!google.visualization.DataTable} dataTable
  * @param {?number} sortColumnStart The index of the column to begin sorting at.
