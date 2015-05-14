@@ -20,6 +20,14 @@
       </div>
 
       <div class="sidebar-item">
+        <div class="sidebar-item-label">column span</div>
+        <div class="sidebar-item-value">
+          <input type="number" min="1" class="form-control"
+                 ng-model="ngModel.layout.columnspan">
+        </div>
+      </div>
+
+      <div class="sidebar-item">
         <div class="sidebar-item-label">chart type</div>
         <div class="sidebar-item-value">
           <select ng-model="ngModel.chart.chartType"
@@ -33,11 +41,14 @@
         </div>
       </div>
 
-      <div class="sidebar-item">
-        <div class="sidebar-item-label">column span</div>
+      <div class="sidebar-item" ng-hide="ngModel.chart.chartType == 'Table'">
+        <div class="side-bar-item-label">legend</div>
         <div class="sidebar-item-value">
-          <input type="number" min="1" class="form-control"
-                 ng-model="ngModel.layout.columnspan">
+          <select ng-model="ngModel.chart.options.legend"
+                  class="sidebar-input-full form-control">
+            <option value="" selected>none (default)</option>
+            <option value="{{ position }}" ng-repeat="position in chartSvc.legendPositions">{{ position }}</option>
+          </select>
         </div>
       </div>
 

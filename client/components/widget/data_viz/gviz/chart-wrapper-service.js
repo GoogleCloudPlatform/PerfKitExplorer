@@ -51,6 +51,19 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
   this.GvizChartWrapper_ = GvizChartWrapper;
 
   /**
+   * A list of legend positions for GViz charts.
+   * @export {!Array.<!string>}
+   */
+  this.legendPositions = [
+    'none',
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'in'
+  ];
+
+  /**
    * @type {Array<{{title: string, className: string}}>
    * @export
    */
