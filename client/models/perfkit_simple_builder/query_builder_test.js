@@ -111,6 +111,21 @@ describe('TestQueryBuilder', function() {
       var actualQuery = svc.replaceTokens(providedQuery, providedParams);
       expect(actualQuery).toEqual(expectedQuery);
     });
+    
+    it('should gracefully handle null/undefined values.', function() {
+      var nullQuery = null;
+      var undefinedQuery;
+      
+      var providedParams = [
+        {'name': 'VALUE', 'value': 42}
+      ];
+
+      var actualQuery = svc.replaceTokens(nullQuery, providedParams);
+      expect(actualQuery).toEqual(nullQuery);      
+
+      var actualQuery = svc.replaceTokens(undefinedQuery, providedParams);
+      expect(actualQuery).toEqual(undefinedQuery);      
+    });
   });
 
   describe('getSql', function() {
