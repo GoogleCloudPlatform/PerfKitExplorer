@@ -23,10 +23,12 @@ goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapper
 
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
 goog.require('p3rf.perfkit.explorer.models.ChartModel');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var ChartModel = explorer.models.ChartModel;
+var ChartType = explorer.models.ChartType;
 
 
 
@@ -49,6 +51,25 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
    * @private
    */
   this.GvizChartWrapper_ = GvizChartWrapper;
+
+  /**
+   * A list of legend positions for GViz charts.
+   * @export {!Array.<!string>}
+   */
+  this.LEGEND_POSITIONS = [
+    'none',
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'in'
+  ];
+
+  /**
+   * An angular-exposed copy of ChartType.
+   * @export @enum {string}
+   */
+  this.CHART_TYPES = explorer.models.ChartType;
 
   /**
    * @type {Array<{{title: string, className: string}}>
