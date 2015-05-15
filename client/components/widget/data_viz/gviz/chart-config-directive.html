@@ -41,13 +41,15 @@
         </div>
       </div>
 
-      <div class="sidebar-item" ng-hide="ngModel.chart.chartType == 'Table'">
+      <!-- One-off UX add as workaround for issue #110
+           https://github.com/GoogleCloudPlatform/PerfKitExplorer/issues/110 -->
+      <div class="sidebar-item" ng-hide="ngModel.chart.chartType === chartSvc.CHART_TYPES.TABLE">
         <div class="side-bar-item-label">legend</div>
         <div class="sidebar-item-value">
           <select ng-model="ngModel.chart.options.legend"
                   class="sidebar-input-full form-control">
-            <option value="" selected>none (default)</option>
-            <option value="{{ position }}" ng-repeat="position in chartSvc.legendPositions">{{ position }}</option>
+            <option value="" selected>(chart default)</option>
+            <option value="{{ position }}" ng-repeat="position in chartSvc.LEGEND_POSITIONS">{{ position }}</option>
           </select>
         </div>
       </div>
