@@ -1,0 +1,38 @@
+.perfkit-container-selected {
+  background: #F1F1F1;
+  border: 1px dashed;
+  border-color: #D6D6D6;
+  border-radius: 4px;
+}
+
+.perfkit-container-content {
+  display: flex;
+  display: -webkit-flex;
+}
+
+.perfkit-container-content.flex-row {
+  flex-flow: row;
+  -webkit-flex-flow: row;
+}
+
+.perfkit-container-content.flex-column {
+  flex-flow: column;
+  -webkit-flex-flow: column;
+}
+
+.perfkit-container-content.flex-wrap {
+  flex-flow: row wrap;
+  -webkit-flex-flow: row wrap;
+}
+
+.perfkit-container-header {
+  padding-left: 26px;
+  padding-top: 16px;
+  padding-right: 26px;
+}
+
+.perfkit-container-footer {
+  padding-left: 26px;
+  padding-bottom: 16px;
+  padding-right: 26px;
+}

@@ -48,6 +48,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchem
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV5');
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6');
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV7');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV8');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
 
@@ -175,6 +176,7 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
  */
 DashboardVersionService.prototype.initVersions = function() {
   return [
+    new versions.DashboardSchemaV8(),
     new versions.DashboardSchemaV7(),
     new versions.DashboardSchemaV6(),
     new versions.DashboardSchemaV5(),

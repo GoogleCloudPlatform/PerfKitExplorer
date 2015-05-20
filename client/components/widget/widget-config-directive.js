@@ -13,37 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview container is an angular directive used to show a container that
- * is bound to a ContainerWidgetModel. It can contain elements and can organize
- * them visually in three different way: row, column, or wrap.
- *
- * Usage:
- *   <container class="perfkit-container-content"
- *              container-config="containerConfigConfig"/>
- *
- * Attributes:
- *     {p3rf.perfkit.explorer.components.container.
- *         ContainerWidgetConfig} container-config
- *
+ * @fileoverview WidgetConfigDirective encapsulates HTML, style and behavior
+ *     for the gviz chart config.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.container.ContainerDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
+
+
+goog.scope(function() {
+var explorer = p3rf.perfkit.explorer;
+
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
  */
-p3rf.perfkit.explorer.components.container.
-ContainerDirective = function(dashboardService) {
+explorer.components.widget.WidgetConfigDirective = function(
+    chartWrapperService, dashboardService) {
   return {
     restrict: 'E',
     replace: true,
     transclude: true,
     scope: {
-      ngModel: '='
+      'ngModel': '='
     },
-    templateUrl: '/static/components/container/container-directive.html'
+    templateUrl: '/static/components/widget/widget-config-directive.html'
   };
 };
+
+});  // goog.scope

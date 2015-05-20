@@ -45,7 +45,8 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @ngInject
  */
 explorer.components.dashboard.DashboardCtrl = function($scope,
-    $location, dashboardDataService, dashboardService, widgetFactoryService) {
+    $location, dashboardDataService, dashboardService, widgetFactoryService,
+    sidebarTabService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -69,6 +70,9 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
    * @private
    */
   this.widgetFactoryService_ = widgetFactoryService;
+
+  /** @export {!SidebarTabService} */
+  this.tabSvc = sidebarTabService;
 
   /**
    * @type {DashboardService}

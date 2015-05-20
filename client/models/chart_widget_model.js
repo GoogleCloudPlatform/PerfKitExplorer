@@ -109,7 +109,10 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
    * @type {!Object}
    * @export
    */
-  this.options = {};
+  this.options = {
+    'chartArea': {},
+    'legend': {}
+  };
 };
 var ChartModel = p3rf.perfkit.explorer.models.ChartModel;
 

@@ -105,7 +105,7 @@ explorer.components.explorer.ExplorerService = function(
 
   /** @export {!number} */
   this.KEY_ESCAPE = 27;
-
+  
   this.initExplorer();
 };
 var ExplorerService = explorer.components.explorer.ExplorerService;
