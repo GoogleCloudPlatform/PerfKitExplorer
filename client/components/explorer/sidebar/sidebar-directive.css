@@ -1,0 +1,14 @@
+.perfkit-sidebar-panel {
+}
+
+.perfkit-sidebar-panel-header {
+	background-color: black;
+	color: white;
+	font-weight: bold;
+	padding: 4px;
+}
+
+.perfkit-sidebar-panel-content {
+	overflow: auto;
+	padding: 8px;
+}

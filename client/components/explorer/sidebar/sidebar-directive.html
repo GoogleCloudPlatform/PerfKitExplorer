@@ -1,0 +1,27 @@
+<div class="perfkit-sidebar-panel" layout="column" flex
+	ng-show="tabSvc.selectedTab">
+	<div class="perfkit-sidebar-panel-header">{{ tabSvc.selectedTab.title }}</div>
+	<div class="perfkit-sidebar-panel-content" flex>
+		<div ng-switch="tabSvc.selectedTab.id">
+			<div ng-switch-when="dashboard">
+				<dashboard-config ng-model="dashboardSvc.current.model" /> 
+			</div>
+			<div ng-switch-when="container">
+				<container-config ng-model="dashboardSvc.selectedContainer.model" /> 
+			</div>
+			<div ng-switch-when="widget.data.filter">
+				<query-filter ng-model="dashboardSvc.selectedWidget.model" /> 
+			</div>
+      <div ng-switch-when="widget.data.result">
+        <query-result ng-model="dashboardSvc.selectedWidget.model" />
+      </div>
+      <div ng-switch-when="widget.config">
+        <widget-config ng-model="dashboardSvc.selectedWidget.model" />
+      </div>
+      <div ng-switch-when="widget.chart">
+        <chart-config ng-model="dashboardSvc.selectedWidget.model" />
+      </div>
+			<div ng-switch-default>OTHER</div>
+		</div>
+	</div>
+</div>
