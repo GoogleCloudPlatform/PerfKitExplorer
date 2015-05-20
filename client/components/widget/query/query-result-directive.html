@@ -1,0 +1,150 @@
+<div>
+  <div class="sidebar-group-title">Columns</div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox" ng-model="ngModel.datasource.config.results.show_date">
+      show date
+    </div>
+  </div>
+  
+  <div class="sidebar-item" ng-show="ngModel.datasource.config.results.show_date">
+    <div class="sidebar-item-label">
+      grouping (blank for none)
+    </div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             popupbox
+             popupbox-template-url="picklist_template.html"
+             popupbox-data="queryEditorSvc.date_groupings"
+             popupbox-model="ngModel.datasource.config.results.date_group"
+             ng-model="ngModel.datasource.config.results.date_group">
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">fields</div>
+    <div class="sidebar-item-value">
+      <span
+          multibox
+          multibox-placeholder="'field name'"
+          multibox-display-prop="name"
+          multibox-focus-on-select="true"
+          multibox-data="queryEditorSvc.samples_mart_fields"
+          multibox-on-insert-option="addFieldColumn()"
+          multibox-selected-options="ngModel.datasource.config.results.fields">
+      </span>
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox" ng-model="ngModel.datasource.config.results.measure_values">
+      measure values
+    </div>
+    <div class="sidebar-item-value" ng-show="ngModel.datasource.config.results.measure_values === true">
+      <span
+          multibox
+          multibox-placeholder="'bqsql function'"
+          multibox-display-prop="name"
+          multibox-focus-on-select="true"
+          multibox-data="queryEditorSvc.samples_mart_measures"
+          multibox-on-insert-option="addMeasureColumn()"
+          multibox-selected-options="ngModel.datasource.config.results.measures">
+      </span>
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">labels</div>
+    <div class="sidebar-item-value">
+      <span
+          multibox
+          multibox-placeholder="'label'"
+          multibox-display-prop="label"
+          multibox-popup-prop="name"
+          multibox-focus-on-select="true"
+          multibox-on-insert-option="addMetadataColumn()"
+          multibox-selected-options="ngModel.datasource.config.results.labels">
+      </span>
+    </div>
+  </div>
+  
+  <div class="sidebar-group-title">Results Shape</div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox"
+             ng-model="ngModel.datasource.config.results.pivot"> pivot results
+    </div>
+  </div>
+  
+  <div ng-show="ngModel.datasource.config.results.pivot">
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">row field</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               ng-model="ngModel.datasource.config.results.pivot_config.row_field">
+      </div>
+    </div>
+  
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">column field</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               ng-model="ngModel.datasource.config.results.pivot_config.column_field">
+      </div>
+    </div>
+  
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">value field</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               ng-model="ngModel.datasource.config.results.pivot_config.value_field">
+      </div>
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      row limit
+    </div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             type="number"
+             ng-model="ngModel.datasource.config.results.row_limit">
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox"
+             ng-model="ngModel.datasource.view.sort_columns"> sort columns
+    </div>
+  </div>
+  
+  <div ng-show="ngModel.datasource.view.sort_columns">
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">start column index</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               type="number" min="0" require="false"
+               ng-model="ngModel.datasource.view.sort_column_start">
+      </div>
+    </div>
+  </div>
+  
+  <div ng-show="ngModel.datasource.view.sort_columns">
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">sort order</div>
+      <div class="sidebar-item-value">
+        <select class="form-control"
+               ng-model="ngModel.datasource.view.sort_column_order">
+          <option value="" selected>Ascending (default)</option>
+          <option value="ascending">Ascending</option>
+          <option value="descending">Descending</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

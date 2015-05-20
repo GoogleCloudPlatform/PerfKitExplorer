@@ -1,0 +1,20 @@
+.perfkit-sidebar-tabs {
+	
+}
+
+.perfkit-sidebar-tab {
+	border-radius: 0 !important;
+	display: block;
+	padding: 8px;
+	text-align: left;
+}
+
+.perfkit-sidebar-tab-icon {
+	width: 16px
+}
+
+.perfkit-sidebar-tab-selected {
+	background-color: black;
+	color: white;
+}
+

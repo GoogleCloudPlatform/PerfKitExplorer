@@ -41,6 +41,9 @@ goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarDirective');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.layout.FillDirective');
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeDirective');
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
@@ -60,13 +63,16 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataT
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryFilterDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
 goog.require('p3rf.perfkit.explorer.mocks.mocks');
@@ -122,6 +128,8 @@ explorer.application.module.service('arrayUtilService',
     explorer.components.util.ArrayUtilService);
 explorer.application.module.service('explorerService',
     explorer.components.explorer.ExplorerService);
+explorer.application.module.service('sidebarTabService',
+    explorer.components.explorer.sidebar.SidebarTabService);
 explorer.application.module.service('configService',
   explorer.components.config.ConfigService);
 explorer.application.module.service('dashboardDataService',
@@ -191,6 +199,8 @@ explorer.application.module.factory('GvizDataView',
 /** Register all directives. **/
 explorer.application.module.directive('chartConfig',
     explorer.components.widget.data_viz.gviz.ChartConfigDirective);
+explorer.application.module.directive('widgetConfig',
+    explorer.components.widget.WidgetConfigDirective);
 explorer.application.module.directive('alertLog',
     explorer.components.alert.AlertLogDirective);
 explorer.application.module.directive('gvizChartWidget',
@@ -211,6 +221,10 @@ explorer.application.module.directive('resize',
     explorer.components.layout.ResizeDirective);
 explorer.application.module.directive('explorerHeader',
     explorer.components.explorer.ExplorerHeaderDirective);
+explorer.application.module.directive('sidebarTabs',
+    explorer.components.explorer.sidebar.SidebarTabsDirective);
+explorer.application.module.directive('sidebar',
+    explorer.components.explorer.sidebar.SidebarDirective);
 explorer.application.module.directive('explorerPage',
     explorer.components.explorer.ExplorerPageDirective);
 explorer.application.module.directive('multibox',
@@ -219,6 +233,10 @@ explorer.application.module.directive('popupbox',
     explorer.components.popupbox.PopupboxDirective);
 explorer.application.module.directive('queryEditor',
     explorer.components.widget.query.QueryEditorDirective);
+explorer.application.module.directive('queryFilter',
+    explorer.components.widget.query.QueryFilterDirective);
+explorer.application.module.directive('queryResult',
+    explorer.components.widget.query.QueryResultDirective);
 explorer.application.module.directive('relativeDatepicker',
     explorer.components.widget.query.RelativeDatepickerDirective);
 explorer.application.module.directive('perfkitWidget',
