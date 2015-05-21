@@ -67,8 +67,6 @@ goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
-goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
-goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryFilterDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
@@ -181,8 +179,6 @@ explorer.application.module.controller('FileUploadDialogCtrl',
     explorer.components.dashboard_admin_page.FileUploadDialogCtrl);
 explorer.application.module.controller('WidgetEditorCtrl',
     explorer.components.widget.data_viz.WidgetEditorCtrl);
-explorer.application.module.controller('QueryEditorCtrl',
-    explorer.components.widget.query.QueryEditorCtrl);
 explorer.application.module.controller('CodeEditorCtrl',
     explorer.components.code_editor.CodeEditorCtrl);
 
@@ -231,8 +227,6 @@ explorer.application.module.directive('multibox',
     explorer.components.multibox.MultiboxDirective);
 explorer.application.module.directive('popupbox',
     explorer.components.popupbox.PopupboxDirective);
-explorer.application.module.directive('queryEditor',
-    explorer.components.widget.query.QueryEditorDirective);
 explorer.application.module.directive('queryFilter',
     explorer.components.widget.query.QueryFilterDirective);
 explorer.application.module.directive('queryResult',
