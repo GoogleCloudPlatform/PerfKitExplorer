@@ -5,7 +5,9 @@
 	background-color: black;
 	color: white;
 	font-weight: bold;
+	height: 34px;
 	padding: 4px;
+	padding-top: 8px;
 }
 
 .perfkit-sidebar-panel-content {

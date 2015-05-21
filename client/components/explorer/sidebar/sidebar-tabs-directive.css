@@ -1,12 +1,17 @@
-.perfkit-sidebar-tabs {
-	
+.perfkit-sidebar-tabs {	
 }
 
 .perfkit-sidebar-tab {
-	border-radius: 0 !important;
-	display: block;
+	cursor: pointer;
 	padding: 8px;
-	text-align: left;
+	white-space: nowrap;
+}
+
+.perfkit-sidebar-tab:hover {
+	background-color: #efefef;
+	cursor: pointer;
+	padding: 8px;
+	white-space: nowrap;
 }
 
 .perfkit-sidebar-tab-icon {
@@ -18,3 +23,7 @@
 	color: white;
 }
 
+.perfkit-sidebar-tab-selected:hover {
+	background-color: #333;
+	color: white;
+}
