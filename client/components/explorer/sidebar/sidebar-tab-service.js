@@ -53,6 +53,8 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
      requireWidget: true},
     {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
      requireWidget: true},
+    {id: 'widget.data', title: 'Data Source', iconClass: 'fa fa-database',
+     requireWidget: true},
     {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
      requireWidget: true},
     {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',

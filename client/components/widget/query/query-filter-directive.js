@@ -39,7 +39,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
   return {
     restrict: 'E',
     replace: true,
-    transclude: true,
+    transclude: false,
     scope: {
       'ngModel': '='
     },

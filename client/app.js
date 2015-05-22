@@ -67,6 +67,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryDatasourceDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryFilterDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
@@ -81,7 +82,7 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
-  'ui.grid.resizeColumns', 'ui.grid.selection',
+  'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
   'p3rf.perfkit.explorer.templates'];
 
 var useMockData = (
@@ -227,6 +228,8 @@ explorer.application.module.directive('multibox',
     explorer.components.multibox.MultiboxDirective);
 explorer.application.module.directive('popupbox',
     explorer.components.popupbox.PopupboxDirective);
+explorer.application.module.directive('queryDatasource',
+    explorer.components.widget.query.QueryDatasourceDirective);
 explorer.application.module.directive('queryFilter',
     explorer.components.widget.query.QueryFilterDirective);
 explorer.application.module.directive('queryResult',

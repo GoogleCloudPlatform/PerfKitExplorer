@@ -27,3 +27,11 @@
 	background-color: #333;
 	color: white;
 }
+
+.sidebar-item-value md-select-label {
+  padding-top: 8px;
+}
+
+.sidebar-item-value md-select {
+  width: 100%;
+}

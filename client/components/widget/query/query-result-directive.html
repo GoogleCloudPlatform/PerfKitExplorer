@@ -138,12 +138,12 @@
     <div class="sidebar-item">
       <div class="sidebar-item-label">sort order</div>
       <div class="sidebar-item-value">
-        <select class="form-control"
+        <md-select
+               placeholder="Ascending (default)"
                ng-model="ngModel.datasource.view.sort_column_order">
-          <option value="" selected>Ascending (default)</option>
-          <option value="ascending">Ascending</option>
-          <option value="descending">Descending</option>
-        </select>
+          <md-option value="ascending">Ascending</md-option>
+          <md-option value="descending">Descending</md-option>
+        </md-select>
       </div>
     </div>
   </div>

@@ -125,17 +125,14 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">table format</div>
     <div class="sidebar-item-value">
-      <select class="form-control"
+      <md-select
+              placeholder="{{ dashboardSvc.getTablePartition(
+                 dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)"
               ng-model="ngModel.table_partition">
-        <option value="" selected>
-          {{ dashboardSvc.getTablePartition(
-                 dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)
-        </option>
-
-        <option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
-                value="{{ option.partition }}"
-                title="{{ option.tooltip }}">{{ option.label }}</option>
-      </select>
+        <md-option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
+                ng-value="{{ option.partition }}"
+                title="{{ option.tooltip }}">{{ option.label }}</md-option>
+      </md-select>
     </div>
   </div>
 
