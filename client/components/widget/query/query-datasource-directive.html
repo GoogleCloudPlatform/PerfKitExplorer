@@ -4,7 +4,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">project id</div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control widget_datasource_project_id"
              ng-model="ngModel.datasource.config.results.project_id"
              placeholder="{{ dashboardSvc.current.model.project_id ||
                              configSvc.default_project }}">
@@ -14,7 +14,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">dataset</div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control widget_datasource_dataset_name"
              ng-model="queryEditorCtrl.datasource.config.results.dataset_name"
              placeholder="{{ dashboardSvc.current.model.dataset_name ||
                              configSvc.default_dataset }}">
@@ -24,7 +24,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">table</div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control widget_datasource_table_name"
              ng-model="ngModel.datasource.config.results.table_name"
              placeholder="{{ dashboardSvc.current.model.table_name ||
                              configSvc.default_table }}">
@@ -35,6 +35,7 @@
     <div class="sidebar-item-label">table format</div>
     <div class="sidebar-item-value">
       <md-select
+             class="widget_datasource_table_format"
              placeholder="{{ dashboardSvc.getTablePartition(
                  dashboardSvc.current.model.table_partition ||
                  dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)"

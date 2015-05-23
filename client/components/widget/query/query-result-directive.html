@@ -3,7 +3,9 @@
   
   <div class="sidebar-item">
     <div class="sidebar-item-label">
-      <input type="checkbox" ng-model="ngModel.datasource.config.results.show_date">
+      <input type="checkbox"
+             class="widget_results_show_date"
+             ng-model="ngModel.datasource.config.results.show_date">
       show date
     </div>
   </div>
@@ -13,9 +15,9 @@
       grouping (blank for none)
     </div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control widget_results_date_group"
              popupbox
-             popupbox-template-url="picklist_template.html"
+             popupbox-template-url="/static/components/widget/query/picklist-template.html"
              popupbox-data="queryEditorSvc.date_groupings"
              popupbox-model="ngModel.datasource.config.results.date_group"
              ng-model="ngModel.datasource.config.results.date_group">

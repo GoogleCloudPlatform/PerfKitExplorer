@@ -10,11 +10,14 @@ module.exports = function(config) {
 
     files: [
       'third_party/js/jquery/jquery.js',
-      'third_party/js/angularjs/angular.js',
-      'third_party/js/angularjs/angular-mocks.js',
+      'node_modules/angular/angular.js',
+      'node_modules/angular-aria/angular-aria.js',
+      'node_modules/angular-animate/angular-animate.js',
+      'node_modules/angular-mocks/angular-mocks.js',
       'third_party/js/bootstrap-ui/bootstrap-ui.js',
       'third_party/js/codemirror/codemirror.js',
       'third_party/js/uiGrid/ui-grid.js',
+      'node_modules/angular-material/angular-material.js',
       'third_party/js/jsapi/jsapi.js',
       'test/js/globals.js',
       // closure base
