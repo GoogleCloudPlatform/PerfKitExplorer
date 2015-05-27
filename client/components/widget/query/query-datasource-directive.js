@@ -40,6 +40,7 @@ explorer.components.widget.query.QueryDatasourceDirective = function() {
     replace: true,
     transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/query-datasource-directive.html',

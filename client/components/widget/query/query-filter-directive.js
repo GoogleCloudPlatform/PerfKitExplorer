@@ -41,6 +41,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
     replace: true,
     transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/query-filter-directive.html',

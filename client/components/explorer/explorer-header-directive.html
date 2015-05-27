@@ -4,6 +4,14 @@
   </div>
 
   <div class="perfkit-header-section perfkit-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
+    <div class="btn-group perfkit-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
+      <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
+              btn-radio="'dashboard'">Dashboard</button>
+      <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
+              btn-radio="'container'">Container</button>
+      <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
+              btn-radio="'widget'">Widget</button>
+    </div>
     <div class="perfkit-toolbar-section" ng-switch="ctrl.currentMode">
       <!-- Dashboard -->
       <div ng-switch-when="dashboard">

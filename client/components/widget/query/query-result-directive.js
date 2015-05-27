@@ -42,6 +42,7 @@ explorer.components.widget.query.QueryResultDirective = function(
     replace: true,
     transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/query-result-directive.html',
