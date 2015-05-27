@@ -109,25 +109,25 @@ describe('DashboardConfigDirective', function() {
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource project id', function() {
+    it('the dashboard datasource project id', function() {
       var actualElement = directiveElement.find(
           'input.dashboard_datasource_project_id');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource dataset name', function() {
+    it('the dashboard datasource dataset name', function() {
       var actualElement = directiveElement.find(
           'input.dashboard_datasource_dataset_name');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource table name', function() {
+    it('the dashboard datasource table name', function() {
       var actualElement = directiveElement.find(
           'input.dashboard_datasource_table_name');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource table format', function() {
+    it('the dashboard datasource table format', function() {
       var actualElement = directiveElement.find(
           'md-select.dashboard_datasource_table_format');
       expect(actualElement.length).toBe(1);
@@ -221,5 +221,50 @@ describe('DashboardConfigDirective', function() {
       expect(actualElement.children[0].children[0].children[1].value)
           .toBe('blue');
     });    
+
+    it('the dashboard datasource project id', function() {
+      scope.dashboardModel.project_id = 'TEST_PROJECT';
+      
+		  scope.$digest();
+
+      var actualElement = directiveElement.find(
+        'input.dashboard_datasource_project_id')[0];
+      expect(actualElement.value).toBe('TEST_PROJECT');      
+    });
+
+    it('the dashboard datasource dataset name', function() {
+      scope.dashboardModel.dataset_name = 'TEST_DATASET';
+      
+		  scope.$digest();
+
+      var actualElement = directiveElement.find(
+        'input.dashboard_datasource_dataset_name')[0];
+      expect(actualElement.value).toBe('TEST_DATASET');      
+    });
+
+    it('the dashboard datasource table name', function() {
+      scope.dashboardModel.table_name = 'TEST_TABLE';
+      
+		  scope.$digest();
+
+      var actualElement = directiveElement.find(
+        'input.dashboard_datasource_table_name')[0];
+      expect(actualElement.value).toBe('TEST_TABLE');      
+    });
+
+    // TODO(joemu): Investigate failure of md-select to bind on unit tests.
+    // https://github.com/angular/material/issues/2989
+    xit('the dashboard datasource table format', function() {
+      var actualElement = directiveElement.find(
+        'md-select.dashboard_datasource_table_format md-select-label ' +
+        'span:first-child')[0];
+      
+      expect(actualElement.innerHTML).toBe('OneTable');
+
+      scope.dashboardModel.table_partition = 'Area';
+      scope.$digest();
+
+      expect(actualElement.innerHTML).toBe('OneTable');
+    });
   });
 });

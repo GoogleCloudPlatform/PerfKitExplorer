@@ -220,6 +220,10 @@ h2 {
   padding-bottom: 4px;
 }
 
+.sidebar-item-value md-select {
+  width: 100%;
+}
+
 /* Style overrides for Bootstrap + GViz Chart Editor */
 .google-visualization-charteditor-dialog {
   width: auto;

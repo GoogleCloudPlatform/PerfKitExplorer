@@ -77,7 +77,7 @@ goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 var requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
-  'ui.grid.resizeColumns', 'ui.grid.selection',
+  'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
   'p3rf.perfkit.explorer.templates'];
 
 var useMockData = (
