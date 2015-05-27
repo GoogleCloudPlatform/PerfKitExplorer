@@ -1,4 +1,4 @@
-<div class="sidebar-group">
+<div>
   <!-- Custom template for the dashboard params editor. -->
   <script type="text/ng-template" id="dashboard_params.template">
     <div class="param-table">
@@ -26,13 +26,11 @@
     </div>
   </script>
 
-  <div class="sidebar-group-title">Dashboard</div>
-
   <div class="sidebar-item">
     <div class="sidebar-item-label">id</div>
     <div class="sidebar-item-value">
       <input id="dashboard-id"
-             class="form-control"
+             class="form-control dashboard_id"
              type="text"
              readonly="true"
              ng-model="ngModel.id">
@@ -42,7 +40,7 @@
     <div class="sidebar-item-label">title</div>
     <div class="sidebar-item-value">
       <input type="text"
-             class="form-control"
+             class="form-control dashboard_title"
              ng-model="ngModel.title">
     </div>
   </div>
@@ -51,7 +49,7 @@
     <div class="sidebar-item-value">
       <input id="dashboard-id"
              type="text"
-             class="form-control"
+             class="form-control dashboard_owner"
              ng-model="ngModel.owner">
     </div>
   </div>
@@ -60,12 +58,13 @@
     <div class="sidebar-item-label">writers</div>
     <div class="sidebar-item-value">
       <span
+          class="dashboard_writers"
           multibox
           multibox-display-prop="email"
           multibox-popup-prop="email"
           multibox-focus-on-select="true"
           multibox-on-insert-option="dashboardSvc.addWriter()"
-          multibox-selected-options="dashboardSvc.current.model.writers">
+          multibox-selected-options="ngModel.writers">
       </span>
     </div>
   </div>
@@ -75,7 +74,7 @@
     <div class="sidebar-item-value">
       <input id="dashboard-id"
              type="text"
-             class="form-control"
+             class="form-control dashboard_version"
              ng-model="ngModel.version">
     </div>
   </div>
@@ -84,6 +83,7 @@
     <div class="sidebar-item-label">parameters</div>
     <div class="sidebar-item-value">
       <span
+          class="dashboard_parameters"
           multibox
           multibox-display-prop="text"
           multibox-focus-on-select="true"
@@ -100,7 +100,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">project id</div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control dashboard_datasource_project_id"
              ng-model="ngModel.project_id"
              placeholder="{{ configSvc.default_project }}">
     </div>
@@ -109,7 +109,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">dataset</div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control dashboard_datasource_dataset_name"
              ng-model="ngModel.dataset_name"
              placeholder="{{ configSvc.default_dataset }}">
     </div>
@@ -118,7 +118,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">table</div>
     <div class="sidebar-item-value">
-      <input class="form-control"
+      <input class="form-control dashboard_datasource_table_name"
              ng-model="ngModel.table_name"
              placeholder="{{ configSvc.default_table }}">
     </div>
@@ -127,17 +127,15 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">table format</div>
     <div class="sidebar-item-value">
-      <select class="form-control"
+      <md-select
+              class="dashboard_datasource_table_format"
+              placeholder="{{ dashboardSvc.getTablePartition(
+                 dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)"
               ng-model="ngModel.table_partition">
-        <option value="" selected>
-          {{ dashboardSvc.getTablePartition(
-                 dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)
-        </option>
-
-        <option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
-                value="{{ option.partition }}"
-                title="{{ option.tooltip }}">{{ option.label }}</option>
-      </select>
+        <md-option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
+                ng-value="{{ option.partition }}"
+                title="{{ option.tooltip }}">{{ option.label }}</md-option>
+      </md-select>
     </div>
   </div>
 

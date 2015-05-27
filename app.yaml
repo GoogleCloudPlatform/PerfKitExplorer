@@ -1,5 +1,5 @@
 application: unset
-version: 22-6
+version: 22-7
 runtime: python27       # Which runtime to use.
 api_version: 1          # Which version of the API to use for that runtime.
 threadsafe: true        # Whether or not to enable threading.
