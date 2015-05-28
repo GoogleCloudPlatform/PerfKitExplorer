@@ -1,4 +1,4 @@
-<div>
+<div class="sidebar-group">
   <!-- Custom template for the dashboard params editor. -->
   <script type="text/ng-template" id="dashboard_params.template">
     <div class="param-table">
@@ -26,11 +26,12 @@
     </div>
   </script>
 
+  <div class="sidebar-group-title">Dashboard</div>
+
   <div class="sidebar-item">
     <div class="sidebar-item-label">id</div>
     <div class="sidebar-item-value">
-      <input id="dashboard-id"
-             class="form-control dashboard_id"
+      <input class="form-control dashboard-id"
              type="text"
              readonly="true"
              ng-model="ngModel.id">
@@ -40,16 +41,15 @@
     <div class="sidebar-item-label">title</div>
     <div class="sidebar-item-value">
       <input type="text"
-             class="form-control dashboard_title"
+             class="form-control dashboard-title"
              ng-model="ngModel.title">
     </div>
   </div>
   <div class="sidebar-item">
     <div class="sidebar-item-label">owner</div>
     <div class="sidebar-item-value">
-      <input id="dashboard-id"
-             type="text"
-             class="form-control dashboard_owner"
+      <input type="text"
+             class="form-control dashboard-owner"
              ng-model="ngModel.owner">
     </div>
   </div>
@@ -58,7 +58,7 @@
     <div class="sidebar-item-label">writers</div>
     <div class="sidebar-item-value">
       <span
-          class="dashboard_writers"
+          class="dashboard-writers"
           multibox
           multibox-display-prop="email"
           multibox-popup-prop="email"
@@ -74,7 +74,7 @@
     <div class="sidebar-item-value">
       <input id="dashboard-id"
              type="text"
-             class="form-control dashboard_version"
+             class="form-control dashboard-version"
              ng-model="ngModel.version">
     </div>
   </div>
@@ -83,7 +83,7 @@
     <div class="sidebar-item-label">parameters</div>
     <div class="sidebar-item-value">
       <span
-          class="dashboard_parameters"
+          class="dashboard-parameters"
           multibox
           multibox-display-prop="text"
           multibox-focus-on-select="true"
@@ -100,7 +100,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">project id</div>
     <div class="sidebar-item-value">
-      <input class="form-control dashboard_datasource_project_id"
+      <input class="form-control dashboard-datasource-project-id"
              ng-model="ngModel.project_id"
              placeholder="{{ configSvc.default_project }}">
     </div>
@@ -109,7 +109,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">dataset</div>
     <div class="sidebar-item-value">
-      <input class="form-control dashboard_datasource_dataset_name"
+      <input class="form-control dashboard-datasource-dataset-name"
              ng-model="ngModel.dataset_name"
              placeholder="{{ configSvc.default_dataset }}">
     </div>
@@ -118,7 +118,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">table</div>
     <div class="sidebar-item-value">
-      <input class="form-control dashboard_datasource_table_name"
+      <input class="form-control dashboard-datasource-table-name"
              ng-model="ngModel.table_name"
              placeholder="{{ configSvc.default_table }}">
     </div>
@@ -128,7 +128,7 @@
     <div class="sidebar-item-label">table format</div>
     <div class="sidebar-item-value">
       <md-select
-              class="dashboard_datasource_table_format"
+              class="dashboard-datasource-table-format"
               placeholder="{{ dashboardSvc.getTablePartition(
                  dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)"
               ng-model="ngModel.table_partition">

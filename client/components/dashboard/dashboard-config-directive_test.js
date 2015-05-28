@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ describe('DashboardConfigDirective', function() {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
-
+    
     configService = _configService_;
     dashboardService = _dashboardService_;
   }));
@@ -48,15 +48,15 @@ describe('DashboardConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-      scope.providedDashboardModel = new DashboardModel();
-
-      var directiveElement = angular.element(
-      '<dashboard-config ng-model="providedDashboardModel" />');
-
-      $compile(directiveElement)(scope);
-      scope.$digest();
+        scope.providedDashboardModel = new DashboardModel();
+  
+        var directiveElement = angular.element(
+        '<dashboard-config ng-model="providedDashboardModel" />');
+  
+        $compile(directiveElement)(scope);
+        scope.$digest();
       }
-      expect(compile).not.toThrow();
+        expect(compile).not.toThrow();
     });
   });
 
@@ -64,122 +64,119 @@ describe('DashboardConfigDirective', function() {
     var directiveElement;
 
     beforeEach(inject(function() {
-       scope.dashboardModel = new DashboardModel();
+      scope.dashboardModel = new DashboardModel();
 
       directiveElement = angular.element(
-        '<dashboard-config ng-model="dashboardModel" />');
+          '<dashboard-config ng-model="dashboardModel" />');
 
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
-
+    
     it('the dashboard id', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_id');
+          'input.dashboard-id');
       expect(actualElement.length).toBe(1);
     });
-
+    
     it('the dashboard title', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_title');
+          'input.dashboard-title');
       expect(actualElement.length).toBe(1);
     });
 
     it('the dashboard owner', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_owner');
+          'input.dashboard-owner');
       expect(actualElement.length).toBe(1);
     });
 
     it('the dashboard writers', function() {
       var actualElement = directiveElement.find(
-          'span.dashboard_writers');
+          'span.dashboard-writers');
       expect(actualElement.length).toBe(1);
     });
 
     it('the dashboard version', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_version');
+          'input.dashboard-version');
       expect(actualElement.length).toBe(1);
     });
 
     it('the dashboard parameters', function() {
       var actualElement = directiveElement.find(
-          'span.dashboard_parameters');
+          'span.dashboard-parameters');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource project id', function() {
+    it('the dashboard datasource project id', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_datasource_project_id');
+          'input.dashboard-datasource-project-id');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource dataset name', function() {
+    it('the dashboard datasource dataset name', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_datasource_dataset_name');
+          'input.dashboard-datasource-dataset-name');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource table name', function() {
+    it('the dashboard datasource table name', function() {
       var actualElement = directiveElement.find(
-          'input.dashboard_datasource_table_name');
+          'input.dashboard-datasource-table-name');
       expect(actualElement.length).toBe(1);
     });
 
-    it('the datasource table format', function() {
+    it('the dashboard datasource table format', function() {
       var actualElement = directiveElement.find(
-          'md-select.dashboard_datasource_table_format');
+          'md-select.dashboard-datasource-table-format');
       expect(actualElement.length).toBe(1);
     });
   });
-
-  fdescribe('should reflect the ngModel state for', function() {
+  
+  describe('should reflect the ngModel state for', function() {
     var directiveElement;
 
     beforeEach(inject(function() {
        scope.dashboardModel = new DashboardModel();
-
+  
       directiveElement = angular.element(
         '<dashboard-config ng-model="dashboardModel" />');
 
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
-
+    
     it('the dashboard id', function() {
       scope.dashboardModel.id = 'TEST_ID';
-
       scope.$digest();
 
       var actualElement = directiveElement.find(
-        'input.dashboard_id')[0];
+        'input.dashboard-id')[0];
       expect(actualElement.value).toBe('TEST_ID');
     });
-
+    
     it('the dashboard title', function() {
       scope.dashboardModel.title = 'TEST_TITLE';
-
       scope.$digest();
 
       var actualElement = directiveElement.find(
-        'input.dashboard_title')[0];
+        'input.dashboard-title')[0];
       expect(actualElement.value).toBe('TEST_TITLE');
     });
-
+    
     it('the dashboard owner', function() {
       scope.dashboardModel.owner = 'TEST_OWNER';
-
       scope.$digest();
 
       var actualElement = directiveElement.find(
-        'input.dashboard_owner')[0];
+        'input.dashboard-owner')[0];
       expect(actualElement.value).toBe('TEST_OWNER');
     });
 
     it('the dashbord writers', function() {
       var actualElement = directiveElement.find(
-          'span.dashboard_writers')[0];
+          'span.dashboard-writers')[0];
 
       expect(actualElement.children.length).toBe(1);
 
@@ -192,34 +189,79 @@ describe('DashboardConfigDirective', function() {
       expect(actualElement.children[0].children[0].value)
           .toBe('test@google.com');
     });
-
+    
     it('the dashboard version', function() {
       scope.dashboardModel.version = '42';
-
+      
       scope.$digest();
 
       var actualElement = directiveElement.find(
-        'input.dashboard_version')[0];
+          'input.dashboard-version')[0];
       expect(actualElement.value).toBe('42');
     });
-
+    
     it('the dashbord parameters', function() {
       var actualElement = directiveElement.find(
-          'span.dashboard_parameters')[0];
+          'span.dashboard-parameters')[0];
 
       expect(actualElement.children.length).toBe(1);
-
+      
       scope.dashboardModel.params.push({
         name: 'color',
         value: 'blue'
       });
       scope.$digest();
-
+      
       expect(actualElement.children[0].children.length).toBe(2);
       expect(actualElement.children[0].children[0].children[0].value)
           .toBe('color');
       expect(actualElement.children[0].children[0].children[1].value)
           .toBe('blue');
+    });    
+
+    it('the dashboard datasource project id', function() {
+      scope.dashboardModel.project_id = 'TEST_PROJECT';
+      
+      scope.$digest();
+
+      var actualElement = directiveElement.find(
+        'input.dashboard-datasource-project-id')[0];
+      expect(actualElement.value).toBe('TEST_PROJECT');
+    });
+
+    it('the dashboard datasource dataset name', function() {
+      scope.dashboardModel.dataset_name = 'TEST_DATASET';
+      
+      scope.$digest();
+
+      var actualElement = directiveElement.find(
+        'input.dashboard-datasource-dataset-name')[0];
+      expect(actualElement.value).toBe('TEST_DATASET');
+    });
+
+    it('the dashboard datasource table name', function() {
+      scope.dashboardModel.table_name = 'TEST_TABLE';
+      
+      scope.$digest();
+
+      var actualElement = directiveElement.find(
+        'input.dashboard-datasource-table-name')[0];
+      expect(actualElement.value).toBe('TEST_TABLE');      
+    });
+
+    // TODO(joemu): Investigate failure of md-select to bind on unit tests.
+    // https://github.com/angular/material/issues/2989
+    xit('the dashboard datasource table format', function() {
+      var actualElement = directiveElement.find(
+        'md-select.dashboard-datasource-table-format md-select-label ' +
+        'span:first-child')[0];
+      
+      expect(actualElement.innerHTML).toBe('OneTable');
+
+      scope.dashboardModel.table_partition = 'Area';
+      scope.$digest();
+
+      expect(actualElement.innerHTML).toBe('OneTable');
     });
   });
 });
