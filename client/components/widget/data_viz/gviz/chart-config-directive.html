@@ -3,22 +3,22 @@
        ng-show="ngModel.chart">
 
     <div class="sidebar-group">
-      <div class="sidebar-group-title">Chart</div>
-
+      <div class="sidebar-group-title">Widget</div>
+    
       <div class="sidebar-item">
-        <div class="sidebar-item-label">title</div>
+      	<div class="sidebar-item-label">title</div>
         <div class="sidebar-item-value">
           <input type="text" class="form-control" ng-model="ngModel.title">
         </div>
       </div>
-
+    
       <div class="sidebar-item">
         <div class="sidebar-item-label">url</div>
         <div class="sidebar-item-value">
           <input type="text" class="form-control" ng-model="ngModel.url">
         </div>
       </div>
-
+    
       <div class="sidebar-item">
         <div class="sidebar-item-label">column span</div>
         <div class="sidebar-item-value">
@@ -26,39 +26,112 @@
                  ng-model="ngModel.layout.columnspan">
         </div>
       </div>
-
+    </div>      
+      
+    <div class="sidebar-group">
+      <div class="sidebar-group-title">Chart</div>
+  
       <div class="sidebar-item">
         <div class="sidebar-item-label">chart type</div>
         <div class="sidebar-item-value">
-          <select ng-model="ngModel.chart.chartType"
-                  class="sidebar-input-full form-control">
-            <option value="{{ chart.className }}" ng-repeat="chart in chartSvc.allCharts">{{ chart.title }}</option>
-          </select>
-        </div>
-        <div class="sidebar-item-value">
-          <a ng-href="https://developers.google.com/chart/interactive/docs/gallery/{{ ngModel.chart.chartType | lowercase }}"
-             target="gvizDocs">Open documentation</a>
-        </div>
-      </div>
-
-      <!-- One-off UX add as workaround for issue #110
-           https://github.com/GoogleCloudPlatform/PerfKitExplorer/issues/110 -->
-      <div class="sidebar-item" ng-hide="ngModel.chart.chartType === chartSvc.CHART_TYPES.TABLE">
-        <div class="side-bar-item-label">legend</div>
-        <div class="sidebar-item-value">
-          <select ng-model="ngModel.chart.options.legend"
-                  class="sidebar-input-full form-control">
-            <option value="" selected>(chart default)</option>
-            <option value="{{ position }}" ng-repeat="position in chartSvc.LEGEND_POSITIONS">{{ position }}</option>
-          </select>
+          <md-select
+              ng-model="ngModel.chart.chartType"
+              placeholder="Chart Type"
+              class="sidebar-input-full widget-chart-type">
+            <md-option
+                ng-value="chart.className"
+                ng-repeat="chart in chartSvc.allCharts">{{ chart.title }}</md-option>
+          </md-select>
+          <div class="sidebar-item-value">
+            <a ng-href="https://developers.google.com/chart/interactive/docs/gallery/{{ ngModel.chart.chartType | lowercase }}"
+               target="gvizDocs">Open documentation</a>
+          </div>
         </div>
       </div>
 
-      <div class="sidebar-group-buttons">
-        <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
-          Chart editor
-        </button>
+      <div ng-hide="ngModel.chart.chartType === chartSvc.CHART_TYPES.TABLE"
+           class="widget-chart-nontable-options">
+        <div class="sidebar-group-title">Legend</div>
+          
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">alignment</div>
+          <div class="sidebar-item-value">
+            <md-select
+                ng-model="ngModel.chart.options.legend.alignment"
+                placeholder="(chart default)"
+                class="sidebar-input-full widget-chart-legend-alignment">
+              <md-option
+                  ng-value="alignment"
+                  ng-repeat="alignment in chartSvc.LEGEND_ALIGNMENTS">{{ alignment }}</md-option>
+            </md-select>
+          </div>
+        </div>
+          
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">max lines</div>
+          <div class="sidebar-item-value">
+            <input 
+                type="number" min="1"
+                class="form-control widget-chart-legend-maxlines"
+                ng-model="ngModel.chart.options.legend.maxLines">
+          </div>
+        </div>
+      
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">position</div>
+          <div class="sidebar-item-value">
+            <md-select
+                ng-model="ngModel.chart.options.legend.position"
+                placeholder="(chart default)"
+                class="sidebar-input-full widget-chart-legend-position">
+              <md-option
+                  ng-value="position"
+                  ng-repeat="position in chartSvc.LEGEND_POSITIONS">{{ position }}</md-option>
+            </md-select>
+          </div>
+        </div>
+  
+        <div class="sidebar-group-title">Chart Area</div>
+  
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">top</div>
+          <div class="sidebar-item-value">
+            <input class="form-control widget-chart-area-top"
+                ng-model="ngModel.chart.options.chartArea.top">
+          </div>
+        </div>
+        
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">left</div>
+          <div class="sidebar-item-value">
+            <input class="form-control widget-chart-area-left"
+                ng-model="ngModel.chart.options.chartArea.left">
+          </div>
+        </div>
+        
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">height</div>
+          <div class="sidebar-item-value">
+            <input class="form-control widget-chart-area-height"
+                ng-model="ngModel.chart.options.chartArea.height">
+          </div>
+        </div>
+        
+        <div class="sidebar-item">
+          <div class="sidebar-item-label">width</div>
+          <div class="sidebar-item-value">
+            <input class="form-control widget-chart-area-width"
+                ng-model="ngModel.chart.options.chartArea.width">
+          </div>
+        </div>
       </div>
+    </div>  
+
+    <div class="sidebar-group-buttons">
+      <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
+        Chart editor
+      </button>
     </div>
+  
   </div>
 </div>

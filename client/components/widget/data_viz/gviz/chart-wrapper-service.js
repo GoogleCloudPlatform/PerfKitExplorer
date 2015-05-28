@@ -53,6 +53,16 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
   this.GvizChartWrapper_ = GvizChartWrapper;
 
   /**
+   * A list of legend alignments for GViz charts.
+   * @export {!Array.<!string>}
+   */
+  this.LEGEND_ALIGNMENTS = [
+    'start',
+    'center',
+    'end'
+  ];
+
+  /**
    * A list of legend positions for GViz charts.
    * @export {!Array.<!string>}
    */
