@@ -20,9 +20,12 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartConfigDirective');
 
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
+
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var ChartWidgetModel = explorer.models.ChartWidgetModel;
 
 
 /**
@@ -35,8 +38,9 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
   return {
     restrict: 'E',
     replace: true,
-    transclude: true,
+    transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/chart-config-directive.html',
