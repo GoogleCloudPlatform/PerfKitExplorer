@@ -176,7 +176,7 @@ explorer.models.DataViewModel = function() {
    * @export
    */
   this.sort_column_start = null;
-  
+
   /**
    * Specifies the sort order for the columns.  If not provided, will default
    * to ascending.

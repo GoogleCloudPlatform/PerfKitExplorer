@@ -41,7 +41,7 @@ describe('QueryResultDirective', function() {
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
-    
+
     configSvc = _configService_;
     dashboardSvc = _dashboardService_;
     dashboardSvc.addContainer();
@@ -57,41 +57,41 @@ describe('QueryResultDirective', function() {
           '/static/components/widget/query/picklist-template.html')
           .respond(200);
 
-  		  scope.providedWidgetModel = new ChartWidgetModel();
-        
-  		  var actualElement = angular.element(
-  			  '<query-result ng-model="providedWidgetModel" />');
+        scope.providedWidgetModel = new ChartWidgetModel();
+
+        var actualElement = angular.element(
+          '<query-result ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
-  		  scope.$digest();
+        scope.$digest();
       }
       expect(compile).not.toThrow();
     });
   });
-  
+
   describe('should contain a element for', function() {
 
     var actualElement;
-    
+
     beforeEach(inject(function() {
       $httpBackend.expectGET('date_template.html')
         .respond(200);
 
-  	  scope.widgetModel = new ChartWidgetModel();
-        
-  	  actualElement = angular.element(
-  		  '<query-result ng-model="widgetModel" />');
-          
+      scope.widgetModel = new ChartWidgetModel();
+
+      actualElement = angular.element(
+        '<query-result ng-model="widgetModel" />');
+
       $compile(actualElement)(scope);
-		  scope.$digest();
+      scope.$digest();
     }));
-       
+
     it('adding a date column', function() {
       var showDateElement = actualElement.find(
         'input.widget_results_show_date');
       expect(showDateElement.length).toBe(1);
     });
-       
+
     it('the date group column', function() {
       var showDateElement = actualElement.find(
         'input.widget_results_date_group');
@@ -101,22 +101,22 @@ describe('QueryResultDirective', function() {
 
   describe('should reflect the ngModel state for', function() {
     var filters;
-    
+
     beforeEach(inject(function() {
       $httpBackend.expectGET(
         '/static/components/widget/query/picklist-template.html')
         .respond(200);
 
-  	  scope.widgetModel = dashboardSvc.selectedWidget.model;
-      
+      scope.widgetModel = dashboardSvc.selectedWidget.model;
+
       results = (
         dashboardSvc.selectedWidget.model.datasource.config.results);
 
-  	  actualElement = angular.element(
-  		  '<query-result ng-model="widgetModel" />');
-          
+      actualElement = angular.element(
+        '<query-result ng-model="widgetModel" />');
+
       $compile(actualElement)(scope);
-		  scope.$digest();
+      scope.$digest();
     }));
 
     it('adding a date column', function() {
@@ -125,8 +125,8 @@ describe('QueryResultDirective', function() {
 
       expect(showDateElement.checked).toBe(true);
 
-      results.show_date = false;     
-		  scope.$digest();
+      results.show_date = false;
+      scope.$digest();
 
       expect(showDateElement.checked).toBe(false);
     });
@@ -138,8 +138,8 @@ describe('QueryResultDirective', function() {
       console.log(results.date_group);
       expect(dateGroupElement.value).toBe(results.date_group);
 
-      results.date_group = 'Hour';     
-		  scope.$digest();
+      results.date_group = 'Hour';
+      scope.$digest();
 
       expect(dateGroupElement.value).toBe('Hour');
     });
@@ -147,24 +147,24 @@ describe('QueryResultDirective', function() {
 
   describe('should toggle visibility for', function() {
     var filters;
-    
+
     beforeEach(inject(function() {
       $httpBackend.expectGET(
         '/static/components/widget/query/picklist-template.html')
         .respond(200);
 
-  	  scope.widgetModel = dashboardSvc.selectedWidget.model;
-      
+      scope.widgetModel = dashboardSvc.selectedWidget.model;
+
       results = (
         dashboardSvc.selectedWidget.model.datasource.config.results);
 
-  	  actualElement = angular.element(
-  		  '<query-result ng-model="widgetModel" />');
-          
+      actualElement = angular.element(
+        '<query-result ng-model="widgetModel" />');
+
       $compile(actualElement)(scope);
-		  scope.$digest();
+      scope.$digest();
     }));
-    
+
     it('showing the date column', function() {
       var showDateElement = actualElement.find(
         'input.widget_results_show_date')[0];
@@ -182,7 +182,7 @@ describe('QueryResultDirective', function() {
 
       expect(dateGroupElementContainer
           .hasClass('ng-hide')).toBe(true);
-          
+
       results.show_date = true;
       scope.$digest();
 

@@ -45,7 +45,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/query-filter-directive.html',
-  	controller: function($scope) {
+    controller: function($scope) {
       /**
        * Adds an end date to the filters.
        * @export
@@ -54,7 +54,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
         $scope.ngModel.datasource.config.filters.end_date =
             new DateFilter(new Date().toISOString());
       };
-      
+
       /**
        * Removes the end date from the filters.
        * @export
@@ -62,7 +62,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
       $scope.removeEndDate = function() {
         $scope.ngModel.datasource.config.filters.end_date = null;
       };
-      
+
       /**
        * Adds an end date to the filters.
        * @export
@@ -70,7 +70,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
       $scope.addOfficial = function() {
         $scope.ngModel.datasource.config.filters.official = true;
       };
-      
+
       /**
        * Removes the official flag from the filters.
        * @export
@@ -78,7 +78,7 @@ explorer.components.widget.query.QueryFilterDirective = function() {
       $scope.removeOfficial = function() {
         $scope.ngModel.datasource.config.filters.official = null;
       };
-      
+
       /**
        * Adds a new option to the metadata list.
        * @export

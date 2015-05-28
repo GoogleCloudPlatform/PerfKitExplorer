@@ -44,7 +44,7 @@ explorer.components.widget.query.QueryDatasourceDirective = function() {
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/query-datasource-directive.html',
-  	controller: function($scope, configService, dashboardService) {
+    controller: function($scope, configService, dashboardService) {
       /** @export {!ConfigService} */
       $scope.configSvc = configService;
 

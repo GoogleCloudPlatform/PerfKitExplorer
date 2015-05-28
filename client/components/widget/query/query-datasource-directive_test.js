@@ -39,7 +39,7 @@ describe('QueryDatasourceDirective', function() {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
-    
+
     configService = _configService_;
     dashboardService = _dashboardService_;
   }));
@@ -48,25 +48,25 @@ describe('QueryDatasourceDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-  		  scope.providedWidgetModel = new ChartWidgetModel();
-        
-  		  var actualElement = angular.element(
-  			  '<query-datasource ng-model="providedWidgetModel" />');
-        
+        scope.providedWidgetModel = new ChartWidgetModel();
+
+        var actualElement = angular.element(
+          '<query-datasource ng-model="providedWidgetModel" />');
+
         $compile(actualElement)(scope);
-  		  scope.$digest();
+        scope.$digest();
       }
       expect(compile).not.toThrow();
     });
 
     it('should contain the expected elements.', function() {
-		  scope.widgetModel = new ChartWidgetModel();
-      
-		  var actualElement = angular.element(
-			  '<query-datasource ng-model="widgetModel" />');
-      
+      scope.widgetModel = new ChartWidgetModel();
+
+      var actualElement = angular.element(
+        '<query-datasource ng-model="widgetModel" />');
+
       $compile(actualElement)(scope);
-		  scope.$digest();
+      scope.$digest();
 
       var projectElement = actualElement.find(
         'input.widget_datasource_project_id');

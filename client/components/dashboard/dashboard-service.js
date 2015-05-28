@@ -112,7 +112,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @private {!SidebarTabService} */
   this.tabSvc_ = sidebarTabService;
-  
+
   /** @private @type {!angular.Location} */
   this.location_ = $location;
 

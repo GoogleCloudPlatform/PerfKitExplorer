@@ -8,7 +8,7 @@
  * @fileoverview SidebarTabDirective encapsulates layout and UX
  * for the Explorer Sidebar's tabs.  For the content of selected
  * tabs, see SidebarDirective.
- * 
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -35,7 +35,7 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
     templateUrl: '/static/components/explorer/sidebar/sidebar-tabs-directive.html',
     controller: function($scope) {
       $scope.dashboardSvc = dashboardService;
-  		$scope.tabSvc = sidebarTabService;
+      $scope.tabSvc = sidebarTabService;
     }
   };
 };

@@ -1,6 +1,6 @@
 <div>
   <div ng-controller="WidgetEditorCtrl as widgetEditorCtrl">
-    
+
     <div class="sidebar-item">
       <div class="side-bar-item-label">chart type</div>
       <div class="sidebar-item-value">
@@ -22,7 +22,7 @@
     <div ng-hide="ngModel.chart.chartType === chartSvc.CHART_TYPES.TABLE"
          class="widget_chart_nontable_options">
       <div class="sidebar-group-title">Legend</div>
-        
+
       <div class="sidebar-item">
         <div class="side-bar-item-label">alignment</div>
         <div class="sidebar-item-value">
@@ -36,17 +36,17 @@
           </md-select>
         </div>
       </div>
-        
+
       <div class="sidebar-item">
         <div class="side-bar-item-label">max lines</div>
         <div class="sidebar-item-value">
-          <input 
+          <input
               type="number" min="1"
               class="form-control widget_chart_legend_maxlines"
               ng-model="ngModel.chart.options.legend.maxLines">
         </div>
       </div>
-    
+
       <div class="sidebar-item">
         <div class="side-bar-item-label">position</div>
         <div class="sidebar-item-value">
@@ -70,7 +70,7 @@
               ng-model="ngModel.chart.options.chartArea.top">
         </div>
       </div>
-      
+
       <div class="sidebar-item">
         <div class="side-bar-item-label">left</div>
         <div class="sidebar-item-value">
@@ -78,7 +78,7 @@
               ng-model="ngModel.chart.options.chartArea.left">
         </div>
       </div>
-      
+
       <div class="sidebar-item">
         <div class="side-bar-item-label">height</div>
         <div class="sidebar-item-value">
@@ -86,7 +86,7 @@
               ng-model="ngModel.chart.options.chartArea.height">
         </div>
       </div>
-      
+
       <div class="sidebar-item">
         <div class="side-bar-item-label">width</div>
         <div class="sidebar-item-value">
@@ -95,13 +95,13 @@
         </div>
       </div>
 
-    </div>  
+    </div>
 
     <div class="sidebar-group-buttons">
       <button class="btn btn-default" ng-click="widgetEditorCtrl.openChartEditor()">
         Chart editor
       </button>
     </div>
-  
+
   </div>
 </div>

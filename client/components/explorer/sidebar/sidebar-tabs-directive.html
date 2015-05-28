@@ -1,12 +1,12 @@
 <div class="perfkit-sidebar-tabs" layout="column">
-	<div
-		class="perfkit-sidebar-tab"
-		ng-repeat="tab in tabSvc.tabs"
-		ng-click="tabSvc.toggleTab(tab)"
-		ng-hide="tab.requireWidget && !dashboardSvc.selectedWidget"
-		ng-class="{'perfkit-sidebar-tab-selected':
-				    tabSvc.selectedTab == tab}">
-		<i class="perfkit-sidebar-tab-icon {{ tab.iconClass }}"></i>
-		<span ng-hide="tabSvc.selectedTab">{{ tab.title }}</span>
-	</div>
+  <div
+    class="perfkit-sidebar-tab"
+    ng-repeat="tab in tabSvc.tabs"
+    ng-click="tabSvc.toggleTab(tab)"
+    ng-hide="tab.requireWidget && !dashboardSvc.selectedWidget"
+    ng-class="{'perfkit-sidebar-tab-selected':
+            tabSvc.selectedTab == tab}">
+    <i class="perfkit-sidebar-tab-icon {{ tab.iconClass }}"></i>
+    <span ng-hide="tabSvc.selectedTab">{{ tab.title }}</span>
+  </div>
 </div>

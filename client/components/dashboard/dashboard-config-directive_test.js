@@ -39,7 +39,7 @@ describe('DashboardConfigDirective', function() {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
-    
+
     configService = _configService_;
     dashboardService = _dashboardService_;
   }));
@@ -48,37 +48,37 @@ describe('DashboardConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-	  	scope.providedDashboardModel = new DashboardModel();
-        
-	  	var directiveElement = angular.element(
-		  '<dashboard-config ng-model="providedDashboardModel" />');
-        
-    	$compile(directiveElement)(scope);
-	  	scope.$digest();
+      scope.providedDashboardModel = new DashboardModel();
+
+      var directiveElement = angular.element(
+      '<dashboard-config ng-model="providedDashboardModel" />');
+
+      $compile(directiveElement)(scope);
+      scope.$digest();
       }
       expect(compile).not.toThrow();
     });
   });
-  
+
   describe('should contain a element for', function() {
     var directiveElement;
 
     beforeEach(inject(function() {
-	   	scope.dashboardModel = new DashboardModel();
-	
-	    directiveElement = angular.element(
-		    '<dashboard-config ng-model="dashboardModel" />');
+       scope.dashboardModel = new DashboardModel();
+
+      directiveElement = angular.element(
+        '<dashboard-config ng-model="dashboardModel" />');
 
       $compile(directiveElement)(scope);
-	    scope.$digest();
+      scope.$digest();
     }));
-    
+
     it('the dashboard id', function() {
       var actualElement = directiveElement.find(
           'input.dashboard_id');
       expect(actualElement.length).toBe(1);
     });
-    
+
     it('the dashboard title', function() {
       var actualElement = directiveElement.find(
           'input.dashboard_title');
@@ -133,48 +133,48 @@ describe('DashboardConfigDirective', function() {
       expect(actualElement.length).toBe(1);
     });
   });
-  
+
   fdescribe('should reflect the ngModel state for', function() {
     var directiveElement;
 
     beforeEach(inject(function() {
-	   	scope.dashboardModel = new DashboardModel();
-	
-	    directiveElement = angular.element(
-		    '<dashboard-config ng-model="dashboardModel" />');
+       scope.dashboardModel = new DashboardModel();
+
+      directiveElement = angular.element(
+        '<dashboard-config ng-model="dashboardModel" />');
 
       $compile(directiveElement)(scope);
-	    scope.$digest();
+      scope.$digest();
     }));
-    
+
     it('the dashboard id', function() {
       scope.dashboardModel.id = 'TEST_ID';
-      
-		  scope.$digest();
+
+      scope.$digest();
 
       var actualElement = directiveElement.find(
         'input.dashboard_id')[0];
-      expect(actualElement.value).toBe('TEST_ID');      
+      expect(actualElement.value).toBe('TEST_ID');
     });
-    
+
     it('the dashboard title', function() {
       scope.dashboardModel.title = 'TEST_TITLE';
-      
-		  scope.$digest();
+
+      scope.$digest();
 
       var actualElement = directiveElement.find(
         'input.dashboard_title')[0];
-      expect(actualElement.value).toBe('TEST_TITLE');      
+      expect(actualElement.value).toBe('TEST_TITLE');
     });
-    
+
     it('the dashboard owner', function() {
       scope.dashboardModel.owner = 'TEST_OWNER';
-      
-		  scope.$digest();
+
+      scope.$digest();
 
       var actualElement = directiveElement.find(
         'input.dashboard_owner')[0];
-      expect(actualElement.value).toBe('TEST_OWNER');      
+      expect(actualElement.value).toBe('TEST_OWNER');
     });
 
     it('the dashbord writers', function() {
@@ -182,44 +182,44 @@ describe('DashboardConfigDirective', function() {
           'span.dashboard_writers')[0];
 
       expect(actualElement.children.length).toBe(1);
-      
+
       scope.dashboardModel.writers.push({
         email: 'test@google.com'
       });
       scope.$digest();
-      
+
       expect(actualElement.children.length).toBe(2);
       expect(actualElement.children[0].children[0].value)
           .toBe('test@google.com');
     });
-    
+
     it('the dashboard version', function() {
       scope.dashboardModel.version = '42';
-      
-		  scope.$digest();
+
+      scope.$digest();
 
       var actualElement = directiveElement.find(
         'input.dashboard_version')[0];
-      expect(actualElement.value).toBe('42');      
+      expect(actualElement.value).toBe('42');
     });
-    
+
     it('the dashbord parameters', function() {
       var actualElement = directiveElement.find(
           'span.dashboard_parameters')[0];
 
       expect(actualElement.children.length).toBe(1);
-      
+
       scope.dashboardModel.params.push({
         name: 'color',
         value: 'blue'
       });
       scope.$digest();
-      
+
       expect(actualElement.children[0].children.length).toBe(2);
       expect(actualElement.children[0].children[0].children[0].value)
           .toBe('color');
       expect(actualElement.children[0].children[0].children[1].value)
           .toBe('blue');
-    });    
+    });
   });
 });

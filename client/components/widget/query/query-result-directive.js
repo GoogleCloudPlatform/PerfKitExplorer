@@ -46,7 +46,7 @@ explorer.components.widget.query.QueryResultDirective = function(
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/query-result-directive.html',
-  	controller: function($scope) {
+    controller: function($scope) {
       /** @export {!QueryEditorService} */
       $scope.queryEditorSvc = queryEditorService;
 
@@ -57,8 +57,8 @@ explorer.components.widget.query.QueryResultDirective = function(
       $scope.addFieldColumn = function() {
         $scope.ngModel.datasource.config.results.fields.push(new FieldResult());
       };
-      
-      
+
+
       /**
        * Adds a new option to the measure list.
        * @export
@@ -66,8 +66,8 @@ explorer.components.widget.query.QueryResultDirective = function(
       $scope.addMeasureColumn = function() {
         $scope.ngModel.datasource.config.results.measures.push(new FieldResult());
       };
-      
-      
+
+
       /**
        * Adds a new option to the metadata list.
        * @expose
