@@ -7,6 +7,10 @@ html, body {
   box-sizing: border-box;
 }
 
+div:focus {
+  outline: none;
+}
+
 .perfkit2-page-canvas {
   display: flex;
   flex-direction: column;
