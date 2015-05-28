@@ -56,13 +56,13 @@ describe('ChartConfigDirective', function() {
           '/static/components/widget/data_viz/gviz/chart-config-directive.html')
           .respond(200);
 
-  		  scope.providedWidgetModel = new ChartWidgetModel();
+        scope.providedWidgetModel = new ChartWidgetModel();
         
-  		  var directiveElement = angular.element(
-  			  '<chart-config ng-model="providedWidgetModel" />');
+        var directiveElement = angular.element(
+          '<chart-config ng-model="providedWidgetModel" />');
 
         $compile(directiveElement)(scope);
-  		  scope.$digest();
+        scope.$digest();
       }
       expect(compile).not.toThrow();
     });
@@ -80,12 +80,12 @@ describe('ChartConfigDirective', function() {
         '/static/components/widget/data_viz/gviz/chart-config-directive.html')
         .respond(200);
 
-  	  scope.widgetModel = new ChartWidgetModel();
-  	  directiveElement = angular.element(
-  		  '<chart-config ng-model="widgetModel" />');
+      scope.widgetModel = new ChartWidgetModel();
+      directiveElement = angular.element(
+        '<chart-config ng-model="widgetModel" />');
 
       $compile(directiveElement)(scope);
-		  scope.$digest();
+      scope.$digest();
     }));
 
     it('the chart type', function() {
@@ -154,14 +154,14 @@ describe('ChartConfigDirective', function() {
         '/static/components/widget/data_viz/gviz/chart-config-directive.html')
         .respond(200);
 
-  	  scope.widgetModel = new ChartWidgetModel();
+      scope.widgetModel = new ChartWidgetModel();
       chartConfig = scope.widgetModel.chart;
 
-  	  directiveElement = angular.element(
-  		  '<chart-config ng-model="widgetModel" />');
+      directiveElement = angular.element(
+        '<chart-config ng-model="widgetModel" />');
           
       $compile(directiveElement)(scope);
-		  scope.$digest();
+      scope.$digest();
     }));
 
     // TODO(joemu): Investigate failure of md-select to bind on unit tests.
@@ -196,7 +196,7 @@ describe('ChartConfigDirective', function() {
       var actualElement = directiveElement.find(
         'input.widget_chart_legend_maxlines')[0];
       
-  	  expect(actualElement.value).toBe('');
+      expect(actualElement.value).toBe('');
       
       chartConfig.options.legend.maxLines = 42;
       scope.$digest();
@@ -222,7 +222,7 @@ describe('ChartConfigDirective', function() {
       var actualElement = directiveElement.find(
         'input.widget_chart_area_top')[0];
       
-  	  expect(actualElement.value).toBe('');
+      expect(actualElement.value).toBe('');
       
       chartConfig.options.chartArea.top = 42;
       scope.$digest();
@@ -234,7 +234,7 @@ describe('ChartConfigDirective', function() {
       var actualElement = directiveElement.find(
         'input.widget_chart_area_left')[0];
       
-  	  expect(actualElement.value).toBe('');
+      expect(actualElement.value).toBe('');
       
       chartConfig.options.chartArea.left = 37;
       scope.$digest();
@@ -246,7 +246,7 @@ describe('ChartConfigDirective', function() {
       var actualElement = directiveElement.find(
         'input.widget_chart_area_height')[0];
       
-  	  expect(actualElement.value).toBe('');
+      expect(actualElement.value).toBe('');
       
       chartConfig.options.chartArea.height = '42%';
       scope.$digest();
@@ -258,7 +258,7 @@ describe('ChartConfigDirective', function() {
       var actualElement = directiveElement.find(
         'input.widget_chart_area_width')[0];
       
-  	  expect(actualElement.value).toBe('');
+      expect(actualElement.value).toBe('');
       
       chartConfig.options.chartArea.width = '37%';
       scope.$digest();
@@ -278,14 +278,14 @@ describe('ChartConfigDirective', function() {
         '/static/components/widget/query/picklist-template.html')
         .respond(200);
 
-  	  scope.widgetModel = new ChartWidgetModel();
+      scope.widgetModel = new ChartWidgetModel();
       chartConfig = scope.widgetModel.chart;
 
-  	  directiveElement = angular.element(
-  		  '<chart-config ng-model="widgetModel" />');
+      directiveElement = angular.element(
+        '<chart-config ng-model="widgetModel" />');
           
       $compile(directiveElement)(scope);
-		  scope.$digest();
+      scope.$digest();
     }));
     
     it('the legend and chart area config', function() {

@@ -32,6 +32,9 @@ goog.scope(function() {
   var DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
   var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
+  /**
+   * @constructor
+   */
   explorer.components.dashboard.versions.DashboardSchemaV8 = function() {
     this.version = '8';
   };
