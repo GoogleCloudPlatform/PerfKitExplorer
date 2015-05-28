@@ -48,24 +48,24 @@ var SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 explorer.components.explorer.sidebar.SidebarTabService = function() {
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = [
-    {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube'},
-    {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
-     requireWidget: true},
-    {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
-     requireWidget: true},
-    {id: 'widget.data', title: 'Data Source', iconClass: 'fa fa-database',
-     requireWidget: true},
     {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
      requireWidget: true},
     {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
      requireWidget: true},
     {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
      requireWidget: true},
+    {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
+     requireWidget: true},
+    {id: 'widget.data', title: 'Data Source', iconClass: 'fa fa-database',
+     requireWidget: true},
+    {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
+     requireWidget: true},
+    {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube'}
   ];
-  
+
   /** @export {?ExplorerTabModel} */
   this.selectedTab = null;
-  
+
   /**
    * Marks the provided tab as the selected one.
    * @param {?ExplorerTabModel} tab
@@ -74,7 +74,7 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
    this.selectTab = function(tab) {
      this.selectedTab = tab;
    };
-   
+
   /**
   * Toggles the selection state of a tab.
   * @param {?ExplorerTabModel} tab

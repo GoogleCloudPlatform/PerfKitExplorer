@@ -1,31 +1,31 @@
-.perfkit-sidebar-tabs {	
+.perfkit-sidebar-tabs {  
 }
 
 .perfkit-sidebar-tab {
-	cursor: pointer;
-	padding: 8px;
-	white-space: nowrap;
+  cursor: pointer;
+  padding: 8px;
+  white-space: nowrap;
 }
 
 .perfkit-sidebar-tab:hover {
-	background-color: #efefef;
-	cursor: pointer;
-	padding: 8px;
-	white-space: nowrap;
+  background-color: #efefef;
+  cursor: pointer;
+  padding: 8px;
+  white-space: nowrap;
 }
 
 .perfkit-sidebar-tab-icon {
-	width: 16px
+  width: 16px
 }
 
 .perfkit-sidebar-tab-selected {
-	background-color: black;
-	color: white;
+  background-color: black;
+  color: white;
 }
 
 .perfkit-sidebar-tab-selected:hover {
-	background-color: #333;
-	color: white;
+  background-color: #333;
+  color: white;
 }
 
 .sidebar-item-value md-select-label {
