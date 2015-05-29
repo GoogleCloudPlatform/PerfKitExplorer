@@ -30,7 +30,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
-goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 goog.scope(function() {
@@ -45,7 +45,7 @@ var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
 var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 var QueryBuilderService =
-    explorer.models.perfkit_simple_builder.QueryBuilderService;
+    explorer.components.widget.query.builder.QueryBuilderService;
 var QueryEditorService = explorer.components.widget.query.QueryEditorService;
 var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 var ResultsDataStatus = explorer.models.ResultsDataStatus;
@@ -128,19 +128,6 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
    */
   this.errors = [];
 
-  /**
-   * A shortcut property that returns the datasource of the selected widget.
-   * If no widget is selected, this value is set to null.  It is monitored
-   * by the $scope.$watch below.
-   * @type {?DatasourceModel}
-   * @export
-   */
-  this.datasource = null;
-
-  if (dashboardService.selectedWidget) {
-    this.datasource = dashboardService.selectedWidget.model.datasource;
-  }
-
   $scope.$watch(
       angular.bind(this, function() {
         if (dashboardService.selectedWidget) {
@@ -151,17 +138,15 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
       }),
       angular.bind(this, function() {
         if (dashboardService.selectedWidget) {
-          this.datasource = dashboardService.selectedWidget.model.datasource;
           !this.supressFilterChanges && this.changeFilterDate();
-        } else {
-          this.datasource = null;
         }
       }));
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.datasource) {
-          return this.datasource.config.filters.start_date.text;
+        if (dashboardService.selectedWidget) {
+          return dashboardService.selectedWidget.model
+              .datasource.config.filters.start_date.text;
         }
       }),
       angular.bind(this, function(old_val, new_val) {
@@ -172,8 +157,11 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.datasource && this.datasource.config.filters.end_date) {
-          return this.datasource.config.filters.end_date.text;
+        if (dashboardService.selectedWidget &&
+            dashboardService.selectedWidget.model
+                .datasource.config.filters.end_date) {
+          return dashboardService.selectedWidget.model
+              .datasource.config.filters.end_date.text;
         }
       }),
       angular.bind(this, function(old_val, new_val) {
@@ -184,8 +172,9 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.datasource) {
-          return this.datasource.config.filters.product_name;
+        if (dashboardService.selectedWidget) {
+          return dashboardService.selectedWidget.model
+              .datasource.config.filters.product_name;
         }
       }),
       angular.bind(this, function(old_val, new_val) {
@@ -196,8 +185,9 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.datasource) {
-          return this.datasource.config.filters.test;
+        if (dashboardService.selectedWidget) {
+          return dashboardService.selectedWidget.model
+              .datasource.config.filters.test;
         }
       }),
       angular.bind(this, function(old_val, new_val) {
@@ -208,8 +198,9 @@ explorer.components.widget.query.QueryEditorCtrl = function($scope, $filter,
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.datasource) {
-          return this.datasource.config.filters.metric;
+        if (dashboardService.selectedWidget) {
+          return dashboardService.selectedWidget.model
+              .datasource.config.filters.metric;
         }
       }),
       angular.bind(this, function(old_val, new_val) {
@@ -243,7 +234,7 @@ QueryEditorCtrl.prototype.isPicklistValueValid = function(
  * (which may result in test, metric and metadata being reloaded).
  */
 QueryEditorCtrl.prototype.changeFilterDate = function() {
-  if (!this.datasource) { return; }
+  if (!this.dashboard.selectedWidget) { return; }
 
   this.refreshPicklist('product_name');
   this.changeProduct();
@@ -256,8 +247,9 @@ QueryEditorCtrl.prototype.changeFilterDate = function() {
  * product is selected, the test, metric and metadata picklists are cleared.
  */
 QueryEditorCtrl.prototype.changeProduct = function() {
-  if (!this.datasource) { return; }
-  var filter = this.datasource.config.filters['product_name'];
+  if (!this.dashboard.selectedWidget) { return; }
+  var filter = this.dashboard.selectedWidget.model
+      .datasource.config.filters['product_name'];
 
   if (this.isPicklistValueValid(filter, 'product_name')) {
     this.refreshPicklist('test');
@@ -278,8 +270,9 @@ QueryEditorCtrl.prototype.changeProduct = function() {
  * If no test is selected, the metric and metadata picklists are cleared.
  */
 QueryEditorCtrl.prototype.changeTest = function() {
-  if (!this.datasource) { return; }
-  var filter = this.datasource.config.filters['test'];
+  if (!this.dashboard.selectedWidget) { return; }
+  var filter = this.dashboard.selectedWidget.model
+      .datasource.config.filters['test'];
 
   if (this.isPicklistValueValid(filter, 'test')) {
     this.refreshPicklist('metric');
@@ -299,8 +292,9 @@ QueryEditorCtrl.prototype.changeTest = function() {
  * is selected, the metadata list will be cleared.
  */
 QueryEditorCtrl.prototype.changeMetric = function() {
-  if (!this.datasource) { return; }
-  var filter = this.datasource.config.filters['metric'];
+  if (!this.dashboard.selectedWidget) { return; }
+  var filter = this.dashboard.selectedWidget.model
+      .datasource.config.filters['metric'];
 
   if (this.isPicklistValueValid(filter, 'metric')) {
     this.refreshPicklist('owner');
@@ -318,7 +312,7 @@ QueryEditorCtrl.prototype.changeMetric = function() {
  * @export
  */
 QueryEditorCtrl.prototype.refreshPicklist = function(picklist, field) {
-  if (!this.datasource) {
+  if (!this.dashboard.selectedWidget) {
     var picklist_items = this.query.picklists[picklist];
     goog.array.clear(picklist_items);
     return;
@@ -326,7 +320,8 @@ QueryEditorCtrl.prototype.refreshPicklist = function(picklist, field) {
 
   if (!field) { field = picklist; }
   var promise = this.query.autocomplete_data.list(
-      field, this.datasource.config.filters);
+      field, this.dashboard.selectedWidget.model
+          .datasource.config.filters);
 
   promise.then(angular.bind(this, function(picklist_data) {
     var picklist_items = this.query.picklists[picklist];
@@ -350,7 +345,8 @@ QueryEditorCtrl.prototype.refreshPicklist = function(picklist, field) {
 QueryEditorCtrl.prototype.refreshMetadata = function(picklist, field) {
   if (!field) { field = picklist; }
   var promise = this.query.autocomplete_data.listMetadata(
-      field, this.datasource.config.filters);
+      field, this.dashboard.selectedWidget.model
+          .datasource.config.filters);
 
   promise.then(angular.bind(this, function(picklist_data) {
     var picklist_items = this.query.picklists[picklist];
@@ -363,79 +359,6 @@ QueryEditorCtrl.prototype.refreshMetadata = function(picklist, field) {
     console.log(error);
     this.errors.push(error.message);
   }));
-};
-
-
-/**
- * Adds an end date to the filters.
- * @export
- */
-QueryEditorCtrl.prototype.addEndDate = function() {
-  this.datasource.config.filters.end_date =
-      new DateFilter(new Date().toISOString());
-};
-
-
-/**
- * Removes the end date from the filters.
- * @export
- */
-QueryEditorCtrl.prototype.removeEndDate = function() {
-  this.datasource.config.filters.end_date = null;
-};
-
-
-/**
- * Adds an end date to the filters.
- * @export
- */
-QueryEditorCtrl.prototype.addOfficial = function() {
-  this.datasource.config.filters.official = true;
-};
-
-
-/**
- * Removes the official flag from the filters.
- * @export
- */
-QueryEditorCtrl.prototype.removeOfficial = function() {
-  this.datasource.config.filters.official = null;
-};
-
-
-/**
- * Adds a new option to the metadata list.
- * @export
- */
-QueryEditorCtrl.prototype.addMetadataFilter = function() {
-  this.datasource.config.filters.metadata.push(new MetadataFilter());
-};
-
-
-/**
- * Adds a new option to the field list.
- * @export
- */
-QueryEditorCtrl.prototype.addFieldColumn = function() {
-  this.datasource.config.results.fields.push(new FieldResult());
-};
-
-
-/**
- * Adds a new option to the measure list.
- * @export
- */
-QueryEditorCtrl.prototype.addMeasureColumn = function() {
-  this.datasource.config.results.measures.push(new FieldResult());
-};
-
-
-/**
- * Adds a new option to the metadata list.
- * @expose
- */
-QueryEditorCtrl.prototype.addMetadataColumn = function() {
-  this.datasource.config.results.labels.push(new LabelResult());
 };
 
 

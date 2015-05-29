@@ -86,3 +86,15 @@ div:focus {
   overflow-y: hidden;
   overflow-x: auto;
 }
+
+.sidebar-item-value .md-select {
+  margin: 0;
+}
+
+.sidebar-item-value .md-select-label {
+  padding-top: 4px;
+}
+
+.tab-pane {
+  padding: 8px;
+}

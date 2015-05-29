@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview QueryEditorDirective encapsulates HTML, style and behavior
- *     for the left-hand well of Explorer.
+ * @fileoverview QueryResultConfigDirective encapsulates HTML, style and behavior
+ *     for the results and shape.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDirective');
+
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
 
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
+var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 
 
 /**
@@ -30,13 +35,16 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.query.QueryEditorDirective = function() {
+explorer.components.widget.query.QueryResultConfigDirective = function() {
   return {
     restrict: 'E',
     replace: true,
     transclude: false,
-    templateUrl: '/static/components/widget/query/query-editor-directive.html',
-    controller: 'QueryEditorCtrl as queryEditorCtrl'
+    scope: {
+      /** @type {!ChartWidgetModel} */
+      'ngModel': '='
+    },
+    templateUrl: '/static/components/widget/query/query-result-config-directive.html'
   };
 };
 

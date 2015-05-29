@@ -38,7 +38,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.MetadataPickerDirective');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
 
 goog.require('goog.positioning');
@@ -65,10 +65,10 @@ var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
  * @param {!angular.$filter} $filter Provides access to array searching.
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.query.MetadataPickerDirective = function(
+explorer.components.widget.query.builder.MetadataPickerDirective = function(
     $timeout, $filter) {
   var DEFAULT_TEMPLATE_URL = (
-      '/static/components/widget/query/metadata-picker-directive.html');
+      '/static/components/widget/query/builder/metadata-picker-directive.html');
 
   return {
     restrict: 'A',

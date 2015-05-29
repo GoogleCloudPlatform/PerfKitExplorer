@@ -31,7 +31,7 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
-goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.dateUtil');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');

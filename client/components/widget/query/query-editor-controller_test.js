@@ -58,36 +58,11 @@ describe('QueryEditorCtrl', function() {
       }));
 
   it('should initialize the appropriate scope objects.', function() {
-    expect(ctrl.dashboard).toBeDefined();
-    expect(ctrl.dashboard).not.toBeNull();
+    expect(ctrl.dashboardSvc).toBeDefined();
+    expect(ctrl.dashboardSvc).not.toBeNull();
 
-    expect(ctrl.query).toBeDefined();
-    expect(ctrl.query).not.toBeNull();
-  });
-
-  describe('datasource', function() {
-
-    it('should reflect the datasource of the selected widget.',
-        function() {
-          try {
-            ctrl.supressFilterChanges = true;
-            var boundWidget = new ChartWidgetConfig(widgetFactoryService);
-            dashboardService.selectedWidget = boundWidget;
-            rootScope.$apply();
-
-            expect(ctrl.datasource).toEqual(boundWidget.model.datasource);
-          } finally {
-            ctrl.supressFilterChanges = false;
-          }
-        }
-    );
-
-    it('should return null if no widget is selected.',
-        function() {
-          expect(dashboardService.selectedWidget).toBeNull();
-          expect(ctrl.datasource).toBeNull();
-        }
-    );
+    expect(ctrl.querySvc).toBeDefined();
+    expect(ctrl.querySvc).not.toBeNull();
   });
 
 });

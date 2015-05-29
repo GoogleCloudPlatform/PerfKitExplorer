@@ -18,8 +18,8 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.Aggregation');
-goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.Aggregation');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 
 goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
@@ -58,7 +58,7 @@ var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePa
  * INTEGER|FLOAT% so '50%' or '.01%'.
  * @enum {string}
  */
-explorer.models.perfkit_simple_builder.Aggregation = {
+explorer.components.widget.query.builder.Aggregation = {
   AVERAGE: 'avg',
   COUNT: 'count',
   LAST: 'last',
@@ -69,7 +69,7 @@ explorer.models.perfkit_simple_builder.Aggregation = {
   SUM: 'sum',
   VARIANCE: 'variance'
 };
-var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
+var Aggregation = explorer.components.widget.query.builder.Aggregation;
 
 
 /**
@@ -79,7 +79,7 @@ var Aggregation = explorer.models.perfkit_simple_builder.Aggregation;
  * @constructor
  *
  */
-explorer.models.perfkit_simple_builder.QueryBuilderService = function(
+explorer.components.widget.query.builder.QueryBuilderService = function(
     $filter) {
   /**
    * Specifies the character sequence that precedes parameter tokens.
@@ -94,7 +94,7 @@ explorer.models.perfkit_simple_builder.QueryBuilderService = function(
   this.TOKEN_END_SYMBOL = '%%';
 };
 var QueryBuilderService =
-    explorer.models.perfkit_simple_builder.QueryBuilderService;
+    explorer.components.widget.query.builder.QueryBuilderService;
 
 
 /**

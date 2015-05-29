@@ -36,7 +36,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.RelativeDatepickerDirective');
 
 
 
@@ -68,7 +68,7 @@ var FILTER_TYPES = [
  * @param {!angular.$filter} $filter Provides date conversion filters.
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.query.RelativeDatepickerDirective = function(
+explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
     $timeout, $filter) {
   return {
     restrict: 'E',
@@ -76,7 +76,7 @@ explorer.components.widget.query.RelativeDatepickerDirective = function(
     templateUrl: function(element, attrs) {
       return (
           attrs['relativeDatepickerTemplateUrl'] ||
-          '/static/components/widget/query/relative-datepicker-directive.html');
+          '/static/components/widget/query/builder/relative-datepicker-directive.html');
     },
     scope: {
       /**
