@@ -2,8 +2,6 @@
 }
 
 .perfkit-sidebar-panel-header {
-  background-color: black;
-  color: white;
   font-weight: bold;
   height: 34px;
   padding: 4px;
@@ -29,9 +27,10 @@
 }
 
 .sidebar-group-title {
-  color: #d14836;
+  color: #212121;
   font-weight: bold;
   margin-bottom: 4px;
+  padding-left: 4px;
 }
 
 .sidebar-group-note {
@@ -56,4 +55,3 @@
 .sidebar-item-value md-select {
   width: 100%;
 }
-

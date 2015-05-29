@@ -1,4 +1,4 @@
-.perfkit-sidebar-tabs {  
+.perfkit-sidebar-tabs {
 }
 
 .perfkit-sidebar-tab {
@@ -8,7 +8,6 @@
 }
 
 .perfkit-sidebar-tab:hover {
-  background-color: #efefef;
   cursor: pointer;
   padding: 8px;
   white-space: nowrap;
@@ -19,13 +18,9 @@
 }
 
 .perfkit-sidebar-tab-selected {
-  background-color: black;
-  color: white;
 }
 
 .perfkit-sidebar-tab-selected:hover {
-  background-color: #333;
-  color: white;
 }
 
 .sidebar-item-value md-select-label {

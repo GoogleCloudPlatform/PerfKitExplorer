@@ -1,3 +1,33 @@
+.dashboard-tab {
+  background-color: #eeeeee; /** grey: 200 */
+  border-right: 3px solid #eeeeee;
+
+  color: #212121; /** grey: 900 */
+}
+
+.dashboard-tab:hover {
+  background-color: #bdbdbd; /** grey:400 */
+  border-right: 3px solid #212121; /** grey:900 */
+}
+
+.dashboard-tab.perfkit-sidebar-tab-selected {
+  border-right: 3px solid #212121; /** grey:900 */
+}
+
+.dashboard-tab[selected] {
+  border-right: 3px solid #212121; /** grey: 900 */
+}
+
+.dashboard-panel-title {
+  background-color: #212121; /** grey: 900 */
+
+  color: #fafafa; /** grey: 50 */
+}
+
+.dashboard-panel {
+  background-color: #eeeeee; /** grey: 900 */
+}
+
 .param-row {
   width: 100%;
   display: flex;

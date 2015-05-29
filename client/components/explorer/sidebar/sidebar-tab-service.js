@@ -49,17 +49,29 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = [
     {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
-     hint: 'Query filters and constraints', requireWidget: true},
+     hint: 'Query filters and constraints', requireWidget: true,
+     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
+     panelClass: 'bqgviz-panel'},
     {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
-     hint: 'Query columns and results', requireWidget: true},
+     hint: 'Query columns and results', requireWidget: true,
+     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
+     panelClass: 'bqgviz-panel'},
     {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
-     hint: 'Chart type and settings', requireWidget: true},
+     hint: 'Chart type and settings', requireWidget: true,
+     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
+     panelClass: 'bqgviz-panel'},
     {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
-     hint: 'Widget title and appearance', requireWidget: true},
+     hint: 'Widget title and appearance', requireWidget: true,
+     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
+     panelClass: 'widget-panel'},
     {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
-     hint: 'Container properties and text', requireWidget: true},
+     hint: 'Container properties and text', requireWidget: true,
+     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
+     panelClass: 'dashboard-panel'},
     {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube',
-     hint: 'Dashboard title and properties'}
+     hint: 'Dashboard title and properties',
+     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
+     panelClass: 'dashboard-panel'}
   ];
 
   /** @export {?ExplorerTabModel} */

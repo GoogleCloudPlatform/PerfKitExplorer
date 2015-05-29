@@ -1,7 +1,10 @@
 <div class="perfkit-sidebar-panel" layout="column" flex
   ng-show="tabSvc.selectedTab">
-  <div class="perfkit-sidebar-panel-header">{{ tabSvc.selectedTab.title }}</div>
-  <div class="perfkit-sidebar-panel-content" flex>
+  <div class="perfkit-sidebar-panel-header
+              {{ tabSvc.selectedTab.panelTitleClass}}">
+    {{ tabSvc.selectedTab.title }}</div>
+  <div class="perfkit-sidebar-panel-content
+              {{ tabSvc.selectedTab.panelClass }}" flex>
     <div ng-switch="tabSvc.selectedTab.id">
       <div ng-switch-when="dashboard">
         <dashboard-config ng-model="dashboardSvc.current.model" /> 
