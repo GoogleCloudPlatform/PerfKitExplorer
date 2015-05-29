@@ -19,7 +19,11 @@
         <query-result ng-model="dashboardSvc.selectedWidget.model" />
       </div>
       <div ng-switch-when="widget.config">
-        <widget-config ng-model="dashboardSvc.selectedWidget.model" />
+        <div class="sidebar-group">
+          <widget-config ng-model="dashboardSvc.selectedWidget.model"></widget-config>
+        </div>
+        <div class="sidebar-group-title">Datasource</div>
+        <query-datasource ng-model="dashboardSvc.selectedWidget.model"></query-datasource>
       </div>
       <div ng-switch-when="widget.chart">
         <chart-config ng-model="dashboardSvc.selectedWidget.model" />

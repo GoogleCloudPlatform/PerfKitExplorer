@@ -49,18 +49,17 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = [
     {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
-     requireWidget: true},
+     hint: 'Query filters and constraints', requireWidget: true},
     {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
-     requireWidget: true},
+     hint: 'Query columns and results', requireWidget: true},
     {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
-     requireWidget: true},
+     hint: 'Chart type and settings', requireWidget: true},
     {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
-     requireWidget: true},
-    {id: 'widget.data', title: 'Data Source', iconClass: 'fa fa-database',
-     requireWidget: true},
+     hint: 'Widget title and appearance', requireWidget: true},
     {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
-     requireWidget: true},
-    {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube'}
+     hint: 'Container properties and text', requireWidget: true},
+    {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube',
+     hint: 'Dashboard title and properties'}
   ];
 
   /** @export {?ExplorerTabModel} */

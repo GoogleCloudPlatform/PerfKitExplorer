@@ -21,8 +21,33 @@ var jsSourceFiles = [
 
 gulp.task('default', ['prod']);
 
+gulp.task('third_party', function() {
+  gulp.src('third_party/py/**/*.*')
+    .pipe(gulp.dest('deploy/server/third_party'));
 
-gulp.task('common', function() {
+  gulp.src('node_modules/angular/angular.min.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular'));
+
+  gulp.src('node_modules/angular-animate/angular-animate.min.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular'));
+
+  gulp.src('node_modules/angular-aria/angular-aria.min.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular'));
+
+  gulp.src('node_modules/angular-mocks/angular-mocks.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular'));
+
+  gulp.src('node_modules/angular-material/angular-material.min.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular-material'));
+
+  gulp.src('node_modules/jquery/dist/jquery.min.*')
+    .pipe(gulp.dest('deploy/client/third_party/jquery'));
+
+  gulp.src('third_party/js/uiGrid/ui-grid.*')
+    .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+});
+
+gulp.task('common', ['third_party'], function() {
   gulp.src(['*.yaml', '*.py'])
     .pipe(gulp.dest('deploy'));
 
@@ -32,12 +57,6 @@ gulp.task('common', function() {
   gulp.src('server/**/*.py')
     .pipe(gulp.dest('deploy/server'));
 
-  gulp.src('third_party/py/**/*.*')
-    .pipe(gulp.dest('deploy/server/third_party'));
-
-  gulp.src('third_party/js/**/*.*')
-    .pipe(gulp.dest('deploy/client/third_party'));
-
   gulp.src('client/**/*.json')
     .pipe(gulp.dest('deploy/client'));
 
@@ -45,7 +64,6 @@ gulp.task('common', function() {
     .pipe(concat('perfkit_styles.css'))
     .pipe(gulp.dest('build'));
 });
-
 
 gulp.task('test', ['common'], function() {
 

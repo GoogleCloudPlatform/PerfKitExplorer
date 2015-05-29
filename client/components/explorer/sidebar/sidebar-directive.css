@@ -14,3 +14,46 @@
   overflow: auto;
   padding: 8px;
 }
+
+
+.perfkit-sidebar-button {
+  float: right;
+  top: 9px;
+  right: 8px;
+}
+
+.sidebar-group {
+  border-bottom: 1px solid rgb(235, 235, 235);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+}
+
+.sidebar-group-title {
+  color: #d14836;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.sidebar-group-note {
+  color: #666;
+  font-size: .95em;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.sidebar-item {
+  margin-bottom: 4px;
+  padding-left: 4px;
+}
+.sidebar-item-label {
+  padding-bottom: 4px;
+}
+
+.sidebar-item-value {
+  padding-bottom: 4px;
+}
+
+.sidebar-item-value md-select {
+  width: 100%;
+}
+

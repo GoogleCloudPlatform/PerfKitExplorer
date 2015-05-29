@@ -86,3 +86,11 @@ div:focus {
   overflow-y: hidden;
   overflow-x: auto;
 }
+
+md-tooltip.md-default-theme {
+  color: #000f55;
+}
+
+md-tooltip.md-default-theme .md-background {
+  background-color: #fea;
+}

@@ -36,6 +36,11 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
     controller: function($scope) {
       $scope.dashboardSvc = dashboardService;
       $scope.tabSvc = sidebarTabService;
+
+      $scope.tabClicked = function(tab) {
+        $scope.tabSvc.toggleTab(tab);
+        tab.tooltipVisible = !tab.tooltipVisible;
+      };
     }
   };
 };
