@@ -33,7 +33,7 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
-goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 goog.require('goog.array');
 goog.require('goog.asserts');
@@ -50,7 +50,7 @@ var DashboardDataService = explorer.components.dashboard.DashboardDataService;
 var ErrorService = explorer.components.error.ErrorService;
 var ErrorTypes = explorer.components.error.ErrorTypes;
 var QueryBuilderService = (
-    explorer.models.perfkit_simple_builder.QueryBuilderService);
+    explorer.components.widget.query.builder.QueryBuilderService);
 var QueryTablePartitioning = (
     explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 var ResultsDataStatus = explorer.models.ResultsDataStatus;

@@ -13,33 +13,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview WidgetConfigDirective encapsulates HTML, style and behavior
- *     for the gviz chart config.
+ * @fileoverview QueryDatasourceDirective encapsulates HTML, style and behavior
+ *     for widget query filters.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
+
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
-
+var ConfigService = explorer.components.config.ConfigService;
+var DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.WidgetConfigDirective = function(
-    chartWrapperService, dashboardService) {
+explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective = function() {
   return {
     restrict: 'E',
     replace: true,
     transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
-    templateUrl: '/static/components/widget/widget-config-directive.html'
+    templateUrl: '/static/components/widget/query/builder/query-builder-datasource-config-directive.html',
+    controller: function($scope, configService, dashboardService) {
+      /** @export {!ConfigService} */
+      $scope.configSvc = configService;
+
+      /** @export {!DashboardService} */
+      $scope.dashboardSvc = dashboardService;
+    }
   };
 };
 

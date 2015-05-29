@@ -20,7 +20,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
 
 goog.require('p3rf.perfkit.explorer.dateUtil');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PicklistModel');
@@ -43,7 +43,7 @@ var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
  * @constructor
  * @ngInject
  */
-explorer.components.widget.query.FieldCubeDataService = function($http, $q) {
+explorer.components.widget.query.builder.FieldCubeDataService = function($http, $q) {
   /**
    * @type {!angular.$http}
    * @private
@@ -57,7 +57,7 @@ explorer.components.widget.query.FieldCubeDataService = function($http, $q) {
   this.q_ = $q;
 };
 var FieldCubeDataService = (
-    explorer.components.widget.query.FieldCubeDataService);
+    explorer.components.widget.query.builder.FieldCubeDataService);
 
 
 /**

@@ -13,16 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview WidgetConfigDirective encapsulates HTML, style and behavior
- *     for the gviz chart config.
+ * @fileoverview QueryResultConfigDirective encapsulates HTML, style and behavior
+ *     for the results and shape.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDirective');
+
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
 
 
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
+var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
+var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 
 
 /**
@@ -30,16 +35,16 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.WidgetConfigDirective = function(
-    chartWrapperService, dashboardService) {
+explorer.components.widget.query.QueryResultConfigDirective = function() {
   return {
     restrict: 'E',
     replace: true,
     transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
-    templateUrl: '/static/components/widget/widget-config-directive.html'
+    templateUrl: '/static/components/widget/query/query-result-config-directive.html'
   };
 };
 
