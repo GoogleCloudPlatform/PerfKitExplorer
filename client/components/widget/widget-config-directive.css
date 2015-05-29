@@ -5,15 +5,17 @@
   color: #0d47a1; /** blue: 900 */
 }
 
-.bqgviz-tab:hover {
-  background-color: #bbdefb; /** blue:100 */
-  border-right: 3px solid #0d47a1; /** blue:900 */
-}
-
 .bqgviz-tab.perfkit-sidebar-tab-selected {
   background-color: #0d47a1; /** blue: 900 */
   border-right: 3px solid #0d47a1; /** blue:900 */
   color: #e3f2fd;
+}
+
+.bqgviz-tab:hover,
+.bqgviz-tab.perfkit-sidebar-tab-selected:hover {
+  background-color: #bbdefb; /** blue:100 */
+  border-right: 3px solid #1e88e5; /** blue:600 */
+  color: #0d47a1; /** blue: 900 */
 }
 
 .bqgviz-panel-title {
@@ -37,13 +39,17 @@
   color: #0d47a1;
 }
 
-.widget-tab:hover {
-  background-color: #bbdefb; /** blue:100 */
+.widget-tab.perfkit-sidebar-tab-selected {
+  background-color: #0d47a1; /** blue: 900 */
   border-right: 3px solid #0d47a1; /** blue:900 */
+  color: #e3f2fd;
 }
 
-.widget-tab.perfkit-sidebar-tab-selected {
-  border-right: 3px solid #0d47a1; /** blue:900 */
+.widget-tab:hover,
+.widget-tab.perfkit-sidebar-tab-selected:hover {
+  background-color: #bbdefb; /** blue:100 */
+  border-right: 3px solid #1e88e5; /** blue:600 */
+  color: #0d47a1; /** blue: 900 */
 }
 
 .widget-panel-title {
