@@ -58,11 +58,11 @@ describe('QueryEditorCtrl', function() {
       }));
 
   it('should initialize the appropriate scope objects.', function() {
-    expect(ctrl.dashboardSvc).toBeDefined();
-    expect(ctrl.dashboardSvc).not.toBeNull();
+    expect(ctrl.dashboard).toBeDefined();
+    expect(ctrl.dashboard).not.toBeNull();
 
-    expect(ctrl.querySvc).toBeDefined();
-    expect(ctrl.querySvc).not.toBeNull();
+    expect(ctrl.query).toBeDefined();
+    expect(ctrl.query).not.toBeNull();
   });
 
 });

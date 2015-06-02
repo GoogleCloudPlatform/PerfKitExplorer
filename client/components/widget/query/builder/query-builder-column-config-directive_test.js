@@ -123,7 +123,7 @@ describe('QueryBuilderColumnConfigDirective', function() {
     });
   });
 
-  fdescribe('should reflect the ngModel state for', function() {
+  describe('should reflect the ngModel state for', function() {
     var results;
 
     beforeEach(inject(function() {
@@ -241,9 +241,9 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     it('showing the date column', function() {
       var showDateElement = actualElement.find(
-        'input.widget_results_show_date')[0];
+        'input.widget-columns-show-date')[0];
       var dateGroupElement = actualElement.find(
-        'input.widget_results_date_group')[0];
+        'input.widget-columns-date-group')[0];
       var dateGroupElementContainer = angular.element(
         dateGroupElement.parentElement.parentElement);
 

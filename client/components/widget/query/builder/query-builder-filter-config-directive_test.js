@@ -53,9 +53,6 @@ describe('QueryFilterDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET(
-            '/static/components/widget/query/metadata-picker-directive.html')
-            .respond(200);
         $httpBackend.expectGET('template/datepicker/datepicker.html')
             .respond(200);
         $httpBackend.expectGET('template/timepicker/timepicker.html')
@@ -78,9 +75,6 @@ describe('QueryFilterDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/query/metadata-picker-directive.html')
-          .respond(200);
       $httpBackend.expectGET('template/datepicker/datepicker.html')
         .respond(200);
       $httpBackend.expectGET('template/timepicker/timepicker.html')
@@ -97,73 +91,73 @@ describe('QueryFilterDirective', function() {
 
     it('the start_date filter', function() {
       var startDateElement = actualElement.find(
-        'input.widget_filter_start_date');
+        'input.widget-filter-start-date');
       expect(startDateElement.length).toBe(1);
     });
 
     it('showing the end_date filter', function() {
       var addEndDateElement = actualElement.find(
-        'a.widget_filter_end_date_add');
+        'a.widget-filter-end-date-add');
       expect(addEndDateElement.length).toBe(1);
     });
 
     it('the end date filter', function() {
       var endDateElement = actualElement.find(
-        'input.widget_filter_end_date');
+        'input.widget-filter-end-date');
       expect(endDateElement.length).toBe(1);
     });
 
     it('removing end date filter', function() {
       var removeEndDateElement = actualElement.find(
-        'span.widget_filter_end_date_remove');
+        'span.widget-filter-end-date-remove');
       expect(removeEndDateElement.length).toBe(1);
     });
 
     it('adding the official filter', function() {
       var addOfficialElement = actualElement.find(
-        'a.widget_filter_official_add');
+        'a.widget-filter-official-add');
       expect(addOfficialElement.length).toBe(1);
     });
 
     it('the official filter', function() {
       var officialElement = actualElement.find(
-        'input.widget_filter_official');
+        'input.widget-filter-official');
       expect(officialElement.length).toBe(1);
     });
 
     it('removing the official filter', function() {
       var removeOfficialElement = actualElement.find(
-        'span.widget_filter_official_remove');
+        'span.widget-filter-official-remove');
       expect(removeOfficialElement.length).toBe(1);
     });
 
     it('the product name filter', function() {
       var productElement = actualElement.find(
-        'input.widget_filter_product_name');
+        'input.widget-filter-product-name');
       expect(productElement.length).toBe(1);
     });
 
     it('the test name filter', function() {
       var testElement = actualElement.find(
-        'input.widget_filter_test_name');
+        'input.widget-filter-test-name');
       expect(testElement.length).toBe(1);
     });
 
     it('the metric name filter', function() {
       var metricElement = actualElement.find(
-        'input.widget_filter_metric_name');
+        'input.widget-filter-metric-name');
       expect(metricElement.length).toBe(1);
     });
 
     it('the test runner filter', function() {
       var runbyElement = actualElement.find(
-        'input.widget_filter_runby');
+        'input.widget-filter-runby');
       expect(runbyElement.length).toBe(1);
     });
 
     it('the metadata filters', function() {
       var metadataElement = actualElement.find(
-        'span.widget_filter_metadata');
+        'span.widget-filter-metadata');
       expect(metadataElement.length).toBe(1);
     });
   });
@@ -172,9 +166,6 @@ describe('QueryFilterDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/query/metadata-picker-directive.html')
-          .respond(200);
       $httpBackend.expectGET('template/datepicker/datepicker.html')
         .respond(200);
       $httpBackend.expectGET('template/timepicker/timepicker.html')
@@ -182,8 +173,7 @@ describe('QueryFilterDirective', function() {
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
-      filters = (
-        dashboardSvc.selectedWidget.model.datasource.config.filters);
+      filters = scope.widgetModel.datasource.config.filters;
 
       actualElement = angular.element(
         '<query-builder-filter-config ng-model="widgetModel" />');
@@ -198,26 +188,27 @@ describe('QueryFilterDirective', function() {
       scope.$digest();
 
       var startDateElement = actualElement.find(
-        'input.widget_filter_start_date')[0];
+        'input.widget-filter-start-date')[0];
       expect(startDateElement.value).toBe('last 3 months');
     });
 
     it('the end date filter', function() {
       filters.end_date = {
-        filter_type: 'DAY',
-        filter_value: 2
+        type: 'DAY',
+        value: 2,
+        text: 'last 2 days'
       };
 
       scope.$digest();
 
       var endDateElement = actualElement.find(
-        'input.widget_filter_end_date')[0];
+        'input.widget-filter-end-date')[0];
       expect(endDateElement.value).toBe('last 2 days');
     });
 
     it('the official filter', function() {
       var officialElement = actualElement.find(
-        'input.widget_filter_official')[0];
+        'input.widget-filter-official')[0];
 
       expect(officialElement.checked).toBe(true);
 
@@ -229,7 +220,7 @@ describe('QueryFilterDirective', function() {
 
     it('the product name filter', function() {
       var productElement = actualElement.find(
-        'input.widget_filter_product_name')[0];
+        'input.widget-filter-product-name')[0];
 
       expect(productElement.value).toBe('');
 
@@ -241,7 +232,7 @@ describe('QueryFilterDirective', function() {
 
     it('the test name filter', function() {
       var testElement = actualElement.find(
-        'input.widget_filter_test_name')[0];
+        'input.widget-filter-test-name')[0];
 
       expect(testElement.value).toBe('');
 
@@ -253,7 +244,7 @@ describe('QueryFilterDirective', function() {
 
     it('the metric name filter', function() {
       var metricElement = actualElement.find(
-        'input.widget_filter_metric_name')[0];
+        'input.widget-filter-metric-name')[0];
 
       expect(metricElement.value).toBe('');
 
@@ -265,7 +256,7 @@ describe('QueryFilterDirective', function() {
 
     it('the runby filter', function() {
       var runbyElement = actualElement.find(
-        'input.widget_filter_runby')[0];
+        'input.widget-filter-runby')[0];
 
       expect(runbyElement.value).toBe('');
 
@@ -277,7 +268,7 @@ describe('QueryFilterDirective', function() {
 
     it('the metadata filters', function() {
       var metadataElement = actualElement.find(
-          'span.widget_filter_metadata')[0];
+          'span.widget-filter-metadata')[0];
 
       expect(metadataElement.children.length).toBe(1);
 
@@ -298,9 +289,6 @@ describe('QueryFilterDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/query/metadata-picker-directive.html')
-          .respond(200);
       $httpBackend.expectGET('template/datepicker/datepicker.html')
         .respond(200);
       $httpBackend.expectGET('template/timepicker/timepicker.html')
@@ -308,8 +296,7 @@ describe('QueryFilterDirective', function() {
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
-      filters = (
-        dashboardSvc.selectedWidget.model.datasource.config.filters);
+      filters = scope.widgetModel.datasource.config.filters;
 
       actualElement = angular.element(
         '<query-builder-filter-config ng-model="widgetModel" />');
@@ -320,11 +307,11 @@ describe('QueryFilterDirective', function() {
 
     it('the end date filter', function() {
       var addEndDateElement = actualElement.find(
-        'a.widget_filter_end_date_add')[0];
+        'a.widget-filter-end-date-add')[0];
       var removeEndDateElement = actualElement.find(
-        'span.widget_filter_end_date_remove')[0];
+        'span.widget-filter-end-date-remove')[0];
       var endDateElement = actualElement.find(
-        'input.widget_filter_end_date')[0];
+        'input.widget-filter-end-date')[0];
       var endDateElementContainer = angular.element(
         endDateElement.parentElement.parentElement);
 
@@ -347,11 +334,11 @@ describe('QueryFilterDirective', function() {
 
     it('the official filter', function() {
       var addOfficialElement = actualElement.find(
-        'a.widget_filter_official_add')[0];
+        'a.widget-filter-official-add')[0];
       var removeOfficialElement = actualElement.find(
-        'span.widget_filter_official_remove')[0];
+        'span.widget-filter-official-remove')[0];
       var officialElement = actualElement.find(
-        'input.widget_filter_official')[0];
+        'input.widget-filter-official')[0];
       var officialElementContainer = angular.element(
         officialElement.parentElement.parentElement);
 
