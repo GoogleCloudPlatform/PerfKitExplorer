@@ -63,6 +63,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataT
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
+goog.require('p3rf.perfkit.explorer.components.widget.widgetConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.MetadataPickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
@@ -231,9 +232,19 @@ explorer.application.module.directive('container',
 explorer.application.module.directive('containerConfig',
     explorer.components.container.ContainerConfigDirective);
 
+/** Sidebar directives. */
+explorer.application.module.directive('sidebar',
+    explorer.components.explorer.sidebar.SidebarDirective);
+explorer.application.module.directive('sidebarTabs',
+    explorer.components.explorer.sidebar.SidebarTabsDirective);
+
 /** Widget directives. */
 explorer.application.module.directive('perfkitWidget',
     explorer.components.widget.perfkitWidget);
+explorer.application.module.directive('widgetConfig',
+    explorer.components.widget.WidgetConfigDirective);
+
+/** BQ PerfKit Widget directives. */
 explorer.application.module.directive('queryResultConfig',
     explorer.components.widget.query.QueryResultConfigDirective);
 explorer.application.module.directive('widgetEditor',
@@ -243,7 +254,7 @@ explorer.application.module.directive('gvizChartWidget',
 explorer.application.module.directive('chartConfig',
     explorer.components.widget.data_viz.gviz.ChartConfigDirective);
 
-/** Query Builder Directives. */
+/** BQ PerfKit Query Builder Directives. */
 explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.builder.MetadataPickerDirective);
 explorer.application.module.directive('queryBuilderColumnConfig',

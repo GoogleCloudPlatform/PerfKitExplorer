@@ -13,10 +13,10 @@
         <container-config ng-model="dashboardSvc.selectedContainer.model" /> 
       </div>
       <div ng-switch-when="widget.data">
-        <query-datasource ng-model="dashboardSvc.selectedWidget.model" /> 
+        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" /> 
       </div>
       <div ng-switch-when="widget.data.filter">
-        <query-filter ng-model="dashboardSvc.selectedWidget.model" /> 
+        <query-builder-filter-config ng-model="dashboardSvc.selectedWidget.model" /> 
       </div>
       <div ng-switch-when="widget.data.result">
         <query-result ng-model="dashboardSvc.selectedWidget.model" />
@@ -26,7 +26,7 @@
           <widget-config ng-model="dashboardSvc.selectedWidget.model"></widget-config>
         </div>
         <div class="sidebar-group-title">Datasource</div>
-        <query-datasource ng-model="dashboardSvc.selectedWidget.model"></query-datasource>
+        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model"></query-builder-datasource-config>
       </div>
       <div ng-switch-when="widget.chart">
         <chart-config ng-model="dashboardSvc.selectedWidget.model" />

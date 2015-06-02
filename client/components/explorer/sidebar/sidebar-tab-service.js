@@ -86,6 +86,14 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
      this.selectedTab = tab;
    };
 
+  this.selectNextTab = function() {
+    if (!selectedTab) {
+      this.selectTab(this.tabs[0]);
+    }
+
+    var selectedTabIndex = this.tabs.indexOf(this.selectedTab);
+  };
+
   /**
   * Toggles the selection state of a tab.
   * @param {?ExplorerTabModel} tab
