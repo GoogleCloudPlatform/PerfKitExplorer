@@ -18,7 +18,7 @@
  * them visually in three different way: row, column, or wrap.
  *
  * Usage:
- *   <container class="perfkit-container-content"
+ *   <container class="pk-container-content"
  *              container-config="containerConfigConfig"/>
  *
  * Attributes:
@@ -36,42 +36,14 @@ goog.provide('p3rf.perfkit.explorer.components.container.ContainerDirective');
  * @return {Object} Directive definition object.
  */
 p3rf.perfkit.explorer.components.container.
-ContainerDirective = function() {
+ContainerDirective = function(dashboardService) {
   return {
     restrict: 'E',
     replace: true,
     transclude: true,
     scope: {
-      containerConfig: '='
+      ngModel: '='
     },
-    // TODO: Use templateUrl instead of hardcoded template text.
-    template: '<div ng-class="flexClass" ng-style="layoutStyle" ' +
-              'ng-transclude></div>',
-    link: function(scope, element, attributes) {
-      var updateClasses = function() {
-        // Change the visual organization of child elements
-        /**
-         * Hold state specific classes.
-         * @type {Object}
-         */
-        scope.flexClass = {
-          'perfkit-container-selected' : scope.containerConfig.state().selected
-        };
-
-        var className = 'flex-' + scope.containerConfig.model.container.flow;
-        scope.flexClass[className] = true;
-      };
-      updateClasses();
-
-      // When the layout size change
-      scope.$watch('containerConfig.model.container.flow', function() {
-        updateClasses();
-      });
-
-      // When the layout size change
-      scope.$watch('containerConfig.state().selected', function() {
-        updateClasses();
-      });
-    }
+    templateUrl: '/static/components/container/container-directive.html'
   };
 };
