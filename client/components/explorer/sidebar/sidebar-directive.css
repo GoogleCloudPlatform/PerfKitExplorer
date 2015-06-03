@@ -53,5 +53,13 @@
 }
 
 .sidebar-item-value md-select {
+  margin: 0;
+  margin-bottom: 12px;
+  padding: 0;
+  width: 100%;
+}
+
+.sidebar-item-value md-select-label {
+  padding-top: 0;
   width: 100%;
 }

@@ -19,14 +19,18 @@
         <query-builder-filter-config ng-model="dashboardSvc.selectedWidget.model" /> 
       </div>
       <div ng-switch-when="widget.data.result">
-        <query-result ng-model="dashboardSvc.selectedWidget.model" />
+        <div class="sidebar-group">
+          <query-builder-column-config ng-model="dashboardSvc.selectedWidget.model" />
+        </div>
+        <div class="sidebar-group-title">Result Shape</div>
+        <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
       <div ng-switch-when="widget.config">
         <div class="sidebar-group">
-          <widget-config ng-model="dashboardSvc.selectedWidget.model"></widget-config>
+          <widget-config ng-model="dashboardSvc.selectedWidget.model" />
         </div>
         <div class="sidebar-group-title">Datasource</div>
-        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model"></query-builder-datasource-config>
+        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
       <div ng-switch-when="widget.chart">
         <chart-config ng-model="dashboardSvc.selectedWidget.model" />
