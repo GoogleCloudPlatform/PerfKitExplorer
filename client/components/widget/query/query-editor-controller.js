@@ -432,7 +432,7 @@ QueryEditorCtrl.prototype.addMeasureColumn = function() {
 
 /**
  * Adds a new option to the metadata list.
- * @expose
+ * @export
  */
 QueryEditorCtrl.prototype.addMetadataColumn = function() {
   this.datasource.config.results.labels.push(new LabelResult());

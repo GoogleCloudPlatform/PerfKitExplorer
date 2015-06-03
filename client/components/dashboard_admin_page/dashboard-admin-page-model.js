@@ -29,19 +29,19 @@ var explorer = p3rf.perfkit.explorer;
 explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
   /**
    * @type {bool}
-   * @expose
+   * @export
    */
   this.filter_owner = false;
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.owner = null;
 
   /**
    * @type {?bool}
-   * @expose
+   * @export
    */
   this.mine = null;
 };
