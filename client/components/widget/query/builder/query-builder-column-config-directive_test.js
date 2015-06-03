@@ -32,6 +32,11 @@ describe('QueryBuilderColumnConfigDirective', function() {
   var explorer = p3rf.perfkit.explorer;
   var ChartWidgetModel = explorer.models.ChartWidgetModel;
 
+  const TEMPLATE_COLUMN_CONFIG = (
+          '/static/components/widget/query/query-builder-column-config-directive.html');
+  const TEMPLATE_PICKLIST = (
+    '/static/components/widget/query/builder/picklist-template.html');
+
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
@@ -53,12 +58,8 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET(
-          '/static/components/widget/query/query-builder-column-config-directive.html')
-          .respond(200);
-        $httpBackend.expectGET(
-          '/static/components/widget/query/builder/picklist-template.html')
-          .respond(200);
+        $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
+        $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
         scope.providedWidgetModel = new ChartWidgetModel();
 
@@ -77,11 +78,8 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-        '/static/components/widget/query/query-builder-column-config-directive.html')
-        .respond(200);
-      $httpBackend.expectGET('date_template.html')
-        .respond(200);
+      $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
+      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
       scope.widgetModel = new ChartWidgetModel();
 
@@ -127,12 +125,8 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var results;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-        '/static/components/widget/query/query-builder-column-config-directive.html')
-        .respond(200);
-      $httpBackend.expectGET(
-        '/static/components/widget/query/picklist-template.html')
-        .respond(200);
+      $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
+      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
@@ -220,12 +214,8 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-        '/static/components/widget/query/query-builder-column-config-directive.html')
-        .respond(200);
-      $httpBackend.expectGET(
-        '/static/components/widget/query/picklist-template.html')
-        .respond(200);
+      $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
+      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
@@ -241,9 +231,9 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     it('showing the date column', function() {
       var showDateElement = actualElement.find(
-        'input.widget_results_show_date')[0];
+        'input.widget-columns-show-date')[0];
       var dateGroupElement = actualElement.find(
-        'input.widget_results_date_group')[0];
+        'input.widget-columns-date-group')[0];
       var dateGroupElementContainer = angular.element(
         dateGroupElement.parentElement.parentElement);
 

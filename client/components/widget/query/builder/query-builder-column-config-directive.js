@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview QueryBuilderColumnConfigDirective encapsulates HTML, style and behavior
- *     for widget query filters.
+ * @fileoverview QueryBuilderColumnConfigDirective encapsulates HTML, style
+ *     and behavior for widget query columns.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -68,7 +68,7 @@ explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = fun
 
       /**
        * Adds a new option to the metadata list.
-       * @expose
+       * @export
        */
       $scope.addMetadataColumn = function() {
         $scope.ngModel.datasource.config.results.labels.push(new LabelResult());

@@ -36,7 +36,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">start date</div>
     <div class="sidebar-item-value">
-      <input class="form-control widget_filter_start_date"
+      <input class="form-control widget-filter-start-date"
              popupbox
              popupbox-template-url="date_template.html"
              popupbox-model="ngModel.datasource.config.filters.start_date"
@@ -45,31 +45,31 @@
   </div>
 
   <div class="sidebar-item" ng-hide="ngModel.datasource.config.filters.end_date">
-    <a ng-click="addEndDate()" class="widget_filter_end_date_add">add end date</a>
+    <a ng-click="addEndDate()" class="widget-filter-end-date-add">add end date</a>
   </div>
   <div class="sidebar-item" ng-show="ngModel.datasource.config.filters.end_date">
     <div class="sidebar-item-label">end date</div>
     <div class="sidebar-item-value input-group">
-      <input class="form-control widget_filter_end_date"
+      <input class="form-control widget-filter-end-date"
              popupbox
              popupbox-template-url="date_template.html"
              popupbox-model="ngModel.datasource.config.filters.end_date"
              ng-model="ngModel.datasource.config.filters.end_date.text">
-      <span class="glyphicon glyphicon-remove widget_filter_end_date_remove"
+      <span class="glyphicon glyphicon-remove widget-filter-end-date-remove"
             ng-click="removeEndDate()"></span>
     </div>
   </div>
 
   <div class="sidebar-item" ng-hide="ngModel.datasource.config.filters.official != null">
-    <a ng-click="addOfficial()" class="widget_filter_official_add">add official filter</a>
+    <a ng-click="addOfficial()" class="widget-filter-official-add">add official filter</a>
   </div>
   <div class="sidebar-item"
        ng-show="ngModel.datasource.config.filters.official != null">
     <div class="sidebar-item-label">official results</div>
     <div class="sidebar-item-value">
-      <input type="checkbox" class="widget_filter_official"
+      <input type="checkbox" class="widget-filter-official"
              ng-model="ngModel.datasource.config.filters.official"> official
-      <span class="glyphicon glyphicon-remove widget_filter_official_remove"
+      <span class="glyphicon glyphicon-remove widget-filter-official-remove"
             ng-click="removeOfficial()"></span>
     </div>
   </div>
@@ -77,7 +77,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">product</div>
     <div class="sidebar-item-value">
-      <input class="form-control widget_filter_product_name"
+      <input class="form-control widget-filter-product-name"
              ng-model="ngModel.datasource.config.filters.product_name">
     </div>
   </div>
@@ -85,7 +85,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">test</div>
     <div class="sidebar-item-value">
-      <input class="form-control widget_filter_test_name"
+      <input class="form-control widget-filter-test-name"
              ng-model="ngModel.datasource.config.filters.test">
     </div>
   </div>
@@ -93,7 +93,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">metric</div>
     <div class="sidebar-item-value">
-      <input class="form-control widget_filter_metric_name"
+      <input class="form-control widget-filter-metric-name"
              ng-model="ngModel.datasource.config.filters.metric">
     </div>
   </div>
@@ -101,7 +101,7 @@
   <div class="sidebar-item">
     <div class="sidebar-item-label">run by</div>
     <div class="sidebar-item-value">
-      <input class="form-control widget_filter_runby"
+      <input class="form-control widget-filter-runby"
              ng-model="ngModel.datasource.config.filters.runby">
     </div>
   </div>
@@ -111,7 +111,7 @@
     </div>
     <div class="sidebar-item-value">
       <span
-          class="widget_filter_metadata"
+          class="widget-filter-metadata"
           multibox
           multibox-placeholder="'label:value'"
           multibox-display-prop="text"
