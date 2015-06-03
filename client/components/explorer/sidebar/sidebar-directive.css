@@ -65,12 +65,17 @@
   margin-bottom: 4px;
   padding-left: 4px;
 }
+
 .pk-sidebar-item-label {
   padding-bottom: 4px;
 }
 
 .pk-sidebar-item-value {
   padding-bottom: 4px;
+}
+
+.pk-sidebar-item-value textarea {
+  resize: vertical;
 }
 
 .pk-sidebar-item-value md-select {
