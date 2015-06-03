@@ -18,9 +18,6 @@
  * limited to, filters and column settings).  It can also be used to produce
  * a SQL statement from current settings.
  *
- * An architectural overview of this and other services used to define queries,
- * charts and dashboards can be found at:
- *     http://goto.google.com/perfkit-explorer-architecture
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
