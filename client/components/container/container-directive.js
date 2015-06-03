@@ -13,7 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview container is an angular directive used to show a container that
+ * @fileoverview See ContainerDirective docstring for details.
+ *
+ * @author joemu@google.com (Joe Allan Muharsky)
+ */
+
+goog.provide('p3rf.perfkit.explorer.components.container.ContainerDirective');
+
+goog.scope(function() {
+
+
+/**
+ * ContainerDirective is an angular directive used to show a container that
  * is bound to a ContainerWidgetModel. It can contain elements and can organize
  * them visually in three different way: row, column, or wrap.
  *
@@ -25,18 +36,9 @@
  *     {p3rf.perfkit.explorer.components.container.
  *         ContainerWidgetConfig} container-config
  *
- * @author joemu@google.com (Joe Allan Muharsky)
- */
-
-goog.provide('p3rf.perfkit.explorer.components.container.ContainerDirective');
-
-/**
- * See module docstring for more information about purpose and usage.
- *
  * @return {Object} Directive definition object.
  */
-p3rf.perfkit.explorer.components.container.
-ContainerDirective = function(dashboardService) {
+p3rf.perfkit.explorer.components.container.ContainerDirective = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -47,3 +49,5 @@ ContainerDirective = function(dashboardService) {
     templateUrl: '/static/components/container/container-directive.html'
   };
 };
+
+}); // goog.scope
