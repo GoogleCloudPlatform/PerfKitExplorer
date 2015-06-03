@@ -74,7 +74,8 @@ gulp.task('test', ['common'], function() {
       compilerFlags: {
         angular_pass: true,
         compilation_level: 'WHITESPACE_ONLY',
-        language_in: 'ECMASCRIPT5',
+        language_in: 'ECMASCRIPT6',
+        language_out: 'ECMASCRIPT5',
         formatting: 'PRETTY_PRINT',
         manage_closure_dependencies: true,
         only_closure_dependencies: true,
@@ -106,7 +107,8 @@ gulp.task('prod', ['common'], function() {
       compilerFlags: {
         angular_pass: true,
         compilation_level: 'WHITESPACE_ONLY',
-        language_in: 'ECMASCRIPT5',
+        language_in: 'ECMASCRIPT6',
+        language_out: 'ECMASCRIPT5',
         manage_closure_dependencies: true,
         only_closure_dependencies: true,
         process_closure_primitives: true,
