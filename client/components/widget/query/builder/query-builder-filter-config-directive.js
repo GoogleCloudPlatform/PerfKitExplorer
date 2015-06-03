@@ -25,9 +25,9 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
-var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
+const explorer = p3rf.perfkit.explorer;
+const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 
 
 /**

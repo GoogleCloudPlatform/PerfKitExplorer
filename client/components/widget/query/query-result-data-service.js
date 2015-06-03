@@ -29,10 +29,10 @@ goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ErrorTypes = explorer.components.error.ErrorTypes;
-var ErrorService = explorer.components.error.ErrorService;
-var ExplorerService = explorer.components.explorer.ExplorerService;
+const explorer = p3rf.perfkit.explorer;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const ErrorService = explorer.components.error.ErrorService;
+const ExplorerService = explorer.components.explorer.ExplorerService;
 
 
 

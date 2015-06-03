@@ -28,8 +28,8 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
 
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));

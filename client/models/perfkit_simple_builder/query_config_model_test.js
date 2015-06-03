@@ -29,12 +29,12 @@ goog.require('goog.date');
 
 goog.scope(function() {
 
-var explorer = p3rf.perfkit.explorer;
-var DatasourceModel = explorer.models.DatasourceModel;
-var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
-var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
-var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
-var QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
+const explorer = p3rf.perfkit.explorer;
+const DatasourceModel = explorer.models.DatasourceModel;
+const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+const DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
+const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
 
 describe('TestQueryConfigModel', function() {
   var query;

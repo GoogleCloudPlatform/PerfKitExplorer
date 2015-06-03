@@ -42,20 +42,20 @@ goog.require('goog.Uri');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var dateUtil = explorer.dateUtil;
-var Aggregation = explorer.components.query_builder.Aggregation;
-var Filter = explorer.components.query_builder.Filter;
-var FilterClause = explorer.components.query_builder.FilterClause;
-var QueryBuilder = explorer.components.query_builder.QueryBuilder;
-var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
-var QueryDateGroupings =
+const explorer = p3rf.perfkit.explorer;
+const dateUtil = explorer.dateUtil;
+const Aggregation = explorer.components.query_builder.Aggregation;
+const Filter = explorer.components.query_builder.Filter;
+const FilterClause = explorer.components.query_builder.FilterClause;
+const QueryBuilder = explorer.components.query_builder.QueryBuilder;
+const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
+const QueryDateGroupings =
     explorer.models.perfkit_simple_builder.QueryDateGroupings;
-var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
-var QueryProperties = explorer.components.query_builder.QueryProperties;
-var SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
-var SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
-var FieldCubeDataService = (
+const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+const QueryProperties = explorer.components.query_builder.QueryProperties;
+const SamplesMartFields = explorer.models.perfkit_simple_builder.SamplesMartFields;
+const SamplesMartMeasures = explorer.models.perfkit_simple_builder.SamplesMartMeasures;
+const FieldCubeDataService = (
     explorer.components.widget.query.FieldCubeDataService);
 
 
