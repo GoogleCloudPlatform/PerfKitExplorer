@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -85,14 +85,6 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
    this.selectTab = function(tab) {
      this.selectedTab = tab;
    };
-
-  this.selectNextTab = function() {
-    if (!selectedTab) {
-      this.selectTab(this.tabs[0]);
-    }
-
-    var selectedTabIndex = this.tabs.indexOf(this.selectedTab);
-  };
 
   /**
   * Toggles the selection state of a tab.

@@ -1,15 +1,15 @@
 <div class="perfkit-sidebar-tabs" layout="column">
   <div
       class="perfkit-sidebar-tab {{ tab.tabClass }}"
-      ng-repeat="tab in tabSvc.tabs"
+      ng-repeat="tab in ctrl.tabSvc.tabs"
       ng-click="tabClicked(tab)"
-      ng-hide="tab.requireWidget && !dashboardSvc.selectedWidget"
-      ng-class="{'perfkit-sidebar-tab-selected': tabSvc.selectedTab == tab}"
-      ng-attr-selected="tabSvc.selectedTab == tab">
+      ng-hide="tab.requireWidget && !ctrl.dashboardSvc.selectedWidget"
+      ng-class="{'perfkit-sidebar-tab-selected': ctrl.tabSvc.selectedTab == tab}"
+      ng-attr-selected="ctrl.tabSvc.selectedTab == tab">
     <md-tooltip
         md-direction="right" md-visible="tab.tooltipVisible" md-autohide>
         {{ tab.hint }}</md-tooltip>
     <i class="perfkit-sidebar-tab-icon {{ tab.iconClass }}"></i>
-    <span ng-hide="tabSvc.selectedTab">{{ tab.title }}</span>
+    <span ng-hide="ctrl.tabSvc.selectedTab">{{ tab.title }}</span>
   </div>
 </div>

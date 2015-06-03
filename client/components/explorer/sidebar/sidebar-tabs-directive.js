@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Use of this source code is governed by a BSD-style
  * license that can be found in the LICENSE file or at
@@ -26,23 +26,22 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.explorer.sidebar.SidebarTabsDirective = function(
-  dashboardService, sidebarTabService) {
+explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
   return {
     restrict: 'E',
     replace: true,
-    transclude: true,
+    transclude: false,
     templateUrl: '/static/components/explorer/sidebar/sidebar-tabs-directive.html',
-    controller: function($scope) {
-      $scope.dashboardSvc = dashboardService;
-      $scope.tabSvc = sidebarTabService;
+    controller: function($scope, dashboardService, sidebarTabService) {
+      this.dashboardSvc = dashboardService;
+      this.tabSvc = sidebarTabService;
 
-      $scope.tabClicked = function(tab) {
+      this.tabClicked = function(tab) {
         $scope.tabSvc.toggleTab(tab);
-        tab.tooltipVisible = !tab.tooltipVisible;
+        tab.tooltipVisible = false;
       };
 
-      $scope.getFirstTab = function() {
+      this.getFirstTab = function() {
         if (dashboardService.selectedWidget) {
           return sidebarTabService.tabs[0];
         } else {
@@ -58,9 +57,9 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
         console.log('getFirstTab failed: No non-widget tabs available.');
       };
 
-      $scope.getLastTab = function() {
+      this.getLastTab = function() {
         if (dashboardService.selectedWidget) {
-          return sidebarTabService.tabs[sidebarTabService.length - 1];
+          return sidebarTabService.tabs[sidebarTabService.tabs.length - 1];
         } else {
           for (var i=sidebarTabService.tabs.length - 1; i >= 0; --i) {
             var currentTab = sidebarTabService.tabs[i];
@@ -74,9 +73,9 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
         console.log('getFirstTab failed: No non-widget tabs available.');
       };
 
-      $scope.getNextTab = function() {
+      this.getNextTab = function() {
         if (sidebarTabService.selectedTab) {
-          var selectedTabIndex = sidebarTabService.indexOf(
+          var selectedTabIndex = sidebarTabService.tabs.indexOf(
               sidebarTabService.selectedTab);
           if (selectedTabIndex == -1) {
             throw 'Cannot find selected tab.';
@@ -87,7 +86,7 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
               return sidebarTabService.tabs[selectedTabIndex];
             }
           } else {
-            for (var i=selectedTabIndex, len=sidebarTabService.tabs.length;
+            for (var i=selectedTabIndex + 1, len=sidebarTabService.tabs.length;
                  i < len; ++i) {
               var currentTab = sidebarTabService.tabs[i];
 
@@ -98,24 +97,23 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
           }
         }
 
-        return $scope.getFirstTab();
+        return this.getFirstTab();
       };
 
-      $scope.getPreviousTab = function() {
+      this.getPreviousTab = function() {
         if (sidebarTabService.selectedTab) {
-          var selectedTabIndex = sidebarTabService.indexOf(
+          var selectedTabIndex = sidebarTabService.tabs.indexOf(
               sidebarTabService.selectedTab);
           if (selectedTabIndex == -1) {
             throw 'Cannot find selected tab.';
           }
           
           if (dashboardService.selectedWidget) {
-            if (++selectedTabIndex < sidebarTabService.tabs.length) {
+            if (--selectedTabIndex > 0) {
               return sidebarTabService.tabs[selectedTabIndex];
             }
           } else {
-            for (var i=sidebarTabService.tabs.length;
-                 i >= selectedTabIndex; --i) {
+            for (var i=selectedTabIndex - 1; i >= 0; --i) {
               var currentTab = sidebarTabService.tabs[i];
 
               if (!currentTab.requireWidget) {
@@ -125,9 +123,10 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function(
           }
         }
 
-        return $scope.getLastTab();
+        return this.getLastTab();
       };
-    }
+    },
+    controllerAs: 'ctrl'
   };
 };
 

@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,13 +24,15 @@ goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
-goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 describe('SidebarTabsDirective', function() {
   var scope, $compile, $httpBackend, $timeout, uiConfig;
   var configSvc, dashboardSvc, sidebarTabSvc;
 
-  var explorer = p3rf.perfkit.explorer;
+  const explorer = p3rf.perfkit.explorer;
+
+  const TEMPLATE_SIDEBAR_TABS = (
+    '/static/components/explorer/sidebar/sidebar-tabs-directive.html');
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
@@ -48,17 +50,8 @@ describe('SidebarTabsDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET(
-            '/static/components/widget/data_viz/gviz/gviz-charts.json')
-            .respond(200);
-        $httpBackend.expectGET(
-            '/static/components/widget/data_viz/gviz/chart-config-directive.html')
-            .respond(200);
-
-        scope.providedWidgetModel = new ChartWidgetModel();
-        
-        var directiveElement = angular.element(
-            '<chart-config ng-model="providedWidgetModel" />');
+        $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
+        var directiveElement = angular.element('<sidebar-tabs />');
 
         $compile(directiveElement)(scope);
         scope.$digest();
@@ -72,241 +65,134 @@ describe('SidebarTabsDirective', function() {
     var directiveElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/gviz-charts.json')
-          .respond(200);
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/chart-config-directive.html')
-          .respond(200);
-
-      scope.widgetModel = new ChartWidgetModel();
-      directiveElement = angular.element(
-          '<chart-config ng-model="widgetModel" />');
+      $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
+      directiveElement = angular.element('<sidebar-tabs />');
 
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
 
-    it('the chart type', function() {
-      var targetElement = directiveElement.find(
-          'md-select.widget-chart-type');
-      expect(targetElement.length).toBe(1);
+    it('the tab collection', function() {
+      expect(directiveElement[0].getAttribute('class'))
+          .toMatch('perfkit-sidebar-tabs');
+      expect(directiveElement.children.length).toBe(2);
     });
 
-    it('config for non-table charts', function() {
+    it('each tab', function() {
       var targetElement = directiveElement.find(
-          'div.widget-chart-nontable-options');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the legend alignment', function() {
-      var targetElement = directiveElement.find(
-          'md-select.widget-chart-legend-alignment');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the legend max lines', function() {
-      var targetElement = directiveElement.find(
-          'input.widget-chart-legend-maxlines');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the legend position', function() {
-      var targetElement = directiveElement.find(
-          'md-select.widget-chart-legend-position');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the top of the chart area', function() {
-      var targetElement = directiveElement.find(
-          'input.widget-chart-area-top');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the left of the chart area', function() {
-      var targetElement = directiveElement.find(
-          'input.widget-chart-area-left');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the height of the chart area', function() {
-      var targetElement = directiveElement.find(
-          'input.widget-chart-area-height');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the width of the chart area', function() {
-      var targetElement = directiveElement.find(
-          'input.widget-chart-area-width');
-      expect(targetElement.length).toBe(1);
+          'div.perfkit-sidebar-tab');
+      expect(targetElement.length).toBe(6);
     });
   });
 
-  describe('should reflect the ngModel state for', function() {
-    var chartConfig;
-
+  describe('should show tabs when', function() {
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/gviz-charts.json')
-          .respond(200);
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/chart-config-directive.html')
-          .respond(200);
-
-      scope.widgetModel = new ChartWidgetModel();
-      chartConfig = scope.widgetModel.chart;
-
-      directiveElement = angular.element(
-          '<chart-config ng-model="widgetModel" />');
+      $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
+      directiveElement = angular.element('<sidebar-tabs />');
           
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
 
-    // TODO(joemu): Investigate failure of md-select to bind on unit tests.
-    // https://github.com/angular/material/issues/2989
-    xit('the chart type', function() {
-      var actualElement = directiveElement.find(
-          'md-select.widget-chart-type md-select-label span:first-child')[0];
+    it('requireWidget is false and selectedWidget is null', function() {
       
-      expect(actualElement.innerHTML).toBe('Table');
-
-      chartConfig.chartType = 'Area';
-      scope.$digest();
-
-      expect(actualElement.innerHTML).toBe('Area');
-    });
-
-    // TODO(joemu): Investigate failure of md-select to bind on unit tests.
-    // https://github.com/angular/material/issues/2989
-    xit('the legend alignment', function() {
-      var actualElement = directiveElement.find(
-          'md-select.widget-chart-legend-alignment md-select-label ' +
-          'span:first-child')[0];
-      
-      expect(actualElement.innerHTML).toBe('Left');
-
-      chartConfig.options.legend.alignment = 'Top';
-      scope.$digest();
-
-      expect(actualElement.innerHTML).toBe('Top');
-    });
-
-    it('the legend max lines', function() {
-      var actualElement = directiveElement.find(
-          'input.widget-chart-legend-maxlines')[0];
-
-      expect(actualElement.value).toBe('');
-
-      chartConfig.options.legend.maxLines = 42;
-      scope.$digest();
-
-      expect(actualElement.value).toBe('42');
-    });
-
-    // TODO(joemu): Investigate failure of md-select to bind on unit tests.
-    // https://github.com/angular/material/issues/2989
-    xit('the legend position', function() {
-      var actualElement = directiveElement.find(
-          'md-select.widget-chart-legend-position md-select-label ' +
-          'span:first-child')[0];
-
-      expect(actualElement.innerHTML).toBe('Left');
-
-      chartConfig.options.legend.position = 'Top';
-      scope.$digest();
-
-      expect(actualElement.innerHTML).toBe('Top');
-    });
-
-    it('the chart area top', function() {
-      var actualElement = directiveElement.find(
-          'input.widget-chart-area-top')[0];
-      
-      expect(actualElement.value).toBe('');
-      
-      chartConfig.options.chartArea.top = 42;
-      scope.$digest();
-      
-      expect(actualElement.value).toBe('42');
-    });
-
-    it('the chart area left', function() {
-      var actualElement = directiveElement.find(
-          'input.widget-chart-area-left')[0];
-
-      expect(actualElement.value).toBe('');
-
-      chartConfig.options.chartArea.left = 37;
-      scope.$digest();
-
-      expect(actualElement.value).toBe('37');
-    });
-
-    it('the chart area height', function() {
-      var actualElement = directiveElement.find(
-          'input.widget-chart-area-height')[0];
-
-      expect(actualElement.value).toBe('');
-
-      chartConfig.options.chartArea.height = '42%';
-      scope.$digest();
-
-      expect(actualElement.value).toBe('42%');
-    });
-
-    it('the chart area width', function() {
-      var actualElement = directiveElement.find(
-          'input.widget-chart-area-width')[0];
-
-      expect(actualElement.value).toBe('');
-
-      chartConfig.options.chartArea.width = '37%';
-      scope.$digest();
-
-      expect(actualElement.value).toBe('37%');
     });
   });
+  
+  describe('should support functions for getting the', function() {
+    var directiveCtrl;
+    var dashboardSvc, tabSvc;
 
-  describe('should toggle visibility for', function() {
-    var chartConfig;
+    var mockTabs = [
+      {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
+       hint: 'Tip for Global Tab 1', requireWidget: false,
+       tabClass: 'global-a-tab', panelTitleClass: 'global-a-panel-title',
+       panelClass: 'global-a-panel'},
+      {id: 'widget-b', title: 'Widget Tab 2', iconClass: 'widget-b-icon',
+       hint: 'Hint for Widget Tab 2', requireWidget: true,
+       tabClass: 'widget-b-tab', panelTitleClass: 'widget-b-panel-title',
+       panelClass: 'widget-b-panel'},
+      {id: 'global-b', title: 'Global Tab 2', iconClass: 'global-b-icon',
+       hint: 'Hint for Global Tab 2', requireWidget: false,
+       tabClass: 'global-b-tab', panelTitleClass: 'global-b-panel-title',
+       panelClass: 'global-b-panel'},
+      {id: 'widget-a', title: 'Widget Tab a', iconClass: 'widget-a-icon',
+       hint: 'Hint for Widget Tab a', requireWidget: true,
+       tabClass: 'widget-a-tab', panelTitleClass: 'widget-a-panel-title',
+       panelClass: 'widget-a-panel'}
+    ];
+    
+    beforeEach(inject(function(_dashboardService_, _sidebarTabService_) {
+      dashboardSvc = _dashboardService_;
+      tabsSvc = _sidebarTabService_;
 
-    beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/gviz-charts.json')
-          .respond(200);
-      $httpBackend.expectGET(
-        '/static/components/widget/query/picklist-template.html')
-        .respond(200);
-
-      scope.widgetModel = new ChartWidgetModel();
-      chartConfig = scope.widgetModel.chart;
-
-      directiveElement = angular.element(
-        '<chart-config ng-model="widgetModel" />');
-
-      $compile(directiveElement)(scope);
-      scope.$digest();
+      tabsSvc.tabs = mockTabs;
     }));
 
-    it('the legend and chart area config', function() {
-      var nontableConfigContainer = angular.element(
-          directiveElement.find('div.widget-chart-nontable-options')[0]);
-      expect(chartConfig.chartType).toBe('Table');
-      expect(nontableConfigContainer
-          .hasClass('ng-hide')).toBe(true);
+    beforeEach(inject(function() {
+      $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
 
-      chartConfig.chartType = 'Area';
+      directiveElement = $compile(angular.element('<sidebar-tabs />'))(scope);
       scope.$digest();
 
-      expect(nontableConfigContainer
-          .hasClass('ng-hide')).toBe(false);
-          
-      chartConfig.chartType = 'Table';
-      scope.$digest();
+      directiveCtrl = directiveElement.controller('sidebarTabs');
+    }));
 
-      expect(nontableConfigContainer
-          .hasClass('ng-hide')).toBe(true);
+    it('first available tab', function() {
+      expect(directiveCtrl.getFirstTab()).toEqual(mockTabs[0]);
+    });
+
+    it('last global tab when no widget is selected', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+      expect(directiveCtrl.getLastTab()).toEqual(mockTabs[2]);
+    });
+
+    it('last tab when a widget is selected', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      expect(directiveCtrl.getLastTab()).toEqual(mockTabs[3]);
+    });
+
+    it('next global tab when no widget is selected', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+
+      tabsSvc.selectTab(mockTabs[0]);
+      expect(directiveCtrl.getNextTab()).toEqual(mockTabs[2]);
+    });
+
+    it('next available tab when a widget is selected', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      tabsSvc.selectTab(mockTabs[0]);
+      expect(directiveCtrl.getNextTab()).toEqual(mockTabs[1]);
+    });
+
+    it('first available tab when next exceeds the end of the list', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      tabsSvc.selectTab(mockTabs[3]);
+      expect(directiveCtrl.getNextTab()).toEqual(mockTabs[0]);
+    });
+
+    it('previous global tab when no widget is selected', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+
+      tabsSvc.selectTab(mockTabs[2]);
+      expect(directiveCtrl.getPreviousTab()).toEqual(mockTabs[0]);
+    });
+
+    it('previous available tab when a widget is selected', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      tabsSvc.selectTab(mockTabs[2]);
+      expect(directiveCtrl.getPreviousTab()).toEqual(mockTabs[1]);
+    });
+
+    it('last available tab when previous precedes the start of the list', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      tabsSvc.selectTab(mockTabs[0]);
+      expect(directiveCtrl.getPreviousTab()).toEqual(mockTabs[3]);
     });
   });
 });
