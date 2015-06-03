@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
 
-fdescribe('SidebarTabsDirective', function() {
+describe('SidebarTabsDirective', function() {
   var scope, $compile, $httpBackend;
   var dashboardSvc, sidebarTabSvc;
   var mockTabs;
