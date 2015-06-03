@@ -25,9 +25,9 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ConfigService = explorer.components.config.ConfigService;
-var DashboardService = explorer.components.dashboard.DashboardService;
+const explorer = p3rf.perfkit.explorer;
+const ConfigService = explorer.components.config.ConfigService;
+const DashboardService = explorer.components.dashboard.DashboardService;
 
 /**
  * See module docstring for more information about purpose and usage.

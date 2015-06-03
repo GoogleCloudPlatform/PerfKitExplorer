@@ -28,11 +28,12 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.scope(function() {
 
 describe('QueryEditorCtrl', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-  var WidgetConfig = explorer.models.WidgetConfig;
-  var WidgetType = explorer.models.WidgetType;
-  var ResultsDataStatus = explorer.models.ResultsDataStatus;
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const WidgetConfig = explorer.models.WidgetConfig;
+  const WidgetType = explorer.models.WidgetType;
+  const ResultsDataStatus = explorer.models.ResultsDataStatus;
+
   var ctrl, scope, rootScope, dashboardService, queryEditorService, mockQuery,
       widgetFactoryService;
   var ctrlPrototype =

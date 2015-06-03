@@ -28,10 +28,10 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 goog.require('goog.Uri');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var dateUtil = explorer.dateUtil;
-var PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
-var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+const explorer = p3rf.perfkit.explorer;
+const dateUtil = explorer.dateUtil;
+const PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
+const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 

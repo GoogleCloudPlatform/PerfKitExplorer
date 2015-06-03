@@ -55,9 +55,9 @@ goog.require('p3rf.perfkit.explorer.models.DataViewModel');
 goog.require('p3rf.perfkit.explorer.models.SortOrder');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DataViewModel = explorer.models.DataViewModel;
-var SortOrder = explorer.models.SortOrder;
+const explorer = p3rf.perfkit.explorer;
+const DataViewModel = explorer.models.DataViewModel;
+const SortOrder = explorer.models.SortOrder;
 
 
 /**

@@ -23,8 +23,9 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.mocks.gvizMocks');
 
 describe('DashboardCtrl', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DashboardConfig = explorer.models.DashboardConfig;
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardConfig = explorer.models.DashboardConfig;
+
   var ctrl, scope, rootScope, location, q, dashboardDataService;
   var httpBackend, endpoint, mockData;
   var ctrlPrototype =

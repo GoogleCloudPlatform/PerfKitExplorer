@@ -22,9 +22,10 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.SampleQueryProperti
 goog.require('goog.array');
 
 describe('TestQueryConfigModel', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var SampleQueryProperties = explorer.components.query_builder.SampleQueryProperties;
-  var QueryBuilder = explorer.components.query_builder.QueryBuilder;
+  const explorer = p3rf.perfkit.explorer;
+  const SampleQueryProperties = explorer.components.query_builder.SampleQueryProperties;
+  const QueryBuilder = explorer.components.query_builder.QueryBuilder;
+
   var query;
 
   // TODO: fuzz test field names here, especially with regex-reserved words.

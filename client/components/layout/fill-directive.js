@@ -30,7 +30,7 @@ goog.provide('p3rf.perfkit.explorer.components.layout.FillDirective');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 /**
  * FillDirective is an attribute that causes an element to resize itself to

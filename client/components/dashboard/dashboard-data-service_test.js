@@ -31,12 +31,13 @@ goog.require('goog.Uri');
 
 
 describe('dashboardDataService', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var ChartState = explorer.models.ChartState;
-  var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-  var DatasourceState = explorer.models.DatasourceState;
-  var WidgetConfig = explorer.models.WidgetConfig;
-  var WidgetState = explorer.models.WidgetState;
+  const explorer = p3rf.perfkit.explorer;
+  const ChartState = explorer.models.ChartState;
+  const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+  const DatasourceState = explorer.models.DatasourceState;
+  const WidgetConfig = explorer.models.WidgetConfig;
+  const WidgetState = explorer.models.WidgetState;
+
   var svc, rootScope, httpBackend, widgetFactoryService;
 
   beforeEach(module('explorer'));

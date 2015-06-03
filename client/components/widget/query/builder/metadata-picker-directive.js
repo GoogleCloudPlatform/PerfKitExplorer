@@ -47,8 +47,8 @@ goog.require('goog.style');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
+const explorer = p3rf.perfkit.explorer;
+const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 
 
 /**

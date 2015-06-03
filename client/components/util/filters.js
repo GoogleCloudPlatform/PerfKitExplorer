@@ -20,7 +20,7 @@
 goog.provide('p3rf.perfkit.explorer.components.util.GetByPropertyFilter');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**

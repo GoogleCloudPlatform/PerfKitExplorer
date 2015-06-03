@@ -26,15 +26,15 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigMod
 
 
 describe('dashboardVersionService', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DatasourceModel = explorer.models.DatasourceModel;
-  var DashboardVersionService =
+  const explorer = p3rf.perfkit.explorer;
+  const DatasourceModel = explorer.models.DatasourceModel;
+  const DashboardVersionService =
       explorer.components.dashboard.DashboardVersionService;
-  var DashboardVersionModel =
+  const DashboardVersionModel =
       explorer.components.dashboard.DashboardVersionModel;
-  var QueryConfigModel =
+  const QueryConfigModel =
       explorer.models.perfkit_simple_builder.QueryConfigModel;
-  var PivotConfig =
+  const PivotConfig =
       explorer.models.perfkit_simple_builder.PivotConfigModel;
 
   var svc;

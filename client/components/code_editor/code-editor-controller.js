@@ -31,14 +31,14 @@ goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var ExplorerService = explorer.components.explorer.ExplorerService;
-var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
-var CodeEditorSettingsModel =
+const explorer = p3rf.perfkit.explorer;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const ExplorerService = explorer.components.explorer.ExplorerService;
+const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
+const CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 
 

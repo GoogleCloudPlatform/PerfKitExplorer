@@ -28,8 +28,8 @@ describe('DashboardConfigDirective', function() {
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
 
-  var explorer = p3rf.perfkit.explorer;
-  var DashboardModel = explorer.components.dashboard.DashboardModel;
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardModel = explorer.components.dashboard.DashboardModel;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));

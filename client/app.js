@@ -78,7 +78,7 @@ goog.require('p3rf.perfkit.explorer.mocks.mocks');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 var requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
