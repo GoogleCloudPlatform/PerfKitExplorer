@@ -24,8 +24,8 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const explorer = p3rf.perfkit.explorer;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
 
 
 /**

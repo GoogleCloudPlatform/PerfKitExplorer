@@ -58,13 +58,13 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigMod
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
-var DatasourceModel = explorer.models.DatasourceModel;
-var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
-var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
-var versions = explorer.components.dashboard.versions;
+const explorer = p3rf.perfkit.explorer;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
+const DatasourceModel = explorer.models.DatasourceModel;
+const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
+const versions = explorer.components.dashboard.versions;
 
 
 

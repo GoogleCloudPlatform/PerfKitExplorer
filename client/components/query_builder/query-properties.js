@@ -28,7 +28,7 @@ goog.provide('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**

@@ -24,8 +24,8 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetModel = explorer.models.ChartWidgetModel;
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
 
 /**

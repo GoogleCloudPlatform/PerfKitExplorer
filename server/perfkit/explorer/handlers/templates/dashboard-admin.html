@@ -13,14 +13,15 @@
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-mocks.js"></script>
 
   <!-- Angular Material -->
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.9.4/angular-material.min.css">
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.9.4/angular-material.min.js"></script>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.9.7/angular-material.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material/0.9.7/angular-material.min.js"></script>
   <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
 
   <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+
   <!-- AngularUI Grid -->
-  <script src="/static/third_party/uiGrid/ui-grid.js"></script>
-  <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
+  <script src="/static/third_party/ui-grid/ui-grid.js"></script>
+  <link href="/static/third_party/ui-grid/ui-grid.css" rel="stylesheet">
 
   <!-- CodeMirror3 Editor -->
   <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
@@ -56,11 +57,11 @@
 </head>
 <body>
 
-<div class="perfkit-page">
+<div class="pk-page">
 
-  <div class="perfkit-header">
-    <div class="perfkit-header-section page-title">Perfkit Dashboard Administration</div>
-    <div class="perfkit-header-section perfkit-toolbar">
+  <div class="pk-header">
+    <div class="pk-header-section page-title">Perfkit Dashboard Administration</div>
+    <div class="pk-header-section pk-toolbar">
       <button type="button" class="btn btn-default"
               ng-click="pageCtrl.createDashboard()">Create</button>
       <button type="button" class="btn btn-default"
@@ -97,18 +98,18 @@
     </div>
   </div>
 
-  <div class="perfkit-page-body">
+  <div class="pk-page-body">
 
-    <div class="perfkit-page-sidebar-left">
-      <div class="perfkit-page-sidebar-option"
-           ng-class="{'perfkit-page-sidebar-option-selected': !pageCtrl.pageService.model.mine && !pageCtrl.pageService.model.filter_owner}"
+    <div class="pk-page-sidebar-left">
+      <div class="pk-page-sidebar-option"
+           ng-class="{'pk-page-sidebar-option-selected': !pageCtrl.pageService.model.mine && !pageCtrl.pageService.model.filter_owner}"
            ng-click="pageCtrl.listAllDashboards()">All dashboards</div>
-      <div class="perfkit-page-sidebar-option"
-           ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
+      <div class="pk-page-sidebar-option"
+           ng-class="{'pk-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
     </div>
 
-    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions" external-scopes="gridScope"
+    <div class="pk-page-content" ui-grid="pageCtrl.gridOptions" external-scopes="gridScope"
          ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection />
   </div>
 </div>

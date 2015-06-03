@@ -28,9 +28,9 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChart
 goog.require('p3rf.perfkit.explorer.models.ChartModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartModel = explorer.models.ChartModel;
-var ChartWrapperService = (
+const explorer = p3rf.perfkit.explorer;
+const ChartModel = explorer.models.ChartModel;
+const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 
 

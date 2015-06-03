@@ -1,8 +1,8 @@
 <div>
-  <div class="sidebar-group-title">Columns</div>
+  <div class="pk-sidebar-group-title">Columns</div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">
       <input type="checkbox"
              class="widget-columns-show-date"
              ng-model="ngModel.datasource.config.results.show_date">
@@ -10,11 +10,11 @@
     </div>
   </div>
 
-  <div class="sidebar-item" ng-show="ngModel.datasource.config.results.show_date">
-    <div class="sidebar-item-label">
+  <div class="pk-sidebar-item" ng-show="ngModel.datasource.config.results.show_date">
+    <div class="pk-sidebar-item-label">
       grouping (blank for none)
     </div>
-    <div class="sidebar-item-value">
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget-columns-date-group"
          popupbox
          popupbox-template-url="queryEditorSvc.picklist_template_url"
@@ -24,9 +24,9 @@
     </div>
   </div>
   
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">fields</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">fields</div>
+    <div class="pk-sidebar-item-value">
       <span class="widget-columns-fields"
           multibox
           multibox-placeholder="'field name'"
@@ -39,13 +39,13 @@
     </div>
   </div>
   
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">
       <input type="checkbox"
           ng-model="ngModel.datasource.config.results.measure_values">
       measure values
     </div>
-    <div class="sidebar-item-value"
+    <div class="pk-sidebar-item-value"
         ng-show="ngModel.datasource.config.results.measure_values === true">
       <span
           class="widget-columns-measures"
@@ -60,9 +60,9 @@
     </div>
   </div>
   
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">labels</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">labels</div>
+    <div class="pk-sidebar-item-value">
       <span
           class="widget-columns-labels"
           multibox

@@ -26,9 +26,9 @@ goog.require('p3rf.perfkit.explorer.models.ChartModel');
 goog.require('p3rf.perfkit.explorer.models.ChartType');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartModel = explorer.models.ChartModel;
-var ChartType = explorer.models.ChartType;
+const explorer = p3rf.perfkit.explorer;
+const ChartModel = explorer.models.ChartModel;
+const ChartType = explorer.models.ChartType;
 
 
 

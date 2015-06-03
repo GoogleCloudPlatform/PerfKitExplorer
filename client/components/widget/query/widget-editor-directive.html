@@ -1,18 +1,18 @@
 <div style="height:100%">
   <div style="height:100%">
-    <div class="perfkit-footer-open" style="display:table; height:100%; width: 100%">
-      <div class="perfkit-footer-toolbar">
-        <div class="perfkit-footer-toolbar-cell">
-          <span class="glyphicon glyphicon-remove perfkit-glyph-button perfkit-footer-button"
+    <div class="pk-footer-open" style="display:table; height:100%; width: 100%">
+      <div class="pk-footer-toolbar">
+        <div class="pk-footer-toolbar-cell">
+          <span class="glyphicon glyphicon-remove pk-glyph-button pk-footer-button"
                 ng-click="footerCtrl.closeCodeEditor()"></span>
-          <div class="btn-group perfkit-toolbar-section">
+          <div class="btn-group pk-toolbar-section">
             <button type="button" class="btn btn-default"
                  ng-model="footerCtrl.settings.selectedMode"
                  ng-repeat="mode in footerCtrl.settings.modes"
                  ng-disabled="!footerCtrl.getModeEnabled(mode)"
                  btn-radio="mode">{{ mode }}</button>
           </div>
-          <div class="perfkit-toolbar-section" ng-switch="footerCtrl.settings.selectedMode">
+          <div class="pk-toolbar-section" ng-switch="footerCtrl.settings.selectedMode">
             <div ng-switch-when="JSON">
               <button type="button" class="btn btn-primary"
                       ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
@@ -46,8 +46,8 @@
         </div>
 
       </div>
-      <div ng-switch="footerCtrl.settings.selectedMode" class="perfkit-footer-body">
-        <div class="perfkit-footer-body-cell">
+      <div ng-switch="footerCtrl.settings.selectedMode" class="pk-footer-body">
+        <div class="pk-footer-body-cell">
           <div ng-switch-when="JSON" fill>
             <div>
               <textarea codemirror

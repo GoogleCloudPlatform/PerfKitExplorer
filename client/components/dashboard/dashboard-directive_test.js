@@ -24,7 +24,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
 describe('dashboardDirective', function() {
   var scope, $compile;
 
-  var explorer = p3rf.perfkit.explorer;
+  const explorer = p3rf.perfkit.explorer;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));

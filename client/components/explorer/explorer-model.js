@@ -26,11 +26,11 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var CodeEditorSettingsModel = (
+const explorer = p3rf.perfkit.explorer;
+const CodeEditorSettingsModel = (
     explorer.components.code_editor.CodeEditorSettingsModel);
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 

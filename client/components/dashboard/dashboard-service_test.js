@@ -31,18 +31,19 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 
 
 describe('dashboardService', function() {
-  var explorer = p3rf.perfkit.explorer;
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardParam = explorer.components.dashboard.DashboardParam;
+  const WidgetConfig = explorer.models.WidgetConfig;
+  const WidgetType = explorer.models.WidgetType;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const ContainerWidgetConfig =
+      explorer.components.container.ContainerWidgetConfig;
+  const QueryBuilderService =
+      explorer.components.widget.query.builder.QueryBuilderService;
+  const ResultsDataStatus = explorer.models.ResultsDataStatus;
+
   var svc, widget, chartWidget, container, widgetFactoryService,
       configService, $location;
-  var DashboardParam = explorer.components.dashboard.DashboardParam;
-  var WidgetConfig = explorer.models.WidgetConfig;
-  var WidgetType = explorer.models.WidgetType;
-  var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-  var ContainerWidgetConfig =
-      explorer.components.container.ContainerWidgetConfig;
-  var QueryBuilderService =
-      explorer.components.widget.query.builder.QueryBuilderService;
-  var ResultsDataStatus = explorer.models.ResultsDataStatus;
 
   beforeEach(module('explorer'));
 

@@ -21,7 +21,7 @@ goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.PicklistModel'
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 

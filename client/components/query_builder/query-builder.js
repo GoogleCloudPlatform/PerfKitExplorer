@@ -26,9 +26,9 @@ goog.require('goog.string');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var Filter = explorer.components.query_builder.Filter;
-var QueryProperties = explorer.components.query_builder.QueryProperties;
+const explorer = p3rf.perfkit.explorer;
+const Filter = explorer.components.query_builder.Filter;
+const QueryProperties = explorer.components.query_builder.QueryProperties;
 
 
 /**
@@ -36,7 +36,7 @@ var QueryProperties = explorer.components.query_builder.QueryProperties;
  */
 explorer.components.query_builder.QueryBuilder = function() {};
 
-var QueryBuilder = explorer.components.query_builder.QueryBuilder;
+const QueryBuilder = explorer.components.query_builder.QueryBuilder;
 
 
 /**
