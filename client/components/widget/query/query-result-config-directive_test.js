@@ -31,6 +31,9 @@ describe('QueryResultConfigDirective', function() {
   var explorer = p3rf.perfkit.explorer;
   var ChartWidgetModel = explorer.models.ChartWidgetModel;
 
+  const TEMPLATE_PICKLIST = (
+    '/static/components/widget/query/picklist-template.html');
+
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
@@ -52,9 +55,7 @@ describe('QueryResultConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET(
-            '/static/components/widget/query/picklist-template.html')
-            .respond(200);
+        $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
         scope.providedWidgetModel = new ChartWidgetModel();
 
@@ -73,8 +74,7 @@ describe('QueryResultConfigDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET('date_template.html')
-          .respond(200);
+      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
       scope.widgetModel = new ChartWidgetModel();
 
@@ -96,9 +96,7 @@ describe('QueryResultConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/query/picklist-template.html')
-          .respond(200);
+      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
@@ -130,9 +128,7 @@ describe('QueryResultConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(
-          '/static/components/widget/query/picklist-template.html')
-          .respond(200);
+      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 

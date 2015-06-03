@@ -98,6 +98,13 @@ explorer.components.widget.query.QueryEditorService = function(
   this.samples_mart_measures = SamplesMartMeasures;
 
   /**
+   * Template URL for the popupbox directive to show picklist values.
+   * @type {string}
+   * @export
+   */
+   this.picklist_template_url = '/static/components/widget/query/builder/picklist-template.html';
+
+  /**
    * Cache of picklists.
    *
    * @type {*}

@@ -63,8 +63,8 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
   return {
     restrict: 'A',
     transclude: false,
-    templateUrl: function(element, attrs) {
-      return attrs['popupboxTemplateUrl'] ||
+    templateUrl: function(scope, element, attrs) {
+      return scope.popupboxTemplateUrl ||
           '/static/components/popupbox/popupbox-directive.html';
     },
     scope: {
@@ -77,7 +77,9 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       /**
        * The model element that represents the "selected" value for the popup.
        */
-      popupboxModel: '='
+      popupboxModel: '=',
+
+      popupboxTemplateUrl: '&'
     },
     link: function(scope, element, attrs) {
       var input = element;

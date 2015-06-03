@@ -32,6 +32,9 @@ describe('QueryFilterDirective', function() {
   var explorer = p3rf.perfkit.explorer;
   var ChartWidgetModel = explorer.models.ChartWidgetModel;
 
+  const TEMPLATE_DATEPICKER = 'template/datepicker/datepicker.html';
+  const TEMPLATE_TIMEPICKER = 'template/datepicker/timepicker.html';
+
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
@@ -53,10 +56,8 @@ describe('QueryFilterDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET('template/datepicker/datepicker.html')
-            .respond(200);
-        $httpBackend.expectGET('template/timepicker/timepicker.html')
-            .respond(200);
+        $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
+        $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
         scope.providedWidgetModel = new ChartWidgetModel();
 
@@ -75,10 +76,8 @@ describe('QueryFilterDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET('template/datepicker/datepicker.html')
-        .respond(200);
-      $httpBackend.expectGET('template/timepicker/timepicker.html')
-        .respond(200);
+      $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
+      $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
       scope.widgetModel = new ChartWidgetModel();
 
@@ -166,10 +165,8 @@ describe('QueryFilterDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET('template/datepicker/datepicker.html')
-        .respond(200);
-      $httpBackend.expectGET('template/timepicker/timepicker.html')
-        .respond(200);
+      $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
+      $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
@@ -289,10 +286,8 @@ describe('QueryFilterDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET('template/datepicker/datepicker.html')
-        .respond(200);
-      $httpBackend.expectGET('template/timepicker/timepicker.html')
-        .respond(200);
+      $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
+      $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
