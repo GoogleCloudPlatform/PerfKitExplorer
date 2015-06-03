@@ -1,35 +1,35 @@
-<div class="perfkit2-page-canvas">
-  <div class="perfkit2-page-header">
+<div class="pk-page-canvas">
+  <div class="pk-page-header">
     <explorer-header></explorer-header>
   </div>
 
-  <div class="perfkit2-page-body" ng-controller="DashboardCtrl as dashboardCtrl"
+  <div class="pk-page-body" ng-controller="DashboardCtrl as dashboardCtrl"
        layout="row">
       
     <sidebar-tabs></sidebar-tabs>
 
-    <div class="perfkit2-page-leftwell" id="perfkit2-page-leftwell" layout="column"
+    <div class="pk-page-leftwell" id="pk-page-leftwell" layout="column"
          ng-show="dashboardCtrl.tabSvc.selectedTab">
 
       <sidebar></sidebar>
 
     </div>
 
-    <div resize="right" resize-element-id="perfkit2-page-leftwell"
+    <div resize="right" resize-element-id="pk-page-leftwell"
          ng-show="dashboardCtrl.tabSvc.selectedTab">&nbsp;</div>
 
-    <div class="perfkit2-page-content">
+    <div class="pk-page-content">
       <dashboard ng-model="dashboardCtrl.dashboard.current.model" />
     </div>
 
   </div>
 
   <div
-      resize="top" resize-element-id="perfkit2-page-footer"
+      resize="top" resize-element-id="pk-page-footer"
       ng-show="explorerCtrl.explorer.model.code_editor.isOpen">&nbsp;</div>
 
   <div
-      class="perfkit2-page-footer" id="perfkit2-page-footer"
+      class="pk-page-footer" id="pk-page-footer"
       ng-show="explorerCtrl.explorer.model.code_editor.isOpen">
 
     <widget-editor></widget-editor>

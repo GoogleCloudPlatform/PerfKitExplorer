@@ -30,8 +30,7 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.WidgetConfigDirective = function(
-    chartWrapperService, dashboardService) {
+explorer.components.widget.WidgetConfigDirective = function() {
   return {
     restrict: 'E',
     replace: true,

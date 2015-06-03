@@ -1,41 +1,65 @@
-<div class="perfkit-sidebar-panel" layout="column" flex
+<div class="pk-sidebar-panel" layout="column" flex
   ng-show="tabSvc.selectedTab">
-  <div class="perfkit-sidebar-panel-header
+  <div class="pk-sidebar-panel-header
               {{ tabSvc.selectedTab.panelTitleClass}}">
-    {{ tabSvc.selectedTab.title }}</div>
-  <div class="perfkit-sidebar-panel-content
+    <div style="float: right">
+      <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)">
+        <i class="fa fa-times"></i>
+      </md-button>
+    </div>
+    <div class="pk-sidebar-panel-header-text">
+        {{ tabSvc.selectedTab.title }}</div>
+  </div>
+  <div class="pk-sidebar-panel-content
               {{ tabSvc.selectedTab.panelClass }}" flex>
     <div ng-switch="tabSvc.selectedTab.id">
+
       <div ng-switch-when="dashboard">
         <dashboard-config ng-model="dashboardSvc.current.model" /> 
       </div>
+
       <div ng-switch-when="container">
-        <container-config ng-model="dashboardSvc.selectedContainer.model" /> 
+        <container-config ng-model="dashboardSvc.selectedContainer.model.container" /> 
       </div>
+
       <div ng-switch-when="widget.data">
         <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" /> 
       </div>
+
       <div ng-switch-when="widget.data.filter">
         <query-builder-filter-config ng-model="dashboardSvc.selectedWidget.model" /> 
       </div>
+
       <div ng-switch-when="widget.data.result">
-        <div class="sidebar-group">
+        <div class="pk-sidebar-group">
           <query-builder-column-config ng-model="dashboardSvc.selectedWidget.model" />
         </div>
-        <div class="sidebar-group-title">Result Shape</div>
+        <div class="pk-sidebar-group-title">Result Shape</div>
         <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
+
       <div ng-switch-when="widget.config">
-        <div class="sidebar-group">
+        <div class="pk-sidebar-group">
           <widget-config ng-model="dashboardSvc.selectedWidget.model" />
         </div>
-        <div class="sidebar-group-title">Datasource</div>
+        <div class="pk-sidebar-group-title">Datasource</div>
         <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
+
       <div ng-switch-when="widget.chart">
         <chart-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
-      <div ng-switch-default>OTHER</div>
+
+      <div ng-switch-default>UNSUPPORTED TYPE: {{ tabSvc.selectedTab.id }}</div>
     </div>
   </div>
+  <div class="pk-sidebar-panel-footer
+              {{ tabSvc.selectedTab.panelTitleClass}}">
+    <md-button style="float: left"
+        ng-click="tabSvc.selectedTab = tabSvc.getPreviousTab(tabSvc.selectedTab)">
+      previous</md-button>
+    <md-button style="float: right"
+        ng-click="tabSvc.selectedTab = tabSvc.getNextTab(tabSvc.selectedTab)">
+      next</md-button>
+    </div>
 </div>

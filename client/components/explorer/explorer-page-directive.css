@@ -11,64 +11,64 @@ div:focus {
   outline: none;
 }
 
-.perfkit2-page-canvas {
+.pk-page-canvas {
   display: flex;
   flex-direction: column;
   height: 100%;
   width: 100%;
 }
 
-.perfkit2-page-body {
+.pk-page-body {
   display: flex;
   flex-grow: 1;
 }
 
-.perfkit2-resize-left, .perfkit2-resize-right {
+.pk-resize-left, .pk-resize-right {
   background-color: #F0F0F0;
   cursor: col-resize;
   flex-shrink: 0;
   width: 5px;
 }
 
-.perfkit2-resize-top, .perfkit2-resize-bottom {
+.pk-resize-top, .pk-resize-bottom {
   background-color: #F0F0F0;
   cursor: row-resize;
   flex-shrink: 0;
   height: 5px;
 }
 
-.perfkit2-page-header {
+.pk-page-header {
   height: 93px;
   background-color: rgb(241, 241, 241);
   flex-shrink: 0;
 }
 
-.perfkit2-page-leftwell {
+.pk-page-leftwell {
   width: 300px;
   min-width: 225px;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow-x: none;
+  overflow-y: none;
   flex-shrink: 0;
 }
 
-.perfkit2-page-content {
+.pk-page-content {
   flex-grow: 1;
   overflow-x: auto;
   overflow-y: auto;
 }
 
-.perfkit2-page-content-cell {
+.pk-page-content-cell {
   padding: 8px;
 }
 
-.perfkit2-page-rightwell {
+.pk-page-rightwell {
   width: 200px;
   overflow-x: auto;
   overflow-y: auto;
   flex-shrink: 0;
 }
 
-.perfkit2-page-footer {
+.pk-page-footer {
   height: 200px;
   min-height: 100px;
   overflow-x: auto;

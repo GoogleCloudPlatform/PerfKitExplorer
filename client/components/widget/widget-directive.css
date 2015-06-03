@@ -5,32 +5,32 @@
  */
 
 
-.perfkit-widget {
+.pk-widget {
   flex-basis: 100%;
   -webkit-flex-basis: 100%;
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
 }
 
-.perfkit-widget-body {
+.pk-widget-body {
   background: #ffffff;
   border: 1px solid #CCC;
   margin: 15px;
 }
 
-.perfkit-widget-body.perfkit-widget-no-overflow {
+.pk-widget-body.pk-widget-no-overflow {
   overflow: hidden;
 }
 
-.perfkit-widget-content {
+.pk-widget-content {
   background: #ffffff;
 }
 
-.perfkit-container {
+.pk-container {
   margin: 0.25em 0;
 }
 
-.perfkit-widget-header {
+.pk-widget-header {
   background: #ffffff;
   display: flex;
   flex-direction: row-reverse;
@@ -38,7 +38,7 @@
   padding: 4px 10px;
 }
 
-.perfkit-widget-title {
+.pk-widget-title {
   display: inline-block;
   flex-grow: 1;
   overflow-x: hidden;
@@ -47,31 +47,31 @@
   vertical-align: middle;
 }
 
-.perfkit-container-title {
+.pk-container-title {
   display: inline-block;
 }
 
-.perfkit-add-container {
+.pk-add-container {
   margin: 15px;
 }
 
-.perfkit-widget-selected .perfkit-widget-body {
+.pk-widget-selected .pk-widget-body {
   border-color: #ffff00;
   border-width: 2px;
   margin: 14px;
 }
 
-.perfkit-widget-selected .perfkit-widget-title {
+.pk-widget-selected .pk-widget-title {
   color: #d14836;
   font-weight: bold;
 }
 
 /** Hide all the errors drawn by the gviz charts */
-.perfkit-chart > [id^="google-visualization-errors-all-"] {
+.pk-chart > [id^="google-visualization-errors-all-"] {
   display: none !important;
 }
 
-.perfkit-chart-error {
+.pk-chart-error {
   color: #777777;
   font-size: .95em;
   font-style: italic;
@@ -81,18 +81,18 @@
   text-align: center;
 }
 
-.perfkit-chart-hidden {
+.pk-chart-hidden {
   visibility: hidden;
   position: absolute !important;
 }
 
-.perfkit-widget-close-button {
+.pk-widget-close-button {
   float: right;
   margin-right: -4px;
   margin-top: -2px;
 }
 
-.perfkit-widget-button {
+.pk-widget-button {
   margin-left: 4px;
   cursor: pointer;
 

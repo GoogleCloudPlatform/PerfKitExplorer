@@ -25,11 +25,30 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
 
-describe('SidebarTabService', function() {
+fdescribe('SidebarTabService', function() {
   var scope, sidebarTabSvc;
 
   const explorer = p3rf.perfkit.explorer;
   const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
+
+  var mockTabs = [
+    {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
+     hint: 'Tip for Global Tab 1', requireWidget: false,
+     tabClass: 'global-a-tab', panelTitleClass: 'global-a-panel-title',
+     panelClass: 'global-a-panel'},
+    {id: 'widget-b', title: 'Widget Tab 2', iconClass: 'widget-b-icon',
+     hint: 'Hint for Widget Tab 2', requireWidget: true,
+     tabClass: 'widget-b-tab', panelTitleClass: 'widget-b-panel-title',
+     panelClass: 'widget-b-panel'},
+    {id: 'global-b', title: 'Global Tab 2', iconClass: 'global-b-icon',
+     hint: 'Hint for Global Tab 2', requireWidget: false,
+     tabClass: 'global-b-tab', panelTitleClass: 'global-b-panel-title',
+     panelClass: 'global-b-panel'},
+    {id: 'widget-a', title: 'Widget Tab a', iconClass: 'widget-a-icon',
+     hint: 'Hint for Widget Tab a', requireWidget: true,
+     tabClass: 'widget-a-tab', panelTitleClass: 'widget-a-panel-title',
+     panelClass: 'widget-a-panel'}
+  ];
 
   beforeEach(module('explorer'));
 
@@ -49,25 +68,6 @@ describe('SidebarTabService', function() {
   });
 
   describe('should support functions to', function() {
-    var mockTabs = [
-      {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
-       hint: 'Tip for Global Tab 1', requireWidget: false,
-       tabClass: 'global-a-tab', panelTitleClass: 'global-a-panel-title',
-       panelClass: 'global-a-panel'},
-      {id: 'widget-b', title: 'Widget Tab 2', iconClass: 'widget-b-icon',
-       hint: 'Hint for Widget Tab 2', requireWidget: true,
-       tabClass: 'widget-b-tab', panelTitleClass: 'widget-b-panel-title',
-       panelClass: 'widget-b-panel'},
-      {id: 'global-b', title: 'Global Tab 2', iconClass: 'global-b-icon',
-       hint: 'Hint for Global Tab 2', requireWidget: false,
-       tabClass: 'global-b-tab', panelTitleClass: 'global-b-panel-title',
-       panelClass: 'global-b-panel'},
-      {id: 'widget-a', title: 'Widget Tab a', iconClass: 'widget-a-icon',
-       hint: 'Hint for Widget Tab a', requireWidget: true,
-       tabClass: 'widget-a-tab', panelTitleClass: 'widget-a-panel-title',
-       panelClass: 'widget-a-panel'}
-    ];
-
     beforeEach(inject(function() {
       sidebarTabSvc.tabs = mockTabs;
     }));
@@ -98,6 +98,73 @@ describe('SidebarTabService', function() {
 
       sidebarTabSvc.toggleTab(mockTabs[1]);
       expect(sidebarTabSvc.selectedTab).toBeNull();
+    });
+  });
+
+  describe('should support functions for getting the', function() {
+    var dashboardSvc;
+    
+    beforeEach(inject(function(_dashboardService_) {
+      dashboardSvc = _dashboardService_;
+
+      sidebarTabSvc.tabs = mockTabs;
+    }));
+
+    it('first available tab', function() {
+      expect(sidebarTabSvc.getFirstTab()).toEqual(mockTabs[0]);
+    });
+
+    it('last global tab when no widget is selected', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+      expect(sidebarTabSvc.getLastTab()).toEqual(mockTabs[2]);
+    });
+
+    it('last tab when a widget is selected', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      expect(sidebarTabSvc.getLastTab()).toEqual(mockTabs[3]);
+    });
+
+    it('next global tab when no widget is selected', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+
+      sidebarTabSvc.selectTab(mockTabs[0]);
+      expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[2]);
+    });
+
+    it('next available tab when a widget is selected', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      sidebarTabSvc.selectTab(mockTabs[0]);
+      expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[1]);
+    });
+
+    it('first available tab when next exceeds the end of the list', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      sidebarTabSvc.selectTab(mockTabs[3]);
+      expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[0]);
+    });
+
+    it('previous global tab when no widget is selected', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+
+      sidebarTabSvc.selectTab(mockTabs[2]);
+      expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[0]);
+    });
+
+    it('previous available tab when a widget is selected', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      sidebarTabSvc.selectTab(mockTabs[2]);
+      expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[1]);
+    });
+
+    it('last available tab when previous precedes the start of the list', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      sidebarTabSvc.selectTab(mockTabs[0]);
+      expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[3]);
     });
   });
 });

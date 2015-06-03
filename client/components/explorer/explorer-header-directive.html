@@ -1,10 +1,10 @@
-<div class="perfkit-header">
-  <div class="perfkit-header-section page-title">
+<div class="pk-header">
+  <div class="pk-header-section page-title">
     <span ng-bind="ctrl.dashboard.replaceTokens(ctrl.dashboard.current.model.title)"></span>
   </div>
 
-  <div class="perfkit-header-section perfkit-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
-    <div class="btn-group perfkit-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
+  <div class="pk-header-section pk-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
+    <div class="btn-group pk-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
               btn-radio="'dashboard'">Dashboard</button>
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
@@ -12,11 +12,11 @@
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
               btn-radio="'widget'">Widget</button>
     </div>
-    <div class="perfkit-toolbar-section" ng-switch="ctrl.currentMode">
+    <div class="pk-toolbar-section" ng-switch="ctrl.currentMode">
       <!-- Dashboard -->
       <div ng-switch-when="dashboard">
         <button type="button" class="btn btn-danger" ng-click="ctrl.createDashboard()">Create</button>
-        <div class="perfkit-dropdown-button-section">
+        <div class="pk-dropdown-button-section">
           <button type="button" class="btn btn-default dropdown-toggle">
             Open...
             <span class="caret"></span>
@@ -168,7 +168,7 @@
       </div>
     </div>
 
-    <div class="perfkit-toolbar-section"
+    <div class="pk-toolbar-section"
         ng-show="ctrl.errorService.errors.length > 0 &&
                  !(ctrl.explorer.model.code_editor.isOpen &&
                    ctrl.explorer.model.code_editor.selectedMode == 'LOG')">

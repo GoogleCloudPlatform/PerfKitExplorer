@@ -37,94 +37,21 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
       this.tabSvc = sidebarTabService;
 
       this.tabClicked = function(tab) {
-        $scope.tabSvc.toggleTab(tab);
+        this.tabSvc.toggleTab(tab);
         tab.tooltipVisible = false;
       };
 
-      this.getFirstTab = function() {
-        if (dashboardService.selectedWidget) {
-          return sidebarTabService.tabs[0];
-        } else {
-          for (var i=0, len=sidebarTabService.tabs.length; i < len; ++i) {
-            var currentTab = sidebarTabService.tabs[i];
-
-            if (!currentTab.requireWidget) {
-              return currentTab;
-            }
-          }
-        }
-
-        console.log('getFirstTab failed: No non-widget tabs available.');
-      };
-
-      this.getLastTab = function() {
-        if (dashboardService.selectedWidget) {
-          return sidebarTabService.tabs[sidebarTabService.tabs.length - 1];
-        } else {
-          for (var i=sidebarTabService.tabs.length - 1; i >= 0; --i) {
-            var currentTab = sidebarTabService.tabs[i];
-
-            if (!currentTab.requireWidget) {
-              return currentTab;
-            }
-          }
-        }
-
-        console.log('getFirstTab failed: No non-widget tabs available.');
-      };
-
-      this.getNextTab = function() {
-        if (sidebarTabService.selectedTab) {
-          var selectedTabIndex = sidebarTabService.tabs.indexOf(
-              sidebarTabService.selectedTab);
-          if (selectedTabIndex == -1) {
-            throw 'Cannot find selected tab.';
-          }
-          
-          if (dashboardService.selectedWidget) {
-            if (++selectedTabIndex < sidebarTabService.tabs.length) {
-              return sidebarTabService.tabs[selectedTabIndex];
-            }
-          } else {
-            for (var i=selectedTabIndex + 1, len=sidebarTabService.tabs.length;
-                 i < len; ++i) {
-              var currentTab = sidebarTabService.tabs[i];
-
-              if (!currentTab.requireWidget) {
-                return currentTab;
+      $scope.$watch(
+          angular.bind(this, function() {
+            return this.dashboardSvc.selectedWidget; }),
+          angular.bind(this, function(newValue, oldValue) {
+            if (newValue !== oldValue) {
+              if (!newValue && this.tabSvc.selectedTab.requireWidget) {
+                this.tabSvc.selectedTab = this.tabSvc.getNextTab(
+                    this.tabSvc.selectedTab);
               }
             }
-          }
-        }
-
-        return this.getFirstTab();
-      };
-
-      this.getPreviousTab = function() {
-        if (sidebarTabService.selectedTab) {
-          var selectedTabIndex = sidebarTabService.tabs.indexOf(
-              sidebarTabService.selectedTab);
-          if (selectedTabIndex == -1) {
-            throw 'Cannot find selected tab.';
-          }
-          
-          if (dashboardService.selectedWidget) {
-            if (--selectedTabIndex > 0) {
-              return sidebarTabService.tabs[selectedTabIndex];
-            }
-          } else {
-            for (var i=selectedTabIndex - 1; i >= 0; --i) {
-              var currentTab = sidebarTabService.tabs[i];
-
-              if (!currentTab.requireWidget) {
-                return currentTab;
-              }
-            }
-          }
-        }
-
-        return this.getLastTab();
-      };
+          }));
     },
     controllerAs: 'ctrl'
   };

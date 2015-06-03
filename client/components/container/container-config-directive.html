@@ -1,34 +1,35 @@
 <div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">display columns</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">display columns</div>
+    <div class="pk-sidebar-item-value">
       <input type="number" min="1" class="form-control"
              ng-model="ngModel.container.columns">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">height</div>
-    <div class="sidebar-item-value">
-      <input input type="number" min="1" class="form-control"
-             ng-model="ngModel.container.height">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">height</div>
+    <div class="pk-sidebar-item-value">
+      <input input type="number" min="1"
+          class="form-control container-height"
+          ng-model="ngModel.height">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">header</div>
-    <div class="sidebar-item-value">
-      <textarea class="form-control"
-          ng-model="ngModel.container.header_text"></textarea>
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">header</div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control container-header-text"
+          ng-model="ngModel.header_text"></textarea>
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">footer</div>
-    <div class="sidebar-item-value">
-      <textarea class="form-control"
-          ng-model="ngModel.container.footer_text"></textarea>
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">footer</div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control container-footer-text"
+          ng-model="ngModel.footer_text"></textarea>
     </div>
   </div>
 

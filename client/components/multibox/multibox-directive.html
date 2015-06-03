@@ -14,12 +14,12 @@
   <input class="multibox-insert-control form-control"
       ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
 </div>
-<div class="multibox-popup perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
-  <div class="perfkit-popup-item"
+<div class="multibox-popup pk-popup pk-popup-autocomplete" tabindex="-1">
+  <div class="pk-popup-item"
        ng-class="{
-          'perfkit-popup-item-unmatched': isOptionUnmatched(activeOption, popupOption),
-          'perfkit-popup-item-matched': isOptionMatched(activeOption, popupOption),
-          'perfkit-popup-item-selected': isOptionSelected(activeOption, popupOption)}"
+          'pk-popup-item-unmatched': isOptionUnmatched(activeOption, popupOption),
+          'pk-popup-item-matched': isOptionMatched(activeOption, popupOption),
+          'pk-popup-item-selected': isOptionSelected(activeOption, popupOption)}"
        ng-repeat="popupOption in multiboxData"
        ng-click="selectValue(popupOption)">
     {{ getPopupValue(popupOption) }}

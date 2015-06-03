@@ -79,7 +79,7 @@ var WidgetType = explorer.models.WidgetType;
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     errorService, widgetFactoryService, dashboardDataService,
     queryBuilderService,  dashboardVersionService, configService,
-    sidebarTabService, $filter, $location, $rootScope, $timeout, $window) {
+    $filter, $location, $rootScope, $timeout, $window) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -109,9 +109,6 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
-
-  /** @private {!SidebarTabService} */
-  this.tabSvc_ = sidebarTabService;
 
   /** @private @type {!angular.Location} */
   this.location_ = $location;
@@ -651,7 +648,6 @@ DashboardService.prototype.unselectWidget = function() {
     this.selectedWidget.state().selected = false;
   }
 
-  this.tabSvc_.selectedTab = null;
   this.selectedWidget = null;
   this.selectedContainer = null;
 };

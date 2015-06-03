@@ -1,24 +1,15 @@
-.perfkit-sidebar-tabs {
-}
-
-.perfkit-sidebar-tab {
+.pk-sidebar-tab {
   cursor: pointer;
   padding: 8px;
   white-space: nowrap;
 }
 
-.perfkit-sidebar-tab:hover {
+.pk-sidebar-tab:hover {
   cursor: pointer;
   padding: 8px;
   white-space: nowrap;
 }
 
-.perfkit-sidebar-tab-icon {
+.pk-sidebar-tab-icon {
   width: 16px
-}
-
-.perfkit-sidebar-tab-selected {
-}
-
-.perfkit-sidebar-tab-selected:hover {
 }

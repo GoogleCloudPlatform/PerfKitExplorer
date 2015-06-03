@@ -1,9 +1,9 @@
-<div class="perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
-  <div class="perfkit-popup-item"
-       ng-class="{'perfkit-popup-item-unmatched': (
+<div class="pk-popup pk-popup-autocomplete" tabindex="-1">
+  <div class="pk-popup-item"
+       ng-class="{'pk-popup-item-unmatched': (
               popupboxModel.length != 0 && popupboxModel != null &&
               data.slice(0, popupboxModel.length).toUpperCase() != popupboxModel.toUpperCase()),
-              'perfkit-popup-item-matched': (
+              'pk-popup-item-matched': (
               popupboxModel.length != 0 && popupboxModel != null &&
               data.slice(0, popupboxModel.length).toUpperCase() == popupboxModel.toUpperCase())}"
        ng-repeat="data in popupboxData"

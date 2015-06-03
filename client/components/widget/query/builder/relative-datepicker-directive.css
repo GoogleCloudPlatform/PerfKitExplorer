@@ -1,24 +1,24 @@
-.perfkit-group-heading {
+.pk-group-heading {
   color: #d14836;
   padding: 4px;
   font-weight: bold;
 }
 
-.perfkit-relative-datepicker-left-nav {
+.pk-relative-datepicker-left-nav {
   display: inline-block;
   min-width: 120px;
 }
 
-.perfkit-relative-datepicker-left-nav-item {
+.pk-relative-datepicker-left-nav-item {
   cursor: pointer;
   padding: 4px;
 }
 
-.perfkit-relative-datepicker-left-nav-item-selected {
+.pk-relative-datepicker-left-nav-item-selected {
   font-weight: bold;
 }
 
-.perfkit-relative-datepicker-body {
+.pk-relative-datepicker-body {
   vertical-align: top;
   display: inline-block;
   padding: 4px;

@@ -25,9 +25,10 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
 
-describe('SidebarTabsDirective', function() {
-  var scope, $compile, $httpBackend, $timeout, uiConfig;
-  var configSvc, dashboardSvc, sidebarTabSvc;
+fdescribe('SidebarTabsDirective', function() {
+  var scope, $compile, $httpBackend;
+  var dashboardSvc, sidebarTabSvc;
+  var mockTabs;
 
   const explorer = p3rf.perfkit.explorer;
 
@@ -40,10 +41,33 @@ describe('SidebarTabsDirective', function() {
   beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
        _$timeout_) {
     scope = _$rootScope_.$new();
-    $rootScope = _$rootScope_;
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
-    $timeout = _$timeout_;
+  }));
+
+  beforeEach(inject(function(_sidebarTabService_, _dashboardService_) {
+    sidebarTabSvc = _sidebarTabService_;
+    dashboardSvc = _dashboardService_;
+
+    mockTabs = [
+      {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
+       hint: 'Tip for Global Tab 1', requireWidget: false,
+       tabClass: 'global-a-tab', panelTitleClass: 'global-a-panel-title',
+       panelClass: 'global-a-panel'},
+      {id: 'widget-b', title: 'Widget Tab 2', iconClass: 'widget-b-icon',
+       hint: 'Hint for Widget Tab 2', requireWidget: true,
+       tabClass: 'widget-b-tab', panelTitleClass: 'widget-b-panel-title',
+       panelClass: 'widget-b-panel'},
+      {id: 'global-b', title: 'Global Tab 2', iconClass: 'global-b-icon',
+       hint: 'Hint for Global Tab 2', requireWidget: false,
+       tabClass: 'global-b-tab', panelTitleClass: 'global-b-panel-title',
+       panelClass: 'global-b-panel'},
+      {id: 'widget-a', title: 'Widget Tab a', iconClass: 'widget-a-icon',
+       hint: 'Hint for Widget Tab a', requireWidget: true,
+       tabClass: 'widget-a-tab', panelTitleClass: 'widget-a-panel-title',
+       panelClass: 'widget-a-panel'}
+    ];
+    sidebarTabSvc.tabs = mockTabs;
   }));
 
   describe('compilation', function() {
@@ -74,14 +98,48 @@ describe('SidebarTabsDirective', function() {
 
     it('the tab collection', function() {
       expect(directiveElement[0].getAttribute('class'))
-          .toMatch('perfkit-sidebar-tabs');
+          .toMatch('pk-sidebar-tabs');
       expect(directiveElement.children.length).toBe(2);
     });
 
     it('each tab', function() {
       var targetElement = directiveElement.find(
-          'div.perfkit-sidebar-tab');
-      expect(targetElement.length).toBe(6);
+          'div.pk-sidebar-tab');
+      expect(targetElement.length).toBe(4);
+    });
+  });
+
+  describe('when the selectedWidget is set to null should', function() {
+    beforeEach(inject(function() {
+      dashboardSvc.selectedWidget = {'name': 'MOCK_WIDGET'};
+    }));
+
+    beforeEach(inject(function() {
+      $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
+      directiveElement = angular.element('<sidebar-tabs />');
+          
+      $compile(directiveElement)(scope);
+      scope.$digest();
+    }));
+
+    it('maintain selection if the tab is global', function() {
+      expect(dashboardSvc.selectedWidget).not.toBeNull();
+      sidebarTabSvc.selectedTab = mockTabs[0];
+      
+      dashboardSvc.selectedWidget = null;
+      scope.$digest();
+      
+      expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[0]);
+    });
+
+    it('select the next tab if the current tab requires a widget', function() {
+      expect(dashboardSvc.selectedWidget).not.toBeNull();
+      sidebarTabSvc.selectedTab = mockTabs[1];
+
+      dashboardSvc.selectedWidget = null;
+      scope.$digest();
+
+      expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[2]);
     });
   });
 
@@ -95,104 +153,31 @@ describe('SidebarTabsDirective', function() {
     }));
 
     it('requireWidget is false and selectedWidget is null', function() {
+      expect(dashboardSvc.selectedWidget).toBeNull();
+
+      var tabElements = directiveElement.find(
+          'div.pk-sidebar-tab');
       
+      expect(mockTabs[0].requireWidget).toBe(false);
+      expect(tabElements[0].getAttribute('class')).not.toMatch('ng-hide');
+
+      expect(mockTabs[1].requireWidget).toBe(true);
+      expect(tabElements[1].getAttribute('class')).toMatch('ng-hide');
+
+      expect(mockTabs[2].requireWidget).toBe(false);
+      expect(tabElements[2].getAttribute('class')).not.toMatch('ng-hide');
+
+      expect(mockTabs[3].requireWidget).toBe(true);
+      expect(tabElements[3].getAttribute('class')).toMatch('ng-hide');
     });
-  });
-  
-  describe('should support functions for getting the', function() {
-    var directiveCtrl;
-    var dashboardSvc, tabSvc;
 
-    var mockTabs = [
-      {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
-       hint: 'Tip for Global Tab 1', requireWidget: false,
-       tabClass: 'global-a-tab', panelTitleClass: 'global-a-panel-title',
-       panelClass: 'global-a-panel'},
-      {id: 'widget-b', title: 'Widget Tab 2', iconClass: 'widget-b-icon',
-       hint: 'Hint for Widget Tab 2', requireWidget: true,
-       tabClass: 'widget-b-tab', panelTitleClass: 'widget-b-panel-title',
-       panelClass: 'widget-b-panel'},
-      {id: 'global-b', title: 'Global Tab 2', iconClass: 'global-b-icon',
-       hint: 'Hint for Global Tab 2', requireWidget: false,
-       tabClass: 'global-b-tab', panelTitleClass: 'global-b-panel-title',
-       panelClass: 'global-b-panel'},
-      {id: 'widget-a', title: 'Widget Tab a', iconClass: 'widget-a-icon',
-       hint: 'Hint for Widget Tab a', requireWidget: true,
-       tabClass: 'widget-a-tab', panelTitleClass: 'widget-a-panel-title',
-       panelClass: 'widget-a-panel'}
-    ];
-    
-    beforeEach(inject(function(_dashboardService_, _sidebarTabService_) {
-      dashboardSvc = _dashboardService_;
-      tabsSvc = _sidebarTabService_;
-
-      tabsSvc.tabs = mockTabs;
-    }));
-
-    beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
-
-      directiveElement = $compile(angular.element('<sidebar-tabs />'))(scope);
+    it('selectedWidget is not null regardless of requireWidget', function() {
+      dashboardSvc.selectedWidget = {'NAME': 'MOCK_WIDGET'};
       scope.$digest();
 
-      directiveCtrl = directiveElement.controller('sidebarTabs');
-    }));
-
-    it('first available tab', function() {
-      expect(directiveCtrl.getFirstTab()).toEqual(mockTabs[0]);
-    });
-
-    it('last global tab when no widget is selected', function() {
-      expect(dashboardSvc.selectedWidget).toBeNull();
-      expect(directiveCtrl.getLastTab()).toEqual(mockTabs[2]);
-    });
-
-    it('last tab when a widget is selected', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
-
-      expect(directiveCtrl.getLastTab()).toEqual(mockTabs[3]);
-    });
-
-    it('next global tab when no widget is selected', function() {
-      expect(dashboardSvc.selectedWidget).toBeNull();
-
-      tabsSvc.selectTab(mockTabs[0]);
-      expect(directiveCtrl.getNextTab()).toEqual(mockTabs[2]);
-    });
-
-    it('next available tab when a widget is selected', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
-
-      tabsSvc.selectTab(mockTabs[0]);
-      expect(directiveCtrl.getNextTab()).toEqual(mockTabs[1]);
-    });
-
-    it('first available tab when next exceeds the end of the list', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
-
-      tabsSvc.selectTab(mockTabs[3]);
-      expect(directiveCtrl.getNextTab()).toEqual(mockTabs[0]);
-    });
-
-    it('previous global tab when no widget is selected', function() {
-      expect(dashboardSvc.selectedWidget).toBeNull();
-
-      tabsSvc.selectTab(mockTabs[2]);
-      expect(directiveCtrl.getPreviousTab()).toEqual(mockTabs[0]);
-    });
-
-    it('previous available tab when a widget is selected', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
-
-      tabsSvc.selectTab(mockTabs[2]);
-      expect(directiveCtrl.getPreviousTab()).toEqual(mockTabs[1]);
-    });
-
-    it('last available tab when previous precedes the start of the list', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
-
-      tabsSvc.selectTab(mockTabs[0]);
-      expect(directiveCtrl.getPreviousTab()).toEqual(mockTabs[3]);
+      var tabElements = directiveElement.find(
+          'div.pk-sidebar-tab:not(.ng-hide)');
+      expect(tabElements.length).toEqual(4);
     });
   });
 });

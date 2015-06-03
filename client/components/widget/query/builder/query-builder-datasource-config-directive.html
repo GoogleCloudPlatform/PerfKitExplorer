@@ -1,7 +1,7 @@
 <div>
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">project id</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">project id</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget_datasource_project_id"
              ng-model="ngModel.datasource.config.results.project_id"
              placeholder="{{ dashboardSvc.current.model.project_id ||
@@ -9,9 +9,9 @@
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">dataset</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">dataset</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget_datasource_dataset_name"
              ng-model="ngModel.datasource.config.results.dataset_name"
              placeholder="{{ dashboardSvc.current.model.dataset_name ||
@@ -19,9 +19,9 @@
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">table</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">table</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget_datasource_table_name"
              ng-model="ngModel.datasource.config.results.table_name"
              placeholder="{{ dashboardSvc.current.model.table_name ||
@@ -29,9 +29,9 @@
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">table format</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">table format</div>
+    <div class="pk-sidebar-item-value">
       <md-select
              class="widget_datasource_table_format"
              placeholder="{{ dashboardSvc.getTablePartition(

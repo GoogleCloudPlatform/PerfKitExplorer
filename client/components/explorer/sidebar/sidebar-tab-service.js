@@ -45,7 +45,8 @@ var SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
  * @constructor
  * @ngInject
  */
-explorer.components.explorer.sidebar.SidebarTabService = function() {
+explorer.components.explorer.sidebar.SidebarTabService = function(
+    dashboardService) {
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = [
     {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
@@ -97,6 +98,91 @@ explorer.components.explorer.sidebar.SidebarTabService = function() {
     } else {
       this.selectTab(tab);
     }
+  };
+
+  this.getFirstTab = function() {
+    if (dashboardService.selectedWidget) {
+      return this.tabs[0];
+    } else {
+      for (var i=0, len=this.tabs.length; i < len; ++i) {
+        var currentTab = this.tabs[i];
+
+        if (!currentTab.requireWidget) {
+          return currentTab;
+        }
+      }
+    }
+
+    console.log('getFirstTab failed: No non-widget tabs available.');
+  };
+
+  this.getLastTab = function() {
+    if (dashboardService.selectedWidget) {
+      return this.tabs[this.tabs.length - 1];
+    } else {
+      for (var i=this.tabs.length - 1; i >= 0; --i) {
+        var currentTab = this.tabs[i];
+
+        if (!currentTab.requireWidget) {
+          return currentTab;
+        }
+      }
+    }
+
+    console.log('getFirstTab failed: No non-widget tabs available.');
+  };
+
+  this.getNextTab = function() {
+    if (this.selectedTab) {
+      var selectedTabIndex = this.tabs.indexOf(
+          this.selectedTab);
+      if (selectedTabIndex == -1) {
+        throw 'Cannot find selected tab.';
+      }
+      
+      if (dashboardService.selectedWidget) {
+        if (++selectedTabIndex < this.tabs.length) {
+          return this.tabs[selectedTabIndex];
+        }
+      } else {
+        for (var i=selectedTabIndex + 1, len=this.tabs.length;
+             i < len; ++i) {
+          var currentTab = this.tabs[i];
+
+          if (!currentTab.requireWidget) {
+            return currentTab;
+          }
+        }
+      }
+    }
+
+    return this.getFirstTab();
+  };
+
+  this.getPreviousTab = function() {
+    if (this.selectedTab) {
+      var selectedTabIndex = this.tabs.indexOf(
+          this.selectedTab);
+      if (selectedTabIndex == -1) {
+        throw 'Cannot find selected tab.';
+      }
+      
+      if (dashboardService.selectedWidget) {
+        if (--selectedTabIndex > 0) {
+          return this.tabs[selectedTabIndex];
+        }
+      } else {
+        for (var i=selectedTabIndex - 1; i >= 0; --i) {
+          var currentTab = this.tabs[i];
+
+          if (!currentTab.requireWidget) {
+            return currentTab;
+          }
+        }
+      }
+    }
+
+    return this.getLastTab();
   };
 };
 var SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
