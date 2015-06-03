@@ -1,6 +1,6 @@
 <div>
   <script type="text/ng-template" id="date_picker.template">
-    <div class="pk-popup" tabindex="-1">
+    <div class="perfkit-popup" tabindex="-1">
       <relative-datepicker
           relative-datepicker-data="popupboxModel"></relative-datepicker>
     </div>
@@ -55,8 +55,10 @@
              popupbox-template-url="date_picker.template"
              popupbox-model="ngModel.datasource.config.filters.end_date"
              ng-model="ngModel.datasource.config.filters.end_date.text">
-      <span class="glyphicon glyphicon-remove widget-filter-end-date-remove"
-            ng-click="removeEndDate()"></span>
+      <span class="widget-filter-end-date-remove input-group-addon"
+            ng-click="removeEndDate()">
+        <i class="glyphicon glyphicon-remove"></i>
+      </span>
     </div>
   </div>
 
