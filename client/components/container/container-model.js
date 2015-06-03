@@ -50,25 +50,25 @@ p3rf.perfkit.explorer.components.container.
 ContainerModel = function() {
   /**
    * @type {Flow}
-   * @expose
+   * @export
    */
   this.flow = Flow.ROW;
 
   /**
    * @type {number}
-   * @expose
+   * @export
    */
   this.columns = 1;
 
   /**
    * @type {number}
-   * @expose
+   * @export
    */
   this.height = 250;
 
   /**
    * @type {Array.<WidgetConfig>}
-   * @expose
+   * @export
    */
   this.children = [];
 };
@@ -88,7 +88,7 @@ ContainerWidgetModel = function() {
 
   /**
    * @type {ContainerModel}
-   * @expose
+   * @export
    */
   this.container = new ContainerModel();
 };
@@ -118,7 +118,7 @@ ContainerWidgetConfig = function(
    * ContainerWidgetConfig object that contains it.
    *
    * @type {!(Object|ContainerWidgetModel)}
-   * @expose
+   * @export
    */
   this.model = opt_model || new ContainerWidgetModel();
 
@@ -137,7 +137,7 @@ ContainerWidgetConfig = function(
    * dependency error.
    *
    * @return {WidgetState}
-   * @expose
+   * @export
    */
   this.state = function() {
     return widgetFactoryService.statesById[this.model.id];
