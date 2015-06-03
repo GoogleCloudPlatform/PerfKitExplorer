@@ -73,6 +73,12 @@ describe('ContainerConfigDirective', function() {
       scope.$digest();
     }));
 
+    it('the container column count', function() {
+      var targetElement = directiveElement.find(
+          'input.container-columns');
+      expect(targetElement.length).toBe(1);
+    });
+
     it('the container height', function() {
       var targetElement = directiveElement.find(
           'input.container-height');
@@ -90,11 +96,24 @@ describe('ContainerConfigDirective', function() {
       scope.$digest();
     }));
 
+    it('the container column count', function() {
+      var actualElement = directiveElement.find(
+          'input.container-columns')[0];
+
+      expect(actualElement.value).toBe('1');
+
+      scope.mockModel.columns = 2;
+      scope.$digest();
+
+      expect(actualElement.value).toBe('2');
+    });
+
     it('the container height', function() {
       var actualElement = directiveElement.find('input.container-height')[0];
 
       expect(actualElement.value).toBe('250');
 
+      console.log(scope.mockModel);
       scope.mockModel.height = 42;
       scope.$digest();
 
