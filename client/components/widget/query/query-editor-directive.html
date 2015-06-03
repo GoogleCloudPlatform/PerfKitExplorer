@@ -1,500 +1,69 @@
 <div>
-  <!-- Custom template for the date picker. -->
-  <script type="text/ng-template" id="date_template.html">
-    <div class="perfkit-popup" tabindex="-1">
-      <relative-datepicker
-          relative-datepicker-data="popupboxModel"></relative-datepicker>
-    </div>
-  </script>
 
-  <!-- Custom template for general picklists. -->
-  <script type="text/ng-template" id="picklist_template.html">
-    <div class="perfkit-popup perfkit-popup-autocomplete" tabindex="-1">
-      <div class="perfkit-popup-item"
-           ng-class="{'perfkit-popup-item-unmatched': (
-              popupboxModel.length != 0 && popupboxModel != null &&
-              data.slice(0, popupboxModel.length).toUpperCase() != popupboxModel.toUpperCase()),
-              'perfkit-popup-item-matched': (
-              popupboxModel.length != 0 && popupboxModel != null &&
-              data.slice(0, popupboxModel.length).toUpperCase() == popupboxModel.toUpperCase())}"
-           ng-repeat="data in popupboxData"
-           ng-click="selectValue(data);">
-        {{ getDisplayValue(data) }}
-      </div>
-    </div>
-  </script>
+  <!-- For custom queries, only show the result config. -->
+  <div class="sidebar-group"
+      ng-show="queryEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query">
 
-  <!-- Custom template for the label picker when filtering on values. -->
-  <script type="text/ng-template" id="metadata_picker.template">
-    <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
-      <input
-          class="multibox-input-control form-control"
-          placeholder="{{ multiboxPlaceholder }}"
-          ng-model="option.text"
-          ng-blur="blurInput($event)"
-          ng-focus="focusInput($event, option)">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-remove"
-           ng-click="unselectOptionAt($index)"></i>
-      </span>
+    <div class="sidebar-group-note">
+      Limited options are available when creating a Custom SQL statement.
+      Using the toolbar above, click the
+      <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
+      button to use the Query Builder UI.
     </div>
-    <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-      <input class="multibox-insert-control form-control"
-          ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
+
+    <div class="sidebar-group">
+
+      <button type="button" class="btn btn-primary"
+          ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
+        Refresh
+      </button>
+      <button type="button" class="btn btn-default perfkit-footer-button"
+          ng-click="queryEditorCtrl.explorer.restoreBuilder()">
+        Build Query
+      </button>
     </div>
-    <div class="multibox-popup perfkit-popup" tabindex="-1">
-      <div
-          metadata-picker
-          metadata-picker-data="multiboxData"
-          metadata-picker-model="activeOption"
-          metadata-picker-select-value="hidePopup" />
-    </div>
-  </script>
 
-  <div>
+    <div class="sidebar-group-title">Results Shape</div>
+    <query-result-config
+        ng-model="queryEditorCtrl.dashboard.currentWidget.model"></query-result-config>
 
-    <div class="sidebar-group" ng-show="queryEditorCtrl.datasource.custom_query">
+  </div>
 
-      <div class="sidebar-group-note">
-        Limited options are available when creating a Custom SQL statement.
-        Using the toolbar above, click the
-        <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
-        button to use the Query Builder UI.
+  <!-- For QueryBuilder queries, show tabs for Filters (+datasource) and Columns (+shape) -->
+  <tabset ng-hide="queryEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query">
+    <tab heading="Filters">
+      <query-builder-filter-config
+          ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-builder-filter-config>
+
+      <div class="sidebar-group-title">Datasource</div>
+      <query-builder-datasource-config
+          ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-builder-datasource-config>
+    </tab>
+
+    <tab heading="Result Shape">
+      <div class="sidebar-group">
+
+        <button type="button" class="btn btn-primary"
+            ng-click="queryEditorCtrl.dashboard.refreshWidget(
+                queryEditorCtrl.dashboard.selectedWidget)">
+          Refresh
+        </button>
+        <button type="button" class="btn btn-default perfkit-footer-button"
+            ng-click="queryEditorCtrl.explorer.customizeSql(true)">
+          Customize
+        </button>
       </div>
 
       <div class="sidebar-group">
 
-        <button type="button" class="btn btn-primary"
-                ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
-          Refresh
-        </button>
-        <button type="button" class="btn btn-default perfkit-footer-button"
-                ng-click="queryEditorCtrl.explorer.restoreBuilder()">
-          Build Query
-        </button>
+        <query-builder-column-config
+            ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-builder-column-config>
+
+        <div class="sidebar-group-title">Results Shape</div>
+        <query-result-config
+            ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-result-config>
+
       </div>
-
-      <div class="sidebar-group-title">Results Shape</div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-item-label">
-          <input type="checkbox"
-                 ng-model="queryEditorCtrl.datasource.config.results.pivot"> pivot results
-        </div>
-      </div>
-
-      <div ng-show="queryEditorCtrl.datasource.config.results.pivot">
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">row field</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   ng-model="queryEditorCtrl.datasource.config.results.pivot_config.row_field">
-          </div>
-        </div>
-
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">column field</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   ng-model="queryEditorCtrl.datasource.config.results.pivot_config.column_field">
-          </div>
-        </div>
-
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">value field</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   ng-model="queryEditorCtrl.datasource.config.results.pivot_config.value_field">
-          </div>
-        </div>
-      </div>
-
-      <div class="sidebar-item">
-        <div class="sidebar-item-label">
-          <input type="checkbox"
-                 ng-model="queryEditorCtrl.datasource.view.sort_columns"> sort columns
-        </div>
-      </div>
-
-      <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">start column index</div>
-          <div class="sidebar-item-value">
-            <input class="form-control"
-                   type="number" min="0" require="false"
-                   ng-model="queryEditorCtrl.datasource.view.sort_column_start">
-          </div>
-        </div>
-      </div>
-
-      <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
-        <div class="sidebar-item">
-          <div class="sidebar-item-label">sort order</div>
-          <div class="sidebar-item-value">
-            <select class="form-control"
-                   ng-model="queryEditorCtrl.datasource.view.sort_column_order">
-              <option value="" selected>Ascending (default)</option>
-              <option value="ascending">Ascending</option>
-              <option value="descending">Descending</option>
-            </select>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <tabset ng-hide="queryEditorCtrl.datasource.custom_query">
-      <tab heading="Filters">
-        <div>
-          <div ng-hide="queryEditorCtrl.datasource.custom_query">
-            <div class="sidebar-group">
-              <div class="sidebar-group-title">Field Filters</div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">start date</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-template-url="date_template.html"
-                         popupbox-model="queryEditorCtrl.datasource.config.filters.start_date"
-                         ng-model="queryEditorCtrl.datasource.config.filters.start_date.text">
-                </div>
-              </div>
-
-              <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.end_date">
-                <a ng-click="queryEditorCtrl.addEndDate()">add end date</a>
-              </div>
-              <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.filters.end_date">
-                <div class="sidebar-item-label">end date</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-template-url="date_template.html"
-                         popupbox-model="queryEditorCtrl.datasource.config.filters.end_date"
-                         ng-model="queryEditorCtrl.datasource.config.filters.end_date.text">
-                  <span class="glyphicon glyphicon-remove"
-                        ng-click="queryEditorCtrl.removeEndDate()"></span>
-                </div>
-              </div>
-
-              <div class="sidebar-item" ng-hide="queryEditorCtrl.datasource.config.filters.official != null">
-                <a ng-click="queryEditorCtrl.addOfficial()">add official filter</a>
-              </div>
-              <div class="sidebar-item"
-                   ng-show="queryEditorCtrl.datasource.config.filters.official != null">
-                <div class="sidebar-item-label">official results</div>
-                <div class="sidebar-item-value">
-                  <input type="checkbox"
-                         ng-model="queryEditorCtrl.datasource.config.filters.official"> official
-                  <span class="glyphicon glyphicon-remove"
-                        ng-click="queryEditorCtrl.removeOfficial()"></span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">product</div>
-                <div class="sidebar-item-value input-group">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-data="queryEditorCtrl.query.picklists['product_name']"
-                         popupbox-model="queryEditorCtrl.datasource.config.filters.product_name"
-                         ng-model="queryEditorCtrl.datasource.config.filters.product_name">
-                  <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-refresh"
-                       ng-click="queryEditorCtrl.refreshPicklist('product_name')"></i>
-                  </span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">test</div>
-                <div class="sidebar-item-value input-group">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-data="queryEditorCtrl.query.picklists['test']"
-                         popupbox-model="queryEditorCtrl.datasource.config.filters.test"
-                         ng-model="queryEditorCtrl.datasource.config.filters.test">
-                  <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-refresh"
-                       ng-click="queryEditorCtrl.refreshPicklist('test')"></i>
-                  </span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">metric</div>
-                <div class="sidebar-item-value input-group">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-data="queryEditorCtrl.query.picklists['metric']"
-                         popupbox-model="queryEditorCtrl.datasource.config.filters.metric"
-                         ng-model="queryEditorCtrl.datasource.config.filters.metric">
-                  <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-refresh"
-                       ng-click="queryEditorCtrl.refreshPicklist('metric')"></i>
-                  </span>
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">run by</div>
-                <div class="sidebar-item-value input-group">
-                  <input class="form-control"
-                         popupbox
-                         popupbox-data="queryEditorCtrl.query.picklists['owner']"
-                         popupbox-model="queryEditorCtrl.datasource.config.filters.runby"
-                         ng-model="queryEditorCtrl.datasource.config.filters.runby">
-                  <span class="input-group-addon">
-                    <i class="glyphicon glyphicon-refresh"
-                       ng-click="queryEditorCtrl.refreshPicklist('owner')"></i>
-                  </span>
-                </div>
-              </div>
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">
-                  metadata
-                  <span class="glyphicon glyphicon-refresh"
-                        ng-click="queryEditorCtrl.refreshMetadata('metadata')"></span>
-                </div>
-                <div class="sidebar-item-value">
-                  <span
-                      multibox
-                      multibox-placeholder="'label:value'"
-                      multibox-display-prop="text"
-                      multibox-focus-on-select="true"
-                      multibox-data="queryEditorCtrl.query.picklists['metadata']"
-                      multibox-on-insert-option="queryEditorCtrl.addMetadataFilter()"
-                      multibox-selected-options="queryEditorCtrl.datasource.config.filters.metadata"
-                      multibox-template-url="metadata_picker.template">
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div class="sidebar-group">
-
-              <div class="sidebar-group-title">Datasource</div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">project id</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.project_id"
-                         placeholder="{{ queryEditorCtrl.dashboard.current.model.project_id ||
-                                         queryEditorCtrl.config.default_project }}">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">dataset</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.dataset_name"
-                         placeholder="{{ queryEditorCtrl.dashboard.current.model.dataset_name ||
-                                         queryEditorCtrl.config.default_dataset }}">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">table</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.table_name"
-                         placeholder="{{ queryEditorCtrl.dashboard.current.model.table_name ||
-                                         queryEditorCtrl.config.default_table }}">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">table format</div>
-                <div class="sidebar-item-value">
-                  <select class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.table_partition">
-                    <option value="" selected>
-                      {{ queryEditorCtrl.dashboard.getTablePartition(
-                             queryEditorCtrl.dashboard.current.model.table_partition ||
-                             queryEditorCtrl.dashboard.DEFAULT_TABLE_PARTITION).label }} (default)
-                    </option>
-
-                    <option ng-repeat="option in queryEditorCtrl.dashboard.TABLE_PARTITIONS"
-                            value="{{ option.partition }}"
-                            title="{{ option.tooltip }}">{{ option.label }}</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </tab>
-
-      <tab heading="Result Shape">
-        <div>
-          <div class="sidebar-group">
-
-            <button type="button" class="btn btn-primary"
-                    ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
-              Refresh
-            </button>
-            <button type="button" class="btn btn-default perfkit-footer-button"
-                    ng-click="queryEditorCtrl.explorer.customizeSql(true)">
-              Customize SQL
-            </button>
-          </div>
-
-          <div class="sidebar-group" ng-show="!queryEditorCtrl.datasource.custom_query">
-            <div class="sidebar-group-title">Columns</div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.show_date">
-                show date
-              </div>
-            </div>
-
-            <div class="sidebar-item" ng-show="queryEditorCtrl.datasource.config.results.show_date">
-              <div class="sidebar-item-label">
-                grouping (blank for none)
-              </div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       popupbox
-                       popupbox-template-url="picklist_template.html"
-                       popupbox-data="queryEditorCtrl.query.date_groupings"
-                       popupbox-model="queryEditorCtrl.datasource.config.results.date_group"
-                       ng-model="queryEditorCtrl.datasource.config.results.date_group">
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">fields</div>
-              <div class="sidebar-item-value">
-                <span
-                    multibox
-                    multibox-placeholder="'field name'"
-                    multibox-display-prop="name"
-                    multibox-focus-on-select="true"
-                    multibox-data="queryEditorCtrl.query.samples_mart_fields"
-                    multibox-on-insert-option="queryEditorCtrl.addFieldColumn()"
-                    multibox-selected-options="queryEditorCtrl.datasource.config.results.fields">
-                </span>
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                <input type="checkbox" ng-model="queryEditorCtrl.datasource.config.results.measure_values">
-                measure values
-              </div>
-              <div class="sidebar-item-value" ng-show="queryEditorCtrl.datasource.config.results.measure_values === true">
-                <span
-                    multibox
-                    multibox-placeholder="'bqsql function'"
-                    multibox-display-prop="name"
-                    multibox-focus-on-select="true"
-                    multibox-data="queryEditorCtrl.query.samples_mart_measures"
-                    multibox-on-insert-option="queryEditorCtrl.addMeasureColumn()"
-                    multibox-selected-options="queryEditorCtrl.datasource.config.results.measures">
-                </span>
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">labels</div>
-              <div class="sidebar-item-value">
-                <span
-                    multibox
-                    multibox-placeholder="'label'"
-                    multibox-display-prop="label"
-                    multibox-popup-prop="name"
-                    multibox-focus-on-select="true"
-                    multibox-data="queryEditorCtrl.query.picklists['metadata']"
-                    multibox-on-insert-option="queryEditorCtrl.addMetadataColumn()"
-                    multibox-selected-options="queryEditorCtrl.datasource.config.results.labels">
-                </span>
-              </div>
-            </div>
-
-            <div class="sidebar-group-title">Results Shape</div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                <input type="checkbox"
-                       ng-model="queryEditorCtrl.datasource.config.results.pivot"> pivot results
-              </div>
-            </div>
-
-            <div ng-show="queryEditorCtrl.datasource.config.results.pivot">
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">row field</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.row_field">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">column field</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.column_field">
-                </div>
-              </div>
-
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">value field</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         ng-model="queryEditorCtrl.datasource.config.results.pivot_config.value_field">
-                </div>
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                row limit
-              </div>
-              <div class="sidebar-item-value">
-                <input class="form-control"
-                       type="number"
-                       ng-model="queryEditorCtrl.datasource.config.results.row_limit">
-              </div>
-            </div>
-
-            <div class="sidebar-item">
-              <div class="sidebar-item-label">
-                <input type="checkbox"
-                       ng-model="queryEditorCtrl.datasource.view.sort_columns"> sort columns
-              </div>
-            </div>
-
-            <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">start column index</div>
-                <div class="sidebar-item-value">
-                  <input class="form-control"
-                         type="number" min="0" require="false"
-                         ng-model="queryEditorCtrl.datasource.view.sort_column_start">
-                </div>
-              </div>
-            </div>
-
-            <div ng-show="queryEditorCtrl.datasource.view.sort_columns">
-              <div class="sidebar-item">
-                <div class="sidebar-item-label">sort order</div>
-                <div class="sidebar-item-value">
-                  <select class="form-control"
-                         ng-model="queryEditorCtrl.datasource.view.sort_column_order">
-                    <option value="" selected>Ascending (default)</option>
-                    <option value="ascending">Ascending</option>
-                    <option value="descending">Descending</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </tab>
-    </tabset>
-  </div>
+    </tab>
+  </tabset>
 </div>

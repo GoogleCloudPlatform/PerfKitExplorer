@@ -1,0 +1,79 @@
+<div>
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox"
+             class="widget-results-pivot"
+             ng-model="ngModel.datasource.config.results.pivot"> pivot results
+    </div>
+  </div>
+  
+  <div ng-show="ngModel.datasource.config.results.pivot"
+      class="widget-results-pivot-config">
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">row field</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               ng-model="ngModel.datasource.config.results.pivot_config.row_field">
+      </div>
+    </div>
+  
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">column field</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               ng-model="ngModel.datasource.config.results.pivot_config.column_field">
+      </div>
+    </div>
+  
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">value field</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               ng-model="ngModel.datasource.config.results.pivot_config.value_field">
+      </div>
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      row limit
+    </div>
+    <div class="sidebar-item-value">
+      <input class="form-control"
+             type="number"
+             ng-model="ngModel.datasource.config.results.row_limit">
+    </div>
+  </div>
+  
+  <div class="sidebar-item">
+    <div class="sidebar-item-label">
+      <input type="checkbox"
+             ng-model="ngModel.datasource.view.sort_columns"> sort columns
+    </div>
+  </div>
+  
+  <div ng-show="ngModel.datasource.view.sort_columns">
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">start column index</div>
+      <div class="sidebar-item-value">
+        <input class="form-control"
+               type="number" min="0" require="false"
+               ng-model="ngModel.datasource.view.sort_column_start">
+      </div>
+    </div>
+  </div>
+  
+  <div ng-show="ngModel.datasource.view.sort_columns">
+    <div class="sidebar-item">
+      <div class="sidebar-item-label">sort order</div>
+      <div class="sidebar-item-value">
+        <md-select
+               placeholder="Ascending (default)"
+               ng-model="ngModel.datasource.view.sort_column_order">
+          <md-option value="ascending">Ascending</md-option>
+          <md-option value="descending">Descending</md-option>
+        </md-select>
+      </div>
+    </div>
+  </div>
+</div>

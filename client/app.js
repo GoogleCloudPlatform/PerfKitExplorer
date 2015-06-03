@@ -60,17 +60,21 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataT
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.MetadataPickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.RelativeDatepickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
-goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
-goog.require('p3rf.perfkit.explorer.components.widget.query.MetadataPickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
-goog.require('p3rf.perfkit.explorer.components.widget.query.RelativeDatepickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
 goog.require('p3rf.perfkit.explorer.mocks.mocks');
-goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
 
 
 goog.scope(function() {
@@ -149,11 +153,11 @@ explorer.application.module.service('widgetEditorService',
 explorer.application.module.service('dataViewService',
     explorer.components.widget.query.DataViewService);
 explorer.application.module.service('fieldCubeDataService',
-    explorer.components.widget.query.FieldCubeDataService);
+    explorer.components.widget.query.builder.FieldCubeDataService);
 explorer.application.module.service('widgetFactoryService',
     explorer.components.widget.WidgetFactoryService);
 explorer.application.module.service('queryBuilderService',
-    explorer.models.perfkit_simple_builder.QueryBuilderService);
+    explorer.components.widget.query.builder.QueryBuilderService);
 explorer.application.module.service('dashboardAdminPageService',
     explorer.components.dashboard_admin_page.DashboardAdminPageService);
 
@@ -161,22 +165,22 @@ explorer.application.module.service('dashboardAdminPageService',
 /**
  * Register all controllers.
  */
+explorer.application.module.controller('CodeEditorCtrl',
+    explorer.components.code_editor.CodeEditorCtrl);
 explorer.application.module.controller('ConfigDialogCtrl',
     explorer.components.config.ConfigDialogCtrl);
-explorer.application.module.controller('ExplorerCtrl',
-    explorer.components.explorer.ExplorerCtrl);
 explorer.application.module.controller('DashboardCtrl',
     explorer.components.dashboard.DashboardCtrl);
 explorer.application.module.controller('DashboardAdminPageCtrl',
     explorer.components.dashboard_admin_page.DashboardAdminPageCtrl);
+explorer.application.module.controller('ExplorerCtrl',
+    explorer.components.explorer.ExplorerCtrl);
 explorer.application.module.controller('FileUploadDialogCtrl',
     explorer.components.dashboard_admin_page.FileUploadDialogCtrl);
-explorer.application.module.controller('WidgetEditorCtrl',
-    explorer.components.widget.data_viz.WidgetEditorCtrl);
 explorer.application.module.controller('QueryEditorCtrl',
     explorer.components.widget.query.QueryEditorCtrl);
-explorer.application.module.controller('CodeEditorCtrl',
-    explorer.components.code_editor.CodeEditorCtrl);
+explorer.application.module.controller('WidgetEditorCtrl',
+    explorer.components.widget.data_viz.WidgetEditorCtrl);
 
 
 /** Register all factories. **/
@@ -188,45 +192,69 @@ explorer.application.module.factory('GvizDataView',
     explorer.components.widget.data_viz.gviz.getGvizDataView);
 
 
-/** Register all directives. **/
-explorer.application.module.directive('chartConfig',
-    explorer.components.widget.data_viz.gviz.ChartConfigDirective);
-explorer.application.module.directive('alertLog',
-    explorer.components.alert.AlertLogDirective);
-explorer.application.module.directive('gvizChartWidget',
-    explorer.components.widget.data_viz.gviz.gvizChart);
-explorer.application.module.directive('explorerConfig',
-    explorer.components.config.ConfigDirective);
-explorer.application.module.directive('container',
-    explorer.components.container.ContainerDirective);
-explorer.application.module.directive('containerConfig',
-    explorer.components.container.ContainerConfigDirective);
-explorer.application.module.directive('dashboard',
-    explorer.components.dashboard.DashboardDirective);
+/**
+ * Register all directives.
+ * First, general-use directives.
+ */
+explorer.application.module.directive('fileModel',
+    explorer.components.util.FileModelDirective);
 explorer.application.module.directive('fill',
     explorer.components.layout.FillDirective);
-explorer.application.module.directive('metadataPicker',
-    explorer.components.widget.query.MetadataPickerDirective);
-explorer.application.module.directive('resize',
-    explorer.components.layout.ResizeDirective);
-explorer.application.module.directive('explorerHeader',
-    explorer.components.explorer.ExplorerHeaderDirective);
-explorer.application.module.directive('explorerPage',
-    explorer.components.explorer.ExplorerPageDirective);
 explorer.application.module.directive('multibox',
     explorer.components.multibox.MultiboxDirective);
 explorer.application.module.directive('popupbox',
     explorer.components.popupbox.PopupboxDirective);
-explorer.application.module.directive('queryEditor',
-    explorer.components.widget.query.QueryEditorDirective);
-explorer.application.module.directive('relativeDatepicker',
-    explorer.components.widget.query.RelativeDatepickerDirective);
-explorer.application.module.directive('perfkitWidget',
-    explorer.components.widget.perfkitWidget);
-explorer.application.module.directive('fileModel',
-    explorer.components.util.FileModelDirective);
+explorer.application.module.directive('resize',
+    explorer.components.layout.ResizeDirective);
+
+/** Explorer page and config-related directives. */
+// TODO: Rename alertLog to something else; overloads with
+//     regression alerts.
+explorer.application.module.directive('alertLog',
+    explorer.components.alert.AlertLogDirective);
+explorer.application.module.directive('explorerConfig',
+    explorer.components.config.ConfigDirective);
+explorer.application.module.directive('explorerPage',
+    explorer.components.explorer.ExplorerPageDirective);
+explorer.application.module.directive('explorerHeader',
+    explorer.components.explorer.ExplorerHeaderDirective);
+
+/** Dashboard directives. */
+explorer.application.module.directive('dashboard',
+    explorer.components.dashboard.DashboardDirective);
 explorer.application.module.directive('dashboardConfig',
     explorer.components.dashboard.DashboardConfigDirective);
+
+/** Container directives. */
+explorer.application.module.directive('container',
+    explorer.components.container.ContainerDirective);
+explorer.application.module.directive('containerConfig',
+    explorer.components.container.ContainerConfigDirective);
+
+/** Widget directives. */
+explorer.application.module.directive('chartConfig',
+    explorer.components.widget.data_viz.gviz.ChartConfigDirective);
+explorer.application.module.directive('gvizChartWidget',
+    explorer.components.widget.data_viz.gviz.gvizChart);
+explorer.application.module.directive('perfkitWidget',
+    explorer.components.widget.perfkitWidget);
+explorer.application.module.directive('queryEditor',
+    explorer.components.widget.query.QueryEditorDirective);
+explorer.application.module.directive('queryResultConfig',
+    explorer.components.widget.query.QueryResultConfigDirective);
 explorer.application.module.directive('widgetEditor',
     explorer.components.widget.query.WidgetEditorDirective);
+
+/** Query Builder Directives. */
+explorer.application.module.directive('metadataPicker',
+    explorer.components.widget.query.builder.MetadataPickerDirective);
+explorer.application.module.directive('queryBuilderColumnConfig',
+    explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective);
+explorer.application.module.directive('queryBuilderDatasourceConfig',
+    explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective);
+explorer.application.module.directive('queryBuilderFilterConfig',
+    explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective);
+explorer.application.module.directive('relativeDatepicker',
+    explorer.components.widget.query.builder.RelativeDatepickerDirective);
+
 });  // goog.scope

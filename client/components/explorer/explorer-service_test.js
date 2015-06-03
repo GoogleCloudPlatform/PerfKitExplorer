@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
-goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryBuilderService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 
 
 describe('explorerService', function() {
@@ -33,7 +33,7 @@ describe('explorerService', function() {
   var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
   var ConfigService = explorer.components.config.ConfigService;
   var QueryBuilderService =
-      explorer.models.perfkit_simple_builder.QueryBuilderService;
+      explorer.components.widget.query.builder.QueryBuilderService;
   var ResultsDataStatus = explorer.models.ResultsDataStatus;
   var WidgetConfig = explorer.models.WidgetConfig;
   var svc, configService, dashboardService, queryBuilderService,

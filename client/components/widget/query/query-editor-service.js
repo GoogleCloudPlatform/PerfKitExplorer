@@ -31,7 +31,7 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
-goog.require('p3rf.perfkit.explorer.components.widget.query.FieldCubeDataService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.dateUtil');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
@@ -96,6 +96,13 @@ explorer.components.widget.query.QueryEditorService = function(
    * @export
    */
   this.samples_mart_measures = SamplesMartMeasures;
+
+  /**
+   * Template URL for the popupbox directive to show picklist values.
+   * @type {string}
+   * @export
+   */
+   this.picklist_template_url = '/static/components/widget/query/builder/picklist-template.html';
 
   /**
    * Cache of picklists.
