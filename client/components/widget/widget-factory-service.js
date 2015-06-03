@@ -67,7 +67,7 @@ explorer.components.widget.WidgetFactoryService = function(
    * Hash table of widgets.
    *
    * @type {!Object.<(ContainerWidgetConfig|WidgetConfig)>}
-   * @expose
+   * @export
    */
   this.widgetsById = {};
 
@@ -75,7 +75,7 @@ explorer.components.widget.WidgetFactoryService = function(
    * Hash table of widgets states.
    *
    * @type {!Object.<WidgetState>}
-   * @expose
+   * @export
    */
   this.statesById = {};
 

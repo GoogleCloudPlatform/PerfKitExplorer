@@ -43,7 +43,7 @@ var WidgetType = explorer.models.WidgetType;
 explorer.models.WidgetState = function() {
   /**
    * @type {boolean}
-   * @expose
+   * @export
    */
   this.selected = false;
 
@@ -51,7 +51,7 @@ explorer.models.WidgetState = function() {
    * TODO: Change type to ContainerWidgetConfig when we figure
    * out how to solve the circular dependency.
    * @type {Object}
-   * @expose
+   * @export
    */
   this.parent = null;
 };
@@ -63,13 +63,13 @@ var WidgetState = explorer.models.WidgetState;
 explorer.models.LayoutModel = function() {
   /**
    * @type {number}
-   * @expose
+   * @export
    */
   this.columnspan = 1;
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.cssClasses = null;
 };
@@ -81,31 +81,31 @@ var LayoutModel = explorer.models.LayoutModel;
 explorer.models.WidgetModel = function() {
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.id = null;
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.title = '';
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.url = '';
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.type = null;
 
   /**
    * @type {!LayoutModel}
-   * @expose
+   * @export
    */
   this.layout = new LayoutModel();
 };
@@ -129,7 +129,7 @@ explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
    * WidgetConfig object that contains it.
    *
    * @type {!(Object|WidgetModel)}
-   * @expose
+   * @export
    */
   this.model = opt_model || new WidgetModel();
 
@@ -148,7 +148,7 @@ explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
    * dependency error.
    *
    * @return {WidgetState}
-   * @expose
+   * @export
    */
   this.state = function() {
     return widgetFactoryService.statesById[this.model.id];

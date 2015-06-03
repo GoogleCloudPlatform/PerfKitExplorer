@@ -361,6 +361,4 @@ QueryEditorCtrl.prototype.refreshMetadata = function(picklist, field) {
   }));
 };
 
-
-
 });  // goog.scope
