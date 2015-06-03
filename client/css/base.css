@@ -67,7 +67,7 @@ html, body {
   width: 100%;
 }
 
-.perfkit-page {
+.pk-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
@@ -78,7 +78,7 @@ html, body {
   width: 100%;
 }
 
-.perfkit-page-body {
+.pk-page-body {
   display: flex;
   display: -webkit-flex;
   flex: 1 1 auto;
@@ -86,7 +86,7 @@ html, body {
   height: 100%;
 }
 
-.perfkit-page-sidebar-left {
+.pk-page-sidebar-left {
   border-right: 1px solid #CCC;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -99,7 +99,7 @@ html, body {
   width: 240px;
 }
 
-.perfkit-page-sidebar-right {
+.pk-page-sidebar-right {
   border-left: 1px solid #CCC;
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
@@ -112,24 +112,24 @@ html, body {
   width: 240px;
 }
 
-.perfkit-page-content {
+.pk-page-content {
   flex-grow: 100;
   -webkit-flex-grow: 100;
   overflow-x: auto;
   overflow-y: auto;
 }
 
-.perfkit-footer-button {
+.pk-footer-button {
   float: right;
 }
 
-.perfkit-sidebar-button {
+.pk-sidebar-button {
   float: right;
   top: 9px;
   right: 8px;
 }
 
-.perfkit-glyph-button:hover {
+.pk-glyph-button:hover {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
@@ -175,7 +175,7 @@ h2 {
 }
 
 /* Sidebar Layout */
-.sidebar-group {
+.pk-sidebar-group {
   border-bottom: 1px solid rgb(235, 235, 235);
   margin-top: 8px;
   margin-left: 0;
@@ -183,20 +183,20 @@ h2 {
   padding-bottom: 4px;
 }
 
-.sidebar-group-title {
+.pk-sidebar-group-title {
   color: #d14836;
   font-weight: bold;
   margin-bottom: 4px;
 }
 
-.sidebar-group-note {
+.pk-sidebar-group-note {
   color: #666;
   font-size: .95em;
   font-style: italic;
   margin-bottom: 4px;
 }
 
-.sidebar-item {
+.pk-sidebar-item {
   margin-bottom: 4px;
   padding-left: 4px;
 }
@@ -212,15 +212,15 @@ h2 {
   font-weight: bold;
 }
 
-.sidebar-item-label {
+.pk-sidebar-item-label {
   padding-bottom: 4px;
 }
 
-.sidebar-item-value {
+.pk-sidebar-item-value {
   padding-bottom: 4px;
 }
 
-.sidebar-item-value md-select {
+.pk-sidebar-item-value md-select {
   width: 100%;
 }
 

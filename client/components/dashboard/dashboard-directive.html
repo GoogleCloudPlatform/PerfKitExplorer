@@ -1,29 +1,29 @@
-<div class="perfkit2-page-content-cell">
+<div class="pk-page-content-cell">
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
-  <div ng-repeat="container in dashboardSvc.widgets" class="perfkit-container"
-       ng-class="{'perfkit-container-selected': widget.state().selected}">
+  <div ng-repeat="container in dashboardSvc.widgets" class="pk-container"
+       ng-class="{'pk-container-selected': widget.state().selected}">
 
-    <container class="perfkit-container-content" container-config="container">
-      <perfkit-widget class="perfkit-widget"
+    <container class="pk-container-content" container-config="container">
+      <perfkit-widget class="pk-widget"
               ng-repeat="widget in container.model.container.children"
               widget-config="widget">
-        <div class="perfkit-widget-header">
-          <span class="glyphicon glyphicon-remove perfkit-widget-button"
+        <div class="pk-widget-header">
+          <span class="glyphicon glyphicon-remove pk-widget-button"
                 ng-hide="explorerSvc.model.readOnly"
                 ng-click="dashboardSvc.removeWidget(widget, container)"></span>
-          <span class="glyphicon glyphicon-refresh perfkit-widget-button"
+          <span class="glyphicon glyphicon-refresh pk-widget-button"
                 ng-click="dashboardSvc.refreshWidget(widget)"></span>
-          <a class="perfkit-widget-button"
+          <a class="pk-widget-button"
              ng-show="widget.model.url"
              ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
             <span class="glyphicon glyphicon-link"></span>
           </a>
-          <div class="perfkit-widget-title"
+          <div class="pk-widget-title"
                ng-click="dashboardSvc.selectWidget(widget, container)"
                ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
         </div>
-        <div class="perfkit-widget-content"
+        <div class="pk-widget-content"
              ng-click="dashboardSvc.selectWidget(widget, container)">
           <gviz-chart-widget widget-config="widget"/>
         </div>

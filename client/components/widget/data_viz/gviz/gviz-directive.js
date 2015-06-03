@@ -76,10 +76,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
     //templateUrl: /static/components/widget/data_viz/gviz/gviz-directive.html',
     template:
         '<div>' +
-        '<div class="perfkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'perfkit-chart-hidden\': widgetConfig.state().chart.error}">' +
+        '<div class="pk-chart"  ng-hide="!isDataFetched()" ng-class=' +
+        '"{\'pk-chart-hidden\': widgetConfig.state().chart.error}">' +
         '</div>' +
-        '<div class="perfkit-chart-error" ng-show="' +
+        '<div class="pk-chart-error" ng-show="' +
         'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
         '> {{widgetConfig.state().chart.error}}</div></div>' +
         '<div class="spinner" ng-show="isDataFetching()"></div>' +
@@ -310,7 +310,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           } else {
             // Prevent overflow for charts
             scope.widgetConfig.model.layout.cssClasses =
-                'perfkit-widget-no-overflow';
+                'pk-widget-no-overflow';
           }
         }
       });

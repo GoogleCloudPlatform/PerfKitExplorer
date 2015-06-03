@@ -1,38 +1,38 @@
-.perfkit-page-footer {
+.pk-page-footer {
   background-color: rgb(241, 241, 241);
   border-top: 1px solid rgb(229, 229, 229);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
 }
 
-.perfkit-footer-open {
+.pk-footer-open {
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   display: table;
 }
 
-.perfkit-footer-toolbar {
+.pk-footer-toolbar {
   display: table-row;
   height: 48px;
   padding: 4px;
 }
 
-.perfkit-footer-toolbar-cell {
+.pk-footer-toolbar-cell {
   display: table-cell;
   padding-left: 6px;
   vertical-align: middle;
 }
 
-.perfkit-footer-body {
+.pk-footer-body {
   display: table-row;
 }
 
-.perfkit-footer-body-cell {
+.pk-footer-body-cell {
   display: table-cell;
 }
 
-.perfkit-footer-close-button {
+.pk-footer-close-button {
   float: right;
   margin-right: 5px;
 }

@@ -1,4 +1,4 @@
-.perfkit-popup {
+.pk-popup {
   background-color: #fff;
   border: 1px solid #999;
   max-height: 400px;
@@ -7,33 +7,33 @@
   z-index:65000;
 }
 
-.perfkit-popup-autocomplete {
+.pk-popup-autocomplete {
   overflow-y: auto;
 }
 
-.perfkit-popup-item {
+.pk-popup-item {
   padding: 4px;
 }
 
-.perfkit-popup-item:hover {
+.pk-popup-item:hover {
   background-color: #ddd;
   cursor: pointer;
   padding: 4px;
 }
 
-.perfkit-popup-item-selected {
+.pk-popup-item-selected {
   background-color: #ccc;
   font-weight: bold;
 }
 
-.perfkit-popup-title {
+.pk-popup-title {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
   height: 24px;
   padding: 4px;
 }
 
-.perfkit-popup-leftwell {
+.pk-popup-leftwell {
   border-right: 1px solid #ccc;
   float: left;
   max-height: 300px;
@@ -42,13 +42,13 @@
   vertical-align: top;
 }
 
-.perfkit-popup-content {
+.pk-popup-content {
   display: table-cell;
   vertical-align: top;
   width: auto;
 }
 
-.perfkit-popup-note {
+.pk-popup-note {
   background-color: #ffc;
   color: #666;
   font-style: italic;

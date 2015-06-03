@@ -1,17 +1,17 @@
 <div>
-  <div class="perfkit-relative-datepicker-left-nav">
-    <div class="perfkit-group-heading">Range Type</div>
+  <div class="pk-relative-datepicker-left-nav">
+    <div class="pk-group-heading">Range Type</div>
     <div
-      class="perfkit-relative-datepicker-left-nav-item"
+      class="pk-relative-datepicker-left-nav-item"
       ng-repeat="filter_type in filter_types"
       ng-click="relativeDatepickerData.filter_type = filter_type.name"
-      ng-class="{'perfkit-relative-datepicker-left-nav-item-selected':
+      ng-class="{'pk-relative-datepicker-left-nav-item-selected':
                  (relativeDatepickerData.filter_type == filter_type.name)}">
       <span ng-show="filter_type.name == 'CUSTOM'">{{ filter_type.name | lowercase }}</span>
       <span ng-show="filter_type.name != 'CUSTOM'">
         last n {{ filter_type.name | lowercase }}s</span>
     </div>
-  </div><div class="perfkit-relative-datepicker-body">
+  </div><div class="pk-relative-datepicker-body">
     <div ng-show="relativeDatepickerData.filter_type == 'CUSTOM'">
       <datepicker ng-model="relativeDatepickerData.filter_value"></datepicker>
       <div style="float: left; padding-top: 12px;">
