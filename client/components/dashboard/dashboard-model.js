@@ -61,7 +61,7 @@ explorer.components.dashboard.DashboardModel = function() {
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.title = 'Untitled Dashboard';
 
@@ -161,7 +161,7 @@ explorer.components.dashboard.DashboardConfig = function(opt_model) {
    * DashboardConfig object that contains it.
    *
    * @type {!(Object|DashboardModel)}
-   * @expose
+   * @export
    */
   this.model = opt_model || new DashboardModel();
 };
