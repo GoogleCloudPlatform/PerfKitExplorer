@@ -1,7 +1,6 @@
 <div>
-  <script type="text/ng-template" id="date_template.html">
-    <span>What's goin' on?</span>
-    <div class="pk-popup" tabindex="-1">
+  <script type="text/ng-template" id="date_picker.template">
+    <div class="perfkit-popup" tabindex="-1">
       <relative-datepicker
           relative-datepicker-data="popupboxModel"></relative-datepicker>
     </div>
@@ -39,7 +38,7 @@
     <div class="pk-sidebar-item-value">
       <input class="form-control widget-filter-start-date"
              popupbox
-             popupbox-template-url="date_template.html"
+             popupbox-template-url="date_picker.template"
              popupbox-model="ngModel.datasource.config.filters.start_date"
              ng-model="ngModel.datasource.config.filters.start_date.text">
     </div>
@@ -53,10 +52,14 @@
     <div class="pk-sidebar-item-value input-group">
       <input class="form-control widget-filter-end-date"
              popupbox
-             popupbox-template-url="date_template.html"
+             popupbox-template-url="date_picker.template"
              popupbox-model="ngModel.datasource.config.filters.end_date"
              ng-model="ngModel.datasource.config.filters.end_date.text">
+<<<<<<< HEAD
       <span class="widget-filter-end-date-remove input-group-addon" role="button"
+=======
+      <span class="widget-filter-end-date-remove input-group-addon"
+>>>>>>> fix_popupbox
             ng-click="removeEndDate()">
         <i class="glyphicon glyphicon-remove"></i>
       </span>
