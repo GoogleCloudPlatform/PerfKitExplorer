@@ -1,15 +1,15 @@
-.perfkit-autocomplete-popup {
+.pk-autocomplete-popup {
   position: absolute;
   padding: 8px;
   border: 1px solid #999;
 }
 
-.perfkit-popup-item-unmatched {
+.pk-popup-item-unmatched {
   display: none;
   color: #999;
 }
 
-.perfkit-popup-item-matched {
+.pk-popup-item-matched {
   font-weight: bold;
   background-color: #EFEFEF;
 }

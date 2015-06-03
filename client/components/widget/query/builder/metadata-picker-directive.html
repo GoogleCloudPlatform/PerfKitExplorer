@@ -1,10 +1,10 @@
 <div>
-  <div class="perfkit-popup-title">
+  <div class="pk-popup-title">
     Choose a label and/or value from the lists below.
   </div>
-  <div class="perfkit-popup-leftwell">
-    <div class="perfkit-popup-item"
-         ng-class="{'perfkit-popup-item-selected': label.name == metadataPickerModel.label}"
+  <div class="pk-popup-leftwell">
+    <div class="pk-popup-item"
+         ng-class="{'pk-popup-item-selected': label.name == metadataPickerModel.label}"
          ng-show="!metadataPickerModel.label ||
                   label.name.slice(0, metadataPickerModel.label.length).toUpperCase() == metadataPickerModel.label.toUpperCase()"
          ng-repeat="label in metadataPickerData"
@@ -12,17 +12,17 @@
            {{ label.name }}
     </div>
   </div>
-  <div class="perfkit-popup-content">
+  <div class="pk-popup-content">
     <div ng-show="availableValues">
-      <div class="perfkit-popup-item"
-           ng-class="{'perfkit-popup-item-selected': metadataPickerModel.value == '*'}"
+      <div class="pk-popup-item"
+           ng-class="{'pk-popup-item-selected': metadataPickerModel.value == '*'}"
            ng-click="setValue('*')">Any value</div>
-      <div class="perfkit-popup-item"
-           ng-class="{'perfkit-popup-selected': metadataPickerModel.value == ''}"
+      <div class="pk-popup-item"
+           ng-class="{'pk-popup-selected': metadataPickerModel.value == ''}"
            ng-click="setValue('')">No value</div>
       <hr />
-      <div class="perfkit-popup-item"
-           ng-class="{'perfkit-popup-item-selected': value.name == metadataPickerModel.value}"
+      <div class="pk-popup-item"
+           ng-class="{'pk-popup-item-selected': value.name == metadataPickerModel.value}"
            ng-show="!metadataPickerModel.value ||
                     value.name.slice(0, metadataPickerModel.value.length).toUpperCase() == metadataPickerModel.value.toUpperCase()"
            ng-repeat="value in availableValues"
@@ -30,7 +30,7 @@
              {{ value.name }}
       </div>
     </div>
-    <div ng-hide="availableValues" class="perfkit-popup-note">
+    <div ng-hide="availableValues" class="pk-popup-note">
       Select a label on the left, or type one in the form label:value to see available values.
     </div>
   </div>

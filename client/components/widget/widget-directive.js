@@ -18,7 +18,7 @@
  * according to the layout object defined in the model.
  *
  * Usage:
- *   <perfkit-widget class="perfkit-widget" widget-config="widgetConfig"/>
+ *   <perfkit-widget class="pk-widget" widget-config="widgetConfig"/>
  *
  * Attributes:
  *  {p3rf.perfkit.explorer.models.WidgetConfig} widget-config

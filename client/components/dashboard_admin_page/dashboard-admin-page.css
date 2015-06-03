@@ -15,19 +15,19 @@
  *
  */
 
-.perfkit-page-sidebar-option
+.pk-page-sidebar-option
 {
   padding: 4px;
 }
 
-.perfkit-page-sidebar-option:hover
+.pk-page-sidebar-option:hover
 {
   padding: 4px;
   cursor: pointer;
   background-color: #eee;
 }
 
-.perfkit-page-sidebar-option-selected
+.pk-page-sidebar-option-selected
 {
   font-weight: bold;
 }

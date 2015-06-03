@@ -20,7 +20,7 @@
  *
  * An architectural overview of this and other services used to define queries,
  * charts and dashboards can be found at:
- *     http://goto.google.com/perfkit-explorer-architecture
+ *     http://goto.google.com/pk-explorer-architecture
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
