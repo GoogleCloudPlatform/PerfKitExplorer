@@ -18,7 +18,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-describe('popupbox', function() {
+fdescribe('popupbox', function() {
   'use strict';
 
   var scope, element, $compile, $timeout, $httpBackend;

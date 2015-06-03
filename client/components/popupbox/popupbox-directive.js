@@ -45,6 +45,8 @@ goog.require('goog.style');
 goog.scope(function() {
 var explorer = p3rf.perfkit.explorer;
 
+const DEFAULT_TEMPLATE_URL = (
+    '/static/components/popupbox/popupbox-directive.html');
 
 /**
  * The Popupbox directive provides for a templated popup region that appears
@@ -63,9 +65,8 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
   return {
     restrict: 'A',
     transclude: false,
-    templateUrl: function(scope, element, attrs) {
-      return scope.popupboxTemplateUrl ||
-          '/static/components/popupbox/popupbox-directive.html';
+    templateUrl: function(element, attrs) {
+      return attrs.popupboxTemplateUrl || DEFAULT_TEMPLATE_URL;
     },
     scope: {
       /**
@@ -77,9 +78,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       /**
        * The model element that represents the "selected" value for the popup.
        */
-      popupboxModel: '=',
-
-      popupboxTemplateUrl: '&'
+      popupboxModel: '='
     },
     link: function(scope, element, attrs) {
       var input = element;
