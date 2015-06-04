@@ -10,6 +10,7 @@
         md-direction="right" md-visible="tab.tooltipVisible" md-autohide>
         {{ tab.hint }}</md-tooltip>
     <i class="pk-sidebar-tab-icon {{ tab.iconClass }}"></i>
-    <span ng-hide="ctrl.tabSvc.selectedTab">{{ tab.title }}</span>
+    <div class="pk-sidebar-tab-label"
+        ng-hide="ctrl.tabSvc.selectedTab">{{ tab.title }}</div>
   </div>
 </div>

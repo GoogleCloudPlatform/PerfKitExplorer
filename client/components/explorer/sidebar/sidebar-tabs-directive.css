@@ -1,15 +1,25 @@
 .pk-sidebar-tab {
-  cursor: pointer;
+  height: 44px;
   padding: 8px;
+  padding-top: 11px;
   white-space: nowrap;
 }
 
 .pk-sidebar-tab:hover {
   cursor: pointer;
   padding: 8px;
+  padding-top: 11px;
   white-space: nowrap;
 }
 
 .pk-sidebar-tab-icon {
-  width: 16px
+  font-size: 20px;
+  float: left;
+  text-align: center;
+  width: 24px;
+}
+
+.pk-sidebar-tab-label {
+  padding-left: 6px;
+  padding-bottom: 4px;
 }
