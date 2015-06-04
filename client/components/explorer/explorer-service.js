@@ -31,13 +31,13 @@ goog.require('goog.asserts');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ArrayUtilService = explorer.components.util.ArrayUtilService;
-var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var ErrorService = explorer.components.error.ErrorService;
-var ExplorerModel = explorer.components.explorer.ExplorerModel;
+const explorer = p3rf.perfkit.explorer;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
+const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const ErrorService = explorer.components.error.ErrorService;
+const ExplorerModel = explorer.components.explorer.ExplorerModel;
 
 
 

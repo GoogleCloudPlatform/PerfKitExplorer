@@ -25,7 +25,7 @@ goog.provide('p3rf.perfkit.explorer.models.WidgetState');
 goog.provide('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**

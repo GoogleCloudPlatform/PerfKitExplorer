@@ -36,19 +36,19 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePart
 
 goog.scope(function() {
 
-var explorer = p3rf.perfkit.explorer;
-var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
-var DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
-var Filter = explorer.components.query_builder.Filter;
-var FilterClause = explorer.components.query_builder.FilterClause;
-var BigQueryBuilder = explorer.components.query_builder.QueryBuilder;
-var QueryProperties = explorer.components.query_builder.QueryProperties;
-var dateUtil = explorer.dateUtil;
-var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
-var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
-var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
-var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
-var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
+const explorer = p3rf.perfkit.explorer;
+const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+const DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
+const Filter = explorer.components.query_builder.Filter;
+const FilterClause = explorer.components.query_builder.FilterClause;
+const BigQueryBuilder = explorer.components.query_builder.QueryBuilder;
+const QueryProperties = explorer.components.query_builder.QueryProperties;
+const dateUtil = explorer.dateUtil;
+const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
+const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
+const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+const QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 /**

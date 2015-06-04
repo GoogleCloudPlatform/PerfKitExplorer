@@ -28,8 +28,8 @@ describe('QueryResultConfigDirective', function() {
   var scope, $compile, $httpBackend, $timeout, uiConfig;
   var configSvc, dashboardSvc;
 
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
   const TEMPLATE_PICKLIST = (
     '/static/components/widget/query/picklist-template.html');

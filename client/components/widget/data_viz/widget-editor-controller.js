@@ -29,12 +29,12 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataServi
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var WidgetEditorService = (
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const WidgetEditorService = (
     explorer.components.widget.data_viz.gviz.WidgetEditorService);
-var DashboardService = explorer.components.dashboard.DashboardService;
-var QueryResultDataService = (
+const DashboardService = explorer.components.dashboard.DashboardService;
+const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 
 

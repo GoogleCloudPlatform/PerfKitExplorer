@@ -31,13 +31,13 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 
 goog.scope(function() {
 
-var explorer = p3rf.perfkit.explorer;
-var DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
-var DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType;
-var MeasureResult = p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult;
-var QueryColumnModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnModel;
-var QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
-var QueryFilterModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel;
+const explorer = p3rf.perfkit.explorer;
+const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+const DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
+const MeasureResult = explorer.models.perfkit_simple_builder.MeasureResult;
+const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
+const QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
+const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 
 /**

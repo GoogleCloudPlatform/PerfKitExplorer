@@ -25,10 +25,11 @@ goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('WidgetEditorCtrl', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-  var WidgetConfig = explorer.models.WidgetConfig;
-  var WidgetType = explorer.models.WidgetType;
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const WidgetConfig = explorer.models.WidgetConfig;
+  const WidgetType = explorer.models.WidgetType;
+
   var ctrl, scope, rootScope, dashboardService, showEditorDeferred,
       widgetEditorServiceMock, widgetFactoryService;
   var ctrlPrototype =

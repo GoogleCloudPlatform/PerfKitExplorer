@@ -25,10 +25,10 @@ goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdm
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var dashboardDataService = explorer.components.dashboard.DashboardDataService;
-var PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
+const explorer = p3rf.perfkit.explorer;
+const dashboardDataService = explorer.components.dashboard.DashboardDataService;
+const PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 /**

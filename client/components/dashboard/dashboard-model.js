@@ -28,10 +28,10 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePart
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
+const explorer = p3rf.perfkit.explorer;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 /** @constructor */

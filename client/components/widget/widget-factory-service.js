@@ -36,18 +36,18 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('goog.math');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardVersionService =
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
-var WidgetConfig = explorer.models.WidgetConfig;
-var WidgetModel = explorer.models.WidgetModel;
-var WidgetState = explorer.models.WidgetState;
-var WidgetType = explorer.models.WidgetType;
+const WidgetConfig = explorer.models.WidgetConfig;
+const WidgetModel = explorer.models.WidgetModel;
+const WidgetState = explorer.models.WidgetState;
+const WidgetType = explorer.models.WidgetType;
 
 
 

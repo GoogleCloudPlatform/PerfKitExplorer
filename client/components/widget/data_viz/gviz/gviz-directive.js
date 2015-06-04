@@ -41,14 +41,14 @@ goog.require('p3rf.perfkit.explorer.models.LayoutModel');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartType = explorer.models.ChartType;
-var ChartWrapperService = (
+const explorer = p3rf.perfkit.explorer;
+const ChartType = explorer.models.ChartType;
+const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
-var DataViewService = explorer.components.widget.query.DataViewService;
-var QueryResultDataService = (
+const DataViewService = explorer.components.widget.query.DataViewService;
+const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 
 /**

@@ -24,8 +24,8 @@ goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
+const explorer = p3rf.perfkit.explorer;
+const CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
 
 
 /**

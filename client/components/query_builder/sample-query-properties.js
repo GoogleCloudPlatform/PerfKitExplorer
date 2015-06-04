@@ -26,10 +26,10 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var Filter = explorer.components.query_builder.Filter;
-var FilterClause = explorer.components.query_builder.FilterClause;
-var QueryProperties = explorer.components.query_builder.QueryProperties;
+const explorer = p3rf.perfkit.explorer;
+const Filter = explorer.components.query_builder.Filter;
+const FilterClause = explorer.components.query_builder.FilterClause;
+const QueryProperties = explorer.components.query_builder.QueryProperties;
 
 var COLUMN = Filter.DisplayMode.COLUMN;
 var HIDDEN = Filter.DisplayMode.HIDDEN;

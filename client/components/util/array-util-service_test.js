@@ -22,7 +22,8 @@ goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 
 
 describe('arrayUtilService', function() {
-  var explorer = p3rf.perfkit.explorer;
+  const explorer = p3rf.perfkit.explorer;
+
   var svc;
 
   beforeEach(module('explorer'));

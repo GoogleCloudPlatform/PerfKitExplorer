@@ -22,8 +22,8 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel')
 
 
 describe('dashboardVersionModel', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DashboardVersionModel =
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardVersionModel =
       explorer.components.dashboard.DashboardVersionModel;
 
   it('should initialize the model to defaults.',

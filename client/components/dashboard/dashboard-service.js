@@ -39,24 +39,24 @@ goog.require('goog.array');
 goog.require('goog.asserts');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ArrayUtilService = explorer.components.util.ArrayUtilService;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var ConfigService = explorer.components.config.ConfigService;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-var DashboardParam = explorer.components.dashboard.DashboardParam;
-var DashboardDataService = explorer.components.dashboard.DashboardDataService;
-var ErrorService = explorer.components.error.ErrorService;
-var ErrorTypes = explorer.components.error.ErrorTypes;
-var QueryBuilderService = (
+const explorer = p3rf.perfkit.explorer;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ConfigService = explorer.components.config.ConfigService;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardParam = explorer.components.dashboard.DashboardParam;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const QueryBuilderService = (
     explorer.components.widget.query.builder.QueryBuilderService);
-var QueryTablePartitioning = (
+const QueryTablePartitioning = (
     explorer.models.perfkit_simple_builder.QueryTablePartitioning);
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
-var WidgetConfig = explorer.models.WidgetConfig;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
-var WidgetType = explorer.models.WidgetType;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
+const WidgetConfig = explorer.models.WidgetConfig;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const WidgetType = explorer.models.WidgetType;
 
 
 /**

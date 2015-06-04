@@ -29,9 +29,9 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 
 
 goog.scope(function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
-  var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
+  const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6 = function() {
     this.version = '6';
