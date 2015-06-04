@@ -5,35 +5,9 @@
 
   <base href="/">
 
-  <!-- JQuery & Angular -->
-  <script src="[[static_dir]]/third_party/jquery/jquery.min.js"></script>
-  <script src="[[static_dir]]/third_party/angular/angular.min.js"></script>
-  <script src="[[static_dir]]/third_party/angular/angular-animate.min.js"></script>
-  <script src="[[static_dir]]/third_party/angular/angular-aria.min.js"></script>
-  <script src="[[static_dir]]/third_party/angular/angular-mocks.js"></script>
-
-  <!-- Angular Material -->
-  <link rel="stylesheet" href="[[static_dir]]/third_party/angular-material/angular-material.min.css">
-  <script src="[[static_dir]]/third_party/angular-material/angular-material.min.js"></script>
-  <link type="text/css" rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" />
+  [% include 'third-party-scripts.html' %]
 
   <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
-
-  <!-- AngularUI Grid -->
-  <script src="[[static_dir]]/third_party/ui-grid/ui-grid.js"></script>
-  <link href="[[static_dir]]/third_party/ui-grid/ui-grid.css" rel="stylesheet">
-
-  <!-- CodeMirror3 Editor -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/mode/javascript/javascript.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/mode/sql/sql.js"></script>
-  <link href="//cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.css" rel="stylesheet">
-
-  <!-- Bootstrap & Bootstrap UI -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-  <script type="text/javascript" src="//www.google.com/jsapi"></script>
 
   <script>
     // Initialize Google Visualizations
@@ -52,7 +26,6 @@
   <script src="[[static_dir]]/perfkit_templates.js"></script>
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
 
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
 </head>
 <body>
