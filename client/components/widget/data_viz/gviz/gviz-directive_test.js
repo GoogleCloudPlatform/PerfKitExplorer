@@ -87,10 +87,10 @@ describe('gvizDirective', function() {
   beforeEach(inject(function($templateCache, $httpBackend) {
     var template =
         '<div>' +
-        '<div class="perfkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'perfkit-chart-hidden\': widgetConfig.state().chart.error}">' +
+        '<div class="pk-chart"  ng-hide="!isDataFetched()" ng-class=' +
+        '"{\'pk-chart-hidden\': widgetConfig.state().chart.error}">' +
         '</div>' +
-        '<div class="perfkit-chart-error" ng-show="' +
+        '<div class="pk-chart-error" ng-show="' +
         'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
         '> {{widgetConfig.state().chart.error}}</div></div>' +
         '<div class="spinner" ng-show="isDataFetching()"></div>' +
@@ -200,7 +200,7 @@ describe('gvizDirective', function() {
         setupComponent();
 
         expect(model.layout.cssClasses).
-            toEqual('perfkit-widget-no-overflow');
+            toEqual('pk-widget-no-overflow');
       }
   );
 
@@ -244,7 +244,7 @@ describe('gvizDirective', function() {
         function() {
           setupData();
           var component = setupComponent();
-          expect(component.chartDiv.hasClass('perfkit-chart-hidden')).
+          expect(component.chartDiv.hasClass('pk-chart-hidden')).
               toBeFalsy();
         }
     );
@@ -255,7 +255,7 @@ describe('gvizDirective', function() {
           var component = setupComponent();
           state().chart.error = 'fake error';
           rootScope.$apply();
-          expect(component.chartDiv.hasClass('perfkit-chart-hidden')).
+          expect(component.chartDiv.hasClass('pk-chart-hidden')).
               toBeTruthy();
         }
     );

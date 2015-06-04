@@ -56,7 +56,7 @@ p3rf.perfkit.explorer.components.layout.ResizeDirective = function(
           }
 
           element.addClass(
-              'perfkit2-resize-' + scope.resizeDirection.toLowerCase());
+              'pk-resize-' + scope.resizeDirection.toLowerCase());
 
           element.on('mousedown', angular.bind(this, function(event) {
             event.preventDefault();

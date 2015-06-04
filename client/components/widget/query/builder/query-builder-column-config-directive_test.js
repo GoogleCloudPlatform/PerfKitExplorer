@@ -26,11 +26,11 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 describe('QueryBuilderColumnConfigDirective', function() {
   // declare these up here to be global to all tests
-  var scope, $compile, $httpBackend, $timeout, uiConfig;
+  var scope, $compile, $httpBackend, $timeout;
   var configSvc, dashboardSvc;
 
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
   const TEMPLATE_COLUMN_CONFIG = (
           '/static/components/widget/query/query-builder-column-config-directive.html');

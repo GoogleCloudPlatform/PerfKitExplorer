@@ -24,7 +24,7 @@
       <input class="multibox-insert-control form-control"
           ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
     </div>
-    <div class="multibox-popup perfkit-popup" tabindex="-1">
+    <div class="multibox-popup pk-popup" tabindex="-1">
       <div
           metadata-picker
           metadata-picker-data="multiboxData"
@@ -33,9 +33,9 @@
     </div>
   </script>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">start date</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">start date</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget-filter-start-date"
              popupbox
              popupbox-template-url="date_picker.template"
@@ -44,12 +44,12 @@
     </div>
   </div>
 
-  <div class="sidebar-item" ng-hide="ngModel.datasource.config.filters.end_date">
+  <div class="pk-sidebar-item" ng-hide="ngModel.datasource.config.filters.end_date">
     <a ng-click="addEndDate()" class="widget-filter-end-date-add">add end date</a>
   </div>
-  <div class="sidebar-item" ng-show="ngModel.datasource.config.filters.end_date">
-    <div class="sidebar-item-label">end date</div>
-    <div class="sidebar-item-value input-group">
+  <div class="pk-sidebar-item" ng-show="ngModel.datasource.config.filters.end_date">
+    <div class="pk-sidebar-item-label">end date</div>
+    <div class="pk-sidebar-item-value input-group">
       <input class="form-control widget-filter-end-date"
              popupbox
              popupbox-template-url="date_picker.template"
@@ -62,13 +62,13 @@
     </div>
   </div>
 
-  <div class="sidebar-item" ng-hide="ngModel.datasource.config.filters.official != null">
+  <div class="pk-sidebar-item" ng-hide="ngModel.datasource.config.filters.official != null">
     <a ng-click="addOfficial()" class="widget-filter-official-add">add official filter</a>
   </div>
-  <div class="sidebar-item"
+  <div class="pk-sidebar-item"
        ng-show="ngModel.datasource.config.filters.official != null">
-    <div class="sidebar-item-label">official results</div>
-    <div class="sidebar-item-value">
+    <div class="pk-sidebar-item-label">official results</div>
+    <div class="pk-sidebar-item-value">
       <input type="checkbox" class="widget-filter-official"
              ng-model="ngModel.datasource.config.filters.official"> official
       <span class="glyphicon glyphicon-remove widget-filter-official-remove"
@@ -76,42 +76,42 @@
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">product</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">product</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget-filter-product-name"
              ng-model="ngModel.datasource.config.filters.product_name">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">test</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">test</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget-filter-test-name"
              ng-model="ngModel.datasource.config.filters.test">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">metric</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">metric</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget-filter-metric-name"
              ng-model="ngModel.datasource.config.filters.metric">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">run by</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">run by</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control widget-filter-runby"
              ng-model="ngModel.datasource.config.filters.runby">
     </div>
   </div>
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">
       metadata
     </div>
-    <div class="sidebar-item-value">
+    <div class="pk-sidebar-item-value">
       <span
           class="widget-filter-metadata"
           multibox

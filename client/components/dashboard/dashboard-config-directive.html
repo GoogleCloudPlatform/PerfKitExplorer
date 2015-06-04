@@ -1,4 +1,4 @@
-<div class="sidebar-group">
+<div class="pk-sidebar-group">
   <!-- Custom template for the dashboard params editor. -->
   <script type="text/ng-template" id="dashboard_params.template">
     <div class="param-table">
@@ -26,37 +26,37 @@
     </div>
   </script>
 
-  <div class="sidebar-group-title">Dashboard</div>
+  <div class="pk-sidebar-group-title">Dashboard</div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">id</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">id</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control dashboard-id"
              type="text"
              readonly="true"
              ng-model="ngModel.id">
     </div>
   </div>
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">title</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">title</div>
+    <div class="pk-sidebar-item-value">
       <input type="text"
              class="form-control dashboard-title"
              ng-model="ngModel.title">
     </div>
   </div>
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">owner</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">owner</div>
+    <div class="pk-sidebar-item-value">
       <input type="text"
              class="form-control dashboard-owner"
              ng-model="ngModel.owner">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">writers</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">writers</div>
+    <div class="pk-sidebar-item-value">
       <span
           class="dashboard-writers"
           multibox
@@ -69,9 +69,9 @@
     </div>
   </div>
 
-  <div class="sidebar-item" ng-show="explorerSvc.CURRENT_USER_ADMIN === true">
-    <div class="sidebar-item-label">version</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item" ng-show="explorerSvc.CURRENT_USER_ADMIN === true">
+    <div class="pk-sidebar-item-label">version</div>
+    <div class="pk-sidebar-item-value">
       <input id="dashboard-id"
              type="text"
              class="form-control dashboard-version"
@@ -79,9 +79,9 @@
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">parameters</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">parameters</div>
+    <div class="pk-sidebar-item-value">
       <span
           class="dashboard-parameters"
           multibox
@@ -95,38 +95,38 @@
     </div>
   </div>
 
-  <div class="sidebar-group-title">Datasource Defaults</div>
+  <div class="pk-sidebar-group-title">Datasource Defaults</div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">project id</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">project id</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control dashboard-datasource-project-id"
              ng-model="ngModel.project_id"
              placeholder="{{ configSvc.default_project }}">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">dataset</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">dataset</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control dashboard-datasource-dataset-name"
              ng-model="ngModel.dataset_name"
              placeholder="{{ configSvc.default_dataset }}">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">table</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">table</div>
+    <div class="pk-sidebar-item-value">
       <input class="form-control dashboard-datasource-table-name"
              ng-model="ngModel.table_name"
              placeholder="{{ configSvc.default_table }}">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">table format</div>
-    <div class="sidebar-item-value">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">table format</div>
+    <div class="pk-sidebar-item-value">
       <md-select
               class="dashboard-datasource-table-format"
               placeholder="{{ dashboardSvc.getTablePartition(

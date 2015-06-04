@@ -34,21 +34,21 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ConfigService = explorer.components.config.ConfigService;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
-var DateGroupings = explorer.models.perfkit_simple_builder.DateGroupings;
-var ExplorerService = explorer.components.explorer.ExplorerService;
-var DatasourceModel = explorer.models.DatasourceModel;
-var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
-var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
-var MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
-var QueryBuilderService =
+const explorer = p3rf.perfkit.explorer;
+const ConfigService = explorer.components.config.ConfigService;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
+const DateGroupings = explorer.models.perfkit_simple_builder.DateGroupings;
+const ExplorerService = explorer.components.explorer.ExplorerService;
+const DatasourceModel = explorer.models.DatasourceModel;
+const FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
+const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
+const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
+const QueryBuilderService =
     explorer.components.widget.query.builder.QueryBuilderService;
-var QueryEditorService = explorer.components.widget.query.QueryEditorService;
-var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const QueryEditorService = explorer.components.widget.query.QueryEditorService;
+const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 
 

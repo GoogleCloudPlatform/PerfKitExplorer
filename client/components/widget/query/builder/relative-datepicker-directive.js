@@ -41,7 +41,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.RelativeDate
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 var FILTER_TYPES = [

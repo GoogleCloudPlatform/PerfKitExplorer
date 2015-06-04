@@ -1,10 +1,10 @@
-.perfkit-header {
+.pk-header {
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
   width: 100%;
 }
 
-.perfkit-header-section {
+.pk-header-section {
   border-bottom: 1px solid rgb(229, 229, 229);
 }
 
@@ -16,18 +16,18 @@
   padding-bottom: 4px;
 }
 
-.perfkit-toolbar {
+.pk-toolbar {
   border-bottom: 1px solid rgb(229, 229, 229);
   flex-shrink: 0;
   -webkit-flex-shrink: 0;
 }
 
-.perfkit-toolbar {
+.pk-toolbar {
   display: block;
   padding: 8px;
 }
 
-.perfkit-toolbar-section {
+.pk-toolbar-section {
   display: inline-block;
   border-right: 1px solid #ccc;
   margin-right: 4px;
@@ -35,7 +35,7 @@
   white-space: nowrap;
 }
 
-.perfkit-dropdown-button-section {
+.pk-dropdown-button-section {
   display: inline-block;
 }
 

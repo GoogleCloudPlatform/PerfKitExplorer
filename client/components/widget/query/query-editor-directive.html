@@ -1,29 +1,29 @@
 <div>
 
   <!-- For custom queries, only show the result config. -->
-  <div class="sidebar-group"
+  <div class="pk-sidebar-group"
       ng-show="queryEditorCtrl.dashboard.selectedWidget.model.datasource.custom_query">
 
-    <div class="sidebar-group-note">
+    <div class="pk-sidebar-group-note">
       Limited options are available when creating a Custom SQL statement.
       Using the toolbar above, click the
       <a href="#" ng-click="queryEditorCtrl.explorer.restoreBuilder()">Build Query</a>
       button to use the Query Builder UI.
     </div>
 
-    <div class="sidebar-group">
+    <div class="pk-sidebar-group">
 
       <button type="button" class="btn btn-primary"
           ng-click="queryEditorCtrl.dashboard.refreshWidget(queryEditorCtrl.dashboard.selectedWidget)">
         Refresh
       </button>
-      <button type="button" class="btn btn-default perfkit-footer-button"
+      <button type="button" class="btn btn-default pk-footer-button"
           ng-click="queryEditorCtrl.explorer.restoreBuilder()">
         Build Query
       </button>
     </div>
 
-    <div class="sidebar-group-title">Results Shape</div>
+    <div class="pk-sidebar-group-title">Results Shape</div>
     <query-result-config
         ng-model="queryEditorCtrl.dashboard.currentWidget.model"></query-result-config>
 
@@ -35,31 +35,31 @@
       <query-builder-filter-config
           ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-builder-filter-config>
 
-      <div class="sidebar-group-title">Datasource</div>
+      <div class="pk-sidebar-group-title">Datasource</div>
       <query-builder-datasource-config
           ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-builder-datasource-config>
     </tab>
 
     <tab heading="Result Shape">
-      <div class="sidebar-group">
+      <div class="pk-sidebar-group">
 
         <button type="button" class="btn btn-primary"
             ng-click="queryEditorCtrl.dashboard.refreshWidget(
                 queryEditorCtrl.dashboard.selectedWidget)">
           Refresh
         </button>
-        <button type="button" class="btn btn-default perfkit-footer-button"
+        <button type="button" class="btn btn-default pk-footer-button"
             ng-click="queryEditorCtrl.explorer.customizeSql(true)">
           Customize
         </button>
       </div>
 
-      <div class="sidebar-group">
+      <div class="pk-sidebar-group">
 
         <query-builder-column-config
             ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-builder-column-config>
 
-        <div class="sidebar-group-title">Results Shape</div>
+        <div class="pk-sidebar-group-title">Results Shape</div>
         <query-result-config
             ng-model="queryEditorCtrl.dashboard.selectedWidget.model"></query-result-config>
 

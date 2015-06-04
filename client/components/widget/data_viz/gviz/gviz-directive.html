@@ -1,8 +1,8 @@
 <div>
-  <div class="perfkit-chart"  ng-hide="!isDataFetched()"
-       ng-class="{'perfkit-chart-hidden': config.$$state.chartError}">
+  <div class="pk-chart"  ng-hide="!isDataFetched()"
+       ng-class="{'pk-chart-hidden': config.$$state.chartError}">
   </div>
-  <div class="perfkit-chart-error" ng-show="config.$$state.chartError">
+  <div class="pk-chart-error" ng-show="config.$$state.chartError">
     <div ng-hide="isDataFetching()">
       {{config.$$state.chartError}}
     </div>

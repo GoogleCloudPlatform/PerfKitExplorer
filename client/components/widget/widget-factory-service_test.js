@@ -29,17 +29,18 @@ goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('widgetFactoryService', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-  var ChartWidgetModel = explorer.models.ChartWidgetModel;
-  var ContainerWidgetConfig =
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const ContainerWidgetConfig =
       explorer.components.container.ContainerWidgetConfig;
-  var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-  var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-  var DashboardModel = explorer.components.dashboard.DashboardModel;
-  var WidgetConfig = explorer.models.WidgetConfig;
-  var WidgetModel = explorer.models.WidgetModel;
-  var WidgetType = explorer.models.WidgetType;
+  const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+  const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+  const DashboardModel = explorer.components.dashboard.DashboardModel;
+  const WidgetConfig = explorer.models.WidgetConfig;
+  const WidgetModel = explorer.models.WidgetModel;
+  const WidgetType = explorer.models.WidgetType;
+
   var svc, rootScope;
 
   beforeEach(module('explorer'));

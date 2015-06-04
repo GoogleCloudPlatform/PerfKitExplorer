@@ -43,7 +43,7 @@ goog.require('goog.style');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 var DEFAULT_TEMPLATE_URL = (
     '/static/components/popupbox/popupbox-directive.html');

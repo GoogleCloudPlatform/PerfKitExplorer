@@ -25,9 +25,9 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
-var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
+const explorer = p3rf.perfkit.explorer;
+const FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
+const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 
 
 /**

@@ -22,9 +22,10 @@ goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdm
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
 
 describe('DashboardAdminPageCtrl', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DashboardAdminPageModel =
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardAdminPageModel =
       explorer.components.dashboard_admin_page.DashboardAdminPageModel;
+
   var ctrl, scope, rootScope, location, q, dashboardDataService;
   var httpBackend, endpoint, mockData;
   var ctrlPrototype =

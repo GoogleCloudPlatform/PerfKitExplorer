@@ -29,13 +29,14 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 
 
 describe('explorerService', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-  var ConfigService = explorer.components.config.ConfigService;
-  var QueryBuilderService =
+  const explorer = p3rf.perfkit.explorer;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const ConfigService = explorer.components.config.ConfigService;
+  const QueryBuilderService =
       explorer.components.widget.query.builder.QueryBuilderService;
-  var ResultsDataStatus = explorer.models.ResultsDataStatus;
-  var WidgetConfig = explorer.models.WidgetConfig;
+  const ResultsDataStatus = explorer.models.ResultsDataStatus;
+  const WidgetConfig = explorer.models.WidgetConfig;
+
   var svc, configService, dashboardService, queryBuilderService,
       widgetFactoryService;
 

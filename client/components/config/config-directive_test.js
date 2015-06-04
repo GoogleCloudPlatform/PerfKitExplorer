@@ -26,7 +26,7 @@ describe('configDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
 
-  var explorer = p3rf.perfkit.explorer;
+  const explorer = p3rf.perfkit.explorer;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));

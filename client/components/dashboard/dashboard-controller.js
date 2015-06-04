@@ -26,10 +26,10 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardDataService = explorer.components.dashboard.DashboardDataService;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const explorer = p3rf.perfkit.explorer;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 

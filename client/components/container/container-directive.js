@@ -18,7 +18,7 @@
  * them visually in three different way: row, column, or wrap.
  *
  * Usage:
- *   <container class="perfkit-container-content"
+ *   <container class="pk-container-content"
  *              container-config="containerConfigConfig"/>
  *
  * Attributes:
@@ -55,7 +55,7 @@ ContainerDirective = function() {
          * @type {Object}
          */
         scope.flexClass = {
-          'perfkit-container-selected' : scope.containerConfig.state().selected
+          'pk-container-selected' : scope.containerConfig.state().selected
         };
 
         var className = 'flex-' + scope.containerConfig.model.container.flow;

@@ -35,16 +35,16 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('goog.Uri');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var ErrorService = explorer.components.error.ErrorService;
-var ErrorTypes = explorer.components.error.ErrorTypes;
-var WidgetConfig = explorer.models.WidgetConfig;
-var WidgetType = explorer.models.WidgetType;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const WidgetConfig = explorer.models.WidgetConfig;
+const WidgetType = explorer.models.WidgetType;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 

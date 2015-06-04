@@ -25,10 +25,11 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 goog.require('goog.Uri');
 
 describe('fieldCubeDataService', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
-  var QueryFilterModel =
+  const explorer = p3rf.perfkit.explorer;
+  const PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
+  const QueryFilterModel =
       explorer.models.perfkit_simple_builder.QueryFilterModel;
+
   var svc, rootScope, httpBackend;
 
   beforeEach(module('explorer'));
