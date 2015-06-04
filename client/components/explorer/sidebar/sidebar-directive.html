@@ -28,15 +28,13 @@
 
       <div ng-switch-when="widget.data.filter">
         <query-builder-filter-config
-            ng-model="dashboardSvc.selectedWidget.model"
-            ng-hide="dashboardSvc.selectedWidget.model.datasource.custom_query" />
+            ng-model="dashboardSvc.selectedWidget.model" />
       </div>
 
       <div ng-switch-when="widget.data.result">
-        <div class="pk-sidebar-group"
-            ng-hide="dashboardSvc.selectedWidget.model.datasource.custom_query" >
-          <query-builder-column-config ng-model="dashboardSvc.selectedWidget.model" />
-        </div>
+        <query-builder-column-config
+            ng-model="dashboardSvc.selectedWidget.model">
+        </query-builder-column-config>
         <div class="pk-sidebar-group-title">Result Shape</div>
         <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>

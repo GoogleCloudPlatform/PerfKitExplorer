@@ -1,127 +1,136 @@
 <div>
-  <script type="text/ng-template" id="date_picker.template">
-    <div class="perfkit-popup" tabindex="-1">
-      <relative-datepicker
-          relative-datepicker-data="popupboxModel"></relative-datepicker>
-    </div>
-  </script>
 
-  <!-- Custom template for the label picker when filtering on values. -->
-  <script type="text/ng-template" id="metadata_picker.template">
-    <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
-      <input
-          class="multibox-input-control form-control"
-          placeholder="{{ multiboxPlaceholder }}"
-          ng-model="option.text"
-          ng-blur="blurInput($event)"
-          ng-focus="focusInput($event, option)">
-      <span class="input-group-addon">
-        <i class="glyphicon glyphicon-remove"
-           ng-click="unselectOptionAt($index)"></i>
-      </span>
-    </div>
-    <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
-      <input class="multibox-insert-control form-control"
-          ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
-    </div>
-    <div class="multibox-popup pk-popup" tabindex="-1">
-      <div
-          metadata-picker
-          metadata-picker-data="multiboxData"
-          metadata-picker-model="activeOption"
-          metadata-picker-select-value="hidePopup" />
-    </div>
-  </script>
+  <div class="pk-sidebar-note"
+      ng-show="ngModel.datasource.custom_query">
+    Custom SQL statements do not support the builder UX.  To build your
+    SQL statement with UI controls, click 'Use SQL Builder' in the toolbar.
+  </div>
+  <div ng-hide="ngModel.datasource.custom_query">
 
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">start date</div>
-    <div class="pk-sidebar-item-value">
-      <input class="form-control widget-filter-start-date"
-             popupbox
-             popupbox-template-url="date_picker.template"
-             popupbox-model="ngModel.datasource.config.filters.start_date"
-             ng-model="ngModel.datasource.config.filters.start_date.text">
+    <script type="text/ng-template" id="date_picker.template">
+      <div class="perfkit-popup" tabindex="-1">
+        <relative-datepicker
+            relative-datepicker-data="popupboxModel"></relative-datepicker>
+      </div>
+    </script>
+  
+    <!-- Custom template for the label picker when filtering on values. -->
+    <script type="text/ng-template" id="metadata_picker.template">
+      <div class="multibox-row input-group" ng-repeat="option in multiboxSelectedOptions">
+        <input
+            class="multibox-input-control form-control"
+            placeholder="{{ multiboxPlaceholder }}"
+            ng-model="option.text"
+            ng-blur="blurInput($event)"
+            ng-focus="focusInput($event, option)">
+        <span class="input-group-addon">
+          <i class="glyphicon glyphicon-remove"
+             ng-click="unselectOptionAt($index)"></i>
+        </span>
+      </div>
+      <div class="multibox-row multibox-insert-row" ng-hide="isInsertRowFocused()">
+        <input class="multibox-insert-control form-control"
+            ng-click="addInput()" ng-focus="addInput()" readonly placeholder="click to add">
+      </div>
+      <div class="multibox-popup pk-popup" tabindex="-1">
+        <div
+            metadata-picker
+            metadata-picker-data="multiboxData"
+            metadata-picker-model="activeOption"
+            metadata-picker-select-value="hidePopup" />
+      </div>
+    </script>
+  
+    <div class="pk-sidebar-item">
+      <div class="pk-sidebar-item-label">start date</div>
+      <div class="pk-sidebar-item-value">
+        <input class="form-control widget-filter-start-date"
+               popupbox
+               popupbox-template-url="date_picker.template"
+               popupbox-model="ngModel.datasource.config.filters.start_date"
+               ng-model="ngModel.datasource.config.filters.start_date.text">
+      </div>
     </div>
-  </div>
-
-  <div class="pk-sidebar-item" ng-hide="ngModel.datasource.config.filters.end_date">
-    <a ng-click="addEndDate()" class="widget-filter-end-date-add">add end date</a>
-  </div>
-  <div class="pk-sidebar-item" ng-show="ngModel.datasource.config.filters.end_date">
-    <div class="pk-sidebar-item-label">end date</div>
-    <div class="pk-sidebar-item-value input-group">
-      <input class="form-control widget-filter-end-date"
-             popupbox
-             popupbox-template-url="date_picker.template"
-             popupbox-model="ngModel.datasource.config.filters.end_date"
-             ng-model="ngModel.datasource.config.filters.end_date.text">
-      <span class="widget-filter-end-date-remove input-group-addon" role="button"
-            ng-click="removeEndDate()">
-        <i class="glyphicon glyphicon-remove"></i>
-      </span>
+  
+    <div class="pk-sidebar-item" ng-hide="ngModel.datasource.config.filters.end_date">
+      <a ng-click="addEndDate()" class="widget-filter-end-date-add">add end date</a>
     </div>
-  </div>
-
-  <div class="pk-sidebar-item" ng-hide="ngModel.datasource.config.filters.official != null">
-    <a ng-click="addOfficial()" class="widget-filter-official-add">add official filter</a>
-  </div>
-  <div class="pk-sidebar-item"
-       ng-show="ngModel.datasource.config.filters.official != null">
-    <div class="pk-sidebar-item-label">official results</div>
-    <div class="pk-sidebar-item-value">
-      <input type="checkbox" class="widget-filter-official"
-             ng-model="ngModel.datasource.config.filters.official"> official
-      <span class="glyphicon glyphicon-remove widget-filter-official-remove"
-            ng-click="removeOfficial()"></span>
+    <div class="pk-sidebar-item" ng-show="ngModel.datasource.config.filters.end_date">
+      <div class="pk-sidebar-item-label">end date</div>
+      <div class="pk-sidebar-item-value input-group">
+        <input class="form-control widget-filter-end-date"
+               popupbox
+               popupbox-template-url="date_picker.template"
+               popupbox-model="ngModel.datasource.config.filters.end_date"
+               ng-model="ngModel.datasource.config.filters.end_date.text">
+        <span class="widget-filter-end-date-remove input-group-addon" role="button"
+              ng-click="removeEndDate()">
+          <i class="glyphicon glyphicon-remove"></i>
+        </span>
+      </div>
     </div>
-  </div>
-
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">product</div>
-    <div class="pk-sidebar-item-value">
-      <input class="form-control widget-filter-product-name"
-             ng-model="ngModel.datasource.config.filters.product_name">
+  
+    <div class="pk-sidebar-item" ng-hide="ngModel.datasource.config.filters.official != null">
+      <a ng-click="addOfficial()" class="widget-filter-official-add">add official filter</a>
     </div>
-  </div>
-
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">test</div>
-    <div class="pk-sidebar-item-value">
-      <input class="form-control widget-filter-test-name"
-             ng-model="ngModel.datasource.config.filters.test">
+    <div class="pk-sidebar-item"
+         ng-show="ngModel.datasource.config.filters.official != null">
+      <div class="pk-sidebar-item-label">official results</div>
+      <div class="pk-sidebar-item-value">
+        <input type="checkbox" class="widget-filter-official"
+               ng-model="ngModel.datasource.config.filters.official"> official
+        <span class="glyphicon glyphicon-remove widget-filter-official-remove"
+              ng-click="removeOfficial()"></span>
+      </div>
     </div>
-  </div>
-
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">metric</div>
-    <div class="pk-sidebar-item-value">
-      <input class="form-control widget-filter-metric-name"
-             ng-model="ngModel.datasource.config.filters.metric">
+  
+    <div class="pk-sidebar-item">
+      <div class="pk-sidebar-item-label">product</div>
+      <div class="pk-sidebar-item-value">
+        <input class="form-control widget-filter-product-name"
+               ng-model="ngModel.datasource.config.filters.product_name">
+      </div>
     </div>
-  </div>
-
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">run by</div>
-    <div class="pk-sidebar-item-value">
-      <input class="form-control widget-filter-runby"
-             ng-model="ngModel.datasource.config.filters.runby">
+  
+    <div class="pk-sidebar-item">
+      <div class="pk-sidebar-item-label">test</div>
+      <div class="pk-sidebar-item-value">
+        <input class="form-control widget-filter-test-name"
+               ng-model="ngModel.datasource.config.filters.test">
+      </div>
     </div>
-  </div>
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">
-      metadata
+  
+    <div class="pk-sidebar-item">
+      <div class="pk-sidebar-item-label">metric</div>
+      <div class="pk-sidebar-item-value">
+        <input class="form-control widget-filter-metric-name"
+               ng-model="ngModel.datasource.config.filters.metric">
+      </div>
     </div>
-    <div class="pk-sidebar-item-value">
-      <span
-          class="widget-filter-metadata"
-          multibox
-          multibox-placeholder="'label:value'"
-          multibox-display-prop="text"
-          multibox-focus-on-select="true"
-          multibox-on-insert-option="addMetadataFilter()"
-          multibox-selected-options="ngModel.datasource.config.filters.metadata"
-          multibox-template-url="metadata_picker.template">
-      </span>
+  
+    <div class="pk-sidebar-item">
+      <div class="pk-sidebar-item-label">run by</div>
+      <div class="pk-sidebar-item-value">
+        <input class="form-control widget-filter-runby"
+               ng-model="ngModel.datasource.config.filters.runby">
+      </div>
+    </div>
+    <div class="pk-sidebar-item">
+      <div class="pk-sidebar-item-label">
+        metadata
+      </div>
+      <div class="pk-sidebar-item-value">
+        <span
+            class="widget-filter-metadata"
+            multibox
+            multibox-placeholder="'label:value'"
+            multibox-display-prop="text"
+            multibox-focus-on-select="true"
+            multibox-on-insert-option="addMetadataFilter()"
+            multibox-selected-options="ngModel.datasource.config.filters.metadata"
+            multibox-template-url="metadata_picker.template">
+        </span>
+      </div>
     </div>
   </div>
 </div>
