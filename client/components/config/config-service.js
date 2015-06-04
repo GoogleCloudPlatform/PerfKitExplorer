@@ -150,7 +150,7 @@ ConfigService.prototype.update = function() {
   var promise = this.http_.post('/config', this.toJSON());
 
   promise.then(function() {
-      console.log('Global config updated.');
+      // console.log('Global config updated.');
   });
 };
 

@@ -249,7 +249,7 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
       } catch (e) {
         // Catch errors when the JSON is invalid
         // TODO: Display error in the UI instead of in the console.
-        console.log('json error:', e.message);
+        // console.log('json error:', e.message);
       }
 
       if (newModel) {

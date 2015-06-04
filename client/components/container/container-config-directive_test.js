@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,21 +73,15 @@ describe('ContainerConfigDirective', function() {
       scope.$digest();
     }));
 
-    it('the widget title', function() {
+    it('the container column count', function() {
+      var targetElement = directiveElement.find(
+          'input.container-columns');
+      expect(targetElement.length).toBe(1);
+    });
+
+    it('the container height', function() {
       var targetElement = directiveElement.find(
           'input.container-height');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the widget\'s url', function() {
-      var targetElement = directiveElement.find(
-          'textarea.container-header-text');
-      expect(targetElement.length).toBe(1);
-    });
-
-    it('the widget\'s column span', function() {
-      var targetElement = directiveElement.find(
-          'textarea.container-footer-text');
       expect(targetElement.length).toBe(1);
     });
   });
@@ -102,7 +96,19 @@ describe('ContainerConfigDirective', function() {
       scope.$digest();
     }));
 
-    it('the widget title', function() {
+    it('the container column count', function() {
+      var actualElement = directiveElement.find(
+          'input.container-columns')[0];
+
+      expect(actualElement.value).toBe('1');
+
+      scope.mockModel.columns = 2;
+      scope.$digest();
+
+      expect(actualElement.value).toBe('2');
+    });
+
+    it('the container height', function() {
       var actualElement = directiveElement.find('input.container-height')[0];
 
       expect(actualElement.value).toBe('250');
@@ -111,30 +117,6 @@ describe('ContainerConfigDirective', function() {
       scope.$digest();
 
       expect(actualElement.value).toBe('42');
-    });
-
-    it('the widget\'s url', function() {
-      var actualElement = directiveElement.find(
-          'textarea.container-header-text')[0];
-
-      expect(actualElement.value).toBe('');
-
-      scope.mockModel.header_text = 'TEST_HEADER';
-      scope.$digest();
-
-      expect(actualElement.value).toBe('TEST_HEADER');
-    });
-
-    it('the widget\'s column span', function() {
-      var actualElement = directiveElement.find(
-          'textarea.container-footer-text')[0];
-
-      expect(actualElement.value).toBe('');
-
-      scope.mockModel.footer_text = 'TEST_FOOTER';
-      scope.$digest();
-
-      expect(actualElement.value).toBe('TEST_FOOTER');
     });
 
   });
