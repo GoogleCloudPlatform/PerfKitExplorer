@@ -17,10 +17,15 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.mocks.gvizMocks');
+goog.provide('p3rf.perfkit.explorer.mocks.googleVisualizationMocks');
 
-var googleVisualizationMocks = angular.module('googleVisualizationMocks', []);
 
+goog.scope(function() {
+const explorer = p3rf.perfkit.explorer;
+
+explorer.mocks.googleVisualizationMocks = angular.module(
+    'googleVisualizationMocks', []);
+const googleVisualizationMocks = explorer.mocks.googleVisualizationMocks;
 
 var getGvizChartWrapperMock = function() {
   function GvizChartWrapper() {
@@ -85,3 +90,5 @@ var GvizEventsMock = function() {
   };
 };
 googleVisualizationMocks.service('gvizEvents', GvizEventsMock);
+
+}); // goog.scope
