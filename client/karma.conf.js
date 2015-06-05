@@ -19,13 +19,14 @@ module.exports = function(config) {
       'third_party/js/uiGrid/ui-grid.js',
       'node_modules/angular-material/angular-material.js',
       'third_party/js/jsapi/jsapi.js',
+      // Compiled Product Code
       'deploy/client/perfkit_scripts.js',
+      // Tests Code
       'test/js/globals.js',
-      // Tests
       {pattern: 'client/**/*_test.js'},
-      // Product Code
-      {pattern: 'client/**/*(!_test).js', included: false, served: false},
-      // Templates
+      // Uncompiled Product Code
+      {pattern: 'client/**/*!(_test).js', included: false},
+      // HTML Templates
       {pattern: 'client/**/*.html'},
       // Closure Deps
       {pattern: 'lib/closure-library/closure/goog/deps.js', included: false, served: false},
@@ -33,9 +34,12 @@ module.exports = function(config) {
     ],
 
     preprocessors: {
+      // HTML Templates
       'client/**/*.html': ['html2js'],
+      // Uncompiled Test Code
       'client/**/*_test.js': ['closure', 'closure-iit'],
-      'deploy/client/perfkit_scripts.js': ['closure'],
+      // Uncompiled Product Code
+      'client/**/*!(_test).js': ['closure'],
       'lib/closure-library/closure/goog/deps.js': ['closure-deps']
     },
 
