@@ -93,30 +93,8 @@ explorer.components.widget.query.QueryEditorService = function(
    * @export
    */
   this.samples_mart_measures = SamplesMartMeasures;
-
-  /**
-   * Template URL for the popupbox directive to show picklist values.
-   * @type {string}
-   * @export
-   */
-   this.picklist_template_url = '/static/components/widget/query/builder/picklist-template.html';
-
-  /**
-   * Cache of picklists.
-   *
-   * @type {*}
-   * @export
-   */
-  this.picklists = {
-    'product_name': [],
-    'test': [],
-    'metric': [],
-    'owner': [],
-    'metadata': [],
-    'labels': []
-  };
 };
-var QueryEditorService = explorer.components.widget.query.QueryEditorService;
+const QueryEditorService = explorer.components.widget.query.QueryEditorService;
 
 
 });  // goog.scope

@@ -71,6 +71,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.RelativeDatepickerDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
@@ -160,6 +161,8 @@ explorer.application.module.service('dataViewService',
     explorer.components.widget.query.DataViewService);
 explorer.application.module.service('fieldCubeDataService',
     explorer.components.widget.query.builder.FieldCubeDataService);
+explorer.application.module.service('picklistService',
+    explorer.components.widget.query.picklist.PicklistService);
 explorer.application.module.service('widgetFactoryService',
     explorer.components.widget.WidgetFactoryService);
 explorer.application.module.service('queryBuilderService',
