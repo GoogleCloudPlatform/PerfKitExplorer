@@ -3,7 +3,8 @@
   <div class="pk-sidebar-panel-header
               {{ tabSvc.selectedTab.panelTitleClass}}">
     <div style="float: right">
-      <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)">
+      <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)"
+          aria-label="close panel">
         <i class="fa fa-times"></i>
       </md-button>
     </div>
@@ -56,10 +57,10 @@
   </div>
   <div class="pk-sidebar-panel-footer
               {{ tabSvc.selectedTab.panelTitleClass}}">
-    <md-button style="float: left"
+    <md-button style="float: left" aria-label="previous tab"
         ng-click="tabSvc.selectedTab = tabSvc.getPreviousTab(tabSvc.selectedTab)">
       previous</md-button>
-    <md-button style="float: right"
+    <md-button style="float: right" aria-label="next tab"
         ng-click="tabSvc.selectedTab = tabSvc.getNextTab(tabSvc.selectedTab)">
       next</md-button>
     </div>

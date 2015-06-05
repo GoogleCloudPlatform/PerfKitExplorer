@@ -1,4 +1,4 @@
-<div class="pk-footer-open" layout="column">
+<div class="pk-footer-open" layout="column" flex>
   <div class="pk-footer-toolbar">
     <div class="pk-footer-toolbar-cell">
       <span class="glyphicon glyphicon-remove pk-glyph-button pk-footer-button"
@@ -46,23 +46,21 @@
   </div>
   <div ng-switch="footerCtrl.settings.selectedMode" class="pk-footer-body"
       flex layout="column">
-    <div class="pk-footer-body-cell" flex layout="column">
-      <div ng-switch-when="JSON" flex layout="column">
-        <textarea codemirror
-                  cm-options="footerCtrl.editorOptionsJSON"
-                  ng-model="footerCtrl.currentJson.text">
-        </textarea>
-      </div>
-      <div ng-switch-when="SQL" flex layout="column">
-        <textarea codemirror
-                  cm-options="footerCtrl.editorOptionsSQL"
-                  ng-change="footerCtrl.changeSql()"
-                  ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
-        </textarea>
-      </div>
-      <div ng-switch-when="LOG" flex layout="column">
-        <alert-log />
-      </div>
+    <div ng-switch-when="JSON" flex class="pk-footer-body">
+      <textarea codemirror
+                cm-options="footerCtrl.editorOptionsJSON"
+                ng-model="footerCtrl.currentJson.text">
+      </textarea>
+    </div>
+    <div ng-switch-when="SQL" flex class="pk-footer-body">
+      <textarea codemirror
+                cm-options="footerCtrl.editorOptionsSQL"
+                ng-change="footerCtrl.changeSql()"
+                ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
+      </textarea>
+    </div>
+    <div ng-switch-when="LOG" flex layout="column">
+      <alert-log />
     </div>
   </div>
 </div>

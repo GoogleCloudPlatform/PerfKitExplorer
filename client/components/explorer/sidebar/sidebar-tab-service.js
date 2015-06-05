@@ -61,8 +61,6 @@ explorer.components.explorer.sidebar.SidebarTabService = function(
      panelClass: 'dashboard-panel'}
   ];
 
-  this.tabs.forEach(tab => console.log(tab.title));
-
   /** @export {?ExplorerTabModel} */
   this.selectedTab = null;
 

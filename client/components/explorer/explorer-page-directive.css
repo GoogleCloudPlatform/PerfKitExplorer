@@ -58,30 +58,12 @@ div:focus {
   padding: 8px;
 }
 
-.pk-page-rightwell {
-  width: 200px;
-  overflow-x: auto;
-  overflow-y: auto;
-  flex-shrink: 0;
-}
-
 .pk-page-footer {
   height: 200px;
   min-height: 100px;
   overflow-x: auto;
   overflow-y: auto;
   flex-shrink: 0;
-}
-
-/* CSS Properties to make CodeMirror editor fill its contents. */
-.CodeMirror {
-  border: 1px solid #eee;
-  height: auto;
-}
-
-.CodeMirror-scroll {
-  overflow-y: hidden;
-  overflow-x: auto;
 }
 
 md-tooltip.md-default-theme {

@@ -104,7 +104,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * @export
    */
   this.editorOptionsJSON = {
-    lineWrapping: false,
+    lineWrapping: true,
     lineNumbers: true,
     mode: 'application/json'
   };
@@ -115,7 +115,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * @export
    */
   this.editorOptionsSQL = {
-    lineWrapping: false,
+    lineWrapping: true,
     lineNumbers: true,
     mode: 'text/x-sql'
   };

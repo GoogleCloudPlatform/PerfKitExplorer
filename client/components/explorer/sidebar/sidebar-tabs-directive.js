@@ -25,6 +25,7 @@ var explorer = p3rf.perfkit.explorer;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
   return {
@@ -32,7 +33,9 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
     replace: true,
     transclude: false,
     templateUrl: '/static/components/explorer/sidebar/sidebar-tabs-directive.html',
-    controller: function($scope, dashboardService, sidebarTabService) {
+    controller: [
+        '$scope', 'dashboardService', 'sidebarTabService',
+        function($scope, dashboardService, sidebarTabService) {
       this.dashboardSvc = dashboardService;
       this.tabSvc = sidebarTabService;
 
@@ -52,7 +55,7 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
               }
             }
           }));
-    },
+    }],
     controllerAs: 'ctrl'
   };
 };

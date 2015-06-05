@@ -67,6 +67,7 @@ var FILTER_TYPES = [
  * @param {!angular.$timeout} $timeout Provides timeout function for deferring.
  * @param {!angular.$filter} $filter Provides date conversion filters.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
     $timeout, $filter) {
