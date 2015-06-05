@@ -2,8 +2,7 @@
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
   <div ng-repeat="container in dashboardSvc.widgets" class="pk-container"
-       ng-class="{'pk-container-selected':
-                  container == dashboardSvc.selectedContainer}">
+       ng-class="{'pk-container-selected': container.state().selected}">
 
     <container class="pk-container-content" layout="column" ng-model="container.model">
       <div ng-show="container.model.container.header_text"
