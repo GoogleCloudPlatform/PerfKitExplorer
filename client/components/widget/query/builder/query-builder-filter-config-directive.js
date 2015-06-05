@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview QueryFilterDirective encapsulates HTML, style and behavior
+ * @fileoverview QueryFilterConfigDirective encapsulates HTML, style and behavior
  *     for widget query filters.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
@@ -45,7 +45,7 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-filter-config-directive.html',
-    controller: function($scope) {
+    controller: ['$scope', function($scope) {
       /**
        * Adds an end date to the filters.
        * @export
@@ -86,7 +86,7 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
       $scope.addMetadataFilter = function() {
         $scope.ngModel.datasource.config.filters.metadata.push(new MetadataFilter());
       };
-    }
+    }]
   };
 };
 

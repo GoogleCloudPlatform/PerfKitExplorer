@@ -155,7 +155,6 @@ describe('QueryBuilderColumnConfigDirective', function() {
       var targetElement = actualElement.find(
         'input.widget-columns-date-group')[0];
 
-      console.log(results.date_group);
       expect(targetElement.value).toBe(results.date_group);
 
       results.date_group = 'Hour';

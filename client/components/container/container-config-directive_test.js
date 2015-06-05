@@ -113,7 +113,6 @@ describe('ContainerConfigDirective', function() {
 
       expect(actualElement.value).toBe('250');
 
-      console.log(scope.mockModel);
       scope.mockModel.height = 42;
       scope.$digest();
 

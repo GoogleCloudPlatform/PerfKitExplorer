@@ -58,6 +58,7 @@ const explorer = p3rf.perfkit.explorer;
  *
  * @param {!angular.$timeout} $timeout Provides timeout function for deferring.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.popupbox.PopupboxDirective = function($timeout) {
   return {

@@ -21,10 +21,10 @@ module.exports = function(config) {
       'third_party/js/jsapi/jsapi.js',
       'deploy/client/perfkit_scripts.js',
       'test/js/globals.js',
-      // Closure Base Classes
-      {pattern: 'lib/closure-library/closure/goog/base.js'},
       // Tests
       {pattern: 'client/**/*_test.js'},
+      // Product Code
+      {pattern: 'client/**/*(!_test).js', included: false, served: false},
       // Templates
       {pattern: 'client/**/*.html'},
       // Closure Deps

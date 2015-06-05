@@ -43,7 +43,6 @@ const ExplorerService = explorer.components.explorer.ExplorerService;
  * @param {ExplorerService} explorerService
  * @constructor
  * @ngInject
- * @export
  */
 explorer.components.explorer.ExplorerCtrl = function(
     $scope, $location,

@@ -61,6 +61,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @param {*} gvizEvents
  * @param {DataViewService} dataViewService
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.data_viz.gviz.gvizChart = function(
     $timeout, $location, chartWrapperService, queryResultDataService,

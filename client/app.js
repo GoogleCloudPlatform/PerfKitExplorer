@@ -101,10 +101,10 @@ if (useMockData) {
 explorer.application.module = angular.module('explorer', requiredModules);
 
 explorer.application.module.config(
-    function($locationProvider) {
+    ['$locationProvider', function($locationProvider) {
       // See http://docs.angularjs.org/guide/dev_guide.services.$location
       $locationProvider.html5Mode(true).hashPrefix('!');
-    });
+    }]);
 
 
 if (useMockData) {
@@ -257,6 +257,6 @@ explorer.application.module.directive('queryBuilderDatasourceConfig',
 explorer.application.module.directive('queryBuilderFilterConfig',
     explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective);
 explorer.application.module.directive('relativeDatepicker',
-    explorer.components.widget.query.builder.RelativeDatepickerDirective);
+     explorer.components.widget.query.builder.RelativeDatepickerDirective);
 
 });  // goog.scope
