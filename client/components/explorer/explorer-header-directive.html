@@ -48,16 +48,6 @@
                 ng-click="ctrl.editDashboard()">
           Edit Dashboard
         </button>
-        <button type="button" class="btn btn-default"
-                ng-show="ctrl.explorer.model.readOnly && ctrl.selectedWidget && !ctrl.explorer.model.code_editor.isOpen"
-                ng-click="ctrl.explorer.viewSql()">
-          View SQL
-        </button>
-        <button type="button" class="btn btn-default"
-                ng-show="ctrl.explorer.model.readOnly && ctrl.explorer.model.code_editor.isOpen"
-                ng-click="ctrl.explorer.hideSql()">
-          Hide SQL
-        </button>
       </div>
 
       <!-- Container -->
