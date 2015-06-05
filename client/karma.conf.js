@@ -36,10 +36,6 @@ module.exports = function(config) {
     preprocessors: {
       // HTML Templates
       'client/**/*.html': ['html2js'],
-      // Uncompiled Test Code
-      'client/**/*_test.js': ['closure', 'closure-iit'],
-      // Uncompiled Product Code
-      'client/**/*!(_test).js': ['closure'],
       'lib/closure-library/closure/goog/deps.js': ['closure-deps']
     },
 

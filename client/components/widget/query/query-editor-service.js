@@ -118,6 +118,9 @@ explorer.components.widget.query.QueryEditorService = function(
     'metadata': [],
     'labels': []
   };
+  
+  var x = ['Jan', 'Feb', 'Mar'];
+  x.forEach(month => console.log(month));
 };
 var QueryEditorService = explorer.components.widget.query.QueryEditorService;
 

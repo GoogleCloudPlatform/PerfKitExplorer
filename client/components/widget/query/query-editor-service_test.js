@@ -22,7 +22,7 @@ goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('goog.date');
 
 
-describe('TestQueryServices', function() {
+fdescribe('TestQueryServices', function() {
   var svc;
 
   beforeEach(module('explorer'));
@@ -31,7 +31,8 @@ describe('TestQueryServices', function() {
     svc = queryEditorService;
   }));
 
-  describe('QueryEditorService', function() {
+  it('Should initialize', function() {
+    expect(svc.picklists).not.toBeNull();
   });
 
 });

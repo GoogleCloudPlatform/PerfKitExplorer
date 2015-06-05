@@ -41,6 +41,7 @@ const explorer = p3rf.perfkit.explorer;
  * @param {!Angular.RootScope} rootScope The root scope, used to listen for
  *     custom events.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.layout.FillDirective = (
     function ($rootScope) {
