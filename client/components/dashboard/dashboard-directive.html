@@ -2,7 +2,7 @@
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
   <div ng-repeat="container in dashboardSvc.widgets" class="pk-container"
-       ng-class="{'pk-container-selected': widget.state().selected}">
+       ng-class="{'pk-container-selected': container.state().selected}">
 
     <container class="pk-container-content" container-config="container">
       <perfkit-widget class="pk-widget"
