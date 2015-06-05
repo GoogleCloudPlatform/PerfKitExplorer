@@ -33,7 +33,7 @@ describe('QueryFilterDirective', function() {
   const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
   const TEMPLATE_DATEPICKER = 'template/datepicker/datepicker.html';
-  const TEMPLATE_TIMEPICKER = 'template/datepicker/timepicker.html';
+  const TEMPLATE_TIMEPICKER = 'template/timepicker/timepicker.html';
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
