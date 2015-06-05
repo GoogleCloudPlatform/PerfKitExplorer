@@ -77,7 +77,7 @@ var Aggregation = explorer.components.widget.query.builder.Aggregation;
  *
  * @param {!Angular.FilterService} $filter
  * @constructor
- *
+ * @ngInject
  */
 explorer.components.widget.query.builder.QueryBuilderService = function(
     $filter) {

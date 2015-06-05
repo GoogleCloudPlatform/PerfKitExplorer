@@ -64,12 +64,12 @@ describe('dashboardVersionService', function() {
 
       it('should add config.results.pivot and pivot_config.',
           function() {
-            providedDatasource = {
+            var providedDatasource = {
               'config': {
                 'results': {}
               }};
 
-            providedDashboard = {
+            var providedDashboard = {
               'owner': 'TEST_OWNER',
               'type': 'dashboard',
               'children': [
@@ -85,7 +85,7 @@ describe('dashboardVersionService', function() {
 
             svc.verifyAndUpdateModel(providedDashboard);
 
-            expectedPivotConfig = new PivotConfig();
+            var expectedPivotConfig = new PivotConfig();
             expect(providedDatasource.config.results.pivot).toBe(false);
             expect(providedDatasource.config.results.pivot_config).toEqual(
                 expectedPivotConfig);

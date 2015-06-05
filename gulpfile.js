@@ -76,7 +76,7 @@ gulp.task('test', ['common'], function() {
       fileName: 'client/perfkit_scripts.js',
       compilerFlags: {
         angular_pass: true,
-        compilation_level: 'WHITESPACE_ONLY',
+        compilation_level: 'SIMPLE_OPTIMIZATIONS',
         language_in: 'ECMASCRIPT6',
         language_out: 'ECMASCRIPT5',
         formatting: 'PRETTY_PRINT',
@@ -109,7 +109,7 @@ gulp.task('prod', ['common'], function() {
       fileName: 'build/perfkit_scripts.js',
       compilerFlags: {
         angular_pass: true,
-        compilation_level: 'WHITESPACE_ONLY',
+        compilation_level: 'SIMPLE_OPTIMIZATIONS',
         language_in: 'ECMASCRIPT6',
         language_out: 'ECMASCRIPT5',
         manage_closure_dependencies: true,

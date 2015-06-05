@@ -110,7 +110,13 @@ describe('gvizDirective', function() {
         timeout = $timeout;
         configService = _configService_;
         widgetFactoryService = _widgetFactoryService_;
+
         chartWrapperMock = GvizChartWrapper.prototype;
+        spyOn(chartWrapperMock, 'draw');
+        spyOn(chartWrapperMock, 'setView');
+        spyOn(chartWrapperMock, 'setChartType');
+        spyOn(chartWrapperMock, 'setOptions');
+
         gvizEventsMock = gvizEvents;
         GvizDataTable = _GvizDataTable_;
         dataViewServiceMock = dataViewService;
@@ -125,7 +131,7 @@ describe('gvizDirective', function() {
         });
 
         // Return 10 rows by default
-        GvizDataTable.prototype.getNumberOfRows.and.returnValue(10);
+        spyOn(GvizDataTable.prototype, 'getNumberOfRows').and.returnValue(10);
 
         // Setup fake data for component's attributes
         rootScope.widgetConfig =
@@ -138,7 +144,7 @@ describe('gvizDirective', function() {
         state().parent = new ContainerWidgetConfig(widgetFactoryService);
         model.datasource.query = 'fake query';
 
-        gvizEventsMock.addListener.and.callFake(
+        spyOn(gvizEventsMock, 'addListener').and.callFake(
             function(chartWrapper, eventName, callback) {
               if (eventName === 'error') {
                 gvizChartErrorCallback = callback;
@@ -156,6 +162,7 @@ describe('gvizDirective', function() {
         // Setup a configuration
         model.chart.chartType = 'chartType';
         model.chart.options = {obj: 'options'};
+
         setupComponent();
 
         expect(chartWrapperMock.setChartType).
@@ -369,6 +376,8 @@ describe('gvizDirective', function() {
 
     it('should be attached to the chart div.',
         function() {
+          spyOn(chartWrapperMock, 'setContainerId');
+
           var component = setupComponent();
 
           expect(chartWrapperMock.setContainerId).
@@ -452,6 +461,8 @@ describe('gvizDirective', function() {
 
     it('should have a new DataTable when new data have been fetched.',
         function() {
+          spyOn(chartWrapperMock, 'setDataTable');
+
           setupData();
           setupComponent();
 
@@ -524,6 +535,7 @@ describe('gvizDirective', function() {
     });
 
     it('should not be applied when the DataView has an error.', function() {
+      
       var expectedError = {error: {property: 'sort', message: 'fake message'}};
       dataViewServiceMock.create.and.returnValue(expectedError);
       setupData(true);

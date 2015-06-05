@@ -17,12 +17,25 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.mocks.mocks');
+goog.provide('p3rf.perfkit.explorer.mocks.application.module');
+goog.provide('p3rf.perfkit.explorer.mocks');
 
 goog.require('goog.Uri');
+goog.require('p3rf.perfkit.explorer.mocks.googleVisualizationMocks');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataServiceMock');
+goog.require('p3rf.perfkit.explorer.mocks.fieldCubeDataServiceMock');
+goog.require('p3rf.perfkit.explorer.mocks.queryResultDataServiceMock');
+
 
 goog.scope(function() {
-var mocks = p3rf.perfkit.explorer.mocks.mocks;
+const explorer = p3rf.perfkit.explorer;
+const mocks = explorer.mocks;
+
+explorer.mocks.application.module = angular.module('perfkit-mocks', [
+  explorer.mocks.googleVisualizationMocks.name,
+  explorer.components.dashboard.DashboardDataServiceMock.name,
+  explorer.mocks.fieldCubeDataServiceMock.name,
+  explorer.mocks.queryResultDataServiceMock.name]);
 
 
 /**

@@ -34,6 +34,7 @@ const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = function(
     queryEditorService) {
@@ -46,7 +47,7 @@ explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = fun
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-column-config-directive.html',
-    controller: function($scope) {
+    controller: ['$scope', function($scope) {
       /** @export {!QueryEditorService} */
       $scope.queryEditorSvc = queryEditorService;
 
@@ -73,7 +74,7 @@ explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = fun
       $scope.addMetadataColumn = function() {
         $scope.ngModel.datasource.config.results.labels.push(new LabelResult());
       };
-    }
+    }]
   };
 };
 

@@ -20,7 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
-goog.require('p3rf.perfkit.explorer.mocks.gvizMocks');
+goog.require('p3rf.perfkit.explorer.mocks.googleVisualizationMocks');
 
 describe('DashboardCtrl', function() {
   const explorer = p3rf.perfkit.explorer;
