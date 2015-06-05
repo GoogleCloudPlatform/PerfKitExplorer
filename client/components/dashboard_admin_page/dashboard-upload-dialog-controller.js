@@ -38,7 +38,8 @@ const DashboardConfig = explorer.components.dashboard.DashboardConfig;
  * @ngInject
  */
 explorer.components.dashboard_admin_page.FileUploadDialogCtrl = function(
-    $scope, $log, $modalInstance, dashboardDataService, dashboardVersionService, dashboardAdminPageService) {
+    $scope, $log, $modalInstance, dashboardDataService, dashboardVersionService,
+    dashboardAdminPageService) {
   /**
    * @type {!angular.Scope}
    * @private

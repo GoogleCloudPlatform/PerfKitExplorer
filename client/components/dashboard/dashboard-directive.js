@@ -32,6 +32,7 @@ const DashboardService = explorer.components.dashboard.DashboardService;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.dashboard.DashboardDirective = function() {
   return {
@@ -42,8 +43,9 @@ explorer.components.dashboard.DashboardDirective = function() {
       'ngModel': '='
     },
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
-    controller: function($scope,
-        explorerService, dashboardService) {
+    controller: [
+        '$scope', 'explorerService', 'dashboardService',
+        function($scope, explorerService, dashboardService) {
       /** @export */
       $scope.dashboardSvc = dashboardService;
 
@@ -53,7 +55,7 @@ explorer.components.dashboard.DashboardDirective = function() {
       $scope.logError = function(msg) {
         console.log(msg);
       };
-    }
+    }]
   };
 };
 

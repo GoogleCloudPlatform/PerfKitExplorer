@@ -32,6 +32,7 @@ const ConfigService = explorer.components.config.ConfigService;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.dashboard.DashboardConfigDirective = function(configService) {
   return {
@@ -42,8 +43,9 @@ explorer.components.dashboard.DashboardConfigDirective = function(configService)
       'ngModel': '='
     },
     templateUrl: '/static/components/dashboard/dashboard-config-directive.html',
-    controller: function($scope,
-        configService, explorerService, dashboardService) {
+    controller: [
+        '$scope', 'configService', 'explorerService', 'dashboardService',
+        function($scope, configService, explorerService, dashboardService) {
       /** @export */
       $scope.configSvc = configService;
 
@@ -52,7 +54,7 @@ explorer.components.dashboard.DashboardConfigDirective = function(configService)
 
       /** @export */
       $scope.explorerSvc = explorerService;
-    }
+    }]
   };
 };
 

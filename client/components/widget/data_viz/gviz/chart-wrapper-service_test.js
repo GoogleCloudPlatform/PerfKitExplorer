@@ -29,7 +29,7 @@ describe('chartWrapperService', function() {
 
   beforeEach(inject(function(chartWrapperService, GvizChartWrapper) {
     svc = chartWrapperService;
-    chartWrapperMock = GvizChartWrapper.prototype;
+    gvizSvc = GvizChartWrapper.prototype;
   }));
 
   describe('create', function() {
@@ -44,12 +44,16 @@ describe('chartWrapperService', function() {
       var gvizOptions = {obj: 'gvizOptions'};
       var dataTable = {obj: 'dataTable'};
 
+      spyOn(gvizSvc, 'setChartType');
+      spyOn(gvizSvc, 'setOptions');
+      spyOn(gvizSvc, 'setDataTable');
+
       var chartWrapper = svc.create(chartType, gvizOptions, dataTable);
 
       expect(chartWrapper).not.toBeNull();
-      expect(chartWrapperMock.setChartType).toHaveBeenCalledWith(chartType);
-      expect(chartWrapperMock.setOptions).toHaveBeenCalledWith(gvizOptions);
-      expect(chartWrapperMock.setDataTable).toHaveBeenCalledWith(dataTable);
+      expect(gvizSvc.setChartType).toHaveBeenCalledWith(chartType);
+      expect(gvizSvc.setOptions).toHaveBeenCalledWith(gvizOptions);
+      expect(gvizSvc.setDataTable).toHaveBeenCalledWith(dataTable);
     });
   });
 
@@ -58,8 +62,9 @@ describe('chartWrapperService', function() {
     it('should return a ChartModel object.', function() {
       var chartType = {obj: 'chartType'};
       var gvizOptions = {obj: 'gvizOptions'};
-      chartWrapperMock.getChartType.and.returnValue(chartType);
-      chartWrapperMock.getOptions.and.returnValue(gvizOptions);
+
+      spyOn(gvizSvc, 'getChartType').and.returnValue(chartType);
+      spyOn(gvizSvc, 'getOptions').and.returnValue(gvizOptions);
       var chartWrapper = svc.create();
 
       var model = svc.getChartModel(chartWrapper);

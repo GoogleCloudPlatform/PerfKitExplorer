@@ -32,6 +32,7 @@ const ChartWidgetModel = explorer.models.ChartWidgetModel;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
     chartWrapperService, dashboardService) {
@@ -44,13 +45,13 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/chart-config-directive.html',
-    controller: function($scope) {
+    controller: ['$scope', function($scope) {
       /** @export */
       $scope.chartSvc = chartWrapperService;
 
       /** @export */
       $scope.dashboardSvc = dashboardService;
-    }
+    }]
   };
 };
 

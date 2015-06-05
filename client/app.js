@@ -74,7 +74,8 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorDirective
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
-goog.require('p3rf.perfkit.explorer.mocks.mocks');
+goog.require('p3rf.perfkit.explorer.mocks');
+goog.require('p3rf.perfkit.explorer.mocks.application.module');
 
 
 goog.scope(function() {
@@ -82,10 +83,11 @@ const explorer = p3rf.perfkit.explorer;
 var requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
-  'p3rf.perfkit.explorer.templates'];
+  'p3rf.perfkit.explorer.templates',
+  explorer.mocks.application.module.name];
 
 var useMockData = (
-    explorer.mocks.mocks.isMockParamTrue());
+    explorer.mocks.isMockParamTrue());
 if (useMockData) {
   // This module override $http with a mock backend
   // See http://docs.angularjs.org/api/ngMockE2E.$httpBackend
@@ -99,14 +101,14 @@ if (useMockData) {
 explorer.application.module = angular.module('explorer', requiredModules);
 
 explorer.application.module.config(
-    function($locationProvider) {
+    ['$locationProvider', function($locationProvider) {
       // See http://docs.angularjs.org/guide/dev_guide.services.$location
       $locationProvider.html5Mode(true).hashPrefix('!');
-    });
+    }]);
 
 
 if (useMockData) {
-  explorer.mocks.mocks.addMocks(explorer.application.module);
+  explorer.mocks.addMocks(explorer.application.module);
 }
 
 
@@ -255,6 +257,6 @@ explorer.application.module.directive('queryBuilderDatasourceConfig',
 explorer.application.module.directive('queryBuilderFilterConfig',
     explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective);
 explorer.application.module.directive('relativeDatepicker',
-    explorer.components.widget.query.builder.RelativeDatepickerDirective);
+     explorer.components.widget.query.builder.RelativeDatepickerDirective);
 
 });  // goog.scope

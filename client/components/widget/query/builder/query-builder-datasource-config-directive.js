@@ -44,13 +44,15 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-datasource-config-directive.html',
-    controller: function($scope, configService, dashboardService) {
+    controller: [
+        '$scope', 'configService', 'dashboardService',
+        function($scope, configService, dashboardService) {
       /** @export {!ConfigService} */
       $scope.configSvc = configService;
 
       /** @export {!DashboardService} */
       $scope.dashboardSvc = dashboardService;
-    }
+    }]
   };
 };
 

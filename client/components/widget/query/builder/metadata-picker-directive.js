@@ -64,6 +64,7 @@ const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
  * @param {!angular.$timeout} $timeout Provides timeout function for deferring.
  * @param {!angular.$filter} $filter Provides access to array searching.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.query.builder.MetadataPickerDirective = function(
     $timeout, $filter) {

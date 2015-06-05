@@ -37,8 +37,9 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
-    controller: function($scope, $modal,
-        explorerService, dashboardService, errorService) {
+    controller: [
+        '$scope', '$modal', 'explorerService', 'dashboardService', 'errorService',
+        function($scope, $modal, explorerService, dashboardService, errorService) {
       /** @export */
       this.explorer = explorerService;
 
@@ -297,9 +298,8 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
           templateUrl: '/static/components/config/config-dialog.html',
           controller: 'ConfigDialogCtrl as dialog'
         });
-};
-
-    }
+      };
+    }]
   };
 };
 

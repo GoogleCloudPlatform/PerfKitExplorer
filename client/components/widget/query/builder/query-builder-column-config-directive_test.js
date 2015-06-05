@@ -18,7 +18,6 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('goog.testing.style');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective');
@@ -156,7 +155,6 @@ describe('QueryBuilderColumnConfigDirective', function() {
       var targetElement = actualElement.find(
         'input.widget-columns-date-group')[0];
 
-      console.log(results.date_group);
       expect(targetElement.value).toBe(results.date_group);
 
       results.date_group = 'Hour';

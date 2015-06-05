@@ -26,6 +26,7 @@ const explorer = p3rf.perfkit.explorer;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.explorer.ExplorerPageDirective = function(
     resizeService, explorerService) {
@@ -35,8 +36,8 @@ explorer.components.explorer.ExplorerPageDirective = function(
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-page-directive.html',
     controllerAs: 'pageCtrl',
-    controller: function($scope) {
-    },
+    controller: ['$scope', function($scope) {
+    }],
     link: function(scope, element, attr) {
       element.on('mouseup', angular.bind(this, function(event) {
         if (resizeService.isResizing) {

@@ -38,9 +38,9 @@ goog.scope(function() {
       replace: true,
       transclude: true,
       templateUrl: '/static/components/alert/alert-log-directive.html',
-      controller: function($scope, errorService) {
+      controller: ['$scope', 'errorService', function($scope, errorService) {
         $scope.errorService = errorService;
-      }
+      }]
     };
   };
 
