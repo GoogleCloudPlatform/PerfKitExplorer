@@ -1,4 +1,4 @@
-<div class="pk-page-canvas">
+<div class="pk-page-canvas" layout="column">
   <div class="pk-page-header">
     <explorer-header></explorer-header>
   </div>
@@ -18,7 +18,7 @@
     <div resize="right" resize-element-id="pk-page-leftwell"
          ng-show="explorerCtrl.dashboard.selectedWidget">&nbsp;</div>
 
-    <div class="pk-page-content">
+    <div class="pk-page-content" flex>
       <dashboard ng-model="dashboardCtrl.dashboard.current.model" />
     </div>
 
@@ -29,7 +29,7 @@
       ng-show="explorerCtrl.explorer.model.code_editor.isOpen">&nbsp;</div>
 
   <div
-      class="pk-page-footer" id="pk-page-footer"
+      class="pk-page-footer" id="pk-page-footer" flex
       ng-show="explorerCtrl.explorer.model.code_editor.isOpen">
 
     <widget-editor></widget-editor>

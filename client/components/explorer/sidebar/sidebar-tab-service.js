@@ -27,20 +27,6 @@ var explorer = p3rf.perfkit.explorer;
 
 
 /**
- * @typedef{{
- *   id: string,
- *   title: string,
- *   iconClass: string,
- *   template: string=,
- *   templateUrl: string=,
- *   requireWidget: boolean=
- * }}
- */
-explorer.components.explorer.sidebar.SidebarTabModel;
-var SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
-
-
-/**
  * Service that provides state and content for Explorer tabs.
  * @constructor
  * @ngInject
@@ -74,6 +60,8 @@ explorer.components.explorer.sidebar.SidebarTabService = function(
      tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
      panelClass: 'dashboard-panel'}
   ];
+
+  this.tabs.forEach(tab => console.log(tab.title));
 
   /** @export {?ExplorerTabModel} */
   this.selectedTab = null;

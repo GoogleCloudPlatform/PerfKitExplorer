@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
 
-describe('SidebarTabService', function() {
+fdescribe('SidebarTabService', function() {
   var scope, sidebarTabSvc;
 
   const explorer = p3rf.perfkit.explorer;

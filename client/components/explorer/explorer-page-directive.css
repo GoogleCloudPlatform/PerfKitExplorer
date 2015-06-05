@@ -12,15 +12,12 @@ div:focus {
 }
 
 .pk-page-canvas {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   width: 100%;
 }
 
 .pk-page-body {
-  display: flex;
-  flex-grow: 1;
+  overflow: hidden;
 }
 
 .pk-resize-left, .pk-resize-right {
