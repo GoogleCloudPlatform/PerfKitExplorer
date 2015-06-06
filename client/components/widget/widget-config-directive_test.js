@@ -19,7 +19,6 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('goog.testing.style');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 

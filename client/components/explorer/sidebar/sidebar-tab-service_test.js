@@ -19,7 +19,6 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('goog.testing.style');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');

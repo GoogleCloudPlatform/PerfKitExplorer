@@ -1,5 +1,5 @@
 <div>
-  <div class="pk-chart"  ng-hide="!isDataFetched()"
+  <div class="pk-chart" ng-show="isDataFetched()"
        ng-class="{'pk-chart-hidden': config.$$state.chartError}">
   </div>
   <div class="pk-chart-error" ng-show="config.$$state.chartError">

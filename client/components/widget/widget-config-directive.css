@@ -1,8 +1,15 @@
+/*
+ * Contains styles for the widget config and panel.
+ *
+ * Color comments in the form color:number (eg: blue:900) are
+ * from Material Design, and can be found in context at
+ * https://www.google.com/design/spec/style/color.html#color-color-palette
+ */
 .bqgviz-tab {
   background-color: #e3f2fd; /** blue:50 */
   border-right: 3px solid #e3f2fd;
 
-  color: #0d47a1; /** blue: 900 */
+  color: #0d47a1; /** blue:900 */
 }
 
 .bqgviz-tab.pk-sidebar-tab-selected {
@@ -15,28 +22,25 @@
 .bqgviz-tab.pk-sidebar-tab-selected:hover {
   background-color: #bbdefb; /** blue:100 */
   border-right: 3px solid #1e88e5; /** blue:600 */
-  color: #0d47a1; /** blue: 900 */
+  color: #0d47a1; /** blue:900 */
 }
 
 .bqgviz-panel-title {
   background-color: #0d47a1; /** blue:900 */
-  
-  /** Material Design 'blue:50' */
-  color: #e3f2fd;
+  color: #e3f2fd; /** blue:50 */
 }
 
 .bqgviz-panel {
-  /** Material Design 'blue:50' */
-  background-color: #e3f2fd;
+  background-color: #e3f2fd; /** blue:50 */
+  border-left: #0d47a1; /** blue:900 */
+  border-right: #0d47a1; /** blue:900 */
 }
 
 .widget-tab {
-  /** Material Design 'blue:50' */
-  background-color: #e3f2fd;
+  background-color: #e3f2fd; /** blue:50 */
   border-right: 3px solid #e3f2fd;
 
-  /** Material Design 'blue:900' */
-  color: #0d47a1;
+  color: #0d47a1; /** blue:900 */
 }
 
 .widget-tab.pk-sidebar-tab-selected {
@@ -49,14 +53,16 @@
 .widget-tab.pk-sidebar-tab-selected:hover {
   background-color: #bbdefb; /** blue:100 */
   border-right: 3px solid #1e88e5; /** blue:600 */
-  color: #0d47a1; /** blue: 900 */
+  color: #0d47a1; /** blue:900 */
 }
 
 .widget-panel-title {
-  background-color: #0d47a1; /** blue: 900 */
-  color: #e3f2fd; /** blue: 50 */
+  background-color: #0d47a1; /** blue:900 */
+  color: #e3f2fd; /** blue:50 */
 }
 
 .widget-panel {
-  background-color: #e3f2fd; /** blue: 50 */
+  background-color: #e3f2fd; /** blue:50 */
+  border-left: #0d47a1; /** blue:900 */
+  border-right: #0d47a1; /** blue:900 */
 }

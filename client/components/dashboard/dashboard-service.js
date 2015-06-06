@@ -416,7 +416,9 @@ DashboardService.prototype.refreshWidget = function(widget) {
   }
 
   if (widget.model.datasource.query) {
-    widget.state().datasource.status = ResultsDataStatus.TOFETCH;
+    this.timeout_(function() {
+      widget.state().datasource.status = ResultsDataStatus.TOFETCH;
+    });
   }
 };
 
