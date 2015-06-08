@@ -63,115 +63,115 @@ explorer.components.explorer.sidebar.SidebarTabService = function(
 
   /** @export {?ExplorerTabModel} */
   this.selectedTab = null;
-
-  /**
-   * Marks the provided tab as the selected one.
-   * @param {?ExplorerTabModel} tab
-   * @export
-   */
-   this.selectTab = function(tab) {
-     this.selectedTab = tab;
-   };
-
-  /**
-  * Toggles the selection state of a tab.
-  * @param {?ExplorerTabModel} tab
-  * @export
-  */
-  this.toggleTab = function(tab) {
-    if (this.selectedTab == tab) {
-      this.selectedTab = null;
-    } else {
-      this.selectTab(tab);
-    }
-  };
-
-  this.getFirstTab = function() {
-    if (dashboardService.selectedWidget) {
-      return this.tabs[0];
-    } else {
-      for (var i=0, len=this.tabs.length; i < len; ++i) {
-        var currentTab = this.tabs[i];
-
-        if (!currentTab.requireWidget) {
-          return currentTab;
-        }
-      }
-    }
-
-    console.log('getFirstTab failed: No non-widget tabs available.');
-  };
-
-  this.getLastTab = function() {
-    if (dashboardService.selectedWidget) {
-      return this.tabs[this.tabs.length - 1];
-    } else {
-      for (var i=this.tabs.length - 1; i >= 0; --i) {
-        var currentTab = this.tabs[i];
-
-        if (!currentTab.requireWidget) {
-          return currentTab;
-        }
-      }
-    }
-
-    console.log('getFirstTab failed: No non-widget tabs available.');
-  };
-
-  this.getNextTab = function() {
-    if (this.selectedTab) {
-      var selectedTabIndex = this.tabs.indexOf(
-          this.selectedTab);
-      if (selectedTabIndex == -1) {
-        throw 'Cannot find selected tab.';
-      }
-      
-      if (dashboardService.selectedWidget) {
-        if (++selectedTabIndex < this.tabs.length) {
-          return this.tabs[selectedTabIndex];
-        }
-      } else {
-        for (var i=selectedTabIndex + 1, len=this.tabs.length;
-             i < len; ++i) {
-          var currentTab = this.tabs[i];
-
-          if (!currentTab.requireWidget) {
-            return currentTab;
-          }
-        }
-      }
-    }
-
-    return this.getFirstTab();
-  };
-
-  this.getPreviousTab = function() {
-    if (this.selectedTab) {
-      var selectedTabIndex = this.tabs.indexOf(
-          this.selectedTab);
-      if (selectedTabIndex == -1) {
-        throw 'Cannot find selected tab.';
-      }
-      
-      if (dashboardService.selectedWidget) {
-        if (--selectedTabIndex > 0) {
-          return this.tabs[selectedTabIndex];
-        }
-      } else {
-        for (var i=selectedTabIndex - 1; i >= 0; --i) {
-          var currentTab = this.tabs[i];
-
-          if (!currentTab.requireWidget) {
-            return currentTab;
-          }
-        }
-      }
-    }
-
-    return this.getLastTab();
-  };
 };
 var SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
+
+/**
+ * Marks the provided tab as the selected one.
+ * @param {?ExplorerTabModel} tab
+ * @export
+ */
+ SidebarTabService.prototype.selectTab = function(tab) {
+   this.selectedTab = tab;
+ };
+
+/**
+* Toggles the selection state of a tab.
+* @param {?ExplorerTabModel} tab
+* @export
+*/
+SidebarTabService.prototype.toggleTab = function(tab) {
+  if (this.selectedTab == tab) {
+    this.selectedTab = null;
+  } else {
+    this.selectTab(tab);
+  }
+};
+
+SidebarTabService.prototype.getFirstTab = function() {
+  if (dashboardService.selectedWidget) {
+    return this.tabs[0];
+  } else {
+    for (var i=0, len=this.tabs.length; i < len; ++i) {
+      var currentTab = this.tabs[i];
+
+      if (!currentTab.requireWidget) {
+        return currentTab;
+      }
+    }
+  }
+
+  console.log('getFirstTab failed: No non-widget tabs available.');
+};
+
+SidebarTabService.prototype.getLastTab = function() {
+  if (dashboardService.selectedWidget) {
+    return this.tabs[this.tabs.length - 1];
+  } else {
+    for (var i=this.tabs.length - 1; i >= 0; --i) {
+      var currentTab = this.tabs[i];
+
+      if (!currentTab.requireWidget) {
+        return currentTab;
+      }
+    }
+  }
+
+  console.log('getFirstTab failed: No non-widget tabs available.');
+};
+
+SidebarTabService.prototype.getNextTab = function() {
+  if (this.selectedTab) {
+    var selectedTabIndex = this.tabs.indexOf(
+        this.selectedTab);
+    if (selectedTabIndex == -1) {
+      throw 'Cannot find selected tab.';
+    }
+    
+    if (dashboardService.selectedWidget) {
+      if (++selectedTabIndex < this.tabs.length) {
+        return this.tabs[selectedTabIndex];
+      }
+    } else {
+      for (var i=selectedTabIndex + 1, len=this.tabs.length;
+           i < len; ++i) {
+        var currentTab = this.tabs[i];
+
+        if (!currentTab.requireWidget) {
+          return currentTab;
+        }
+      }
+    }
+  }
+
+  return this.getFirstTab();
+};
+
+SidebarTabService.prototype.getPreviousTab = function() {
+  if (this.selectedTab) {
+    var selectedTabIndex = this.tabs.indexOf(
+        this.selectedTab);
+    if (selectedTabIndex == -1) {
+      throw 'Cannot find selected tab.';
+    }
+    
+    if (dashboardService.selectedWidget) {
+      if (--selectedTabIndex > 0) {
+        return this.tabs[selectedTabIndex];
+      }
+    } else {
+      for (var i=selectedTabIndex - 1; i >= 0; --i) {
+        var currentTab = this.tabs[i];
+
+        if (!currentTab.requireWidget) {
+          return currentTab;
+        }
+      }
+    }
+  }
+
+  return this.getLastTab();
+};
 
 
 });  // goog.scope

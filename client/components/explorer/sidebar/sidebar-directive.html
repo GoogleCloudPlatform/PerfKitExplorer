@@ -33,6 +33,7 @@
       </div>
 
       <div ng-switch-when="widget.data.result">
+        <!-- TODO(joemu): Refactor into a single directive for the panel. -->
         <query-builder-column-config
             ng-model="dashboardSvc.selectedWidget.model">
         </query-builder-column-config>
@@ -41,6 +42,7 @@
       </div>
 
       <div ng-switch-when="widget.config">
+        <!-- TODO(joemu): Refactor into a single directive for the panel. -->
         <div class="pk-sidebar-group">
           <widget-config ng-model="dashboardSvc.selectedWidget.model" />
         </div>
