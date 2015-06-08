@@ -7,7 +7,7 @@
       ng-class="{'pk-sidebar-tab-selected': ctrl.tabSvc.selectedTab == tab}"
       ng-attr-selected="ctrl.tabSvc.selectedTab == tab">
     <md-tooltip
-        md-delay="200" md-direction="right" md-visible="tab.tooltipVisible"
+        md-delay="0" md-direction="right" md-visible="tab.tooltipVisible"
         md-autohide>
         {{ tab.hint }}</md-tooltip>
     <i class="pk-sidebar-tab-icon {{ tab.iconClass }}"></i>

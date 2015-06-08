@@ -54,6 +54,9 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
         tab.tooltipVisible = false;
       };
 
+      // When selected widget changes to null, and the selected tab's
+      // requireWidget property is true, select the next visible (non-widget)
+      // tab.
       $scope.$watch(
           angular.bind(this, function() {
             return this.dashboardSvc.selectedWidget; }),
