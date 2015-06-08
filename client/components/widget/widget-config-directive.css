@@ -32,8 +32,8 @@
 
 .bqgviz-panel {
   background-color: #e3f2fd; /** blue:50 */
-  border-left: #0d47a1; /** blue:900 */
-  border-right: #0d47a1; /** blue:900 */
+  border-left: 1px solid #0d47a1; /** blue:900 */
+  border-right: 1px solid #0d47a1; /** blue:900 */
 }
 
 .widget-tab {
@@ -63,6 +63,6 @@
 
 .widget-panel {
   background-color: #e3f2fd; /** blue:50 */
-  border-left: #0d47a1; /** blue:900 */
-  border-right: #0d47a1; /** blue:900 */
+  border-left: 1px solid #0d47a1; /** blue:900 */
+  border-right: 1px solid #0d47a1; /** blue:900 */
 }

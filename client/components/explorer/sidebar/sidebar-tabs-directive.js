@@ -15,10 +15,12 @@
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
 
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
+const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 
 
 /**
@@ -36,9 +38,17 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
     controller: [
         '$scope', 'dashboardService', 'sidebarTabService',
         function($scope, dashboardService, sidebarTabService) {
+      /** @export {!DashboardService} */
       this.dashboardSvc = dashboardService;
+
+      /** @export {!SidebarTabService} */
       this.tabSvc = sidebarTabService;
 
+      /**
+       * Reacts to a tab being clicked.  It toggles the tab and hides the tooltip.
+       * @param {!SidebarTabModel}
+       * @export
+       */
       this.tabClicked = function(tab) {
         this.tabSvc.toggleTab(tab);
         tab.tooltipVisible = false;

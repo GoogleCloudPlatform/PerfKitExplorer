@@ -4,6 +4,33 @@
   </div>
 
   <div class="pk-header-section pk-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
+
+    <div style="float: right;">
+      <button type="button" class="btn btn-default" ng-model="ctrl.explorer.model.logStatistics" btn-checkbox>
+        Log Statistics
+      </button>
+      <button type="button" class="btn btn-default dropdown-toggle">
+        <span class="glyphicon glyphicon-cog"></span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right">
+        <li ng-hide="ctrl.explorer.model.readOnly" ng-click="ctrl.saveDashboard()">
+          <a>Save</a>
+        </li>
+        <li ng-click="ctrl.saveDashboardCopy()" ng-show="ctrl.dashboard.current.model.id">
+          <a>Save as...</a>
+        </li>
+        <li ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
+            ng-click="ctrl.deleteCurrentDashboard()">
+          <a>Delete</a>
+        </li>
+        <li class="divider"></li>
+        <li ng-show="ctrl.explorer.CURRENT_USER_ADMIN"
+            ng-click="ctrl.editConfig()">
+          <a>Edit config</a>
+        </li>
+      </ul>
+    </div>
     <div class="btn-group pk-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
               btn-radio="'dashboard'">Dashboard</button>
@@ -12,6 +39,7 @@
       <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
               btn-radio="'widget'">Widget</button>
     </div>
+
     <div class="pk-toolbar-section" ng-switch="ctrl.currentMode">
       <!-- Dashboard -->
       <div ng-switch-when="dashboard">
@@ -166,33 +194,6 @@
           ng-click="ctrl.explorer.showLog()">
         Show {{ ctrl.errorService.errors.length }} warning<span ng-show="ctrl.errorService.errors.length != 1">s</span>
       </button>
-    </div>
-
-    <div style="float: right;">
-      <button type="button" class="btn btn-default" ng-model="ctrl.explorer.model.logStatistics" btn-checkbox>
-        Log Statistics
-      </button>
-      <button type="button" class="btn btn-default dropdown-toggle">
-        <span class="glyphicon glyphicon-cog"></span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu pull-right">
-        <li ng-hide="ctrl.explorer.model.readOnly" ng-click="ctrl.saveDashboard()">
-          <a>Save</a>
-        </li>
-        <li ng-click="ctrl.saveDashboardCopy()" ng-show="ctrl.dashboard.current.model.id">
-          <a>Save as...</a>
-        </li>
-        <li ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
-            ng-click="ctrl.deleteCurrentDashboard()">
-          <a>Delete</a>
-        </li>
-        <li class="divider"></li>
-        <li ng-show="ctrl.explorer.CURRENT_USER_ADMIN"
-            ng-click="ctrl.editConfig()">
-          <a>Edit config</a>
-        </li>
-      </ul>
     </div>
   </div>
 </div>

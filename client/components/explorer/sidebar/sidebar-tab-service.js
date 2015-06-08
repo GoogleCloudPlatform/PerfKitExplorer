@@ -17,13 +17,43 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
+goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SIDEBAR_TABS');
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
+goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
+
+
+explorer.components.explorer.sidebar.SIDEBAR_TABS = [
+  {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
+   hint: 'Query filters and constraints', requireWidget: true,
+   tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
+   panelClass: 'bqgviz-panel'},
+  {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
+   hint: 'Query columns and results', requireWidget: true,
+   tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
+   panelClass: 'bqgviz-panel'},
+  {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
+   hint: 'Chart type and settings', requireWidget: true,
+   tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
+   panelClass: 'bqgviz-panel'},
+  {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
+   hint: 'Widget title and appearance', requireWidget: true,
+   tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
+   panelClass: 'widget-panel'},
+  {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
+   hint: 'Container properties and text', requireWidget: true,
+   tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
+   panelClass: 'dashboard-panel'},
+  {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube',
+   hint: 'Dashboard title and properties',
+   tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
+   panelClass: 'dashboard-panel'}
+  ];
+const SIDEBAR_TABS = explorer.components.explorer.sidebar.SIDEBAR_TABS;
 
 
 /**
@@ -33,38 +63,16 @@ var explorer = p3rf.perfkit.explorer;
  */
 explorer.components.explorer.sidebar.SidebarTabService = function(
     dashboardService) {
+  /** @private {!DashboardService} */
+  this.dashboardService_ = dashboardService;
+
   /** @export {!Array.<!SidebarTabModel>} */
-  this.tabs = [
-    {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
-     hint: 'Query filters and constraints', requireWidget: true,
-     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
-     panelClass: 'bqgviz-panel'},
-    {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
-     hint: 'Query columns and results', requireWidget: true,
-     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
-     panelClass: 'bqgviz-panel'},
-    {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
-     hint: 'Chart type and settings', requireWidget: true,
-     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
-     panelClass: 'bqgviz-panel'},
-    {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
-     hint: 'Widget title and appearance', requireWidget: true,
-     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
-     panelClass: 'widget-panel'},
-    {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
-     hint: 'Container properties and text', requireWidget: true,
-     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
-     panelClass: 'dashboard-panel'},
-    {id: 'dashboard', title: 'Dashboard', iconClass: 'fa fa-dashcube',
-     hint: 'Dashboard title and properties',
-     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
-     panelClass: 'dashboard-panel'}
-  ];
+  this.tabs = SIDEBAR_TABS;
 
   /** @export {?ExplorerTabModel} */
   this.selectedTab = null;
 };
-var SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
+const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 
 /**
  * Marks the provided tab as the selected one.
@@ -89,7 +97,7 @@ SidebarTabService.prototype.toggleTab = function(tab) {
 };
 
 SidebarTabService.prototype.getFirstTab = function() {
-  if (dashboardService.selectedWidget) {
+  if (this.dashboardService_.selectedWidget) {
     return this.tabs[0];
   } else {
     for (var i=0, len=this.tabs.length; i < len; ++i) {
@@ -105,7 +113,7 @@ SidebarTabService.prototype.getFirstTab = function() {
 };
 
 SidebarTabService.prototype.getLastTab = function() {
-  if (dashboardService.selectedWidget) {
+  if (this.dashboardService_.selectedWidget) {
     return this.tabs[this.tabs.length - 1];
   } else {
     for (var i=this.tabs.length - 1; i >= 0; --i) {
@@ -128,7 +136,7 @@ SidebarTabService.prototype.getNextTab = function() {
       throw 'Cannot find selected tab.';
     }
     
-    if (dashboardService.selectedWidget) {
+    if (this.dashboardService_.selectedWidget) {
       if (++selectedTabIndex < this.tabs.length) {
         return this.tabs[selectedTabIndex];
       }
@@ -155,8 +163,8 @@ SidebarTabService.prototype.getPreviousTab = function() {
       throw 'Cannot find selected tab.';
     }
     
-    if (dashboardService.selectedWidget) {
-      if (--selectedTabIndex > 0) {
+    if (this.dashboardService_.selectedWidget) {
+      if (--selectedTabIndex >= 0) {
         return this.tabs[selectedTabIndex];
       }
     } else {

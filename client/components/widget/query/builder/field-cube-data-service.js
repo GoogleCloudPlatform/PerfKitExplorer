@@ -15,7 +15,7 @@
  *
  * @fileoverview fieldCubeDataService is an angular service used to fetch and
  * cache data from the field metadata cube.  A future release will include an
- * automated pipeline to product this cube.  It requests data from a REST service
+ * automated pipeline to produce this cube.  It requests data from a REST service
  * (/data/fields, backed by the GAE handler p3rf.perfkit.explorer.data).
  * @author joemu@google.com (Joe Allan Muharsky)
  */

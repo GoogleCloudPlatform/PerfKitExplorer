@@ -21,14 +21,16 @@
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SIDEBAR_TABS');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 describe('SidebarTabService', function() {
   var scope, sidebarTabSvc;
 
   const explorer = p3rf.perfkit.explorer;
   const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
+  const SIDEBAR_TABS = explorer.components.explorer.sidebar.SIDEBAR_TABS;
 
   var mockTabs = [
     {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
@@ -58,7 +60,8 @@ describe('SidebarTabService', function() {
   describe('should correctly initialize', function() {
     it('the tabs list with default values', function() {
       expect(sidebarTabSvc.tabs).not.toBeNull();
-      expect(sidebarTabSvc.tabs).toBeArrayOfSize(6);
+      expect(sidebarTabSvc.tabs).toBeArrayOfSize(
+          SIDEBAR_TABS.length);
     });
 
     it('the selected tab to null', function() {
@@ -122,6 +125,13 @@ describe('SidebarTabService', function() {
       dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
 
       expect(sidebarTabSvc.getLastTab()).toEqual(mockTabs[3]);
+    });
+
+    it('last tab when moving previous from the first tab', function() {
+      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+
+      sidebarTabSvc.selectTab(mockTabs[0]);
+      expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[3]);
     });
 
     it('next global tab when no widget is selected', function() {
