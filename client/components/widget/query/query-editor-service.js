@@ -60,19 +60,10 @@ const FieldCubeDataService = (
 /**
  * Query service.
  *
- * @param {!FieldCubeDataService} fieldCubeDataService
  * @constructor
  * @ngInject
  */
-explorer.components.widget.query.QueryEditorService = function(
-    fieldCubeDataService) {
-  /**
-   * Service for providing field autocomplete.
-   * @type {!FieldCubeDataService}
-   * @export
-   */
-  this.autocomplete_data = fieldCubeDataService;
-
+explorer.components.widget.query.QueryEditorService = function() {
   /**
    * List of available date groupings.
    * @type {!Array.<!string>}

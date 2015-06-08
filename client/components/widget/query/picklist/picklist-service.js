@@ -89,7 +89,16 @@ PicklistService.prototype.initialize = function() {
 
 
 PicklistService.prototype.refresh = function(picklistName, queryFilter) {
-  
+  var promise = this.dataSvc.list(picklistName, queryFilter);
+
+  promise.then(angular.bind(this, function(picklistData) {
+    this.picklists[picklistName] = picklistData;
+  }));
+
+  promise.then(null, angular.bind(this, function(error) {
+    console.log(error);
+    this.errors.push(error.message);
+  }));
 };
 
 }); // goog.scope
