@@ -22,10 +22,15 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistService');
 goog.provide('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistStates');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const picklist = explorer.components.widget.query.picklist;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
 
 
 /**
@@ -44,7 +49,7 @@ const PicklistStates = picklist.PicklistStates;
 /**
  * @export {!Array.<string>}
  */
-picklist.PicklistNames = ['product_name', 'test', 'metric', 'runby'];
+picklist.PicklistNames = ['product_name', 'test', 'metric', 'owner'];
 
 
 /**
@@ -82,10 +87,12 @@ const PicklistModel = picklist.PicklistModel;
  * @constructor
  * @ngInject
  */
-picklist.PicklistService = function(fieldCubeDataService) {
+picklist.PicklistService = function(fieldCubeDataService, errorService) {
   this.picklists = {};
   
   this.dataSvc = fieldCubeDataService;
+  
+  this.errorSvc = errorService;
 
   this.initialize();
 };
@@ -98,11 +105,6 @@ const PicklistService = picklist.PicklistService;
 PicklistService.prototype.initialize = function() {
   picklist.PicklistNames.forEach(
       str => this.picklists[str] = new PicklistModel());
-  
-  var TEST_ITEMS = this.picklists['product_name'].items;
-  TEST_ITEMS.push({'name': 'PRODUCT_ONE'});
-  TEST_ITEMS.push({'name': 'PRODUCT_TWO'});
-  TEST_ITEMS.push({'name': 'PRODUCT_THREE'});
 };
 
 
@@ -131,7 +133,10 @@ PicklistService.prototype.refresh = function(picklistName, queryFilter) {
   promise.then(null, angular.bind(this, function(error) {
     picklist.state = PicklistStates.ERROR;
     picklist.is_loading = false;
-    this.errors.push(error.message);
+    let msg =
+        'PicklistService.refresh(\'' + picklistName +
+        '\', queryFilter) failed: ' + error.message;
+    this.errorSvc.addError(ErrorTypes.DANGER, msg);
   }));
 };
 

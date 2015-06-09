@@ -1,13 +1,19 @@
 <div class="pk-popup pk-popup-autocomplete" tabindex="-1">
-  <div class="pk-popup-item"
-       ng-class="{'pk-popup-item-unmatched': (
-              popupboxModel.length != 0 && popupboxModel != null &&
-              data.slice(0, popupboxModel.length).toUpperCase() != popupboxModel.toUpperCase()),
-              'pk-popup-item-matched': (
-              popupboxModel.length != 0 && popupboxModel != null &&
-              data.slice(0, popupboxModel.length).toUpperCase() == popupboxModel.toUpperCase())}"
-       ng-repeat="data in popupboxData"
-       ng-click="selectValue(data);">
-    {{ getDisplayValue(data) }}
+  <div class="pk-popup-loading" ng-show="popupboxState === 'LOADING'">
+    Loading...
+  </div>
+  <div class="pk-popup-error" ng-show="popupboxState === 'ERROR'">
+    Error loading data!
+  </div>
+  <div class="pk-popup-empty" ng-show="popupboxState === 'EMPTY'">
+    No items to display.
+  </div>
+  <div class="pk-popup-loaded"
+       ng-show="!popupboxState || (popupboxState === 'LOADED')">
+    <div class="pk-popup-item"
+         ng-repeat="data in popupboxData | filter:startsWith"
+         ng-click="selectValue(data);">
+      {{ getDisplayValue(data) }}
+    </div>
   </div>
 </div>

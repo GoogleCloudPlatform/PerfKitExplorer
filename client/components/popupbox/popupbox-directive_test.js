@@ -18,39 +18,102 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
+goog.require('p3rf.perfkit.explorer.components.popupbox.DEFAULT_TEMPLATE_URL');
+
+
 describe('popupbox', function() {
   'use strict';
 
-  var scope, element, $compile, $timeout, $httpBackend;
+  const DEFAULT_TEMPLATE_URL =
+      p3rf.perfkit.explorer.components.popupbox.DEFAULT_TEMPLATE_URL;
 
-  beforeEach(module('ui.popupbox'));
+  let scope, bodyElement, popupElement, actualElement, actualDirective;
+  let $compile, $timeout, $httpBackend, $document;
+
+  beforeEach(module('explorer'));
 
   beforeEach(inject(function(
-      _$rootScope_, _$compile_, _$timeout_, _$httpBackend_) {
+      _$rootScope_, _$compile_, _$timeout_, _$document_, _$httpBackend_) {
         scope = _$rootScope_.$new();
         $compile = _$compile_;
         $timeout = _$timeout_;
         $httpBackend = _$httpBackend_;
+        $document = _$document_;
 
-        $httpBackend.whenGET(
-            'components/popupbox/popupbox-directive.html').respond(
-            'FOO');
+        bodyElement = angular.element($document[0].body);
       }));
 
-  beforeEach(inject(function($rootScope, $compile) {
-    element = angular.element('<span ui-popupbox></span>');
-
-    scope = $rootScope;
-    $compile(element)(scope);
-    scope.$digest();
+  afterEach(inject(function() {
+    let popups = bodyElement.find('div.pk-popup');
+    popups.remove();
   }));
 
-  it('should compile when used on an attribute', function() {
-    function compile() {
-      $compile('<span ui-popupbox></span>')(scope);
-    }
+  describe('compilation', function() {
+    it('should succeed when used on an attribute', function() {
+      function compile() {
+        $httpBackend.expectGET(DEFAULT_TEMPLATE_URL).respond(200);
+        $compile('<span popupbox></span>')(scope);
+        scope.$digest();
+      }
 
-    expect(compile).not.toThrow();
+      expect(compile).not.toThrow();
+    });
+
+    it('should create a popup element', function() {
+      actualElement = angular.element('<span popupbox></span>');
+
+      $httpBackend.expectGET(DEFAULT_TEMPLATE_URL).respond(200);
+      actualDirective = $compile('<span popupbox></span>')(scope);
+      scope.$digest();
+
+      let popupElements = bodyElement.find('div.pk-popup');
+      expect(popupElements.length).toBe(1);
+    });
   });
 
+  describe('the default template', function() {
+    let popupElement;
+
+    beforeEach(inject(function() {
+      actualElement = angular.element('<span popupbox></span>');
+
+      $httpBackend.expectGET(DEFAULT_TEMPLATE_URL).respond(200);
+      actualDirective = $compile(actualElement)(scope);
+      scope.$digest();
+
+      popupElement = bodyElement.find('div.pk-popup');
+    }));
+
+    describe('should contain an element for', function() {
+      it('the autocomplete container', function() {
+        let targetElement = bodyElement.find(
+          'div.pk-popup-autocomplete');
+        expect(targetElement.length).toBe(1);
+      });
+
+      it('the content to display when the popup is loading', function() {
+        let targetElement = popupElement.find(
+          'div.pk-popup-loading');
+        expect(targetElement.length).toBe(1);
+      });
+
+      it('the content to display when the popup is loaded', function() {
+        let targetElement = popupElement.find(
+          'div.pk-popup-loaded');
+        expect(targetElement.length).toBe(1);
+      });
+
+      it('the content to display when the popup has an error', function() {
+        let targetElement = popupElement.find(
+          'div.pk-popup-error');
+        expect(targetElement.length).toBe(1);
+      });
+
+      it('the content to display when the popup is empty', function() {
+        let targetElement = popupElement.find(
+          'div.pk-popup-empty');
+        expect(targetElement.length).toBe(1);
+      });
+    });
+  });
 });

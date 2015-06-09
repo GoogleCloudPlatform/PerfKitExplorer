@@ -88,7 +88,7 @@ explorer.models.perfkit_simple_builder.PivotConfigModel = function() {
   this.column_field = '';
 
   /**
-   * @type {!string}
+   * @type {string}
    * @export
    */
   this.value_field = '';
@@ -98,6 +98,7 @@ var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 /**
  * Constants describing the types of filters applied to dates.
+ * @enum {string}
  * @export
  */
 explorer.models.perfkit_simple_builder.QueryDateGroupings = {
@@ -108,8 +109,12 @@ explorer.models.perfkit_simple_builder.QueryDateGroupings = {
   DAY: 'Day',
   HOUR: 'Hour'
 };
-var QueryDateGroupings = (
-    explorer.models.perfkit_simple_builder.QueryDateGroupings);
+var QueryDateGroupings =
+    explorer.models.perfkit_simple_builder.QueryDateGroupings;
+QueryDateGroupings.ALL = [
+  QueryDateGroupings.NONE, QueryDateGroupings.YEAR, QueryDateGroupings.MONTH,
+  QueryDateGroupings.WEEK, QueryDateGroupings.DAY, QueryDateGroupings.HOUR
+];
 
 
 /**

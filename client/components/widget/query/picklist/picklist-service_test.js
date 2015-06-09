@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistSer
 
 goog.scope(function() {
 
-fdescribe('picklistService', function() {
+describe('picklistService', function() {
   var svc, $httpBackend;
 
   beforeEach(module('explorer'));
