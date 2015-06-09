@@ -104,7 +104,9 @@ describe('gvizDirective', function() {
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
       gvizEvents, _GvizDataTable_, dataViewService, _configService_,
-      _widgetFactoryService_) {
+      _widgetFactoryService_, errorService) {
+        errorService.logToConsole = false;
+
         compile = $compile;
         rootScope = $rootScope;
         timeout = $timeout;

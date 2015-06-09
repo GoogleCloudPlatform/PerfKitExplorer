@@ -35,7 +35,9 @@ describe('CodeEditorCtrl', function() {
   beforeEach(module('explorer'));
 
   beforeEach(inject(function($rootScope, $controller, _dashboardService_,
-      _widgetFactoryService_) {
+      _widgetFactoryService_, errorService) {
+        errorService.logToConsole = false;
+
         dashboardService = _dashboardService_;
         rootScope = $rootScope;
         scope = $rootScope.$new();

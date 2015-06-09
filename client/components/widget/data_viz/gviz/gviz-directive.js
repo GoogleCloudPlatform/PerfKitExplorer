@@ -30,6 +30,8 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
@@ -46,6 +48,8 @@ const ChartType = explorer.models.ChartType;
 const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 const DataViewService = explorer.components.widget.query.DataViewService;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
 const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 const ResultsDataStatus = explorer.models.ResultsDataStatus;
@@ -65,8 +69,8 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  */
 explorer.components.widget.data_viz.gviz.gvizChart = function(
     $timeout, $location, chartWrapperService, queryResultDataService,
-    queryBuilderService, gvizEvents, dataViewService, dashboardService) {
-
+    queryBuilderService, gvizEvents, dataViewService, dashboardService,
+    errorService) {
   return {
     restrict: 'E',
     replace: true,
@@ -327,8 +331,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
         if (dataViewsJson.error) {
           // TODO: Display error in the UI instead of in the console.
-          console.log('View parameter error on property',
-              dataViewsJson.error.property, ':',
+          errorService.addError(
+              ErrorTypes.DANGER,
+              'View parameter error on property' +
+              dataViewsJson.error.property + ':' +
               dataViewsJson.error.message);
           return;
         }

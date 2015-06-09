@@ -25,6 +25,8 @@ goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
@@ -32,13 +34,15 @@ goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-const DashboardService = explorer.components.dashboard.DashboardService;
-const ExplorerService = explorer.components.explorer.ExplorerService;
 const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 const CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
-const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const ExplorerService = explorer.components.explorer.ExplorerService;
 const ResultsDataStatus = explorer.models.ResultsDataStatus;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 
@@ -46,36 +50,33 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  * See module docstring for more information about purpose and usage.
  *
  * @param {!angular.Scope} $scope
- * @param {!ExplorerService} explorerService
  * @param {!DashboardService} dashboardService
+ * @param {!ErrorService} explorerService
+ * @param {!ExplorerService} explorerService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @constructor
  * @ngInject
  */
 explorer.components.code_editor.CodeEditorCtrl = function(
-    $scope, explorerService, dashboardService, widgetFactoryService) {
-  /**
-   * @type {!WidgetFactoryService}
-   * @private
-   */
+    $scope, dashboardService, errorService, explorerService, 
+    widgetFactoryService) {
+  /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /**
-   * @type {!ExplorerService}
-   * @export
-   */
+  /** @export {!ExplorerService} */
   this.explorer = explorerService;
 
   /**
-   * @type {!DashboardService}
-   * @export
+   * @export {!DashboardService}
    */
   this.dashboard = dashboardService;
 
+  /** @export {!ErrorService} */
+  this.errorSvc = errorService;
+
   /**
    * Shortcut property to the code_editor section of the ExplorerSettingsModel.
-   * @type {!CodeEditorSettingsModel}
-   * @export
+   * @export {!CodeEditorSettingsModel}
    */
   this.settings = this.explorer.model.code_editor;
 
@@ -83,8 +84,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * The currently edited JSON.
    * Note: It is converted to a string to enable text editing from the view.
    *
-   * @type {{text: ?string}}
-   * @export
+   * @export {{text: ?string}}
    */
   this.currentJson = {text: null};
 
@@ -94,14 +94,13 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * Because saveToObject changes the current object, the angular watcher is
    * triggered and call saveToText.
    *
-   * @type {SaveState}
+   * @export {SaveState}
    */
   this.saveState = SaveState.NONE;
 
   /**
    * Options for the CodeMirror editor.
-   * @type {!Object}
-   * @export
+   * @export {!Object}
    */
   this.editorOptionsJSON = {
     lineWrapping: true,
@@ -111,8 +110,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
 
   /**
    * Options for the CodeMirror editor.
-   * @type {!Object}
-   * @export
+   * @export {!Object}
    */
   this.editorOptionsSQL = {
     lineWrapping: true,
@@ -122,9 +120,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
 
   /**
    * Error messages raised by this controller.
-   *
-   * @type {!Array.<string>}
-   * @export
+   * @export {!Array.<string>}
    */
   this.errors = [];
 
@@ -247,9 +243,8 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
       try {
         newModel = angular.fromJson(this.currentJson.text);
       } catch (e) {
-        // Catch errors when the JSON is invalid
-        // TODO: Display error in the UI instead of in the console.
-        // console.log('json error:', e.message);
+        let msg = 'saveTextToJson failed: ' + e.message;
+        this.errorSvc.addError(ErrorTypes.DANGER, msg);
       }
 
       if (newModel) {
