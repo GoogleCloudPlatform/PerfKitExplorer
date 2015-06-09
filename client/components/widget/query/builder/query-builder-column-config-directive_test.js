@@ -24,17 +24,11 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 describe('QueryBuilderColumnConfigDirective', function() {
-  // declare these up here to be global to all tests
   var scope, $compile, $httpBackend, $timeout;
   var configSvc, dashboardSvc;
 
   const explorer = p3rf.perfkit.explorer;
   const ChartWidgetModel = explorer.models.ChartWidgetModel;
-
-  const TEMPLATE_COLUMN_CONFIG = (
-          '/static/components/widget/query/query-builder-column-config-directive.html');
-  const TEMPLATE_PICKLIST = (
-    '/static/components/widget/query/builder/picklist-template.html');
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
@@ -57,19 +51,17 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
-        $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<query-builder-column-config ng-model="providedWidgetModel" />');
+            '<query-builder-column-config ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
       }
       expect(compile).not.toThrow();
     });
+
   });
 
   describe('should contain a element for', function() {
@@ -77,9 +69,6 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
-      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
       scope.widgetModel = new ChartWidgetModel();
 
       actualElement = angular.element(
@@ -124,9 +113,6 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var results;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
-      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
       results = (
@@ -212,9 +198,6 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_COLUMN_CONFIG).respond(200);
-      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
       results = (

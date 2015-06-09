@@ -51,9 +51,6 @@ describe('ChartConfigDirective', function() {
         $httpBackend.expectGET(
             '/static/components/widget/data_viz/gviz/gviz-charts.json')
             .respond(200);
-        $httpBackend.expectGET(
-            '/static/components/widget/data_viz/gviz/chart-config-directive.html')
-            .respond(200);
 
         scope.providedWidgetModel = new ChartWidgetModel();
         
@@ -74,9 +71,6 @@ describe('ChartConfigDirective', function() {
     beforeEach(inject(function() {
       $httpBackend.expectGET(
           '/static/components/widget/data_viz/gviz/gviz-charts.json')
-          .respond(200);
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/chart-config-directive.html')
           .respond(200);
 
       scope.widgetModel = new ChartWidgetModel();
@@ -148,9 +142,6 @@ describe('ChartConfigDirective', function() {
     beforeEach(inject(function() {
       $httpBackend.expectGET(
           '/static/components/widget/data_viz/gviz/gviz-charts.json')
-          .respond(200);
-      $httpBackend.expectGET(
-          '/static/components/widget/data_viz/gviz/chart-config-directive.html')
           .respond(200);
 
       scope.widgetModel = new ChartWidgetModel();
@@ -275,9 +266,6 @@ describe('ChartConfigDirective', function() {
       $httpBackend.expectGET(
           '/static/components/widget/data_viz/gviz/gviz-charts.json')
           .respond(200);
-      $httpBackend.expectGET(
-        '/static/components/widget/query/picklist-template.html')
-        .respond(200);
 
       scope.widgetModel = new ChartWidgetModel();
       chartConfig = scope.widgetModel.chart;

@@ -30,9 +30,6 @@ describe('QueryResultConfigDirective', function() {
   const explorer = p3rf.perfkit.explorer;
   const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
-  const TEMPLATE_PICKLIST = (
-    '/static/components/widget/query/picklist-template.html');
-
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
@@ -54,8 +51,6 @@ describe('QueryResultConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
@@ -73,8 +68,6 @@ describe('QueryResultConfigDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
       scope.widgetModel = new ChartWidgetModel();
 
       actualElement = angular.element(
@@ -95,8 +88,6 @@ describe('QueryResultConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
       results = (
@@ -127,8 +118,6 @@ describe('QueryResultConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      $httpBackend.expectGET(TEMPLATE_PICKLIST).respond(200);
-
       scope.widgetModel = dashboardSvc.selectedWidget.model;
 
       results = (
