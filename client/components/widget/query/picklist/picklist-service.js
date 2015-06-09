@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2015 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistSta
 
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 
 
 goog.scope(function() {
@@ -31,7 +32,7 @@ const explorer = p3rf.perfkit.explorer;
 const picklist = explorer.components.widget.query.picklist;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
-
+const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
 /**
  * @enum {string}
@@ -53,27 +54,26 @@ picklist.PicklistNames = ['product_name', 'test', 'metric', 'owner'];
 
 
 /**
+ * Model structure for an individual item in a picklist.
  * @export
  */
 picklist.PicklistItemModel = class {
   constructor() {
     /** @export {string} */
-    this.title = '';
+    this.name = '';
   }
 };
 const PicklistItemModel = picklist.PicklistItemModel;
 
 
 /**
+ * Represents a list of related picklist items and a state.
  * @export
  */
 picklist.PicklistModel = class {
   constructor() {
     /** @export {!PicklistStates} */
     this.state = PicklistStates.EMPTY;
-    
-    /** @export {!boolean} */
-    this.is_loading = false;
 
     /** @export {!Array.{!PicklistItemModel}} */
     this.items = [];
@@ -110,6 +110,9 @@ PicklistService.prototype.initialize = function() {
 
 /**
  * Refreshes the specified picklist.
+ * @param {string} picklistName The name of the picklist to refresh.
+ * @param {!QueryFilterModel} queryFilter The filter config object
+ *     from the widget's datasource.
  * @export
  */
 PicklistService.prototype.refresh = function(picklistName, queryFilter) {
@@ -120,19 +123,16 @@ PicklistService.prototype.refresh = function(picklistName, queryFilter) {
   }
 
   picklist.state = PicklistStates.LOADING;
-  picklist.is_loading = true;
   let promise = this.dataSvc.list(picklistName, queryFilter);
 
   promise.then(angular.bind(this, function(picklistData) {
     picklist.items.length = 0;
     picklistData.forEach(item => picklist.items.push(item));
     picklist.state = PicklistStates.LOADED;
-    picklist.is_loading = false;
   }));
 
   promise.then(null, angular.bind(this, function(error) {
     picklist.state = PicklistStates.ERROR;
-    picklist.is_loading = false;
     let msg =
         'PicklistService.refresh(\'' + picklistName +
         '\', queryFilter) failed: ' + error.message;
