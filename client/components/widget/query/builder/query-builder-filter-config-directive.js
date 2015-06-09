@@ -20,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective');
 
+goog.require('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistStates');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
 
@@ -28,6 +29,7 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
+const PicklistStates = explorer.components.widget.query.picklist.PicklistStates;
 
 
 /**
@@ -45,7 +47,10 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-filter-config-directive.html',
-    controller: ['$scope', function($scope) {
+    controller: ['$scope', 'picklistService', function($scope, picklistService) {
+      /** @export {!PicklistService} */
+      $scope.picklistSvc = picklistService;
+
       /**
        * Adds an end date to the filters.
        * @export
@@ -86,6 +91,14 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
       $scope.addMetadataFilter = function() {
         $scope.ngModel.datasource.config.filters.metadata.push(new MetadataFilter());
       };
+
+      $scope.refreshPicklist = function(picklistName) {
+        picklistService.refresh(picklistName, $scope.ngModel.datasource.config.filters);
+      }
+      
+      $scope.isPicklistLoading = function(picklistName) {
+        return picklistService.picklists[picklistName].state == PicklistStates.LOADING;
+      }
     }]
   };
 };

@@ -82,20 +82,26 @@
               ng-click="removeOfficial()"></span>
       </div>
     </div>
-  
+
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">product</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-product-name"
-               ng-model="ngModel.datasource.config.filters.product_name">
+               ng-model="ngModel.datasource.config.filters.product_name"
+               ng-focus="refreshPicklist('product_name')"
+               typeahead="item.name for item in picklistSvc.picklists.product_name.items | filter:$viewValue | limitTo:8"
+               typeahead-loading="picklistSvc.picklists.product_name.is_loading">
       </div>
     </div>
-  
+
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">test</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-test-name"
-               ng-model="ngModel.datasource.config.filters.test">
+               ng-model="ngModel.datasource.config.filters.test"
+               ng-focus="refreshPicklist('test')"
+               typeahead="item.name for item in picklistSvc.picklists.test.items | filter:$viewValue | limitTo:8"
+               typeahead-loading="picklistSvc.picklists.test.is_loading">
       </div>
     </div>
   
@@ -103,7 +109,10 @@
       <div class="pk-sidebar-item-label">metric</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-metric-name"
-               ng-model="ngModel.datasource.config.filters.metric">
+               ng-model="ngModel.datasource.config.filters.metric"
+               ng-focus="refreshPicklist('metric')"
+               typeahead="item.name for item in picklistSvc.picklists.metric.items | filter:$viewValue | limitTo:8"
+               typeahead-loading="picklistSvc.picklists.metric.is_loading">
       </div>
     </div>
   
@@ -111,7 +120,10 @@
       <div class="pk-sidebar-item-label">run by</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-runby"
-               ng-model="ngModel.datasource.config.filters.runby">
+               ng-model="ngModel.datasource.config.filters.runby"
+               ng-focus="refreshPicklist('runby')"
+               typeahead="item.name for item in picklistSvc.picklists.runby.items | filter:$viewValue | limitTo:8"
+               typeahead-loading="isPicklistLoading('runby')">
       </div>
     </div>
     <div class="pk-sidebar-item">

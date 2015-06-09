@@ -24,16 +24,41 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistSer
 goog.scope(function() {
 
 fdescribe('picklistService', function() {
-  var svc;
+  var svc, $httpBackend;
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(picklistService) {
+  beforeEach(inject(function(picklistService, _$httpBackend_) {
     svc = picklistService;
+
+    $httpBackend = _$httpBackend_;
   }));
-  
+
   it('should initialize the service', function() {
     expect(svc.picklists).toBeDefined();
+  });
+  
+  describe('refresh', function() {
+    var mockData = [
+      {'name': 'item 1'},
+      {'name': 'item 2'}
+    ];
+
+    it('should load items for the specified picklist', function() {
+      var actualPicklist = svc.picklists['product_name'];
+      expect(actualPicklist).not.toBeNull();
+      expect(actualPicklist.items.length).toEqual(0);
+
+      $httpBackend.expectGET('/data/fields?field_name=product_name')
+          .respond({rows: mockData});
+      svc.refresh('product_name');
+
+      $httpBackend.flush();
+
+      actualPicklist = svc.picklists['product_name'];
+      expect(actualPicklist).not.toBeNull();
+      expect(actualPicklist.items).toEqual(mockData);
+    });
   });
 });
 

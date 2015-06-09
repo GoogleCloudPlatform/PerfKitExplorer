@@ -58,8 +58,6 @@ describe('listFields', function() {
        var picklist = null;
        var promise = svc.listFields('test1', null);
 
-       httpBackend.expectGET('/data/fields?field_name=test1').respond(mockData);
-
        promise.then(function(data) {
          picklist = data;
        });

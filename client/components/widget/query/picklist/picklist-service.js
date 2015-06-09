@@ -20,6 +20,7 @@
  */
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistService');
+goog.provide('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistStates');
 
 
 goog.scope(function() {
@@ -29,6 +30,7 @@ const picklist = explorer.components.widget.query.picklist;
 
 /**
  * @enum {string}
+ * @export
  */
 picklist.PicklistStates = {
   EMPTY: 'EMPTY',
@@ -37,6 +39,12 @@ picklist.PicklistStates = {
   ERROR: 'ERROR'
 };
 const PicklistStates = picklist.PicklistStates;
+
+
+/**
+ * @export {!Array.<string>}
+ */
+picklist.PicklistNames = ['product_name', 'test', 'metric', 'runby'];
 
 
 /**
@@ -59,6 +67,9 @@ picklist.PicklistModel = class {
     /** @export {!PicklistStates} */
     this.state = PicklistStates.EMPTY;
     
+    /** @export {!boolean} */
+    this.is_loading = false;
+
     /** @export {!Array.{!PicklistItemModel}} */
     this.items = [];
   }
@@ -81,22 +92,45 @@ picklist.PicklistService = function(fieldCubeDataService) {
 const PicklistService = picklist.PicklistService;
 
 
+/**
+ * Initializes the picklists.
+ */
 PicklistService.prototype.initialize = function() {
-  var picklists = ['product_name', 'test', 'metric', 'runby'];
-
-  picklists.forEach(str => this.picklists[str] = new PicklistModel());
+  picklist.PicklistNames.forEach(
+      str => this.picklists[str] = new PicklistModel());
+  
+  var TEST_ITEMS = this.picklists['product_name'].items;
+  TEST_ITEMS.push({'name': 'PRODUCT_ONE'});
+  TEST_ITEMS.push({'name': 'PRODUCT_TWO'});
+  TEST_ITEMS.push({'name': 'PRODUCT_THREE'});
 };
 
 
+/**
+ * Refreshes the specified picklist.
+ * @export
+ */
 PicklistService.prototype.refresh = function(picklistName, queryFilter) {
-  var promise = this.dataSvc.list(picklistName, queryFilter);
+  let picklist = this.picklists[picklistName];
+
+  if (picklist.state === PicklistStates.LOADING) {
+    return;
+  }
+
+  picklist.state = PicklistStates.LOADING;
+  picklist.is_loading = true;
+  let promise = this.dataSvc.list(picklistName, queryFilter);
 
   promise.then(angular.bind(this, function(picklistData) {
-    this.picklists[picklistName] = picklistData;
+    picklist.items.length = 0;
+    picklistData.forEach(item => picklist.items.push(item));
+    picklist.state = PicklistStates.LOADED;
+    picklist.is_loading = false;
   }));
 
   promise.then(null, angular.bind(this, function(error) {
-    console.log(error);
+    picklist.state = PicklistStates.ERROR;
+    picklist.is_loading = false;
     this.errors.push(error.message);
   }));
 };
