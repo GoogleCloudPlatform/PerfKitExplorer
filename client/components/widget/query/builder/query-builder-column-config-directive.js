@@ -48,7 +48,6 @@ explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = fun
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-column-config-directive.html',
     controller: ['$scope', function($scope) {
-      console.log('controlling');
       /** @export {!QueryEditorService} */
       $scope.queryEditorSvc = queryEditorService;
 

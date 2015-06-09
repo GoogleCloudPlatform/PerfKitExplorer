@@ -18,14 +18,9 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.require('p3rf.perfkit.explorer.components.popupbox.DEFAULT_TEMPLATE_URL');
-
 
 describe('popupbox', function() {
   'use strict';
-
-  const DEFAULT_TEMPLATE_URL =
-      p3rf.perfkit.explorer.components.popupbox.DEFAULT_TEMPLATE_URL;
 
   let scope, bodyElement, popupElement, actualElement, actualDirective;
   let $compile, $timeout, $httpBackend, $document;
@@ -51,7 +46,6 @@ describe('popupbox', function() {
   describe('compilation', function() {
     it('should succeed when used on an attribute', function() {
       function compile() {
-        $httpBackend.expectGET(DEFAULT_TEMPLATE_URL).respond(200);
         $compile('<span popupbox></span>')(scope);
         scope.$digest();
       }
@@ -60,10 +54,7 @@ describe('popupbox', function() {
     });
 
     it('should create a popup element', function() {
-      actualElement = angular.element('<span popupbox></span>');
-
-      $httpBackend.expectGET(DEFAULT_TEMPLATE_URL).respond(200);
-      actualDirective = $compile('<span popupbox></span>')(scope);
+      $compile('<span popupbox></span>')(scope);
       scope.$digest();
 
       let popupElements = bodyElement.find('div.pk-popup');
@@ -77,7 +68,6 @@ describe('popupbox', function() {
     beforeEach(inject(function() {
       actualElement = angular.element('<span popupbox></span>');
 
-      $httpBackend.expectGET(DEFAULT_TEMPLATE_URL).respond(200);
       actualDirective = $compile(actualElement)(scope);
       scope.$digest();
 

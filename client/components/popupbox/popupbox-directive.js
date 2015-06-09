@@ -35,7 +35,6 @@
  */
 
 goog.provide('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
-goog.provide('p3rf.perfkit.explorer.components.popupbox.DEFAULT_TEMPLATE_URL');
 
 goog.require('goog.positioning');
 goog.require('goog.positioning.Corner');
@@ -46,9 +45,8 @@ goog.require('goog.style');
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 
-explorer.components.popupbox.DEFAULT_TEMPLATE_URL =
-    '/static/components/popupbox/popupbox-directive.html';
-const DEFAULT_TEMPLATE_URL = explorer.components.popupbox.DEFAULT_TEMPLATE_URL
+const DEFAULT_TEMPLATE_URL = (
+    '/static/components/popupbox/popupbox-directive.html');
 
 /**
  * The Popupbox directive provides for a templated popup region that appears
@@ -144,9 +142,9 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       };
 
       /**
-       * Returns the display text for a row of data.  If popupbox-display-attr is
-       * specified, the matching property will be returned.  Otherwise, the entire
-       * object will be returned.
+       * Returns the display text for a row of data.  If popupbox-display-attr
+       * is specified, the matching property will be returned.  Otherwise, the
+       * entire object will be returned.
        *
        * @param {*} data The data that should be returned.
        */
@@ -210,8 +208,8 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       };
 
       /**
-       * Returns true if the displayValue starts with the current text, otherwise
-       * false.
+       * Returns true if the displayValue starts with the current text,
+       * otherwise false.
        */
       scope.startsWith = function(data) {
         let displayValue = scope.getDisplayValue(data);

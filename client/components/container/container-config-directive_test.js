@@ -61,6 +61,7 @@ describe('ContainerConfigDirective', function() {
   });
 
   describe('should contain a element for', function() {
+
     var directiveElement;
 
     beforeEach(inject(function() {

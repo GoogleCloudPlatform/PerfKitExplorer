@@ -47,7 +47,6 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
     controller: [
         '$scope', 'configService', 'dashboardService',
         function($scope, configService, dashboardService) {
-      console.log('bullshit')
       /** @export {!ConfigService} */
       $scope.configSvc = configService;
 
