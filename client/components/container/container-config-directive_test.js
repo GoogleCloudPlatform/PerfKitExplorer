@@ -25,10 +25,10 @@ goog.require('p3rf.perfkit.explorer.components.container.ContainerModel');
 describe('ContainerConfigDirective', function() {
   var scope, $compile, $httpBackend;
 
-  var explorer = p3rf.perfkit.explorer;
-  var ContainerModel = explorer.components.container.ContainerModel;
+  const explorer = p3rf.perfkit.explorer;
+  const ContainerModel = explorer.components.container.ContainerModel;
 
-  var TEMPLATE_CONTAINER_CONFIG = (
+  const TEMPLATE_CONTAINER_CONFIG = (
     '/static/components/container/container-config-directive.html');
 
   beforeEach(module('explorer'));

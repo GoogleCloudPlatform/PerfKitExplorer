@@ -22,7 +22,7 @@ goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('goog.date');
 
 
-fdescribe('TestQueryServices', function() {
+describe('TestQueryServices', function() {
   var svc;
 
   beforeEach(module('explorer'));

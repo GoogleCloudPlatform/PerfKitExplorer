@@ -78,8 +78,8 @@ const WidgetType = explorer.models.WidgetType;
  */
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     errorService, widgetFactoryService, dashboardDataService,
-    queryBuilderService,  dashboardVersionService, configService, $filter,
-    $location, $rootScope, $timeout, $window) {
+    queryBuilderService,  dashboardVersionService, configService,
+    $filter, $location, $rootScope, $timeout, $window) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -416,7 +416,9 @@ DashboardService.prototype.refreshWidget = function(widget) {
   }
 
   if (widget.model.datasource.query) {
-    widget.state().datasource.status = ResultsDataStatus.TOFETCH;
+    this.timeout_(function() {
+      widget.state().datasource.status = ResultsDataStatus.TOFETCH;
+    });
   }
 };
 

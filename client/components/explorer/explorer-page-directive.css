@@ -12,15 +12,12 @@ div:focus {
 }
 
 .pk-page-canvas {
-  display: flex;
-  flex-direction: column;
   height: 100%;
   width: 100%;
 }
 
 .pk-page-body {
-  display: flex;
-  flex-grow: 1;
+  overflow: hidden;
 }
 
 .pk-resize-left, .pk-resize-right {
@@ -44,10 +41,10 @@ div:focus {
 }
 
 .pk-page-leftwell {
-  width: 225px;
+  width: 300px;
   min-width: 225px;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow-x: none;
+  overflow-y: none;
   flex-shrink: 0;
 }
 
@@ -61,13 +58,6 @@ div:focus {
   padding: 8px;
 }
 
-.pk-page-rightwell {
-  width: 200px;
-  overflow-x: auto;
-  overflow-y: auto;
-  flex-shrink: 0;
-}
-
 .pk-page-footer {
   height: 200px;
   min-height: 100px;
@@ -76,25 +66,10 @@ div:focus {
   flex-shrink: 0;
 }
 
-/* CSS Properties to make CodeMirror editor fill its contents. */
-.CodeMirror {
-  border: 1px solid #eee;
-  height: auto;
+md-tooltip.md-default-theme {
+  color: #000f55;
 }
 
-.CodeMirror-scroll {
-  overflow-y: hidden;
-  overflow-x: auto;
-}
-
-.pk-sidebar-item-value .md-select {
-  margin: 0;
-}
-
-.pk-sidebar-item-value .md-select-label {
-  padding-top: 4px;
-}
-
-.tab-pane {
-  padding: 8px;
+md-tooltip.md-default-theme .md-background {
+  background-color: #fea;
 }

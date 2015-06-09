@@ -1,38 +1,41 @@
 .pk-page-footer {
   background-color: rgb(241, 241, 241);
   border-top: 1px solid rgb(229, 229, 229);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
+  overflow: hidden;
 }
 
 .pk-footer-open {
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  display: table;
 }
 
 .pk-footer-toolbar {
-  display: table-row;
+  flex-shrink: 0;
   height: 48px;
   padding: 4px;
 }
 
 .pk-footer-toolbar-cell {
-  display: table-cell;
   padding-left: 6px;
   vertical-align: middle;
 }
 
 .pk-footer-body {
-  display: table-row;
-}
-
-.pk-footer-body-cell {
-  display: table-cell;
+  overflow: auto;
 }
 
 .pk-footer-close-button {
   float: right;
   margin-right: 5px;
 }
+
+.CodeMirror {
+  height:auto;
+}
+
+.CodeMirror-scroll {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+

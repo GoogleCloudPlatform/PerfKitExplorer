@@ -6,7 +6,7 @@ module.exports = function(config) {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '../',
-    frameworks: ['jasmine', 'closure'],
+    frameworks: ['jasmine', 'closure', 'jasmine-matchers'],
 
     files: [
       'third_party/js/jquery/jquery.js',
@@ -45,7 +45,7 @@ module.exports = function(config) {
       moduleName: 'p3rf.perfkit.explorer.templates'
     },
 
-    reporters: ['progress', 'html'],
+    reporters: ['nested', 'html'],
     browsers: ['Chrome'],
 
     autoWatch: true,

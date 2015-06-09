@@ -27,9 +27,10 @@ describe('configService', function() {
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(configService, $httpBackend) {
+  beforeEach(inject(function(configService, errorService, $httpBackend) {
         svc = configService;
         httpBackend = $httpBackend;
+        errorService.logToConsole = false;
       }));
 
   afterEach(function() {

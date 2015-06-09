@@ -40,6 +40,9 @@ gulp.task('third_party', function() {
   gulp.src('node_modules/angular-material/angular-material.min.*')
     .pipe(gulp.dest('deploy/client/third_party/angular-material'));
 
+  gulp.src('node_modules/angular-ui-router/release/angular-ui-router.min.js')
+    .pipe(gulp.dest('deploy/client/third_party/angular-ui-router'));
+
   gulp.src('node_modules/jquery/dist/jquery.min.*')
     .pipe(gulp.dest('deploy/client/third_party/jquery'));
 

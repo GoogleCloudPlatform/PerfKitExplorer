@@ -4,26 +4,6 @@
  * Author: joemu@google.com (Joe Allan Muharsky)
  */
 
-.pk-container-content {
-  display: flex;
-  display: -webkit-flex;
-}
-
-.pk-container-content.flex-row {
-  flex-flow: row;
-  -webkit-flex-flow: row;
-}
-
-.pk-container-content.flex-column {
-  flex-flow: column;
-  -webkit-flex-flow: column;
-}
-
-.pk-container-content.flex-wrap {
-  flex-flow: row wrap;
-  -webkit-flex-flow: row wrap;
-}
-
 .pk-widget {
   flex-basis: 100%;
   -webkit-flex-basis: 100%;
@@ -55,9 +35,6 @@
   flex-direction: row-reverse;
   min-height: 25px;
   padding: 4px 10px;
-}
-
-.pk-container-header {
 }
 
 .pk-widget-title {

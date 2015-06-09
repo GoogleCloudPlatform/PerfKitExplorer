@@ -104,7 +104,9 @@ describe('gvizDirective', function() {
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
       gvizEvents, _GvizDataTable_, dataViewService, _configService_,
-      _widgetFactoryService_) {
+      _widgetFactoryService_, errorService) {
+        errorService.logToConsole = false;
+
         compile = $compile;
         rootScope = $rootScope;
         timeout = $timeout;
@@ -323,6 +325,7 @@ describe('gvizDirective', function() {
           // Ask to fetch again
           state().datasource.status = ResultsDataStatus.TOFETCH;
           rootScope.$apply();
+          timeout.flush();
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.FETCHING);
           expect(queryResultDataServiceMock.fetchResults).
@@ -338,6 +341,7 @@ describe('gvizDirective', function() {
           // Simulate new data have been fetched
           fetchResultsDeferred.resolve(new GvizDataTable());
           rootScope.$apply();
+          timeout.flush();
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.FETCHED);
         }
@@ -352,6 +356,7 @@ describe('gvizDirective', function() {
           // Simulate new data have been fetched
           fetchResultsDeferred.resolve(new GvizDataTable());
           rootScope.$apply();
+          timeout.flush();
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.NODATA);
         }
@@ -366,6 +371,7 @@ describe('gvizDirective', function() {
           // Simulate a fetch error
           fetchResultsDeferred.reject(new Error(errorMessage));
           rootScope.$apply();
+          timeout.flush();
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.ERROR);
         }

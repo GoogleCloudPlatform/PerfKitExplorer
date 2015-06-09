@@ -193,7 +193,7 @@ QueryBuilderService.prototype.replaceTokens = function(query, params) {
     angular.forEach(params, angular.bind(this, function(param) {
       var find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
       var re = new RegExp(find, 'g');
-  
+
       query = query.replace(re, param.value);
     }));
   }

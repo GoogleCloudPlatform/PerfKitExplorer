@@ -30,6 +30,8 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
@@ -46,6 +48,8 @@ const ChartType = explorer.models.ChartType;
 const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 const DataViewService = explorer.components.widget.query.DataViewService;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
 const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 const ResultsDataStatus = explorer.models.ResultsDataStatus;
@@ -65,26 +69,15 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  */
 explorer.components.widget.data_viz.gviz.gvizChart = function(
     $timeout, $location, chartWrapperService, queryResultDataService,
-    queryBuilderService, gvizEvents, dataViewService, dashboardService) {
-
+    queryBuilderService, gvizEvents, dataViewService, dashboardService,
+    errorService) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       widgetConfig: '='
     },
-    // TODO: Use templateUrl instead of hardcoded template string.
-    //templateUrl: /static/components/widget/data_viz/gviz/gviz-directive.html',
-    template:
-        '<div>' +
-        '<div class="pk-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'pk-chart-hidden\': widgetConfig.state().chart.error}">' +
-        '</div>' +
-        '<div class="pk-chart-error" ng-show="' +
-        'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
-        '> {{widgetConfig.state().chart.error}}</div></div>' +
-        '<div class="spinner" ng-show="isDataFetching()"></div>' +
-        '</div>',
+    templateUrl: '/static/components/widget/data_viz/gviz/gviz-directive.html',
     link: function(scope, element, attributes) {
       var isDrawing = false;
       // Create and attach to this element a gviz ChartWrapper
@@ -239,25 +232,33 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           var promise = queryResultDataService.
               fetchResults(scope.widgetConfig.model.datasource);
-          scope.widgetConfig.state().datasource.status =
-              ResultsDataStatus.FETCHING;
+          $timeout(function() {
+            scope.widgetConfig.state().datasource.status =
+                ResultsDataStatus.FETCHING;
+          });
 
           promise.then(function(dataTable) {
             scope.widgetConfig.queryError = null;
             if (dataTable.getNumberOfRows() > 0) {
               chartWrapper.setDataTable(dataTable);
-              scope.widgetConfig.state().datasource.status =
-                  ResultsDataStatus.FETCHED;
+              $timeout(function() {
+                scope.widgetConfig.state().datasource.status =
+                    ResultsDataStatus.FETCHED;
+              });
             } else {
-              scope.widgetConfig.state().datasource.status =
-                  ResultsDataStatus.NODATA;
+              $timeout(function() {
+                scope.widgetConfig.state().datasource.status =
+                    ResultsDataStatus.NODATA;
+              });
             }
           });
           // Error handling
           promise.then(null, function(response) {
-            scope.widgetConfig.state().datasource.status =
-                ResultsDataStatus.ERROR;
-            scope.widgetConfig.queryError = response.error;
+            $timeout(function() {
+              scope.widgetConfig.state().datasource.status =
+                  ResultsDataStatus.ERROR;
+              scope.widgetConfig.queryError = response.error;
+            });
           });
         } else {
           checkForErrors();
@@ -330,8 +331,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
         if (dataViewsJson.error) {
           // TODO: Display error in the UI instead of in the console.
-          console.log('View parameter error on property',
-              dataViewsJson.error.property, ':',
+          errorService.addError(
+              ErrorTypes.DANGER,
+              'View parameter error on property' +
+              dataViewsJson.error.property + ':' +
               dataViewsJson.error.message);
           return;
         }

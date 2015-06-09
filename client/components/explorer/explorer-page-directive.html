@@ -1,42 +1,25 @@
-<div class="pk-page-canvas">
+<div class="pk-page-canvas" layout="column">
   <div class="pk-page-header">
     <explorer-header></explorer-header>
   </div>
 
-  <div class="pk-page-body" ng-controller="DashboardCtrl as dashboardCtrl">
+  <div class="pk-page-body" ng-controller="DashboardCtrl as dashboardCtrl"
+       layout="row">
+      
+    <sidebar-tabs></sidebar-tabs>
 
-    <div class="pk-page-leftwell" id="pk-page-leftwell"
-         ng-show="explorerCtrl.dashboard.selectedWidget">
+    <div class="pk-page-leftwell" id="pk-page-leftwell" layout="column"
+         ng-show="dashboardCtrl.tabSvc.selectedTab">
 
-      <query-editor />
+      <sidebar></sidebar>
 
     </div>
 
     <div resize="right" resize-element-id="pk-page-leftwell"
          ng-show="explorerCtrl.dashboard.selectedWidget">&nbsp;</div>
 
-    <div class="pk-page-content">
-
+    <div class="pk-page-content" flex>
       <dashboard ng-model="dashboardCtrl.dashboard.current.model" />
-
-    </div>
-
-    <div resize="left" resize-element-id="pk-page-rightwell"
-         ng-show="explorerCtrl.dashboard.selectedWidget">&nbsp;</div>
-
-    <div class="pk-page-rightwell" id="pk-page-rightwell"
-         ng-show="explorerCtrl.dashboard.selectedWidget">
-
-      <dashboard-config ng-model="dashboardCtrl.dashboard.current.model"></dashboard-config>
-
-      <div class="pk-sidebar-group-title">Container</div>
-
-      <container-config
-          ng-model="dashboardCtrl.dashboard.selectedContainer.model.container"
-          ng-show="dashboardCtrl.dashboard.selectedContainer"></container-config>
-
-      <chart-config ng-model="dashboardCtrl.dashboard.selectedWidget.model"></chart-config>
-
     </div>
 
   </div>
@@ -46,10 +29,10 @@
       ng-show="explorerCtrl.explorer.model.code_editor.isOpen">&nbsp;</div>
 
   <div
-      class="pk-page-footer" id="pk-page-footer"
+      class="pk-page-footer" id="pk-page-footer" layout="column"
       ng-show="explorerCtrl.explorer.model.code_editor.isOpen">
 
-    <widget-editor></widget-editor>
+    <widget-editor layout="column" flex></widget-editor>
 
   </div>
 </div>

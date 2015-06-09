@@ -18,9 +18,6 @@
  * limited to, filters and column settings).  It can also be used to produce
  * a SQL statement from current settings.
  *
- * An architectural overview of this and other services used to define queries,
- * charts and dashboards can be found at:
- *     http://goto.google.com/pk-explorer-architecture
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -118,9 +115,6 @@ explorer.components.widget.query.QueryEditorService = function(
     'metadata': [],
     'labels': []
   };
-  
-  var x = ['Jan', 'Feb', 'Mar'];
-  x.forEach(month => console.log(month));
 };
 var QueryEditorService = explorer.components.widget.query.QueryEditorService;
 

@@ -43,7 +43,7 @@ describe('dashboardService', function() {
   const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
   var svc, widget, chartWidget, container, widgetFactoryService,
-      configService, $location;
+      configService, $location, $timeout;
 
   beforeEach(module('explorer'));
 
@@ -51,7 +51,8 @@ describe('dashboardService', function() {
                              _queryBuilderService_,
                              _configService_,
                              _widgetFactoryService_,
-                             _$location_) {
+                             _$location_,
+                             _$timeout_) {
     svc = dashboardService;
     configService = _configService_;
     queryBuilderService = _queryBuilderService_;
@@ -60,6 +61,7 @@ describe('dashboardService', function() {
     chartWidget = new ChartWidgetConfig(widgetFactoryService);
     container = new ContainerWidgetConfig(widgetFactoryService);
     $location = _$location_;
+    $timeout = _$timeout_;
   }));
 
   it('should initialize the appropriate objects.', function() {
@@ -142,6 +144,7 @@ describe('dashboardService', function() {
     it('should change the widget datasource status to TOFETCH.', function() {
       chartWidget.state().datasource.status = ResultsDataStatus.FETCHED;
       svc.refreshWidget(chartWidget);
+      $timeout.flush();
       expect(chartWidget.state().datasource.status).
           toEqual(ResultsDataStatus.TOFETCH);
     });

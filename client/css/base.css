@@ -86,32 +86,6 @@ html, body {
   height: 100%;
 }
 
-.pk-page-sidebar-left {
-  border-right: 1px solid #CCC;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-  font-size: 13px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 240px;
-}
-
-.pk-page-sidebar-right {
-  border-left: 1px solid #CCC;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-  font-size: 13px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 240px;
-}
-
 .pk-page-content {
   flex-grow: 100;
   -webkit-flex-grow: 100;
@@ -121,12 +95,6 @@ html, body {
 
 .pk-footer-button {
   float: right;
-}
-
-.pk-sidebar-button {
-  float: right;
-  top: 9px;
-  right: 8px;
 }
 
 .pk-glyph-button:hover {
@@ -174,33 +142,6 @@ h2 {
   color: #DD4B39;
 }
 
-/* Sidebar Layout */
-.pk-sidebar-group {
-  border-bottom: 1px solid rgb(235, 235, 235);
-  margin-top: 8px;
-  margin-left: 0;
-  margin-right: 0;
-  padding-bottom: 4px;
-}
-
-.pk-sidebar-group-title {
-  color: #d14836;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.pk-sidebar-group-note {
-  color: #666;
-  font-size: .95em;
-  font-style: italic;
-  margin-bottom: 4px;
-}
-
-.pk-sidebar-item {
-  margin-bottom: 4px;
-  padding-left: 4px;
-}
-
 .navigation-link {
   color: #000;
   font-weight: bold;
@@ -210,18 +151,6 @@ h2 {
 .navigation-link-current {
   color: #d14836;
   font-weight: bold;
-}
-
-.pk-sidebar-item-label {
-  padding-bottom: 4px;
-}
-
-.pk-sidebar-item-value {
-  padding-bottom: 4px;
-}
-
-.pk-sidebar-item-value md-select {
-  width: 100%;
 }
 
 /* Style overrides for Bootstrap + GViz Chart Editor */

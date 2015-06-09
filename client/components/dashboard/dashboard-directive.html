@@ -4,30 +4,40 @@
   <div ng-repeat="container in dashboardSvc.widgets" class="pk-container"
        ng-class="{'pk-container-selected': container.state().selected}">
 
-    <container class="pk-container-content" container-config="container">
-      <perfkit-widget class="pk-widget"
-              ng-repeat="widget in container.model.container.children"
-              widget-config="widget">
-        <div class="pk-widget-header">
-          <span class="glyphicon glyphicon-remove pk-widget-button"
-                ng-hide="explorerSvc.model.readOnly"
-                ng-click="dashboardSvc.removeWidget(widget, container)"></span>
-          <span class="glyphicon glyphicon-refresh pk-widget-button"
-                ng-click="dashboardSvc.refreshWidget(widget)"></span>
-          <a class="pk-widget-button"
-             ng-show="widget.model.url"
-             ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
-            <span class="glyphicon glyphicon-link"></span>
-          </a>
-          <div class="pk-widget-title"
-               ng-click="dashboardSvc.selectWidget(widget, container)"
-               ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
-        </div>
-        <div class="pk-widget-content"
-             ng-click="dashboardSvc.selectWidget(widget, container)">
-          <gviz-chart-widget widget-config="widget"/>
-        </div>
-      </perfkit-widget>
+    <container class="pk-container-content" layout="column" ng-model="container.model">
+      <div ng-show="container.model.container.header_text"
+           class="pk-container-header">
+        {{ container.model.container.header_text }}
+      </div>
+      <div layout="row" flex>
+        <perfkit-widget class="pk-widget"
+                ng-repeat="widget in container.model.container.children"
+                widget-config="widget" flex>
+          <div class="pk-widget-header">
+            <span class="glyphicon glyphicon-remove pk-widget-button"
+                  ng-hide="explorerSvc.model.readOnly"
+                  ng-click="dashboardSvc.removeWidget(widget, container)"></span>
+            <span class="glyphicon glyphicon-refresh pk-widget-button"
+                  ng-click="dashboardSvc.refreshWidget(widget)"></span>
+            <a class="pk-widget-button"
+               ng-show="widget.model.url"
+               ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
+              <span class="glyphicon glyphicon-link"></span>
+            </a>
+            <div class="pk-widget-title"
+                 ng-click="dashboardSvc.selectWidget(widget, container)"
+                 ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
+          </div>
+          <div class="pk-widget-content"
+               ng-click="dashboardSvc.selectWidget(widget, container)">
+            <gviz-chart-widget widget-config="widget"/>
+          </div>
+        </perfkit-widget>
+      </div>
+      <div ng-show="container.model.container.footer_text"
+           class="pk-container-footer">
+        {{ container.model.container.footer_text }}
+      </div>  
     </container>
   </div>
 

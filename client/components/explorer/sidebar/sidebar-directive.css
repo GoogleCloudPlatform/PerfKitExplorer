@@ -1,0 +1,89 @@
+.pk-sidebar-panel-header {
+  height: 44px;
+  min-height: 44px;
+  padding: 4px;
+}
+
+.pk-sidebar-panel-header-text {
+  font-size: 14px;
+  padding: 8px;
+  font-weight: bold;
+}
+
+.pk-sidebar-panel-header .md-button {
+  min-width: 36px;
+  margin: 0;
+}
+
+.pk-sidebar-panel-footer {
+  height: 44px;
+  min-height: 44px;
+  padding: 4px;
+}
+
+.pk-sidebar-panel-footer .md-button {
+  min-width: 36px;
+  margin: 0;
+}
+
+.pk-sidebar-panel-content {
+  overflow: auto;
+  padding: 8px;
+}
+
+
+.pk-sidebar-button {
+  float: right;
+  top: 9px;
+  right: 8px;
+}
+
+.pk-sidebar-group {
+  border-bottom: 1px solid rgb(235, 235, 235);
+  margin-bottom: 8px;
+  padding-bottom: 4px;
+}
+
+.pk-sidebar-group-title {
+  color: #212121;
+  font-weight: bold;
+  margin-bottom: 4px;
+  padding-left: 4px;
+}
+
+.pk-sidebar-group-note,
+.pk-sidebar-note {
+  opacity: 0.8;
+  font-size: .95em;
+  font-style: italic;
+  margin-bottom: 4px;
+}
+
+.pk-sidebar-item {
+  margin-bottom: 4px;
+  padding-left: 4px;
+}
+
+.pk-sidebar-item-label {
+  padding-bottom: 4px;
+}
+
+.pk-sidebar-item-value {
+  padding-bottom: 4px;
+}
+
+.pk-sidebar-item-value textarea {
+  resize: vertical;
+}
+
+.pk-sidebar-item-value md-select {
+  margin: 0;
+  margin-bottom: 12px;
+  padding: 0;
+  width: 100%;
+}
+
+.pk-sidebar-item-value md-select-label {
+  padding-top: 0;
+  width: 100%;
+}

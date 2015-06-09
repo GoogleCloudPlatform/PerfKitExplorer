@@ -23,9 +23,14 @@
 
 goog.provide('p3rf.perfkit.explorer.components.config.ConfigService');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
 
 
 
@@ -36,47 +41,30 @@ const explorer = p3rf.perfkit.explorer;
  * @constructor
  * @ngInject
  */
-explorer.components.config.ConfigService = function($http, $location) {
-  /**
-   * @type {!Angular.HttpService}
-   * @private
-   */
+explorer.components.config.ConfigService = function($http, $location,
+    errorService) {
+  /** @private {!Angular.HttpService} */
   this.http_ = $http;
 
-  /**
-   * @type {!Angular.LocationService}
-   * @private
-   */
+  /** @private {!Angular.LocationService} */
   this.location_ = location;
 
-  /**
-   * @type {!string}
-   * @export
-   */
+  /** @private {!ErrorService} */
+  this.errorSvc_ = errorService;
+
+  /** @export {string} */
   this.default_project = INITIAL_CONFIG.default_project;
 
-  /**
-   * @type {!string}
-   * @export
-   */
+  /** @export {string} */
   this.default_dataset = INITIAL_CONFIG.default_dataset;
 
-  /**
-   * @type {!string}
-   * @export
-   */
+  /** @export {string} */
   this.default_table = INITIAL_CONFIG.default_table;
 
-  /**
-   * @type {!string}
-   * @export
-   */
+  /** @export {string} */
   this.analytics_key = INITIAL_CONFIG.analytics_key;
 
-  /**
-   * @type {!number}
-   * @export
-   */
+  /** @export {number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
 };
 var ConfigService = explorer.components.config.ConfigService;
@@ -149,9 +137,9 @@ ConfigService.prototype.refresh = function() {
 ConfigService.prototype.update = function() {
   var promise = this.http_.post('/config', this.toJSON());
 
-  promise.then(function() {
-      console.log('Global config updated.');
-  });
+  promise.then(angular.bind(this, function() {
+    this.errorSvc_.addError(ErrorTypes.INFO, 'Global config updated.');
+  }));
 };
 
 

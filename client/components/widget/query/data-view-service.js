@@ -170,7 +170,7 @@ DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart
   }
 
   sortableColumnNames.sort();
-  
+
   if (opt_sortColumnOrder === SortOrder.DESCENDING) {
     sortableColumnNames.reverse();
   }

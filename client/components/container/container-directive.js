@@ -22,6 +22,8 @@ goog.provide('p3rf.perfkit.explorer.components.container.ContainerDirective');
 
 goog.scope(function() {
 
+const explorer = p3rf.perfkit.explorer;
+
 
 /**
  * ContainerDirective is an angular directive used to show a container that
@@ -38,7 +40,7 @@ goog.scope(function() {
  *
  * @return {Object} Directive definition object.
  */
-p3rf.perfkit.explorer.components.container.ContainerDirective = function() {
+explorer.components.container.ContainerDirective = function() {
   return {
     restrict: 'E',
     replace: true,

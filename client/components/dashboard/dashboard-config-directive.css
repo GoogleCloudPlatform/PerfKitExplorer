@@ -1,3 +1,40 @@
+/*
+ * Contains styles for the dashboard config and panel.
+ *
+ * Color comments in the form color:number (eg: blue:900) are
+ * from Material Design, and can be found in context at
+ * https://www.google.com/design/spec/style/color.html#color-color-palette
+ */
+.dashboard-tab {
+  background-color: #eeeeee; /** grey: 200 */
+  border-right: 3px solid #eeeeee;
+  color: #212121; /** grey: 900 */
+}
+
+.dashboard-tab.pk-sidebar-tab-selected {
+  background-color: #212121; /** grey: 900 */
+  border-right: 3px solid #212121; /** grey:900 */
+  color: #fafafa; /** grey: 50 */
+}
+
+.dashboard-tab:hover,
+.dashboard-tab.pk-sidebar-tab-selected:hover {
+  background-color: #bdbdbd; /** grey:400 */
+  border-right: 3px solid #616161; /** grey:700 */
+  color: #212121; /** grey: 900 */
+}
+
+.dashboard-panel-title {
+  background-color: #212121; /** grey: 900 */
+  color: #fafafa; /** grey: 50 */
+}
+
+.dashboard-panel {
+  background-color: #eeeeee; /** grey: 100 */
+  border-left: 1px solid #212121; /** grey:900 */
+  border-right: 1px solid #212121; /** grey:900 */
+}
+
 .param-row {
   width: 100%;
   display: flex;
