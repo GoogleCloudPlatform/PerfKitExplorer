@@ -66,9 +66,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   /** @export {!ExplorerService} */
   this.explorer = explorerService;
 
-  /**
-   * @export {!DashboardService}
-   */
+  /** @export {!DashboardService} */
   this.dashboard = dashboardService;
 
   /** @export {!ErrorService} */
