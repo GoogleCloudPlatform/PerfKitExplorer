@@ -25,71 +25,70 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 goog.require('goog.Uri');
 
 describe('fieldCubeDataService', function() {
-  const explorer = p3rf.perfkit.explorer;
-  const PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
-  const QueryFilterModel =
-      explorer.models.perfkit_simple_builder.QueryFilterModel;
 
-  var svc, rootScope, httpBackend;
+const explorer = p3rf.perfkit.explorer;
+const PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
+const QueryFilterModel =
+    explorer.models.perfkit_simple_builder.QueryFilterModel;
 
-  beforeEach(module('explorer'));
-  beforeEach(module('fieldCubeDataServiceMock'));
+var svc, rootScope, httpBackend;
 
-  // Mock the data returned by $http
-  beforeEach(inject(function($httpBackend, fieldCubeDataServiceMockData) {
-    httpBackend = $httpBackend;
-    mockData = fieldCubeDataServiceMockData.data;
-  }));
+beforeEach(module('explorer'));
+beforeEach(module('fieldCubeDataServiceMock'));
 
-  beforeEach(inject(function(fieldCubeDataService, $rootScope) {
-    svc = fieldCubeDataService;
-    rootScope = $rootScope;
-  }));
+beforeEach(inject(function($httpBackend, fieldCubeDataServiceMockData) {
+  httpBackend = $httpBackend;
+  mockData = fieldCubeDataServiceMockData.data;
+}));
 
-  it('should initialize the appropriate objects.', function() {
-    expect(svc.list).not.toBeNull();
-    expect(typeof svc.list).toBe('function');
-  });
+beforeEach(inject(function(fieldCubeDataService, $rootScope) {
+  svc = fieldCubeDataService;
+  rootScope = $rootScope;
+}));
 
-  describe('listFields', function() {
+it('should initialize the appropriate objects.', function() {
+  expect(svc.list).not.toBeNull();
+  expect(typeof svc.list).toBe('function');
+});
 
-    it('should return a list of autocomplete entries for a given field.',
-        function() {
-         var picklist = null;
+describe('listFields', function() {
 
-         httpBackend.whenGET('/data/fields?field_name=test1').respond(mockData);
-         var promise = svc.listFields('test1', null);
+  it('should return a list of autocomplete entries for a given field.',
+      function() {
+       var picklist = null;
+       var promise = svc.listFields('test1', null);
 
-         promise.then(function(data) {
-           picklist = data;
-         });
+       httpBackend.expectGET('/data/fields?field_name=test1').respond(mockData);
 
-         httpBackend.flush();
-
-         var mockPicklist = mockData()[1]['rows'];
-         expect(picklist).toEqual(mockPicklist);
+       promise.then(function(data) {
+         picklist = data;
        });
 
-  });
+       httpBackend.flush();
 
-  describe('listMetadata', function() {
+       var mockPicklist = mockData()[1]['rows'];
+       expect(picklist).toEqual(mockPicklist);
+     });
+});
 
-    it('should return a list of metadata entries.',
-        function() {
-         var picklist = null;
+describe('listMetadata', function() {
 
-         httpBackend.whenGET('/data/metadata').respond(mockData);
-         var promise = svc.listMetadata(null);
+  it('should return a list of metadata entries.',
+      function() {
+       var picklist = null;
 
-         promise.then(function(data) {
-           picklist = data;
-         });
+       httpBackend.whenGET('/data/metadata').respond(mockData);
+       var promise = svc.listMetadata(null);
 
-         httpBackend.flush();
-
-         var mockPicklist = mockData()[1]['rows'];
-         expect(picklist).toEqual(mockPicklist);
+       promise.then(function(data) {
+         picklist = data;
        });
 
-  });
+       httpBackend.flush();
+
+       var mockPicklist = mockData()[1]['rows'];
+       expect(picklist).toEqual(mockPicklist);
+     });
+});
+
 });

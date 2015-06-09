@@ -144,5 +144,4 @@ FieldCubeDataService.prototype.listMetadata = function(field_name, filters) {
 };
 
 
-
 });  // goog.scope
