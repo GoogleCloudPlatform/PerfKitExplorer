@@ -34,8 +34,9 @@ const explorer = p3rf.perfkit.explorer;
 /**
  * @param {!angular.$parse} $parse Provides parsing services
  * @return {Object} Directive definition object.
+ * @ngInject
  */
-explorer.components.util.FileModelDirective = (function($parse) {
+explorer.components.util.FileModelDirective = function($parse) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
@@ -53,6 +54,6 @@ explorer.components.util.FileModelDirective = (function($parse) {
       });
     }
   };
-});
+};
 
 });  // goog.scope
