@@ -19,7 +19,6 @@
 
 goog.provide('p3rf.perfkit.explorer.application.module');
 
-goog.require('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigDialogCtrl');
@@ -47,6 +46,7 @@ goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabServic
 goog.require('p3rf.perfkit.explorer.components.layout.FillDirective');
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeDirective');
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
+goog.require('p3rf.perfkit.explorer.components.log.LogDirective');
 goog.require('p3rf.perfkit.explorer.components.multibox.MultiboxDirective');
 goog.require('p3rf.perfkit.explorer.components.popupbox.PopupboxDirective');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
@@ -214,14 +214,14 @@ explorer.application.module.directive('resize',
 /** Explorer page and config-related directives. */
 // TODO: Rename alertLog to something else; overloads with
 //     regression alerts.
-explorer.application.module.directive('alertLog',
-    explorer.components.alert.AlertLogDirective);
 explorer.application.module.directive('explorerConfig',
     explorer.components.config.ConfigDirective);
 explorer.application.module.directive('explorerPage',
     explorer.components.explorer.ExplorerPageDirective);
 explorer.application.module.directive('explorerHeader',
     explorer.components.explorer.ExplorerHeaderDirective);
+explorer.application.module.directive('log',
+    explorer.components.log.LogDirective);
 
 /** Dashboard directives. */
 explorer.application.module.directive('dashboard',

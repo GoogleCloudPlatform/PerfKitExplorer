@@ -18,30 +18,30 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.alert.AlertLogDirective');
+goog.provide('p3rf.perfkit.explorer.components.log.LogDirective');
 
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 
 
 goog.scope(function() {
-  const explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
-  /**
-   * See module docstring for more information about purpose and usage.
-   *
-   * @return {Object} Directive definition object.
-   */
-  explorer.components.alert.AlertLogDirective = function() {
-    return {
-      restrict: 'E',
-      replace: true,
-      transclude: true,
-      templateUrl: '/static/components/alert/alert-log-directive.html',
-      controller: ['$scope', 'errorService', function($scope, errorService) {
-        $scope.errorService = errorService;
-      }]
-    };
+/**
+ * See module docstring for more information about purpose and usage.
+ *
+ * @return {Object} Directive definition object.
+ */
+explorer.components.log.LogDirective = function() {
+  return {
+    restrict: 'E',
+    replace: true,
+    transclude: true,
+    templateUrl: '/static/components/log/log-directive.html',
+    controller: function($scope, errorService) {
+      $scope.errorService = errorService;
+    }
   };
+};
 
 });  // goog.scope
