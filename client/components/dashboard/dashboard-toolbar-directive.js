@@ -42,15 +42,10 @@ goog.scope(function() {
         this.tabSvc = sidebarTabService;
 
         /** @export */
-        this.saveDashboard = function(dashboard) {
-          this.dashboard.saveDashboard();
-        };
-
-        /** @export */
         this.saveDashboardCopy = function(dashboard) {
-          var title = window.prompt(
+          var title = $window.prompt(
               'Please provide the title for your dashboard',
-              this.dashboard.current.model.title);
+              this.dashboardSvc.current.model.title);
           if (!title) { return; }
 
           this.dashboardSvc.current.model.title = title;
@@ -79,9 +74,41 @@ goog.scope(function() {
         // TODO: Replace implementation with a ui-router change.
         /** @export */
         this.editDashboard = function() {
-          this.explorer.model.readOnly = false;
+          this.explorerSvc.model.readOnly = false;
         };
 
+        /** @export */
+        this.downloadDashboard = function() {
+          var selectedDashboard = this.dashboardSvc.current.model;
+
+          $window.open(
+              '/dashboard/view?id=' + selectedDashboard.id +
+              '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
+        };
+
+        /** @export */
+        this.deleteDashboard = function() {
+          if (!this.dashboard.current.model.id) {
+            console.log('deleteDashboard failed: No id set.');
+            return;
+          }
+
+          if (!window.confirm(
+                  'Are you sure you want to delete this dashboard?')) {
+            return;
+          }
+
+          var promise = this.dashboard.deleteDashboard(
+              this.dashboard.current.model);
+
+          promise.then(angular.bind(this, function(response) {
+            this.openDashboardAdmin();
+          }));
+
+          promise.then(null, angular.bind(this, function(error) {
+            console.log(error.message);
+          }));
+        };
       }],
       controllerAs: 'ctrl'
     };
