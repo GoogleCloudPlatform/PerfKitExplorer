@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview Tests for DashboardToolbarDirective, which encapsulates the global config
- * settings.
+ * @fileoverview Tests for ContainerToolbarDirective, which encapsulates the
+ * state for the container toolbar.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardToolbarDirective');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerToolbarDirective');
 
-fdescribe('DashboardToolbarDirective', function() {
-  // declare these up here to be global to all tests
+describe('ContainerToolbarDirective', function() {
   var scope, $compile, $timeout, uiConfig;
-  var configService, dashboardService;
+  var dashboardService;
 
   const explorer = p3rf.perfkit.explorer;
 

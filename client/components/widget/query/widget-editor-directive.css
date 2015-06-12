@@ -2,7 +2,14 @@
   overflow: hidden;
 }
 
-.pk-page-footer .btn {
+.pk-footer-toolbar {
+  background-color: #455a64; /** Blue Grey 700 */
+  color: #fafafa; /** grey: 50 */
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.pk-footer-toolbar .btn {
   background-color: transparent;
   border: 1px solid transparent;
   color: #fafafa; /** grey: 50 */
@@ -10,16 +17,14 @@
   padding: 4px;
 }
 
-.pk-page-footer .btn:hover {
-  border-color: #78909C; /** blue-grey: 400 */
+.pk-footer-toolbar .btn:hover {
+  background-color: #546E7A; /** Blue Grey 600 */
 }
 
-.pk-page-footer .btn.active {
-  background-color: #78909C;
+.pk-footer-toolbar .btn.active {
+  background-color: #78909C; /** Blue Grey 400 */
   border: 1px solid transparent;
   color: #fafafa; /** grey: 50 */
-  margin-right: 4px;
-  padding: 4px;
 }
 
 .pk-footer-actions {
@@ -33,21 +38,15 @@
 }
 
 .pk-footer-actions .pk-glyph-button:hover {
-  border-color: #78909C; /** blue-grey: 400 */
+  background-color: #546E7A; /** Blue Grey 600 */
   color: #fafafa; /** grey: 50 */
+  text-decoration: none;
 }
 
 .pk-footer-open {
   box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-}
-
-.pk-footer-toolbar {
-  background-color: #455a64;
-  color: #fafafa; /** grey: 50 */
-  flex-shrink: 0;
-  padding: 4px;
 }
 
 .pk-footer-body {

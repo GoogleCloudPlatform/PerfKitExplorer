@@ -30,7 +30,6 @@
 }
 
 .dashboard-panel {
-  background-color: #eeeeee; /** grey: 100 */
   border-left: 1px solid #424242; /** grey:800 */
   border-right: 1px solid #424242; /** grey:800 */
 }
@@ -38,6 +37,16 @@
 .dashboard-toolbar {
   background-color: #424242; /** grey: 800 */
   color: #eeeeee; /** grey:100 */
+}
+
+.dashboard-toolbar .btn:hover {
+  background-color: #616161; /** grey: 700 */
+}
+
+.dashboard-toolbar .open>.dropdown-toggle.btn-default {
+  background-color: #616161; /** grey: 700 */
+  border-color: transparent;
+  color: #fafafa; /** grey: 50 */
 }
 
 .param-row {

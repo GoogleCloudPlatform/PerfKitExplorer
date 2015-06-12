@@ -20,6 +20,8 @@
 
 .pk-dropdown-button-section {
   display: inline-block;
+  padding-left: 2px;
+  padding-right: 2px;
 }
 
 .dropdown-menu {
@@ -29,19 +31,8 @@
   top: auto !important;
 }
 
-.pk-toolbar .btn-default {
+.pk-toolbar .btn {
   background-color: transparent;
   border-color: transparent;
-  color: white;
-}
-
-.pk-toolbar .btn-default:hover {
-  background-color: transparent;
-  border: 1px solid white;
-}
-
-.pk-toolbar .open>.dropdown-toggle.btn-default {
-  background-color: transparent;
-  border: 1px solid white;
-  color: white;
+  color: #fafafa; /** grey: 50 */
 }

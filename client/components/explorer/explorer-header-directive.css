@@ -25,16 +25,19 @@
 }
 
 .pk-header .btn:hover {
-  background-color: transparent;
-  border: 1px solid white;
-  color: white;
+  background-color: #546E7A; /** Blue Grey 600 */
+  border-color: transparent;
+  color: #fafafa; /** grey: 50 */
   margin-right: 4px;
   padding: 4px;
 }
 
-.pk-header .btn.active {
-  background-color: #ECEFF1; /** Blue Grey 50 */
-  color: #263238; /** Blue Grey 900 */
+.pk-header .btn.active,
+.pk-header .open > .btn-default.dropdown-toggle,
+.pk-header .open > .btn-default.dropdown-toggle:hover {
+  background-color: #546E7A; /** Blue Grey 600 */
+  border-color:transparent;
+  color: #fafafa; /** grey: 50 */
   margin-right: 4px;
   padding: 4px;
 }
