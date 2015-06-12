@@ -9,10 +9,13 @@
 
 .pk-toolbar-section {
   display: inline-block;
-  border-right: 1px solid #ccc;
   margin-right: 4px;
   padding-right: 8px;
   white-space: nowrap;
+}
+
+.pk-toolbar-section:not(:last-child) {
+  border-right: 1px solid #ccc;
 }
 
 .pk-dropdown-button-section {

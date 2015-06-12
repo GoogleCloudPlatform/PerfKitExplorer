@@ -1,7 +1,40 @@
 .pk-page-footer {
-  background-color: rgb(241, 241, 241);
-  border-top: 1px solid rgb(229, 229, 229);
   overflow: hidden;
+}
+
+.pk-page-footer .btn {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: #fafafa; /** grey: 50 */
+  margin-right: 4px;
+  padding: 4px;
+}
+
+.pk-page-footer .btn:hover {
+  border-color: #78909C; /** blue-grey: 400 */
+}
+
+.pk-page-footer .btn.active {
+  background-color: #78909C;
+  border: 1px solid transparent;
+  color: #fafafa; /** grey: 50 */
+  margin-right: 4px;
+  padding: 4px;
+}
+
+.pk-footer-actions {
+  float: right;
+}
+
+.pk-footer-actions .pk-glyph-button {
+  padding: 2px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.pk-footer-actions .pk-glyph-button:hover {
+  border-color: #78909C; /** blue-grey: 400 */
+  color: #fafafa; /** grey: 50 */
 }
 
 .pk-footer-open {
@@ -11,23 +44,14 @@
 }
 
 .pk-footer-toolbar {
+  background-color: #455a64;
+  color: #fafafa; /** grey: 50 */
   flex-shrink: 0;
-  height: 48px;
   padding: 4px;
-}
-
-.pk-footer-toolbar-cell {
-  padding-left: 6px;
-  vertical-align: middle;
 }
 
 .pk-footer-body {
   overflow: auto;
-}
-
-.pk-footer-close-button {
-  float: right;
-  margin-right: 5px;
 }
 
 .CodeMirror {

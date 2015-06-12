@@ -93,10 +93,6 @@ html, body {
   overflow-y: auto;
 }
 
-.pk-footer-button {
-  float: right;
-}
-
 .pk-glyph-button:hover {
   cursor: pointer;
   color: blue;
