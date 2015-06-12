@@ -1,35 +1,40 @@
 <div>
-  <button type="button" class="btn btn-default dropdown-toggle">
+  <button type="button"
+          class="btn btn-default dropdown-toggle container-add">
     Insert
     <span class="caret"></span>
   </button>
-  <ul class="dropdown-menu">
-    <li ng-click="ctrl.insertContainerAt(0)">
+  <ul class="dropdown-menu container-add-dropdown">
+    <li ng-click="ctrl.dashboardSvc.addContainerAt(0)"
+        class="container-add-top">
       <a>top</a>
     </li>
-    <li ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+    <li class="container-add-before"
+        ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
         ng-click="ctrl.insertContainerBeforeSelected()">
       <a>before</a>
     </li>
-    <li ng-class="{'disabled': ctrl.selectedWidget == null}"
+    <li class="container-add-after"
+        ng-class="{'disabled': ctrl.selectedWidget == null}"
         ng-click="ctrl.insertContainerAfterSelected()">
       <a>after</a>
     </li>
-    <li ng-click="ctrl.insertContainer()">
+    <li class="container-add-bottom"
+        ng-click="ctrl.dashboardSvc.addContainer()">
       <a>bottom</a>
     </li>
   </ul>
-  <button type="button" class="btn btn-default"
+  <button type="button" class="btn btn-default container-move-up"
           ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
           ng-click="ctrl.moveSelectedContainerUp()">
     <span class="glyphicon glyphicon-arrow-up"></span>
   </button>
-  <button type="button" class="btn btn-default"
+  <button type="button" class="btn btn-default container-move-down"
           ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
           ng-click="ctrl.moveSelectedContainerDown()">
     <span class="glyphicon glyphicon-arrow-down"></span>
   </button>
-  <button type="button" class="btn btn-default"
+  <button type="button" class="btn btn-default container-remove"
           ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
           ng-click="ctrl.removeSelectedContainer()">Delete</button>
 </div>

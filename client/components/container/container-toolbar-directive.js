@@ -31,38 +31,22 @@ goog.scope(function() {
     return {
       restrict: 'E',
       replace: true,
-      scope: {
-        ngModel: '='
-      },
+      scope: {},
       transclude: false,
       templateUrl: '/static/components/container/container-toolbar-directive.html',
       controller: ['$scope', function($scope) {
         this.dashboardSvc = dashboardService;
 
-        this.deleteContainer = function(container) {
-          this.dashboardSvc.deleteContainer(container);
-        };
-
-        /** @export */
-        this.insertContainer = function() {
-          this.dashboardSvc.addContainer();
-        };
-
-        /** @export */
-        this.insertContainerAt = function(index) {
-          this.dashboardSvc.addContainerAt(index);
-        };
-
         /** @export */
         this.insertContainerBeforeSelected = function() {
-          var container = this.dashboardSvcselectedContainer;
+          var container = this.dashboardSvc.selectedContainer;
           var index = this.dashboardSvc.current.model.children.indexOf(container);
           this.dashboardSvc.addContainerAt(index);
         };
 
         /** @export */
         this.insertContainerAfterSelected = function() {
-          var container = this.dashboardSvcselectedContainer;
+          var container = this.dashboardSvc.selectedContainer;
           var containers = this.dashboardSvc.current.model.children;
           var index = containers.indexOf(container);
 
