@@ -82,20 +82,32 @@
               ng-click="removeOfficial()"></span>
       </div>
     </div>
-  
+
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">product</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-product-name"
-               ng-model="ngModel.datasource.config.filters.product_name">
+               ng-model="ngModel.datasource.config.filters.product_name"
+               ng-focus="refreshPicklist('product_name')"
+               popupbox
+               popupbox-data="picklistSvc.picklists.product_name.items"
+               popupbox-state="picklistSvc.picklists.product_name.state"
+               popupbox-display-attr="name"
+               popupbox-model="ngModel.datasource.config.filters.product_name">
       </div>
     </div>
-  
+
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">test</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-test-name"
-               ng-model="ngModel.datasource.config.filters.test">
+               ng-model="ngModel.datasource.config.filters.test"
+               ng-focus="refreshPicklist('test')"
+               popupbox
+               popupbox-data="picklistSvc.picklists.test.items"
+               popupbox-state="picklistSvc.picklists.test.state"
+               popupbox-display-attr="name"
+               popupbox-model="ngModel.datasource.config.filters.test">
       </div>
     </div>
   
@@ -103,17 +115,30 @@
       <div class="pk-sidebar-item-label">metric</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-metric-name"
-               ng-model="ngModel.datasource.config.filters.metric">
+               ng-model="ngModel.datasource.config.filters.metric"
+               ng-focus="refreshPicklist('metric')"
+               popupbox
+               popupbox-data="picklistSvc.picklists.metric.items"
+               popupbox-state="picklistSvc.picklists.metric.state"
+               popupbox-display-attr="name"
+               popupbox-model="ngModel.datasource.config.filters.metric">
       </div>
     </div>
-  
+
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">run by</div>
       <div class="pk-sidebar-item-value">
         <input class="form-control widget-filter-runby"
-               ng-model="ngModel.datasource.config.filters.runby">
+               ng-model="ngModel.datasource.config.filters.runby"
+               ng-focus="refreshPicklist('owner')"
+               popupbox
+               popupbox-data="picklistSvc.picklists.owner.items"
+               popupbox-state="picklistSvc.picklists.owner.state"
+               popupbox-display-attr="name"
+               popupbox-model="ngModel.datasource.config.filters.runby">
       </div>
     </div>
+
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">
         metadata

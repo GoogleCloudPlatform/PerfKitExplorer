@@ -79,7 +79,13 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       /**
        * The model element that represents the "selected" value for the popup.
        */
-      popupboxModel: '='
+      popupboxModel: '=',
+
+      /**
+       * A value that represents the state of the data.
+       * @type {string}
+       */
+      popupboxState: '='
     },
     link: function(scope, element, attrs) {
       var input = element;
@@ -92,6 +98,17 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
               scope.showPopup();
             }
           }, true);
+
+      if (scope.popupboxState) {
+        scope.$watch('popupboxState',
+          function(newVal, oldVal) {
+            if (newVal != oldVal) {
+              if (goog.style.isElementShown(popup)) {
+                scope.showPopup();
+              }
+            }
+          }, true);
+      }
 
       /**
        * Called when an editable row is focused.  It shows and positions the
@@ -121,19 +138,34 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
 
       /**
        * When a value is selected, sets the popupboxModel and closes the popup.
-       * @param {*} value The value that should be selected.
+       * If a popupbox-display-attr attribute is present, the matching property
+       * will be set.
+       * @param {*} data The data that should be selected.
        */
-      scope.selectValue = function(value) {
-        scope.popupboxModel = value;
+      scope.selectValue = function(data) {
+        if (attrs.popupboxDisplayAttr) {
+          scope.popupboxModel = data[attrs.popupboxDisplayAttr];
+        } else {
+          scope.popupboxModel = data;
+        }
+
         scope.hidePopup();
       };
 
       /**
-       * When a value is selected, sets the popupboxModel and closes the popup.
-       * @param {*} value The value that should be selected.
+       * Returns the display text for a row of data.  If popupbox-display-attr
+       * is specified, the matching property will be returned.  Otherwise, the
+       * entire object will be returned.
+       *
+       * @param {*} data The data that should be returned.
+       * @return {*} The returned data or appropriate attribute.
        */
       scope.getDisplayValue = function(data) {
-        return data;
+        if (attrs.popupboxDisplayAttr) {
+          return data[attrs.popupboxDisplayAttr];
+        } else {
+          return data;
+        }
       };
 
       /**
@@ -174,6 +206,10 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
           scope.focusInput(evt);
         });
 
+        input.on('input', function() {
+          $timeout(function() { scope.showPopup(); });
+        });
+
         popup.addEventListener('blur', scope.blurInput, true);
 
         input.on('blur', function(evt) {
@@ -183,12 +219,19 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
         scope.hidePopup();
       };
 
+      /**
+       * Returns true if the displayValue starts with the current text,
+       * otherwise false.
+       */
+      scope.startsWith = function(data) {
+        let displayValue = scope.getDisplayValue(data);
+
+        return goog.string.startsWith(displayValue, input[0].value);
+      };
+
       scope.initPopup();
     }
   };
 };
-
-angular.module('ui.popupbox', []).directive(
-    'popupbox', ['$timeout', explorer.components.popupbox.PopupboxDirective]);
 
 });  // goog.scope

@@ -1,14 +1,17 @@
 .pk-popup {
   background-color: #fff;
-  border: 1px solid #999;
-  max-height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 4px;
+  max-height: 90%;
+  max-width: 70%;
   position: absolute;
   white-space: nowrap;
   z-index:65000;
 }
 
 .pk-popup-autocomplete {
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 
 .pk-popup-item {
@@ -49,6 +52,27 @@
 }
 
 .pk-popup-note {
+  background-color: #ffc;
+  color: #666;
+  font-style: italic;
+  padding: 4px;
+}
+
+.pk-popup-loading {
+  background-color: #ffc;
+  color: #666;
+  font-style: italic;
+  padding: 4px;
+}
+
+.pk-popup-error {
+  color: red;
+  font-style: italic;
+  font-weight: bold;
+  padding: 4px;
+}
+
+.pk-popup-empty {
   background-color: #ffc;
   color: #666;
   font-style: italic;

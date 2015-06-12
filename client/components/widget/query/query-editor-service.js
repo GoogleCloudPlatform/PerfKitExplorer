@@ -60,19 +60,10 @@ const FieldCubeDataService = (
 /**
  * Query service.
  *
- * @param {!FieldCubeDataService} fieldCubeDataService
  * @constructor
  * @ngInject
  */
-explorer.components.widget.query.QueryEditorService = function(
-    fieldCubeDataService) {
-  /**
-   * Service for providing field autocomplete.
-   * @type {!FieldCubeDataService}
-   * @export
-   */
-  this.autocomplete_data = fieldCubeDataService;
-
+explorer.components.widget.query.QueryEditorService = function() {
   /**
    * List of available date groupings.
    * @type {!Array.<!string>}
@@ -93,30 +84,8 @@ explorer.components.widget.query.QueryEditorService = function(
    * @export
    */
   this.samples_mart_measures = SamplesMartMeasures;
-
-  /**
-   * Template URL for the popupbox directive to show picklist values.
-   * @type {string}
-   * @export
-   */
-   this.picklist_template_url = '/static/components/widget/query/builder/picklist-template.html';
-
-  /**
-   * Cache of picklists.
-   *
-   * @type {*}
-   * @export
-   */
-  this.picklists = {
-    'product_name': [],
-    'test': [],
-    'metric': [],
-    'owner': [],
-    'metadata': [],
-    'labels': []
-  };
 };
-var QueryEditorService = explorer.components.widget.query.QueryEditorService;
+const QueryEditorService = explorer.components.widget.query.QueryEditorService;
 
 
 });  // goog.scope
