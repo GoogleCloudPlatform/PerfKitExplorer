@@ -151,11 +151,14 @@ describe('dashboardService', function() {
   });
 
   describe('addWidget', function() {
+    var actualWidget;
 
     it('should add a new widget in the container.', function() {
       expect(container.model.container.children.length).toEqual(0);
-      svc.addWidget(container);
+      actualWidget = svc.addWidget(container);
+      expect(actualWidget).not.toBeNull();
       expect(container.model.container.children.length).toEqual(1);
+      expect(container.model.container.children[0]).toEqual(actualWidget);
     });
 
     it('should select the widget added.', function() {
@@ -204,15 +207,17 @@ describe('dashboardService', function() {
   });
 
   describe('addContainer', function() {
+    var actualContainer;
 
     it('should add a new container and add a new widget.', function() {
       spyOn(svc, 'addWidget');
 
       expect(svc.widgets.length).toEqual(0);
-      svc.addContainer();
+      actualContainer = svc.addContainer();
       expect(svc.widgets.length).toEqual(1);
       var newContainer = svc.widgets[0];
       expect(svc.addWidget).toHaveBeenCalledWith(newContainer);
+      expect(actualContainer).toEqual(newContainer);
     });
   });
 
