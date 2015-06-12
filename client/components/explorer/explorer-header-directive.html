@@ -3,14 +3,16 @@
   <div class="pk-header-toolbar">
 
     <button type="button" class="btn btn-default"
-            ng-click="ctrl.explorer.showLog()"
+            ng-click="ctrl.explorerSvc.showLog()"
             ng-show="ctrl.errorService.errors.length > 0 &&
-             !(ctrl.explorer.model.code_editor.isOpen &&
-               ctrl.explorer.model.code_editor.selectedMode == 'LOG')">
-      Show {{ ctrl.errorService.errors.length }} warning<span ng-show="ctrl.errorService.errors.length != 1">s</span>
+             !(ctrl.explorerSvc.model.code_editor.isOpen &&
+               ctrl.explorerSvc.model.code_editor.selectedMode == 'LOG')">
+      Show {{ ctrl.errorSvc.errors.length }}
+      warning<span ng-show="ctrl.errorSvc.errors.length != 1">s</span>
     </button>
 
-    <button type="button" class="btn btn-default" ng-model="ctrl.explorer.model.logStatistics" btn-checkbox>
+    <button type="button" class="btn btn-default"
+            ng-model="ctrl.explorerSvc.model.logStatistics" btn-checkbox>
       Log Statistics
     </button>
 
@@ -19,18 +21,21 @@
       <span class="caret"></span>
     </button>
     <ul class="dropdown-menu pull-right">
-      <li ng-hide="ctrl.explorer.model.readOnly" ng-click="ctrl.saveDashboard()">
+      <li ng-hide="ctrl.explorerSvc.model.readOnly"
+          ng-click="ctrl.dashboardSvc.saveDashboard()">
         <a>Save</a>
       </li>
-      <li ng-click="ctrl.saveDashboardCopy()" ng-show="ctrl.dashboard.current.model.id">
+      <li ng-click="ctrl.saveDashboardCopy()"
+          ng-show="ctrl.dashboardSvc.current.model.id">
         <a>Save as...</a>
       </li>
-      <li ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
-          ng-click="ctrl.deleteCurrentDashboard()">
+      <li ng-hide="ctrl.explorerSvc.model.readOnly ||
+                   !ctrl.dashboardSvc.current.model.id"
+          ng-click="ctrl.dashboardSvc.deleteDashboard()">
         <a>Delete</a>
       </li>
       <li class="divider"></li>
-      <li ng-show="ctrl.explorer.CURRENT_USER_ADMIN"
+      <li ng-show="ctrl.explorerSvc.CURRENT_USER_ADMIN"
           ng-click="ctrl.editConfig()">
         <a>Edit config</a>
       </li>
@@ -39,7 +44,8 @@
   </div>
 
   <div class="page-title">
-    <span ng-bind="ctrl.dashboard.replaceTokens(ctrl.dashboard.current.model.title)"></span>
+    <span ng-bind="ctrl.dashboardSvc.replaceTokens(
+                       ctrl.dashboardSvc.current.model.title)"></span>
 
   </div>
 
