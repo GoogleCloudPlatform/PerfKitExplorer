@@ -125,19 +125,19 @@ PicklistService.prototype.refresh = function(picklistName, queryFilter) {
   picklist.state = PicklistStates.LOADING;
   let promise = this.dataSvc.list(picklistName, queryFilter);
 
-  promise.then(angular.bind(this, function(picklistData) {
+  promise.then(picklistData => {
     picklist.items.length = 0;
     picklistData.forEach(item => picklist.items.push(item));
     picklist.state = PicklistStates.LOADED;
-  }));
+  });
 
-  promise.then(null, angular.bind(this, function(error) {
+  promise.then(null, error => {
     picklist.state = PicklistStates.ERROR;
     let msg =
         'PicklistService.refresh(\'' + picklistName +
         '\', queryFilter) failed: ' + error.message;
     this.errorSvc.addError(ErrorTypes.DANGER, msg);
-  }));
+  });
 };
 
 }); // goog.scope

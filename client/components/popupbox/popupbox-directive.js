@@ -99,6 +99,17 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
             }
           }, true);
 
+      if (scope.popupboxState) {
+        scope.$watch('popupboxState',
+          function(newVal, oldVal) {
+            if (newVal != oldVal) {
+              if (goog.style.isElementShown(popup)) {
+                scope.showPopup();
+              }
+            }
+          }, true);
+      }
+
       /**
        * Called when an editable row is focused.  It shows and positions the
        * popup and tracks the change in selection.
@@ -147,6 +158,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
        * entire object will be returned.
        *
        * @param {*} data The data that should be returned.
+       * @return {*} The returned data or appropriate attribute.
        */
       scope.getDisplayValue = function(data) {
         if (attrs.popupboxDisplayAttr) {
@@ -195,7 +207,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
         });
 
         input.on('input', function() {
-          scope.showPopup();
+          $timeout(function() { scope.showPopup(); });
         });
 
         popup.addEventListener('blur', scope.blurInput, true);
@@ -214,7 +226,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       scope.startsWith = function(data) {
         let displayValue = scope.getDisplayValue(data);
 
-        return (displayValue.indexOf(input[0].value) == 0);
+        return goog.string.startsWith(displayValue, input[0].value);
       };
 
       scope.initPopup();

@@ -28,8 +28,10 @@ describe('picklistService', function() {
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(picklistService, _$httpBackend_) {
+  beforeEach(inject(function(picklistService, errorService, _$httpBackend_) {
     svc = picklistService;
+
+    errorService.logToConsole = false;
 
     $httpBackend = _$httpBackend_;
   }));
