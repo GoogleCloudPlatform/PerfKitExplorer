@@ -7,15 +7,15 @@
   <ul class="dropdown-menu container-add-dropdown">
     <li ng-click="ctrl.dashboardSvc.addContainerAt(0)"
         class="container-add-top">
-      <a>top</a>
+        <a>top</a>
     </li>
     <li class="container-add-before"
-        ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+        ng-show="ctrl.dashboardSvc.selectedContainer"
         ng-click="ctrl.insertContainerBeforeSelected()">
-      <a>before</a>
+        <a>before</a>
     </li>
     <li class="container-add-after"
-        ng-class="{'disabled': ctrl.selectedWidget == null}"
+        ng-show="ctrl.dashboardSvc.selectedContainer"
         ng-click="ctrl.insertContainerAfterSelected()">
       <a>after</a>
     </li>
@@ -25,16 +25,16 @@
     </li>
   </ul>
   <button type="button" class="btn btn-default container-move-up"
-          ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+          ng-disabled="!ctrl.dashboardSvc.selectedContainer"
           ng-click="ctrl.moveSelectedContainerUp()">
     <span class="glyphicon glyphicon-arrow-up"></span>
   </button>
   <button type="button" class="btn btn-default container-move-down"
-          ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+          ng-disabled="!ctrl.dashboardSvc.selectedContainer"
           ng-click="ctrl.moveSelectedContainerDown()">
     <span class="glyphicon glyphicon-arrow-down"></span>
   </button>
   <button type="button" class="btn btn-default container-remove"
-          ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+          ng-disabled="!ctrl.dashboardSvc.selectedContainer"
           ng-click="ctrl.removeSelectedContainer()">Delete</button>
 </div>
