@@ -62,7 +62,8 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
             return this.dashboardSvc.selectedWidget; }),
           angular.bind(this, function(newValue, oldValue) {
             if (newValue !== oldValue) {
-              if (!newValue && this.tabSvc.selectedTab.requireWidget) {
+              if (!newValue && this.tabSvc.selectedTab &&
+                  this.tabSvc.selectedTab.requireWidget) {
                 this.tabSvc.selectedTab = this.tabSvc.getNextTab(
                     this.tabSvc.selectedTab);
               }

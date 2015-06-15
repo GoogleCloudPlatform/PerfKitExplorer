@@ -37,57 +37,92 @@ goog.scope(function() {
       controller: ['$scope', function($scope) {
         this.dashboardSvc = dashboardService;
 
-        /** @export */
-        this.insertContainerBeforeSelected = function() {
-          var container = this.dashboardSvc.selectedContainer;
-          var index = this.dashboardSvc.current.model.children.indexOf(container);
-          this.dashboardSvc.addContainerAt(index);
+        /**
+         * Returns the index of the selected container.
+         * @return {number} The index of the container, or null if no container
+         *     is selected.
+         */
+        this.getSelectedContainerIndex = function() {
+          if (this.dashboardSvc.selectedContainer === null) {
+            return null;
+          };
+
+          var index = this.dashboardSvc.current.model.children.indexOf(
+              this.dashboardSvc.selectedContainer);
+          goog.asserts.assert(index > -1,
+              'dashboardSvc.selectedContainer could not be found in the' +
+              'current dashboard.');
+
+          return index;
         };
 
-        /** @export */
-        this.insertContainerAfterSelected = function() {
-          var container = this.dashboardSvc.selectedContainer;
-          var containers = this.dashboardSvc.current.model.children;
-          var index = containers.indexOf(container);
+        // TODO: Refactor container manipulation into dedicated service (#139).
+        /**
+         * Creates a new container and places it directly preceding the selected
+         * one.
+         * @export
+         */
+        this.insertContainerBeforeSelected = function() {
+          var index = this.getSelectedContainerIndex();
 
-          if (index == containers.length - 1) {
-            this.dashboardSvc.addContainer();
+          if (index === 0) {
+            this.dashboardSvc.addContainerAt(0);
           } else {
-            this.dashboardSvc.addContainerAt(index + 1);
+            this.dashboardSvc.addContainerAt(--index);
           }
         };
 
-        /** @export */
-        this.moveSelectedContainerUp = function() {
-          var container = this.dashboardSvc.selectedContainer;
+        /**
+         * Creates a new container and places it directly following the selected
+         * one.
+         * @export
+         */
+        this.insertContainerAfterSelected = function() {
+          var index = this.getSelectedContainerIndex();
           var containers = this.dashboardSvc.current.model.children;
-          var index = containers.indexOf(container);
 
-          if (index == 0 || containers.length == 0) { return; }
-
-          goog.array.removeAt(containers, index);
-          goog.array.insertAt(containers, container, index - 1);
+          if (index === containers.length - 1) {
+            this.dashboardSvc.addContainer();
+          } else {
+            this.dashboardSvc.addContainerAt(++index);
+          }
         };
 
-        /** @export */
-        this.moveSelectedContainerDown = function() {
-          var container = this.dashboardSvc.selectedContainer;
+        /**
+         * Moves the selected container to the previous position in the list.
+         * @export
+         */
+        this.moveSelectedContainerUp = function() {
+          var index = this.getSelectedContainerIndex();
           var containers = this.dashboardSvc.current.model.children;
-          var index = containers.indexOf(container);
 
-          if (containers.length == 0 || index == containers.length - 1) {
+          if (index === 0 || containers.length === 0) { return; }
+
+          goog.array.moveItem(containers, index, --index);
+        };
+
+        /**
+         * Moves the selected container to the following position in the list.
+         * @export
+         */
+        this.moveSelectedContainerDown = function() {
+          var index = this.getSelectedContainerIndex();
+          var containers = this.dashboardSvc.current.model.children;
+
+          if (containers.length === 0 || index === containers.length - 1) {
             return;
           }
 
-          goog.array.removeAt(containers, index);
-          goog.array.insertAt(containers, container, index + 1);
+          goog.array.moveItem(containers, index, ++index);
         };
 
-        /** @export */
+        /**
+         * Removes the selected container from the list.
+         * @export
+         */
         this.removeSelectedContainer = function() {
-          var container = this.dashboardSvc.selectedContainer;
+          var index = this.getSelectedContainerIndex();
           var containers = this.dashboardSvc.current.model.children;
-          var index = containers.indexOf(container);
 
           this.dashboardSvc.removeContainer(
               this.dashboardSvc.selectedContainer);
