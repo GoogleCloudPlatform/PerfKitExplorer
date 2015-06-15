@@ -261,6 +261,7 @@ ExplorerService.prototype.unselectWidget = function() {
   }
 };
 
+
 /**
  * Updates the query and state of the selected widget's datasource.
  * @export
