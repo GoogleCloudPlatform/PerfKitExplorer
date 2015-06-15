@@ -128,7 +128,7 @@ SidebarTabService.prototype.getLastTab = function() {
   console.log('getFirstTab failed: No non-widget tabs available.');
 };
 
-  SidebarTabService.prototype.getNextTab = function() {
+SidebarTabService.prototype.getNextTab = function() {
   if (this.selectedTab) {
     var selectedTabIndex = this.tabs.indexOf(
         this.selectedTab);
