@@ -27,7 +27,7 @@ goog.scope(function() {
    * @ngInject
    */
   explorer.components.dashboard.DashboardToolbarDirective = function(
-      dashboardService, sidebarTabService, explorerService) {
+      dashboardService, errorService, explorerService, sidebarTabService) {
     return {
       restrict: 'E',
       replace: true,
@@ -38,11 +38,15 @@ goog.scope(function() {
       templateUrl: '/static/components/dashboard/dashboard-toolbar-directive.html',
       controller: ['$scope', '$window', function($scope, $window) {
         this.dashboardSvc = dashboardService;
+        this.errorSvc = errorService;
         this.explorerSvc = explorerService;
         this.tabSvc = sidebarTabService;
 
-        /** @export */
-        this.saveDashboardCopy = function(dashboard) {
+        /**
+         * Prompts the user for a title, and copies the current dashboard.
+         * @export
+         */
+        this.saveDashboardCopy = function() {
           var title = $window.prompt(
               'Please provide the title for your dashboard',
               this.dashboardSvc.current.model.title);
@@ -54,30 +58,46 @@ goog.scope(function() {
         };
 
         // TODO: Replace implementation with a ui-router change.
-        /** @export */
+        /**
+         * Presents the user with a new, unsaved dashboard.
+         * @export
+         */
         this.createDashboard = function() {
           $window.location = '/explore?';
         };
 
         // TODO: Replace implementation with a ui-router change.
-        /** @export */
-        this.openDashboard = function(dashboard) {
-          $window.location = '/explore?dashboard=' + dashboard.id;
+        /**
+         * Opens the selected dashboard.
+         * @export
+         */
+        this.openDashboard = function() {
+          $window.location =
+              '/explore?dashboard=' + this.dashboardSvc.current.id;
         };
 
         // TODO: Replace implementation with a ui-router change.
-        /** @export */
-        this.openDashboardAdmin = function(dashboard) {
+        /**
+         * Opens the dashboard administration page.
+         * @export
+         */
+        this.openDashboardAdmin = function() {
           $window.location = '/dashboard-admin';
         };
 
         // TODO: Replace implementation with a ui-router change.
-        /** @export */
+        /**
+         * Switches the current dashboard into edit mode.
+         * @export
+         */
         this.editDashboard = function() {
           this.explorerSvc.model.readOnly = false;
         };
 
-        /** @export */
+        /**
+         * Downloads the current dashboard as a json file.
+         * @export
+         */
         this.downloadDashboard = function() {
           var selectedDashboard = this.dashboardSvc.current.model;
 
@@ -86,14 +106,16 @@ goog.scope(function() {
               '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
         };
 
-        /** @export */
+        /**
+         * Prompts the user to confirm, then deletes the selected dashboard.
+         * @export
+         */
         this.deleteDashboard = function() {
-          if (!this.dashboard.current.model.id) {
-            console.log('deleteDashboard failed: No id set.');
-            return;
-          }
+          goog.asserts.assert(
+              this.dashboard.current.model.id,
+              'deleteDashboard failed: No id set.');
 
-          if (!window.confirm(
+          if (!$window.confirm(
                   'Are you sure you want to delete this dashboard?')) {
             return;
           }
@@ -106,7 +128,7 @@ goog.scope(function() {
           }));
 
           promise.then(null, angular.bind(this, function(error) {
-            console.log(error.message);
+            this.errorSvc.addDanger(error.message);
           }));
         };
       }],
