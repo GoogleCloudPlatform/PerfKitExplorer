@@ -12,8 +12,8 @@
 }
 
 .dashboard-tab.pk-sidebar-tab-selected {
-  background-color: #212121; /** grey: 900 */
-  border-right: 3px solid #212121; /** grey:900 */
+  background-color: #424242; /** grey: 800 */
+  border-right: 3px solid #424242; /** grey:800 */
   color: #fafafa; /** grey: 50 */
 }
 
@@ -25,14 +25,19 @@
 }
 
 .dashboard-panel-title {
-  background-color: #212121; /** grey: 900 */
+  background-color: #424242; /** grey: 800 */
   color: #fafafa; /** grey: 50 */
 }
 
 .dashboard-panel {
   background-color: #eeeeee; /** grey: 100 */
-  border-left: 1px solid #212121; /** grey:900 */
-  border-right: 1px solid #212121; /** grey:900 */
+  border-left: 1px solid #424242; /** grey:800 */
+  border-right: 1px solid #424242; /** grey:800 */
+}
+
+.dashboard-toolbar {
+  background-color: #424242; /** grey: 800 */
+  color: #eeeeee; /** grey:100 */
 }
 
 .param-row {

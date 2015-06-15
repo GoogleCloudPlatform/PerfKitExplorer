@@ -15,7 +15,7 @@
 .bqgviz-tab.pk-sidebar-tab-selected {
   background-color: #0d47a1; /** blue: 900 */
   border-right: 3px solid #0d47a1; /** blue:900 */
-  color: #e3f2fd;
+  color: #fafafa; /** grey: 50 */
 }
 
 .bqgviz-tab:hover,
@@ -27,7 +27,7 @@
 
 .bqgviz-panel-title {
   background-color: #0d47a1; /** blue:900 */
-  color: #e3f2fd; /** blue:50 */
+  color: #fafafa; /** grey: 50 */
 }
 
 .bqgviz-panel {
@@ -36,17 +36,21 @@
   border-right: 1px solid #0d47a1; /** blue:900 */
 }
 
+.bqgviz-toolbar {
+  background-color: #0d47a1; /** blue:900 */
+  color: #fafafa; /** grey: 50 */
+}
+
 .widget-tab {
   background-color: #e3f2fd; /** blue:50 */
   border-right: 3px solid #e3f2fd;
-
   color: #0d47a1; /** blue:900 */
 }
 
 .widget-tab.pk-sidebar-tab-selected {
   background-color: #0d47a1; /** blue: 900 */
   border-right: 3px solid #0d47a1; /** blue:900 */
-  color: #e3f2fd;
+  color: #fafafa; /** grey: 50 */
 }
 
 .widget-tab:hover,
@@ -58,11 +62,16 @@
 
 .widget-panel-title {
   background-color: #0d47a1; /** blue:900 */
-  color: #e3f2fd; /** blue:50 */
+  color: #fafafa; /** grey: 50 */
 }
 
 .widget-panel {
   background-color: #e3f2fd; /** blue:50 */
   border-left: 1px solid #0d47a1; /** blue:900 */
   border-right: 1px solid #0d47a1; /** blue:900 */
+}
+
+.widget-toolbar {
+  background-color: #0d47a1; /** blue:900 */
+  color: #fafafa; /** grey: 50 */
 }

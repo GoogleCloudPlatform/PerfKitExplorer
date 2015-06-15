@@ -1,0 +1,61 @@
+<div>
+  <div ng-show="ctrl.dashboardSvc.selectedWidget == null">
+    <div>Select a widget or container below</div>
+  </div>
+  <div ng-hide="ctrl.dashboardSvc.selectedWidget == null">
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.refreshSelectedWidget()">
+      Refresh
+    </button>
+    <button type="button" class="btn btn-default dropdown-toggle">
+      Insert
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li ng-click="ctrl.insertWidgetAt(0)">
+        <a>left</a>
+      </li>
+      <li ng-click="ctrl.insertWidgetBeforeSelected()">
+        <a>before</a>
+      </li>
+      <li ng-click="ctrl.insertWidgetAfterSelected()">
+        <a>after</a>
+      </li>
+      <li ng-click="ctrl.insertWidget()">
+        <a>right</a>
+      </li>
+    </ul>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.moveWidgetToPreviousContainer()">
+      <span class="glyphicon glyphicon-arrow-up"></span>
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.moveWidgetToNext()">
+      <span class="glyphicon glyphicon-arrow-right"></span>
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.moveWidgetToPrevious()">
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.moveWidgetToNextContainer()">
+      <span class="glyphicon glyphicon-arrow-down"></span>
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.explorerSvc.viewSql(true)">
+      Edit SQL
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-show="ctrl.dashboardSvc.selectedWidget &&
+                     ctrl.dashboardSvc.selectedWidget.model.datasource.custom_query"
+            ng-click="ctrl.explorerSvc.restoreBuilder()">
+      Use SQL Builder
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.explorerSvc.editJson()">
+      Edit JSON
+    </button>
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.removeSelectedWidget()">Delete</button>
+  </div>
+</div>

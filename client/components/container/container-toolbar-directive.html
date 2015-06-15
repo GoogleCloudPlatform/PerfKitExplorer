@@ -1,0 +1,35 @@
+<div>
+  <button type="button" class="btn btn-default dropdown-toggle">
+    Insert
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu">
+    <li ng-click="ctrl.insertContainerAt(0)">
+      <a>top</a>
+    </li>
+    <li ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+        ng-click="ctrl.insertContainerBeforeSelected()">
+      <a>before</a>
+    </li>
+    <li ng-class="{'disabled': ctrl.selectedWidget == null}"
+        ng-click="ctrl.insertContainerAfterSelected()">
+      <a>after</a>
+    </li>
+    <li ng-click="ctrl.insertContainer()">
+      <a>bottom</a>
+    </li>
+  </ul>
+  <button type="button" class="btn btn-default"
+          ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+          ng-click="ctrl.moveSelectedContainerUp()">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+  </button>
+  <button type="button" class="btn btn-default"
+          ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+          ng-click="ctrl.moveSelectedContainerDown()">
+    <span class="glyphicon glyphicon-arrow-down"></span>
+  </button>
+  <button type="button" class="btn btn-default"
+          ng-class="{'disabled': ctrl.dashboardSvc.selectedWidget == null}"
+          ng-click="ctrl.removeSelectedContainer()">Delete</button>
+</div>

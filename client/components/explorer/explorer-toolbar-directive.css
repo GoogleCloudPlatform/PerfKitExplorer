@@ -1,0 +1,44 @@
+.pk-toolbar {
+  display: block;
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+  height: 44px;
+  padding: 4px;
+  padding-top: 5px;
+}
+
+.pk-toolbar-section {
+  display: inline-block;
+  border-right: 1px solid #ccc;
+  margin-right: 4px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.pk-dropdown-button-section {
+  display: inline-block;
+}
+
+.dropdown-menu {
+  left: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  top: auto !important;
+}
+
+.pk-toolbar .btn-default {
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+}
+
+.pk-toolbar .btn-default:hover {
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+.pk-toolbar .open>.dropdown-toggle.btn-default {
+  background-color: transparent;
+  border: 1px solid white;
+  color: white;
+}

@@ -38,9 +38,10 @@ explorer.components.log.LogDirective = function() {
     replace: true,
     transclude: true,
     templateUrl: '/static/components/log/log-directive.html',
-    controller: function($scope, errorService) {
+    controller: [
+        '$scope', 'errorService', function($scope, errorService) {
       $scope.errorService = errorService;
-    }
+    }]
   };
 };
 

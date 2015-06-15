@@ -22,8 +22,7 @@ goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective'
 
 
 goog.scope(function() {
-const explorer = p3rf.perfkit.explorer;
-
+  const explorer = p3rf.perfkit.explorer;
 
 /**
  * See module docstring for more information about purpose and usage.

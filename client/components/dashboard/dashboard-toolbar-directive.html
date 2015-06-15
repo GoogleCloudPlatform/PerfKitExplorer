@@ -1,0 +1,35 @@
+<div>
+  <button type="button" class="btn btn-default" ng-click="ctrl.createDashboard()">Create</button>
+  <div class="pk-dropdown-button-section">
+    <button type="button" class="btn btn-default dropdown-toggle">
+      Open...
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu">
+      <li ng-click="ctrl.openDashboardAdmin()">
+        <a>Dashboard Administration</a>
+      </li>
+      <li class="divider"></li>
+      <li ng-repeat="dashboard in ctrl.explorerSvc.model.dashboards"
+          ng-click="ctrl.openDashboard(dashboard)">
+        <a>{{ dashboard.title }}</a>
+      </li>
+    </ul>
+  </div>
+  <button type="button" class="btn btn-default"
+          ng-hide="ctrl.explorerSvc.model.readOnly"
+          ng-click="ctrl.saveDashboard()">Save</button>
+  <button type="button" class="btn btn-default"
+          ng-show="ngModel.id"
+          ng-click="ctrl.saveDashboardCopy()">Save as...</button>
+  <button type="button" class="btn btn-default"
+          ng-click="ctrl.downloadDashboard()">Download</button>
+  <button type="button" class="btn btn-default"
+          ng-hide="ctrl.explorerSvc.model.readOnly || !ngModel.id"
+          ng-click="ctrl.deleteCurrentDashboard()">Delete</button>
+  <button type="button" class="btn btn-default"
+          ng-show="ctrl.explorerSvc.model.readOnly"
+          ng-click="ctrl.editDashboard()">
+    Edit Dashboard
+  </button>
+</div>
