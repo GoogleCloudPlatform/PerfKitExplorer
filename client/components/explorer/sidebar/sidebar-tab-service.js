@@ -33,7 +33,7 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
     panelClass: 'dashboard-panel', toolbarClass: 'dashboard-toolbar'},
   {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
-    hint: 'Container properties and text', requireWidget: true,
+    hint: 'Container properties and text',
     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
     panelClass: 'dashboard-panel', toolbarClass: 'dashboard-toolbar'},
   {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
