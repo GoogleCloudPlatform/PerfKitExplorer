@@ -96,12 +96,11 @@ describe('DashboardToolbarDirective', function() {
       scope.$digest();
 
       var targetElement = actualElement.find(
-          'ul.dashboard-open-dropdown li');
+          'ul.dashboard-open-dropdown li:not(.divider, .dashboard-open-admin)');
       expect(targetElement.length).toBe(1);
 
       spyOn(actualController, 'openDashboard');
       targetElement.click();
-      console.log(explorerService.model.dashboards[0]);
       expect(actualController.openDashboard).toHaveBeenCalledWith(
           explorerService.model.dashboards[0]);
     });
