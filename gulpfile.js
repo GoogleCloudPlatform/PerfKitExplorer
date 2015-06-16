@@ -48,16 +48,16 @@ gulp.task('third_party', function() {
   gulp.src('bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
       .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui'));
 
-  gulp.src('bower_components/bootstrap-bower/css/bootstrap.min.css')
+  gulp.src('bower_components/bootstrap-css-only/css/bootstrap.min.css')
       .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui/css'));
 
-  gulp.src('bower_components/bootstrap-bower/fonts/*.*')
+  gulp.src('bower_components/bootstrap-css-only/fonts/*.*')
       .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui/fonts'));
 
   gulp.src('bower_components/angular-ui-router/release/angular-ui-router.min.js')
       .pipe(gulp.dest('deploy/client/third_party/angular-ui-router'));
 
-  gulp.src('bower_components/angular-ui-grid/ui-grid.*')
+  gulp.src('third_party/js/uiGrid/ui-grid.*')
       .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
 
   /** CodeMirror */
