@@ -23,7 +23,7 @@ goog.scope(function() {
   /**
    * See module docstring for more information about purpose and usage.
    *
-   * @return {Object} Directive definition object.
+   * @return {!Object} Directive definition object.
    * @ngInject
    */
   explorer.components.container.ContainerToolbarDirective = function(
@@ -45,9 +45,9 @@ goog.scope(function() {
         this.getSelectedContainerIndex = function() {
           if (this.dashboardSvc.selectedContainer === null) {
             return null;
-          };
+          }
 
-          var index = this.dashboardSvc.current.model.children.indexOf(
+          let index = this.dashboardSvc.current.model.children.indexOf(
               this.dashboardSvc.selectedContainer);
           goog.asserts.assert(index > -1,
               'dashboardSvc.selectedContainer could not be found in the' +
@@ -63,7 +63,7 @@ goog.scope(function() {
          * @export
          */
         this.insertContainerBeforeSelected = function() {
-          var index = this.getSelectedContainerIndex();
+          let index = this.getSelectedContainerIndex();
 
           if (index === 0) {
             this.dashboardSvc.addContainerAt(0);
@@ -78,8 +78,8 @@ goog.scope(function() {
          * @export
          */
         this.insertContainerAfterSelected = function() {
-          var index = this.getSelectedContainerIndex();
-          var containers = this.dashboardSvc.current.model.children;
+          let index = this.getSelectedContainerIndex();
+          let containers = this.dashboardSvc.current.model.children;
 
           if (index === containers.length - 1) {
             this.dashboardSvc.addContainer();
@@ -93,8 +93,8 @@ goog.scope(function() {
          * @export
          */
         this.moveSelectedContainerUp = function() {
-          var index = this.getSelectedContainerIndex();
-          var containers = this.dashboardSvc.current.model.children;
+          let index = this.getSelectedContainerIndex();
+          let containers = this.dashboardSvc.current.model.children;
 
           if (index === 0 || containers.length === 0) { return; }
 
@@ -106,8 +106,8 @@ goog.scope(function() {
          * @export
          */
         this.moveSelectedContainerDown = function() {
-          var index = this.getSelectedContainerIndex();
-          var containers = this.dashboardSvc.current.model.children;
+          let index = this.getSelectedContainerIndex();
+          let containers = this.dashboardSvc.current.model.children;
 
           if (containers.length === 0 || index === containers.length - 1) {
             return;
@@ -121,22 +121,18 @@ goog.scope(function() {
          * @export
          */
         this.removeSelectedContainer = function() {
-          var index = this.getSelectedContainerIndex();
-          var containers = this.dashboardSvc.current.model.children;
+          let index = this.getSelectedContainerIndex();
+          let containers = this.dashboardSvc.current.model.children;
 
           this.dashboardSvc.removeContainer(
               this.dashboardSvc.selectedContainer);
 
           if (containers.length > 0) {
-            var newContainer = null;
+            let newContainer = null;
 
-            if (index > containers.length - 1) {
-              newContainer = containers[containers.length - 1];
-            } else {
-              newContainer = containers[index];
-            }
+            newContainer = containers[Math.min(index, containers.length - 1)];
 
-            var newWidget = newContainer.model.container.children[0];
+            let newWidget = newContainer.model.container.children[0];
             this.dashboardSvc.selectWidget(newWidget, newContainer);
           }
         };

@@ -23,7 +23,7 @@ goog.scope(function() {
   /**
    * See module docstring for more information about purpose and usage.
    *
-   * @return {Object} Directive definition object.
+   * @return {!Object} Directive definition object.
    * @ngInject
    */
   explorer.components.widget.WidgetToolbarDirective = function(

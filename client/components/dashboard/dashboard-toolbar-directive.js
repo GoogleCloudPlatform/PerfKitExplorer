@@ -23,7 +23,7 @@ goog.scope(function() {
   /**
    * See module docstring for more information about purpose and usage.
    *
-   * @return {Object} Directive definition object.
+   * @return {!Object} Directive definition object.
    * @ngInject
    */
   explorer.components.dashboard.DashboardToolbarDirective = function(
@@ -47,7 +47,7 @@ goog.scope(function() {
          * @export
          */
         this.saveDashboardCopy = function() {
-          var title = $window.prompt(
+          let title = $window.prompt(
               'Please provide the title for your dashboard',
               this.dashboardSvc.current.model.title);
           if (!title) { return; }
@@ -99,7 +99,7 @@ goog.scope(function() {
          * @export
          */
         this.downloadDashboard = function() {
-          var selectedDashboard = this.dashboardSvc.current.model;
+          let selectedDashboard = this.dashboardSvc.current.model;
 
           $window.open(
               '/dashboard/view?id=' + selectedDashboard.id +
@@ -120,7 +120,7 @@ goog.scope(function() {
             return;
           }
 
-          var promise = this.dashboard.deleteDashboard(
+          let promise = this.dashboard.deleteDashboard(
               this.dashboard.current.model);
 
           promise.then(angular.bind(this, function(response) {
