@@ -1,47 +1,43 @@
 .pk-header {
   flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-  width: 100%;
+  background-color: #455A64; /** Blue Grey 700 */
 }
 
-.pk-header-section {
-  border-bottom: 1px solid rgb(229, 229, 229);
+.pk-header-toolbar {
+  float: right;
+  padding: 4px;
 }
 
 .page-title {
-  color: #DD4B39;
-  font-size: 20px;
-  margin-top: 8px;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 10px;
   margin-left: 8px;
-  padding-bottom: 4px;
 }
 
-.pk-toolbar {
-  border-bottom: 1px solid rgb(229, 229, 229);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-}
-
-.pk-toolbar {
-  display: block;
-  padding: 8px;
-}
-
-.pk-toolbar-section {
-  display: inline-block;
-  border-right: 1px solid #ccc;
+.pk-header .btn {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: white;
   margin-right: 4px;
-  padding-right: 8px;
-  white-space: nowrap;
+  padding: 4px;
 }
 
-.pk-dropdown-button-section {
-  display: inline-block;
+.pk-header .btn:hover {
+  background-color: #546E7A; /** Blue Grey 600 */
+  border-color: transparent;
+  color: #fafafa; /** grey: 50 */
+  margin-right: 4px;
+  padding: 4px;
 }
 
-.dropdown-menu {
-  left: auto;
-  max-height: 400px;
-  overflow-y: auto;
-  top: auto !important;
+.pk-header .btn.active,
+.pk-header .open > .btn-default.dropdown-toggle,
+.pk-header .open > .btn-default.dropdown-toggle:hover {
+  background-color: #546E7A; /** Blue Grey 600 */
+  border-color:transparent;
+  color: #fafafa; /** grey: 50 */
+  margin-right: 4px;
+  padding: 4px;
 }

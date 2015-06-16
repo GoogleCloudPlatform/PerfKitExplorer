@@ -1,11 +1,9 @@
 <div class="pk-page-canvas" layout="column">
-  <div class="pk-page-header">
-    <explorer-header></explorer-header>
-  </div>
+  <explorer-header></explorer-header>
 
   <div class="pk-page-body" ng-controller="DashboardCtrl as dashboardCtrl"
-       layout="row">
-      
+       layout="row" flex>
+
     <sidebar-tabs></sidebar-tabs>
 
     <div class="pk-page-leftwell" id="pk-page-leftwell" layout="column"
@@ -18,8 +16,14 @@
     <div resize="right" resize-element-id="pk-page-leftwell"
          ng-show="explorerCtrl.dashboard.selectedWidget">&nbsp;</div>
 
-    <div class="pk-page-content" flex>
-      <dashboard ng-model="dashboardCtrl.dashboard.current.model" />
+    <div layout="column" flex>
+
+      <explorer-toolbar></explorer-toolbar>
+
+      <div class="pk-page-content" layout="column" flex>
+        <dashboard ng-model="dashboardCtrl.dashboard.current.model"></dashboard>
+      </div>
+
     </div>
 
   </div>

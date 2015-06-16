@@ -1,199 +1,50 @@
 <div class="pk-header">
-  <div class="pk-header-section page-title">
-    <span ng-bind="ctrl.dashboard.replaceTokens(ctrl.dashboard.current.model.title)"></span>
+
+  <div class="pk-header-toolbar">
+
+    <button type="button" class="btn btn-default"
+            ng-click="ctrl.explorerSvc.showLog()"
+            ng-show="ctrl.canShowLog()">
+      Show {{ ctrl.errorSvc.errors.length }}
+      warning<span ng-show="ctrl.errorSvc.errors.length != 1">s</span>
+    </button>
+
+    <button type="button" class="btn btn-default"
+            ng-model="ctrl.explorerSvc.model.logStatistics" btn-checkbox>
+      Log Statistics
+    </button>
+
+    <button type="button" class="btn btn-default dropdown-toggle">
+      <span class="glyphicon glyphicon-cog"></span>
+      <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu pull-right">
+      <li ng-hide="ctrl.explorerSvc.model.readOnly"
+          ng-click="ctrl.dashboardSvc.saveDashboard()">
+        <a>Save</a>
+      </li>
+      <li ng-click="ctrl.saveDashboardCopy()"
+          ng-show="ctrl.dashboardSvc.current.model.id">
+        <a>Save as...</a>
+      </li>
+      <li ng-hide="ctrl.explorerSvc.model.readOnly ||
+                   !ctrl.dashboardSvc.current.model.id"
+          ng-click="ctrl.dashboardSvc.deleteDashboard()">
+        <a>Delete</a>
+      </li>
+      <li class="divider"></li>
+      <li ng-show="ctrl.explorerSvc.CURRENT_USER_ADMIN"
+          ng-click="ctrl.editConfig()">
+        <a>Edit config</a>
+      </li>
+    </ul>
+
   </div>
 
-  <div class="pk-header-section pk-toolbar" ng-hide="ctrl.explorer.model.hideToolbar">
+  <div class="page-title">
+    <span ng-bind="ctrl.dashboardSvc.replaceTokens(
+                       ctrl.dashboardSvc.current.model.title)"></span>
 
-    <div style="float: right;">
-      <button type="button" class="btn btn-default" ng-model="ctrl.explorer.model.logStatistics" btn-checkbox>
-        Log Statistics
-      </button>
-      <button type="button" class="btn btn-default dropdown-toggle">
-        <span class="glyphicon glyphicon-cog"></span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu pull-right">
-        <li ng-hide="ctrl.explorer.model.readOnly" ng-click="ctrl.saveDashboard()">
-          <a>Save</a>
-        </li>
-        <li ng-click="ctrl.saveDashboardCopy()" ng-show="ctrl.dashboard.current.model.id">
-          <a>Save as...</a>
-        </li>
-        <li ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
-            ng-click="ctrl.deleteCurrentDashboard()">
-          <a>Delete</a>
-        </li>
-        <li class="divider"></li>
-        <li ng-show="ctrl.explorer.CURRENT_USER_ADMIN"
-            ng-click="ctrl.editConfig()">
-          <a>Edit config</a>
-        </li>
-      </ul>
-    </div>
-    <div class="btn-group pk-toolbar-section" ng-hide="ctrl.explorer.model.readOnly">
-      <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
-              btn-radio="'dashboard'">Dashboard</button>
-      <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
-              btn-radio="'container'">Container</button>
-      <button type="button" class="btn btn-default" ng-model="ctrl.currentMode"
-              btn-radio="'widget'">Widget</button>
-    </div>
-
-    <div class="pk-toolbar-section" ng-switch="ctrl.currentMode">
-      <!-- Dashboard -->
-      <div ng-switch-when="dashboard">
-        <button type="button" class="btn btn-danger" ng-click="ctrl.createDashboard()">Create</button>
-        <div class="pk-dropdown-button-section">
-          <button type="button" class="btn btn-default dropdown-toggle">
-            Open...
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li ng-click="ctrl.openDashboardAdmin()">
-              <a>Dashboard Administration</a>
-            </li>
-            <li class="divider"></li>
-            <li ng-repeat="dashboard in ctrl.dashboards"
-                ng-click="ctrl.openDashboard(dashboard)">
-              <a>{{ dashboard.title }}</a>
-            </li>
-          </ul>
-        </div>
-        <button type="button" class="btn btn-default"
-                ng-hide="ctrl.explorer.model.readOnly"
-                ng-click="ctrl.saveDashboard()">Save</button>
-        <button type="button" class="btn btn-default"
-                ng-show="ctrl.dashboard.current.model.id"
-                ng-click="ctrl.saveDashboardCopy()">Save as...</button>
-        <button type="button" class="btn btn-default"
-                ng-click="ctrl.downloadDashboard()">Download</button>
-        <button type="button" class="btn btn-default"
-                ng-hide="ctrl.explorer.model.readOnly || !ctrl.dashboard.current.model.id"
-                ng-click="ctrl.deleteCurrentDashboard()">Delete</button>
-        <button type="button" class="btn btn-default"
-                ng-show="ctrl.explorer.model.readOnly"
-                ng-click="ctrl.editDashboard()">
-          Edit Dashboard
-        </button>
-      </div>
-
-      <!-- Container -->
-      <div ng-switch-when="container">
-        <div>
-          <button type="button" class="btn btn-primary dropdown-toggle">
-            Insert
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li ng-click="ctrl.insertContainerAt(0)">
-              <a>top</a>
-            </li>
-            <li ng-class="{'disabled': ctrl.selectedWidget == null}"
-                ng-click="ctrl.insertContainerBeforeSelected()">
-              <a>before</a>
-            </li>
-            <li ng-class="{'disabled': ctrl.selectedWidget == null}"
-                ng-click="ctrl.insertContainerAfterSelected()">
-              <a>after</a>
-            </li>
-            <li ng-click="ctrl.insertContainer()">
-              <a>bottom</a>
-            </li>
-          </ul>
-          <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
-                  ng-click="ctrl.moveSelectedContainerUp()">
-            <span class="glyphicon glyphicon-arrow-up"></span>
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
-                  ng-click="ctrl.moveSelectedContainerDown()">
-            <span class="glyphicon glyphicon-arrow-down"></span>
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-class="{'disabled': ctrl.selectedWidget == null}"
-                  ng-click="ctrl.removeSelectedContainer()">Delete</button>
-        </div>
-      </div>
-
-      <!-- Widget -->
-      <div ng-switch-when="widget">
-        <div ng-show="ctrl.selectedWidget == null">
-          <div>Select a widget or container below</div>
-        </div>
-        <div ng-hide="ctrl.selectedWidget == null">
-          <button type="button" class="btn btn-primary"
-                  ng-click="ctrl.refreshSelectedWidget()">
-            Refresh
-          </button>
-          <button type="button" class="btn btn-default dropdown-toggle">
-            Insert
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu">
-            <li ng-click="ctrl.insertWidgetAt(0)">
-              <a>left</a>
-            </li>
-            <li ng-click="ctrl.insertWidgetBeforeSelected()">
-              <a>before</a>
-            </li>
-            <li ng-click="ctrl.insertWidgetAfterSelected()">
-              <a>after</a>
-            </li>
-            <li ng-click="ctrl.insertWidget()">
-              <a>right</a>
-            </li>
-          </ul>
-          <button type="button" class="btn btn-default"
-                  ng-click="ctrl.moveWidgetToPreviousContainer()">
-            <span class="glyphicon glyphicon-arrow-up"></span>
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-click="ctrl.moveWidgetToNext()">
-            <span class="glyphicon glyphicon-arrow-right"></span>
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-click="ctrl.moveWidgetToPrevious()">
-            <span class="glyphicon glyphicon-arrow-left"></span>
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-click="ctrl.moveWidgetToNextContainer()">
-            <span class="glyphicon glyphicon-arrow-down"></span>
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-hide="ctrl.dashboard.selectedWidget.model.datasource.custom_query"
-                  ng-click="ctrl.explorer.viewSql(true)">
-            View SQL
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-show="ctrl.dashboard.selectedWidget.model.datasource.custom_query"
-                  ng-click="ctrl.explorer.viewSql(false)">
-            Edit SQL
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-show="ctrl.dashboard.selectedWidget && ctrl.dashboard.selectedWidget.model.datasource.custom_query"
-                  ng-click="ctrl.explorer.restoreBuilder()">
-            Use SQL Builder
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-click="ctrl.explorer.editJson()">
-            Edit JSON
-          </button>
-          <button type="button" class="btn btn-default"
-                  ng-click="ctrl.removeSelectedWidget()">Delete</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="pk-toolbar-section"
-        ng-show="ctrl.errorService.errors.length > 0 &&
-                 !(ctrl.explorer.model.code_editor.isOpen &&
-                   ctrl.explorer.model.code_editor.selectedMode == 'LOG')">
-      <button type="button" class="btn btn-default"
-          ng-click="ctrl.explorer.showLog()">
-        Show {{ ctrl.errorService.errors.length }} warning<span ng-show="ctrl.errorService.errors.length != 1">s</span>
-      </button>
-    </div>
   </div>
+
 </div>

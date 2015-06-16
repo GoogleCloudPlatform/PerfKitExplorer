@@ -107,6 +107,82 @@ ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
 };
 
 
+  /**
+   * Adds a WARNING to the errors list, optionally replacing an existing one.
+   *
+   * If the opt_error_id flag is specified, then if an error with that ID can
+   * be found, it will be replaced.  Otherwise, a new error will be added.
+   *
+   * @param {!string} text The text to display.
+   * @param {?string=} opt_errorId The ID of the error message.  It will replace
+   *     an error with the same ID.  If not provided, the error is added to the
+   *     list unconditionally.
+   * @return {ErrorModel} A new or existing ErrorModel.
+   * @export
+   */
+
+ErrorService.prototype.addWarning = function(text, opt_errorId) {
+  return this.addError(ErrorTypes.WARNING, text, opt_errorId);
+};
+
+
+  /**
+   * Adds an INFO to the errors list, optionally replacing an existing one.
+   *
+   * If the opt_error_id flag is specified, then if an error with that ID can
+   * be found, it will be replaced.  Otherwise, a new error will be added.
+   *
+   * @param {!string} text The text to display.
+   * @param {?string=} opt_errorId The ID of the error message.  It will replace
+   *     an error with the same ID.  If not provided, the error is added to the
+   *     list unconditionally.
+   * @return {ErrorModel} A new or existing ErrorModel.
+   * @export
+   */
+
+  ErrorService.prototype.addInfo = function(text, opt_errorId) {
+    return this.addError(ErrorTypes.INFO, text, opt_errorId);
+  };
+
+
+  /**
+   * Adds a SUCCESS to the errors list, optionally replacing an existing one.
+   *
+   * If the opt_error_id flag is specified, then if an error with that ID can
+   * be found, it will be replaced.  Otherwise, a new error will be added.
+   *
+   * @param {!string} text The text to display.
+   * @param {?string=} opt_errorId The ID of the error message.  It will replace
+   *     an error with the same ID.  If not provided, the error is added to the
+   *     list unconditionally.
+   * @return {ErrorModel} A new or existing ErrorModel.
+   * @export
+   */
+
+  ErrorService.prototype.addSuccess = function(text, opt_errorId) {
+    return this.addError(ErrorTypes.SUCCESS, text, opt_errorId);
+  };
+
+
+  /**
+   * Adds a DANGER to the errors list, optionally replacing an existing one.
+   *
+   * If the opt_error_id flag is specified, then if an error with that ID can
+   * be found, it will be replaced.  Otherwise, a new error will be added.
+   *
+   * @param {!string} text The text to display.
+   * @param {?string=} opt_errorId The ID of the error message.  It will replace
+   *     an error with the same ID.  If not provided, the error is added to the
+   *     list unconditionally.
+   * @return {ErrorModel} A new or existing ErrorModel.
+   * @export
+   */
+
+  ErrorService.prototype.addDanger = function(text, opt_errorId) {
+    return this.addError(ErrorTypes.DANGER, text, opt_errorId);
+  };
+
+
 /**
  * Removes all errors.
  * @export

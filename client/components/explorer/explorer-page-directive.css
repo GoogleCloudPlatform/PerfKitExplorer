@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 * {
@@ -32,12 +33,6 @@ div:focus {
   cursor: row-resize;
   flex-shrink: 0;
   height: 5px;
-}
-
-.pk-page-header {
-  height: 93px;
-  background-color: rgb(241, 241, 241);
-  flex-shrink: 0;
 }
 
 .pk-page-leftwell {

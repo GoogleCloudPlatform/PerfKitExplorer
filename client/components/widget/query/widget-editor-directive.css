@@ -1,7 +1,46 @@
 .pk-page-footer {
-  background-color: rgb(241, 241, 241);
-  border-top: 1px solid rgb(229, 229, 229);
   overflow: hidden;
+}
+
+.pk-footer-toolbar {
+  background-color: #455a64; /** Blue Grey 700 */
+  color: #fafafa; /** grey: 50 */
+  flex-shrink: 0;
+  padding: 4px;
+}
+
+.pk-footer-toolbar .btn {
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: #fafafa; /** grey: 50 */
+  margin-right: 4px;
+  padding: 4px;
+}
+
+.pk-footer-toolbar .btn:hover {
+  background-color: #546E7A; /** Blue Grey 600 */
+}
+
+.pk-footer-toolbar .btn.active {
+  background-color: #78909C; /** Blue Grey 400 */
+  border: 1px solid transparent;
+  color: #fafafa; /** grey: 50 */
+}
+
+.pk-footer-actions {
+  float: right;
+}
+
+.pk-footer-actions .pk-glyph-button {
+  padding: 2px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.pk-footer-actions .pk-glyph-button:hover {
+  background-color: #546E7A; /** Blue Grey 600 */
+  color: #fafafa; /** grey: 50 */
+  text-decoration: none;
 }
 
 .pk-footer-open {
@@ -10,24 +49,8 @@
   -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
 }
 
-.pk-footer-toolbar {
-  flex-shrink: 0;
-  height: 48px;
-  padding: 4px;
-}
-
-.pk-footer-toolbar-cell {
-  padding-left: 6px;
-  vertical-align: middle;
-}
-
 .pk-footer-body {
   overflow: auto;
-}
-
-.pk-footer-close-button {
-  float: right;
-  margin-right: 5px;
 }
 
 .CodeMirror {

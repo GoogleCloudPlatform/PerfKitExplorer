@@ -462,10 +462,11 @@ DashboardService.prototype.restoreBuilder = function(widget) {
  * if needed.
  *
  * @param {!ContainerWidgetConfig} container
+ * @return {!WidgetConfig} widget
  * @export
  */
 DashboardService.prototype.addWidget = function(container) {
-  this.addWidgetAt(container);
+  return this.addWidgetAt(container);
 };
 
 
@@ -509,6 +510,7 @@ DashboardService.prototype.addWidgetBefore = function(container, widget) {
  *
  * @param {!ContainerWidgetConfig} container
  * @param {?number=} opt_index
+ * @return {!WidgetConfig}
  * @export
  */
 DashboardService.prototype.addWidgetAt = function(container, opt_index) {
@@ -542,6 +544,8 @@ DashboardService.prototype.addWidgetAt = function(container, opt_index) {
   widget.state().parent = container;
 
   this.selectWidget(widget, container);
+
+  return widget;
 };
 
 
@@ -605,12 +609,14 @@ DashboardService.prototype.moveWidgetToContainer = function(
 /**
  * Adds a new container with one new widget and select it.
  *
+ * @return {!ContainerWidgetConfig}
  * @export
  */
 DashboardService.prototype.addContainer = function() {
   var container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
   this.widgets.push(container);
+  return container;
 };
 
 
@@ -618,12 +624,14 @@ DashboardService.prototype.addContainer = function() {
  * Adds a new container with one new widget and select it.
  *
  * @param {number} index
+ * @return {!ContainerWidgetConfig}
  * @export
  */
 DashboardService.prototype.addContainerAt = function(index) {
   var container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
   goog.array.insertAt(this.widgets, container, index);
+  return container;
 };
 
 
