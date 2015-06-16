@@ -68,12 +68,12 @@ goog.scope(function() {
 
         // TODO: Replace implementation with a ui-router change.
         /**
-         * Opens the selected dashboard.
+         * Opens the provided dashboard.
          * @export
          */
-        this.openDashboard = function() {
+        this.openDashboard = function(dashboard) {
           $window.location =
-              '/explore?dashboard=' + this.dashboardSvc.current.id;
+              '/explore?dashboard=' + dashboard.id;
         };
 
         // TODO: Replace implementation with a ui-router change.

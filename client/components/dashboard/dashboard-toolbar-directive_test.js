@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardToolbarDirecti
 
 describe('DashboardToolbarDirective', function() {
   var scope, $compile, $timeout, uiConfig;
-  var dashboardService;
+  var dashboardService, explorerService;
 
   const explorer = p3rf.perfkit.explorer;
 
@@ -31,12 +31,14 @@ describe('DashboardToolbarDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(
-      _$rootScope_, _$compile_, _$timeout_, _dashboardService_) {
+      _$rootScope_, _$compile_, _$timeout_,
+      _dashboardService_, _explorerService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
 
     dashboardService = _dashboardService_;
+    explorerService = _explorerService_;
   }));
 
   describe('compilation', function() {
@@ -85,6 +87,22 @@ describe('DashboardToolbarDirective', function() {
       var targetElement = actualElement.find(
           'ul.dashboard-open-dropdown');
       expect(targetElement.length).toBe(1);
+    });
+
+    it('open a dashboard', function() {
+      explorerService.model.dashboards = [
+        {id: '1'}
+      ];
+      scope.$digest();
+
+      var targetElement = actualElement.find(
+          'ul.dashboard-open-dropdown li:not(.divider, .dashboard-open-admin)');
+      expect(targetElement.length).toBe(1);
+
+      spyOn(actualController, 'openDashboard');
+      targetElement.click();
+      expect(actualController.openDashboard).toHaveBeenCalledWith(
+          explorerService.model.dashboards[0]);
     });
 
     it('open the dashboard admin page', function() {

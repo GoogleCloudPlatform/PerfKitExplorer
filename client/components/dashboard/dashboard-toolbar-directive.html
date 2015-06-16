@@ -15,7 +15,7 @@
       </li>
       <li class="divider"></li>
       <li ng-repeat="dashboard in ctrl.explorerSvc.model.dashboards"
-          ng-click="ctrl.openDashboard()">
+          ng-click="ctrl.openDashboard(dashboard)">
         <a>{{ dashboard.title }}</a>
       </li>
     </ul>
