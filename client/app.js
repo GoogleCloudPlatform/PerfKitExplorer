@@ -42,6 +42,7 @@ goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerRouterConfig');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarDirective');
@@ -136,6 +137,8 @@ explorer.application.module.filter('getByProperty',
 /**
  * Register all services.
  */
+explorer.application.module.service('explorerStateService',
+    explorer.components.explorer.ExplorerStateService);
 explorer.application.module.service('arrayUtilService',
     explorer.components.util.ArrayUtilService);
 explorer.application.module.service('explorerService',
