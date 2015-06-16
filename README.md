@@ -67,6 +67,12 @@ Set up your workstation
 
          npm install
 
+1. Install Bower and the Bower packages for client-side dependencies, this will
+    create a bower_components directory in the project.
+
+         npm install -g bower
+         bower install
+
 
 Create the App Engine project
 =============================

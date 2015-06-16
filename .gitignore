@@ -7,8 +7,9 @@ __pycache__/
 # Deployment folder.
 deploy/
 
-# Node Packages folder.
+# Packages folders.
 node_modules/
+bower_components/
 
 # C extensions
 *.so
