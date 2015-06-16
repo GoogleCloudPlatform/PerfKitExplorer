@@ -25,29 +25,50 @@ gulp.task('third_party', function() {
   gulp.src('third_party/py/**/*.*')
     .pipe(gulp.dest('deploy/server/third_party'));
 
-  gulp.src('node_modules/angular/angular.min.*')
+  gulp.src('bower_components/jquery/dist/jquery.min.*')
+      .pipe(gulp.dest('deploy/client/third_party/jquery'));
+
+  /** Angular */
+  gulp.src('bower_components/angular/angular.min.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('node_modules/angular-animate/angular-animate.min.*')
+  gulp.src('bower_components/angular-animate/angular-animate.min.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('node_modules/angular-aria/angular-aria.min.*')
+  gulp.src('bower_components/angular-aria/angular-aria.min.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('node_modules/angular-mocks/angular-mocks.*')
+  gulp.src('bower_components/angular-mocks/angular-mocks.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('node_modules/angular-material/angular-material.min.*')
+  gulp.src('bower_components/angular-material/angular-material.min.*')
     .pipe(gulp.dest('deploy/client/third_party/angular-material'));
 
-  gulp.src('node_modules/angular-ui-router/release/angular-ui-router.min.js')
-    .pipe(gulp.dest('deploy/client/third_party/angular-ui-router'));
+  /** Angular UI */
+  gulp.src('bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
+      .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui'));
 
-  gulp.src('node_modules/jquery/dist/jquery.min.*')
-    .pipe(gulp.dest('deploy/client/third_party/jquery'));
+  gulp.src('bower_components/bootstrap-bower/css/bootstrap.min.css')
+      .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui/css'));
 
-  gulp.src('third_party/js/uiGrid/ui-grid.*')
-    .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+  gulp.src('bower_components/bootstrap-bower/fonts/*.*')
+      .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui/fonts'));
+
+  gulp.src('bower_components/angular-ui-router/release/angular-ui-router.min.js')
+      .pipe(gulp.dest('deploy/client/third_party/angular-ui-router'));
+
+  gulp.src('bower_components/angular-ui-grid/ui-grid.*')
+      .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+
+  /** CodeMirror */
+  gulp.src('bower_components/codemirror/lib/codemirror.*')
+      .pipe(gulp.dest('deploy/client/third_party/codemirror'));
+
+  gulp.src('bower_components/codemirror/mode/javascript/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/codemirror/mode/javascript'));
+
+  gulp.src('bower_components/codemirror/mode/sql/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/codemirror/mode/sql'));
 });
 
 gulp.task('common', ['third_party'], function() {
