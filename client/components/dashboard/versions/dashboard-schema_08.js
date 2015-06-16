@@ -49,7 +49,7 @@ goog.scope(function() {
       }
       
       if (goog.isDef(widget.chart.options.legend)) {
-        return goog.isString(widget.chart.options.legend);
+        return goog.isObject(widget.chart.options.legend);
       }
 
       return true;
