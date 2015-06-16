@@ -41,6 +41,7 @@ goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerRouterConfig');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarDirective');
@@ -89,7 +90,7 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 var requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
-  'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
+  'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
   'p3rf.perfkit.explorer.templates',
   explorer.mocks.application.module.name];
 
@@ -112,6 +113,10 @@ explorer.application.module.config(
       // See http://docs.angularjs.org/guide/dev_guide.services.$location
       $locationProvider.html5Mode(true).hashPrefix('!');
     }]);
+
+
+explorer.application.module.config(
+    explorer.components.explorer.ExplorerRouterConfig);
 
 
 if (useMockData) {
