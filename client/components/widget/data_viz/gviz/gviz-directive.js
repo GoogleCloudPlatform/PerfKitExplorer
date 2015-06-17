@@ -122,7 +122,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_SAFE_MODE;
         }
         else if (scope.widgetConfig.queryError) {
-          message = scope.widgetConfig.queryError;
+          message = 'query error: ' + scope.widgetConfig.queryError;
         }
         else if (scope.widgetConfig.state().datasource.status ===
                  ResultsDataStatus.NODATA) {
@@ -132,7 +132,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_NO_CHART_CONFIGURATION;
         }
         else if (scope.widgetConfig.state().chart.gvizError) {
-          message = scope.widgetConfig.state().chart.gvizError.message;
+          message = 'chart error: ' +
+              scope.widgetConfig.state().chart.gvizError.message;
         }
         scope.widgetConfig.state().chart.error = message;
         return message;

@@ -1,11 +1,10 @@
 <div>
-  <div class="pk-chart" ng-show="isDataFetched()"
-       ng-class="{'pk-chart-hidden': config.$$state.chartError}">
+  <div class="pk-chart"
+       ng-show="isDataFetched() && !widgetConfig.state().chart.error">
   </div>
-  <div class="pk-chart-error" ng-show="config.$$state.chartError">
-    <div ng-hide="isDataFetching()">
-      {{config.$$state.chartError}}
-    </div>
+  <div class="pk-chart-error"
+       ng-show="widgetConfig.state().chart.error && !isDataFetching()">
+    {{ widgetConfig.state().chart.error }}
   </div>
   <div class="spinner" ng-show="isDataFetching()"></div>
 </div>
