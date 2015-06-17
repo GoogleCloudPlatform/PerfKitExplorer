@@ -100,7 +100,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
       {name: 'title', displayName: 'Title',
         cellTemplate:
             '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
-            '    <a ng-click="getExternalScopes().openDashboard(row.entity)">' +
+            '    <a ng-click="$event.stopPropagation(); grid.appScope.openDashboard(row.entity)">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
       {name: 'owner', displayName: 'Owner', width: 240},
@@ -108,12 +108,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
     ]
   };
 
-  var self = this;
-  $scope.gridScope = {
-    openDashboard: function(dashboard) {
-      self.openDashboard(dashboard);
-    }
-  };
+  $scope.openDashboard = this.openDashboard;
 
   this.gridOptions.onRegisterApi = angular.bind(this, function(gridApi) {
     this.pageService.selection = gridApi.selection;
