@@ -85,13 +85,35 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       chartWrapper.setContainerId(element[0].children[0]);
 
       scope.isDataFetching = function() {
-        return scope.widgetConfig.state().datasource.status ==
-               ResultsDataStatus.FETCHING;
+        return scope.widgetConfig.state().datasource.status ===
+            ResultsDataStatus.FETCHING;
       };
 
       scope.isDataFetched = function() {
-        return scope.widgetConfig.state().datasource.status ==
-               ResultsDataStatus.FETCHED;
+        return scope.widgetConfig.state().datasource.status ===
+            ResultsDataStatus.FETCHED;
+      };
+
+      scope.isLoadingDisplayed = function() {
+        var widgetState = scope.widgetConfig.state();
+        return (
+            widgetState.datasource.status === ResultsDataStatus.FETCHING ||
+            widgetState.datasource.status === ResultsDataStatus.TOFETCH);
+      };
+
+      scope.isChartDisplayed = function() {
+        var widgetState = scope.widgetConfig.state();
+        return (
+            widgetState.datasource.status === ResultsDataStatus.FETCHED &&
+            !widgetState.chart.error);
+      };
+
+      scope.isErrorDisplayed = function() {
+        var widgetState = scope.widgetConfig.state();
+
+        return (
+            widgetState.datasource.status !== ResultsDataStatus.FETCHING &&
+            widgetState.chart.error);
       };
 
       var isHeightEnforced = function() {

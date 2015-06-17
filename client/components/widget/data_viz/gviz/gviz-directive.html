@@ -1,10 +1,14 @@
 <div>
   <div class="pk-chart"
-       ng-show="isDataFetched() && !widgetConfig.state().chart.error">
+       ng-show="isChartDisplayed()">
+  </div>
+  <div layout="row" layout-sm="column" layout-align="space-around"
+       class="pk-chart-loading md-primary md-hue-3"
+       ng-show="isLoadingDisplayed()">
+    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
   </div>
   <div class="pk-chart-error"
-       ng-show="widgetConfig.state().chart.error && !isDataFetching()">
+       ng-show="isErrorDisplayed()">
     {{ widgetConfig.state().chart.error }}
   </div>
-  <div class="spinner" ng-show="isDataFetching()"></div>
 </div>
