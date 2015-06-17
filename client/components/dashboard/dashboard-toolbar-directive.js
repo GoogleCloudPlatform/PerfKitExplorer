@@ -112,7 +112,7 @@ goog.scope(function() {
          */
         this.deleteDashboard = function() {
           goog.asserts.assert(
-              this.dashboard.current.model.id,
+              this.dashboardSvc.current.model.id,
               'deleteDashboard failed: No id set.');
 
           if (!$window.confirm(
@@ -120,8 +120,8 @@ goog.scope(function() {
             return;
           }
 
-          let promise = this.dashboard.deleteDashboard(
-              this.dashboard.current.model);
+          let promise = this.dashboardSvc.deleteDashboard(
+              this.dashboardSvc.current.model);
 
           promise.then(angular.bind(this, function(response) {
             this.openDashboardAdmin();
