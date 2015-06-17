@@ -46,8 +46,18 @@ gulp.task('third_party', function() {
   gulp.src('node_modules/jquery/dist/jquery.min.*')
     .pipe(gulp.dest('deploy/client/third_party/jquery'));
 
-  gulp.src('third_party/js/uiGrid/ui-grid.*')
-    .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+  gulp.src('bower_components/angular-ui-grid/ui-grid.*')
+      .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+
+  /** CodeMirror */
+  gulp.src('bower_components/codemirror/lib/codemirror.*')
+      .pipe(gulp.dest('deploy/client/third_party/codemirror'));
+
+  gulp.src('bower_components/codemirror/mode/javascript/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/codemirror/mode/javascript'));
+
+  gulp.src('bower_components/codemirror/mode/sql/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/codemirror/mode/sql'));
 });
 
 gulp.task('common', ['third_party'], function() {
