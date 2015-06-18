@@ -85,13 +85,35 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       chartWrapper.setContainerId(element[0].children[0]);
 
       scope.isDataFetching = function() {
-        return scope.widgetConfig.state().datasource.status ==
-               ResultsDataStatus.FETCHING;
+        return scope.widgetConfig.state().datasource.status ===
+            ResultsDataStatus.FETCHING;
       };
 
       scope.isDataFetched = function() {
-        return scope.widgetConfig.state().datasource.status ==
-               ResultsDataStatus.FETCHED;
+        return scope.widgetConfig.state().datasource.status ===
+            ResultsDataStatus.FETCHED;
+      };
+
+      scope.isLoadingDisplayed = function() {
+        var widgetState = scope.widgetConfig.state();
+        return (
+            widgetState.datasource.status === ResultsDataStatus.FETCHING ||
+            widgetState.datasource.status === ResultsDataStatus.TOFETCH);
+      };
+
+      scope.isChartDisplayed = function() {
+        var widgetState = scope.widgetConfig.state();
+        return (
+            widgetState.datasource.status === ResultsDataStatus.FETCHED &&
+            !widgetState.chart.error);
+      };
+
+      scope.isErrorDisplayed = function() {
+        var widgetState = scope.widgetConfig.state();
+
+        return (
+            widgetState.datasource.status !== ResultsDataStatus.FETCHING &&
+            widgetState.chart.error);
       };
 
       var isHeightEnforced = function() {
@@ -122,7 +144,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_SAFE_MODE;
         }
         else if (scope.widgetConfig.queryError) {
-          message = scope.widgetConfig.queryError;
+          message = 'query error: ' + scope.widgetConfig.queryError;
         }
         else if (scope.widgetConfig.state().datasource.status ===
                  ResultsDataStatus.NODATA) {
@@ -132,7 +154,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_NO_CHART_CONFIGURATION;
         }
         else if (scope.widgetConfig.state().chart.gvizError) {
-          message = scope.widgetConfig.state().chart.gvizError.message;
+          message = 'chart error: ' +
+              scope.widgetConfig.state().chart.gvizError.message;
         }
         scope.widgetConfig.state().chart.error = message;
         return message;
