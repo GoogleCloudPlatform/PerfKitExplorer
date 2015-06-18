@@ -107,7 +107,7 @@ goog.scope(function() {
          * @export
          */
         this.downloadDashboard = function() {
-          var selectedDashboard = this.dashboardSvc.current.model;
+          let selectedDashboard = this.dashboardSvc.current.model;
 
           $window.open(
               '/dashboard/view?id=' + selectedDashboard.id +
@@ -128,7 +128,7 @@ goog.scope(function() {
             return;
           }
 
-          var promise = this.dashboardSvc.deleteDashboard(
+          let promise = this.dashboardSvc.deleteDashboard(
               this.dashboardSvc.current.model);
 
           promise.then(angular.bind(this, function(response) {
@@ -136,7 +136,6 @@ goog.scope(function() {
           }));
 
           promise.then(null, angular.bind(this, function(error) {
-            console.log('failed');
             this.errorSvc.addDanger(error.message);
           }));
         };
