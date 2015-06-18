@@ -17,5 +17,8 @@
   },
   "preferGlobal": true,
   "private": true,
-  "license": "Apache2"
+  "license": "Apache2",
+  "resolutions": {
+    "angular": "~1.4.1"
+  }
 }
