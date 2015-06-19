@@ -38,13 +38,12 @@ goog.scope(function() {
    * @ngInject
    */
   explorer.components.explorer.ExplorerRouterConfig = function(
-      $stateProvider) {
+      $stateProvider, $urlRouterProvider) {
+//    $urlRouterProvider.when('/explore', '/explore?dashboard');
+
     $stateProvider.state('explorer-dashboard-edit', {
-      url: '/explore?' + EXPLORER_PARAMS.join('?'),
-      template: '<explorer-page></explorer-page>',
-      controller: ['$state', function($state) {
-        console.log($state.params);
-      }]
+      url: '/explore?' + EXPLORER_PARAMS.join('&'),
+      template: '<explorer-page></explorer-page>'
     });
   };
 

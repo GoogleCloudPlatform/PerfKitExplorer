@@ -81,7 +81,11 @@ explorer.components.explorer.ExplorerCtrl = function(
 
   $scope.$watch(
       angular.bind(this, function() {
-        return this.dashboard.current.model.owner;
+        if (!goog.isDefAndNotNull(this.dashboard.current)) {
+          return null;
+        } else {
+          return this.dashboard.current.model.owner;
+        }
       }),
       angular.bind(this, function(owner) {
         if (!this.explorer.model.readOnly == null) {

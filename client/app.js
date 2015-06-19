@@ -111,18 +111,13 @@ if (useMockData) {
 explorer.application.module = angular.module('explorer', requiredModules);
 
 explorer.application.module.config(
-    explorer.components.explorer.ExplorerRouterConfig);
-
-explorer.application.module.config(
     ['$locationProvider', function($locationProvider) {
       // See http://docs.angularjs.org/guide/dev_guide.services.$location
       $locationProvider.html5Mode(true).hashPrefix('!');
     }]);
 
-
 explorer.application.module.config(
     explorer.components.explorer.ExplorerRouterConfig);
-
 
 if (useMockData) {
   explorer.mocks.addMocks(explorer.application.module);

@@ -106,6 +106,14 @@ explorer.components.explorer.ExplorerStateModel = function(
 };
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
 
+/**
+ * Clears the selection and items from the list.
+ * @export
+ */
+ExplorerStateModel.prototype.clear = function() {
+  this.selectedId = null;
+  this.all = {};
+};
 
 /**
  * Adds an item to the all dictionary, using the id as the key.
