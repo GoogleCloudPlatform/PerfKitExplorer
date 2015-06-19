@@ -44,7 +44,7 @@ describe('QueryBuilderColumnConfigDirective', function() {
     dashboardSvc = _dashboardService_;
     dashboardSvc.addContainer();
     dashboardSvc.selectedWidget = (
-      dashboardSvc.widgets[0].model.container.children[0]);
+      dashboardSvc.containers[0].model.container.children[0]);
   }));
 
   describe('compilation', function() {

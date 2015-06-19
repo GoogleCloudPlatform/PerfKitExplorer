@@ -117,7 +117,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   this.current = this.initializeDashboard_();
 
   /** @export {!Array.<WidgetConfig>} */
-  this.widgets = this.current.model.children;
+  this.containers = this.current.model.children;
 
   /** @export {WidgetConfig} */
   this.selectedWidget = null;
@@ -273,10 +273,10 @@ DashboardService.prototype.saveDashboardCopy = function() {
 DashboardService.prototype.setDashboard = function(dashboardConfig) {
   this.current = dashboardConfig;
   if (dashboardConfig) {
-    this.widgets = dashboardConfig.model.children;
+    this.containers = dashboardConfig.model.children;
     this.initializeParams_();
   } else {
-    this.widgets = [];
+    this.containers = [];
   }
 };
 
@@ -615,7 +615,7 @@ DashboardService.prototype.moveWidgetToContainer = function(
 DashboardService.prototype.addContainer = function() {
   var container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
-  this.widgets.push(container);
+  this.containers.push(container);
   return container;
 };
 
@@ -630,7 +630,7 @@ DashboardService.prototype.addContainer = function() {
 DashboardService.prototype.addContainerAt = function(index) {
   var container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
-  goog.array.insertAt(this.widgets, container, index);
+  goog.array.insertAt(this.containers, container, index);
   return container;
 };
 
@@ -644,8 +644,8 @@ DashboardService.prototype.addContainerAt = function(index) {
 DashboardService.prototype.removeContainer = function(container) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
-  var index = this.widgets.indexOf(container);
-  this.widgets.splice(index, 1);
+  var index = this.containers.indexOf(container);
+  this.containers.splice(index, 1);
   this.unselectWidget();
 };
 
@@ -748,18 +748,18 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
   var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var containerIndex = this.widgets.indexOf(container);
+  var containerIndex = this.containers.indexOf(container);
   var targetContainer = null;
 
   if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
-      goog.array.insertAt(this.widgets, targetContainer, 0);
+      goog.array.insertAt(this.containers, targetContainer, 0);
     }
   } else {
     targetContainer = /** @type {ContainerWidgetConfig} */ (
-        this.widgets[containerIndex - 1]);
+        this.containers[containerIndex - 1]);
   }
 
   if (targetContainer) {
@@ -783,19 +783,19 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
   var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var containerIndex = this.widgets.indexOf(container);
+  var containerIndex = this.containers.indexOf(container);
   var index = container.model.container.children.indexOf(widget);
   var targetContainer = null;
 
-  if (containerIndex === (this.widgets.length - 1)) {
+  if (containerIndex === (this.containers.length - 1)) {
     if (container.model.container.children.length > 1) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
-      this.widgets.push(targetContainer);
+      this.containers.push(targetContainer);
     }
   } else {
     targetContainer = /** @type {ContainerWidgetConfig} */ (
-        this.widgets[containerIndex + 1]);
+        this.containers[containerIndex + 1]);
   }
 
   if (targetContainer) {

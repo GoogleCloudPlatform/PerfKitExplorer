@@ -75,12 +75,12 @@ describe('DashboardCtrl', function() {
     it('should by default create a new container with one widget.',
         function() {
           ctrlPrototype.initDashboard.and.callThrough();
-          expect(ctrl.dashboard.widgets.length).toEqual(0);
+          expect(ctrl.dashboard.containers.length).toEqual(0);
 
           ctrl.initDashboard();
 
-          expect(ctrl.dashboard.widgets.length).toEqual(1);
-          expect(ctrl.dashboard.widgets[0].model.container.children.length).
+          expect(ctrl.dashboard.containers.length).toEqual(1);
+          expect(ctrl.dashboard.containers[0].model.container.children.length).
               toEqual(1);
         }
     );
@@ -103,13 +103,13 @@ describe('DashboardCtrl', function() {
 
     it('should fetch a dashboard and put it and its children in the scope.',
         function() {
-          expect(ctrl.dashboard.widgets.length).toEqual(0);
+          expect(ctrl.dashboard.containers.length).toEqual(0);
 
           ctrl.fetchDashboard('fakeId');
           httpBackend.flush();
 
           var mockDashboard = mockData()[1];
-          expect(ctrl.dashboard.widgets.length).
+          expect(ctrl.dashboard.containers.length).
               toEqual(mockDashboard.children.length);
           expect(ctrl.dashboard.current.model.children.length).
               toEqual(mockDashboard.children.length);
