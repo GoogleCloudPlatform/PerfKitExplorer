@@ -62,7 +62,7 @@ explorer.components.config.ConfigDialogCtrl = function(
   /** @export @type {!Object} */
   this.workingConfig = configService.toJSON();
 };
-var ConfigDialogCtrl = (
+const ConfigDialogCtrl = (
     explorer.components.config.ConfigDialogCtrl);
 
 

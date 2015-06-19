@@ -54,7 +54,7 @@ explorer.components.widget.query.builder.FieldCubeDataService = function($http, 
    */
   this.q_ = $q;
 };
-var FieldCubeDataService = (
+const FieldCubeDataService = (
     explorer.components.widget.query.builder.FieldCubeDataService);
 
 
@@ -84,20 +84,20 @@ FieldCubeDataService.prototype.list = function(field_name, filters) {
  * @return {angular.$q.Promise.<PicklistModel>}
  */
 FieldCubeDataService.prototype.listFields = function(field_name, filters) {
-  var deferred = this.q_.defer();
+  let deferred = this.q_.defer();
 
-  var query_parameters = {
+  let query_parameters = {
     field_name: field_name,
     filters: filters
   };
 
-  var promise = this.http_.get('/data/fields', {
+  let promise = this.http_.get('/data/fields', {
     params: query_parameters,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
   });
 
   promise.then(angular.bind(this, function(response) {
-    var data = response['data']['rows'];
+    let data = response['data']['rows'];
     deferred.resolve(data);
   }));
 
@@ -117,20 +117,20 @@ FieldCubeDataService.prototype.listFields = function(field_name, filters) {
  * @return {angular.$q.Promise.<PicklistModel>}
  */
 FieldCubeDataService.prototype.listMetadata = function(field_name, filters) {
-  var deferred = this.q_.defer();
+  let deferred = this.q_.defer();
 
-  var query_parameters = {
+  let query_parameters = {
     field_name: field_name,
     filters: filters
   };
 
-  var promise = this.http_.get('/data/metadata', {
+  let promise = this.http_.get('/data/metadata', {
     params: query_parameters,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
   });
 
   promise.then(angular.bind(this, function(response) {
-    var data = response['data']['labels'];
+    let data = response['data']['labels'];
     deferred.resolve(data);
   }));
 

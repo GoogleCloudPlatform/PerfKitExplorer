@@ -28,12 +28,12 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersi
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
+  const DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV1 = function() {
     this.version = '1';
   };
-  var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV1;
+  const DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV1;
 
   DashboardSchema.prototype.verify = function(dashboard) {
     if (!goog.isDef(dashboard.type)) { return false; }

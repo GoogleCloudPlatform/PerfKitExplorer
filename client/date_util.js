@@ -23,9 +23,7 @@ goog.require('goog.date.UtcDateTime');
 goog.require('goog.string');
 
 goog.scope(function() {
-
-
-var dateUtil = p3rf.perfkit.explorer.dateUtil;
+const dateUtil = p3rf.perfkit.explorer.dateUtil;
 
 
 /**
@@ -49,7 +47,7 @@ dateUtil.BQ_FIRST_DAY_OF_WEEK = 0;
  */
 dateUtil.getUTCSecondsFromDate = function(value) {
   if (value) {
-    var utc_date = new goog.date.UtcDateTime(
+    let utc_date = new goog.date.UtcDateTime(
         value.getFullYear(), value.getMonth(), value.getDate());
     return utc_date.getTime() / 1000;
   } else {
@@ -81,8 +79,8 @@ dateUtil.getUTCSecondsFromDatePicker = function(picker) {
  */
 dateUtil.getLastUTCSecondFromDate = function(value) {
   if (value) {
-    var DAY_SECONDS = 86400;
-    var timestamp = (
+    let DAY_SECONDS = 86400;
+    let timestamp = (
         dateUtil.getUTCSecondsFromDate(value) +
         DAY_SECONDS - 1);
     return timestamp;
@@ -103,8 +101,8 @@ dateUtil.getLastUTCSecondFromDate = function(value) {
  */
 dateUtil.getLastUTCSecondFromDatePicker = function(picker) {
   if (picker.getDate()) {
-    var DAY_SECONDS = 86400;
-    var timestamp = (
+    let DAY_SECONDS = 86400;
+    let timestamp = (
         dateUtil.getUTCSecondsFromDatePicker(picker) +
         DAY_SECONDS - 1);
     return timestamp;

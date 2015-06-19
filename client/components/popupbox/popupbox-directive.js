@@ -88,8 +88,8 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       popupboxState: '='
     },
     link: function(scope, element, attrs) {
-      var input = element;
-      var popup = input.children()[0];
+      let input = element;
+      let popup = input.children()[0];
 
       scope.$watch('popupboxData',
           function(newVal, oldVal) {
@@ -126,7 +126,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
        * @param {Event} evt The event handler for the blur event.
        */
       scope.blurInput = function(evt) {
-        var relatedTarget = /** @type {?Node} */ (evt.relatedTarget);
+        let relatedTarget = /** @type {?Node} */ (evt.relatedTarget);
 
         if (relatedTarget && popup &&
                 goog.dom.contains(popup, relatedTarget)) {
@@ -185,7 +185,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
           $timeout(function() {
             goog.style.setElementShown(popup, true);
 
-            var Overflow = goog.positioning.Overflow;
+            const Overflow = goog.positioning.Overflow;
             goog.positioning.positionAtAnchor(
                 input[0], goog.positioning.Corner.TOP_RIGHT,
                 popup, goog.positioning.Corner.TOP_LEFT,

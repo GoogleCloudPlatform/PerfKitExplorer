@@ -35,7 +35,7 @@ const explorer = p3rf.perfkit.explorer;
  */
 explorer.components.util.GetByPropertyFilter = function(
     property_name, property_value, collection) {
-  for (var i = 0, len = collection.length; i < len; i++) {
+  for (let i = 0, len = collection.length; i < len; i++) {
     if (collection[i][property_name] === property_value) {
       return collection[i];
     }

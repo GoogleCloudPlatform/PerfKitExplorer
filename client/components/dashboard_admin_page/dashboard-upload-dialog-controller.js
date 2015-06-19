@@ -79,7 +79,7 @@ explorer.components.dashboard_admin_page.FileUploadDialogCtrl = function(
       angular.bind(this, function() { return this.filename; }),
       angular.bind(this, this.changeFilename));
 };
-var FileUploadDialogCtrl = (
+const FileUploadDialogCtrl = (
     explorer.components.dashboard_admin_page.FileUploadDialogCtrl);
 
 
@@ -89,11 +89,11 @@ FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
     return;
   }
 
-  var reader = new FileReader();
+  let reader = new FileReader();
 
   reader.onload = angular.bind(this, function(e) {
-    var dashboard_json = reader.result;
-    var dashboard_object = null;
+    let dashboard_json = reader.result;
+    let dashboard_object = null;
 
     try {
       dashboard_object = angular.fromJson(dashboard_json);
@@ -126,7 +126,7 @@ FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
  * @export
  */
 FileUploadDialogCtrl.prototype.ok = function() {
-  var promise = this.dashboardDataService_.create(this.dashboard);
+  let promise = this.dashboardDataService_.create(this.dashboard);
 
   promise.then(angular.bind(this, function(dashboardJsonModel) {
     this.log_.log('Dashboard saved with id:', dashboardJsonModel.id);

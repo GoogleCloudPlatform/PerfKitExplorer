@@ -52,7 +52,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter = function() 
    */
   this.text = '';
 };
-var MetadataFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter;
+const MetadataFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter;
 
 
 /**
@@ -70,7 +70,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType = {
   MINUTE: 'MINUTE',
   SECOND: 'SECOND'
 };
-var DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType;
+const DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType;
 
 
 
@@ -119,7 +119,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter = function(
    */
   this.text = opt_text || opt_filterValue || '';
 };
-var DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
+const DateFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter;
 
 
 
@@ -195,7 +195,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel = (
 
   this.initializeDefaults();
 });
-var QueryFilterModel = (
+const QueryFilterModel = (
     p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel);
 
 
