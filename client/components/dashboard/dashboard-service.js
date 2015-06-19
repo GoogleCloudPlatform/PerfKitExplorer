@@ -79,7 +79,7 @@ const WidgetType = explorer.models.WidgetType;
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     errorService, widgetFactoryService, dashboardDataService,
     queryBuilderService,  dashboardVersionService, configService,
-    $filter, $location, $rootScope, $timeout, $window) {
+    explorerStateService, $filter, $location, $rootScope, $timeout, $window) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -98,6 +98,9 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!ArrayUtilService} */
   this.errorService_ = errorService;
 
+  /** @private {!ExplorerStateService} */
+  this.explorerStateService_ = explorerStateService;
+
   /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
@@ -112,12 +115,6 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @private @type {!angular.Location} */
   this.location_ = $location;
-
-  /** @export {!DashboardConfig} */
-  this.current = this.initializeDashboard_();
-
-  /** @export {!Array.<WidgetConfig>} */
-  this.widgets = this.current.model.children;
 
   /** @export {WidgetConfig} */
   this.selectedWidget = null;
@@ -141,6 +138,24 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 
+  Object.defineProperty(this, 'current', {
+    /** @export {DashboardModel} */
+    get: function() {
+      return explorerStateService.selectedDashboard;
+    }
+  });
+
+  Object.defineProperty(this, 'widgets', {
+    /** @export {!Array.<WidgetConfig>} */
+    get: function() {
+      if (this.current) {
+        return this.current.model.children;
+      } else {
+        return null;
+      }
+    }
+  });
+
   $rootScope.$watch(function() {
     return $location.url();
   },
@@ -157,6 +172,8 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @export {Array.<!ErrorModel>} */
   this.errors = [];
+
+  this.initializeDashboard_();
 };
 var DashboardService = explorer.components.dashboard.DashboardService;
 
@@ -177,9 +194,10 @@ DashboardService.prototype.clearParams = function() {
  */
 DashboardService.prototype.initializeDashboard_ = function() {
   var dashboard = new DashboardConfig();
-  dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
+  dashboard.model.version =
+      this.dashboardVersionService_.currentVersion.version;
 
-  return dashboard;
+  this.explorerStateService_.selectedDashboard = dashboard;
 };
 
 
@@ -271,12 +289,9 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * @export
  */
 DashboardService.prototype.setDashboard = function(dashboardConfig) {
-  this.current = dashboardConfig;
+  this.explorerStateService_.selectedDashboard = dashboardConfig;
   if (dashboardConfig) {
-    this.widgets = dashboardConfig.model.children;
     this.initializeParams_();
-  } else {
-    this.widgets = [];
   }
 };
 
