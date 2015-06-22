@@ -57,6 +57,6 @@ explorer.components.explorer.ExplorerModel = function() {
   /** @export {!boolean} */
   this.dashboardIsLoading = false;
 };
-var ExplorerModel = explorer.components.explorer.ExplorerModel;
+const ExplorerModel = explorer.components.explorer.ExplorerModel;
 
 });  // goog.scope

@@ -106,7 +106,7 @@ explorer.components.explorer.ExplorerCtrl = function(
 
   this.initExplorer();
 };
-var ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
+const ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
 
 
 /**

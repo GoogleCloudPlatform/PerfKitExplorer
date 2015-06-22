@@ -64,6 +64,6 @@ explorer.components.dashboard.DashboardVersionModel = function(
    */
   this.update = opt_update || null;
 };
-var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
+const DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 
 });  // goog.scope

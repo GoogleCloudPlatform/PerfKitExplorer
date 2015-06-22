@@ -49,7 +49,7 @@ explorer.components.query_builder.Aggregation = {
   SUM: 'sum',
   VARIANCE: 'variance'
 };
-var Aggregation = explorer.components.query_builder.Aggregation;
+const Aggregation = explorer.components.query_builder.Aggregation;
 
 
 

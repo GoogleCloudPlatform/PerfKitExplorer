@@ -95,7 +95,7 @@ explorer.components.dashboard.DashboardVersionService = function($filter) {
    */
   this.filter_ = $filter;
 };
-var DashboardVersionService =
+const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
 
 
@@ -105,7 +105,7 @@ var DashboardVersionService =
  * @export
  */
 DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
-  var version = this.getDashboardVersion(dashboard);
+  let version = this.getDashboardVersion(dashboard);
 
   // If the version is not current, run the update script to bring the version
   // current.
@@ -114,11 +114,11 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
       dashboard.version = version.version;
     }
   } else {
-    var dashboard_version_index = this.versions.indexOf(version);
-    var current_version_index = this.versions.indexOf(this.currentVersion);
+    let dashboard_version_index = this.versions.indexOf(version);
+    let current_version_index = this.versions.indexOf(this.currentVersion);
 
-    for (var i = dashboard_version_index - 1; i >= current_version_index; --i) {
-      var update_version = this.versions[i];
+    for (let i = dashboard_version_index - 1; i >= current_version_index; --i) {
+      let update_version = this.versions[i];
       update_version.update(dashboard);
       dashboard.version = update_version.version;
     }
@@ -136,7 +136,7 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
  * @export
  */
 DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
-  var version = null;
+  let version = null;
 
   // If a version # if provided, use it to validate.
   if (goog.isDef(dashboard.version) && dashboard.version !== '') {
@@ -158,7 +158,7 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
       }
     }
   }
-  for (var i = 0, len = this.versions.length; i < len; ++i) {
+  for (let i = 0, len = this.versions.length; i < len; ++i) {
     version = this.versions[i];
     try {
       if (version.verify(dashboard)) {

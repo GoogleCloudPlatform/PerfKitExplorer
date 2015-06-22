@@ -28,7 +28,7 @@ const explorer = p3rf.perfkit.explorer;
 
 /** @interface */
 explorer.models.IQueryConfigModel = function() {};
-var IQueryConfigModel = explorer.models.IQueryConfigModel;
+const IQueryConfigModel = explorer.models.IQueryConfigModel;
 
 
 /**

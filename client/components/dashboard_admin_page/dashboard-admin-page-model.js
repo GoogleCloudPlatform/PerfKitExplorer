@@ -45,7 +45,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
    */
   this.mine = null;
 };
-var DashboardAdminPageModel = (
+const DashboardAdminPageModel = (
     explorer.components.dashboard_admin_page.DashboardAdminPageModel);
 
 });  // goog.scope

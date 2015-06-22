@@ -43,8 +43,8 @@ explorer.mocks.application.module = angular.module('perfkit-mocks', [
  */
 mocks.isMockParamTrue = function() {
   // Extracts URL query parameters from the current location
-  var uri = new goog.Uri(window.location);
-  var mockParameter = uri.getParameterValue('mock');
+  let uri = new goog.Uri(window.location);
+  let mockParameter = uri.getParameterValue('mock');
   return mockParameter && mockParameter === 'true' ? true : false;
 };
 
@@ -58,9 +58,9 @@ mocks.addMocks = function(appModule) {
   // Add a 1s delay to $http calls to simulate latency
   appModule.config(function($provide) {
     $provide.decorator('$httpBackend', function($delegate) {
-      var proxy = function(method, url, data, callback, headers) {
-        var interceptor = function() {
-          var self = this,
+      let proxy = function(method, url, data, callback, headers) {
+        let interceptor = function() {
+          let self = this,
               arguments_ = arguments;
           setTimeout(function() {
             callback.apply(self, arguments_);
@@ -68,7 +68,7 @@ mocks.addMocks = function(appModule) {
         };
         return $delegate.call(this, method, url, data, interceptor, headers);
       };
-      for (var key in $delegate) {
+      for (let key in $delegate) {
         proxy[key] = $delegate[key];
       }
       return proxy;
@@ -425,12 +425,12 @@ mocks.addMocks = function(appModule) {
       ];
     });
 
-    var ids = 128;
+    let ids = 128;
     // Mock requests targeting POST /dashboard/create
     $httpBackend.whenPOST('/dashboard/create').respond(
         function(method, url, data) {
-          var decoded = new goog.Uri.QueryData(data).get('data');
-          var obj = angular.fromJson(decoded);
+          let decoded = new goog.Uri.QueryData(data).get('data');
+          let obj = angular.fromJson(decoded);
           obj.id = ids++;
           // Simulate a success and return the dashboard with an id
           return [200, obj];

@@ -69,7 +69,7 @@ explorer.components.widget.query.builder.Aggregation = {
   SUM: 'sum',
   VARIANCE: 'variance'
 };
-var Aggregation = explorer.components.widget.query.builder.Aggregation;
+const Aggregation = explorer.components.widget.query.builder.Aggregation;
 
 
 /**
@@ -93,7 +93,7 @@ explorer.components.widget.query.builder.QueryBuilderService = function(
    */
   this.TOKEN_END_SYMBOL = '%%';
 };
-var QueryBuilderService =
+const QueryBuilderService =
     explorer.components.widget.query.builder.QueryBuilderService;
 
 
@@ -103,8 +103,8 @@ var QueryBuilderService =
  * @return {Filter.DisplayMode} The display mode to use for the column.
  */
 QueryBuilderService.prototype.getColumnDisplayMode = function(opt_values) {
-  var visibility = Filter.DisplayMode.COLUMN;
-  var value = (
+  let visibility = Filter.DisplayMode.COLUMN;
+  let value = (
       goog.isDef(opt_values) &&
       !goog.isNull(opt_values) &&
       opt_values.length > 0) ?
@@ -137,22 +137,22 @@ QueryBuilderService.prototype.getColumnDisplayMode = function(opt_values) {
  */
 QueryBuilderService.prototype.createSimpleFilter = function(
     fieldName, opt_values, opt_matchRule, opt_displayMode, opt_fieldAlias) {
-  var matchRule = opt_matchRule ? opt_matchRule : FilterClause.MatchRule.EQ;
-  var displayMode = opt_displayMode ? opt_displayMode :
+  let matchRule = opt_matchRule ? opt_matchRule : FilterClause.MatchRule.EQ;
+  let displayMode = opt_displayMode ? opt_displayMode :
       this.getColumnDisplayMode(opt_values);
 
-  var clauses = [];
+  let clauses = [];
 
   if (goog.isDef(opt_values) && !goog.isNull(opt_values)) {
-    for (var ctr = 0, len = opt_values.length; ctr < len; ctr++) {
-      var value = opt_values[ctr];
+    for (let ctr = 0, len = opt_values.length; ctr < len; ctr++) {
+      let value = opt_values[ctr];
 
       if (!goog.string.isEmptySafe(value)) {
         clauses.push(new FilterClause([value], matchRule));
       }
     }
   }
-  var filter = new Filter(fieldName, clauses, displayMode, opt_fieldAlias);
+  let filter = new Filter(fieldName, clauses, displayMode, opt_fieldAlias);
   return filter;
 };
 
@@ -191,8 +191,8 @@ QueryBuilderService.prototype.getAbsoluteDateFunction = function(dateFilter) {
 QueryBuilderService.prototype.replaceTokens = function(query, params) {
   if (query) {
     angular.forEach(params, angular.bind(this, function(param) {
-      var find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
-      var re = new RegExp(find, 'g');
+      let find = this.TOKEN_START_SYMBOL + param.name + this.TOKEN_END_SYMBOL;
+      let re = new RegExp(find, 'g');
 
       query = query.replace(re, param.value);
     }));
@@ -213,10 +213,10 @@ QueryBuilderService.prototype.replaceTokens = function(query, params) {
  */
 QueryBuilderService.prototype.getSql = function(
     model, projectId, datasetName, tableName, tablePartition, params) {
-  var fieldFilters = [];
-  var startFilter, endFilter = null;
-  var startDateClause, endDateClause = null;
-  var ctr, len, label = null;
+  let fieldFilters = [];
+  let startFilter, endFilter = null;
+  let startDateClause, endDateClause = null;
+  let ctr, len, label = null;
 
   if (model.filters.start_date) {
     switch (model.filters.start_date.filter_type) {
@@ -295,7 +295,7 @@ QueryBuilderService.prototype.getSql = function(
                                 Filter.DisplayMode.HIDDEN));
   }
 
-  var fieldSortOrders = [];
+  let fieldSortOrders = [];
 
   angular.forEach(model.results.fields, angular.bind(this, function(field) {
     fieldFilters.push(
@@ -336,7 +336,7 @@ QueryBuilderService.prototype.getSql = function(
   for (ctr = 0, len = model.results.labels.length; ctr < len; ctr++) {
     label = model.results.labels[ctr].label;
     if (goog.isDef(label) && !goog.string.isEmpty(label)) {
-      var field = 'REGEXP_EXTRACT(labels, r\'\\|' + label + ':(.*?)\\|\')';
+      let field = 'REGEXP_EXTRACT(labels, r\'\\|' + label + ':(.*?)\\|\')';
       fieldFilters.push(this.createSimpleFilter(
           field, null, null, null, label));
     }
@@ -357,7 +357,7 @@ QueryBuilderService.prototype.getSql = function(
         Filter.DisplayMode.HIDDEN));
   }
 
-  var aggregations = [];
+  let aggregations = [];
 
   if (model.results.measure_values) {
     aggregations = [];
@@ -369,18 +369,18 @@ QueryBuilderService.prototype.getSql = function(
     fieldFilters.push(this.createSimpleFilter('value'));
   }
 
-  var queryProperties = new QueryProperties(
+  let queryProperties = new QueryProperties(
       aggregations,
       fieldFilters,
       []);
 
-  var tableId = datasetName + '.' + tableName;
+  let tableId = datasetName + '.' + tableName;
 
   if (projectId) {
     tableId = projectId + ':' + tableId;
   }
 
-  var tableExpr = '';
+  let tableExpr = '';
 
   if (tablePartition == QueryTablePartitioning.PERDAY) {
     if (!startFilter) {
@@ -396,7 +396,7 @@ QueryBuilderService.prototype.getSql = function(
     tableExpression = '[' + tableId + ']';
   }
 
-  var sql = BigQueryBuilder.formatQuery(
+  let sql = BigQueryBuilder.formatQuery(
       BigQueryBuilder.buildSelectArgs(queryProperties),
       [tableExpression],
       BigQueryBuilder.buildWhereArgs(queryProperties),

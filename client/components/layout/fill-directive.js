@@ -49,14 +49,14 @@ explorer.components.layout.FillDirective = (
     restrict: 'A',
     link: function (scope, element, attr) {
       scope.resizeElement = function () {
-        var targetElement = element[0];
-        var originalDisplay = targetElement.style.display;
+        let targetElement = element[0];
+        let originalDisplay = targetElement.style.display;
 
         try {
           targetElement.style.display = 'none';
 
-          var container = element[0].parentNode;
-          var containerStyle = window.getComputedStyle(container);
+          let container = element[0].parentNode;
+          let containerStyle = window.getComputedStyle(container);
 
           if (containerStyle) {
             targetElement.style.height = containerStyle.height;

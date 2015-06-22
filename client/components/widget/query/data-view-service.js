@@ -74,7 +74,7 @@ explorer.components.widget.query.DataViewService = function(GvizDataView) {
    */
   this.GvizDataView_ = GvizDataView;
 };
-var DataViewService = explorer.components.widget.query.DataViewService;
+const DataViewService = explorer.components.widget.query.DataViewService;
 
 
 /**
@@ -87,12 +87,12 @@ var DataViewService = explorer.components.widget.query.DataViewService;
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */
 DataViewService.prototype.create = function(dataTable, model) {
-  var view = new this.GvizDataView_(dataTable);
-  var sortedViewJson;
+  let view = new this.GvizDataView_(dataTable);
+  let sortedViewJson;
 
   if (model.filter && model.filter.length > 0) {
     try {
-      var filteredRows = view.getFilteredRows(model.filter);
+      let filteredRows = view.getFilteredRows(model.filter);
       view.setRows(filteredRows);
     } catch (e) {
       // Catch errors when the filter property is invalid
@@ -102,7 +102,7 @@ DataViewService.prototype.create = function(dataTable, model) {
 
   if (model.sort && model.sort.length > 0) {
     try {
-      var sortedRows = view.getSortedRows(model.sort);
+      let sortedRows = view.getSortedRows(model.sort);
       // sortedRows are not applied to the view because it will conflict with
       // filteredRows. sortedRows are given as a second DataView initializer
       // object.
@@ -130,7 +130,7 @@ DataViewService.prototype.create = function(dataTable, model) {
     }
   }
 
-  var viewJson = angular.fromJson(view.toJSON());
+  let viewJson = angular.fromJson(view.toJSON());
   return sortedViewJson ?
       [viewJson, sortedViewJson] : [viewJson];
 };
@@ -154,12 +154,12 @@ DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart
     throw 'sortColumnStart must be greater than or equal to the total column count.';
   }
 
-  var allColumnNames = [];
-  var outputColumns = [];
-  var sortableColumnNames = [];
+  let allColumnNames = [];
+  let outputColumns = [];
+  let sortableColumnNames = [];
 
-  for (var i = 0; i < dataTable.getNumberOfColumns(); ++i) {
-    var columnName = dataTable.getColumnLabel(i);
+  for (let i = 0; i < dataTable.getNumberOfColumns(); ++i) {
+    let columnName = dataTable.getColumnLabel(i);
     allColumnNames.push(columnName);
 
     if (i < sortColumnStart) {
@@ -175,7 +175,7 @@ DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart
     sortableColumnNames.reverse();
   }
 
-  for (var i = 0; i < sortableColumnNames.length; ++i) {
+  for (let i = 0; i < sortableColumnNames.length; ++i) {
     sortableIndex = allColumnNames.indexOf(sortableColumnNames[i]);
 
     if (sortableIndex == -1) {

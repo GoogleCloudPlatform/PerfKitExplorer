@@ -46,7 +46,7 @@ p3rf.perfkit.explorer.components.layout.ResizeDirections = {
   TOP: 'TOP',
   BOTTOM: 'BOTTOM'
 };
-var ResizeDirections = p3rf.perfkit.explorer.components.layout.ResizeDirections;
+const ResizeDirections = p3rf.perfkit.explorer.components.layout.ResizeDirections;
 
 
 /**
@@ -95,7 +95,7 @@ p3rf.perfkit.explorer.components.layout.ResizeService = function($rootScope) {
    */
   this.originalSize = null;
 };
-var ResizeService = p3rf.perfkit.explorer.components.layout.ResizeService;
+const ResizeService = p3rf.perfkit.explorer.components.layout.ResizeService;
 
 
 /**
@@ -140,9 +140,9 @@ ResizeService.prototype.endResize = function() {
  * @export
  */
 ResizeService.prototype.doResize = function(event) {
-  var heightOffset = 0;
-  var widthOffset = 0;
-  var newSize = this.originalSize.clone();
+  let heightOffset = 0;
+  let widthOffset = 0;
+  let newSize = this.originalSize.clone();
 
   switch (this.resizeDirection) {
     case ResizeDirections.BOTTOM:

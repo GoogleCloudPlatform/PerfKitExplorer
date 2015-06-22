@@ -48,7 +48,7 @@ explorer.components.dashboard.DashboardParam = function(name, value) {
    */
   this.value = value || '';
 };
-var DashboardParam = explorer.components.dashboard.DashboardParam;
+const DashboardParam = explorer.components.dashboard.DashboardParam;
 
 
 /** @constructor */
@@ -134,7 +134,7 @@ explorer.components.dashboard.DashboardModel = function() {
    */
   this.params = [];
 };
-var DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 /**
@@ -165,6 +165,6 @@ explorer.components.dashboard.DashboardConfig = function(opt_model) {
    */
   this.model = opt_model || new DashboardModel();
 };
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
 
 });  // goog.scope

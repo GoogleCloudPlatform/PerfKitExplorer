@@ -158,7 +158,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @export {Array.<!ErrorModel>} */
   this.errors = [];
 };
-var DashboardService = explorer.components.dashboard.DashboardService;
+const DashboardService = explorer.components.dashboard.DashboardService;
 
 
 /**
@@ -176,7 +176,7 @@ DashboardService.prototype.clearParams = function() {
  * Initialize a new dashboard.
  */
 DashboardService.prototype.initializeDashboard_ = function() {
-  var dashboard = new DashboardConfig();
+  let dashboard = new DashboardConfig();
   dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
 
   return dashboard;
@@ -187,9 +187,9 @@ DashboardService.prototype.initializeDashboard_ = function() {
  * Saves the current dashboard on the server.
  */
 DashboardService.prototype.saveDashboard = function() {
-  var dashboard = this.current;
+  let dashboard = this.current;
 
-  var promise = dashboard.model.id ?
+  let promise = dashboard.model.id ?
       this.dashboardDataService_.update(dashboard) :
       this.dashboardDataService_.create(dashboard);
 
@@ -200,7 +200,7 @@ DashboardService.prototype.saveDashboard = function() {
       // as expected.
       console.log('Dashboard saved with id:', dashboardJsonModel.id);
 
-      var uri = new goog.Uri(window.location.href);
+      let uri = new goog.Uri(window.location.href);
       uri.setParameterValue('dashboard', dashboardJsonModel.id);
       uri.removeParameter('readOnly');
       window.location = uri.toString();
@@ -293,7 +293,7 @@ DashboardService.prototype.initializeParams_ = function() {
 
   angular.forEach(
       this.current.model.params, angular.bind(this, function(param) {
-    var paramValue = this.location_.search()[param.name] || param.value;
+    let paramValue = this.location_.search()[param.name] || param.value;
 
     if (paramValue !== '') {
       this.params.push(new DashboardParam(param.name, paramValue));
@@ -353,9 +353,9 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
   goog.asserts.assert(this.current, 'Bad state: No dashboard selected.');
 
-  var widgetConfig = widget.model.datasource.config;
+  let widgetConfig = widget.model.datasource.config;
 
-  var project_name = this.arrayUtilService_.getFirst([
+  let project_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.project_id,
       this.current.model.project_id,
       this.config.default_project], false);
@@ -363,7 +363,7 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
     this.errorService_.addError(ErrorTypes.DANGER, 'Project name not found.');
   }
 
-  var dataset_name = this.arrayUtilService_.getFirst([
+  let dataset_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.dataset_name,
       this.current.model.dataset_name,
       this.config.default_dataset], false);
@@ -371,7 +371,7 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
     this.errorService_.addError(ErrorTypes.DANGER, 'Dataset name not found.');
   }
 
-  var table_name = this.arrayUtilService_.getFirst([
+  let table_name = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_name,
       this.current.model.table_name,
       this.config.default_table], false);
@@ -379,7 +379,7 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
     this.errorService_.addError(ErrorTypes.DANGER, 'Table name not found.');
   }
 
-  var table_partition = this.arrayUtilService_.getFirst([
+  let table_partition = this.arrayUtilService_.getFirst([
       widgetConfig.results.table_partition,
       this.current.model.table_partition,
       this.DEFAULT_TABLE_PARTITION], false);
@@ -389,7 +389,7 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   }
 
   this.initializeParams_();
-  var params = replaceParams ? this.params : null;
+  let params = replaceParams ? this.params : null;
 
   return this.queryBuilderService_.getSql(
         widget.model.datasource.config,
@@ -481,7 +481,7 @@ DashboardService.prototype.addWidget = function(container) {
 DashboardService.prototype.addWidgetAfter = function(container, widget) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
-  var index = container.model.container.children.indexOf(widget);
+  let index = container.model.container.children.indexOf(widget);
 
   this.addWidgetAt(container, ++index);
 };
@@ -498,7 +498,7 @@ DashboardService.prototype.addWidgetAfter = function(container, widget) {
 DashboardService.prototype.addWidgetBefore = function(container, widget) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
-  var index = container.model.container.children.indexOf(widget);
+  let index = container.model.container.children.indexOf(widget);
 
   this.addWidgetAt(container, index);
 };
@@ -515,9 +515,9 @@ DashboardService.prototype.addWidgetBefore = function(container, widget) {
  */
 DashboardService.prototype.addWidgetAt = function(container, opt_index) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
-  var children = container.model.container.children;
+  let children = container.model.container.children;
 
-  var columnsTaken = 0;
+  let columnsTaken = 0;
   angular.forEach(children, function(widget) {
     columnsTaken += widget.model.layout.columnspan;
   });
@@ -530,7 +530,7 @@ DashboardService.prototype.addWidgetAt = function(container, opt_index) {
 
   // TODO: Add a simple widget instead of a chart when we have
   // other widget types.
-  var widget = new ChartWidgetConfig(this.widgetFactoryService_);
+  let widget = new ChartWidgetConfig(this.widgetFactoryService_);
   widget.state().datasource.status = ResultsDataStatus.NODATA;
 
   if (!goog.isDef(opt_index) || opt_index > children.length - 1) {
@@ -560,7 +560,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
-  var index = container.model.container.children.indexOf(widget);
+  let index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
   if (container.model.container.children.length === 0) {
@@ -585,8 +585,8 @@ DashboardService.prototype.moveWidgetToContainer = function(
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
   goog.asserts.assert(targetContainer, 'Bad parameters: container is missing.');
 
-  var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var index = container.model.container.children.indexOf(widget);
+  let container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
+  let index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
 
   if (container.model.container.children.length === 0) {
@@ -613,7 +613,7 @@ DashboardService.prototype.moveWidgetToContainer = function(
  * @export
  */
 DashboardService.prototype.addContainer = function() {
-  var container = new ContainerWidgetConfig(this.widgetFactoryService_);
+  let container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
   this.widgets.push(container);
   return container;
@@ -628,7 +628,7 @@ DashboardService.prototype.addContainer = function() {
  * @export
  */
 DashboardService.prototype.addContainerAt = function(index) {
-  var container = new ContainerWidgetConfig(this.widgetFactoryService_);
+  let container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
   goog.array.insertAt(this.widgets, container, index);
   return container;
@@ -644,7 +644,7 @@ DashboardService.prototype.addContainerAt = function(index) {
 DashboardService.prototype.removeContainer = function(container) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
-  var index = this.widgets.indexOf(container);
+  let index = this.widgets.indexOf(container);
   this.widgets.splice(index, 1);
   this.unselectWidget();
 };
@@ -672,8 +672,8 @@ DashboardService.prototype.unselectWidget = function() {
 DashboardService.prototype.moveWidgetToPrevious = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = widget.state().parent;
-  var index = container.model.container.children.indexOf(widget);
+  let container = widget.state().parent;
+  let index = container.model.container.children.indexOf(widget);
   if (index > 0) {
     this.arrayUtilService_.swap(
         container.model.container.children, index, index - 1);
@@ -690,8 +690,8 @@ DashboardService.prototype.moveWidgetToPrevious = function(widget) {
 DashboardService.prototype.moveWidgetToNext = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = widget.state().parent;
-  var index = container.model.container.children.indexOf(widget);
+  let container = widget.state().parent;
+  let index = container.model.container.children.indexOf(widget);
   if (index < container.model.container.children.length - 1) {
     this.arrayUtilService_.swap(
         container.model.container.children, index, index + 1);
@@ -708,8 +708,8 @@ DashboardService.prototype.moveWidgetToNext = function(widget) {
 DashboardService.prototype.moveWidgetToFirst = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = widget.state().parent;
-  var index = container.model.container.children.indexOf(widget);
+  let container = widget.state().parent;
+  let index = container.model.container.children.indexOf(widget);
   if (index > 0) {
     goog.array.moveItem(container.model.container.children, index, 0);
   }
@@ -725,9 +725,9 @@ DashboardService.prototype.moveWidgetToFirst = function(widget) {
 DashboardService.prototype.moveWidgetToLast = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = widget.state().parent;
-  var index = container.model.container.children.indexOf(widget);
-  var lastIndex = container.model.container.children.length - 1;
+  let container = widget.state().parent;
+  let index = container.model.container.children.indexOf(widget);
+  let lastIndex = container.model.container.children.length - 1;
   if (index < lastIndex) {
     goog.array.moveItem(container.model.container.children, index, lastIndex);
   }
@@ -747,9 +747,9 @@ DashboardService.prototype.moveWidgetToLast = function(widget) {
 DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var containerIndex = this.widgets.indexOf(container);
-  var targetContainer = null;
+  let container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
+  let containerIndex = this.widgets.indexOf(container);
+  let targetContainer = null;
 
   if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
@@ -782,10 +782,10 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
 DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var containerIndex = this.widgets.indexOf(container);
-  var index = container.model.container.children.indexOf(widget);
-  var targetContainer = null;
+  let container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
+  let containerIndex = this.widgets.indexOf(container);
+  let index = container.model.container.children.indexOf(widget);
+  let targetContainer = null;
 
   if (containerIndex === (this.widgets.length - 1)) {
     if (container.model.container.children.length > 1) {

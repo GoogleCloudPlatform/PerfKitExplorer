@@ -68,7 +68,7 @@ const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
  */
 explorer.components.widget.query.builder.MetadataPickerDirective = function(
     $timeout, $filter) {
-  var DEFAULT_TEMPLATE_URL = (
+  const DEFAULT_TEMPLATE_URL = (
       '/static/components/widget/query/builder/metadata-picker-directive.html');
 
   return {
@@ -101,7 +101,7 @@ explorer.components.widget.query.builder.MetadataPickerDirective = function(
       scope.$watch('metadataPickerModel.label',
           angular.bind(this, function(new_val, old_val) {
             if (old_val != new_val) {
-              var matching_label = $filter('getByProperty')(
+              let matching_label = $filter('getByProperty')(
                   'name', new_val, scope.metadataPickerData);
               if (matching_label === null) {
                 scope.availableValues = [];
@@ -127,7 +127,7 @@ explorer.components.widget.query.builder.MetadataPickerDirective = function(
             if (!scope.supressChangeEvents && old_val != new_val) {
               try {
                 scope.supressChangeEvents = true;
-                var separator_index = new_val.indexOf(':');
+                let separator_index = new_val.indexOf(':');
 
                 if (separator_index == -1) {
                   scope.metadataPickerModel.label = new_val;
@@ -146,7 +146,7 @@ explorer.components.widget.query.builder.MetadataPickerDirective = function(
             }
           }));
 
-      var UpdateTextValue = function() {
+      let UpdateTextValue = function() {
         try {
           scope.supressChangeEvents = true;
 

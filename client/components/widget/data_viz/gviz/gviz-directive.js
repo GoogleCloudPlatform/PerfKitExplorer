@@ -79,9 +79,9 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
     },
     templateUrl: '/static/components/widget/data_viz/gviz/gviz-directive.html',
     link: function(scope, element, attributes) {
-      var isDrawing = false;
+      let isDrawing = false;
       // Create and attach to this element a gviz ChartWrapper
-      var chartWrapper = chartWrapperService.create();
+      let chartWrapper = chartWrapperService.create();
       chartWrapper.setContainerId(element[0].children[0]);
 
       scope.isDataFetching = function() {
@@ -95,38 +95,38 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       };
 
       scope.isLoadingDisplayed = function() {
-        var widgetState = scope.widgetConfig.state();
+        let widgetState = scope.widgetConfig.state();
         return (
             widgetState.datasource.status === ResultsDataStatus.FETCHING ||
             widgetState.datasource.status === ResultsDataStatus.TOFETCH);
       };
 
       scope.isChartDisplayed = function() {
-        var widgetState = scope.widgetConfig.state();
+        let widgetState = scope.widgetConfig.state();
         return (
             widgetState.datasource.status === ResultsDataStatus.FETCHED &&
             !widgetState.chart.error);
       };
 
       scope.isErrorDisplayed = function() {
-        var widgetState = scope.widgetConfig.state();
+        let widgetState = scope.widgetConfig.state();
 
         return (
             widgetState.datasource.status !== ResultsDataStatus.FETCHING &&
             widgetState.chart.error);
       };
 
-      var isHeightEnforced = function() {
+      let isHeightEnforced = function() {
         return scope.widgetConfig.model.chart.chartType !==
                ChartType.TABLE;
       };
 
-      var isWidthEnforced = function() {
+      let isWidthEnforced = function() {
         return scope.widgetConfig.model.chart.chartType ===
                ChartType.TABLE;
       };
 
-      var canScroll = function() {
+      let canScroll = function() {
         return scope.widgetConfig.model.chart.chartType ===
                ChartType.TABLE;
       };
@@ -135,8 +135,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
        * Checks if there is an error to display, update the error state and
        * returns the error.
        */
-      var checkForErrors = function() {
-        var message = null;
+      let checkForErrors = function() {
+        let message = null;
         if (!scope.widgetConfig.model.datasource.query) {
           message = gvizChart.ERR_NO_QUERY;
         }
@@ -166,7 +166,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
        * It enforces draw to be called maximum one time per tick and after all
        * changes have been handled.
        */
-      var triggerDraw = function() {
+      let triggerDraw = function() {
         if (!isDrawing) {
           isDrawing = true;
           $timeout(function() {
@@ -179,14 +179,14 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       /**
        * Draws the chart only if possible.
        */
-      var draw = function() {
+      let draw = function() {
         // Draw only if there is data and no errors.
         // If there is a gviz error we try to draw in order to let gviz update
         // the error.
         if (scope.widgetConfig.state().datasource.status ===
             ResultsDataStatus.FETCHED &&
             (scope.widgetConfig.state().chart.gvizError || !checkForErrors())) {
-          var options = angular.copy(scope.widgetConfig.model.chart.options);
+          let options = angular.copy(scope.widgetConfig.model.chart.options);
           // Force height and width options value with state value
           options.height = scope.widgetConfig.state().chart.height;
           options.width = scope.widgetConfig.state().chart.width;
@@ -212,7 +212,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         }
       };
 
-      var adjustHeight = function() {
+      let adjustHeight = function() {
         if (scope.widgetConfig.model.chart) {
           if (isHeightEnforced()) {
             scope.widgetConfig.state().chart.height =
@@ -224,7 +224,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       };
       adjustHeight();
 
-      var adjustWidth = function() {
+      let adjustWidth = function() {
         if (scope.widgetConfig.model.chart) {
           if (isWidthEnforced()) {
             scope.widgetConfig.state().chart.width =
@@ -245,7 +245,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       /**
        * Executes the datasource query, fetches new data and updates the chart.
        */
-      var fetchData = function() {
+      let fetchData = function() {
         if (!$location.search()['safeMode'] &&
             scope.widgetConfig.model.datasource.query &&
             scope.widgetConfig.state().datasource.status ===
@@ -253,7 +253,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           scope.applyParameters();
 
-          var promise = queryResultDataService.
+          let promise = queryResultDataService.
               fetchResults(scope.widgetConfig.model.datasource);
           $timeout(function() {
             scope.widgetConfig.state().datasource.status =
@@ -297,7 +297,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
        * @export
        */
       scope.applyParameters = function() {
-        var widget = scope.widgetConfig;
+        let widget = scope.widgetConfig;
         if (widget.model.datasource.custom_query !== true) {
           widget.model.datasource.query = (
               dashboardService.rewriteQuery(widget, false));
@@ -347,8 +347,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         triggerDraw();
       }, true);
 
-      var applyDataView = function() {
-        var dataViewsJson = dataViewService.create(
+      let applyDataView = function() {
+        let dataViewsJson = dataViewService.create(
             chartWrapper.getDataTable(),
             scope.widgetConfig.model.datasource.view);
 
@@ -423,7 +423,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
     }
   };
 };
-var gvizChart = explorer.components.widget.data_viz.gviz.gvizChart;
+let gvizChart = explorer.components.widget.data_viz.gviz.gvizChart;
 
 
 /** @type {string} */

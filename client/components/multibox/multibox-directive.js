@@ -111,8 +111,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
       multiboxOnInsertOption: '&'
     },
     link: function(scope, element, attrs) {
-      var canvas = element[0];
-      var activeInput = null;
+      let canvas = element[0];
+      let activeInput = null;
       scope.activeOption = null;
 
       scope.$watch('multiboxData',
@@ -161,8 +161,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        * @return bool
        */
       scope.isOptionUnmatched = function(displayOption, popupOption) {
-        var displayValue = scope.getDisplayValue(displayOption);
-        var popupValue = scope.getPopupValue(popupOption);
+        let displayValue = scope.getDisplayValue(displayOption);
+        let popupValue = scope.getPopupValue(popupOption);
 
         if (!displayValue || displayValue.length == 0) {
           return false;
@@ -178,8 +178,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        * @return bool
        */
       scope.isOptionMatched = function(displayOption, popupOption) {
-        var displayValue = scope.getDisplayValue(displayOption);
-        var popupValue = scope.getPopupValue(popupOption);
+        let displayValue = scope.getDisplayValue(displayOption);
+        let popupValue = scope.getPopupValue(popupOption);
 
         if (!displayValue || displayValue.length == 0) {
           return false;
@@ -195,8 +195,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        * @return bool
        */
       scope.isOptionSelected = function(displayOption, popupOption) {
-        var displayValue = scope.getDisplayValue(displayOption);
-        var popupValue = scope.getPopupValue(popupOption);
+        let displayValue = scope.getDisplayValue(displayOption);
+        let popupValue = scope.getPopupValue(popupOption);
 
         if (!displayValue || displayValue.length == 0) {
           return false;
@@ -245,7 +245,7 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        * @param {Event} evt The event handler for the blur event.
        */
       scope.blurInput = function(evt) {
-        var relatedTarget = /** @type {?Node} */ (evt.relatedTarget);
+        let relatedTarget = /** @type {?Node} */ (evt.relatedTarget);
 
         if (relatedTarget && popup &&
                 goog.dom.contains(popup, relatedTarget)) {
@@ -278,8 +278,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
 
       scope.selectValue = function(value) {
         if (scope.activeOption) {
-          var displayValue = scope.displayProp ? scope.activeOption[scope.displayProp] : scope.activeOption;
-          var popupValue = scope.popupProp ? value[scope.popupProp] : value;
+          let displayValue = scope.displayProp ? scope.activeOption[scope.displayProp] : scope.activeOption;
+          let popupValue = scope.popupProp ? value[scope.popupProp] : value;
 
           if (scope.displayProp) {
             scope.activeOption[scope.displayProp] = popupValue;
@@ -300,7 +300,7 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        */
       scope.addOption = function(option) {
         if (scope.activeOption) {
-          var idx = scope.multiboxSelectedOptions.indexOf(scope.activeOption);
+          let idx = scope.multiboxSelectedOptions.indexOf(scope.activeOption);
           scope.multiboxSelectedOptions[idx] = option;
 
           if (attrs['multiboxFocusOnSelect'] == 'true') {
@@ -343,7 +343,7 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
           $timeout(function() {
             goog.style.setElementShown(popup, true);
 
-            var Overflow = goog.positioning.Overflow;
+            const Overflow = goog.positioning.Overflow;
             goog.positioning.positionAtAnchor(
                 activeInput, goog.positioning.Corner.TOP_RIGHT,
                 popup, goog.positioning.Corner.TOP_LEFT,
@@ -372,11 +372,11 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        * list.  This is used when the last insert row is focused.
        */
       scope.ensureNoEmptyRows = function(ignoreLast) {
-        var ctr = 0;
-        var options = scope.multiboxSelectedOptions;
+        let ctr = 0;
+        let options = scope.multiboxSelectedOptions;
 
         while (ctr < options.length) {
-          var option = options[ctr];
+          let option = options[ctr];
           if (option[attrs['multiboxDisplayProp']] === '') {
             // If the blank row is the "last" one, we're good.
             if (ignoreLast && ctr == options.length - 1) {
@@ -403,7 +403,7 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
        * @return {Element} The input element for the last item in the array.
        */
       scope.getLastInputElement = function() {
-        var all_inputs = goog.dom.getElementsByClass(
+        let all_inputs = goog.dom.getElementsByClass(
             'multibox-input-control', canvas);
         return all_inputs[all_inputs.length - 1];
       };
@@ -414,7 +414,7 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
             scope.showPopup();
           }), true);
 
-      var popup = scope.getPopupElement();
+      let popup = scope.getPopupElement();
       scope.insertRowFocused = false;
       scope.initPopup();
     }

@@ -36,7 +36,7 @@ goog.scope(function() {
   explorer.components.dashboard.versions.DashboardSchemaV7 = function() {
     this.version = '7';
   };
-  var DashboardSchema = (
+  const DashboardSchema = (
       explorer.components.dashboard.versions.DashboardSchemaV7);
 
   DashboardSchema.prototype.verify = function(dashboard) {

@@ -44,13 +44,13 @@ const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel
  * The default measure for new widgets.
  * @type {!string}
  */
-var DEFAULT_MEASURE = '99%';
+const DEFAULT_MEASURE = '99%';
 
 /**
  * The default max # of rows returned for new widgets.
  * @type {!number}
  */
-var DEFAULT_ROW_LIMIT = 100;
+const DEFAULT_ROW_LIMIT = 100;
 
 
 /**
@@ -76,7 +76,7 @@ explorer.models.perfkit_simple_builder.QueryConfigModel = function() {
 
   this.initializeDefaults();
 };
-var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 
 
 /**
@@ -86,9 +86,9 @@ var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
  */
 QueryConfigModel.getMetadataFilterFromString = function(
     stringval) {
-  var SEPARATOR = ':';
-  var sepIndex = stringval.indexOf(SEPARATOR);
-  var rtnVal = {text: stringval};
+  const SEPARATOR = ':';
+  let sepIndex = stringval.indexOf(SEPARATOR);
+  let rtnVal = {text: stringval};
 
   if (sepIndex == -1) {
     rtnVal.label = stringval;
@@ -110,36 +110,36 @@ QueryConfigModel.getMetadataFilterFromString = function(
  * @param {!string} querystring A filter config in URL form.
  */
 QueryConfigModel.applyQueryString = function(config, querystring) {
-  var queryData = new goog.Uri.QueryData(querystring);
+  let queryData = new goog.Uri.QueryData(querystring);
 
-  var startDateParam = queryData.get('start_date');
+  let startDateParam = queryData.get('start_date');
   if (startDateParam) {
     config['filters']['start_date'] = new DateFilter(
         startDateParam, 'CUSTOM');
   }
 
-  var endDateParam = queryData.get('end_date');
+  let endDateParam = queryData.get('end_date');
   if (endDateParam) {
     config['filters']['end_date'] = new DateFilter(
         endDateParam, 'CUSTOM');
   }
 
-  var dateGroup = queryData.get('date_group');
+  let dateGroup = queryData.get('date_group');
   if (goog.isDef(dateGroup)) { config.results.date_group = dateGroup; }
 
-  var productName = queryData.get('product_name');
+  let productName = queryData.get('product_name');
   if (goog.isDef(productName)) { config.filters.product_name = productName; }
 
-  var test = queryData.get('test');
+  let test = queryData.get('test');
   if (goog.isDef(test)) { config.filters.test = test; }
 
-  var metric = queryData.get('metric');
+  let metric = queryData.get('metric');
   if (goog.isDef(metric)) { config.filters.metric = metric; }
 
-  var runby = queryData.get('runby');
+  let runby = queryData.get('runby');
   if (goog.isDef(runby)) { config.filters.runby = runby; }
 
-  var official = queryData.get('official');
+  let official = queryData.get('official');
   switch (official) {
     case 'all':
       config.filters.official = null;
@@ -152,21 +152,21 @@ QueryConfigModel.applyQueryString = function(config, querystring) {
       break;
   }
 
-  var metadataFilters = queryData.getValues('metadata');
+  let metadataFilters = queryData.getValues('metadata');
   if (metadataFilters.length > 0) {
     config.filters.metadata.splice(0, config.filters.metadata.length);
 
-    for (var ctr = 0, len = metadataFilters.length; ctr < len; ctr++) {
+    for (let ctr = 0, len = metadataFilters.length; ctr < len; ctr++) {
       config.filters.metadata.push(
           QueryConfigModel.getMetadataFilterFromString(metadataFilters[ctr]));
     }
   }
 
-  var labelColumns = queryData.getValues('labelcol');
+  let labelColumns = queryData.getValues('labelcol');
   if (labelColumns.length > 0) {
     config.results.labels.splice(0, config.results.labels.length);
 
-    for (var ctr = 0, len = labelColumns.length; ctr < len; ctr++) {
+    for (let ctr = 0, len = labelColumns.length; ctr < len; ctr++) {
       config.results.labels.push({'label': labelColumns[ctr]});
     }
   }
