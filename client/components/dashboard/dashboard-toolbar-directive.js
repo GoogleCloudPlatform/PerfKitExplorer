@@ -43,6 +43,15 @@ goog.scope(function() {
         this.tabSvc = sidebarTabService;
 
         /**
+         * Navigates to a new url.
+         * @param {string} url
+         * @export
+         */
+        this.setWindowLocation = function(url) {
+          $window.location = url;
+        };
+
+        /**
          * Prompts the user for a title, and copies the current dashboard.
          * @export
          */
@@ -63,7 +72,7 @@ goog.scope(function() {
          * @export
          */
         this.createDashboard = function() {
-          $window.location = '/explore?';
+          this.setWindowLocation('/explore?');
         };
 
         // TODO: Replace implementation with a ui-router change.
@@ -72,8 +81,7 @@ goog.scope(function() {
          * @export
          */
         this.openDashboard = function(dashboard) {
-          $window.location =
-              '/explore?dashboard=' + dashboard.id;
+          this.setWindowLocation('/explore?dashboard=' + dashboard.id);
         };
 
         // TODO: Replace implementation with a ui-router change.
@@ -82,7 +90,7 @@ goog.scope(function() {
          * @export
          */
         this.openDashboardAdmin = function() {
-          $window.location = '/dashboard-admin';
+          this.setWindowLocation('/dashboard-admin');
         };
 
         // TODO: Replace implementation with a ui-router change.
@@ -112,7 +120,7 @@ goog.scope(function() {
          */
         this.deleteDashboard = function() {
           goog.asserts.assert(
-              this.dashboard.current.model.id,
+              this.dashboardSvc.current.model.id,
               'deleteDashboard failed: No id set.');
 
           if (!$window.confirm(
@@ -120,8 +128,8 @@ goog.scope(function() {
             return;
           }
 
-          let promise = this.dashboard.deleteDashboard(
-              this.dashboard.current.model);
+          let promise = this.dashboardSvc.deleteDashboard(
+              this.dashboardSvc.current.model);
 
           promise.then(angular.bind(this, function(response) {
             this.openDashboardAdmin();

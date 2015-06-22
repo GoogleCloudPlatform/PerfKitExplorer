@@ -70,6 +70,18 @@
   display: none !important;
 }
 
+.pk-chart-loading {
+  margin-bottom: 12px;
+}
+
+.pk-chart-loading .md-left .md-half-circle {
+  border-color: #B0BEC5 !important; /** Blue-Grey 200 */
+}
+
+.pk-chart-loading .md-right .md-half-circle {
+  border-color: #CFD8DC !important; /** Blue-Grey 100 */
+}
+
 .pk-chart-error {
   color: #777777;
   font-size: .95em;
