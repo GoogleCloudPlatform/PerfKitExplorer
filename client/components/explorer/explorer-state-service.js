@@ -66,6 +66,42 @@ explorer.components.explorer.ExplorerStateService = function(
   this.widgets =
       /** @type {!ExplorerStateModel<WidgetModel>} */
       (new ExplorerStateModel($state, errorService, 'widget'));
+
+  /**
+   * Provides storage for a list of widget data.
+   * @export {!Dictionary.<string, WidgetDataModel>}
+   */
+  this.widgetData = {};
+
+  /**
+   * Provides storage for a list of sidebar tabs and selection context.
+   * @export {!ExplorerStateModel<DashboardModel>}
+   */
+  this.tabs =
+      /** @type {!ExplorerStateModel<SidebarTabModel>} */
+      (new ExplorerStateModel($state, 'tab'));
+
+  /**
+   * Provides storage for a list of footer tabs and selection context.
+   * @export {!ExplorerStateModel<DashboardModel>}
+   */
+  this.footerTabs =
+      /** @type {!ExplorerStateModel<FooterTabModel>} */
+      (new ExplorerStateModel($state, 'footerTab'));
+
+  /**
+   * Returns true if the selected widget is maximized, otherwise false.
+   * @export {boolean}
+   */
+  this.widgetIsFocused = false;
+
+
+  /**
+   * Returns true if the footer is visible (expanded), otherwise false.
+   * @export {boolean}
+   */
+  this.footerIsVisible = false;
+>>>>>>> dec17ab... Move widget data storage to state(), fix reselection issue.
 };
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 

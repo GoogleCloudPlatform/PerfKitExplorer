@@ -43,7 +43,7 @@ goog.scope(function() {
 
     $stateProvider.state('explorer-dashboard-edit', {
       url: '/explore?' + EXPLORER_PARAMS.join('&'),
-      template: '<explorer-page></explorer-page>'
+      template: '<div></div>'
     });
   };
 

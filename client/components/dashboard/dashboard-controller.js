@@ -107,5 +107,4 @@ DashboardCtrl.prototype.saveDashboard = function() {
   this.dashboard.save();
 };
 
-
 });  // goog.scope

@@ -45,7 +45,6 @@ explorer.components.widget.perfkitWidget = function() {
     scope: {
       widgetConfig: '='
     },
-    // TODO: Use templateUrl instead of hardcoded template strings.
     templateUrl: '/static/components/widget/widget-directive.html',
     link: function(scope, element, attributes) {
       let basis;
