@@ -25,7 +25,7 @@ goog.scope(function() {
    * @constructor
    */
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil = function() {};
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
+  const DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
   /**
    * Updates the containers and widgets of a dashboard, based on supplied functions.
@@ -57,9 +57,9 @@ goog.scope(function() {
    * @param {?function(widget)} verifyWidgetFn The function to apply to each widget.
    */
   DashboardVersionUtil.VerifyDashboard = function(dashboard, verifyContainerFn, verifyWidgetFn) {
-    var container, widget = null;
+    let container, widget = null;
 
-    for (var i = 0, containerCount = dashboard.children.length; i < containerCount; ++i) {
+    for (let i = 0, containerCount = dashboard.children.length; i < containerCount; ++i) {
       container = dashboard.children[i].container;
 
       if (verifyContainerFn && !verifyContainerFn(container)) {
@@ -67,7 +67,7 @@ goog.scope(function() {
       }
 
       if (verifyWidgetFn) {
-        for (var j = 0, widgetCount = container.children.length; j < widgetCount; ++j) {
+        for (let j = 0, widgetCount = container.children.length; j < widgetCount; ++j) {
           widget = container.children[j];
 
           if (!verifyWidgetFn(widget)) {

@@ -40,8 +40,8 @@ explorer.components.util.FileModelDirective = function($parse) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
+      let model = $parse(attrs.fileModel);
+      let modelSetter = model.assign;
 
       element.bind('change', function () {
         scope.$apply(function () {

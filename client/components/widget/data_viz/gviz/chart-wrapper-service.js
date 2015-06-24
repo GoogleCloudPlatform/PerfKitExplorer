@@ -89,7 +89,7 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
 
   this.loadCharts();
 };
-var ChartWrapperService = (
+const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 
 
@@ -118,7 +118,7 @@ ChartWrapperService.prototype.loadCharts = function() {
  */
 ChartWrapperService.prototype.create = function(
     opt_chartType, opt_gvizOptions, opt_dataTable) {
-  var chartWrapper = new this.GvizChartWrapper_();
+  let chartWrapper = new this.GvizChartWrapper_();
   if (opt_chartType) {
     chartWrapper.setChartType(opt_chartType);
   }
@@ -139,7 +139,7 @@ ChartWrapperService.prototype.create = function(
  * @return {ChartModel}
  */
 ChartWrapperService.prototype.getChartModel = function(gvizChartWrapper) {
-  var model = new ChartModel();
+  let model = new ChartModel();
   model.chartType = gvizChartWrapper.getChartType();
   model.options = gvizChartWrapper.getOptions();
   return model;

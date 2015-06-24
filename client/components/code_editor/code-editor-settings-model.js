@@ -34,7 +34,7 @@ explorer.components.code_editor.CodeEditorMode = {
   SQL: 'SQL',
   LOG: 'LOG'
 };
-var Mode = explorer.components.code_editor.CodeEditorMode;
+const Mode = explorer.components.code_editor.CodeEditorMode;
 
 
 /**
@@ -62,7 +62,7 @@ explorer.components.code_editor.CodeEditorSettingsModel = function() {
    */
   this.isOpen = false;
 };
-var CodeEditorSettingsModel =
+const CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
 
 

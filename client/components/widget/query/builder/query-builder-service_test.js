@@ -130,6 +130,38 @@ describe('TestQueryBuilder', function() {
 
   describe('getSql', function() {
 
+    describe('should succeed when the custom_query is true and the datasource is missing ', function() {
+      var query, expectedSql;
+
+      beforeEach(inject(function() {
+        query = new QueryConfigModel();
+        query.filters.start_date = null;
+
+        expectedSql = [
+          'SELECT',
+          '\tUSEC_TO_TIMESTAMP(UTC_USEC_TO_DAY(INTEGER(timestamp * 1000000))) AS date,',
+          '\tNTH(99, QUANTILES(value, 100)) AS p99',
+          'FROM',
+          '\t[DEFAULT_DATASET.DEFAULT_PROJECT]',
+          'GROUP BY',
+          '\tdate',
+          'ORDER BY',
+          '\tproduct_name,',
+          '\ttest,',
+          '\tmetric,',
+          '\tdate',
+          'LIMIT 100;'].join('\n');
+      }));
+
+      it('the results.labels array', function() {
+        delete query.results.labels;
+
+        var actualSql = svc.getSql(
+            query, null, 'DEFAULT_DATASET', 'DEFAULT_PROJECT');
+        expect(actualSql).toEqual(expectedSql);
+      });
+    });
+
     it('should return the SQL statement for a default query.', function() {
       var query = new QueryConfigModel();
 

@@ -57,7 +57,7 @@ gulp.task('third_party', function() {
   gulp.src('bower_components/angular-ui-router/release/angular-ui-router.min.js')
       .pipe(gulp.dest('deploy/client/third_party/angular-ui-router'));
 
-  gulp.src('third_party/js/uiGrid/ui-grid.*')
+  gulp.src('bower_components/angular-ui-grid/ui-grid.*')
       .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
 
   /** CodeMirror */

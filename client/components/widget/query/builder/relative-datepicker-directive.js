@@ -44,7 +44,7 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 
 
-var FILTER_TYPES = [
+const FILTER_TYPES = [
   {'name': 'CUSTOM', 'default': new Date().toISOString() },
   {'name': 'SECOND', 'default': 30},
   {'name': 'MINUTE', 'default': 15},
@@ -89,12 +89,12 @@ explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
       scope.supressChangeEvents = false;
       scope.text = '';
 
-      var input = element;
-      var popup = element.children()[0];
+      let input = element;
+      let popup = element.children()[0];
 
-      var changeType = function(new_val, old_val) {
+      let changeType = function(new_val, old_val) {
         if (!old_val || !new_val || old_val == new_val) { return; }
-        var filter_type = null;
+        let filter_type = null;
 
         angular.forEach(FILTER_TYPES, function(value) {
           if (value['name'] == new_val) {
@@ -104,21 +104,21 @@ explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
         });
       };
 
-      var changeValue = function(new_val, old_val) {
+      let changeValue = function(new_val, old_val) {
         if (scope.supressChangeEvents) { return; }
 
         this.suppressChangeEvents = true;
 
         try {
-          var filter_data = scope.relativeDatepickerData;
+          let filter_data = scope.relativeDatepickerData;
           if (filter_data) {
-            var filter_type = (
+            let filter_type = (
                 filter_data.filter_type.toLowerCase());
             switch (filter_type) {
               case 'custom':
-                var date = new Date(filter_data.filter_value);
+                let date = new Date(filter_data.filter_value);
 
-                var dateText = $filter('date')(date, 'yyyy-MM-dd');
+                let dateText = $filter('date')(date, 'yyyy-MM-dd');
 
                 if (filter_data.specify_time) {
                   dateText += $filter('date')(date, ' HH:mm:ss');

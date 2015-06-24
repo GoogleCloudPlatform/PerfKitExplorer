@@ -108,7 +108,7 @@ explorer.components.explorer.ExplorerService = function(
   
   this.initExplorer();
 };
-var ExplorerService = explorer.components.explorer.ExplorerService;
+const ExplorerService = explorer.components.explorer.ExplorerService;
 
 
 /**
@@ -134,7 +134,7 @@ ExplorerService.prototype.initExplorer = function() {
  * @export
  */
 ExplorerService.prototype.listDashboards = function() {
-  var promise = this.dashboardDataService_.list(true);
+  let promise = this.dashboardDataService_.list(true);
   this.dashboardsLoading = true;
 
   promise.then(angular.bind(this, function(response) {
@@ -145,7 +145,7 @@ ExplorerService.prototype.listDashboards = function() {
     if (response['data']) {
       goog.array.forEach(
           response['data'], goog.bind(function(dashboardJson) {
-            var dashboard = new DashboardModel();
+            let dashboard = new DashboardModel();
             dashboard.id = dashboardJson.id;
             dashboard.title = dashboardJson.title;
 
@@ -173,7 +173,7 @@ ExplorerService.prototype.customizeSql = function(rewrite) {
     rewrite = false;
   }
 
-  var widget = this.dashboard.selectedWidget;
+  let widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -190,7 +190,7 @@ ExplorerService.prototype.customizeSql = function(rewrite) {
  * @export
  */
 ExplorerService.prototype.editJson = function() {
-  var widget = this.dashboard.selectedWidget;
+  let widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -205,12 +205,12 @@ ExplorerService.prototype.editJson = function() {
  * @export
  */
 ExplorerService.prototype.viewSql = function(rewrite) {
-  var widget = this.dashboard.selectedWidget;
+  let widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
 
-  if (rewrite === true) {
+  if (rewrite === true && !widget.model.datasource.custom_query) {
     this.dashboard.rewriteQuery(widget);
   }
 
@@ -233,7 +233,7 @@ ExplorerService.prototype.hideSql = function() {
  * @export
  */
 ExplorerService.prototype.editDashboard = function() {
-  var widget = this.dashboard.selectedWidget;
+  let widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -267,7 +267,7 @@ ExplorerService.prototype.unselectWidget = function() {
  * @export
  */
 ExplorerService.prototype.restoreBuilder = function() {
-  var widget = this.dashboard.selectedWidget;
+  let widget = this.dashboard.selectedWidget;
   if (!widget) {
     throw new Error('No selected widget.');
   }
@@ -276,7 +276,7 @@ ExplorerService.prototype.restoreBuilder = function() {
   }
 
   if (widget.model.datasource.query) {
-    var msg = (
+    let msg = (
         'Restoring the Query Builder will remove any custom SQL you have ' +
         'provided.  Do you want to continue?');
     if (!window.confirm(msg)) { return; }

@@ -87,13 +87,14 @@ goog.require('p3rf.perfkit.explorer.mocks.application.module');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-var requiredModules = [
+let requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
   'p3rf.perfkit.explorer.templates',
   explorer.mocks.application.module.name];
 
-var useMockData = (
+// TODO: Replace with ui-router implementation.
+let useMockData = (
     explorer.mocks.isMockParamTrue());
 if (useMockData) {
   // This module override $http with a mock backend

@@ -137,7 +137,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
       angular.bind(this, this.saveTextToJson));
 
 };
-var CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
+const CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
 
 
 /**
@@ -148,7 +148,7 @@ CodeEditorCtrl.SaveState = {
   SAVING_TO_TEXT: 1,
   SAVING_TO_OBJECT: 2
 };
-var SaveState = CodeEditorCtrl.SaveState;
+let SaveState = CodeEditorCtrl.SaveState;
 
 
 /**
@@ -219,7 +219,7 @@ CodeEditorCtrl.prototype.saveJsonToText = function() {
   if (this.saveState === SaveState.SAVING_TO_OBJECT) {
     this.saveState = SaveState.NONE;
   } else {
-    var selectedWidget = this.dashboard.selectedWidget;
+    let selectedWidget = this.dashboard.selectedWidget;
     this.currentJson.text = selectedWidget ?
         this.widgetFactoryService_.toJson(selectedWidget, true) : null;
     this.saveState = SaveState.SAVING_TO_TEXT;
@@ -235,9 +235,9 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
   if (this.saveState === SaveState.SAVING_TO_TEXT) {
     this.saveState = SaveState.NONE;
   } else {
-    var selectedWidget = this.dashboard.selectedWidget;
+    let selectedWidget = this.dashboard.selectedWidget;
     if (selectedWidget) {
-      var newModel;
+      let newModel;
       try {
         newModel = angular.fromJson(this.currentJson.text);
       } catch (e) {

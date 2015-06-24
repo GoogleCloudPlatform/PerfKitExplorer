@@ -32,7 +32,7 @@ const explorer = p3rf.perfkit.explorer;
  * @ngInject
  */
 explorer.components.util.ArrayUtilService = function() {};
-var ArrayUtilService = explorer.components.util.ArrayUtilService;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
 
 
 /**
@@ -43,7 +43,7 @@ var ArrayUtilService = explorer.components.util.ArrayUtilService;
  * @param {number} to
  */
 ArrayUtilService.prototype.swap = function(array, from, to) {
-  var element = array[from];
+  let element = array[from];
   array[from] = array[to];
   array[to] = element;
 };
@@ -59,14 +59,14 @@ ArrayUtilService.prototype.swap = function(array, from, to) {
  *    the required param.
  */
 ArrayUtilService.prototype.getFirst = function(array, required) {
-  for (var ctr = 0, len = array.length; ctr < len; ++ctr) {
+  for (let ctr = 0, len = array.length; ctr < len; ++ctr) {
     if (!goog.string.isEmptySafe(array[ctr])) {
       return array[ctr];
     }
   }
 
   if (required) {
-    var msg = 'getFirst failed: No non-null item found.';
+    let msg = 'getFirst failed: No non-null item found.';
 
     throw new Error(msg);
   } else {

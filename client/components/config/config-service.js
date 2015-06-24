@@ -15,7 +15,7 @@
  *
  * @fileoverview Service for the configuration of the Explorer app.
  *
- * The initial settings are loaded from a global var INITIAL_CONFIG.  This
+ * The initial settings are loaded from a global let INITIAL_CONFIG.  This
  * is set by the server-side templates when rendering the page, to minimize
  * initial roundtrips.
  * @author joemu@google.com (Joe Allan Muharsky)
@@ -67,7 +67,7 @@ explorer.components.config.ConfigService = function($http, $location,
   /** @export {number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
 };
-var ConfigService = explorer.components.config.ConfigService;
+const ConfigService = explorer.components.config.ConfigService;
 
 
 /**
@@ -105,7 +105,7 @@ ConfigService.prototype.populate = function(data) {
  * @return {!Object} A JSON representation of the config properties.
  */
 ConfigService.prototype.toJSON = function(data) {
-  var result = data || {};
+  let result = data || {};
 
   result.default_project = this.default_project;
   result.default_dataset = this.default_dataset;
@@ -121,7 +121,7 @@ ConfigService.prototype.toJSON = function(data) {
  * Reloads the global config from the server.
  */
 ConfigService.prototype.refresh = function() {
-  var promise = this.http_.get('/config');
+  let promise = this.http_.get('/config');
 
   promise.then(
       angular.bind(this, function(config) {
@@ -135,7 +135,7 @@ ConfigService.prototype.refresh = function() {
  * Updates the global config on the server.
  */
 ConfigService.prototype.update = function() {
-  var promise = this.http_.post('/config', this.toJSON());
+  let promise = this.http_.post('/config', this.toJSON());
 
   promise.then(angular.bind(this, function() {
     this.errorSvc_.addError(ErrorTypes.INFO, 'Global config updated.');

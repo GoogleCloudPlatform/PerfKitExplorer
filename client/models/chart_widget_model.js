@@ -48,7 +48,7 @@ explorer.models.SortOrder = {
   ASCENDING: 'ascending',
   DESCENDING: 'descending'
 };
-var SortOrder = explorer.models.SortOrder;
+const SortOrder = explorer.models.SortOrder;
 
 
 /**
@@ -63,7 +63,7 @@ p3rf.perfkit.explorer.models.ChartType = {
   PIE_CHART: 'PieChart',
   SCATTER_CHART: 'ScatterChart'
 };
-var ChartType = p3rf.perfkit.explorer.models.ChartType;
+const ChartType = p3rf.perfkit.explorer.models.ChartType;
 
 
 
@@ -93,7 +93,7 @@ p3rf.perfkit.explorer.models.ChartState = function() {
    */
   this.gvizError = null;
 };
-var ChartState = p3rf.perfkit.explorer.models.ChartState;
+const ChartState = p3rf.perfkit.explorer.models.ChartState;
 
 
 
@@ -114,7 +114,7 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
     'legend': {}
   };
 };
-var ChartModel = p3rf.perfkit.explorer.models.ChartModel;
+const ChartModel = p3rf.perfkit.explorer.models.ChartModel;
 
 
 /** @type {string} */
@@ -131,7 +131,7 @@ explorer.models.ResultsDataStatus = {
   FETCHING: 'Fetching',
   FETCHED: 'Fetched'
 };
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 
 
@@ -149,7 +149,7 @@ explorer.models.DatasourceState = function() {
    */
   this.errors = [];
 };
-var DatasourceState = explorer.models.DatasourceState;
+const DatasourceState = explorer.models.DatasourceState;
 
 
 
@@ -202,7 +202,7 @@ explorer.models.DataViewModel = function() {
    */
   this.sort = [];
 };
-var DataViewModel = explorer.models.DataViewModel;
+const DataViewModel = explorer.models.DataViewModel;
 
 
 
@@ -243,7 +243,7 @@ explorer.models.DatasourceModel = function() {
    */
   this.view = new DataViewModel();
 };
-var DatasourceModel = explorer.models.DatasourceModel;
+const DatasourceModel = explorer.models.DatasourceModel;
 
 
 
@@ -268,7 +268,7 @@ explorer.models.ChartWidgetModel = function() {
    */
   this.datasource = new DatasourceModel();
 };
-var ChartWidgetModel = explorer.models.ChartWidgetModel;
+const ChartWidgetModel = explorer.models.ChartWidgetModel;
 goog.inherits(ChartWidgetModel, explorer.models.WidgetModel);
 
 
@@ -292,7 +292,7 @@ explorer.models.ChartWidgetState = function() {
    */
   this.datasource = new DatasourceState();
 };
-var ChartWidgetState = explorer.models.ChartWidgetState;
+const ChartWidgetState = explorer.models.ChartWidgetState;
 goog.inherits(ChartWidgetState, explorer.models.WidgetState);
 
 
@@ -344,7 +344,7 @@ explorer.models.ChartWidgetConfig = function(widgetFactoryService, opt_model) {
   widgetFactoryService.statesById[this.model.id] =
       widgetFactoryService.statesById[this.model.id] || new ChartWidgetState();
 };
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 // No formal goog.inherits to work around lack of generics.
 
 

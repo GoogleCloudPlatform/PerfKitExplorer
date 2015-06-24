@@ -31,12 +31,12 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersi
 
 
 goog.scope(function() {
-  var DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
+  const DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4 = function() {
     this.version = '4';
   };
-  var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4;
+  const DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4;
 
   DashboardSchema.prototype.verify = function(dashboard) {
     return DashboardVersionUtil.VerifyDashboard(dashboard, null, function(widget) {
@@ -51,7 +51,7 @@ goog.scope(function() {
   DashboardSchema.prototype.update = function(dashboard) {
     DashboardVersionUtil.UpdateDashboard(dashboard, null, function(widget) {
       if (!goog.isDef(widget.datasource.config.results.show_date)) {
-        var oldGrouping = widget.datasource.config.results.date_group;
+        let oldGrouping = widget.datasource.config.results.date_group;
         widget.datasource.config.results.show_date = false;
         widget.datasource.config.results.date_group = '';
 

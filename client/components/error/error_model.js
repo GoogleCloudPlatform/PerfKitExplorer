@@ -22,14 +22,14 @@ goog.provide('p3rf.perfkit.explorer.components.error.ErrorTypes');
 
 
 goog.scope(function() {
-var components = p3rf.perfkit.explorer.components;
+const components = p3rf.perfkit.explorer.components;
 
 
 /**
  * Static type for Error levels.
  */
 components.error.ErrorTypes = function() {};
-var ErrorTypes = components.error.ErrorTypes;
+const ErrorTypes = components.error.ErrorTypes;
 
 
 /** @export @type {!string} */

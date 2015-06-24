@@ -100,8 +100,8 @@ SidebarTabService.prototype.getFirstTab = function() {
   if (this.dashboardService_.selectedWidget) {
     return this.tabs[0];
   } else {
-    for (var i=0, len=this.tabs.length; i < len; ++i) {
-      var currentTab = this.tabs[i];
+    for (let i=0, len=this.tabs.length; i < len; ++i) {
+      let currentTab = this.tabs[i];
 
       if (!currentTab.requireWidget) {
         return currentTab;
@@ -116,8 +116,8 @@ SidebarTabService.prototype.getLastTab = function() {
   if (this.dashboardService_.selectedWidget) {
     return this.tabs[this.tabs.length - 1];
   } else {
-    for (var i=this.tabs.length - 1; i >= 0; --i) {
-      var currentTab = this.tabs[i];
+    for (let i=this.tabs.length - 1; i >= 0; --i) {
+      let currentTab = this.tabs[i];
 
       if (!currentTab.requireWidget) {
         return currentTab;
@@ -130,7 +130,7 @@ SidebarTabService.prototype.getLastTab = function() {
 
 SidebarTabService.prototype.getNextTab = function() {
   if (this.selectedTab) {
-    var selectedTabIndex = this.tabs.indexOf(
+    let selectedTabIndex = this.tabs.indexOf(
         this.selectedTab);
     if (selectedTabIndex == -1) {
       throw 'Cannot find selected tab.';
@@ -141,9 +141,9 @@ SidebarTabService.prototype.getNextTab = function() {
         return this.tabs[selectedTabIndex];
       }
     } else {
-      for (var i=selectedTabIndex + 1, len=this.tabs.length;
+      for (let i=selectedTabIndex + 1, len=this.tabs.length;
            i < len; ++i) {
-        var currentTab = this.tabs[i];
+        let currentTab = this.tabs[i];
 
         if (!currentTab.requireWidget) {
           return currentTab;
@@ -157,7 +157,7 @@ SidebarTabService.prototype.getNextTab = function() {
 
 SidebarTabService.prototype.getPreviousTab = function() {
   if (this.selectedTab) {
-    var selectedTabIndex = this.tabs.indexOf(
+    let selectedTabIndex = this.tabs.indexOf(
         this.selectedTab);
     if (selectedTabIndex == -1) {
       throw 'Cannot find selected tab.';
@@ -168,8 +168,8 @@ SidebarTabService.prototype.getPreviousTab = function() {
         return this.tabs[selectedTabIndex];
       }
     } else {
-      for (var i=selectedTabIndex - 1; i >= 0; --i) {
-        var currentTab = this.tabs[i];
+      for (let i=selectedTabIndex - 1; i >= 0; --i) {
+        let currentTab = this.tabs[i];
 
         if (!currentTab.requireWidget) {
           return currentTab;
