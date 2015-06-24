@@ -70,10 +70,6 @@
   display: none !important;
 }
 
-.pk-chart-loading {
-  margin-bottom: 12px;
-}
-
 .pk-chart-loading .md-left .md-half-circle {
   border-color: #B0BEC5 !important; /** Blue-Grey 200 */
 }

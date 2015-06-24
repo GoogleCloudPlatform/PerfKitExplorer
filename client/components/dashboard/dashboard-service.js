@@ -357,7 +357,8 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
       for (let widget of container.model.container.children) {
         this.explorerStateService_.widgets.all[widget.model.id] = widget;
         if (widget.model.id === this.explorerStateService_.widgets.selectedId) {
-          widget.state().selected = true;
+          this.selectWidget(
+              widget, this.explorerStateService_.containers.selected);
         }
       }
     }
