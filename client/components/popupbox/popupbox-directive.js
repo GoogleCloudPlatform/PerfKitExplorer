@@ -15,10 +15,10 @@
  *
  * @fileoverview Popupbox is an angular directive used to display a list of
  * elements, and maintain an "insertion element".  It's currently designed for
- * collecting column/result data in the Perfkit Explorer UI.
+ * collecting column/result data in the PerfKit Explorer UI.
  *
  * Usage:
- *   <div ng-controller="PerfkitQueryController">
+ *   <div ng-controller="PerfKitQueryController">
  *     <input
  *         type="text"
  *         popupbox

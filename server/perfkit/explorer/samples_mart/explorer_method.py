@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Base class for Perfkit Explorer-related queries.
+Base class for PerfKit Explorer-related queries.
 
 ExplorerQueryBase provides Explorer queries with a behavioral model
 of constructing SQL, executing a query, reformatting the BQ results,

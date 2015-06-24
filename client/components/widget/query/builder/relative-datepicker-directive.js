@@ -16,10 +16,10 @@
  * @fileoverview RelativeDatePicker is a composite component that combines a
  * date picker with the ability to specify relative dates (ex:
  * last n days/months).  It uses the AngularUI datepicker control, and in
- * Perfkit is used in conjunction with a popupbox directive.
+ * PerfKit is used in conjunction with a popupbox directive.
  *
  * Usage:
- *   <div ng-controller="PerfkitQueryController">
+ *   <div ng-controller="PerfKitQueryController">
  *     <input
  *         type="text"
  *         popupbox

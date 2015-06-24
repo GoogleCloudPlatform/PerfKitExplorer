@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Base class and utility functions for Perfkit Explorer Http requests.
+Base class and utility functions for PerfKit Explorer Http requests.
 
 This module provides utility functions for Explorer http handlers, and
 extends webapp2.RequestHandler for improved support of version-specific script

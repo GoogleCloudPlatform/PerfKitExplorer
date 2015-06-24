@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview CodeEditorSettingsModel encapsulates Perfkit settings for
+ * @fileoverview CodeEditorSettingsModel encapsulates PerfKit settings for
  *     the CodeMirror editor.
  * @author joemu@google.com (Joe Allan Muharsky)
  */

@@ -14,7 +14,7 @@ limitations under the License.
 
 Main entry module for pages specified in app.yaml.
 
-This module contains the Http handlers for HTML page requests in the Perfkit
+This module contains the Http handlers for HTML page requests in the PerfKit
 Explorer application.
 """
 

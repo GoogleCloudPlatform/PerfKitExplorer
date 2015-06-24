@@ -149,7 +149,7 @@ class BigQueryClient(object):
     Load a JSON credential file and create credentials objects.
     Args:
       credential_file: A file path string for the credentials JSON file.
-      env: A constant in data_source_config.Environments for Perfkit
+      env: A constant in data_source_config.Environments for PerfKit
           (e.g, PRODUCTION or TESTING).
       project_id: The project ID to use.  If not provided, it will be derived
           from the environment.

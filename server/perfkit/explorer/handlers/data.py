@@ -15,7 +15,7 @@ limitations under the License.
 Main entry module for data specified in app.yaml.
 
 This module contains the Http handlers for data requests (as JSON) in the
-Perfkit Explorer application (as well as other consumers).  Data URL's are
+PerfKit Explorer application (as well as other consumers).  Data URL's are
 prefixed with /data/{source} in the REST API, and in general the entities are
 referenced with GET requests.
 """

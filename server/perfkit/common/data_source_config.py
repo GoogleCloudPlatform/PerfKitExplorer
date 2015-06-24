@@ -12,12 +12,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-A module containing data source configuration for Perfkit.
+A module containing data source configuration for PerfKit.
 
 Each environment
 is a collection of services required to support the system.  For example,
 the prod environment is where Cloud and end-users will record their data, while
-testing is used by the Perfkit team to test out new implementations of the
+testing is used by the PerfKit team to test out new implementations of the
 pipeline.
 
 Design and more detail on supported environments can be found at:

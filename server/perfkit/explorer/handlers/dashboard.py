@@ -15,7 +15,7 @@ limitations under the License.
 Main entry module for dashboard data specified in app.yaml.
 
 This module contains the Http handlers for dashboard data requests (as JSON)
-in the Perfkit Explorer application (as well as other consumers).  GAE's data
+in the PerfKit Explorer application (as well as other consumers).  GAE's data
 store is used to store, retrieve and manage JSON representations of Explorer
 dashboards.
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @fileoverview Javascript Query Editor service.  This provides access to the
- * model for defining a Perfkit query via logical parameters (including, but not
+ * model for defining a PerfKit query via logical parameters (including, but not
  * limited to, filters and column settings).  It can also be used to produce
  * a SQL statement from current settings.
  *

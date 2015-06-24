@@ -1,4 +1,4 @@
-The following third-party python scripts are used in Perfkit:
+The following third-party python scripts are used in PerfKit:
 * Google Python API      https://github.com/google/google-api-python-client
 * OAuth2                 https://github.com/google/oauth2client
 * Dateutil               https://labix.org/python-dateutil

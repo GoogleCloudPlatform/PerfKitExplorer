@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview Model definition for a BigQuery query against Perfkit samples
+ * @fileoverview Model definition for a BigQuery query against PerfKit samples
  * data.
  * @author joemu@google.com (Joe Allan Muharsky)
  */

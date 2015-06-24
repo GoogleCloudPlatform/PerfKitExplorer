@@ -18,7 +18,7 @@
  * component as well for free-hand entry.
  *
  * Usage:
- *   <div ng-controller="PerfkitQueryController">
+ *   <div ng-controller="PerfKitQueryController">
  *     <input
  *         type="text"
  *         popupbox

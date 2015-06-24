@@ -164,5 +164,5 @@ Set up a PerfKit dashboard
 1. Click "Edit Config" in the gear icon at the top right and set
    "default project" to the project id.
 
-1. In Perfkit Dashboard Administration, click "Upload", and select
+1. In PerfKit Dashboard Administration, click "Upload", and select
    the sample dashboard file: *PerfKitExplorer/data/samples_mart/sample_dashboard.json*

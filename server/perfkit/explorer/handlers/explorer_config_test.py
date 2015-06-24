@@ -12,7 +12,7 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-Tests for data handlers in the Perfkit Explorer application."""
+Tests for data handlers in the PerfKit Explorer application."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
