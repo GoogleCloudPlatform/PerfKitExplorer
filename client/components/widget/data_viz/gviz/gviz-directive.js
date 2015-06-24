@@ -97,8 +97,9 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       scope.isLoadingDisplayed = function() {
         let widgetState = scope.widgetConfig.state();
         return (
-            widgetState.datasource.status === ResultsDataStatus.FETCHING ||
-            widgetState.datasource.status === ResultsDataStatus.TOFETCH);
+            scope.widgetConfig.model.datasource.query && (
+                widgetState.datasource.status === ResultsDataStatus.FETCHING ||
+                widgetState.datasource.status === ResultsDataStatus.TOFETCH));
       };
 
       scope.isChartDisplayed = function() {
