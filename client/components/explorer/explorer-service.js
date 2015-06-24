@@ -210,7 +210,7 @@ ExplorerService.prototype.viewSql = function(rewrite) {
     throw new Error('No selected widget.');
   }
 
-  if (rewrite === true) {
+  if (rewrite === true && !widget.model.datasource.custom_query) {
     this.dashboard.rewriteQuery(widget);
   }
 

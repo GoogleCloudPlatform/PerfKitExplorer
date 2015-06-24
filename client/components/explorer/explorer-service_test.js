@@ -18,6 +18,7 @@
  */
 
 goog.require('p3rf.perfkit.explorer.application.module');
+goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
@@ -31,6 +32,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 describe('explorerService', function() {
   const explorer = p3rf.perfkit.explorer;
   const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
   const ConfigService = explorer.components.config.ConfigService;
   const QueryBuilderService =
       explorer.components.widget.query.builder.QueryBuilderService;
@@ -169,5 +171,47 @@ describe('explorerService', function() {
          'Selected widget doesn\'t have a datasource property.'));
         }
     );
+  });
+
+  describe('viewSql', function() {
+    var boundWidget;
+
+    beforeEach(inject(function() {
+      boundWidget = new ChartWidgetConfig(widgetFactoryService);
+      boundWidget.state().datasource.status = ResultsDataStatus.NODATA;
+      dashboardService.selectedWidget = boundWidget;
+    }));
+
+    it('should open the code editor to the SQL pane', function() {
+      expect(svc.model.code_editor.isOpen).toEqual(false);
+
+      spyOn(dashboardService, 'rewriteQuery');
+
+      svc.viewSql();
+
+      expect(dashboardService.rewriteQuery).not.toHaveBeenCalled();
+      expect(svc.model.code_editor.isOpen).toEqual(true);
+      expect(svc.model.code_editor.selectedMode).toEqual(CodeEditorMode.SQL)
+    });
+
+    it('should rewrite the query when rewrite is true and custom_query is false', function() {
+      boundWidget.model.datasource.custom_query = false;
+
+      spyOn(dashboardService, 'rewriteQuery');
+
+      svc.viewSql(true);
+
+      expect(dashboardService.rewriteQuery).toHaveBeenCalled();
+    });
+
+    it('should not rewrite the query when rewrite is true and custom_query is true', function() {
+      boundWidget.model.datasource.custom_query = true;
+
+      spyOn(dashboardService, 'rewriteQuery');
+
+      svc.viewSql(true);
+
+      expect(dashboardService.rewriteQuery).not.toHaveBeenCalled();
+    });
   });
 });
