@@ -333,12 +333,14 @@ QueryBuilderService.prototype.getSql = function(
     fieldSortOrders.push('date');
   }
 
-  for (ctr = 0, len = model.results.labels.length; ctr < len; ctr++) {
-    label = model.results.labels[ctr].label;
-    if (goog.isDef(label) && !goog.string.isEmpty(label)) {
-      let field = 'REGEXP_EXTRACT(labels, r\'\\|' + label + ':(.*?)\\|\')';
-      fieldFilters.push(this.createSimpleFilter(
-          field, null, null, null, label));
+  if (goog.isDefAndNotNull(model.results.labels)) {
+    for (ctr = 0, len = model.results.labels.length; ctr < len; ctr++) {
+      label = model.results.labels[ctr].label;
+      if (goog.isDef(label) && !goog.string.isEmpty(label)) {
+        let field = 'REGEXP_EXTRACT(labels, r\'\\|' + label + ':(.*?)\\|\')';
+        fieldFilters.push(this.createSimpleFilter(
+            field, null, null, null, label));
+      }
     }
   }
 
