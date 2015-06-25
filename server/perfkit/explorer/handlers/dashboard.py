@@ -445,7 +445,8 @@ class ListDashboardHandler(base.RequestHandlerBase):
             filter_property == users.get_current_user())
 
       query = query.order(dashboard_model.Dashboard.title)
-      results = query.fetch(limit=1000)
+      # TODO: Add paging to the dashboard UI and limit fetches.
+      results = query.fetch(limit=2000)
 
       response = []
       for result in results:
