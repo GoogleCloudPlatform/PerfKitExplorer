@@ -87,13 +87,13 @@ explorer.components.widget.query.QueryResultDataService = function(
    */
   this.GvizDataTable_ = GvizDataTable;
 };
-var QueryResultDataService = (
+const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 
 
 /** @typedef {*} */
 explorer.components.widget.query.DataTableJson;
-var DataTableJson = explorer.components.widget.query.DataTableJson;
+const DataTableJson = explorer.components.widget.query.DataTableJson;
 
 
 /**
@@ -106,10 +106,10 @@ var DataTableJson = explorer.components.widget.query.DataTableJson;
  */
 QueryResultDataService.prototype.getColumnIndexesOfType_ = function(
     data, type) {
-  var columnIndexes = [];
+  let columnIndexes = [];
   angular.forEach(data.cols, function(column, index) {
     if (goog.isArrayLike(type)) {
-      var arr = /** @type {Array.<string>} */ (type);
+      let arr = /** @type {Array.<string>} */ (type);
       if (goog.array.contains(arr, column.type)) {
         columnIndexes.push(index);
       }
@@ -130,13 +130,13 @@ QueryResultDataService.prototype.getColumnIndexesOfType_ = function(
  * @private
  */
 QueryResultDataService.prototype.parseDates_ = function(data) {
-  var columnIndexes = this.getColumnIndexesOfType_(data, ['date', 'datetime']);
+  let columnIndexes = this.getColumnIndexesOfType_(data, ['date', 'datetime']);
 
   if (columnIndexes.length > 0) {
     angular.forEach(data.rows, function(row) {
       angular.forEach(columnIndexes, function(columnIndex) {
-        var dateString = row.c[columnIndex].v;
-        var date = new Date(dateString);
+        let dateString = row.c[columnIndex].v;
+        let date = new Date(dateString);
         row.c[columnIndex].v = date;
       });
     });
@@ -150,17 +150,17 @@ QueryResultDataService.prototype.parseDates_ = function(data) {
  * @param {DataTableJson} data
  */
 QueryResultDataService.prototype.applyRoles = function(data) {
-  var columns = data['cols'];
+  let columns = data['cols'];
 
-  for (var i = 0, len = columns.length; i < len; ++i) {
-    var column = columns[i];
+  for (let i = 0, len = columns.length; i < len; ++i) {
+    let column = columns[i];
 
     // TODO: Tie this logic to a configuration in the underlying data.
     switch (column['id']) {
         case 'tooltip':
           column['role'] = 'tooltip';
 
-          var xprops = column['p'];
+          let xprops = column['p'];
 
           if (!xprops) {
             xprops = {'role': 'tooltip'};
@@ -181,17 +181,17 @@ QueryResultDataService.prototype.applyRoles = function(data) {
  * @return {angular.$q.Promise.<google.visualization.DataTable>}
  */
 QueryResultDataService.prototype.fetchResults = function(datasource) {
-  var deferred = this.q_.defer();
-  var cacheKey = angular.toJson(datasource);
-  var cachedDataTable = this.cache_.get(cacheKey);
+  let deferred = this.q_.defer();
+  let cacheKey = angular.toJson(datasource);
+  let cachedDataTable = this.cache_.get(cacheKey);
 
   if (cachedDataTable) {
     deferred.resolve(cachedDataTable);
   } else {
-    var endpoint = '/data/sql';
+    let endpoint = '/data/sql';
 
-    var postData = {'datasource': datasource};
-    var promise = this.http_.post(endpoint, postData);
+    let postData = {'datasource': datasource};
+    let promise = this.http_.post(endpoint, postData);
 
     promise.then(angular.bind(this, function(response) {
       if (response.data.error) {
@@ -199,9 +199,9 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
         deferred.reject(response.data);
       } else {
         if (this.explorerService_.model.logStatistics) {
-          var rows = response.data.totalRows;
-          var size = response.data.totalBytesProcessed;
-          var speed = response.data.elapsedTime;
+          let rows = response.data.totalRows;
+          let size = response.data.totalBytesProcessed;
+          let speed = response.data.elapsedTime;
 
           this.errorService_.addError(
               ErrorTypes.INFO,
@@ -210,10 +210,10 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
               'in ' + this.filter_('number')(speed, 2) + ' sec.');
         }
 
-        var data = response.data.results;
+        let data = response.data.results;
         this.parseDates_(data);
 
-        var dataTable = new this.GvizDataTable_(data);
+        let dataTable = new this.GvizDataTable_(data);
 
         this.cache_.put(cacheKey, dataTable);
         deferred.resolve(dataTable);

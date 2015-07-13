@@ -33,7 +33,7 @@ explorer.models.perfkit_simple_builder.PicklistModel =
   /** @type {Array.<string>} */
   this.items = [];
 };
-var PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
+const PicklistModel = explorer.models.perfkit_simple_builder.PicklistModel;
 
 
 });  // goog.scope

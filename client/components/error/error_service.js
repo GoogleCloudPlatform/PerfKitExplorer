@@ -24,9 +24,9 @@ goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 
 
 goog.scope(function() {
-var components = p3rf.perfkit.explorer.components;
-var ErrorModel = components.error.ErrorModel;
-var ErrorTypes = components.error.ErrorTypes;
+const components = p3rf.perfkit.explorer.components;
+const ErrorModel = components.error.ErrorModel;
+const ErrorTypes = components.error.ErrorTypes;
 
 
 
@@ -63,7 +63,7 @@ components.error.ErrorService = function($rootScope, $filter, $window) {
    */
   this.MAX_ERROR_SEVERITY = ErrorTypes.WARNING;
 };
-var ErrorService = components.error.ErrorService;
+const ErrorService = components.error.ErrorService;
 
 
 /**
@@ -88,7 +88,7 @@ ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
       return;
     }
 
-    var existingError = this.filter_('getByProperty')(
+    let existingError = this.filter_('getByProperty')(
         'errorId', opt_errorId, this.errors);
     if (existingError) {
       existingError.errorType = errorType;
@@ -96,7 +96,7 @@ ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
       return existingError;
     }
   }
-  var error = new ErrorModel(errorType, text, opt_errorId);
+  let error = new ErrorModel(errorType, text, opt_errorId);
   this.errors.push(error);
 
   if (this.logToConsole === true) {
@@ -212,7 +212,7 @@ ErrorService.prototype.removeErrorAt = function(errorIndex) {
  * @export
  */
 ErrorService.prototype.removeError = function(error) {
-  var errorIndex = this.errors.indexOf(error);
+  let errorIndex = this.errors.indexOf(error);
 
   if (!errorIndex) {
     console.log('removeError failed: error not found:');
@@ -228,7 +228,7 @@ ErrorService.prototype.removeError = function(error) {
  * @param {!number} errorId The id of the error to be removed.
  */
 ErrorService.prototype.removeErrorById = function(errorId) {
-  var error = this.filter_('getByProperty')('errorId', errorId, this.errors);
+  let error = this.filter_('getByProperty')('errorId', errorId, this.errors);
 
   if (!error) {
     console.log('removeError failed: id "' + errorId + '" not found.');

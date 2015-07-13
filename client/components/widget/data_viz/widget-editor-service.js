@@ -78,7 +78,7 @@ explorer.components.widget.data_viz.WidgetEditorService = function(
    */
   this.gvizEvents_ = gvizEvents;
 };
-var WidgetEditorService = (
+const WidgetEditorService = (
     explorer.components.widget.data_viz.WidgetEditorService);
 
 
@@ -92,11 +92,11 @@ var WidgetEditorService = (
  * @return {angular.$q.Promise.<ChartModel>}
  */
 WidgetEditorService.prototype.showEditor = function(chartModel, dataTable) {
-  var deferred = this.q_.defer();
+  let deferred = this.q_.defer();
 
-  var editorClosed = function() {
-    var newChartWrapper = editor.getChartWrapper();
-    var newChartConfig =
+  let editorClosed = function() {
+    let newChartWrapper = editor.getChartWrapper();
+    let newChartConfig =
         this.chartWrapperService_.getChartModel(newChartWrapper);
 
     this.rootScope_.$apply(function() {
@@ -104,12 +104,12 @@ WidgetEditorService.prototype.showEditor = function(chartModel, dataTable) {
     });
   };
 
-  var editor = new this.GvizChartEditor_();
+  let editor = new this.GvizChartEditor_();
   // TODO: Investigate if we have to unlisten this event.
   this.gvizEvents_.addListener(editor, 'ok', angular.bind(this, editorClosed));
 
   // Create a new chart wrapper based on the chart configuration
-  var chartWrapper = this.chartWrapperService_.create(chartModel.chartType,
+  let chartWrapper = this.chartWrapperService_.create(chartModel.chartType,
       chartModel.options, dataTable);
   editor.openDialog(chartWrapper);
 

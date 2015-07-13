@@ -65,7 +65,7 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
        * @export
        */
       this.saveDashboardCopy = function() {
-        var title = window.prompt(
+        let title = window.prompt(
             'Please provide the title for your dashboard',
             this.dashboardSvc.current.model.title);
         if (!title) { return; }

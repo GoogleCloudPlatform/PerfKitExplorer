@@ -27,7 +27,7 @@ explorer.mocks.googleVisualizationMocks = angular.module(
     'googleVisualizationMocks', []);
 const googleVisualizationMocks = explorer.mocks.googleVisualizationMocks;
 
-var getGvizChartWrapperMock = function() {
+let getGvizChartWrapperMock = function() {
   function GvizChartWrapper() {
   }
   GvizChartWrapper.prototype.draw = jasmine.createSpy();
@@ -45,7 +45,7 @@ var getGvizChartWrapperMock = function() {
 googleVisualizationMocks.factory('GvizChartWrapper', getGvizChartWrapperMock);
 
 
-var getGvizChartEditorMock = function() {
+let getGvizChartEditorMock = function() {
   function GvizChartEditor() {
   }
   GvizChartEditor.prototype.getChartWrapper = jasmine.createSpy();
@@ -56,7 +56,7 @@ var getGvizChartEditorMock = function() {
 googleVisualizationMocks.factory('GvizChartEditor', getGvizChartEditorMock);
 
 
-var getGvizDataTableMock = function() {
+let getGvizDataTableMock = function() {
   function GvizDataTable() {
   }
   GvizDataTable.prototype.getNumberOfRows = jasmine.createSpy();
@@ -67,7 +67,7 @@ var getGvizDataTableMock = function() {
 googleVisualizationMocks.factory('GvizDataTable', getGvizDataTableMock);
 
 
-var getGvizDataViewMock = function() {
+let getGvizDataViewMock = function() {
   function GvizDataView() {
   }
   GvizDataView.prototype.getFilteredRows = jasmine.createSpy();
@@ -81,7 +81,7 @@ var getGvizDataViewMock = function() {
 googleVisualizationMocks.factory('GvizDataView', getGvizDataViewMock);
 
 
-var GvizEventsMock = function() {
+let GvizEventsMock = function() {
   return {
     addListener: jasmine.createSpy(),
     removeListener: jasmine.createSpy(),

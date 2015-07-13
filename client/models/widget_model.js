@@ -35,7 +35,7 @@ explorer.models.WidgetType = {
   CHART: 'chart',
   CONTAINER: 'container'
 };
-var WidgetType = explorer.models.WidgetType;
+const WidgetType = explorer.models.WidgetType;
 
 
 
@@ -55,7 +55,7 @@ explorer.models.WidgetState = function() {
    */
   this.parent = null;
 };
-var WidgetState = explorer.models.WidgetState;
+const WidgetState = explorer.models.WidgetState;
 
 
 
@@ -73,7 +73,7 @@ explorer.models.LayoutModel = function() {
    */
   this.cssClasses = null;
 };
-var LayoutModel = explorer.models.LayoutModel;
+const LayoutModel = explorer.models.LayoutModel;
 
 
 
@@ -109,7 +109,7 @@ explorer.models.WidgetModel = function() {
    */
   this.layout = new LayoutModel();
 };
-var WidgetModel = explorer.models.WidgetModel;
+const WidgetModel = explorer.models.WidgetModel;
 
 
 
@@ -158,6 +158,6 @@ explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
   widgetFactoryService.statesById[this.model.id] =
       widgetFactoryService.statesById[this.model.id] || new WidgetState();
 };
-var WidgetConfig = explorer.models.WidgetConfig;
+const WidgetConfig = explorer.models.WidgetConfig;
 
 });  // goog.scope

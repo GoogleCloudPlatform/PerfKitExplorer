@@ -96,7 +96,7 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
 
   this.initDashboard();
 };
-var DashboardCtrl = explorer.components.dashboard.DashboardCtrl;
+const DashboardCtrl = explorer.components.dashboard.DashboardCtrl;
 
 
 /**
@@ -105,7 +105,7 @@ var DashboardCtrl = explorer.components.dashboard.DashboardCtrl;
  * @export
  */
 DashboardCtrl.prototype.initDashboard = function() {
-  var dashboardId = this.location_.search().dashboard;
+  let dashboardId = this.location_.search().dashboard;
   if (dashboardId) {
     this.fetchDashboard(dashboardId);
   } else {
@@ -129,7 +129,7 @@ DashboardCtrl.prototype.saveDashboard = function() {
  * @export
  */
 DashboardCtrl.prototype.fetchDashboard = function(dashboardId) {
-  var promise = this.dashboardDataService_.fetchDashboard(dashboardId);
+  let promise = this.dashboardDataService_.fetchDashboard(dashboardId);
   this.dashboardIsLoading = true;
 
   promise.then(angular.bind(this, function(dashboardConfig) {

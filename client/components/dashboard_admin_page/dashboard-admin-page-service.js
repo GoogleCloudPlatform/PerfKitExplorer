@@ -69,7 +69,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
    */
   this.model = new PageModel();
 };
-var DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
+const DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
 
 
 /**
@@ -79,7 +79,7 @@ var DashboardAdminPageService = explorer.components.dashboard_admin_page.Dashboa
 DashboardAdminPageService.prototype.listDashboards = function() {
   this.selection && this.selection.clearSelectedRows();
 
-  var promise = this.dashboardDataService_.list(
+  let promise = this.dashboardDataService_.list(
       this.model.mine, this.model.owner);
   this.isLoading = true;
 
@@ -105,7 +105,7 @@ DashboardAdminPageService.prototype.listDashboards = function() {
  * @export
  */
 DashboardAdminPageService.prototype.addDashboard = function(dashboardJson) {
-  var dashboard = new DashboardModel();
+  let dashboard = new DashboardModel();
   dashboard.id = dashboardJson.id;
   dashboard.title = dashboardJson.title;
   dashboard.owner = dashboardJson.owner;

@@ -29,10 +29,10 @@ goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
-var WidgetConfig = p3rf.perfkit.explorer.models.WidgetConfig;
-var WidgetModel = p3rf.perfkit.explorer.models.WidgetModel;
-var WidgetState = p3rf.perfkit.explorer.models.WidgetState;
-var WidgetType = p3rf.perfkit.explorer.models.WidgetType;
+const WidgetConfig = p3rf.perfkit.explorer.models.WidgetConfig;
+const WidgetModel = p3rf.perfkit.explorer.models.WidgetModel;
+const WidgetState = p3rf.perfkit.explorer.models.WidgetState;
+const WidgetType = p3rf.perfkit.explorer.models.WidgetType;
 
 /**
  * @enum {string}
@@ -42,7 +42,7 @@ p3rf.perfkit.explorer.components.container.Flow = {
   COLUMN: 'column',
   WRAP: 'wrap'
 };
-var Flow = p3rf.perfkit.explorer.components.container.Flow;
+const Flow = p3rf.perfkit.explorer.components.container.Flow;
 
 
 /** @constructor */
@@ -72,7 +72,7 @@ ContainerModel = function() {
    */
   this.children = [];
 };
-var ContainerModel = (
+const ContainerModel = (
     p3rf.perfkit.explorer.components.container.ContainerModel);
 
 
@@ -92,7 +92,7 @@ ContainerWidgetModel = function() {
    */
   this.container = new ContainerModel();
 };
-var ContainerWidgetModel = (
+const ContainerWidgetModel = (
     p3rf.perfkit.explorer.components.container.
     ContainerWidgetModel);
 goog.inherits(ContainerWidgetModel, WidgetModel);
@@ -147,7 +147,7 @@ ContainerWidgetConfig = function(
   widgetFactoryService.statesById[this.model.id] =
   widgetFactoryService.statesById[this.model.id] || new WidgetState();
 };
-var ContainerWidgetConfig = (
+const ContainerWidgetConfig = (
     p3rf.perfkit.explorer.components.container.
     ContainerWidgetConfig);
 // No formal goog.inherits to work around lack of generics.

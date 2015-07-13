@@ -36,7 +36,7 @@ goog.scope(function() {
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6 = function() {
     this.version = '6';
   };
-  var DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6;
+  const DashboardSchema = p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6;
 
   DashboardSchema.prototype.verify = function(dashboard) {
     if (!goog.isDef(dashboard.table_partition)) {
