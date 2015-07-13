@@ -1,7 +1,7 @@
 <div class="pk-page-content-cell">
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
-  <div ng-repeat="container in dashboardSvc.widgets" class="pk-container"
+  <div ng-repeat="container in dashboardSvc.containers" class="pk-container"
        ng-class="{'pk-container-selected': container.state().selected}">
 
     <container class="pk-container-content" layout="column" ng-model="container.model">

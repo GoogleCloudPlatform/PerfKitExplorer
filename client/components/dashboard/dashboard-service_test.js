@@ -65,7 +65,7 @@ describe('dashboardService', function() {
   }));
 
   it('should initialize the appropriate objects.', function() {
-    expect(svc.widgets).toEqual([]);
+    expect(svc.containers).toEqual([]);
     expect(svc.selectedWidget).toBeNull();
     expect(svc.selectedContainer).toBeNull();
     expect(svc.selectWidget).not.toBeNull();
@@ -212,10 +212,10 @@ describe('dashboardService', function() {
     it('should add a new container and add a new widget.', function() {
       spyOn(svc, 'addWidget');
 
-      expect(svc.widgets.length).toEqual(0);
+      expect(svc.containers.length).toEqual(0);
       actualContainer = svc.addContainer();
-      expect(svc.widgets.length).toEqual(1);
-      var newContainer = svc.widgets[0];
+      expect(svc.containers.length).toEqual(1);
+      var newContainer = svc.containers[0];
       expect(svc.addWidget).toHaveBeenCalledWith(newContainer);
       expect(actualContainer).toEqual(newContainer);
     });
@@ -224,14 +224,14 @@ describe('dashboardService', function() {
   describe('removeContainer', function() {
 
     it('should remove the container from the widgets array.', function() {
-      svc.widgets.push(container);
+      svc.containers.push(container);
       container.model.container.children.push(
           new ContainerWidgetConfig(widgetFactoryService));
-      expect(svc.widgets.indexOf(container)).toEqual(0);
+      expect(svc.containers.indexOf(container)).toEqual(0);
 
       svc.removeContainer(container);
 
-      expect(svc.widgets.indexOf(container)).toEqual(-1);
+      expect(svc.containers.indexOf(container)).toEqual(-1);
     });
   });
 
@@ -323,7 +323,7 @@ describe('dashboardService', function() {
 
     it('should move into a new top-level container if it has siblings.',
         function() {
-          svc.widgets.push(container);
+          svc.containers.push(container);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget);
@@ -334,8 +334,8 @@ describe('dashboardService', function() {
 
           newContainer = widget.state().parent;
           expect(newContainer).not.toEqual(container);
-          expect(svc.widgets.indexOf(newContainer)).toEqual(0);
-          expect(svc.widgets.indexOf(container)).toEqual(1);
+          expect(svc.containers.indexOf(newContainer)).toEqual(0);
+          expect(svc.containers.indexOf(container)).toEqual(1);
 
           expect(newContainer.model.container.children.indexOf(widget)).
               toEqual(0);
@@ -347,8 +347,8 @@ describe('dashboardService', function() {
     it('should move to the previous container if it is not already first.',
         function() {
           var targetContainer = new ContainerWidgetConfig(widgetFactoryService);
-          svc.widgets.push(targetContainer);
-          svc.widgets.push(container);
+          svc.containers.push(targetContainer);
+          svc.containers.push(container);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget);
@@ -357,8 +357,8 @@ describe('dashboardService', function() {
 
           svc.moveWidgetToPreviousContainer(widget);
 
-          expect(svc.widgets.indexOf(targetContainer)).toEqual(0);
-          expect(svc.widgets.indexOf(container)).toEqual(1);
+          expect(svc.containers.indexOf(targetContainer)).toEqual(0);
+          expect(svc.containers.indexOf(container)).toEqual(1);
 
           expect(targetContainer.model.container.children.indexOf(widget)).
               toEqual(0);
@@ -370,20 +370,20 @@ describe('dashboardService', function() {
     it('should clean up a container if left empty after the widget is moved.',
         function() {
           var secondContainer = new ContainerWidgetConfig(widgetFactoryService);
-          svc.widgets.push(container);
-          svc.widgets.push(secondContainer);
+          svc.containers.push(container);
+          svc.containers.push(secondContainer);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget);
           secondContainer.model.container.children.push(widget2);
           widget2.state().parent = secondContainer;
 
-          expect(svc.widgets.length).toEqual(2);
+          expect(svc.containers.length).toEqual(2);
           svc.moveWidgetToPreviousContainer(widget2);
 
-          expect(svc.widgets.indexOf(secondContainer)).toEqual(-1);
-          expect(svc.widgets.indexOf(container)).toEqual(0);
-          expect(svc.widgets.length).toEqual(1);
+          expect(svc.containers.indexOf(secondContainer)).toEqual(-1);
+          expect(svc.containers.indexOf(container)).toEqual(0);
+          expect(svc.containers.length).toEqual(1);
           expect(container.model.container.children.indexOf(widget)).
               toEqual(0);
           expect(container.model.container.children.indexOf(widget2)).
@@ -394,19 +394,19 @@ describe('dashboardService', function() {
     it('should do nothing if it is the only sibling of the first container.',
         function() {
           var secondContainer = new ContainerWidgetConfig(widgetFactoryService);
-          svc.widgets.push(container);
-          svc.widgets.push(secondContainer);
+          svc.containers.push(container);
+          svc.containers.push(secondContainer);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget);
           secondContainer.model.container.children.push(widget2);
           widget.state().parent = container;
 
-          expect(svc.widgets.length).toEqual(2);
+          expect(svc.containers.length).toEqual(2);
           svc.moveWidgetToPreviousContainer(widget);
 
-          expect(svc.widgets.indexOf(container)).toEqual(0);
-          expect(svc.widgets.indexOf(secondContainer)).toEqual(1);
+          expect(svc.containers.indexOf(container)).toEqual(0);
+          expect(svc.containers.indexOf(secondContainer)).toEqual(1);
           expect(container.model.container.children.indexOf(widget)).
               toEqual(0);
           expect(secondContainer.model.container.children.indexOf(widget2)).
@@ -419,7 +419,7 @@ describe('dashboardService', function() {
 
     it('should move into a new bottom-level container if it has siblings.',
         function() {
-          svc.widgets.push(container);
+          svc.containers.push(container);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget2);
@@ -430,8 +430,8 @@ describe('dashboardService', function() {
 
           newContainer = widget.state().parent;
           expect(newContainer).not.toEqual(container);
-          expect(svc.widgets.indexOf(newContainer)).toEqual(1);
-          expect(svc.widgets.indexOf(container)).toEqual(0);
+          expect(svc.containers.indexOf(newContainer)).toEqual(1);
+          expect(svc.containers.indexOf(container)).toEqual(0);
 
           expect(newContainer.model.container.children.indexOf(widget)).
               toEqual(0);
@@ -443,8 +443,8 @@ describe('dashboardService', function() {
     it('should move to the next container if it is not already last.',
         function() {
           var targetContainer = new ContainerWidgetConfig(widgetFactoryService);
-          svc.widgets.push(container);
-          svc.widgets.push(targetContainer);
+          svc.containers.push(container);
+          svc.containers.push(targetContainer);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget2);
@@ -453,8 +453,8 @@ describe('dashboardService', function() {
 
           svc.moveWidgetToNextContainer(widget);
 
-          expect(svc.widgets.indexOf(container)).toEqual(0);
-          expect(svc.widgets.indexOf(targetContainer)).toEqual(1);
+          expect(svc.containers.indexOf(container)).toEqual(0);
+          expect(svc.containers.indexOf(targetContainer)).toEqual(1);
 
           expect(targetContainer.model.container.children.indexOf(widget)).
               toEqual(0);
@@ -466,20 +466,20 @@ describe('dashboardService', function() {
     it('should clean up a container if left empty after the widget is moved.',
         function() {
           var secondContainer = new ContainerWidgetConfig(widgetFactoryService);
-          svc.widgets.push(secondContainer);
-          svc.widgets.push(container);
+          svc.containers.push(secondContainer);
+          svc.containers.push(container);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget);
           secondContainer.model.container.children.push(widget2);
           widget2.state().parent = secondContainer;
 
-          expect(svc.widgets.length).toEqual(2);
+          expect(svc.containers.length).toEqual(2);
           svc.moveWidgetToNextContainer(widget2);
 
-          expect(svc.widgets.indexOf(secondContainer)).toEqual(-1);
-          expect(svc.widgets.indexOf(container)).toEqual(0);
-          expect(svc.widgets.length).toEqual(1);
+          expect(svc.containers.indexOf(secondContainer)).toEqual(-1);
+          expect(svc.containers.indexOf(container)).toEqual(0);
+          expect(svc.containers.length).toEqual(1);
           expect(container.model.container.children.indexOf(widget)).
               toEqual(0);
           expect(container.model.container.children.indexOf(widget2)).
@@ -490,19 +490,19 @@ describe('dashboardService', function() {
     it('should do nothing if it is the only sibling of the last container.',
         function() {
           var secondContainer = new ContainerWidgetConfig(widgetFactoryService);
-          svc.widgets.push(secondContainer);
-          svc.widgets.push(container);
+          svc.containers.push(secondContainer);
+          svc.containers.push(container);
 
           var widget2 = new WidgetConfig(widgetFactoryService);
           container.model.container.children.push(widget);
           secondContainer.model.container.children.push(widget2);
           widget.state().parent = container;
 
-          expect(svc.widgets.length).toEqual(2);
+          expect(svc.containers.length).toEqual(2);
           svc.moveWidgetToNextContainer(widget);
 
-          expect(svc.widgets.indexOf(container)).toEqual(1);
-          expect(svc.widgets.indexOf(secondContainer)).toEqual(0);
+          expect(svc.containers.indexOf(container)).toEqual(1);
+          expect(svc.containers.indexOf(secondContainer)).toEqual(0);
           expect(container.model.container.children.indexOf(widget)).
               toEqual(0);
           expect(secondContainer.model.container.children.indexOf(widget2)).
