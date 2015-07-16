@@ -41,7 +41,9 @@ goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerCtrl');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerHeaderDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerPageDirective');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerRouterConfig');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarDirective');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
@@ -89,7 +91,7 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 let requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
-  'ui.grid.resizeColumns', 'ui.grid.selection', 'ngMaterial',
+  'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
   'p3rf.perfkit.explorer.templates',
   explorer.mocks.application.module.name];
 
@@ -102,11 +104,13 @@ if (useMockData) {
   requiredModules.push('ngMockE2E');
 }
 
-
 /**
  * The main module for the Explorer app.
  */
 explorer.application.module = angular.module('explorer', requiredModules);
+
+explorer.application.module.config(
+    explorer.components.explorer.ExplorerRouterConfig);
 
 explorer.application.module.config(
     ['$locationProvider', function($locationProvider) {
@@ -136,6 +140,8 @@ explorer.application.module.service('arrayUtilService',
     explorer.components.util.ArrayUtilService);
 explorer.application.module.service('explorerService',
     explorer.components.explorer.ExplorerService);
+explorer.application.module.service('explorerStateService',
+    explorer.components.explorer.ExplorerStateService);
 explorer.application.module.service('sidebarTabService',
     explorer.components.explorer.sidebar.SidebarTabService);
 explorer.application.module.service('configService',
