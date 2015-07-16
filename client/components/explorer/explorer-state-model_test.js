@@ -22,7 +22,7 @@
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
 
 
-fdescribe('ExplorerStateModel', function() {
+describe('ExplorerStateModel', function() {
   var $rootScope, $state;
   var errorSvc;
 

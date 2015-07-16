@@ -43,16 +43,12 @@ describe('ExplorerStateService', function() {
   describe('should correctly initialize', function() {
     var expectedModel;
 
-    beforeEach(inject(function() {
-      expectedModel = new ExplorerStateModel();
-    }));
-
     it('the containers list', function() {
-      expect(svc.containers).toEqual(expectedModel);
+      expect(svc.containers).not.toBeNull();
     });
 
     it('the widgets list', function() {
-      expect(svc.widgets).toEqual(expectedModel);
+      expect(svc.widgets).not.toBeNull();
     });
   });
 
@@ -71,7 +67,7 @@ describe('ExplorerStateService', function() {
       svc.containers.add(container2);
     }));
 
-    fdescribe('selectWidget', function() {
+    describe('selectWidget', function() {
       it('should select items by id', function() {
         svc.selectWidget(container2.model.id, widget2.model.id);
         $rootScope.$apply();
