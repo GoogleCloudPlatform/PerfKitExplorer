@@ -52,9 +52,6 @@ describe('DashboardCtrl', function() {
         q = $q;
         dashboardDataService = _dashboardDataService_;
 
-        spyOn(ctrlPrototype, 'initDashboard');
-        spyOn(ctrlPrototype, 'fetchDashboard').and.callThrough();
-
         ctrl = $controller(
             explorer.components.dashboard.DashboardCtrl,
             {$scope: scope});
@@ -64,57 +61,6 @@ describe('DashboardCtrl', function() {
     expect(ctrl.dashboard).not.toBeNull();
     expect(ctrl.errors).toEqual([]);
     expect(ctrl.dashboardIsLoading).toBeFalsy();
-  });
-
-  it('should init the dashboard when created.', function() {
-    expect(ctrlPrototype.initDashboard).toHaveBeenCalled();
-  });
-
-  describe('initDashboard', function() {
-
-    it('should by default create a new container with one widget.',
-        function() {
-          ctrlPrototype.initDashboard.and.callThrough();
-          expect(ctrl.dashboard.containers.length).toEqual(0);
-
-          ctrl.initDashboard();
-
-          expect(ctrl.dashboard.containers.length).toEqual(1);
-          expect(ctrl.dashboard.containers[0].model.container.children.length).
-              toEqual(1);
-        }
-    );
-
-    it('should fetch a dashboard if there is a dashboardId ' +
-       'in the url.',
-        function() {
-          ctrlPrototype.initDashboard.and.callThrough();
-          location.search({dashboard: 'fakeId'});
-          rootScope.$apply();
-
-          ctrl.initDashboard();
-
-          expect(ctrlPrototype.fetchDashboard).toHaveBeenCalled();
-        }
-    );
-  });
-
-  describe('fetchDashboard', function() {
-
-    it('should fetch a dashboard and put it and its children in the scope.',
-        function() {
-          expect(ctrl.dashboard.containers.length).toEqual(0);
-
-          ctrl.fetchDashboard('fakeId');
-          httpBackend.flush();
-
-          var mockDashboard = mockData()[1];
-          expect(ctrl.dashboard.containers.length).
-              toEqual(mockDashboard.children.length);
-          expect(ctrl.dashboard.current.model.children.length).
-              toEqual(mockDashboard.children.length);
-        }
-    );
   });
 
   describe('saveDashboard', function() {

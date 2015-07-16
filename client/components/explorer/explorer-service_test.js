@@ -46,23 +46,27 @@ describe('explorerService', function() {
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(explorerService, _configService_, $httpBackend,
-      _dashboardService_, _queryBuilderService_, _widgetFactoryService_) {
-        svc = explorerService;
-        configService = _configService_;
-        dashboardService = _dashboardService_;
-        queryBuilderService = _queryBuilderService_;
-        widgetFactoryService = _widgetFactoryService_;
-        httpBackend = $httpBackend;
+  beforeEach(inject(function(explorerService, _configService_, $httpBackend, $state,
+      $rootScope, _dashboardService_, _queryBuilderService_, _widgetFactoryService_) {
+    svc = explorerService;
+    configService = _configService_;
+    dashboardService = _dashboardService_;
+    queryBuilderService = _queryBuilderService_;
+    widgetFactoryService = _widgetFactoryService_;
+    httpBackend = $httpBackend;
+    rootScope = $rootScope;
 
-        configService.populate({
-          'default_project': 'TEST_PROJECT',
-          'default_dataset': 'TEST_DATASET',
-          'default_table': 'TEST_TABLE',
-          'analytics_key': 'TEST_ANALYTICS_KEY',
-          'cache_duration': 30
-        });
-      }));
+    configService.populate({
+      'default_project': 'TEST_PROJECT',
+      'default_dataset': 'TEST_DATASET',
+      'default_table': 'TEST_TABLE',
+      'analytics_key': 'TEST_ANALYTICS_KEY',
+      'cache_duration': 30
+    });
+
+    dashboardService.newDashboard();
+    rootScope.$apply();
+  }));
 
   it('should initialize the appropriate objects.', function() {
     expect(svc.model).not.toBeNull();
@@ -134,10 +138,9 @@ describe('explorerService', function() {
         function() {
           var getSqlFunction = QueryBuilderService.prototype.getSql;
           try {
-            QueryBuilderService.prototype.getSql = function() {
-              return mockQuery; };
+            spyOn(queryBuilderService, 'getSql').and.returnValue(mockQuery);
 
-            var boundWidget = new ChartWidgetConfig(widgetFactoryService);
+            var boundWidget = dashboardService.selectedWidget;
             boundWidget.state().datasource.status = ResultsDataStatus.NODATA;
             dashboardService.selectedWidget = boundWidget;
 
@@ -154,6 +157,9 @@ describe('explorerService', function() {
 
     it('should raise an error if there is no selected widget.',
         function() {
+          dashboardService.unselectWidget();
+          rootScope.$apply();
+
           expect(function() {
             svc.customizeSql();
           }).toThrow(new Error('No selected widget.'));
@@ -164,8 +170,9 @@ describe('explorerService', function() {
        'datasource property.',
         function() {
           expect(function() {
-            dashboardService.selectedWidget =
-                new WidgetConfig(widgetFactoryService);
+            var widget = dashboardService.selectedWidget;
+            delete widget.model.datasource;
+
             svc.customizeSql();
           }).toThrow(new Error(
          'Selected widget doesn\'t have a datasource property.'));
@@ -177,9 +184,7 @@ describe('explorerService', function() {
     var boundWidget;
 
     beforeEach(inject(function() {
-      boundWidget = new ChartWidgetConfig(widgetFactoryService);
-      boundWidget.state().datasource.status = ResultsDataStatus.NODATA;
-      dashboardService.selectedWidget = boundWidget;
+      boundWidget = dashboardService.selectedWidget;
     }));
 
     it('should open the code editor to the SQL pane', function() {

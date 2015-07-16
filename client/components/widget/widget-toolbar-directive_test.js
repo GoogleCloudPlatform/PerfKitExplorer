@@ -41,6 +41,9 @@ describe('WidgetToolbarDirective', function() {
 
     dashboardService = _dashboardService_;
     explorerService = _explorerService_;
+
+    dashboardService.newDashboard();
+    scope.$digest();
   }));
 
   describe('compilation', function() {

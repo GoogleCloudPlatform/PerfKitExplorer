@@ -30,7 +30,8 @@ describe('WidgetEditorCtrl', function() {
   const WidgetConfig = explorer.models.WidgetConfig;
   const WidgetType = explorer.models.WidgetType;
 
-  var ctrl, scope, rootScope, dashboardService, showEditorDeferred,
+  var widget, container;
+  var ctrl, scope, dashboardService, showEditorDeferred,
       widgetEditorServiceMock, widgetFactoryService;
   var ctrlPrototype =
       explorer.components.widget.data_viz.WidgetEditorCtrl.prototype;
@@ -56,9 +57,13 @@ describe('WidgetEditorCtrl', function() {
   beforeEach(inject(function($rootScope, $controller, _dashboardService_,
       _widgetFactoryService_) {
         dashboardService = _dashboardService_;
-        rootScope = $rootScope;
         scope = $rootScope.$new();
         widgetFactoryService = _widgetFactoryService_;
+
+        dashboardService.newDashboard();
+        scope.$digest();
+        container = dashboardService.containers[0];
+        widget = container.model.container.children[0];
 
         // Spies on watches called functions
         spyOn(ctrlPrototype, 'updateSelectedChart').and.callThrough();
@@ -81,15 +86,16 @@ describe('WidgetEditorCtrl', function() {
 
     it('should be called when the selected widget reference changed.',
         function() {
-          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(0);
-          dashboardService.selectedWidget =
-              new ChartWidgetConfig(widgetFactoryService);
-          rootScope.$apply();
-          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(1);
+          var widget2 = dashboardService.addWidget(container);
 
-          dashboardService.selectedWidget =
-              new ChartWidgetConfig(widgetFactoryService);
-          rootScope.$apply();
+          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(0);
+          dashboardService.selectWidget(widget2, container);
+          scope.$digest();
+
+          expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(1);
+          dashboardService.selectWidget(widget, container);
+          scope.$digest();
+
           expect(ctrlPrototype.updateSelectedChart.calls.count()).toEqual(2);
         }
     );
@@ -98,32 +104,18 @@ describe('WidgetEditorCtrl', function() {
 
       it('should be the selected widget when the selected widget is a chart.',
           function() {
-            var chart = new ChartWidgetConfig(widgetFactoryService);
-
-            dashboardService.selectedWidget = chart;
+            expect(ctrl.selectedChart).toBe(null);
             ctrl.updateSelectedChart();
 
-            expect(ctrl.selectedChart).toBe(chart);
-          }
-      );
-
-      it('should be null when the selected widget is not a chart.',
-          function() {
-            ctrl.selectedChart = {};
-            var widget = new WidgetConfig(widgetFactoryService);
-
-            dashboardService.selectedWidget = widget;
-            ctrl.updateSelectedChart();
-
-            expect(ctrl.selectedChart).toBeNull();
+            expect(ctrl.selectedChart).toBe(widget);
           }
       );
 
       it('should be null when there is no selected widget.',
           function() {
-            ctrl.selectedChart = {};
+            dashboardService.unselectWidget();
+            scope.$digest();
 
-            dashboardService.selectedWidget = null;
             ctrl.updateSelectedChart();
 
             expect(ctrl.selectedChart).toBeNull();
@@ -140,7 +132,7 @@ describe('WidgetEditorCtrl', function() {
           var config = {obj: 'fake config'};
           dashboardService.selectedWidget =
               new ChartWidgetConfig(widgetFactoryService);
-          rootScope.$apply();
+          scope.$digest();
 
           ctrl.openChartEditor_({});
           expect(widgetEditorServiceMock.showEditor).toHaveBeenCalledWith(
@@ -148,7 +140,7 @@ describe('WidgetEditorCtrl', function() {
               jasmine.any(Object));
 
           showEditorDeferred.resolve(config);
-          rootScope.$apply();
+          scope.$digest();
           expect(dashboardService.selectedWidget.model.chart).toBe(config);
         }
     );

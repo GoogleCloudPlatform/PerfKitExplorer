@@ -101,7 +101,6 @@ explorer.components.explorer.ExplorerStateService = function(
    * @export {boolean}
    */
   this.footerIsVisible = false;
->>>>>>> dec17ab... Move widget data storage to state(), fix reselection issue.
 };
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 
@@ -119,6 +118,8 @@ ExplorerStateService.prototype.selectWidget = function(
         'Selection failed: container id ' + containerId + ' does not exist.');
       valid = false;
     }
+  } else {
+    params['container'] = null;
   }
 
   if (widgetId) {
@@ -129,6 +130,8 @@ ExplorerStateService.prototype.selectWidget = function(
         'Selection failed: widget id ' + widgetId + ' does not exist.');
       valid = false;
     }
+  } else {
+    params['widget'] = null;    
   }
 
   if (valid) {

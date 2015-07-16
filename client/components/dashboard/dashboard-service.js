@@ -797,8 +797,7 @@ DashboardService.prototype.unselectWidget = function() {
     currentSelection.state().selected = false;
   }
 
-  this.explorerStateService_.widgets.selected = null;
-  this.explorerStateService_.containers.selected = null;
+  this.explorerStateService_.selectWidget(null, null);
 };
 
 

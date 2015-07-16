@@ -131,4 +131,14 @@ ExplorerStateModel.prototype.add = function(item) {
   }
 };
 
+
+/**
+ * Clears the selection and items from the list.
+ * @export
+ */
+ExplorerStateModel.prototype.clear = function() {
+  this.selectedId = null;
+  this.all = {};
+};
+
 });  // goog.scope

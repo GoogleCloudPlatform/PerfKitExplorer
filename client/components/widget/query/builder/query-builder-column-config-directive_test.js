@@ -42,9 +42,8 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     configSvc = _configService_;
     dashboardSvc = _dashboardService_;
-    dashboardSvc.addContainer();
-    dashboardSvc.selectedWidget = (
-      dashboardSvc.containers[0].model.container.children[0]);
+    dashboardSvc.newDashboard();
+    scope.$digest();
   }));
 
   describe('compilation', function() {

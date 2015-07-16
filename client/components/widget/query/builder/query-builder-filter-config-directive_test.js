@@ -24,7 +24,6 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 describe('QueryFilterDirective', function() {
-  // declare these up here to be global to all tests
   var scope, $compile, $httpBackend, $timeout, uiConfig;
   var configSvc, dashboardSvc;
 
@@ -46,9 +45,9 @@ describe('QueryFilterDirective', function() {
 
     configSvc = _configService_;
     dashboardSvc = _dashboardService_;
-    dashboardSvc.addContainer();
-    dashboardSvc.selectedWidget = (
-      dashboardSvc.containers[0].model.container.children[0]);
+    dashboardSvc.newDashboard();
+
+    scope.$digest();
   }));
 
   describe('compilation', function() {

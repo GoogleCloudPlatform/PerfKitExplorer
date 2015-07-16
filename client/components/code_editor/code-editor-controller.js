@@ -173,7 +173,7 @@ CodeEditorCtrl.prototype.openCodeEditor = function() {
  * @export
  */
 CodeEditorCtrl.prototype.changeSql = function() {
-  if (!this.dashboard.selectedWidget.model.datasource.custom_query) {
+  if (!this.explorerStateSvc.widgets.selected.model.datasource.custom_query) {
     this.explorer.customizeSql(false);
   }
 };
@@ -246,7 +246,7 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
   if (this.saveState === SaveState.SAVING_TO_TEXT) {
     this.saveState = SaveState.NONE;
   } else {
-    let selectedWidget = this.dashboard.selectedWidget;
+    let selectedWidget = this.explorerStateSvc.widgets.selected;
     if (selectedWidget) {
       let newModel;
       try {
@@ -276,7 +276,7 @@ CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
   switch (mode) {
     case CodeEditorMode.JSON:
     case CodeEditorMode.SQL:
-      return (this.dashboard.selectedWidget !== null);
+      return (this.explorerStateSvc.widgets.selected !== null);
     default:
       return true;
   }
