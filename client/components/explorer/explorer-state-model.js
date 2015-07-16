@@ -19,9 +19,14 @@
 
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
 
 
 /**
@@ -37,7 +42,10 @@ const explorer = p3rf.perfkit.explorer;
  * @ngInject
  */
 explorer.components.explorer.ExplorerStateModel = function(
-    stateService, stateName) {
+    stateService, errorService, stateName) {
+  /** @private {!ErrorService} */
+  this.errorSvc_ = errorService;
+
   /**
    * Provides a dictionary of all entities, keyed by ID.
    * @export {!Object<string, T>}
@@ -100,7 +108,15 @@ const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
  * @export
  */
 ExplorerStateModel.prototype.add = function(item) {
-  this.all[item.model.id] = item;
+  if (
+      goog.isDefAndNotNull(item) &&
+      goog.isDefAndNotNull(item.model) &&
+      goog.isDefAndNotNull(item.model.id)) {
+    this.all[item.model.id] = item;
+  } else {
+    this.errorSvc_.addError(ErrorTypes.Danger,
+        'add failed: item is invalid');
+  }
 };
 
 });  // goog.scope

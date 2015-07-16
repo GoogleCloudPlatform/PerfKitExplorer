@@ -24,15 +24,17 @@ goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
 
 fdescribe('ExplorerStateModel', function() {
   var $rootScope, $state;
+  var errorSvc;
 
   const explorer = p3rf.perfkit.explorer;
   const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(_$rootScope_, _$state_) {
+  beforeEach(inject(function(_$rootScope_, _$state_, errorService) {
     $rootScope = _$rootScope_;
     $state = _$state_;
+    errorSvc = errorService;
   }));
 
   describe('property', function() {
@@ -43,7 +45,7 @@ fdescribe('ExplorerStateModel', function() {
     var item2 = {model: {id: '2', title: 'item 2'}};
 
     beforeEach(inject(function() {
-      expectedModel = new ExplorerStateModel($state, expectedStateName);
+      expectedModel = new ExplorerStateModel($state, errorSvc, expectedStateName);
 
       expectedModel.all[item1.model.id] = item1;
       expectedModel.all[item2.model.id] = item2;
@@ -66,6 +68,22 @@ fdescribe('ExplorerStateModel', function() {
 
         expect(Object.keys(expectedModel.all).length).toEqual(2);
         expect(expectedModel.all[item2.model.id]).toEqual(item2a);
+      });
+
+      it('should log an error if an invalid item is provided', function() {
+        spyOn(errorSvc, 'addError');
+
+        expectedModel.add('invalid');
+
+        expect(errorSvc.addError).toHaveBeenCalled();
+      });
+
+      it('should log an error if a NULL id is provided', function() {
+        spyOn(errorSvc, 'addError');
+
+        expectedModel.add({model: {id: null}});
+
+        expect(errorSvc.addError).toHaveBeenCalled();
       });
     });
 

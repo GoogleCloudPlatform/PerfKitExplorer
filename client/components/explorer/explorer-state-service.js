@@ -57,7 +57,7 @@ explorer.components.explorer.ExplorerStateService = function(
    */
   this.containers =
       /** @type {!ExplorerStateModel<ContainerWidgetModel>} */
-      (new ExplorerStateModel($state, 'container'));
+      (new ExplorerStateModel($state, errorService, 'container'));
 
   /**
    * Provides storage for a list of widgets and selection context.
@@ -65,7 +65,7 @@ explorer.components.explorer.ExplorerStateService = function(
    */
   this.widgets =
       /** @type {!ExplorerStateModel<WidgetModel>} */
-      (new ExplorerStateModel($state, 'widget'));
+      (new ExplorerStateModel($state, errorService, 'widget'));
 };
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 
