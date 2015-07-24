@@ -119,6 +119,10 @@ explorer.application.module.config(
     }]);
 
 
+explorer.application.module.config(
+    explorer.components.explorer.ExplorerRouterConfig);
+
+
 if (useMockData) {
   explorer.mocks.addMocks(explorer.application.module);
 }
