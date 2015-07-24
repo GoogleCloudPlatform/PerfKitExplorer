@@ -37,6 +37,10 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * selection ID's, and the .selectedId and .selected properties reference
  * this.
  *
+ * @param {!AngularUI.StateService} stateService
+ * @param {!ErrorService} errorService
+ * @param {string} stateName
+ * 
  * @constructor
  * @template T
  * @ngInject

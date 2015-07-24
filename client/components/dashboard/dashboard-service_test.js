@@ -43,18 +43,20 @@ describe('dashboardService', function() {
   const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
   var svc, widget, chartWidget, container, widgetFactoryService,
-      configService, $location, $timeout;
+      configService, explorerStateService, $location, $timeout;
 
   beforeEach(module('explorer'));
 
   beforeEach(inject(function(dashboardService,
                              _queryBuilderService_,
                              _configService_,
+                             _explorerStateService_,
                              _widgetFactoryService_,
                              _$location_,
                              _$timeout_) {
     svc = dashboardService;
     configService = _configService_;
+    explorerStateService = _explorerStateService_;
     queryBuilderService = _queryBuilderService_;
     widgetFactoryService = _widgetFactoryService_;
     widget = new WidgetConfig(widgetFactoryService);
@@ -518,7 +520,7 @@ describe('dashboardService', function() {
         new DashboardParam('param2', 'value2')
       ];
 
-      svc.current = {
+      explorerStateService.selectedDashboard = {
         'model': {
           'params': provided_params
         }
@@ -539,7 +541,7 @@ describe('dashboardService', function() {
 
       $location.search().param1 = expected_value;
 
-      svc.current = {
+      explorerStateService.selectedDashboard = {
         'model': {
           'params': provided_params
         }
@@ -558,7 +560,7 @@ describe('dashboardService', function() {
 
       $location.search().param3 = 'UNSUPPORTED_VALUE';
 
-      svc.current = {
+      explorerStateService.selectedDashboard = {
         'model': {
           'params': provided_params
         }

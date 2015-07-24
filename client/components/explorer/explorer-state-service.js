@@ -100,5 +100,4 @@ ExplorerStateService.prototype.selectWidget = function(
   }
 };
 
-
 });  // goog.scope
