@@ -53,8 +53,13 @@ describe('SidebarTabService', function() {
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(_sidebarTabService_) {
-    sidebarTabSvc = _sidebarTabService_;
+  beforeEach(inject(function(sidebarTabService, dashboardService, _$rootScope_) {
+    sidebarTabSvc = sidebarTabService;
+    dashboardSvc = dashboardService;
+    $rootScope = _$rootScope_;
+
+    dashboardService.newDashboard();
+    $rootScope.$digest();
   }));
 
   describe('should correctly initialize', function() {
@@ -117,6 +122,9 @@ describe('SidebarTabService', function() {
     });
 
     it('last global tab when no widget is selected', function() {
+      dashboardSvc.unselectWidget();
+      $rootScope.$digest();
+
       expect(dashboardSvc.selectedWidget).toBeNull();
       expect(sidebarTabSvc.getLastTab()).toEqual(mockTabs[2]);
     });
@@ -135,7 +143,8 @@ describe('SidebarTabService', function() {
     });
 
     it('next global tab when no widget is selected', function() {
-      expect(dashboardSvc.selectedWidget).toBeNull();
+      dashboardSvc.unselectWidget();
+      $rootScope.$digest();
 
       sidebarTabSvc.selectTab(mockTabs[0]);
       expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[2]);
@@ -156,7 +165,8 @@ describe('SidebarTabService', function() {
     });
 
     it('previous global tab when no widget is selected', function() {
-      expect(dashboardSvc.selectedWidget).toBeNull();
+      dashboardSvc.unselectWidget();
+      $rootScope.$digest();
 
       sidebarTabSvc.selectTab(mockTabs[2]);
       expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[0]);

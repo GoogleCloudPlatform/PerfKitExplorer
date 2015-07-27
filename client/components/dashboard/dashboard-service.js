@@ -27,6 +27,7 @@ goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig')
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -47,6 +48,7 @@ const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfi
 const DashboardConfig = explorer.components.dashboard.DashboardConfig;
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 const DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const QueryBuilderService = (
@@ -68,6 +70,7 @@ const WidgetType = explorer.models.WidgetType;
  * @param {!DashboardDataService} dashboardDataService
  * @param {!QueryBuilderService} queryBuilderService
  * @param {!ConfigService} configService
+ * @param {!ExplorerStateService} explorerStateService
  * @param {!angular.Filter} $filter
  * @param {!angular.Location} $location
  * @param {!angular.RootScope} $rootScope
@@ -79,7 +82,8 @@ const WidgetType = explorer.models.WidgetType;
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     errorService, widgetFactoryService, dashboardDataService,
     queryBuilderService,  dashboardVersionService, configService,
-    $filter, $location, $rootScope, $timeout, $window) {
+    explorerStateService, $filter, $location, $rootScope, $timeout, $window,
+    $state, $stateParams) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -98,6 +102,9 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!ArrayUtilService} */
   this.errorService_ = errorService;
 
+  /** @private {!ExplorerStateService} */
+  this.explorerStateService_ = explorerStateService;
+
   /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
@@ -113,23 +120,20 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private @type {!angular.Location} */
   this.location_ = $location;
 
-  /** @export {!DashboardConfig} */
-  this.current = this.initializeDashboard_();
+  /** @private @type {!AngularUI.Router.StateService} */
+  this.$state_ = $state;
 
-  /** @export {!Array.<WidgetConfig>} */
-  this.containers = this.current.model.children;
-
-  /** @export {WidgetConfig} */
-  this.selectedWidget = null;
-
-  /** @export {ContainerWidgetConfig} */
-  this.selectedContainer = null;
+  /** @private @type {!AngularUI.Router.StateParamsService} */
+  this.$stateParams_ = $stateParams;
 
   /** @export {Array.<!DashboardParam>} */
   this.params = [];
 
   /** @export {string} */
   this.DEFAULT_TABLE_PARTITION = QueryTablePartitioning.ONETABLE;
+
+  /** @export {boolean} */
+  this.isDashboardLoading = false;
 
   /** @export {Array.<!QueryTablePartitioning>} */
   this.TABLE_PARTITIONS = [
@@ -141,22 +145,51 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 
-  $rootScope.$watch(function() {
-    return $location.url();
-  },
-  angular.bind(this, function(newUrl, oldUrl) {
-    if (newUrl !== oldUrl) {
-      // If the dashboard changed, reload the page.
-      if ($location.search()['dashboard'] !== this.current.model.id) {
-        $window.location.reload();
+  Object.defineProperty(this, 'current', {
+    /** @export {DashboardModel} */
+    get: function() {
+      return explorerStateService.selectedDashboard;
+    }
+  });
+
+  Object.defineProperty(this, 'containers', {
+    /** @export {!Array.<ContainerWidgetConfig>} */
+    get: function() {
+      if (this.current) {
+        return this.current.model.children;
       } else {
-        this.refreshDashboard();
+        return null;
       }
     }
-  }));
+  });
+
+  Object.defineProperty(this, 'selectedWidget', {
+    /** @export {?WidgetConfig} */
+    get: function() {
+      return this.explorerStateService_.widgets.selected;
+    }
+  });
+
+  Object.defineProperty(this, 'selectedContainer', {
+    /** @export {?ContainerWidgetModel} */
+    get: function() {
+      return this.explorerStateService_.containers.selected;
+    }
+  });
 
   /** @export {Array.<!ErrorModel>} */
   this.errors = [];
+
+  $rootScope.$on('$stateChangeSuccess',
+      (event, toState, toParams, fromState, fromParams) => {
+        if (toState.name === 'explorer-dashboard-edit') {
+          if (fromParams.dashboard != toParams.dashboard ||
+              !goog.isDefAndNotNull(
+                  this.explorerStateService_.selectedDashboard)) {
+            this.initializeDashboard();
+          }
+        }
+      });
 };
 const DashboardService = explorer.components.dashboard.DashboardService;
 
@@ -173,17 +206,56 @@ DashboardService.prototype.clearParams = function() {
 
 
 /**
- * Initialize a new dashboard.
+ * Initialize the dashboard service based on the state.
+ * @export
  */
-DashboardService.prototype.initializeDashboard_ = function() {
-  let dashboard = new DashboardConfig();
-  dashboard.model.version = this.dashboardVersionService_.currentVersion.version;
+DashboardService.prototype.initializeDashboard = function() {
+  var dashboardId = this.$stateParams_.dashboard;
 
-  return dashboard;
+  if (dashboardId) {
+    this.fetchDashboard(dashboardId);
+  } else {
+    this.newDashboard();
+  }
 };
 
 
 /**
+ * Creates a new dashboard.
+ */
+DashboardService.prototype.newDashboard = function() {
+  var dashboard = new DashboardConfig();
+  dashboard.model.version =
+      this.dashboardVersionService_.currentVersion.version;
+
+  this.explorerStateService_.selectedDashboard = dashboard;
+
+  this.addContainer();
+};
+
+
+/**
+ * Fetches a dashboard and puts it in the scope.
+ * @param {string} dashboardId
+ * @export
+ */
+DashboardService.prototype.fetchDashboard = function(dashboardId) {
+  var promise = this.dashboardDataService_.fetchDashboard(dashboardId);
+  this.isDashboardLoading = true;
+
+  promise.then(angular.bind(this, function(dashboardConfig) {
+    this.isDashboardLoading = false;
+    this.setDashboard(dashboardConfig);
+  }));
+
+  promise.then(null, angular.bind(this, function(error) {
+    this.isDashboardLoading = false;
+    this.errorService_.addDanger(error.message || error.data.message);
+  }));
+};
+
+
+  /**
  * Saves the current dashboard on the server.
  */
 DashboardService.prototype.saveDashboard = function() {
@@ -271,12 +343,26 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * @export
  */
 DashboardService.prototype.setDashboard = function(dashboardConfig) {
-  this.current = dashboardConfig;
+  this.explorerStateService_.selectedDashboard = dashboardConfig;
   if (dashboardConfig) {
-    this.containers = dashboardConfig.model.children;
+    this.explorerStateService_.widgets.clear();
+    this.explorerStateService_.containers.clear();
+
+    for (let container of dashboardConfig.model.children) {
+      this.explorerStateService_.containers.all[container.model.id] = container;
+      if (container.model.id ===
+          this.explorerStateService_.containers.selectedId) {
+        container.state().selected = true;
+      }
+      for (let widget of container.model.container.children) {
+        this.explorerStateService_.widgets.all[widget.model.id] = widget;
+        if (widget.model.id === this.explorerStateService_.widgets.selectedId) {
+          this.selectWidget(
+              widget, this.explorerStateService_.containers.selected);
+        }
+      }
+    }
     this.initializeParams_();
-  } else {
-    this.containers = [];
   }
 };
 
@@ -311,15 +397,48 @@ DashboardService.prototype.initializeParams_ = function() {
  * @export
  */
 DashboardService.prototype.selectWidget = function(widget, container) {
-  if (this.selectedWidget) {
-    this.selectedWidget.state().selected = false;
-  }
-  this.selectedWidget = widget;
+  let currentWidget = this.explorerStateService_.widgets.selected;
 
-  if (this.selectedWidget) {
-    this.selectedWidget.state().selected = true;
+  if (currentWidget) {
+    currentWidget.state().selected = false;
   }
-  this.selectContainer(container);
+
+  let currentContainer = this.explorerStateService_.containers.selected;
+
+  if (currentContainer && currentContainer !== container) {
+    currentContainer.state().selected = false;
+  }
+
+  if (container && currentContainer !== container) {
+    container.state().selected = true;
+  }
+
+  if (widget) {
+    widget.state().selected = true;
+  }
+
+  this.timeout_(() => {
+    this.scrollWidgetIntoView(widget);
+  });
+
+  params = {widget: undefined, container: undefined};
+
+  if (widget) { params.widget = widget.model.id; }
+  if (container) { params.container = container.model.id };
+
+  this.$state_.go('explorer-dashboard-edit', params);
+};
+
+
+DashboardService.prototype.scrollWidgetIntoView = function(widget) {
+  let widgetElement = angular.element(
+      document.getElementsByClassName('pk-widget-' + widget.model.id));
+  let contentElement = angular.element(
+      document.getElementsByClassName('pk-page-content'));
+
+  if ((widgetElement.length === 1) && (contentElement.length === 1)) {
+    goog.style.scrollIntoContainerView(widgetElement[0], contentElement[0]);
+  }
 };
 
 
@@ -331,14 +450,20 @@ DashboardService.prototype.selectWidget = function(widget, container) {
  * @export
  */
 DashboardService.prototype.selectContainer = function(container) {
-  if (this.selectedContainer) {
-    this.selectedContainer.state().selected = false;
-  }
-  this.selectedContainer = container;
+  let currentSelection = this.explorerStateService_.containers.selected;
 
-  if (this.selectedContainer) {
-    this.selectedContainer.state().selected = true;
+  if (currentSelection && currentSelection !== container) {
+    currentSelection.state().selected = false;
   }
+
+  if (container) {
+    container.state().selected = true;
+  }
+
+  params = {container: undefined};
+  if (container) { params.container = container.model.id; }
+
+  this.$state_.go('explorer-dashboard-edit', params);
 };
 
 
@@ -533,6 +658,8 @@ DashboardService.prototype.addWidgetAt = function(container, opt_index) {
   let widget = new ChartWidgetConfig(this.widgetFactoryService_);
   widget.state().datasource.status = ResultsDataStatus.NODATA;
 
+  this.explorerStateService_.widgets.all[widget.model.id] = widget;
+
   if (!goog.isDef(opt_index) || opt_index > children.length - 1) {
     children.push(widget);
   } else if (opt_index <= 0) {
@@ -562,6 +689,7 @@ DashboardService.prototype.removeWidget = function(widget, container) {
 
   let index = container.model.container.children.indexOf(widget);
   container.model.container.children.splice(index, 1);
+  delete this.explorerStateService_.widgets.all[widget.model.id];
 
   if (container.model.container.children.length === 0) {
     this.removeContainer(container);
@@ -614,8 +742,11 @@ DashboardService.prototype.moveWidgetToContainer = function(
  */
 DashboardService.prototype.addContainer = function() {
   let container = new ContainerWidgetConfig(this.widgetFactoryService_);
-  this.addWidget(container);
+
   this.containers.push(container);
+  this.explorerStateService_.containers.all[container.model.id] = container;
+  this.addWidget(container);
+
   return container;
 };
 
@@ -631,6 +762,9 @@ DashboardService.prototype.addContainerAt = function(index) {
   let container = new ContainerWidgetConfig(this.widgetFactoryService_);
   this.addWidget(container);
   goog.array.insertAt(this.containers, container, index);
+
+  this.explorerStateService_.containers.all[container.model.id] = container;
+
   return container;
 };
 
@@ -644,8 +778,11 @@ DashboardService.prototype.addContainerAt = function(index) {
 DashboardService.prototype.removeContainer = function(container) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
-  var index = this.containers.indexOf(container);
+  let index = this.containers.indexOf(container);
   this.containers.splice(index, 1);
+
+  delete this.explorerStateService_.containers.all[container.model.id];
+
   this.unselectWidget();
 };
 
@@ -654,12 +791,13 @@ DashboardService.prototype.removeContainer = function(container) {
  * Unselect the currently selected widget and container, if any.
  */
 DashboardService.prototype.unselectWidget = function() {
-  if (this.selectedWidget) {
-    this.selectedWidget.state().selected = false;
+  let currentSelection = this.explorerStateService_.widgets.selected;
+
+  if (currentSelection) {
+    currentSelection.state().selected = false;
   }
 
-  this.selectedWidget = null;
-  this.selectedContainer = null;
+  this.explorerStateService_.selectWidget(null, null);
 };
 
 
@@ -747,9 +885,9 @@ DashboardService.prototype.moveWidgetToLast = function(widget) {
 DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var containerIndex = this.containers.indexOf(container);
-  var targetContainer = null;
+  let container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
+  let containerIndex = this.containers.indexOf(container);
+  let targetContainer = null;
 
   if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
@@ -782,10 +920,10 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
 DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  var container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
-  var containerIndex = this.containers.indexOf(container);
-  var index = container.model.container.children.indexOf(widget);
-  var targetContainer = null;
+  let container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
+  let containerIndex = this.containers.indexOf(container);
+  let index = container.model.container.children.indexOf(widget);
+  let targetContainer = null;
 
   if (containerIndex === (this.containers.length - 1)) {
     if (container.model.container.children.length > 1) {
@@ -854,8 +992,12 @@ DashboardService.prototype.getTablePartition = function(partitionName) {
  * @export
  */
 DashboardService.prototype.replaceTokens = function(value) {
-  this.initializeParams_();
-  return this.queryBuilderService_.replaceTokens(value, this.params);
+  if (goog.isDefAndNotNull(this.current)) {
+    this.initializeParams_();
+    return this.queryBuilderService_.replaceTokens(value, this.params);
+  } else {
+    return '';
+  }
 };
 
 });  // goog.scope

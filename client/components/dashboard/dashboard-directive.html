@@ -4,13 +4,14 @@
   <div ng-repeat="container in dashboardSvc.containers" class="pk-container"
        ng-class="{'pk-container-selected': container.state().selected}">
 
-    <container class="pk-container-content" layout="column" ng-model="container.model">
+    <container class="pk-container-content" layout="column"
+               ng-model="container.model">
       <div ng-show="container.model.container.header_text"
            class="pk-container-header">
         {{ container.model.container.header_text }}
       </div>
       <div layout="row" flex>
-        <perfkit-widget class="pk-widget"
+        <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }}"
                 ng-repeat="widget in container.model.container.children"
                 widget-config="widget" flex>
           <div class="pk-widget-header">
@@ -29,6 +30,7 @@
                  ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
           </div>
           <div class="pk-widget-content"
+               style="min-height: {{ container.model.container.height }}px"
                ng-click="dashboardSvc.selectWidget(widget, container)">
             <gviz-chart-widget widget-config="widget"/>
           </div>

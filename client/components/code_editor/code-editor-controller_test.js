@@ -19,6 +19,7 @@
 
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
@@ -26,109 +27,147 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 describe('CodeEditorCtrl', function() {
   const explorer = p3rf.perfkit.explorer;
   const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+  const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
   const WidgetType = explorer.models.WidgetType;
 
-  var ctrl, scope, rootScope, dashboardService, widgetFactoryService;
+  var ctrl, scope, rootScope, dashboardSvc, widgetFactorySvc, explorerStateSvc;
+  var container, widget;
+  var $state;
   var ctrlPrototype =
       explorer.components.code_editor.CodeEditorCtrl.prototype;
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function($rootScope, $controller, _dashboardService_,
-      _widgetFactoryService_, errorService) {
-        errorService.logToConsole = false;
+  beforeEach(inject(function(
+      $rootScope, $controller, _dashboardService_, _explorerStateService_,
+      _widgetFactoryService_, errorService, _$state_) {
+    errorService.logToConsole = false;
 
-        dashboardService = _dashboardService_;
-        rootScope = $rootScope;
-        scope = $rootScope.$new();
-        widgetFactoryService = _widgetFactoryService_;
+    dashboardSvc = _dashboardService_;
+    explorerStateSvc = _explorerStateService_;
+    widgetFactorySvc = _widgetFactoryService_;
+    $state = _$state_;
 
-        // Spies on watches called functions
-        spyOn(ctrlPrototype, 'saveJsonToText').and.callThrough();
-        spyOn(ctrlPrototype, 'saveTextToJson').and.callThrough();
+    rootScope = $rootScope;
+    scope = $rootScope.$new();
 
-        ctrl = $controller(
-            explorer.components.code_editor.CodeEditorCtrl,
-            {$scope: scope});
-      }));
+    // Spies on watches called functions
+    spyOn(ctrlPrototype, 'saveJsonToText').and.callThrough();
+    spyOn(ctrlPrototype, 'saveTextToJson').and.callThrough();
+
+    ctrl = $controller(
+        explorer.components.code_editor.CodeEditorCtrl,
+        {$scope: scope});
+
+    dashboardSvc.newDashboard();
+    rootScope.$apply();
+
+    container = explorerStateSvc.containers.selected;
+    widget = explorerStateSvc.widgets.selected;
+
+    explorerStateSvc.selectWidget(null, null);
+    scope.$digest();
+  }));
 
   it('should initialize the appropriate scope objects.', function() {
     expect(ctrl.dashboard).toBeDefined();
     expect(ctrl.dashboard).not.toBeNull();
+
     expect(ctrl.currentJson).toEqual({text: null});
     expect(ctrl.errors).toEqual([]);
+
     expect(ctrl.openCodeEditor).not.toBeNull();
     expect(typeof ctrl.openCodeEditor).toBe('function');
+
     expect(ctrl.closeCodeEditor).not.toBeNull();
     expect(typeof ctrl.closeCodeEditor).toBe('function');
   });
 
   describe('saveJsonToText', function() {
 
+    beforeEach(inject(function() {
+      ctrl.saveJsonToText.calls.reset();
+    }));
+
     it('should be called when the selected object changed.',
         function() {
-          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(0);
-          rootScope.$apply();
-          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(1);
-          dashboardService.selectedWidget =
-              new ChartWidgetConfig(widgetFactoryService);
-          rootScope.$apply();
-          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(2);
+          expect(ctrl.saveJsonToText.calls.count()).toEqual(0);
 
-          dashboardService.selectedWidget.model.chart.options.title =
+          explorerStateSvc.selectWidget(container.model.id, widget.model.id);
+          rootScope.$apply();
+
+          expect(ctrl.saveJsonToText.calls.count()).toEqual(1);
+
+          explorerStateSvc.widgets.selected.model.chart.options.title =
               'fake title';
           rootScope.$apply();
-          expect(ctrlPrototype.saveJsonToText.calls.count()).toEqual(3);
+          expect(ctrl.saveJsonToText.calls.count()).toEqual(2);
         }
     );
 
     it('should update the currentJson property with the content of the ' +
        'current object.',
         function() {
-          var chart = new ChartWidgetConfig(widgetFactoryService);
-          chart.model.title = 'fake title';
+          dashboardSvc.newDashboard();
+          rootScope.$apply();
 
-          dashboardService.selectedWidget = chart;
+          var newWidget = new ChartWidgetConfig(widgetFactorySvc);
+          newWidget.model.title = 'Expected Title';
+
+          explorerStateSvc.widgets.all[newWidget.model.id] = newWidget;
+
+          explorerStateSvc.selectWidget(null, newWidget.model.id);
+
+          rootScope.$apply();
+
           ctrl.saveJsonToText();
+
           expect(ctrl.currentJson.text).
-              toBe(angular.toJson(chart.model, true));
+              toBe(angular.toJson(newWidget.model, true));
         }
     );
   });
 
   describe('saveTextToJson', function() {
 
+    beforeEach(inject(function() {
+      ctrl.saveTextToJson.calls.reset();
+    }));
+
     it('should be called when the currentJson reference changed.',
         function() {
           rootScope.$apply();
-          expect(ctrlPrototype.saveTextToJson.calls.count()).toEqual(1);
+          expect(ctrl.saveTextToJson.calls.count()).toEqual(0);
           ctrl.currentJson.text = 'fake model 1';
           rootScope.$apply();
-          expect(ctrlPrototype.saveTextToJson.calls.count()).toEqual(2);
+          expect(ctrl.saveTextToJson.calls.count()).toEqual(1);
 
           ctrl.currentJson.text = 'fake model 2';
           rootScope.$apply();
-          expect(ctrlPrototype.saveTextToJson.calls.count()).toEqual(3);
+          expect(ctrl.saveTextToJson.calls.count()).toEqual(2);
         }
     );
 
     it('should update the current object with the content of the currentJson ' +
         'property.',
         function() {
+          dashboardSvc.newDashboard();
+          rootScope.$apply();
+
           var model = {obj: 'model'};
-          dashboardService.selectedWidget =
-              new ChartWidgetConfig(widgetFactoryService);
           ctrl.currentJson.text = angular.toJson(model, true);
 
           ctrl.saveTextToJson();
-          expect(dashboardService.selectedWidget.model).
+          rootScope.$apply();
+
+          expect(dashboardSvc.selectedWidget.model).
               toEqual(model);
         }
     );
 
     it('should catch the errors coming from invalid JSON.', function() {
-      dashboardService.selectedWidget =
-          new ChartWidgetConfig(widgetFactoryService);
+      dashboardSvc.selectedWidget =
+          new ChartWidgetConfig(widgetFactorySvc);
       ctrl.currentJson.text = '{badjson:}';
 
       function SaveTextToJson() {

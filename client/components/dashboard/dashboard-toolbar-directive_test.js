@@ -170,9 +170,11 @@ describe('DashboardToolbarDirective', function() {
   describe('method', function() {
     var actualElement, actualController;
     var deferred;
-    
+
     beforeEach(inject(function($q) {
       deferred = $q.defer();
+
+      dashboardService.newDashboard();
 
       actualElement = angular.element('<dashboard-toolbar />');
       $compile(actualElement)(scope);
@@ -239,13 +241,13 @@ describe('DashboardToolbarDirective', function() {
             .toHaveBeenCalledWith(expectedUrl);
       });
     });
-    
+
     describe('editDashboard', function() {
       it('should set the readOnly flag to false', function() {
         explorerService.model.readOnly = true;
-        
+
         actualController.editDashboard();
-        
+
         expect(explorerService.model.readOnly).toBe(false);
       });
     });

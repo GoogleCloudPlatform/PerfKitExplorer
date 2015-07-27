@@ -44,7 +44,7 @@ const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @constructor
  * @ngInject
  */
-explorer.components.dashboard.DashboardCtrl = function($scope,
+explorer.components.dashboard.DashboardCtrl = function($scope, $state,
     $location, dashboardDataService, dashboardService, widgetFactoryService,
     sidebarTabService) {
   /**
@@ -58,6 +58,8 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
    * @private
    */
   this.location_ = $location;
+
+  this.$state_ = $state;
 
   /**
    * @type {DashboardDataService}
@@ -93,25 +95,8 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
    * @export
    */
   this.dashboardIsLoading = false;
-
-  this.initDashboard();
 };
 const DashboardCtrl = explorer.components.dashboard.DashboardCtrl;
-
-
-/**
- * Looks for a dashboard id in the url. If found, it fetches it, else, it
- * creates a new dashboard with one container and one widget.
- * @export
- */
-DashboardCtrl.prototype.initDashboard = function() {
-  let dashboardId = this.location_.search().dashboard;
-  if (dashboardId) {
-    this.fetchDashboard(dashboardId);
-  } else {
-    this.dashboard.addContainer();
-  }
-};
 
 
 /**
@@ -120,27 +105,6 @@ DashboardCtrl.prototype.initDashboard = function() {
  */
 DashboardCtrl.prototype.saveDashboard = function() {
   this.dashboard.save();
-};
-
-
-/**
- * Fetches a dashboard and puts it in the scope.
- * @param {string} dashboardId
- * @export
- */
-DashboardCtrl.prototype.fetchDashboard = function(dashboardId) {
-  let promise = this.dashboardDataService_.fetchDashboard(dashboardId);
-  this.dashboardIsLoading = true;
-
-  promise.then(angular.bind(this, function(dashboardConfig) {
-    this.dashboardIsLoading = false;
-    this.dashboard.setDashboard(dashboardConfig);
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.dashboardIsLoading = false;
-    this.errors.push(error.message);
-  }));
 };
 
 });  // goog.scope

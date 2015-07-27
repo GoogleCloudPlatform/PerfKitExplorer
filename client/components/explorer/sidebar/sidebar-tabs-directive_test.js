@@ -15,7 +15,7 @@
  *
  * @fileoverview Tests for SidebarTabsDirective, which encapsulates the UX for
  * the sidebar tab selector.
- * 
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabServic
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
 
 describe('SidebarTabsDirective', function() {
-  var scope, $compile, $httpBackend;
+  var scope, $compile, $httpBackend, $rootScope;
   var dashboardSvc, sidebarTabSvc;
   var mockTabs;
 
@@ -47,6 +47,9 @@ describe('SidebarTabsDirective', function() {
   beforeEach(inject(function(_sidebarTabService_, _dashboardService_) {
     sidebarTabSvc = _sidebarTabService_;
     dashboardSvc = _dashboardService_;
+
+    dashboardSvc.newDashboard();
+    scope.$digest();
 
     mockTabs = [
       {id: 'global-a', title: 'Global Tab 1', iconClass: 'global-a-icon',
@@ -110,13 +113,9 @@ describe('SidebarTabsDirective', function() {
 
   describe('when the selectedWidget is set to null should', function() {
     beforeEach(inject(function() {
-      dashboardSvc.selectedWidget = {'name': 'MOCK_WIDGET'};
-    }));
-
-    beforeEach(inject(function() {
       $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
       directiveElement = angular.element('<sidebar-tabs />');
-          
+
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
@@ -124,10 +123,10 @@ describe('SidebarTabsDirective', function() {
     it('maintain selection if the tab is global', function() {
       expect(dashboardSvc.selectedWidget).not.toBeNull();
       sidebarTabSvc.selectedTab = mockTabs[0];
-      
-      dashboardSvc.selectedWidget = null;
+
+      dashboardSvc.unselectWidget();
       scope.$digest();
-      
+
       expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[0]);
     });
 
@@ -135,7 +134,7 @@ describe('SidebarTabsDirective', function() {
       expect(dashboardSvc.selectedWidget).not.toBeNull();
       sidebarTabSvc.selectedTab = mockTabs[1];
 
-      dashboardSvc.selectedWidget = null;
+      dashboardSvc.unselectWidget();
       scope.$digest();
 
       expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[2]);
@@ -146,17 +145,18 @@ describe('SidebarTabsDirective', function() {
     beforeEach(inject(function() {
       $httpBackend.expectGET(TEMPLATE_SIDEBAR_TABS).respond(200);
       directiveElement = angular.element('<sidebar-tabs />');
-          
+
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
 
     it('requireWidget is false and selectedWidget is null', function() {
-      expect(dashboardSvc.selectedWidget).toBeNull();
+      dashboardSvc.unselectWidget();
+      scope.$digest();
 
       var tabElements = directiveElement.find(
           'div.pk-sidebar-tab');
-      
+
       expect(mockTabs[0].requireWidget).toBe(false);
       expect(tabElements[0].getAttribute('class')).not.toMatch('ng-hide');
 

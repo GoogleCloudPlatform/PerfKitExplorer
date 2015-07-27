@@ -188,6 +188,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
             ResultsDataStatus.FETCHED &&
             (scope.widgetConfig.state().chart.gvizError || !checkForErrors())) {
           let options = angular.copy(scope.widgetConfig.model.chart.options);
+
+          let data = scope.widgetConfig.state().datasource.data;
+          chartWrapper.setDataTable(data);
+
           // Force height and width options value with state value
           options.height = scope.widgetConfig.state().chart.height;
           options.width = scope.widgetConfig.state().chart.width;
@@ -263,8 +267,11 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           promise.then(function(dataTable) {
             scope.widgetConfig.queryError = null;
+            scope.widgetConfig.state().datasource.data = dataTable;
+
             if (dataTable.getNumberOfRows() > 0) {
               chartWrapper.setDataTable(dataTable);
+
               $timeout(function() {
                 scope.widgetConfig.state().datasource.status =
                     ResultsDataStatus.FETCHED;
@@ -350,7 +357,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
       let applyDataView = function() {
         let dataViewsJson = dataViewService.create(
-            chartWrapper.getDataTable(),
+            scope.widgetConfig.state().datasource.data,
             scope.widgetConfig.model.datasource.view);
 
         if (dataViewsJson.error) {

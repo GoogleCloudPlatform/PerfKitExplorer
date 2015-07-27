@@ -28,6 +28,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
@@ -41,6 +42,7 @@ const DashboardService = explorer.components.dashboard.DashboardService;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ExplorerService = explorer.components.explorer.ExplorerService;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 const ResultsDataStatus = explorer.models.ResultsDataStatus;
 const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
@@ -53,13 +55,14 @@ const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @param {!DashboardService} dashboardService
  * @param {!ErrorService} explorerService
  * @param {!ExplorerService} explorerService
+ * @param {!ExplorerStateService} explorerStateService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @constructor
  * @ngInject
  */
 explorer.components.code_editor.CodeEditorCtrl = function(
-    $scope, dashboardService, errorService, explorerService, 
-    widgetFactoryService) {
+    $scope, dashboardService, errorService, explorerService,
+    explorerStateService, widgetFactoryService) {
   /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
@@ -71,6 +74,9 @@ explorer.components.code_editor.CodeEditorCtrl = function(
 
   /** @export {!ErrorService} */
   this.errorSvc = errorService;
+
+  /** @export {!ExplorerStateSvc} */
+  this.explorerStateSvc = explorerStateService;
 
   /**
    * Shortcut property to the code_editor section of the ExplorerSettingsModel.
@@ -124,8 +130,8 @@ explorer.components.code_editor.CodeEditorCtrl = function(
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.dashboard.selectedWidget) {
-          return this.dashboard.selectedWidget.model;
+        if (this.explorerStateSvc.widgets.selected) {
+          return this.explorerStateSvc.widgets.selected.model;
         } else {
           return null;
         }
@@ -167,7 +173,7 @@ CodeEditorCtrl.prototype.openCodeEditor = function() {
  * @export
  */
 CodeEditorCtrl.prototype.changeSql = function() {
-  if (!this.dashboard.selectedWidget.model.datasource.custom_query) {
+  if (!this.explorerStateSvc.widgets.selected.model.datasource.custom_query) {
     this.explorer.customizeSql(false);
   }
 };
@@ -219,9 +225,14 @@ CodeEditorCtrl.prototype.saveJsonToText = function() {
   if (this.saveState === SaveState.SAVING_TO_OBJECT) {
     this.saveState = SaveState.NONE;
   } else {
-    let selectedWidget = this.dashboard.selectedWidget;
-    this.currentJson.text = selectedWidget ?
-        this.widgetFactoryService_.toJson(selectedWidget, true) : null;
+    let selectedWidget = this.explorerStateSvc.widgets.selected;
+    if (selectedWidget) {
+      this.currentJson.text =
+          this.widgetFactoryService_.toJson(selectedWidget, true);
+    } else {
+      this.currentJson.text = null;
+    }
+
     this.saveState = SaveState.SAVING_TO_TEXT;
   }
 };
@@ -235,7 +246,7 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
   if (this.saveState === SaveState.SAVING_TO_TEXT) {
     this.saveState = SaveState.NONE;
   } else {
-    let selectedWidget = this.dashboard.selectedWidget;
+    let selectedWidget = this.explorerStateSvc.widgets.selected;
     if (selectedWidget) {
       let newModel;
       try {
@@ -265,7 +276,7 @@ CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
   switch (mode) {
     case CodeEditorMode.JSON:
     case CodeEditorMode.SQL:
-      return (this.dashboard.selectedWidget !== null);
+      return (this.explorerStateSvc.widgets.selected !== null);
     default:
       return true;
   }

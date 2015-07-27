@@ -39,6 +39,7 @@ goog.scope(function() {
    */
   explorer.components.explorer.ExplorerRouterConfig = function(
       $stateProvider, $urlRouterProvider) {
+//    $urlRouterProvider.when('/explore', '/explore?dashboard');
 
     $stateProvider.state('explorer-dashboard-edit', {
       url: '/explore?' + EXPLORER_PARAMS.join('&'),

@@ -37,6 +37,10 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * selection ID's, and the .selectedId and .selected properties reference
  * this.
  *
+ * @param {!AngularUI.StateService} stateService
+ * @param {!ErrorService} errorService
+ * @param {string} stateName
+ * 
  * @constructor
  * @template T
  * @ngInject
@@ -102,6 +106,14 @@ explorer.components.explorer.ExplorerStateModel = function(
 };
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
 
+/**
+ * Clears the selection and items from the list.
+ * @export
+ */
+ExplorerStateModel.prototype.clear = function() {
+  this.selectedId = null;
+  this.all = {};
+};
 
 /**
  * Adds an item to the all dictionary, using the id as the key.
@@ -117,6 +129,16 @@ ExplorerStateModel.prototype.add = function(item) {
     this.errorSvc_.addError(ErrorTypes.Danger,
         'add failed: item is invalid');
   }
+};
+
+
+/**
+ * Clears the selection and items from the list.
+ * @export
+ */
+ExplorerStateModel.prototype.clear = function() {
+  this.selectedId = null;
+  this.all = {};
 };
 
 });  // goog.scope

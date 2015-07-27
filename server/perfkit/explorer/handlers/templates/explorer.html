@@ -37,9 +37,10 @@
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
   <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
 </head>
-<body ng-keydown="explorerCtrl.checkKeyDown($event)">
+<body ng-keydown="explorerCtrl.checkKeyDown($event)" layout="column">
 
-  <explorer-page />
+  <ui-view></ui-view>
+  <explorer-page></explorer-page>
 
 </body>
 </html>

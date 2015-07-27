@@ -30,6 +30,7 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 describe('gvizDirective', function() {
   var ChartType = p3rf.perfkit.explorer.models.ChartType;
+  var directiveElement;
   var ChartWidgetConfig =
       p3rf.perfkit.explorer.models.ChartWidgetConfig;
   var WidgetType = p3rf.perfkit.explorer.models.WidgetType;
@@ -39,8 +40,9 @@ describe('gvizDirective', function() {
   var ResultsDataStatus =
       p3rf.perfkit.explorer.models.ResultsDataStatus;
   var compile, rootScope, timeout, chartWrapperMock, gvizChartErrorCallback,
-      queryResultDataServiceMock, fetchResultsDeferred, model, state,
-      dataViewServiceMock, dataViewsJson, widgetFactoryService;
+      gvizEventsMock, GvizDataTable,
+      queryResultDataServiceMock, fetchResultsDeferred, model, state, configService,
+      dataViewServiceMock, dataViewsJson, widgetFactoryService, dashboardService;
   var httpBackend;
 
   function setupData(isFetched) {
@@ -52,8 +54,10 @@ describe('gvizDirective', function() {
   }
 
   function setupComponent() {
-    var component = compile(
-        '<gviz-chart-widget widget-config="widgetConfig"/>')(rootScope);
+    directiveElement = angular.element(
+        '<gviz-chart-widget widget-config="widgetConfig"/>');
+    var component = compile(directiveElement)(rootScope);
+
     httpBackend.expectGET("/static/components/widget/data_viz/gviz/gviz-charts.json").respond({});
     rootScope.$apply();
     timeout.flush();
@@ -88,7 +92,7 @@ describe('gvizDirective', function() {
     var template =
         '<div>' +
         '<div class="pk-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'pk-chart-hidden\': widgetConfig.state().chart.error}">' +
+        '"{\'pk-chart-hidden\': !isChartDisplayed()}">' +
         '</div>' +
         '<div class="pk-chart-error" ng-show="' +
         'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
@@ -103,7 +107,7 @@ describe('gvizDirective', function() {
   }));
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
-      gvizEvents, _GvizDataTable_, dataViewService, _configService_,
+      gvizEvents, _GvizDataTable_, dataViewService, _configService_, _dashboardService_,
       _widgetFactoryService_, errorService) {
         errorService.logToConsole = false;
 
@@ -111,6 +115,7 @@ describe('gvizDirective', function() {
         rootScope = $rootScope;
         timeout = $timeout;
         configService = _configService_;
+        dashboardService = _dashboardService_;
         widgetFactoryService = _widgetFactoryService_;
 
         chartWrapperMock = GvizChartWrapper.prototype;
@@ -136,8 +141,10 @@ describe('gvizDirective', function() {
         spyOn(GvizDataTable.prototype, 'getNumberOfRows').and.returnValue(10);
 
         // Setup fake data for component's attributes
-        rootScope.widgetConfig =
-            new ChartWidgetConfig(widgetFactoryService);
+        dashboardService.newDashboard();
+        $rootScope.$apply();
+
+        rootScope.widgetConfig = dashboardService.selectedWidget;
         model = rootScope.widgetConfig.model;
         state = angular.bind(
             rootScope.widgetConfig,
@@ -251,8 +258,9 @@ describe('gvizDirective', function() {
 
     it('should show the chart when there is no error.',
         function() {
-          setupData();
+          setupData(true);
           var component = setupComponent();
+
           expect(component.chartDiv.hasClass('pk-chart-hidden')).
               toBeFalsy();
         }
@@ -315,14 +323,12 @@ describe('gvizDirective', function() {
           setupData();
           setupComponent();
 
-          // Should be fetching data
+          // Should have no data.
           rootScope.$apply();
           expect(state().datasource.status).
-              toEqual(ResultsDataStatus.FETCHING);
-          expect(queryResultDataServiceMock.fetchResults).
-              toHaveBeenCalledWith(model.datasource);
+              toEqual(ResultsDataStatus.NODATA);
 
-          // Ask to fetch again
+          // Ask to fetch again.
           state().datasource.status = ResultsDataStatus.TOFETCH;
           rootScope.$apply();
           timeout.flush();
@@ -337,11 +343,13 @@ describe('gvizDirective', function() {
         function() {
           setupData();
           setupComponent();
+          state().datasource.status = ResultsDataStatus.TOFETCH;
 
           // Simulate new data have been fetched
           fetchResultsDeferred.resolve(new GvizDataTable());
           rootScope.$apply();
           timeout.flush();
+
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.FETCHED);
         }
@@ -352,6 +360,7 @@ describe('gvizDirective', function() {
           GvizDataTable.prototype.getNumberOfRows.and.returnValue(0);
           setupData();
           setupComponent();
+          state().datasource.status = ResultsDataStatus.TOFETCH;
 
           // Simulate new data have been fetched
           fetchResultsDeferred.resolve(new GvizDataTable());
@@ -367,6 +376,7 @@ describe('gvizDirective', function() {
           var errorMessage = 'fake error';
           setupData();
           setupComponent();
+          state().datasource.status = ResultsDataStatus.TOFETCH;
 
           // Simulate a fetch error
           fetchResultsDeferred.reject(new Error(errorMessage));
@@ -471,6 +481,7 @@ describe('gvizDirective', function() {
 
           setupData();
           setupComponent();
+          state().datasource.status = ResultsDataStatus.TOFETCH;
 
           // Simulate new data have been fetched
           fetchResultsDeferred.resolve(new GvizDataTable());
@@ -541,7 +552,7 @@ describe('gvizDirective', function() {
     });
 
     it('should not be applied when the DataView has an error.', function() {
-      
+
       var expectedError = {error: {property: 'sort', message: 'fake message'}};
       dataViewServiceMock.create.and.returnValue(expectedError);
       setupData(true);
