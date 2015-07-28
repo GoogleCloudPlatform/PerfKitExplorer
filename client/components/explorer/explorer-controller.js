@@ -46,7 +46,8 @@ const ExplorerService = explorer.components.explorer.ExplorerService;
  */
 explorer.components.explorer.ExplorerCtrl = function(
     $scope, $location,
-    dashboardDataService, dashboardService, explorerService) {
+    dashboardDataService, dashboardService, explorerService,
+    sidebarTabService) {
   /**
    * @type {angular.Location}
    * @private
@@ -58,6 +59,12 @@ explorer.components.explorer.ExplorerCtrl = function(
    * @private
    */
   this.dashboardDataService_ = dashboardDataService;
+
+  /**
+   * @type {SidebarTabService}
+   * @export
+   */
+  this.sidebarTabService = sidebarTabService;
 
   /**
    * @type {DashboardService}
