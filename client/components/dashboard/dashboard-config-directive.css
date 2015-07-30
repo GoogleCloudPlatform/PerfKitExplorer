@@ -63,6 +63,7 @@
   padding: 6px 12px;
   line-height: 1.42857143;
   color: #555;
+  width: 50%;
 }
 
 .param-row:not(:last-child) > * {
