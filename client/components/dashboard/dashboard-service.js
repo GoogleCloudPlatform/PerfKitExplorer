@@ -455,7 +455,9 @@ DashboardService.prototype.initializeParams_ = function() {
  *
  * @param {WidgetConfig} widget
  * @param {ContainerWidgetConfig} container
- * @param {boolean} opt_supressStateChange
+ * @param {boolean=} opt_supressStateChange If true, will prevent the ui-router
+ *     state change from taking place.  This is used to select the widget at
+ *     initial dashboard load-time.
  * @export
  */
 DashboardService.prototype.selectWidget = function(
@@ -484,7 +486,7 @@ DashboardService.prototype.selectWidget = function(
     this.scrollWidgetIntoView(widget);
   });
 
-  if (opt_supressStateChange !== true) {
+  if (!opt_supressStateChange) {
     params = {widget: undefined, container: undefined};
 
     if (widget) { params.widget = widget.model.id; }
