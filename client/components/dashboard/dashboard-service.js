@@ -177,19 +177,80 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
     }
   });
 
-  /** @export {Array.<!ErrorModel>} */
+  /** @export {!Array.<!ErrorModel>} */
   this.errors = [];
+
+  /** @private {!Object<string, number>} */
+  this.queryParams = {};
 
   $rootScope.$on('$stateChangeSuccess',
       (event, toState, toParams, fromState, fromParams) => {
-        if (toState.name === 'explorer-dashboard-edit') {
-          if (fromParams.dashboard != toParams.dashboard ||
-              !goog.isDefAndNotNull(
-                  this.explorerStateService_.selectedDashboard)) {
-            this.initializeDashboard();
-          }
+    if (toState.name === 'explorer-dashboard-edit') {
+      // If we are setting the dashboard from a null state, initialize it.
+      if (fromParams.dashboard != toParams.dashboard ||
+          !goog.isDefAndNotNull(this.explorerStateService_.selectedDashboard)) {
+        $timeout(() => {
+          this.initializeDashboard();
+        });
+      }
+
+      // Set the dashboard parameters in the URL.
+      angular.forEach(this.params, param => {
+        try {
+          $state.current.reloadOnSearch = false;
+          $location.search(param.name, param.value);
+        } finally {
+          $state.current.reloadOnSearch = true;
         }
       });
+    }
+  });
+
+  $rootScope.$on('$locationChangeStart',
+      (event, newUrl, oldUrl) => {
+    this.queryParams = {};
+
+    // Store the current dashboard parameter values from the query string.
+    let oldQueryData = new goog.Uri(oldUrl).getQueryData();
+    angular.forEach(oldQueryData.getKeys(), paramName => {
+      if (goog.isDef($state.params[paramName])) { return; }
+
+      this.queryParams[paramName] = oldQueryData.get(paramName);
+    });
+  });
+
+  $rootScope.$on('$locationChangeSuccess',
+      (event, newUrl, oldUrl) => {
+    if (newUrl !== oldUrl) {
+      // If the dashboard changed, reload the page.
+      if ($location.search()['dashboard'] &&
+          $location.search()['dashboard'] !== this.current.model.id) {
+        $window.location.reload();
+      } else {
+          // Patch in the state parameters if the url doesn't specify them.
+          angular.forEach(Object.keys($state.params), paramName => {
+            try {
+              $state.current.reloadOnSearch = false;
+              if (goog.isDefAndNotNull($state.params[paramName]) &&
+                  $state.params[paramName] !== $location.search()[paramName]) {
+                $location.search(paramName, $state.params[paramName]);
+              }
+            } finally {
+              $state.current.reloadOnSearch = true;
+            }
+          });
+
+          // If any dashboard parameters changed, refresh the dashboard.
+          angular.forEach(this.params, param => {
+            if ($location.search()[param.name] !==
+                this.queryParams[param.name]) {
+              this.refreshDashboard();
+              return false;
+            }
+          });
+      }
+    }
+  });
 };
 const DashboardService = explorer.components.dashboard.DashboardService;
 
@@ -358,7 +419,7 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
         this.explorerStateService_.widgets.all[widget.model.id] = widget;
         if (widget.model.id === this.explorerStateService_.widgets.selectedId) {
           this.selectWidget(
-              widget, this.explorerStateService_.containers.selected);
+              widget, this.explorerStateService_.containers.selected, true);
         }
       }
     }
@@ -394,9 +455,13 @@ DashboardService.prototype.initializeParams_ = function() {
  *
  * @param {WidgetConfig} widget
  * @param {ContainerWidgetConfig} container
+ * @param {boolean=} opt_supressStateChange If true, will prevent the ui-router
+ *     state change from taking place.  This is used to select the widget at
+ *     initial dashboard load-time.
  * @export
  */
-DashboardService.prototype.selectWidget = function(widget, container) {
+DashboardService.prototype.selectWidget = function(
+    widget, container, opt_supressStateChange) {
   let currentWidget = this.explorerStateService_.widgets.selected;
 
   if (currentWidget) {
@@ -421,12 +486,14 @@ DashboardService.prototype.selectWidget = function(widget, container) {
     this.scrollWidgetIntoView(widget);
   });
 
-  params = {widget: undefined, container: undefined};
+  if (!opt_supressStateChange) {
+    params = {widget: undefined, container: undefined};
 
-  if (widget) { params.widget = widget.model.id; }
-  if (container) { params.container = container.model.id };
+    if (widget) { params.widget = widget.model.id; }
+    if (container) { params.container = container.model.id };
 
-  this.$state_.go('explorer-dashboard-edit', params);
+    this.$state_.go('explorer-dashboard-edit', params);
+  }
 };
 
 
