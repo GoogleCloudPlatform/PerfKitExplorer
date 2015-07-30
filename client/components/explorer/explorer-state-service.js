@@ -33,7 +33,7 @@ const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
 
 
 /**
- * Service that provides state and content for the Explorer page..
+ * Service that provides state and content for the Explorer page.
  * @constructor
  * @ngInject
  */
