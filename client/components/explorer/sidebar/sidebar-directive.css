@@ -1,3 +1,7 @@
+.pk-sidebar-panel {
+  overflow: hidden;
+}
+
 .pk-sidebar-panel-header {
   height: 44px;
   min-height: 44px;
