@@ -44,18 +44,90 @@ describe('arrayUtilService', function() {
 
     it('should return null if no items are provided and required is false.',
         function() {
-          providedValues = ['', null, undefined];
+      var providedValues = ['', null, undefined];
 
-          expect(svc.getFirst(providedValues, false)).toBeNull();
-        });
+      expect(svc.getFirst(providedValues, false)).toBeNull();
+    });
 
     it('should raise if no valid items are provided and required is true.',
         function() {
-          providedValues = ['', null, undefined];
+      var providedValues = ['', null, undefined];
 
-          expect(function() {
-            svc.getFirst(providedValues, true);
-          }).toThrowError('getFirst failed: No non-null item found.');
-        });
+      expect(function() {
+        svc.getFirst(providedValues, true);
+      }).toThrowError('getFirst failed: No non-null item found.');
+    });
+  });
+
+  describe('insertBefore', function() {
+    it('should add insertValue directly before beforeValue.',
+        function() {
+      var providedValues = ['a', 'd', 'f', 'g'];
+      var expectedValues = ['a', 's', 'd', 'f', 'g'];
+
+      svc.insertBefore(providedValues, 's', 'd');
+
+      expect(providedValues).toEqual(expectedValues);
+    });
+  });
+
+  describe('insertAfter', function() {
+    it('should add insertValue directly after beforeValue.',
+        function() {
+      var providedValues = ['a', 's', 'f', 'g'];
+      var expectedValues = ['a', 's', 'd', 'f', 'g'];
+
+      svc.insertAfter(providedValues, 'd', 's');
+
+      expect(providedValues).toEqual(expectedValues);
+    });
+  });
+
+  describe('movePrevious', function() {
+    it('should move the provided value to the previous position.',
+        function() {
+      var providedValues = ['a', 'd', 's', 'f', 'g'];
+      var expectedValues = ['a', 's', 'd', 'f', 'g'];
+
+      svc.movePrevious(providedValues, 's');
+
+      expect(providedValues).toEqual(expectedValues);
+    });
+  });
+
+  describe('moveNext', function() {
+    it('should move the provided value to the next position.',
+        function() {
+      var providedValues = ['a', 'd', 's', 'f', 'g'];
+      var expectedValues = ['a', 's', 'd', 'f', 'g'];
+
+      svc.moveNext(providedValues, 'd');
+
+      expect(providedValues).toEqual(expectedValues);
+    });
+  });
+
+  describe('moveFirst', function() {
+    it('should move the provided value to the next position.',
+        function() {
+      var providedValues = ['s', 'd', 'a', 'f', 'g'];
+      var expectedValues = ['a', 's', 'd', 'f', 'g'];
+
+      svc.moveFirst(providedValues, 'a');
+
+      expect(providedValues).toEqual(expectedValues);
+    });
+  });
+
+  describe('moveLast', function() {
+    it('should move the provided value to the next position.',
+        function() {
+      var providedValues = ['a', 's', 'g', 'd', 'f'];
+      var expectedValues = ['a', 's', 'd', 'f', 'g'];
+
+      svc.moveLast(providedValues, 'g');
+
+      expect(providedValues).toEqual(expectedValues);
+    });
   });
 });

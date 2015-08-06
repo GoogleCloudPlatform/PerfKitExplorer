@@ -15,7 +15,11 @@ Die () {
   "Run this as ./compile.sh in the PerfKitExplorer directory."
 
 echo "* Clean out the existing deployment content."
-rm -r -f deploy
+rm -r -f deploy/client/components
+rm -r -f deploy/client/third_party
+rm -r -f deploy/config
+rm -r -f deploy/server
+rm -f deploy/*.*
 
 $(npm bin)/gulp $1
 

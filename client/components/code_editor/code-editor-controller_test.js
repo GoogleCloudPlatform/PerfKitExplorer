@@ -30,7 +30,8 @@ describe('CodeEditorCtrl', function() {
   const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
   const WidgetType = explorer.models.WidgetType;
 
-  var ctrl, scope, rootScope, dashboardSvc, widgetFactorySvc, explorerStateSvc;
+  var ctrl, scope, rootScope, containerSvc, dashboardSvc, widgetFactorySvc,
+      explorerStateSvc;
   var container, widget;
   var $state;
   var ctrlPrototype =
@@ -39,10 +40,11 @@ describe('CodeEditorCtrl', function() {
   beforeEach(module('explorer'));
 
   beforeEach(inject(function(
-      $rootScope, $controller, _dashboardService_, _explorerStateService_,
-      _widgetFactoryService_, errorService, _$state_) {
+      $rootScope, $controller, _explorerService_, _dashboardService_,
+      _explorerStateService_, _widgetFactoryService_, errorService, _$state_) {
     errorService.logToConsole = false;
 
+    explorerService = _explorerService_;
     dashboardSvc = _dashboardService_;
     explorerStateSvc = _explorerStateService_;
     widgetFactorySvc = _widgetFactoryService_;
@@ -59,7 +61,8 @@ describe('CodeEditorCtrl', function() {
         explorer.components.code_editor.CodeEditorCtrl,
         {$scope: scope});
 
-    dashboardSvc.newDashboard();
+    explorerService.newDashboard();
+
     rootScope.$apply();
 
     container = explorerStateSvc.containers.selected;
@@ -108,7 +111,7 @@ describe('CodeEditorCtrl', function() {
     it('should update the currentJson property with the content of the ' +
        'current object.',
         function() {
-          dashboardSvc.newDashboard();
+          explorerService.newDashboard();
           rootScope.$apply();
 
           var newWidget = new ChartWidgetConfig(widgetFactorySvc);
@@ -151,7 +154,8 @@ describe('CodeEditorCtrl', function() {
     it('should update the current object with the content of the currentJson ' +
         'property.',
         function() {
-          dashboardSvc.newDashboard();
+          explorerService.newDashboard();
+
           rootScope.$apply();
 
           var model = {obj: 'model'};

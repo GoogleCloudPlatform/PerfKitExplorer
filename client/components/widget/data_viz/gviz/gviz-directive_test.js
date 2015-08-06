@@ -42,7 +42,8 @@ describe('gvizDirective', function() {
   var compile, rootScope, timeout, chartWrapperMock, gvizChartErrorCallback,
       gvizEventsMock, GvizDataTable,
       queryResultDataServiceMock, fetchResultsDeferred, model, state, configService,
-      dataViewServiceMock, dataViewsJson, widgetFactoryService, dashboardService;
+      dataViewServiceMock, dataViewsJson, widgetFactoryService, dashboardService,
+      containerService;
   var httpBackend;
 
   function setupData(isFetched) {
@@ -107,8 +108,9 @@ describe('gvizDirective', function() {
   }));
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
-      gvizEvents, _GvizDataTable_, dataViewService, _configService_, _dashboardService_,
-      _widgetFactoryService_, errorService) {
+      gvizEvents, _GvizDataTable_, dataViewService, _configService_,
+      _dashboardService_, _explorerService_, _widgetFactoryService_,
+      errorService) {
         errorService.logToConsole = false;
 
         compile = $compile;
@@ -116,6 +118,7 @@ describe('gvizDirective', function() {
         timeout = $timeout;
         configService = _configService_;
         dashboardService = _dashboardService_;
+        explorerService = _explorerService_;
         widgetFactoryService = _widgetFactoryService_;
 
         chartWrapperMock = GvizChartWrapper.prototype;
@@ -141,7 +144,8 @@ describe('gvizDirective', function() {
         spyOn(GvizDataTable.prototype, 'getNumberOfRows').and.returnValue(10);
 
         // Setup fake data for component's attributes
-        dashboardService.newDashboard();
+        explorerService.newDashboard();
+
         $rootScope.$apply();
 
         rootScope.widgetConfig = dashboardService.selectedWidget;

@@ -42,14 +42,18 @@ describe('dashboardService', function() {
       explorer.components.widget.query.builder.QueryBuilderService;
   const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
-  var svc, widget, container, widgetFactoryService,
-      configService, explorerStateService, $location, $timeout;
+  var svc, widget, container;
+  var configService, containerService, explorerService, explorerStateService,
+      widgetFactoryService;
+  var $location, $timeout;
 
   beforeEach(module('explorer'));
 
   beforeEach(inject(function(dashboardService,
+                             _explorerService_,
                              _queryBuilderService_,
                              _configService_,
+                             _containerService_,
                              _explorerStateService_,
                              _widgetFactoryService_,
                              _$location_,
@@ -58,6 +62,8 @@ describe('dashboardService', function() {
                              _$state_) {
     svc = dashboardService;
     configService = _configService_;
+    containerService = _containerService_;
+    explorerService = _explorerService_;
     explorerStateService = _explorerStateService_;
     queryBuilderService = _queryBuilderService_;
     widgetFactoryService = _widgetFactoryService_;
@@ -71,7 +77,7 @@ describe('dashboardService', function() {
   describe('', function() {
 
     beforeEach(inject(function() {
-      svc.newDashboard();
+      explorerService.newDashboard();
       $rootScope.$apply();
 
       container = svc.containers[0];
@@ -87,9 +93,6 @@ describe('dashboardService', function() {
     describe('selectWidget', function() {
 
       beforeEach(inject(function() {
-        svc.newDashboard();
-        $rootScope.$apply();
-
         explorerStateService.containers.all[container.model.id] = container;
         explorerStateService.widgets.all[widget.model.id] = widget;
 
@@ -112,6 +115,7 @@ describe('dashboardService', function() {
       });
 
       it('should update the widget state to selected.', function() {
+        svc.unselectWidget();
         expect(widget.state().selected).toBeFalsy();
         svc.selectWidget(widget, container);
         expect(widget.state().selected).toBeTruthy();
@@ -139,7 +143,7 @@ describe('dashboardService', function() {
       });
 
       it('should update the container state to selected.', function() {
-        var container2 = svc.addContainer();
+        var container2 = containerService.insert();
         expect(container.state().selected).toBeFalsy();
 
         svc.selectContainer(container);
@@ -234,10 +238,10 @@ describe('dashboardService', function() {
         spyOn(svc, 'addWidget');
 
         expect(svc.containers.length).toEqual(1);
-        actualContainer = svc.addContainer();
+        actualContainer = containerService.insert();
         expect(svc.containers.length).toEqual(2);
         var newContainer = svc.containers[1];
-        expect(svc.addWidget).toHaveBeenCalledWith(newContainer);
+        expect(svc.addWidget).toHaveBeenCalledWith(newContainer, false);
         expect(actualContainer).toEqual(newContainer);
       });
     });
@@ -358,7 +362,7 @@ describe('dashboardService', function() {
 
         it('should clean up a container if left empty after the widget is moved.',
             function() {
-              var targetContainer = svc.addContainer();
+              var targetContainer = containerService.insert();
               var targetWidget = targetContainer.model.container.children[0];
 
               expect(svc.containers.length).toEqual(2);
@@ -378,7 +382,7 @@ describe('dashboardService', function() {
 
         it('should do nothing if it is the only sibling of the first container.',
             function() {
-              var container2 = svc.addContainer();
+              var container2 = containerService.insert();
               svc.removeWidget(widget2, container);
               widget2 = container2.model.container.children[0];
 
@@ -406,7 +410,7 @@ describe('dashboardService', function() {
               container2 = widget2.state().parent;
 
               expect(svc.containers.length).toEqual(2);
-              expect(newContainer).not.toEqual(container);
+              expect(container2).not.toEqual(container);
               expect(svc.containers.indexOf(container)).toEqual(0);
               expect(svc.containers.indexOf(container2)).toEqual(1);
 
@@ -419,7 +423,7 @@ describe('dashboardService', function() {
 
         it('should move to the next container if it is not already last.',
             function() {
-              var container2 = svc.addContainer();
+              var container2 = containerService.insert();
 
               expect(svc.containers.length).toEqual(2);
               svc.moveWidgetToNextContainer(widget2);
@@ -437,8 +441,8 @@ describe('dashboardService', function() {
 
         it('should clean up a container if left empty after the widget is moved.',
             function() {
-              var container2 = svc.addContainer();
-              var container3 = svc.addContainer();
+              var container2 = containerService.insert();
+              var container3 = containerService.insert();
               widget2 = container2.model.container.children[0];
 
               expect(svc.containers.length).toEqual(3);
@@ -456,7 +460,7 @@ describe('dashboardService', function() {
 
         it('should do nothing if it is the only sibling of the last container.',
             function() {
-              var container2 = svc.addContainer();
+              var container2 = containerService.insert();
               targetWidget = container2.model.container.children[0];
 
               expect(svc.containers.length).toEqual(2);

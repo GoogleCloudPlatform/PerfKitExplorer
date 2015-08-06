@@ -44,8 +44,11 @@ explorer.components.dashboard.DashboardDirective = function() {
     },
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
     controller: [
-        '$scope', 'explorerService', 'dashboardService',
-        function($scope, explorerService, dashboardService) {
+        '$scope', 'explorerService', 'dashboardService', 'containerService',
+        function($scope, explorerService, dashboardService, containerService) {
+      /** @export */
+      $scope.containerSvc = containerService;
+
       /** @export */
       $scope.dashboardSvc = dashboardService;
 

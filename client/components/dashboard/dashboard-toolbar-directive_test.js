@@ -174,7 +174,7 @@ describe('DashboardToolbarDirective', function() {
     beforeEach(inject(function($q) {
       deferred = $q.defer();
 
-      dashboardService.newDashboard();
+      explorerService.newDashboard();
 
       actualElement = angular.element('<dashboard-toolbar />');
       $compile(actualElement)(scope);

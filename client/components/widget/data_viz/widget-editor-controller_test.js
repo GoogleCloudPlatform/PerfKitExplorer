@@ -31,7 +31,7 @@ describe('WidgetEditorCtrl', function() {
   const WidgetType = explorer.models.WidgetType;
 
   var widget, container;
-  var ctrl, scope, dashboardService, showEditorDeferred,
+  var ctrl, scope, containerService, dashboardService, showEditorDeferred,
       widgetEditorServiceMock, widgetFactoryService;
   var ctrlPrototype =
       explorer.components.widget.data_viz.WidgetEditorCtrl.prototype;
@@ -54,24 +54,27 @@ describe('WidgetEditorCtrl', function() {
     $provide.service('widgetEditorService', widgetEditorService);
   }));
 
-  beforeEach(inject(function($rootScope, $controller, _dashboardService_,
-      _widgetFactoryService_) {
-        dashboardService = _dashboardService_;
-        scope = $rootScope.$new();
-        widgetFactoryService = _widgetFactoryService_;
+  beforeEach(inject(function($rootScope, $controller,
+      _dashboardService_, _explorerService_, _widgetFactoryService_) {
+    dashboardService = _dashboardService_;
+    explorerService = _explorerService_;
 
-        dashboardService.newDashboard();
-        scope.$digest();
-        container = dashboardService.containers[0];
-        widget = container.model.container.children[0];
+    scope = $rootScope.$new();
+    widgetFactoryService = _widgetFactoryService_;
 
-        // Spies on watches called functions
-        spyOn(ctrlPrototype, 'updateSelectedChart').and.callThrough();
+    explorerService.newDashboard();
+    scope.$digest();
 
-        ctrl = $controller(
-            explorer.components.widget.data_viz.WidgetEditorCtrl,
-            {$scope: scope});
-      }));
+    container = dashboardService.containers[0];
+    widget = container.model.container.children[0];
+
+    // Spies on watches called functions
+    spyOn(ctrlPrototype, 'updateSelectedChart').and.callThrough();
+
+    ctrl = $controller(
+        explorer.components.widget.data_viz.WidgetEditorCtrl,
+        {$scope: scope});
+  }));
 
   it('should initialize the appropriate scope objects.', function() {
     expect(ctrl.dashboard).toBeDefined();

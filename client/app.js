@@ -27,6 +27,7 @@ goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerDirective');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerToolbarDirective');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
@@ -148,6 +149,8 @@ explorer.application.module.service('sidebarTabService',
     explorer.components.explorer.sidebar.SidebarTabService);
 explorer.application.module.service('configService',
     explorer.components.config.ConfigService);
+explorer.application.module.service('containerService',
+    explorer.components.container.ContainerService);
 explorer.application.module.service('dashboardDataService',
     explorer.components.dashboard.DashboardDataService);
 explorer.application.module.service('dashboardService',

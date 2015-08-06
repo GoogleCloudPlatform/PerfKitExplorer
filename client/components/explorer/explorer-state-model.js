@@ -40,7 +40,7 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * @param {!AngularUI.StateService} stateService
  * @param {!ErrorService} errorService
  * @param {string} stateName
- * 
+ *
  * @constructor
  * @template T
  * @ngInject
@@ -62,12 +62,15 @@ explorer.components.explorer.ExplorerStateModel = function(
    */
   Object.defineProperty(this, 'selectedId', {
     /** @type {?string} */
-    get: function() {
+    get: () => {
       if (stateService.params[stateName]) {
         return stateService.params[stateName];
       } else {
         return null;
       }
+    },
+    set: (value) => {
+      stateService.params[stateName] = value;
     }
   });
 
@@ -76,7 +79,7 @@ explorer.components.explorer.ExplorerStateModel = function(
    */
   Object.defineProperty(this, 'selected', {
     /** @type {T} */
-    get: function() {
+    get: () => {
       if (goog.isDefAndNotNull(this.selectedId)) {
         let selected = this.all[this.selectedId];
 
@@ -96,7 +99,7 @@ explorer.components.explorer.ExplorerStateModel = function(
    */
    Object.defineProperty(this, 'selectedIdIsValid', {
      /** @type {boolean} */
-     get: function() {
+     get: () => {
        if (!goog.isDefAndNotNull(this.selectedId)) {
          return false;
        }
@@ -137,7 +140,6 @@ ExplorerStateModel.prototype.add = function(item) {
  * @export
  */
 ExplorerStateModel.prototype.clear = function() {
-  this.selectedId = null;
   this.all = {};
 };
 

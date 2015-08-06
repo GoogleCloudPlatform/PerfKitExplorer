@@ -26,7 +26,7 @@ goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirec
 
 describe('SidebarTabsDirective', function() {
   var scope, $compile, $httpBackend, $rootScope;
-  var dashboardSvc, sidebarTabSvc;
+  var containerService, dashboardSvc, sidebarTabSvc;
   var mockTabs;
 
   const explorer = p3rf.perfkit.explorer;
@@ -44,11 +44,13 @@ describe('SidebarTabsDirective', function() {
     $httpBackend = _$httpBackend_;
   }));
 
-  beforeEach(inject(function(_sidebarTabService_, _dashboardService_) {
+  beforeEach(inject(function(
+      _sidebarTabService_, _dashboardService_, _explorerService_) {
     sidebarTabSvc = _sidebarTabService_;
     dashboardSvc = _dashboardService_;
+    explorerSvc = _explorerService_;
 
-    dashboardSvc.newDashboard();
+    explorerSvc.newDashboard();
     scope.$digest();
 
     mockTabs = [

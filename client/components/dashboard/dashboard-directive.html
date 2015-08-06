@@ -39,13 +39,13 @@
       <div ng-show="container.model.container.footer_text"
            class="pk-container-footer">
         {{ container.model.container.footer_text }}
-      </div>  
+      </div>
     </container>
   </div>
 
   <div ng-hide="explorerSvc.model.readOnly">
     <button class="btn btn-primary"
-            ng-click="dashboardSvc.addContainer()">INSERT CONTAINER</button>
+            ng-click="containerSvc.insert()">INSERT CONTAINER</button>
   </div>
 </div>
 

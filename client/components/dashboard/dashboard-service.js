@@ -179,78 +179,6 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @export {!Array.<!ErrorModel>} */
   this.errors = [];
-
-  /** @private {!Object<string, number>} */
-  this.queryParams = {};
-
-  $rootScope.$on('$stateChangeSuccess',
-      (event, toState, toParams, fromState, fromParams) => {
-    if (toState.name === 'explorer-dashboard-edit') {
-      // If we are setting the dashboard from a null state, initialize it.
-      if (fromParams.dashboard != toParams.dashboard ||
-          !goog.isDefAndNotNull(this.explorerStateService_.selectedDashboard)) {
-        $timeout(() => {
-          this.initializeDashboard();
-        });
-      }
-
-      // Set the dashboard parameters in the URL.
-      angular.forEach(this.params, param => {
-        try {
-          $state.current.reloadOnSearch = false;
-          $location.search(param.name, param.value);
-        } finally {
-          $state.current.reloadOnSearch = true;
-        }
-      });
-    }
-  });
-
-  $rootScope.$on('$locationChangeStart',
-      (event, newUrl, oldUrl) => {
-    this.queryParams = {};
-
-    // Store the current dashboard parameter values from the query string.
-    let oldQueryData = new goog.Uri(oldUrl).getQueryData();
-    angular.forEach(oldQueryData.getKeys(), paramName => {
-      if (goog.isDef($state.params[paramName])) { return; }
-
-      this.queryParams[paramName] = oldQueryData.get(paramName);
-    });
-  });
-
-  $rootScope.$on('$locationChangeSuccess',
-      (event, newUrl, oldUrl) => {
-    if (newUrl !== oldUrl) {
-      // If the dashboard changed, reload the page.
-      if ($location.search()['dashboard'] &&
-          $location.search()['dashboard'] !== this.current.model.id) {
-        $window.location.reload();
-      } else {
-          // Patch in the state parameters if the url doesn't specify them.
-          angular.forEach(Object.keys($state.params), paramName => {
-            try {
-              $state.current.reloadOnSearch = false;
-              if (goog.isDefAndNotNull($state.params[paramName]) &&
-                  $state.params[paramName] !== $location.search()[paramName]) {
-                $location.search(paramName, $state.params[paramName]);
-              }
-            } finally {
-              $state.current.reloadOnSearch = true;
-            }
-          });
-
-          // If any dashboard parameters changed, refresh the dashboard.
-          angular.forEach(this.params, param => {
-            if ($location.search()[param.name] !==
-                this.queryParams[param.name]) {
-              this.refreshDashboard();
-              return false;
-            }
-          });
-      }
-    }
-  });
 };
 const DashboardService = explorer.components.dashboard.DashboardService;
 
@@ -263,35 +191,6 @@ DashboardService.prototype.clearParams = function() {
   while (this.params.length > 0) {
     this.params.pop();
   }
-};
-
-
-/**
- * Initialize the dashboard service based on the state.
- * @export
- */
-DashboardService.prototype.initializeDashboard = function() {
-  var dashboardId = this.$stateParams_.dashboard;
-
-  if (dashboardId) {
-    this.fetchDashboard(dashboardId);
-  } else {
-    this.newDashboard();
-  }
-};
-
-
-/**
- * Creates a new dashboard.
- */
-DashboardService.prototype.newDashboard = function() {
-  var dashboard = new DashboardConfig();
-  dashboard.model.version =
-      this.dashboardVersionService_.currentVersion.version;
-
-  this.explorerStateService_.selectedDashboard = dashboard;
-
-  this.addContainer();
 };
 
 
@@ -510,27 +409,60 @@ DashboardService.prototype.scrollWidgetIntoView = function(widget) {
 
 
 /**
- * Updates the selectedContainer property and the selected state of the
- * containers.
+ * Selects the specified container, and the first widget.
  *
  * @param {ContainerWidgetConfig} container
+ * @param {boolean=} opt_supressStateChange If true, will prevent the ui-router
+ *     state change from taking place.  This is used to select the container at
+ *     initial dashboard load-time.  Defaults to false.
+ * @param {boolean=} opt_autoSelectWidget If true, will select the first widget
+ *     in the container.  Defaults to true.
  * @export
  */
-DashboardService.prototype.selectContainer = function(container) {
-  let currentSelection = this.explorerStateService_.containers.selected;
+DashboardService.prototype.selectContainer = function(
+    container, opt_supressStateChange = false, opt_autoSelectWidget = true) {
+  let widget;
+  let currentContainer = this.explorerStateService_.containers.selected;
 
-  if (currentSelection && currentSelection !== container) {
-    currentSelection.state().selected = false;
+  if (currentContainer && currentContainer !== container) {
+    currentContainer.state().selected = false;
+  }
+
+  let currentWidget = this.explorerStateService_.widgets.selected;
+
+  if (currentWidget) {
+    currentWidget.state().selected = false;
   }
 
   if (container) {
     container.state().selected = true;
+    this.explorerStateService_.containers.selectedId = container.model.id;
   }
 
-  params = {container: undefined};
-  if (container) { params.container = container.model.id; }
+  if (opt_autoSelectWidget) {
+    if (container && container.model.container.children &&
+        container.model.container.children.length > 0) {
+      widget = container.model.container.children[0];
+    }
 
-  this.$state_.go('explorer-dashboard-edit', params);
+    if (widget) {
+      widget.state().selected = true;
+      this.explorerStateService_.widgets.selectedId = widget.model.id;
+    }
+
+    this.timeout_(() => {
+      this.scrollWidgetIntoView(widget);
+    });
+  }
+
+  if (!opt_supressStateChange) {
+    params = {container: undefined};
+
+    if (widget) { params.widget = widget.model.id; }
+    if (container) { params.container = container.model.id };
+
+    this.$state_.go('explorer-dashboard-edit', params);
+  }
 };
 
 
@@ -657,8 +589,9 @@ DashboardService.prototype.restoreBuilder = function(widget) {
  * @return {!WidgetConfig} widget
  * @export
  */
-DashboardService.prototype.addWidget = function(container) {
-  return this.addWidgetAt(container);
+DashboardService.prototype.addWidget = function(
+    container, opt_autoSelect = true) {
+  return this.addWidgetAt(container, null, opt_autoSelect);
 };
 
 
@@ -670,12 +603,13 @@ DashboardService.prototype.addWidget = function(container) {
  * @param {!WidgetConfig} widget
  * @export
  */
-DashboardService.prototype.addWidgetAfter = function(container, widget) {
+DashboardService.prototype.addWidgetAfter = function(
+    container, widget, opt_autoSelect = true) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
   let index = container.model.container.children.indexOf(widget);
 
-  this.addWidgetAt(container, ++index);
+  this.addWidgetAt(container, ++index, opt_autoSelect);
 };
 
 
@@ -687,12 +621,13 @@ DashboardService.prototype.addWidgetAfter = function(container, widget) {
  * @param {!WidgetConfig} widget
  * @export
  */
-DashboardService.prototype.addWidgetBefore = function(container, widget) {
+DashboardService.prototype.addWidgetBefore = function(
+    container, widget, opt_autoSelect = true) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
 
   let index = container.model.container.children.indexOf(widget);
 
-  this.addWidgetAt(container, index);
+  this.addWidgetAt(container, index, opt_autoSelect);
 };
 
 
@@ -705,7 +640,8 @@ DashboardService.prototype.addWidgetBefore = function(container, widget) {
  * @return {!WidgetConfig}
  * @export
  */
-DashboardService.prototype.addWidgetAt = function(container, opt_index) {
+DashboardService.prototype.addWidgetAt = function(
+    container, opt_index, opt_autoSelect = true) {
   goog.asserts.assert(container, 'Bad parameters: container is missing.');
   let children = container.model.container.children;
 
@@ -727,7 +663,7 @@ DashboardService.prototype.addWidgetAt = function(container, opt_index) {
 
   this.explorerStateService_.widgets.all[widget.model.id] = widget;
 
-  if (!goog.isDef(opt_index) || opt_index > children.length - 1) {
+  if (!goog.isDefAndNotNull(opt_index) || opt_index > children.length - 1) {
     children.push(widget);
   } else if (opt_index <= 0) {
     goog.array.insertAt(children, widget, 0);
@@ -737,7 +673,9 @@ DashboardService.prototype.addWidgetAt = function(container, opt_index) {
 
   widget.state().parent = container;
 
-  this.selectWidget(widget, container);
+  if (opt_autoSelect) {
+    this.selectWidget(widget, container);
+  }
 
   return widget;
 };
@@ -802,35 +740,19 @@ DashboardService.prototype.moveWidgetToContainer = function(
 
 
 /**
- * Adds a new container with one new widget and select it.
+ * Creates a new container and returns it.
  *
+ * @param {boolean=} opt_autoCreateWidget If true, creates a widget inside
+ *     the container.  Defaults to true.
  * @return {!ContainerWidgetConfig}
- * @export
  */
-DashboardService.prototype.addContainer = function() {
+DashboardService.prototype.newContainer = function(
+    opt_autoCreateWidget = true) {
   let container = new ContainerWidgetConfig(this.widgetFactoryService_);
 
-  this.containers.push(container);
-  this.explorerStateService_.containers.all[container.model.id] = container;
-  this.addWidget(container);
-
-  return container;
-};
-
-
-/**
- * Adds a new container with one new widget and select it.
- *
- * @param {number} index
- * @return {!ContainerWidgetConfig}
- * @export
- */
-DashboardService.prototype.addContainerAt = function(index) {
-  let container = new ContainerWidgetConfig(this.widgetFactoryService_);
-  this.addWidget(container);
-  goog.array.insertAt(this.containers, container, index);
-
-  this.explorerStateService_.containers.all[container.model.id] = container;
+  if (opt_autoCreateWidget) {
+    this.addWidget(container, false);
+  }
 
   return container;
 };
@@ -847,7 +769,6 @@ DashboardService.prototype.removeContainer = function(container) {
 
   let index = this.containers.indexOf(container);
   this.containers.splice(index, 1);
-
   delete this.explorerStateService_.containers.all[container.model.id];
 
   this.unselectWidget();
@@ -877,12 +798,8 @@ DashboardService.prototype.unselectWidget = function() {
 DashboardService.prototype.moveWidgetToPrevious = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  let container = widget.state().parent;
-  let index = container.model.container.children.indexOf(widget);
-  if (index > 0) {
-    this.arrayUtilService_.swap(
-        container.model.container.children, index, index - 1);
-  }
+  this.arrayUtilService_.movePrevious(
+      widget.state().parent.model.container.children, widget);
 };
 
 
@@ -895,12 +812,8 @@ DashboardService.prototype.moveWidgetToPrevious = function(widget) {
 DashboardService.prototype.moveWidgetToNext = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  let container = widget.state().parent;
-  let index = container.model.container.children.indexOf(widget);
-  if (index < container.model.container.children.length - 1) {
-    this.arrayUtilService_.swap(
-        container.model.container.children, index, index + 1);
-  }
+  this.arrayUtilService_.moveNext(
+      widget.state().parent.model.container.children, widget);
 };
 
 
@@ -913,11 +826,8 @@ DashboardService.prototype.moveWidgetToNext = function(widget) {
 DashboardService.prototype.moveWidgetToFirst = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  let container = widget.state().parent;
-  let index = container.model.container.children.indexOf(widget);
-  if (index > 0) {
-    goog.array.moveItem(container.model.container.children, index, 0);
-  }
+  this.arrayUtilService_.moveFirst(
+      widget.state().parent.model.container.children, widget);
 };
 
 
@@ -930,12 +840,8 @@ DashboardService.prototype.moveWidgetToFirst = function(widget) {
 DashboardService.prototype.moveWidgetToLast = function(widget) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
 
-  let container = widget.state().parent;
-  let index = container.model.container.children.indexOf(widget);
-  let lastIndex = container.model.container.children.length - 1;
-  if (index < lastIndex) {
-    goog.array.moveItem(container.model.container.children, index, lastIndex);
-  }
+  this.arrayUtilService_.moveLast(
+      widget.state().parent.model.container.children, widget);
 };
 
 
