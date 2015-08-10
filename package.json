@@ -10,7 +10,7 @@
     "gulp-flatten": "0.0.x",
     "gulp-minify-html": "0.1.x",
     "gulp-ng-html2js": "0.1.x",
-    "gulp-uglify": "1.1.x",
+    "gulp-uglify": "1.1.x"
   },
   "devDependencies": {
     "jasmine": "^2.3.1",
