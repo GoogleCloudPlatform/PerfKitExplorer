@@ -220,7 +220,7 @@ explorer.components.container.ContainerService = class {
   }
 
   /**
-   * Removes the specified container from the curernt dashboard.
+   * Removes the specified container from the current dashboard.
    *
    * @param {?ContainerWidgetConfig=} opt_container The container that will
    *     follow the newly created one.  If not provided, the selected
