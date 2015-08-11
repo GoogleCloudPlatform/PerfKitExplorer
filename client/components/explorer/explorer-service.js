@@ -20,6 +20,7 @@
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
@@ -34,8 +35,10 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardService = explorer.components.dashboard.DashboardService;
+const DashboardVersionService = explorer.components.dashboard.DashboardVersionService;
 const ErrorService = explorer.components.error.ErrorService;
 const ExplorerModel = explorer.components.explorer.ExplorerModel;
 
@@ -51,8 +54,10 @@ const ExplorerModel = explorer.components.explorer.ExplorerModel;
  * @ngInject
  */
 explorer.components.explorer.ExplorerService = function(
-    arrayUtilService, dashboardDataService, dashboardService, errorService,
-    $location) {
+    arrayUtilService, containerService, dashboardDataService,
+    dashboardService, dashboardVersionService, errorService,
+    explorerStateService, $location, $state, $stateParams,
+    $rootScope, $timeout) {
   /**
    * @type {!ArrayUtilService}
    * @private
@@ -65,8 +70,26 @@ explorer.components.explorer.ExplorerService = function(
    */
   this.dashboardDataService_ = dashboardDataService;
 
+  /** @private {!DashboardVersionService} */
+  this.dashboardVersionService_ = dashboardVersionService;
+
+  /** @private {!ContainerService} */
+  this.containerService_ = containerService;
+
+  /** @private {!ExplorerStateService} */
+  this.explorerStateService_ = explorerStateService;
+
   /** @private */
   this.location_ = $location;
+
+  /** @private */
+  this.$state = $state;
+
+  /** @private */
+  this.$stateParams = $stateParams;
+
+  /** @private */
+  this.$rootScope = $rootScope;
 
   /**
    * @type {!ErrorService}
@@ -105,7 +128,79 @@ explorer.components.explorer.ExplorerService = function(
 
   /** @export {!number} */
   this.KEY_ESCAPE = 27;
-  
+
+  /** @private {!Object<string, number>} */
+  this.queryParams = {};
+
+  $rootScope.$on('$stateChangeSuccess',
+      (event, toState, toParams, fromState, fromParams) => {
+    if (toState.name === 'explorer-dashboard-edit') {
+      // If we are setting the dashboard from a null state, initialize it.
+      if (fromParams.dashboard != toParams.dashboard ||
+          !goog.isDefAndNotNull(this.explorerStateService_.selectedDashboard)) {
+        $timeout(() => {
+          this.initializeDashboard();
+        });
+      }
+
+      // Set the dashboard parameters in the URL.
+      angular.forEach(this.dashboard.params, param => {
+        try {
+          $state.current.reloadOnSearch = false;
+          $location.search(param.name, param.value);
+        } finally {
+          $state.current.reloadOnSearch = true;
+        }
+      });
+    }
+  });
+
+  $rootScope.$on('$locationChangeStart',
+      (event, newUrl, oldUrl) => {
+    this.queryParams = {};
+
+    // Store the current dashboard parameter values from the query string.
+    let oldQueryData = new goog.Uri(oldUrl).getQueryData();
+    angular.forEach(oldQueryData.getKeys(), paramName => {
+      if (goog.isDef($state.params[paramName])) { return; }
+
+      this.queryParams[paramName] = oldQueryData.get(paramName);
+    });
+  });
+
+  $rootScope.$on('$locationChangeSuccess',
+      (event, newUrl, oldUrl) => {
+    if (newUrl !== oldUrl) {
+      // If the dashboard changed, reload the page.
+      if ($location.search()['dashboard'] &&
+          $location.search()['dashboard'] !== this.dashboard.current.model.id) {
+        $window.location.reload();
+      } else {
+          // Patch in the state parameters if the url doesn't specify them.
+          angular.forEach(Object.keys($state.params), paramName => {
+            try {
+              $state.current.reloadOnSearch = false;
+              if (goog.isDefAndNotNull($state.params[paramName]) &&
+                  $state.params[paramName] !== $location.search()[paramName]) {
+                $location.search(paramName, $state.params[paramName]);
+              }
+            } finally {
+              $state.current.reloadOnSearch = true;
+            }
+          });
+
+          // If any dashboard parameters changed, refresh the dashboard.
+          angular.forEach(this.dashboard.params, param => {
+            if ($location.search()[param.name] !==
+                this.queryParams[param.name]) {
+              this.dashboard.refreshDashboard();
+              return false;
+            }
+          });
+      }
+    }
+  });
+
   this.initExplorer();
 };
 const ExplorerService = explorer.components.explorer.ExplorerService;
@@ -126,6 +221,40 @@ ExplorerService.prototype.initExplorer = function() {
   if (this.location_.search().hideToolbar == 'true') {
     this.model.hideToolbar = true;
   }
+};
+
+
+/**
+ * Initialize the dashboard service based on the state.
+ * @export
+ */
+ExplorerService.prototype.initializeDashboard = function() {
+  var dashboardId = this.$stateParams.dashboard;
+
+  if (dashboardId) {
+    this.dashboard.fetchDashboard(dashboardId);
+  } else {
+    this.newDashboard();
+  }
+};
+
+
+/**
+ * Creates a new dashboard.
+ */
+ExplorerService.prototype.newDashboard = function(
+    opt_autoCreateWidget = true, opt_autoSelect) {
+  var dashboard = new DashboardConfig();
+  dashboard.model.version =
+      this.dashboardVersionService_.currentVersion.version;
+
+  this.explorerStateService_.selectedDashboard = dashboard;
+
+  if (opt_autoCreateWidget) {
+    this.containerService_.insert(true, opt_autoSelect);
+  }
+
+  return dashboard;
 };
 
 

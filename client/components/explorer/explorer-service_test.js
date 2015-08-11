@@ -47,9 +47,11 @@ describe('explorerService', function() {
   beforeEach(module('explorer'));
 
   beforeEach(inject(function(explorerService, _configService_, $httpBackend, $state,
-      $rootScope, _dashboardService_, _queryBuilderService_, _widgetFactoryService_) {
+      $rootScope, _containerService_, _dashboardService_, _queryBuilderService_,
+      _widgetFactoryService_) {
     svc = explorerService;
     configService = _configService_;
+    containerService = _containerService_;
     dashboardService = _dashboardService_;
     queryBuilderService = _queryBuilderService_;
     widgetFactoryService = _widgetFactoryService_;
@@ -64,7 +66,8 @@ describe('explorerService', function() {
       'cache_duration': 30
     });
 
-    dashboardService.newDashboard();
+    svc.newDashboard();
+
     rootScope.$apply();
   }));
 

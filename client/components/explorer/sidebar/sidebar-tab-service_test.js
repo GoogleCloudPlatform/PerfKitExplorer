@@ -15,7 +15,7 @@
  *
  * @fileoverview Tests for SidebarTabService, holds state and data for the
  * explorer sidebar.
- * 
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -53,12 +53,13 @@ describe('SidebarTabService', function() {
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(sidebarTabService, dashboardService, _$rootScope_) {
+  beforeEach(inject(function(
+      sidebarTabService, explorerService, _$rootScope_) {
     sidebarTabSvc = sidebarTabService;
-    dashboardSvc = dashboardService;
+    explorerSvc = explorerService;
     $rootScope = _$rootScope_;
 
-    dashboardService.newDashboard();
+    explorerSvc.newDashboard();
     $rootScope.$digest();
   }));
 
@@ -110,7 +111,7 @@ describe('SidebarTabService', function() {
 
   describe('should support functions for getting the', function() {
     var dashboardSvc;
-    
+
     beforeEach(inject(function(_dashboardService_) {
       dashboardSvc = _dashboardService_;
 

@@ -24,7 +24,7 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('WidgetToolbarDirective', function() {
   var scope, $compile, $timeout, uiConfig;
-  var dashboardService, explorerService;
+  var containerService, dashboardService, explorerService;
 
   const explorer = p3rf.perfkit.explorer;
   const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
@@ -34,15 +34,17 @@ describe('WidgetToolbarDirective', function() {
 
   beforeEach(inject(function(
       _$rootScope_, _$compile_, _$timeout_,
-      _dashboardService_, _explorerService_) {
+      _dashboardService_, _containerService_, _explorerService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
 
+    containerService = _containerService_;
     dashboardService = _dashboardService_;
     explorerService = _explorerService_;
 
-    dashboardService.newDashboard();
+    explorerService.newDashboard();
+
     scope.$digest();
   }));
 
@@ -138,7 +140,7 @@ describe('WidgetToolbarDirective', function() {
       var selectedContainer, selectedWidget;
 
       beforeEach(inject(function() {
-        selectedContainer = dashboardService.addContainer();
+        selectedContainer = containerService.insert();
         dashboardService.selectWidget(
             dashboardService.addWidget(selectedContainer),
             selectedContainer);

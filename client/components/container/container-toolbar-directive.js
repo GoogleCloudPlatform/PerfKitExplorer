@@ -27,7 +27,7 @@ goog.scope(function() {
    * @ngInject
    */
   explorer.components.container.ContainerToolbarDirective = function(
-      dashboardService) {
+      arrayUtilService, containerService, dashboardService) {
     return {
       restrict: 'E',
       replace: true,
@@ -35,108 +35,11 @@ goog.scope(function() {
       transclude: false,
       templateUrl: '/static/components/container/container-toolbar-directive.html',
       controller: ['$scope', function($scope) {
+        /** @export {!ContainerService} */
+        this.containerSvc = containerService;
+
+        /** @export {!DashboardService} */
         this.dashboardSvc = dashboardService;
-
-        /**
-         * Returns the index of the selected container.
-         * @return {number} The index of the container, or null if no container
-         *     is selected.
-         */
-        this.getSelectedContainerIndex = function() {
-          if (this.dashboardSvc.selectedContainer === null) {
-            return null;
-          }
-
-          let index = this.dashboardSvc.current.model.children.indexOf(
-              this.dashboardSvc.selectedContainer);
-          goog.asserts.assert(index > -1,
-              'dashboardSvc.selectedContainer could not be found in the' +
-              'current dashboard.');
-
-          return index;
-        };
-
-        // TODO: Refactor container manipulation into dedicated service (#139).
-        /**
-         * Creates a new container and places it directly preceding the selected
-         * one.
-         * @export
-         */
-        this.insertContainerBeforeSelected = function() {
-          let index = this.getSelectedContainerIndex();
-
-          if (index === 0) {
-            this.dashboardSvc.addContainerAt(0);
-          } else {
-            this.dashboardSvc.addContainerAt(--index);
-          }
-        };
-
-        /**
-         * Creates a new container and places it directly following the selected
-         * one.
-         * @export
-         */
-        this.insertContainerAfterSelected = function() {
-          let index = this.getSelectedContainerIndex();
-          let containers = this.dashboardSvc.current.model.children;
-
-          if (index === containers.length - 1) {
-            this.dashboardSvc.addContainer();
-          } else {
-            this.dashboardSvc.addContainerAt(++index);
-          }
-        };
-
-        /**
-         * Moves the selected container to the previous position in the list.
-         * @export
-         */
-        this.moveSelectedContainerUp = function() {
-          let index = this.getSelectedContainerIndex();
-          let containers = this.dashboardSvc.current.model.children;
-
-          if (index === 0 || containers.length === 0) { return; }
-
-          goog.array.moveItem(containers, index, --index);
-        };
-
-        /**
-         * Moves the selected container to the following position in the list.
-         * @export
-         */
-        this.moveSelectedContainerDown = function() {
-          let index = this.getSelectedContainerIndex();
-          let containers = this.dashboardSvc.current.model.children;
-
-          if (containers.length === 0 || index === containers.length - 1) {
-            return;
-          }
-
-          goog.array.moveItem(containers, index, ++index);
-        };
-
-        /**
-         * Removes the selected container from the list.
-         * @export
-         */
-        this.removeSelectedContainer = function() {
-          let index = this.getSelectedContainerIndex();
-          let containers = this.dashboardSvc.current.model.children;
-
-          this.dashboardSvc.removeContainer(
-              this.dashboardSvc.selectedContainer);
-
-          if (containers.length > 0) {
-            let newContainer = null;
-
-            newContainer = containers[Math.min(index, containers.length - 1)];
-
-            let newWidget = newContainer.model.container.children[0];
-            this.dashboardSvc.selectWidget(newWidget, newContainer);
-          }
-        };
-
       }],
       controllerAs: 'ctrl'
     };

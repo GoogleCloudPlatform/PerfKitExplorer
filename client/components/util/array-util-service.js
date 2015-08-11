@@ -74,4 +74,156 @@ ArrayUtilService.prototype.getFirst = function(array, required) {
   }
 };
 
+
+/**
+ * Inserts a value into the array before the provided one.
+ * @param {Array.<*>} array
+ * @param {*} value
+ * @param {*} beforeValue
+ */
+ArrayUtilService.prototype.insertBefore = function(
+    array, value, beforeValue) {
+  let index = array.indexOf(beforeValue);
+
+  if (index < 1) {
+    this.insertAt(array, value, 0);
+  } else {
+    this.insertAt(array, value, index);
+  }
+};
+
+
+/**
+ * Inserts a value into the array after the provided one.
+ * @param {Array.<*>} array
+ * @param {*} value
+ * @param {*} afterValue
+ */
+ArrayUtilService.prototype.insertAfter = function(
+    array, value, afterValue) {
+  let index = array.indexOf(afterValue);
+
+  if ((index === -1) || (index === (array.length - 1))) {
+    array.push(value);
+  } else {
+    this.insertAt(array, value, ++index);
+  }
+};
+
+
+/**
+ * Returns the indexOf the provided value in array.
+ * Throws an error if not found.
+ * @param {Array.<*>} array
+ * @param {*} value
+ * @return {number}
+ */
+ArrayUtilService.prototype.getIndex = function(
+    array, value) {
+  let index = array.indexOf(value);
+
+  if (index === -1) {
+    throw new Error(
+        'getIndex failed: value \'' + value + '\' not found in array.');
+  }
+
+  return index;
+};
+
+
+/**
+ * Moves the provided value to the previous position.
+ * @param {Array.<*>} array
+ * @param {*} value
+ */
+ArrayUtilService.prototype.movePrevious = function(
+    array, value) {
+  let index = this.getIndex(array, value);
+
+  if (index === 0) {
+    return;
+  }
+
+  goog.array.moveItem(array, index, --index);
+};
+
+
+/**
+ * Moves the provided value to the next position.
+ * @param {Array.<*>} array
+ * @param {*} value
+ */
+ArrayUtilService.prototype.moveNext = function(
+    array, value) {
+  let index = this.getIndex(array, value);
+
+  if (index === (array.length - 1)) {
+    return;
+  }
+
+  goog.array.moveItem(array, index, ++index);
+};
+
+
+/**
+ * Moves the provided value to the first position.
+ * @param {Array.<*>} array
+ * @param {*} value
+ */
+ArrayUtilService.prototype.moveFirst = function(
+    array, value) {
+  let index = this.getIndex(array, value);
+
+  if ((index === 0) || (array.length == 1)) {
+    return;
+  }
+
+  goog.array.moveItem(array, index, 0);
+};
+
+
+/**
+ * Moves the provided value to the last position.
+ * @param {Array.<*>} array
+ * @param {*} value
+ */
+ArrayUtilService.prototype.moveLast = function(
+    array, value) {
+  let index = this.getIndex(array, value);
+  let lastIndex = array.length - 1;
+
+  if ((index === lastIndex) ||
+      (array.length == 1)) {
+    return;
+  }
+
+  goog.array.moveItem(array, index, lastIndex);
+};
+
+
+/**
+ * Inserts a value into the array at the specified index.
+ * @param {Array.<*>} array
+ * @param {*} value
+ * @param {number} index
+ */
+ArrayUtilService.prototype.insertAt = function(
+    array, value, index) {
+  goog.array.insertAt(array, value, index);
+};
+
+
+/**
+ * Removes a value from the array.
+ * @param {Array.<*>} array
+ * @param {*} value
+ */
+ArrayUtilService.prototype.remove = function(array, value) {
+  let index = array.indexOf(value);
+
+  if (index > -1) {
+    array.splice(index, 1);
+  }
+};
+
 });  // goog.scope

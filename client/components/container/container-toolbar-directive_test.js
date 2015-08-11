@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.container.ContainerToolbarDirecti
 
 describe('ContainerToolbarDirective', function() {
   var scope, $compile, $timeout, uiConfig;
-  var dashboardService;
+  var containerService, dashboardService;
 
   const explorer = p3rf.perfkit.explorer;
 
@@ -31,12 +31,14 @@ describe('ContainerToolbarDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(
-      _$rootScope_, _$compile_, _$timeout_, _dashboardService_) {
+      _$rootScope_, _$compile_, _$timeout_,
+      _containerService_, _dashboardService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
 
     dashboardService = _dashboardService_;
+    containerService = _containerService_;
   }));
 
   describe('compilation', function() {
@@ -82,9 +84,9 @@ describe('ContainerToolbarDirective', function() {
           'li.container-add-top');
       expect(targetElement.length).toBe(1);
 
-      spyOn(dashboardService, 'addContainerAt');
+      spyOn(containerService, 'insertAt');
       targetElement.click();
-      expect(dashboardService.addContainerAt).toHaveBeenCalledWith(0);
+      expect(containerService.insertAt).toHaveBeenCalledWith(0);
     });
 
     it('add a container before the selected one', function() {
@@ -92,9 +94,9 @@ describe('ContainerToolbarDirective', function() {
           'li.container-add-before');
       expect(targetElement.length).toBe(1);
 
-      spyOn(actualController, 'insertContainerBeforeSelected');
+      spyOn(containerService, 'insertBefore');
       targetElement.click();
-      expect(actualController.insertContainerBeforeSelected).toHaveBeenCalled();
+      expect(containerService.insertBefore).toHaveBeenCalled();
     });
 
     it('add a container after the selected one', function() {
@@ -102,9 +104,9 @@ describe('ContainerToolbarDirective', function() {
           'li.container-add-after');
       expect(targetElement.length).toBe(1);
 
-      spyOn(actualController, 'insertContainerAfterSelected');
+      spyOn(containerService, 'insertAfter');
       targetElement.click();
-      expect(actualController.insertContainerAfterSelected).toHaveBeenCalled();
+      expect(containerService.insertAfter).toHaveBeenCalled();
     });
 
     it('add a container at the bottom', function() {
@@ -112,9 +114,9 @@ describe('ContainerToolbarDirective', function() {
           'li.container-add-bottom');
       expect(targetElement.length).toBe(1);
 
-      spyOn(dashboardService, 'addContainer');
+      spyOn(containerService, 'insert');
       targetElement.click();
-      expect(dashboardService.addContainer).toHaveBeenCalled();
+      expect(containerService.insert).toHaveBeenCalled();
     });
 
     it('move the selected container up', function() {
@@ -122,9 +124,9 @@ describe('ContainerToolbarDirective', function() {
           'button.container-move-up');
       expect(targetElement.length).toBe(1);
 
-      spyOn(actualController, 'moveSelectedContainerUp');
+      spyOn(containerService, 'movePrevious');
       targetElement.click();
-      expect(actualController.moveSelectedContainerUp).toHaveBeenCalled();
+      expect(containerService.movePrevious).toHaveBeenCalled();
     });
 
     it('move the selected container down', function() {
@@ -132,9 +134,9 @@ describe('ContainerToolbarDirective', function() {
           'button.container-move-down');
       expect(targetElement.length).toBe(1);
 
-      spyOn(actualController, 'moveSelectedContainerDown');
+      spyOn(containerService, 'moveNext');
       targetElement.click();
-      expect(actualController.moveSelectedContainerDown).toHaveBeenCalled();
+      expect(containerService.moveNext).toHaveBeenCalled();
     });
 
     it('remove the selected container', function() {
@@ -142,9 +144,9 @@ describe('ContainerToolbarDirective', function() {
           'button.container-remove');
       expect(targetElement.length).toBe(1);
 
-      spyOn(actualController, 'removeSelectedContainer');
+      spyOn(containerService, 'remove');
       targetElement.click();
-      expect(actualController.removeSelectedContainer).toHaveBeenCalled();
+      expect(containerService.remove).toHaveBeenCalled();
     });
 
   });

@@ -34,15 +34,17 @@ describe('QueryResultConfigDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
-        _$timeout_, _configService_, _dashboardService_) {
+        _$timeout_, _configService_, _explorerService_, _dashboardService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
 
     configSvc = _configService_;
+    explorerSvc = _explorerService_;
     dashboardSvc = _dashboardService_;
-    dashboardSvc.newDashboard();
+
+    explorerSvc.newDashboard();
     scope.$digest();
   }));
 

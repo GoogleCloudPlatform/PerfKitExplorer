@@ -34,7 +34,7 @@ describe('QueryBuilderColumnConfigDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
-       _$timeout_, _configService_, _dashboardService_) {
+       _$timeout_, _configService_, _dashboardService_, _explorerService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
@@ -42,7 +42,10 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     configSvc = _configService_;
     dashboardSvc = _dashboardService_;
-    dashboardSvc.newDashboard();
+    explorerService = _explorerService_;
+
+    explorerService.newDashboard();
+
     scope.$digest();
   }));
 
