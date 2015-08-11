@@ -1,0 +1,25 @@
+.column-style-item {
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+  margin-bottom: 0;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding-bottom: 12px;
+  padding-left: 12px;
+  padding-right: 8px;
+  padding-top: 12px;
+}
+
+.column-style-insert-row {
+  margin-top: 16px;
+}
+
+.column-style-item-selected {
+  background-color: #e3f2fd; /** blue:50 */
+  border-left: 4px solid #1565C0; /** blue:800 */
+  padding-left: 8px;
+}
+
+.column-style-insert-control:hover {
+  cursor: pointer !important;
+}

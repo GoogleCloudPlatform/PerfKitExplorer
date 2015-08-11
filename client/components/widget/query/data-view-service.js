@@ -67,12 +67,16 @@ const SortOrder = explorer.models.SortOrder;
  * @constructor
  * @ngInject
  */
-explorer.components.widget.query.DataViewService = function(GvizDataView) {
+explorer.components.widget.query.DataViewService = function(
+    GvizDataView, columnStyleService) {
   /**
    * @type {function(new:google.visualization.DataView, ...)}
    * @private
    */
   this.GvizDataView_ = GvizDataView;
+
+  /** @private {!ColumnStyleService} */
+  this.columnStyleSvc = columnStyleService;
 };
 const DataViewService = explorer.components.widget.query.DataViewService;
 
@@ -84,9 +88,10 @@ const DataViewService = explorer.components.widget.query.DataViewService;
  *
  * @param {!google.visualization.DataTable} dataTable
  * @param {!DataViewModel} model
+ * @param {!Array.<!ColumnStyleModel>}
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */
-DataViewService.prototype.create = function(dataTable, model) {
+DataViewService.prototype.create = function(dataTable, model, columns) {
   let view = new this.GvizDataView_(dataTable);
   let sortedViewJson;
 
@@ -128,6 +133,18 @@ DataViewService.prototype.create = function(dataTable, model) {
       // Catch errors when the columns property is invalid
       return {error: {property: 'columns', message: e.message}};
     }
+  } else {
+    // Use the column styles to determine order.
+    let columnIds = [];
+
+    columns.forEach(column => {
+      let columnIndex = this.columnStyleSvc.getColumnIndex(column.column_id, dataTable);
+      goog.asserts.assert(columnIndex !== -1);
+
+      columnIds.push(columnIndex);
+    });
+
+    view.setColumns(columnIds);
   }
 
   let viewJson = angular.fromJson(view.toJSON());

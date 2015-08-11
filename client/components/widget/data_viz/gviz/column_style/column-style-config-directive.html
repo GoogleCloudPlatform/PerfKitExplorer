@@ -1,0 +1,12 @@
+<div class="column-style-list">
+  <column-style
+      ng-model="column"
+      widget-model="ngModel"
+      ng-repeat="column in ngModel.chart.columns track by $index">
+  </column-style>
+  <div class="column-style-insert-row">
+    <input class="form-control column-style-insert-control"
+        ng-click="columnStyleSvc.addColumn(ngModel)"
+        readonly placeholder="click to add">
+  </div>
+</div>

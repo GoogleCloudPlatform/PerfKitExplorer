@@ -34,10 +34,14 @@ goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const ColumnStyleModel = (
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel);
 const WidgetType = explorer.models.WidgetType;
 
 

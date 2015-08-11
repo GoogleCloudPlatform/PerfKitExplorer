@@ -1,0 +1,58 @@
+<div>
+  <button type="button"
+          class="btn btn-default dropdown-toggle column-add">
+    Insert
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu column-add-dropdown">
+    <li class="columns-add-datasource"
+        ng-click="ctrl.columnStyleSvc.addColumnsFromDatasource(ngModel)">
+        <a>from datasource</a>
+    </li>
+    <li class="column-add-top"
+        ng-click="ctrl.arrayUtilSvc.insertAt(
+            ngModel.model.chart.columns,
+            ctrl.columnStyleSvc.newColumn(),
+            0)">
+        <a>top</a>
+    </li>
+    <li class="column-add-before"
+        ng-show="ctrl.columnStyleSvc.selectedColumn"
+        ng-click="ctrl.arrayUtilSvc.insertBefore(
+            ngModel.model.chart.columns,
+            ctrl.columnStyleSvc.newColumn(),
+            ctrl.columnStyleSvc.selectedColumn)">
+        <a>before</a>
+    </li>
+    <li class="column-add-after"
+        ng-show="ctrl.columnStyleSvc.selectedColumn"
+        ng-click="ctrl.arrayUtilSvc.insertAfter(
+            ngModel.model.chart.columns,
+            ctrl.columnStyleSvc.newColumn(),
+            ctrl.columnStyleSvc.selectedColumn)">
+      <a>after</a>
+    </li>
+    <li class="column-add-bottom"
+        ng-click="ctrl.columnStyleSvc.addColumn(ngModel.model)">
+      <a>bottom</a>
+    </li>
+  </ul>
+  <button type="button" class="btn btn-default column-move-up"
+          ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.arrayUtilSvc.movePrevious(
+              ngModel.model.chart.columns,
+              ctrl.columnStyleSvc.selectedColumn)">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+  </button>
+  <button type="button" class="btn btn-default column-move-down"
+          ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.arrayUtilSvc.moveNext(
+              ngModel.model.chart.columns,
+              ctrl.columnStyleSvc.selectedColumn)">
+    <span class="glyphicon glyphicon-arrow-down"></span>
+  </button>
+  <button type="button" class="btn btn-default column-remove"
+          ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.columnStyleSvc.removeColumn(
+              ngModel.model, ctrl.columnStyleSvc.selectedColumn)">Delete</button>
+</div>
