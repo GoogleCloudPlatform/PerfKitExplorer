@@ -1,7 +1,9 @@
-<div class="pk-page-content-cell">
+<div class="pk-page-content-cell pk-background"
+     ng-click="dashboardSvc.onDashboardClick($event)">
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
-  <div ng-repeat="container in dashboardSvc.containers" class="pk-container"
+  <div ng-repeat="container in dashboardSvc.containers"
+       class="pk-container pk-background"
        ng-class="{'pk-container-selected': container.state().selected}">
 
     <container class="pk-container-content" layout="column"
@@ -11,7 +13,7 @@
         {{ container.model.container.header_text }}
       </div>
       <div layout="row" flex>
-        <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }}"
+        <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }} pk-background"
                 ng-repeat="widget in container.model.container.children"
                 widget-config="widget" flex>
           <div class="pk-widget-header">
@@ -47,9 +49,8 @@
     </container>
   </div>
 
-  <div ng-hide="explorerSvc.model.readOnly">
+  <div ng-hide="explorerSvc.model.readOnly" class="pk-background">
     <button class="btn btn-primary"
             ng-click="containerSvc.insert()">INSERT CONTAINER</button>
   </div>
 </div>
-
