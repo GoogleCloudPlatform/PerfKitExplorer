@@ -20,7 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
-goog.provide('p3rf.perfkit.explorer.models.ChartWidgetModel');
+goog.provide('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('columnStyleService', function() {
   var explorer = p3rf.perfkit.explorer;
@@ -28,22 +28,27 @@ describe('columnStyleService', function() {
 
   var svc, providedDataTable, GvizDataTable, providedConfig,
       providedColumn1, providedColumn2;
-  var ChartWidgetModel = p3rf.perfkit.explorer.models.ChartWidgetModel;
+  var dashboardSvc, widgetFactorySvc;
+
+  var ChartWidgetConfig = p3rf.perfkit.explorer.models.ChartWidgetConfig;
   var ColumnStyleModel = gviz.column_style.ColumnStyleModel;
 
   beforeEach(module('explorer'));
   beforeEach(module('googleVisualizationMocks'));
 
-  beforeEach(inject(function(columnStyleService, _GvizDataTable_) {
+  beforeEach(inject(function(
+      columnStyleService, _GvizDataTable_, _dashboardService_, _widgetFactoryService_) {
     svc = columnStyleService;
     GvizDataTable = _GvizDataTable_;
+    dashboardSvc = _dashboardService_;
+    widgetFactorySvc = _widgetFactoryService_;
   }));
 
   beforeEach(function() {
-    providedConfig = new ChartWidgetModel();
+    providedConfig = new ChartWidgetConfig(widgetFactorySvc);
     providedColumn1 = new ColumnStyleModel('timestamp', 'Quarter Ending');
     providedColumn2 = new ColumnStyleModel('sales_amt', 'Total Sales');
-    providedConfig.chart.columns.push(providedColumn1, providedColumn2);
+    providedConfig.model.chart.columns.push(providedColumn1, providedColumn2);
 
     var data = {
       cols: [
@@ -59,6 +64,7 @@ describe('columnStyleService', function() {
     };
 
     providedDataTable = new GvizDataTable(data);
+    providedConfig.state().datasource.data = providedDataTable;
   });
 
   describe('removeColumn', function() {
@@ -66,17 +72,17 @@ describe('columnStyleService', function() {
     it('should remove the provided column from the provided widget', function() {
       svc.removeColumn(providedConfig, providedColumn1);
 
-      expect(providedConfig.chart.columns).toEqual([providedColumn2]);
+      expect(providedConfig.model.chart.columns).toEqual([providedColumn2]);
     });
   });
 
   describe('getEffectiveColumns', function() {
 
     it('should return column styles when none are explicitly defined', function() {
-      providedConfig.chart.columns = [];
+      providedConfig.model.chart.columns = [];
 
       var actualColumns = svc.getEffectiveColumns(
-          providedConfig.chart.columns, providedDataTable);
+          providedConfig.model.chart.columns, providedDataTable);
       var expectedColumns = [
         new ColumnStyleModel('timestamp'),
         new ColumnStyleModel('sales_amt')
@@ -90,19 +96,19 @@ describe('columnStyleService', function() {
         new ColumnStyleModel('timestamp', 'Date'),
         new ColumnStyleModel('sales_amt', 'Sales')
       ];
-      providedConfig.chart.columns = providedColumns;
+      providedConfig.model.chart.columns = providedColumns;
 
       var actualColumns = svc.getEffectiveColumns(
-          providedConfig.chart.columns, providedDataTable);
+          providedConfig.model.chart.columns, providedDataTable);
 
       expect(actualColumns).toEqual(providedColumns);
     });
 
     it('should append columns without explicit definition at the end', function() {
-      providedConfig.chart.columns = [new ColumnStyleModel('timestamp', 'Date')];
+      providedConfig.model.chart.columns = [new ColumnStyleModel('timestamp', 'Date')];
 
       var actualColumns = svc.getEffectiveColumns(
-          providedConfig.chart.columns, providedDataTable);
+          providedConfig.model.chart.columns, providedDataTable);
       var expectedColumns = [
         new ColumnStyleModel('timestamp', 'Date'),
         new ColumnStyleModel('sales_amt')
@@ -111,10 +117,27 @@ describe('columnStyleService', function() {
     });
   });
 
+  describe('addColumnsFromDatasource', function() {
+
+    it('should replace the columns collection with getEffectiveColumns', function() {
+      spyOn(dashboardSvc, 'refreshWidget');
+      providedConfig.model.chart.columns = [new ColumnStyleModel('timestamp', 'Date')];
+
+      svc.addColumnsFromDatasource(providedConfig);
+      var expectedColumns = [
+        new ColumnStyleModel('timestamp', 'Date'),
+        new ColumnStyleModel('sales_amt')
+      ];
+
+      expect(providedConfig.model.chart.columns).toEqual(expectedColumns);
+      expect(dashboardSvc.refreshWidget).toHaveBeenCalledWith(providedConfig);
+    });
+  });
+
   describe('applyToDataTable', function() {
 
     it('should replace column titles', function() {
-      svc.applyToDataTable(providedConfig.chart.columns, providedDataTable);
+      svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
 
       expect(providedDataTable.getColumnLabel(0)).toEqual('Quarter Ending');
       expect(providedDataTable.getColumnLabel(1)).toEqual('Total Sales');
@@ -135,11 +158,11 @@ describe('columnStyleService', function() {
         var expectedError = 'applyToDataTable failed: \'dataTable\' is required.';
 
         expect(function() {
-          svc.applyToDataTable(providedConfig.chart.columns);
+          svc.applyToDataTable(providedConfig.model.chart.columns);
         }).toThrowError(expectedError);
 
         expect(function() {
-          svc.applyToDataTable(providedConfig.chart.columns, null);
+          svc.applyToDataTable(providedConfig.model.chart.columns, null);
         }).toThrowError(expectedError);
       });
     });

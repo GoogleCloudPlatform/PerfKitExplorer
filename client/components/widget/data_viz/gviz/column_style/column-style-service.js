@@ -85,20 +85,29 @@ gviz.column_style.ColumnStyleService = class {
       this.selectedColumn = null;
     }
 
-    this.arrayUtilSvc.remove(widget.movel.chart.columns, column);
+    this.arrayUtilSvc.remove(widget.model.chart.columns, column);
 
-    this.dashboardSvc.refreshWidget(widget);
+    // Revert the label back to the column id.
+    let dataTable = widget.state().datasource.data;
+    if (goog.isDefAndNotNull(dataTable)) {
+      let columnIndex = this.getColumnIndex(column.column_id, dataTable);
+
+      goog.asserts.assert(columnIndex !== -1);
+
+      dataTable.setColumnLabel(columnIndex, column.column_id);
+    }
   }
 
   /**
    * Adds any columns present in the dataTable but not already defined.
-   * @param {!ChartWidgetConfig} config
+   * @param {!ChartWidgetConfig} widget
    * @export
    */
-  addColumnsFromDatasource(config) {
-    config.model.chart.columns = this.getEffectiveColumns(
-        config.model.chart.columns,
-        config.state().datasource.data);
+  addColumnsFromDatasource(widget) {
+    widget.model.chart.columns = this.getEffectiveColumns(
+        widget.model.chart.columns,
+        widget.state().datasource.data);
+    this.dashboardSvc.refreshWidget(widget);
   }
 
   /**

@@ -26,7 +26,7 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('ColumnStyleToolbarDirective', function() {
   var scope, $compile, $timeout, uiConfig;
-  var arrayUtilService, columnStyleService, widgetFactoryService;
+  var arrayUtilService, columnStyleService, dashboardService, widgetFactoryService;
   var providedColumn;
 
   const explorer = p3rf.perfkit.explorer;
@@ -38,13 +38,15 @@ describe('ColumnStyleToolbarDirective', function() {
 
   beforeEach(inject(function(
       _$rootScope_, _$compile_, _$timeout_,
-      _arrayUtilService_, _columnStyleService_, _widgetFactoryService_) {
+      _arrayUtilService_, _columnStyleService_, _dashboardService_,
+      _widgetFactoryService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
 
     arrayUtilService = _arrayUtilService_;
     columnStyleService = _columnStyleService_;
+    dashboardService = _dashboardService_;
     widgetFactoryService = _widgetFactoryService_;
 
     scope.widgetConfig = new ChartWidgetConfig(widgetFactoryService);
@@ -147,10 +149,15 @@ describe('ColumnStyleToolbarDirective', function() {
       columnStyleService.selectedColumn = providedColumn;
 
       spyOn(arrayUtilService, 'movePrevious');
+      spyOn(dashboardService, 'refreshWidget');
+
       targetElement.click();
+
       expect(arrayUtilService.movePrevious).toHaveBeenCalledWith(
           scope.widgetConfig.model.chart.columns,
           providedColumn);
+      expect(dashboardService.refreshWidget).toHaveBeenCalledWith(
+          scope.widgetConfig);
     });
 
     it('move the selected column down', function() {
@@ -160,10 +167,15 @@ describe('ColumnStyleToolbarDirective', function() {
       columnStyleService.selectedColumn = providedColumn;
 
       spyOn(arrayUtilService, 'moveNext');
+      spyOn(dashboardService, 'refreshWidget');
+
       targetElement.click();
+
       expect(arrayUtilService.moveNext).toHaveBeenCalledWith(
           scope.widgetConfig.model.chart.columns,
           providedColumn);
+      expect(dashboardService.refreshWidget).toHaveBeenCalledWith(
+          scope.widgetConfig);
     });
 
     it('remove the selected column', function() {
@@ -175,7 +187,7 @@ describe('ColumnStyleToolbarDirective', function() {
       spyOn(columnStyleService, 'removeColumn');
       targetElement.click();
       expect(columnStyleService.removeColumn).toHaveBeenCalledWith(
-          scope.widgetConfig.model, providedColumn);
+          scope.widgetConfig, providedColumn);
     });
 
   });
