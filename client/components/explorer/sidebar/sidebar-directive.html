@@ -1,5 +1,6 @@
 <div class="pk-sidebar-panel" layout="column" flex
   ng-show="tabSvc.selectedTab">
+
   <div class="pk-sidebar-panel-header
               {{ tabSvc.selectedTab.panelTitleClass}}">
     <div style="float: right">
@@ -11,20 +12,21 @@
     <div class="pk-sidebar-panel-header-text">
         {{ tabSvc.selectedTab.title }}</div>
   </div>
+
   <div class="pk-sidebar-panel-content
               {{ tabSvc.selectedTab.panelClass }}" flex>
     <div ng-switch="tabSvc.selectedTab.id">
 
       <div ng-switch-when="dashboard">
-        <dashboard-config ng-model="dashboardSvc.current.model" /> 
+        <dashboard-config ng-model="dashboardSvc.current.model" />
       </div>
 
       <div ng-switch-when="container">
-        <container-config ng-model="dashboardSvc.selectedContainer.model.container" /> 
+        <container-config ng-model="dashboardSvc.selectedContainer.model.container" />
       </div>
 
       <div ng-switch-when="widget.data">
-        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" /> 
+        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
 
       <div ng-switch-when="widget.data.filter">
@@ -57,6 +59,7 @@
       <div ng-switch-default>UNSUPPORTED TYPE: {{ tabSvc.selectedTab.id }}</div>
     </div>
   </div>
+
   <div class="pk-sidebar-panel-footer
               {{ tabSvc.selectedTab.panelTitleClass}}">
     <md-button style="float: left" aria-label="previous tab"
@@ -65,5 +68,6 @@
     <md-button style="float: right" aria-label="next tab"
         ng-click="tabSvc.selectedTab = tabSvc.getNextTab(tabSvc.selectedTab)">
       next</md-button>
-    </div>
+  </div>
+
 </div>

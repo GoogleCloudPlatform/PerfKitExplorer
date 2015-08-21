@@ -141,7 +141,7 @@ describe('dataViewService', function() {
         }
     );
   });
-  
+
   describe('getSortedColumns', function() {
     var dataTable;
 
@@ -165,26 +165,26 @@ describe('dataViewService', function() {
 
       expect(cols).toEqual([2,3,1,0]);
     });
-    
+
     it('should return the column indexes in ascending order when ' +
        'SortOrder.ASCENDING is provided.', function() {
       var cols = svc.getSortedColumns(dataTable, 0, SortOrder.ASCENDING);
 
       expect(cols).toEqual([2,3,1,0]);
     });
-    
+
     it('should return the column indexes in descending order when ' +
        'SortOrder.DESCENDING is provided.', function() {
       var cols = svc.getSortedColumns(dataTable, 0, SortOrder.DESCENDING);
 
       expect(cols).toEqual([0,1,3,2]);
     });
-    
+
     it('should ignore the first n columns specified by sort_column_offset',
         function() {
       var cols = svc.getSortedColumns(dataTable, 1);
 
       expect(cols).toEqual([0,2,3,1]);
-    });   
+    });
   });
 });
