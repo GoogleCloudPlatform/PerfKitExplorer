@@ -38,7 +38,7 @@ gviz.column_style.ColumnStyleConfigDirective = function() {
     replace: true,
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      /** @type {!ChartWidgetConfig} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/column_style/column-style-config-directive.html',

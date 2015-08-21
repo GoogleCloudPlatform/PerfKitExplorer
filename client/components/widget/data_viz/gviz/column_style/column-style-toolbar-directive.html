@@ -44,20 +44,18 @@
   </ul>
   <button type="button" class="btn btn-default column-move-up"
           ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
-          ng-click="ctrl.arrayUtilSvc.movePrevious(
-              ngModel.model.chart.columns,
-              ctrl.columnStyleSvc.selectedColumn)">
+          ng-click="ctrl.columnStyleSvc.movePrevious(
+              ngModel, ctrl.columnStyleSvc.selectedColumn)">
     <span class="glyphicon glyphicon-arrow-up"></span>
   </button>
   <button type="button" class="btn btn-default column-move-down"
           ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
-          ng-click="ctrl.arrayUtilSvc.moveNext(
-              ngModel.model.chart.columns,
-              ctrl.columnStyleSvc.selectedColumn)">
+          ng-click="ctrl.columnStyleSvc.moveNext(
+              ngModel, ctrl.columnStyleSvc.selectedColumn)">
     <span class="glyphicon glyphicon-arrow-down"></span>
   </button>
   <button type="button" class="btn btn-default column-remove"
           ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
           ng-click="ctrl.columnStyleSvc.removeColumn(
-              ngModel.model, ctrl.columnStyleSvc.selectedColumn)">Delete</button>
+              ngModel, ctrl.columnStyleSvc.selectedColumn)">Delete</button>
 </div>

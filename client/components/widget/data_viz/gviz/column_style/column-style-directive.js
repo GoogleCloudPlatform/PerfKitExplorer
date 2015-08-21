@@ -32,8 +32,7 @@ const gviz = explorer.components.widget.data_viz.gviz;
  * @return {Object} Directive definition object.
  * @ngInject
  */
-gviz.column_style.ColumnStyleDirective = function(
-    queryEditorService) {
+gviz.column_style.ColumnStyleDirective = function() {
   return {
     restrict: 'E',
     replace: true,
@@ -41,7 +40,9 @@ gviz.column_style.ColumnStyleDirective = function(
     scope: {
       /** @type {!ColumnStyleModel} */
       'ngModel': '=',
-      'widgetModel': '='
+
+      /** @type {!ChartWidgetConfig} */
+      'widgetConfig': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/column_style/column-style-directive.html',
     controller: ['$scope', 'columnStyleService', 'arrayUtilService', function(
@@ -59,7 +60,7 @@ gviz.column_style.ColumnStyleDirective = function(
        * Removes the column provided by ngModel from the widget config.
        */
       $scope.remove = function() {
-        columnStyleService.removeColumn($scope.widgetModel, $scope.ngModel);
+        columnStyleService.removeColumn($scope.widgetConfig, $scope.ngModel);
       }
 
       /**

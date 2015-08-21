@@ -38,9 +38,12 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * @ngInject
  */
 gviz.column_style.ColumnStyleService = class {
-  constructor(errorService, arrayUtilService) {
+  constructor(errorService, arrayUtilService, dashboardService) {
     /** @export {!ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
+
+    /** @export {!DashboardService} */
+    this.dashboardSvc = dashboardService;
 
     /**
      * Specifies the currently selected column in the UX.
@@ -73,16 +76,18 @@ gviz.column_style.ColumnStyleService = class {
 
   /**
    * Removes the provided column from the provided widget config.
-   * @param {!ChartWidgetModel} config
+   * @param {!ChartWidgetConfig} widget
    * @param {!ColumnStyleModel} column
    * @export
    */
-  removeColumn(config, column) {
+  removeColumn(widget, column) {
     if (this.selectedColumn == column) {
       this.selectedColumn = null;
     }
 
-    this.arrayUtilSvc.remove(config.chart.columns, column);
+    this.arrayUtilSvc.remove(widget.movel.chart.columns, column);
+
+    this.dashboardSvc.refreshWidget(widget);
   }
 
   /**
@@ -192,6 +197,48 @@ gviz.column_style.ColumnStyleService = class {
     }
 
     return -1;
+  }
+
+  /**
+   * Moves the provided column to the previous position.
+   * @param {!ChartWidgetConfig} widget
+   * @param {!ColumnStyleModel} column
+   */
+  movePrevious(widget, column) {
+    if (!goog.isDefAndNotNull(widget)) {
+      throw new Error('movePrevious failed: \'widget\' is required.')
+    }
+
+    if (!goog.isDefAndNotNull(column)) {
+      throw new Error('movePrevious failed: \'column\' is required.')
+    }
+
+    this.arrayUtilSvc.movePrevious(
+      widget.model.chart.columns,
+      column);
+
+    this.dashboardSvc.refreshWidget(widget);
+  }
+
+  /**
+   * Moves the provided column to the next position.
+   * @param {!ChartWidgetConfig} widget
+   * @param {!ColumnStyleModel} column
+   */
+  moveNext(widget, column) {
+    if (!goog.isDefAndNotNull(widget)) {
+      throw new Error('moveNext failed: \'widget\' is required.')
+    }
+
+    if (!goog.isDefAndNotNull(column)) {
+      throw new Error('moveNext failed: \'column\' is required.')
+    }
+
+    this.arrayUtilSvc.moveNext(
+      widget.model.chart.columns,
+      column);
+
+    this.dashboardSvc.refreshWidget(widget);
   }
 }
 
