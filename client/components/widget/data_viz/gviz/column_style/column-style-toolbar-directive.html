@@ -1,4 +1,8 @@
 <div>
+  <button type="button" class="btn btn-default widget-refresh"
+          ng-click="ctrl.dashboardSvc.refreshWidget(ngModel)">
+    Refresh
+  </button>
   <button type="button"
           class="btn btn-default dropdown-toggle column-add">
     Insert
@@ -6,6 +10,7 @@
   </button>
   <ul class="dropdown-menu column-add-dropdown">
     <li class="columns-add-datasource"
+        ng-disabled="!ngModel.state().datasource.data"
         ng-click="ctrl.columnStyleSvc.addColumnsFromDatasource(ngModel)">
         <a>from datasource</a>
     </li>
@@ -17,7 +22,7 @@
         <a>top</a>
     </li>
     <li class="column-add-before"
-        ng-show="ctrl.columnStyleSvc.selectedColumn"
+        ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
         ng-click="ctrl.arrayUtilSvc.insertBefore(
             ngModel.model.chart.columns,
             ctrl.columnStyleSvc.newColumn(),
@@ -25,7 +30,7 @@
         <a>before</a>
     </li>
     <li class="column-add-after"
-        ng-show="ctrl.columnStyleSvc.selectedColumn"
+        ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
         ng-click="ctrl.arrayUtilSvc.insertAfter(
             ngModel.model.chart.columns,
             ctrl.columnStyleSvc.newColumn(),

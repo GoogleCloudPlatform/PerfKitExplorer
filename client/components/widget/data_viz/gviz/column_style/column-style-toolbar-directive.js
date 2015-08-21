@@ -28,7 +28,7 @@ goog.scope(function() {
    * @ngInject
    */
   gviz.column_style.ColumnStyleToolbarDirective = function(
-      columnStyleService, arrayUtilService) {
+      arrayUtilService, columnStyleService, dashboardService) {
     return {
       restrict: 'E',
       replace: true,
