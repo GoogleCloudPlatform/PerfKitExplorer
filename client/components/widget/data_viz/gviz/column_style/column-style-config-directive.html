@@ -1,12 +1,21 @@
-<div class="column-style-list">
-  <column-style
-      ng-model="column"
-      widget-config="ngModel"
-      ng-repeat="column in ngModel.model.chart.columns track by $index">
-  </column-style>
-  <div class="column-style-insert-row">
-    <input class="form-control column-style-insert-control"
-        ng-click="columnStyleSvc.addColumn(ngModel.model)"
-        readonly placeholder="click to add">
+<div>
+  <div class="pk-sidebar-note">
+    You can define the title and order of your columns below.  Hover over an element
+    below, or toolbar option to the right, to learn more.
+  </div>
+  <div class="column-style-list">
+    <column-style
+        ng-model="column"
+        widget-config="ngModel"
+        ng-repeat="column in ngModel.model.chart.columns track by $index">
+    </column-style>
+    <div class="column-style-insert-row">
+      <input class="form-control column-style-insert-control"
+          ng-click="columnStyleSvc.addColumnsFromDatasource(ngModel)"
+          readonly placeholder="add from datasource">
+      <md-tooltip md-direction="bottom">
+        Adds a <b>Column Style</b> for each field in your selected widget's <b>Query</b>
+      </md-tooltip>
+    </div>
   </div>
 </div>

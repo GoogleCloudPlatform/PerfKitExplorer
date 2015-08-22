@@ -3,29 +3,39 @@
      ng-class="{'column-style-item-selected': isSelected()}"
      ng-focus="select()"
      ng-click="select()">
-  <div class="pk-sidebar-item-label">
-    column id
+  <div>
+    <div class="pk-sidebar-item-label">
+      field name
+    </div>
+    <div class="input-group pk-sidebar-item-value">
+      <input
+          class="form-control widget-column-style-id"
+          placeholder="column id"
+          ng-focus="select()"
+          ng-model="ngModel.column_id">
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-remove"
+          ng-focus="select()"
+          ng-click="remove()"></i>
+      </span>
+    </div>
+    <md-tooltip md-direction="right">
+      The name of the <b>Field</b> from your <b>Query</b>
+    </md-tooltip>
   </div>
-  <div class="input-group pk-sidebar-item-value">
-    <input
-        class="form-control widget-column-style-id"
-        placeholder="column id"
-        ng-focus="select()"
-        ng-model="ngModel.column_id">
-    <span class="input-group-addon">
-      <i class="glyphicon glyphicon-remove"
-         ng-focus="select()"
-         ng-click="remove()"></i>
-    </button>
-  </div>
-  <div class="pk-sidebar-item-label">
-    title
-  </div>
-  <div class="pk-sidebar-item-value">
-    <input
-        class="form-control widget-column-style-title"
-        placeholder="{{ ngModel.column_id }}"
-        ng-focus="select()"
-        ng-model="ngModel.title">
+  <div>
+    <div class="pk-sidebar-item-label">
+      title
+    </div>
+    <div class="pk-sidebar-item-value">
+      <input
+          class="form-control widget-column-style-title"
+          placeholder="{{ ngModel.column_id }}"
+          ng-focus="select()"
+          ng-model="ngModel.title">
+    </div>
+    <md-tooltip md-direction="right">
+      A <b>readable</b> title to use in place of the field name
+    </md-tooltip>
   </div>
 </div>
