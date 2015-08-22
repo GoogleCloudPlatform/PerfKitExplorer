@@ -91,6 +91,15 @@ gviz.column_style.ColumnStyleDirective = function() {
       $scope.select = function() {
         columnStyleService.selectedColumn = $scope.ngModel;
       }
+
+      /**
+       * Returns true if the column id exists in the dataTable, otherwise false.
+       */
+      $scope.isValid = function() {
+        return (columnStyleService.getColumnIndex(
+            $scope.ngModel.column_id,
+            $scope.widgetConfig.state().datasource.data) !== -1);
+      }
     }]
   };
 };

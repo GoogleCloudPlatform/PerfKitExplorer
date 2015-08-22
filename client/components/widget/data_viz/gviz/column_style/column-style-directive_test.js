@@ -28,7 +28,7 @@ describe('ColumnStyleDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, $httpBackend, uiConfig;
   var configService, columnStyleService, dashboardService, GvizDataTable;
-  var providedDataTable;
+  var providedDataTable, providedData;
 
   const explorer = p3rf.perfkit.explorer;
   const ColumnStyleModel = explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel;
@@ -150,8 +150,6 @@ describe('ColumnStyleDirective', function() {
   });
 
   describe('should refresh the widget when the column id changes', function() {
-    var providedData;
-
     beforeEach(inject(function() {
       scope.providedWidget.state().datasource.data = providedDataTable;
     }));

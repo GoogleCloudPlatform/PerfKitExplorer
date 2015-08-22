@@ -1,6 +1,7 @@
 <div class="pk-sidebar-item column-style-item"
      tabindex="0"
-     ng-class="{'column-style-item-selected': isSelected()}"
+     ng-class="{'column-style-item-selected': isSelected(),
+                'column-style-item-invalid': !isValid()}"
      ng-focus="select()"
      ng-click="select()">
   <div>
@@ -13,6 +14,13 @@
           placeholder="column id"
           ng-focus="select()"
           ng-model="ngModel.column_id">
+      <span class="input-group-addon"
+          ng-show="!isValid()">
+        <i class="fa fa-exclamation-triangle"></i>
+        <md-tooltip>
+          The column does not exist in the dataTable
+        <md-tooltip>
+      </span>
       <span class="input-group-addon">
         <i class="glyphicon glyphicon-remove"
           ng-focus="select()"

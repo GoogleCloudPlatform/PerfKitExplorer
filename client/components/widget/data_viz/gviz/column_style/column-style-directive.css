@@ -20,6 +20,17 @@
   padding-left: 8px;
 }
 
+.column-style-item-invalid {
+  background-color: #ffecb3; /** amber:100 */
+  padding-left: 8px;
+}
+
+.column-style-item-invalid.column-style-item-selected {
+  background-color: #ffecb3; /** orange:100 */
+  border-left: 4px solid #ff8f00; /** orange:800 */
+  padding-left: 8px;
+}
+
 .column-style-insert-control:hover {
   cursor: pointer !important;
 }

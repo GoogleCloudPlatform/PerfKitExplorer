@@ -200,13 +200,11 @@ gviz.column_style.ColumnStyleService = class {
       throw new Error('getColumnIndex failed: \'columnId\' is a required string.')
     }
 
-    if (!goog.isDefAndNotNull(dataTable)) {
-      throw new Error('getColumnIndex failed: \'dataTable\' is required.')
-    }
-
-    for (var i=0, len=dataTable.getNumberOfColumns(); i<len; ++i) {
-      if (dataTable.getColumnId(i) === columnId) {
-        return i;
+    if (goog.isDefAndNotNull(dataTable)) {
+      for (var i=0, len=dataTable.getNumberOfColumns(); i<len; ++i) {
+        if (dataTable.getColumnId(i) === columnId) {
+          return i;
+        }
       }
     }
 

@@ -207,15 +207,5 @@ describe('columnStyleService', function() {
         svc.getColumnIndex(null);
       }).toThrowError(expectedError);
     });
-
-    it('should raise an error if a dataTable is not provided', function() {
-      expect(function() {
-        svc.getColumnIndex('timestamp');
-      }).toThrowError('getColumnIndex failed: \'dataTable\' is required.');
-
-      expect(function() {
-        svc.getColumnIndex('timestamp', null);
-      }).toThrowError('getColumnIndex failed: \'dataTable\' is required.');
-    });
   })
 });
