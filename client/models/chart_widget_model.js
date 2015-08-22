@@ -117,6 +117,12 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
     'chartArea': {},
     'legend': {}
   };
+
+  /**
+   * @type {!Array.<!ColumnStyleModel}
+   * @export
+   */
+  this.columns = [];
 };
 const ChartModel = p3rf.perfkit.explorer.models.ChartModel;
 

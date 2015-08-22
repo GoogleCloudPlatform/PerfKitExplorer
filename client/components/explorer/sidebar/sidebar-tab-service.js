@@ -51,6 +51,10 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
   {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
     hint: 'Widget title and appearance', requireWidget: true,
     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
+    panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'},
+  {id: 'widget.columns', title: 'Columns', iconClass: 'fa fa-columns',
+    hint: 'Column styling and order', requireWidget: true,
+    tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
     panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'}
 ];
 const SIDEBAR_TABS = explorer.components.explorer.sidebar.SIDEBAR_TABS;

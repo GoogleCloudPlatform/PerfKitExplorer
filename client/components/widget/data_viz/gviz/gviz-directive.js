@@ -73,7 +73,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
 explorer.components.widget.data_viz.gviz.gvizChart = function(
     $timeout, $location, chartWrapperService, queryResultDataService,
     queryBuilderService, gvizEvents, dataViewService, dashboardService,
-    errorService) {
+    errorService, columnStyleService) {
   return {
     restrict: 'E',
     replace: true,
