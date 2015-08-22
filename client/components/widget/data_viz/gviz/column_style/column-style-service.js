@@ -45,6 +45,9 @@ gviz.column_style.ColumnStyleService = class {
     /** @export {!DashboardService} */
     this.dashboardSvc = dashboardService;
 
+    /** @export {!ErrorService} */
+    this.errorSvc = errorService;
+
     /**
      * Specifies the currently selected column in the UX.
      * @export {?ColumnStyleModel}
@@ -132,8 +135,9 @@ gviz.column_style.ColumnStyleService = class {
       columnIndex = this.getColumnIndex(column.column_id, dataTable);
 
       if (columnIndex === -1) {
-        errorService.addError(ErrorTypes.WARNING,
-            'applyToDataTable warning: column \'' + columnId + '\' could not be found.');
+        this.errorSvc.addError(ErrorTypes.WARNING,
+            'applyToDataTable warning: column \'' + column.column_id +
+            '\' could not be found.');
       } else {
         definedColumnStyles[column.column_id] = true;
 
@@ -173,12 +177,13 @@ gviz.column_style.ColumnStyleService = class {
 
     columns.forEach(column => {
       let columnIndex = this.getColumnIndex(column.column_id, dataTable);
-      goog.asserts.assert(columnIndex !== -1);
 
-      if (!goog.string.isEmptySafe(column.title)) {
-        dataTable.setColumnLabel(columnIndex, column.title);
-      } else {
-        dataTable.setColumnLabel(columnIndex, column.column_id);
+      if (columnIndex !== -1) {
+        if (!goog.string.isEmptySafe(column.title)) {
+          dataTable.setColumnLabel(columnIndex, column.title);
+        } else {
+          dataTable.setColumnLabel(columnIndex, column.column_id);
+        }
       }
     });
   }

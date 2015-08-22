@@ -45,8 +45,30 @@ gviz.column_style.ColumnStyleDirective = function() {
       'widgetConfig': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/column_style/column-style-directive.html',
-    controller: ['$scope', 'columnStyleService', 'arrayUtilService', function(
-        $scope, columnStyleService, arrayUtilService) {
+    controller: ['$scope', 'columnStyleService', 'arrayUtilService', 'dashboardService',
+        function($scope, columnStyleService, arrayUtilService, dashboardService) {
+
+      /**
+       * Watches for changes to the column id, and refreshes the widget if a match is made.
+       */
+      $scope.$watch('ngModel.column_id', (newVal, oldVal) => {
+        let dataTable = $scope.widgetConfig.state().datasource.data;
+        if (newVal !== oldVal &&
+            !goog.string.isEmptySafe(newVal) &&
+            goog.isDefAndNotNull(dataTable)) {
+          let columnId = columnStyleService.getColumnIndex(newVal, dataTable);
+
+          if (columnId !== -1) {
+            dashboardService.refreshWidget($scope.widgetConfig);
+          } else if (!goog.string.isEmptySafe(oldVal)) {
+            columnId = columnStyleService.getColumnIndex(oldVal, dataTable);
+
+            if (columnId !== -1) {
+              dashboardService.refreshWidget($scope.widgetConfig);
+            }
+          }
+        }
+      });
 
       /**
        * Returns true if the column provided by ngModel is selected, otherwise false.

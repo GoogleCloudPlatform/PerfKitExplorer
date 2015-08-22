@@ -28,7 +28,7 @@ describe('columnStyleService', function() {
 
   var svc, providedDataTable, GvizDataTable, providedConfig,
       providedColumn1, providedColumn2;
-  var dashboardSvc, widgetFactorySvc;
+  var dashboardSvc, widgetFactorySvc, errorSvc;
 
   var ChartWidgetConfig = p3rf.perfkit.explorer.models.ChartWidgetConfig;
   var ColumnStyleModel = gviz.column_style.ColumnStyleModel;
@@ -37,11 +37,15 @@ describe('columnStyleService', function() {
   beforeEach(module('googleVisualizationMocks'));
 
   beforeEach(inject(function(
-      columnStyleService, _GvizDataTable_, _dashboardService_, _widgetFactoryService_) {
+      columnStyleService, _GvizDataTable_, _dashboardService_,
+      _widgetFactoryService_, _errorService_) {
     svc = columnStyleService;
     GvizDataTable = _GvizDataTable_;
     dashboardSvc = _dashboardService_;
     widgetFactorySvc = _widgetFactoryService_;
+    errorSvc = _errorService_;
+
+    errorSvc.logToConsole = false;
   }));
 
   beforeEach(function() {
@@ -115,6 +119,14 @@ describe('columnStyleService', function() {
       ];
       expect(actualColumns).toEqual(expectedColumns);
     });
+
+    it('should suppress an error when the column does not exist in the dataTable',
+        function() {
+      var expectedColumns = [new ColumnStyleModel('NOTFOUND')];
+      providedConfig.model.chart.columns = expectedColumns;
+      svc.getEffectiveColumns(
+          providedConfig.model.chart.columns, providedDataTable);
+    });
   });
 
   describe('addColumnsFromDatasource', function() {
@@ -141,6 +153,13 @@ describe('columnStyleService', function() {
 
       expect(providedDataTable.getColumnLabel(0)).toEqual('Quarter Ending');
       expect(providedDataTable.getColumnLabel(1)).toEqual('Total Sales');
+    });
+
+    it('should suppress an error when the column does not exist in the dataTable',
+        function() {
+      var expectedColumns = [new ColumnStyleModel('NOTFOUND')];
+      providedConfig.model.chart.columns = expectedColumns;
+      svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
     });
 
     describe('should throw an error with a missing/null parameter for', function() {

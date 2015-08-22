@@ -27,7 +27,8 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style
 describe('ColumnStyleDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, $httpBackend, uiConfig;
-  var configService, columnStyleService, dashboardService;
+  var configService, columnStyleService, dashboardService, GvizDataTable;
+  var providedDataTable;
 
   const explorer = p3rf.perfkit.explorer;
   const ColumnStyleModel = explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel;
@@ -37,21 +38,40 @@ describe('ColumnStyleDirective', function() {
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_,
       _$httpBackend_, _configService_, _dashboardService_,
-      _explorerService_, _columnStyleService_) {
+      _explorerService_, _columnStyleService_, _GvizDataTable_) {
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
-
-    scope = _$rootScope_.$new();
-    scope.providedModel = new ColumnStyleModel();
 
     configSvc = _configService_;
     dashboardSvc = _dashboardService_;
     columnStyleSvc = _columnStyleService_;
     explorerSvc = _explorerService_;
+    GvizDataTable = _GvizDataTable_;
+
+    scope = _$rootScope_.$new();
+    scope.providedModel = new ColumnStyleModel();
 
     explorerSvc.newDashboard();
     scope.$digest();
+
+    scope.providedWidget = dashboardSvc.selectedWidget;
+
+    providedData = {
+      cols: [
+        {id: 'timestamp', type: 'date'},
+        {id: 'sales_amt', type: 'number'}
+      ],
+      rows: [
+        {c: [
+          {v: '2013/03/30'},
+          {v: 3}
+        ]}
+      ]
+    };
+
+    providedDataTable = new GvizDataTable(providedData);
+    scope.providedWidget.state().datasource.data = providedDataTable;
   }));
 
   describe('compilation', function() {
@@ -59,7 +79,7 @@ describe('ColumnStyleDirective', function() {
     it('should succeed as a standalone element.', function() {
       function compile() {
         var actualElement = angular.element(
-            '<column-style ng-model="providedWidgetModel" />');
+            '<column-style ng-model="providedModel" widget-config="providedWidget" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -74,7 +94,7 @@ describe('ColumnStyleDirective', function() {
 
     beforeEach(inject(function() {
       actualElement = angular.element(
-        '<column-style ng-model="providedModel" />');
+        '<column-style ng-model="providedModel" widget-config="providedWidget" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
@@ -94,11 +114,9 @@ describe('ColumnStyleDirective', function() {
   });
 
   describe('should reflect the ngModel state for', function() {
-    var columns;
-
     beforeEach(inject(function() {
       actualElement = angular.element(
-        '<column-style ng-model="providedModel" />');
+        '<column-style ng-model="providedModel" widget-config="providedWidget" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
@@ -128,6 +146,64 @@ describe('ColumnStyleDirective', function() {
       scope.$digest();
 
       expect(columnTitleElement.value).toBe(expectedTitle);
+    });
+  });
+
+  describe('should refresh the widget when the column id changes', function() {
+    var providedData;
+
+    beforeEach(inject(function() {
+      scope.providedWidget.state().datasource.data = providedDataTable;
+    }));
+
+    it('from a match to a non-match', function() {
+      spyOn(dashboardSvc, 'refreshWidget');
+      scope.providedModel.column_id = 'timestamp';
+
+      actualElement = angular.element(
+        '<column-style ng-model="providedModel" widget-config="providedWidget" />');
+      $compile(actualElement)(scope);
+      scope.$digest();
+
+      scope.providedModel.column_id = 'NOMATCH';
+      scope.$digest();
+
+      expect(dashboardSvc.refreshWidget).toHaveBeenCalledWith(
+          scope.providedWidget);
+    });
+
+    it('from a non-match to a match', function() {
+      scope.providedModel.column_id = 'NOMATCH';
+
+      actualElement = angular.element(
+        '<column-style ng-model="providedModel" widget-config="providedWidget" />');
+      $compile(actualElement)(scope);
+      scope.$digest();
+
+      spyOn(dashboardSvc, 'refreshWidget');
+
+      scope.providedModel.column_id = 'timestamp';
+      scope.$digest();
+
+      expect(dashboardSvc.refreshWidget).toHaveBeenCalledWith(
+          scope.providedWidget);
+    });
+
+    it('from one match to another', function() {
+      scope.providedModel.column_id = 'timestamp';
+
+      actualElement = angular.element(
+        '<column-style ng-model="providedModel" widget-config="providedWidget" />');
+      $compile(actualElement)(scope);
+      scope.$digest();
+
+      spyOn(dashboardSvc, 'refreshWidget');
+
+      scope.providedModel.column_id = 'sales_amt';
+      scope.$digest();
+
+      expect(dashboardSvc.refreshWidget).toHaveBeenCalledWith(
+          scope.providedWidget);
     });
   });
 });
