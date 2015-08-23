@@ -48,6 +48,9 @@ gviz.column_style.ColumnStyleDirective = function() {
     controller: ['$scope', 'columnStyleService', 'arrayUtilService', 'dashboardService',
         function($scope, columnStyleService, arrayUtilService, dashboardService) {
 
+      /** @export {!ColumnStyleService} */
+      $scope.columnStyleService = columnStyleService;
+
       /**
        * Watches for changes to the column id, and refreshes the widget if a match is made.
        */

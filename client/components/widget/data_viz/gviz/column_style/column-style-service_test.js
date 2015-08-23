@@ -50,8 +50,8 @@ describe('columnStyleService', function() {
 
   beforeEach(function() {
     providedConfig = new ChartWidgetConfig(widgetFactorySvc);
-    providedColumn1 = new ColumnStyleModel('timestamp', 'Quarter Ending');
-    providedColumn2 = new ColumnStyleModel('sales_amt', 'Total Sales');
+    providedColumn1 = new ColumnStyleModel('timestamp', 'Quarter Ending', 'domain');
+    providedColumn2 = new ColumnStyleModel('sales_amt', 'Total Sales', 'data');
     providedConfig.model.chart.columns.push(providedColumn1, providedColumn2);
 
     var data = {
@@ -149,10 +149,45 @@ describe('columnStyleService', function() {
   describe('applyToDataTable', function() {
 
     it('should replace column titles', function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp', 'Date'),
+        new ColumnStyleModel('sales_amt', 'Sales')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
+
+      expect(providedDataTable.getColumnLabel(0)).toEqual('Date');
+      expect(providedDataTable.getColumnProperty(0, 'role')).toEqual('');
+
+      expect(providedDataTable.getColumnLabel(1)).toEqual('Sales');
+      expect(providedDataTable.getColumnProperty(1, 'role')).toEqual('');
+    });
+
+    it('should set column roles', function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp', null, 'domain'),
+        new ColumnStyleModel('sales_amt', null, 'data')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
+
+      expect(providedDataTable.getColumnLabel(0)).toEqual('timestamp');
+      expect(providedDataTable.getColumnProperty(0, 'role')).toEqual('domain');
+
+      expect(providedDataTable.getColumnLabel(1)).toEqual('sales_amt');
+      expect(providedDataTable.getColumnProperty(1, 'role')).toEqual('data');
+    });
+
+    it('should set column titles and roles together', function() {
       svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
 
       expect(providedDataTable.getColumnLabel(0)).toEqual('Quarter Ending');
+      expect(providedDataTable.getColumnProperty(0, 'role')).toEqual('domain');
+
       expect(providedDataTable.getColumnLabel(1)).toEqual('Total Sales');
+      expect(providedDataTable.getColumnProperty(1, 'role')).toEqual('data');
     });
 
     it('should suppress an error when the column does not exist in the dataTable',
