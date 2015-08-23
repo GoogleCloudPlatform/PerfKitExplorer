@@ -190,7 +190,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         if (scope.widgetConfig.state().datasource.status ===
             ResultsDataStatus.FETCHED &&
             (scope.widgetConfig.state().chart.gvizError || !checkForErrors())) {
-          let options = angular.copy(scope.widgetConfig.model.chart.options);
+          let options = columnStyleService.getEffectiveChartConfig(scope.widgetConfig);
 
           let data = scope.widgetConfig.state().datasource.data;
 

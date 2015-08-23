@@ -56,7 +56,30 @@
       </md-select>
     </div>
     <md-tooltip md-direction="right">
-      Describes the role this column should play in a chart.  Select a role to see more help.
+      Describes the role this column should play in a chart (select a role for more help)
+    </md-tooltip>
+  </div>
+  <div ng-show="isASeries()">
+    <div class="pk-sidebar-item-label">series color</div>
+    <div class="input-group pk-sidebar-item-value">
+      <input
+          class="form-control column-style-series-color"
+          placeholder="(auto-assigned)"
+          ng-focus="select()"
+          ng-model="ngModel.series_color">
+      <span class="input-group-addon column-style-series-color-button">
+        <input
+            type="color"
+            class="column-style-series-color-picker"
+            ng-focus="select()"
+            ng-model="ngModel.series_color">
+        <md-tooltip>
+          Show a dialog that will let you pick a color
+        <md-tooltip>
+      </span>
+    </div>
+    <md-tooltip md-direction="right">
+      Sets the color for series in charts
     </md-tooltip>
   </div>
 </div>
