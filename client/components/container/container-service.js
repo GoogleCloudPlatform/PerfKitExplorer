@@ -183,6 +183,7 @@ explorer.components.container.ContainerService = class {
 
     this.arrayUtilSvc.insertAfter(
         this.dashboardSvc.containers, container, targetContainer);
+    this.explorerStateSvc.containers.add(container);
 
     if (opt_autoSelect) {
       this.dashboardSvc.selectContainer(container);
@@ -211,6 +212,7 @@ explorer.components.container.ContainerService = class {
 
     this.arrayUtilSvc.insertBefore(
         this.dashboardSvc.containers, container, targetContainer);
+    this.explorerStateSvc.containers.add(container);
 
     if (opt_autoSelect) {
       this.dashboardSvc.selectContainer(container);
