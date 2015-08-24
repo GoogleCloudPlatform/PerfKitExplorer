@@ -44,7 +44,7 @@ describe('dashboardService', function() {
 
   var svc, widget, container;
   var configService, containerService, explorerService, explorerStateService,
-      widgetFactoryService;
+      widgetFactoryService, sidebarTabService;
   var $location, $timeout;
 
   beforeEach(module('explorer'));
@@ -55,6 +55,7 @@ describe('dashboardService', function() {
                              _configService_,
                              _containerService_,
                              _explorerStateService_,
+                             _sidebarTabService_,
                              _widgetFactoryService_,
                              _$location_,
                              _$timeout_,
@@ -65,6 +66,7 @@ describe('dashboardService', function() {
     containerService = _containerService_;
     explorerService = _explorerService_;
     explorerStateService = _explorerStateService_;
+    sidebarTabService = _sidebarTabService_;
     queryBuilderService = _queryBuilderService_;
     widgetFactoryService = _widgetFactoryService_;
     $location = _$location_;
@@ -130,6 +132,40 @@ describe('dashboardService', function() {
         $rootScope.$apply();
 
         expect(widget.state().selected).toBeFalsy();
+      });
+      
+      it('should select the first widget tab if no tab is selected',
+          function() {
+        expect(sidebarTabService.selectedTab).toBe(null);
+
+        svc.selectWidget(widget, container);
+        $rootScope.$apply();
+
+        expect(sidebarTabService.selectedTab).toBe(sidebarTabService.tabs[2]);
+        expect(sidebarTabService.selectedTab.requireWidget).toBeTrue();
+      });
+
+      it('should select the first widget tab if a non-widget tab is selected',
+          function() {
+        sidebarTabService.selectedTab = sidebarTabService.tabs[0];
+        expect(sidebarTabService.selectedTab.requireWidget).toBeFalsy();
+
+        svc.selectWidget(widget, container);
+        $rootScope.$apply();
+
+        expect(sidebarTabService.selectedTab).toBe(sidebarTabService.tabs[2]);
+        expect(sidebarTabService.selectedTab.requireWidget).toBeTrue();
+      });
+
+      it('should leave the selected tab unchanged if a widget tab is selected',
+          function() {
+        sidebarTabService.selectedTab = sidebarTabService.tabs[4];
+        expect(sidebarTabService.selectedTab.requireWidget).toBeTrue();
+
+        svc.selectWidget(widget, container);
+        $rootScope.$apply();
+
+        expect(sidebarTabService.selectedTab).toBe(sidebarTabService.tabs[4]);
       });
     });
 
