@@ -204,4 +204,23 @@ describe('ColumnStyleDirective', function() {
           scope.providedWidget);
     });
   });
+
+  it('should restore the label and role when changing from a match', function() {
+    scope.providedModel.column_id = 'timestamp';
+    scope.providedModel.title = 'CHANGED';
+
+    actualElement = angular.element(
+      '<column-style ng-model="providedModel" widget-config="providedWidget" />');
+    $compile(actualElement)(scope);
+    scope.$digest();
+
+    spyOn(dashboardSvc, 'refreshWidget');
+
+    scope.providedModel.column_id = 'sales_amt';
+    scope.$digest();
+
+    var dataTable = scope.providedWidget.state().datasource.data;
+
+    expect(dataTable.getColumnLabel(0)).toEqual('timestamp');
+  });
 });

@@ -28,7 +28,7 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
-fdescribe('gvizDirective', function() {
+describe('gvizDirective', function() {
   var ChartType = p3rf.perfkit.explorer.models.ChartType;
   var directiveElement;
   var ChartWidgetConfig =

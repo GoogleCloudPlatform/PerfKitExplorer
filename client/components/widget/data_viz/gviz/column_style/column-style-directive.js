@@ -52,18 +52,32 @@ gviz.column_style.ColumnStyleDirective = function() {
        * Watches for changes to the column id, and refreshes the widget if a match is made.
        */
       $scope.$watch('ngModel.column_id', (newVal, oldVal) => {
+        let columnIndex;
         let dataTable = $scope.widgetConfig.state().datasource.data;
-        if (newVal !== oldVal &&
-            !goog.string.isEmptySafe(newVal) &&
-            goog.isDefAndNotNull(dataTable)) {
-          let columnId = columnStyleService.getColumnIndex(newVal, dataTable);
 
-          if (columnId !== -1) {
-            dashboardService.refreshWidget($scope.widgetConfig);
-          } else if (!goog.string.isEmptySafe(oldVal)) {
-            columnId = columnStyleService.getColumnIndex(oldVal, dataTable);
+        if (newVal !== oldVal && goog.isDefAndNotNull(dataTable)) {
+          let shouldRefresh = false;
 
-            if (columnId !== -1) {
+          try {
+            if (!goog.string.isEmptySafe(newVal)) {
+              columnIndex = columnStyleService.getColumnIndex(newVal, dataTable);
+
+              if (columnIndex !== -1) {
+                shouldRefresh = true;
+              }
+            }
+
+            if (!goog.string.isEmptySafe(oldVal)) {
+              columnIndex = columnStyleService.getColumnIndex(oldVal, dataTable);
+
+              if (columnIndex !== -1) {
+                dataTable.setColumnLabel(columnIndex, oldVal);
+                dataTable.setColumnProperty(columnIndex, 'role', '');
+                shouldRefresh = true;
+              }
+            }
+          } finally {
+            if (shouldRefresh) {
               dashboardService.refreshWidget($scope.widgetConfig);
             }
           }
