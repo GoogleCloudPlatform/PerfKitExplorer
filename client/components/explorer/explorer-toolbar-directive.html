@@ -35,6 +35,10 @@
           ng-model="ctrl.dashboardSvc.selectedWidget.model" />
     </div>
 
+    <div ng-switch-when="widget.columns">
+      <column-style-toolbar ng-model="ctrl.dashboardSvc.selectedWidget" />
+    </div>
+
     <div ng-switch-when="widget.alert.detector">
       <alert-toolbar
           ng-model="ctrl.dashboardSvc.selectedWidget.model" />

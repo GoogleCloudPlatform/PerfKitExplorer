@@ -109,6 +109,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'LineChart',
+                      columns: [],
                       options: {
                         title: 'API Response 1',
                         vAxis: {
@@ -140,6 +141,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'LineChart',
+                      columns: [],
                       options: {
                         title: 'API Response 2',
                         vAxis: {
@@ -171,6 +173,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'LineChart',
+                      columns: [],
                       options: {
                         title: 'API Response 3',
                         vAxis: {
@@ -202,6 +205,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'LineChart',
+                      columns: [],
                       options: {
                         title: 'API Response 4',
                         vAxis: {
@@ -247,6 +251,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'Table',
+                      columns: [],
                       options: {
                         title: 'API Response 5',
                         vAxis: {
@@ -278,6 +283,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'Table',
+                      columns: [],
                       options: {
                         title: 'API Response 6',
                         vAxis: {
@@ -315,6 +321,7 @@ mocks.addMocks = function(appModule) {
                     },
                     chart: {
                       chartType: 'LineChart',
+                      columns: [],
                       options: {
                         title: 'API Response 7',
                         vAxis: {

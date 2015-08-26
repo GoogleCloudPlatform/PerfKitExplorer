@@ -77,6 +77,9 @@ describe('containerService', function() {
 
       expect(dashboardSvc.containers.length).toEqual(1);
       expect(dashboardSvc.containers[0]).toEqual(actualContainer);
+
+      expect(explorerStateSvc.containers.all[actualContainer.model.id])
+          .toBe(actualContainer);
     });
   });
 
@@ -91,6 +94,9 @@ describe('containerService', function() {
 
       expect(dashboardSvc.containers.indexOf(actualContainer)).toBe(2);
       expect(dashboardSvc.containers.length).toBe(6);
+
+      expect(explorerStateSvc.containers.all[actualContainer.model.id])
+          .toBe(actualContainer);
     });
   });
 
@@ -105,6 +111,9 @@ describe('containerService', function() {
 
       expect(dashboardSvc.containers.indexOf(actualContainer)).toBe(2);
       expect(dashboardSvc.containers.length).toBe(6);
+
+      expect(explorerStateSvc.containers.all[actualContainer.model.id])
+          .toBe(actualContainer);
     });
   });
 
@@ -119,6 +128,9 @@ describe('containerService', function() {
 
       expect(dashboardSvc.containers.indexOf(actualContainer)).toBe(2);
       expect(dashboardSvc.containers.length).toBe(6);
+
+      expect(explorerStateSvc.containers.all[actualContainer.model.id])
+          .toBe(actualContainer);
     });
   });
 
@@ -131,8 +143,12 @@ describe('containerService', function() {
 
       svc.remove(providedContainers[2]);
 
-      expect(dashboardSvc.containers.indexOf(providedContainers[2])).toBe(-1);
+      expect(dashboardSvc.containers.indexOf(providedContainers[2]))
+          .toBe(-1);
       expect(dashboardSvc.containers.length).toBe(4);
+
+      expect(explorerStateSvc.containers.all[providedContainers[2]])
+          .not.toBeDefined();
     });
   });
 

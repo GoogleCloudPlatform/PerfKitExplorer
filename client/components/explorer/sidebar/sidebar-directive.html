@@ -56,6 +56,10 @@
         <chart-config ng-model="dashboardSvc.selectedWidget.model" />
       </div>
 
+      <div ng-switch-when="widget.columns">
+        <column-style-config ng-model="dashboardSvc.selectedWidget" />
+      </div>
+
       <div ng-switch-default>UNSUPPORTED TYPE: {{ tabSvc.selectedTab.id }}</div>
     </div>
   </div>

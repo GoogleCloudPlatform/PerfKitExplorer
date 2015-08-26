@@ -1,4 +1,5 @@
 [
+  {"title": "Annotation Chart", "className": "AnnotationChart"},
   {"title": "Area", "className": "AreaChart"},
   {"title": "Bar", "className": "BarChart"},
   {"title": "Calendar", "className": "Calendar"},

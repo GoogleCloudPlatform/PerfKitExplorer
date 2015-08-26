@@ -28,6 +28,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -49,6 +50,7 @@ const DashboardConfig = explorer.components.dashboard.DashboardConfig;
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
+const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const QueryBuilderService = (
@@ -71,6 +73,7 @@ const WidgetType = explorer.models.WidgetType;
  * @param {!QueryBuilderService} queryBuilderService
  * @param {!ConfigService} configService
  * @param {!ExplorerStateService} explorerStateService
+ * @param {!SidebarTabService} sidebarTabService
  * @param {!angular.Filter} $filter
  * @param {!angular.Location} $location
  * @param {!angular.RootScope} $rootScope
@@ -82,8 +85,8 @@ const WidgetType = explorer.models.WidgetType;
 explorer.components.dashboard.DashboardService = function(arrayUtilService,
     errorService, widgetFactoryService, dashboardDataService,
     queryBuilderService,  dashboardVersionService, configService,
-    explorerStateService, $filter, $location, $rootScope, $timeout, $window,
-    $state, $stateParams) {
+    explorerStateService, sidebarTabService, $filter, $location, $rootScope,
+    $timeout, $window, $state, $stateParams) {
   /** @private {!angular.Filter} */
   this.filter_ = $filter;
 
@@ -104,6 +107,9 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
 
   /** @private {!ExplorerStateService} */
   this.explorerStateService_ = explorerStateService;
+
+  /** @private {!SidebarTabService} */
+  this.sidebarTabService_ = sidebarTabService;
 
   /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
@@ -384,6 +390,12 @@ DashboardService.prototype.selectWidget = function(
   this.timeout_(() => {
     this.scrollWidgetIntoView(widget);
   });
+
+  // Select the first widget-based tab, if not already active.
+  if (!this.sidebarTabService_.selectedTab ||
+      !this.sidebarTabService_.selectedTab.requireWidget) {
+    this.sidebarTabService_.selectedTab = this.sidebarTabService_.getFirstTab(true);
+  }
 
   if (!opt_supressStateChange) {
     params = {widget: undefined, container: undefined};
@@ -867,6 +879,7 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
       goog.array.insertAt(this.containers, targetContainer, 0);
+      this.explorerStateService_.containers.add(targetContainer);
     }
   } else {
     targetContainer = /** @type {ContainerWidgetConfig} */ (
@@ -903,6 +916,7 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
       this.containers.push(targetContainer);
+      this.explorerStateService_.containers.add(targetContainer);
     }
   } else {
     targetContainer = /** @type {ContainerWidgetConfig} */ (

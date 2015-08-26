@@ -1,0 +1,86 @@
+<div>
+  <button type="button"
+          class="btn btn-default dropdown-toggle column-add">
+    Insert
+    <span class="caret"></span>
+    <md-tooltip md-direction="top">
+      Adds one or more <b>Column Styles</b> <i>(click to see options)</i>
+    </md-tooltip>
+  </button>
+  <ul class="dropdown-menu column-add-dropdown">
+    <li class="columns-add-datasource"
+        ng-show="ngModel.state().datasource.data"
+        ng-click="ctrl.columnStyleSvc.addColumnsFromDatasource(ngModel)">
+      <a>from datasource</a>
+      <md-tooltip md-direction="right">
+        Adds a <b>Column Style</b> for each field in your selected widget's <b>Query</b>
+      </md-tooltip>
+    </li>
+    <li class="column-add-top"
+        ng-click="ctrl.arrayUtilSvc.insertAt(
+            ngModel.model.chart.columns,
+            ctrl.columnStyleSvc.newColumn(),
+            0)">
+      <a>top</a>
+      <md-tooltip md-direction="right">
+        Adds a <b>Column Style</b> at the top of the list
+      </md-tooltip>
+    </li>
+    <li class="column-add-before"
+        ng-show="ctrl.columnStyleSvc.selectedColumn"
+        ng-click="ctrl.arrayUtilSvc.insertBefore(
+            ngModel.model.chart.columns,
+            ctrl.columnStyleSvc.newColumn(),
+            ctrl.columnStyleSvc.selectedColumn)">
+      <a>before</a>
+      <md-tooltip md-direction="right">
+        Adds a <b>Column Style</b> at the bottom of the list
+      </md-tooltip>
+    </li>
+    <li class="column-add-after"
+        ng-show="ctrl.columnStyleSvc.selectedColumn"
+        ng-click="ctrl.arrayUtilSvc.insertAfter(
+            ngModel.model.chart.columns,
+            ctrl.columnStyleSvc.newColumn(),
+            ctrl.columnStyleSvc.selectedColumn)">
+      <a>after</a>
+      <md-tooltip md-direction="right">
+        Adds a <b>Column Style</b> after the selected column
+      </md-tooltip>
+    </li>
+    <li class="column-add-bottom"
+        ng-click="ctrl.columnStyleSvc.addColumn(ngModel.model)">
+      <a>bottom</a>
+      <md-tooltip md-direction="right">
+        Adds a <b>Column Style</b> before the selected column
+      </md-tooltip>
+    </li>
+  </ul>
+  <button type="button" class="btn btn-default column-move-up"
+          ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.columnStyleSvc.movePrevious(
+              ngModel, ctrl.columnStyleSvc.selectedColumn)">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+    <md-tooltip md-direction="top">
+      Moves the <b>Column Style</b> to the previous position in the list
+    </md-tooltip>
+  </button>
+  <button type="button" class="btn btn-default column-move-down"
+          ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.columnStyleSvc.moveNext(
+              ngModel, ctrl.columnStyleSvc.selectedColumn)">
+    <span class="glyphicon glyphicon-arrow-down"></span>
+    <md-tooltip md-direction="top">
+      Moves the <b>Column Style</b> to the next position in the list
+    </md-tooltip>
+  </button>
+  <button type="button" class="btn btn-default column-remove"
+          ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.columnStyleSvc.removeColumn(
+              ngModel, ctrl.columnStyleSvc.selectedColumn)">
+    Remove
+    <md-tooltip md-direction="top">
+      Removes the <b>Column Style</b> from the list
+    </md-tooltip>
+  </button>
+</div>
