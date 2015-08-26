@@ -879,6 +879,7 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
       goog.array.insertAt(this.containers, targetContainer, 0);
+      this.explorerStateService_.containers.add(targetContainer);
     }
   } else {
     targetContainer = /** @type {ContainerWidgetConfig} */ (
@@ -915,6 +916,7 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
       targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
       targetContainer.model.container.columns = 0;
       this.containers.push(targetContainer);
+      this.explorerStateService_.containers.add(targetContainer);
     }
   } else {
     targetContainer = /** @type {ContainerWidgetConfig} */ (

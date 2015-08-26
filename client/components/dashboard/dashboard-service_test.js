@@ -372,7 +372,8 @@ describe('dashboardService', function() {
               expect(newContainer).not.toEqual(container);
               expect(svc.containers.indexOf(newContainer)).toEqual(0);
               expect(svc.containers.indexOf(container)).toEqual(1);
-
+              expect(explorerStateService.containers.all[
+                  newContainer.model.id]).toBeDefined();
               expect(newContainer.model.container.children.indexOf(widget)).
                   toEqual(0);
               expect(container.model.container.children.indexOf(widget2)).
@@ -449,6 +450,8 @@ describe('dashboardService', function() {
               expect(container2).not.toEqual(container);
               expect(svc.containers.indexOf(container)).toEqual(0);
               expect(svc.containers.indexOf(container2)).toEqual(1);
+              expect(explorerStateService.containers.all[
+                  container2.model.id]).toBeDefined();
 
               expect(container.model.container.children.indexOf(widget)).
                   toEqual(0);
