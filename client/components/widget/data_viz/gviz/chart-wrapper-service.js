@@ -33,6 +33,26 @@ const ChartType = explorer.models.ChartType;
 
 
 /**
+ * Describes the type definition for a chart.
+ * @constructor
+ */
+explorer.components.widget.data_viz.gviz.ChartTypeModel = function() {
+  /**
+   * Provides a real-world title for the chart.
+   * @export {string}
+   */
+  this.title = '';
+
+  /**
+   * Provides the className (and documentation id) for the chart.
+   * @export {string}
+   */
+  this.className = '';
+};
+var ChartTypeModel = explorer.components.widget.data_viz.gviz.ChartTypeModel;
+
+
+/**
  * See module docstring for more information about purpose and usage.
  *
  * @param {function(new:google.visualization.ChartWrapper)} GvizChartWrapper
@@ -82,10 +102,17 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
   this.CHART_TYPES = explorer.models.ChartType;
 
   /**
-   * @type {Array<{{title: string, className: string}}>
+   * Provides an ordered list of charts.
+   * @type {Array<!ChartTypeModel>
    * @export
    */
   this.allCharts = [];
+
+  /**
+   * Provides an indexed list of charts.
+   * @export {Object.<string, !ChartTypeModel>}
+   */
+  this.allChartsIndex = {};
 
   this.loadCharts();
 };
@@ -100,6 +127,8 @@ ChartWrapperService.prototype.loadCharts = function() {
   this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
       success(angular.bind(this, function(response) {
         $.merge(this.allCharts, response);
+        this.allChartsIndex = this.arrayUtilSvc_.getDictionary(
+            this.allCharts, 'className');
       })).
       error(angular.bind(this, function(response) {
         while (this.allCharts.length > 0) {
@@ -107,6 +136,7 @@ ChartWrapperService.prototype.loadCharts = function() {
         }
       }));
 };
+
 
 /**
  * Returns a new instance of a google.visualization.ChartWrapper.
