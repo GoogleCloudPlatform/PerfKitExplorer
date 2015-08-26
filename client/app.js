@@ -70,6 +70,11 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChart
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleConfigDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleToolbarDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
@@ -171,6 +176,8 @@ explorer.application.module.service('chartWrapperService',
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 explorer.application.module.service('gvizEvents',
     explorer.components.widget.data_viz.gviz.GvizEvents);
+explorer.application.module.service('columnStyleService',
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService);
 explorer.application.module.service('widgetEditorService',
     explorer.components.widget.data_viz.WidgetEditorService);
 explorer.application.module.service('dataViewService',
@@ -277,6 +284,12 @@ explorer.application.module.directive('widgetToolbar',
 /** BQ PerfKit Widget directives. */
 explorer.application.module.directive('chartConfig',
     explorer.components.widget.data_viz.gviz.ChartConfigDirective);
+explorer.application.module.directive('columnStyle',
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleDirective);
+explorer.application.module.directive('columnStyleConfig',
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleConfigDirective);
+explorer.application.module.directive('columnStyleToolbar',
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleToolbarDirective);
 explorer.application.module.directive('gvizChartWidget',
     explorer.components.widget.data_viz.gviz.gvizChart);
 explorer.application.module.directive('queryResultConfig',

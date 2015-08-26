@@ -32,6 +32,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
@@ -47,6 +48,8 @@ const explorer = p3rf.perfkit.explorer;
 const ChartType = explorer.models.ChartType;
 const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
+const ColumnStyleService = (
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService);
 const DataViewService = explorer.components.widget.query.DataViewService;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
@@ -70,7 +73,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
 explorer.components.widget.data_viz.gviz.gvizChart = function(
     $timeout, $location, chartWrapperService, queryResultDataService,
     queryBuilderService, gvizEvents, dataViewService, dashboardService,
-    errorService) {
+    errorService, columnStyleService) {
   return {
     restrict: 'E',
     replace: true,
@@ -190,6 +193,13 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           let options = angular.copy(scope.widgetConfig.model.chart.options);
 
           let data = scope.widgetConfig.state().datasource.data;
+
+          // Apply styles from the config to the DataTable.
+          if (data) {
+            columnStyleService.applyToDataTable(
+                scope.widgetConfig.model.chart.columns, data);
+          }
+
           chartWrapper.setDataTable(data);
 
           // Force height and width options value with state value
@@ -358,7 +368,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       let applyDataView = function() {
         let dataViewsJson = dataViewService.create(
             scope.widgetConfig.state().datasource.data,
-            scope.widgetConfig.model.datasource.view);
+            scope.widgetConfig.model.datasource.view,
+            columnStyleService.getEffectiveColumns(
+                scope.widgetConfig.model.chart.columns,
+                scope.widgetConfig.state().datasource.data));
 
         if (dataViewsJson.error) {
           // TODO: Display error in the UI instead of in the console.
