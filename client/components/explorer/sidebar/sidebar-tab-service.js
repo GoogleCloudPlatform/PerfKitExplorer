@@ -66,9 +66,9 @@ const SIDEBAR_TABS = explorer.components.explorer.sidebar.SIDEBAR_TABS;
  * @ngInject
  */
 explorer.components.explorer.sidebar.SidebarTabService = function(
-    dashboardService) {
-  /** @private {!DashboardService} */
-  this.dashboardService_ = dashboardService;
+    explorerStateService) {
+  /** @private {!ExplorerStateService} */
+  this.explorerStateSvc_ = explorerStateService;
 
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = SIDEBAR_TABS;
@@ -100,9 +100,25 @@ SidebarTabService.prototype.toggleTab = function(tab) {
   }
 };
 
-SidebarTabService.prototype.getFirstTab = function() {
-  if (this.dashboardService_.selectedWidget) {
-    return this.tabs[0];
+/**
+ * Selects the first available tab.
+ * @param {?boolean=} opt_requireWidget If true, returns the first tab
+ *     where requireWidget is true.  Otherwise, returns the first tab.
+ * @return {?ExplorerTabModel}
+ */
+SidebarTabService.prototype.getFirstTab = function(opt_requireWidget = false) {
+  if (this.explorerStateSvc_.widgets.selectedId) {
+    if (opt_requireWidget) {
+      for (let i=0, len=this.tabs.length; i < len; ++i) {
+        let currentTab = this.tabs[i];
+  
+        if (currentTab.requireWidget) {
+          return currentTab;
+        }
+      }
+    } else {
+      return this.tabs[0];
+    }
   } else {
     for (let i=0, len=this.tabs.length; i < len; ++i) {
       let currentTab = this.tabs[i];
@@ -117,7 +133,7 @@ SidebarTabService.prototype.getFirstTab = function() {
 };
 
 SidebarTabService.prototype.getLastTab = function() {
-  if (this.dashboardService_.selectedWidget) {
+  if (this.explorerStateSvc_.widgets.selectedId) {
     return this.tabs[this.tabs.length - 1];
   } else {
     for (let i=this.tabs.length - 1; i >= 0; --i) {
@@ -140,7 +156,7 @@ SidebarTabService.prototype.getNextTab = function() {
       throw 'Cannot find selected tab.';
     }
 
-    if (this.dashboardService_.selectedWidget) {
+    if (this.explorerStateSvc_.widgets.selectedId) {
       if (++selectedTabIndex < this.tabs.length) {
         return this.tabs[selectedTabIndex];
       }
@@ -167,7 +183,7 @@ SidebarTabService.prototype.getPreviousTab = function() {
       throw 'Cannot find selected tab.';
     }
 
-    if (this.dashboardService_.selectedWidget) {
+    if (this.explorerStateSvc_.widgets.selectedId) {
       if (--selectedTabIndex >= 0) {
         return this.tabs[selectedTabIndex];
       }
