@@ -226,4 +226,46 @@ ArrayUtilService.prototype.remove = function(array, value) {
   }
 };
 
+
+/**
+ * Returns a dictionary of items from the provided object array.
+ * @param {Array.<Object>} array
+ * @param {string} key The key property is read from the object
+ *     to serve as the key for the dictionary.
+ * @return {Object.<*, *>}
+ */
+ArrayUtilService.prototype.getDictionary = function(array, key) {
+  let dict = {};
+
+  if (!goog.isArray(array)) {
+    throw new Error(
+        'arrayUtilService.getDictionary failed: array parameter ' +
+        'must be a valid array');
+  }
+
+  array.forEach(item => {
+    if (!goog.isObject(item)) {
+      throw new Error(
+        'arrayUtilService.getDictionary failed: array must be a ' +
+        'list of indexable objects');
+    }
+
+    if (goog.isDefAndNotNull(item[key])) {
+      if (goog.isDef(dict[item[key]])) {
+        throw new Error(
+          'arrayUtilService.getDictionary failed: key ' +
+          key + ' already exists in the array');
+      }
+
+      dict[item[key]] = item;
+    } else {
+      throw new Error(
+        'arrayUtilService.getDictionary failed: key ' +
+        key + ' does not exist');
+    }
+  });
+
+  return dict;
+};
+
 });  // goog.scope
