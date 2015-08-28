@@ -22,7 +22,7 @@
 
 .column-style-item-invalid {
   background-color: #ffecb3; /** amber:100 */
-  padding-left: 8px;
+  padding-left: 12px;
 }
 
 .column-style-item-invalid.column-style-item-selected {
