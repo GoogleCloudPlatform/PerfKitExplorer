@@ -72,6 +72,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataV
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleFormatService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
@@ -176,6 +177,8 @@ explorer.application.module.service('chartWrapperService',
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 explorer.application.module.service('gvizEvents',
     explorer.components.widget.data_viz.gviz.GvizEvents);
+explorer.application.module.service('columnStyleFormatService',
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleFormatService);
 explorer.application.module.service('columnStyleService',
     explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService);
 explorer.application.module.service('widgetEditorService',

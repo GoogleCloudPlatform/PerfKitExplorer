@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview columnStyleService is a model encapsulating the properties
+ * @fileoverview columnStyleModel is a model encapsulating the properties
  * of a column style.  In practice, it is contained in a heterogenous array.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
