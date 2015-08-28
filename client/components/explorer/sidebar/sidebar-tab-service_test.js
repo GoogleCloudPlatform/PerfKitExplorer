@@ -59,7 +59,7 @@ describe('SidebarTabService', function() {
     explorerSvc = explorerService;
     $rootScope = _$rootScope_;
 
-    explorerSvc.newDashboard();
+    explorerSvc.newDashboard(true, false);
     $rootScope.$digest();
   }));
 
@@ -110,10 +110,12 @@ describe('SidebarTabService', function() {
   });
 
   describe('should support functions for getting the', function() {
-    var dashboardSvc;
+    var dashboardSvc, container, widget;
 
     beforeEach(inject(function(_dashboardService_) {
       dashboardSvc = _dashboardService_;
+      container = dashboardSvc.newContainer(false);
+      widget = dashboardSvc.addWidget(container, false);
 
       sidebarTabSvc.tabs = mockTabs;
     }));
@@ -131,35 +133,36 @@ describe('SidebarTabService', function() {
     });
 
     it('last tab when a widget is selected', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+      dashboardSvc.selectWidget(widget, container);
+      $rootScope.$apply();
 
       expect(sidebarTabSvc.getLastTab()).toEqual(mockTabs[3]);
     });
 
     it('last tab when moving previous from the first tab', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+      dashboardSvc.selectWidget(widget, container);
+      $rootScope.$apply();
 
       sidebarTabSvc.selectTab(mockTabs[0]);
       expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[3]);
     });
 
     it('next global tab when no widget is selected', function() {
-      dashboardSvc.unselectWidget();
-      $rootScope.$digest();
-
       sidebarTabSvc.selectTab(mockTabs[0]);
       expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[2]);
     });
 
     it('next available tab when a widget is selected', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+      dashboardSvc.selectWidget(widget, container);
+      $rootScope.$apply();
 
       sidebarTabSvc.selectTab(mockTabs[0]);
       expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[1]);
     });
 
     it('first available tab when next exceeds the end of the list', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+      dashboardSvc.selectWidget(widget, container);
+      $rootScope.$apply();
 
       sidebarTabSvc.selectTab(mockTabs[3]);
       expect(sidebarTabSvc.getNextTab()).toEqual(mockTabs[0]);
@@ -174,14 +177,16 @@ describe('SidebarTabService', function() {
     });
 
     it('previous available tab when a widget is selected', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+      dashboardSvc.selectWidget(widget, container);
+      $rootScope.$apply();
 
       sidebarTabSvc.selectTab(mockTabs[2]);
       expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[1]);
     });
 
     it('last available tab when previous precedes the start of the list', function() {
-      dashboardSvc.selectedWidget = {'type': 'Mock Widget'};
+      dashboardSvc.selectWidget(widget, container);
+      $rootScope.$apply();
 
       sidebarTabSvc.selectTab(mockTabs[0]);
       expect(sidebarTabSvc.getPreviousTab()).toEqual(mockTabs[3]);

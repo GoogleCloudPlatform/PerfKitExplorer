@@ -323,7 +323,6 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
       for (let widget of container.model.container.children) {
         this.explorerStateService_.widgets.all[widget.model.id] = widget;
         if (widget.model.id === this.explorerStateService_.widgets.selectedId) {
-
           this.selectWidget(
               widget, this.explorerStateService_.containers.selected, true);
         }
@@ -386,6 +385,12 @@ DashboardService.prototype.selectWidget = function(
 
   if (widget) {
     widget.state().selected = true;
+
+    if (!(this.sidebarTabService_.selectedTab &&
+          this.sidebarTabService_.selectedTab.requireWidget)) {
+      this.sidebarTabService_.selectTab(
+          this.sidebarTabService_.getFirstWidgetTab());
+    }
   }
 
   this.timeout_(() => {
@@ -399,9 +404,6 @@ DashboardService.prototype.selectWidget = function(
     if (container) { params.container = container.model.id };
 
     this.$state_.go('explorer-dashboard-edit', params);
-  } else {
-    this.sidebarTabService_.selectTab(
-        this.sidebarTabService_.getFirstWidgetTab());
   }
 };
 
