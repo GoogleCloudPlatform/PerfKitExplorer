@@ -60,7 +60,7 @@ var ChartTypeModel = explorer.components.widget.data_viz.gviz.ChartTypeModel;
  * @ngInject
  */
 explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
-    GvizChartWrapper) {
+    GvizChartWrapper, arrayUtilService) {
   /**
    * @private
    */
@@ -71,6 +71,12 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
    * @private
    */
   this.GvizChartWrapper_ = GvizChartWrapper;
+
+  /**
+   * @type {!ArrayUtilService}
+   * @private
+   */
+  this.arrayUtilSvc_ = arrayUtilService;
 
   /**
    * A list of legend alignments for GViz charts.

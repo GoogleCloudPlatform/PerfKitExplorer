@@ -21,6 +21,7 @@ goog.provide('p3rf.perfkit.explorer.mocks.application.module');
 goog.provide('p3rf.perfkit.explorer.mocks');
 
 goog.require('goog.Uri');
+goog.require('p3rf.perfkit.explorer.mocks.chartTypeMock');
 goog.require('p3rf.perfkit.explorer.mocks.googleVisualizationMocks');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataServiceMock');
 goog.require('p3rf.perfkit.explorer.mocks.fieldCubeDataServiceMock');
@@ -32,6 +33,7 @@ const explorer = p3rf.perfkit.explorer;
 const mocks = explorer.mocks;
 
 explorer.mocks.application.module = angular.module('perfkit-mocks', [
+  explorer.mocks.chartTypeMock.name,
   explorer.mocks.googleVisualizationMocks.name,
   explorer.components.dashboard.DashboardDataServiceMock.name,
   explorer.mocks.fieldCubeDataServiceMock.name,

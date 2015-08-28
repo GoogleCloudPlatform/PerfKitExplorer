@@ -37,7 +37,7 @@ describe('ColumnStyleToolbarDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(
-      _$rootScope_, _$compile_, _$timeout_,
+      _$rootScope_, _$compile_, _$timeout_, $httpBackend,
       _arrayUtilService_, _columnStyleService_, _dashboardService_,
       _widgetFactoryService_) {
     scope = _$rootScope_.$new();
@@ -51,6 +51,10 @@ describe('ColumnStyleToolbarDirective', function() {
 
     scope.widgetConfig = new ChartWidgetConfig(widgetFactoryService);
     providedColumn = columnStyleService.addColumn(scope.widgetConfig.model);
+
+    $httpBackend.expectGET(
+        '/static/components/widget/data_viz/gviz/gviz-charts.json')
+      .respond({});
   }));
 
   describe('compilation', function() {

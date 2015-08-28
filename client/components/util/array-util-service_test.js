@@ -131,7 +131,7 @@ describe('arrayUtilService', function() {
     });
   });
 
-  fdescribe('getDictionary', function() {
+  describe('getDictionary', function() {
     var item0 = {'id': 0, 'title': 'ITEM 0'};
     var item1 = {'id': 1, 'title': 'ITEM 1'};
     var item2 = {'id': 2, 'title': 'ITEM 2'};

@@ -38,7 +38,8 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * @ngInject
  */
 gviz.column_style.ColumnStyleService = class {
-  constructor(errorService, arrayUtilService, dashboardService) {
+  constructor(errorService, arrayUtilService, dashboardService,
+    chartWrapperService) {
     /** @export {!ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
 
@@ -47,6 +48,9 @@ gviz.column_style.ColumnStyleService = class {
 
     /** @export {!ErrorService} */
     this.errorSvc = errorService;
+
+    /** @export {!ChartWrapperService} */
+    this.chartWrapperSvc = chartWrapperService;
 
     /**
      * Specifies the currently selected column in the UX.
@@ -226,11 +230,40 @@ gviz.column_style.ColumnStyleService = class {
    */
   isColumnASeries(widget, column) {
     let dataTable = widget.state().datasource.data;
+    let chartType = this.chartWrapperSvc.allChartsIndex[
+        widget.model.chart.chartType];
+    if (!goog.isDefAndNotNull(chartType)) {
+      throw new Error(
+          'isColumnASeries failed: chart type ' +
+          widget.model.chart.chartType + ' is invalid');
+    }
 
-    return (
-      (widget.model.chart.columns.indexOf(column) > 0) &&
-      (this.getColumnIndex(column.column_id, dataTable) !== -1) &&
-      (this.SERIES_DATA_ROLES.indexOf(column.data_role) !== -1));
+    let startColumn = chartType.seriesStartColumnIndex;
+
+    if (!goog.isDefAndNotNull(startColumn)) {
+      startColumn = 1;
+    }
+
+    // Ignore missing dataTable columns if no data is loaded.
+    let validInTable = true;
+    if (dataTable) {
+      validInTable = (this.getColumnIndex(
+          column.column_id, dataTable) !== -1);
+    }
+
+    let validSeriesRole = (this.SERIES_DATA_ROLES.indexOf(
+        column.data_role) !== -1);
+
+    let notDomainColumn = (
+        widget.model.chart.columns.indexOf(column) >= startColumn);
+
+    if (
+        chartType.seriesColor && validInTable && validSeriesRole &&
+        notDomainColumn) {
+      return true;
+    }
+
+    return false;
   }
 
   /**

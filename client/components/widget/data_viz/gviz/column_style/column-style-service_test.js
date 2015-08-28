@@ -28,22 +28,32 @@ describe('columnStyleService', function() {
 
   var svc, providedDataTable, GvizDataTable, providedConfig,
       providedColumn1, providedColumn2;
-  var dashboardSvc, widgetFactorySvc, errorSvc;
+  var dashboardSvc, widgetFactorySvc, errorSvc, chartTypeMockData;
+  var $httpBackend;
 
   var ChartWidgetConfig = p3rf.perfkit.explorer.models.ChartWidgetConfig;
   var ColumnStyleModel = gviz.column_style.ColumnStyleModel;
 
   beforeEach(module('explorer'));
-  beforeEach(module('googleVisualizationMocks'));
+  beforeEach(module('chartTypeMock'));
+
+  beforeEach(inject(function(_$httpBackend_, _chartTypeMockData_) {
+    _$httpBackend_.expectGET(
+        '/static/components/widget/data_viz/gviz/gviz-charts.json')
+      .respond(_chartTypeMockData_);
+    $httpBackend = _$httpBackend_;
+  }));
 
   beforeEach(inject(function(
-      columnStyleService, _GvizDataTable_, _dashboardService_,
-      _widgetFactoryService_, _errorService_) {
+      columnStyleService, _GvizDataTable_,
+      _dashboardService_, _widgetFactoryService_, _errorService_) {
     svc = columnStyleService;
     GvizDataTable = _GvizDataTable_;
     dashboardSvc = _dashboardService_;
     widgetFactorySvc = _widgetFactoryService_;
     errorSvc = _errorService_;
+
+    $httpBackend.flush();
 
     errorSvc.logToConsole = false;
   }));
@@ -168,35 +178,70 @@ describe('columnStyleService', function() {
       expect(svc.isColumnASeries(providedConfig, providedColumns[1])).toBeFalse();
     });
 
-    it('should return true if the column has an assigned series role',
+    it('should return true if the column has an assigned series role and the ' +
+       'chart supports series data',
         function() {
       var providedColumns = [
         new ColumnStyleModel('timestamp'),
         new ColumnStyleModel('sales_amt', null, 'data')
       ];
+      providedConfig.model.chart.chartType = 'Histogram';
       providedConfig.model.chart.columns = providedColumns;
 
       expect(svc.isColumnASeries(providedConfig, providedColumns[1])).toBeTrue();
     });
+
+    it('should return true for the first column if seriesStartColumnIndex is 0',
+        function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'data')
+      ];
+      providedConfig.model.chart.chartType = 'Histogram';
+      providedConfig.model.chart.columns = providedColumns;
+
+      expect(svc.isColumnASeries(providedConfig, providedColumns[0])).toBeTrue();
+    });
   });
 
   describe('getSeriesColumns', function() {
-    it('should return list of columns where isColumnASeries is true', function() {
+    it('should return data series columns', function() {
       var providedColumns = [
         new ColumnStyleModel('timestamp'),
         new ColumnStyleModel('sales_amt', null, 'data'),
         new ColumnStyleModel('sales_amt', null, 'tooltip'),
         new ColumnStyleModel('sales_amt', null, null)
       ];
+      providedConfig.model.chart.chartType = 'AreaChart';
       providedConfig.model.chart.columns = providedColumns;
 
       var expectedColumns = [providedColumns[1], providedColumns[3]];
 
       expect(svc.getSeriesColumns(providedConfig)).toEqual(expectedColumns);
     });
+
+    it('should start with the seriesStartColumnIndex column', function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'data'),
+        new ColumnStyleModel('sales_amt', null, 'tooltip'),
+        new ColumnStyleModel('sales_amt', null, null)
+      ];
+      providedConfig.model.chart.chartType = 'Histogram';
+      providedConfig.model.chart.columns = providedColumns;
+
+      var expectedColumns = [
+          providedColumns[0], providedColumns[1], providedColumns[3]];
+
+      expect(svc.getSeriesColumns(providedConfig)).toEqual(expectedColumns);
+    });
   });
 
   describe('getEffectiveChartConfig', function() {
+    beforeEach(inject(function() {
+      providedConfig.model.chart.chartType = 'AreaChart';
+    }));
+
     it('should populate series color', function() {
       var providedColumns = [
         new ColumnStyleModel('axis'),
