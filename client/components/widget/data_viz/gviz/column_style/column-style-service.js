@@ -53,6 +53,23 @@ gviz.column_style.ColumnStyleService = class {
      * @export {?ColumnStyleModel}
      */
     this.selectedColumn = null;
+
+    /**
+     * A list of roles that can be applied to columns.
+     * @export {!Array.<!Object>}
+     */
+    this.DATA_ROLES = {
+      'annotation': {'id': 'annotation', 'tooltip': 'Text to display on the chart near the associated data point, displayed without any user interaction'},
+      'annotationText': {'id': 'annotationText', 'tooltip': 'Extended text to display when the user hovers over the associated annotation'},
+      'certainty': {'id': 'certainty', 'tooltip': 'Indicates whether a data point is certain or not'},
+      'emphasis': {'id': 'emphasis', 'tooltip': 'Emphasizes specified chart data points, displayed as a thick line and/or large point'},
+      'interval': {'id': 'interval', 'tooltip': 'Indicates potential data range for a specific point'},
+      'scope': {'id': 'scope', 'tooltip': 'Indicates potential data range for a specific point'},
+      'style': {'id': 'style', 'tooltip': 'Styles certain properties of different aspects of your data'},
+      'tooltip': {'id': 'tooltip', 'tooltip': 'Text to display when the user hovers over the data point associated with this row'},
+      'domain': {'id': 'domain', 'tooltip': 'Domain columns specify labels along the major axis of the chart'},
+      'data': {'id': 'data', 'tooltip': 'Data role columns specify series data to render in the chart'},
+    }
   }
 
   /**
@@ -179,10 +196,16 @@ gviz.column_style.ColumnStyleService = class {
       let columnIndex = this.getColumnIndex(column.column_id, dataTable);
 
       if (columnIndex !== -1) {
-        if (!goog.string.isEmptySafe(column.title)) {
-          dataTable.setColumnLabel(columnIndex, column.title);
-        } else {
+        if (goog.string.isEmptySafe(column.title)) {
           dataTable.setColumnLabel(columnIndex, column.column_id);
+        } else {
+          dataTable.setColumnLabel(columnIndex, column.title);
+        }
+
+        if (goog.string.isEmptySafe(column.data_role)) {
+          dataTable.setColumnProperty(columnIndex, 'role', '');
+        } else {
+          dataTable.setColumnProperty(columnIndex, 'role', column.data_role);
         }
       }
     });

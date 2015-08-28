@@ -5,9 +5,7 @@
      ng-focus="select()"
      ng-click="select()">
   <div>
-    <div class="pk-sidebar-item-label">
-      field name
-    </div>
+    <div class="pk-sidebar-item-label">field name</div>
     <div class="input-group pk-sidebar-item-value">
       <input
           class="form-control widget-column-style-id"
@@ -32,9 +30,7 @@
     </md-tooltip>
   </div>
   <div>
-    <div class="pk-sidebar-item-label">
-      title
-    </div>
+    <div class="pk-sidebar-item-label">title</div>
     <div class="pk-sidebar-item-value">
       <input
           class="form-control widget-column-style-title"
@@ -44,6 +40,23 @@
     </div>
     <md-tooltip md-direction="right">
       A <b>readable</b> title to use in place of the field name
+    </md-tooltip>
+  </div>
+  <div>
+    <div class="pk-sidebar-item-label">role</div>
+    <div class="pk-sidebar-item-value">
+      <md-select
+             class="column-style-role-select"
+             placeholder="(default)"
+             ng-model="ngModel.data_role">
+        <md-option ng-show="ngModel.data_role" value="">(default)</md-option>
+        <md-option ng-repeat="(id, role) in columnStyleService.DATA_ROLES"
+                value="{{ id }}"
+                title="{{ role.tooltip }}">{{ role.title || id }}</md-option>
+      </md-select>
+    </div>
+    <md-tooltip md-direction="right">
+      Describes the role this column should play in a chart.  Select a role to see more help.
     </md-tooltip>
   </div>
 </div>

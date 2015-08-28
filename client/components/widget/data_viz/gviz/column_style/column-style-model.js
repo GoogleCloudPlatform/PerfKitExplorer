@@ -32,7 +32,7 @@ const gviz = explorer.components.widget.data_viz.gviz;
  * @export
  */
 gviz.column_style.ColumnStyleModel = class {
-  constructor(columnId, title) {
+  constructor(columnId, title, dataRole) {
     /**
      * Specifies the column id that the style applies to.
      * @export {string}
@@ -43,6 +43,13 @@ gviz.column_style.ColumnStyleModel = class {
      * A string representing a real-world name for the column.
      */
     this.title = title || '';
+
+    /**
+     * A string representing the gviz role to apply to the column.
+     * For more on roles, see:
+     *    https://developers.google.com/chart/interactive/docs/roles
+     */
+    this.data_role = dataRole || '';
   }
 }
 
