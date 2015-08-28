@@ -385,17 +385,17 @@ DashboardService.prototype.selectWidget = function(
 
   if (widget) {
     widget.state().selected = true;
+
+    if (!(this.sidebarTabService_.selectedTab &&
+          this.sidebarTabService_.selectedTab.requireWidget)) {
+      this.sidebarTabService_.selectTab(
+          this.sidebarTabService_.getFirstWidgetTab());
+    }
   }
 
   this.timeout_(() => {
     this.scrollWidgetIntoView(widget);
   });
-
-  // Select the first widget-based tab, if not already active.
-  if (!this.sidebarTabService_.selectedTab ||
-      !this.sidebarTabService_.selectedTab.requireWidget) {
-    this.sidebarTabService_.selectedTab = this.sidebarTabService_.getFirstTab(true);
-  }
 
   if (!opt_supressStateChange) {
     params = {widget: undefined, container: undefined};

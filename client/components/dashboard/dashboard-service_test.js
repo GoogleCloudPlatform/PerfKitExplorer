@@ -133,13 +133,13 @@ describe('dashboardService', function() {
 
         expect(widget.state().selected).toBeFalsy();
       });
-      
+
       it('should select the first widget tab if no tab is selected',
           function() {
-        expect(sidebarTabService.selectedTab).toBe(null);
+        sidebarTabService.selectedTab = null;
 
         svc.selectWidget(widget, container);
-        $rootScope.$apply();
+        $rootScope.$digest();
 
         expect(sidebarTabService.selectedTab).toBe(sidebarTabService.tabs[2]);
         expect(sidebarTabService.selectedTab.requireWidget).toBeTrue();
