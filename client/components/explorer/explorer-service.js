@@ -56,8 +56,8 @@ const ExplorerModel = explorer.components.explorer.ExplorerModel;
 explorer.components.explorer.ExplorerService = function(
     arrayUtilService, containerService, dashboardDataService,
     dashboardService, dashboardVersionService, errorService,
-    explorerStateService, $location, $state, $stateParams,
-    $rootScope, $timeout) {
+    explorerStateService, sidebarTabService, $location, $state,
+    $stateParams, $rootScope, $timeout) {
   /**
    * @type {!ArrayUtilService}
    * @private
@@ -78,6 +78,9 @@ explorer.components.explorer.ExplorerService = function(
 
   /** @private {!ExplorerStateService} */
   this.explorerStateService_ = explorerStateService;
+
+  /** @private {!SidebarTabService} */
+  this.sidebarTabService_ = sidebarTabService;
 
   /** @private */
   this.location_ = $location;
@@ -189,6 +192,15 @@ explorer.components.explorer.ExplorerService = function(
             }
           });
 
+          // If a widget is selected, make sure a widget tab is selected.
+          if ($stateParams.widget) {
+            if (!this.sidebarTabService_.selectedTab ||
+                !this.sidebarTabService_.selectedTab.requireWidget) {
+              this.sidebarTabService_.selectTab(
+                  this.sidebarTabService_.getFirstWidgetTab());     
+            }
+          }
+          
           // If any dashboard parameters changed, refresh the dashboard.
           angular.forEach(this.dashboard.params, param => {
             if ($location.search()[param.name] !==

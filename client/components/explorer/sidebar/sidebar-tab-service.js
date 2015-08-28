@@ -36,6 +36,10 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
     hint: 'Container properties and text',
     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
     panelClass: 'dashboard-panel', toolbarClass: 'dashboard-toolbar'},
+  {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-cube',
+    hint: 'Widget title and appearance', requireWidget: true,
+    tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
+    panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'},
   {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
     hint: 'Query filters and constraints', requireWidget: true,
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
@@ -48,10 +52,6 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
     hint: 'Chart type and settings', requireWidget: true,
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
-  {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-font',
-    hint: 'Widget title and appearance', requireWidget: true,
-    tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
-    panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'},
   {id: 'widget.columns', title: 'Columns', iconClass: 'fa fa-columns',
     hint: 'Column styling and order', requireWidget: true,
     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
@@ -100,37 +100,32 @@ SidebarTabService.prototype.toggleTab = function(tab) {
   }
 };
 
+
 /**
- * Selects the first available tab.
- * @param {?boolean=} opt_requireWidget If true, returns the first tab
- *     where requireWidget is true.  Otherwise, returns the first tab.
+ * Selects the first available widget-related tab.
  * @return {?ExplorerTabModel}
  */
-SidebarTabService.prototype.getFirstTab = function(opt_requireWidget = false) {
-  if (this.explorerStateSvc_.widgets.selectedId) {
-    if (opt_requireWidget) {
-      for (let i=0, len=this.tabs.length; i < len; ++i) {
-        let currentTab = this.tabs[i];
-  
-        if (currentTab.requireWidget) {
-          return currentTab;
-        }
-      }
-    } else {
-      return this.tabs[0];
-    }
-  } else {
-    for (let i=0, len=this.tabs.length; i < len; ++i) {
-      let currentTab = this.tabs[i];
+SidebarTabService.prototype.getFirstWidgetTab = function() {
+  for (let i=0, len=this.tabs.length; i < len; ++i) {
+    let currentTab = this.tabs[i];
 
-      if (!currentTab.requireWidget) {
-        return currentTab;
-      }
+    if (currentTab.requireWidget) {
+      return currentTab;
     }
   }
 
-  console.log('getFirstTab failed: No non-widget tabs available.');
+  console.log('getFirstWidgetTab failed: No widget tabs available.');
 };
+
+
+/**
+ * Selects the first available tab.
+ * @return {?ExplorerTabModel}
+ */
+SidebarTabService.prototype.getFirstTab = function() {
+  return this.tabs[0];
+};
+
 
 SidebarTabService.prototype.getLastTab = function() {
   if (this.explorerStateSvc_.widgets.selectedId) {
