@@ -194,13 +194,13 @@ explorer.components.explorer.ExplorerService = function(
 
           // If a widget is selected, make sure a widget tab is selected.
           if ($stateParams.widget) {
-            if (!this.sidebarTabService_.selectedTab ||
-                !this.sidebarTabService_.selectedTab.requireWidget) {
+            if (!(this.sidebarTabService_.selectedTab &&
+                 this.sidebarTabService_.selectedTab.requireWidget)) {
               this.sidebarTabService_.selectTab(
-                  this.sidebarTabService_.getFirstWidgetTab());     
+                  this.sidebarTabService_.getFirstWidgetTab());
             }
           }
-          
+
           // If any dashboard parameters changed, refresh the dashboard.
           angular.forEach(this.dashboard.params, param => {
             if ($location.search()[param.name] !==
