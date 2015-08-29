@@ -37,7 +37,9 @@ const gviz = explorer.components.widget.data_viz.gviz;
  *
  * @export
  */
-gviz.column_style.ColumnStyleFormatModel = class {}
+gviz.column_style.ColumnStyleFormatModel = class {
+
+}
 
 
 /**
@@ -57,6 +59,21 @@ gviz.column_style.ArrowFormatModel = class extends
     this.base = 0;
 
     super();
+  }
+
+  /**
+    * Returns a google formatter object based on the supplied model.
+    * @param {Object<string, (string|number)>} model
+    * @return {!google.visualization.ArrowFormat}
+    * @export
+    */
+  getFormatter(model) {
+    if (!model) {
+      model = this;
+    }
+
+    let returnFormatter = new google.visualization.ArrowFormat();
+
   }
 }
 
@@ -196,28 +213,33 @@ gviz.column_style.PatternFormatModel = class extends
 
 gviz.column_style.COLUMN_FORMATS = [
   {'id': 'ArrowFormat', 'title': 'Arrow',
-   'directiveName': 'arrowFormatConfigDirective',
+   'directiveName': 'arrow-format-params',
    'modelClass': gviz.column_style.ArrowFormatModel,
+   'formatterClass': google.visualization.ArrowFormat,
    'description': 'Adds an up or down arrow to a numeric cell, depending ' +
                   'on whether the value is above or below a specified base ' +
                   'value'},
   {'id': 'BarFormat', 'title': 'Bar',
-   'directiveName': 'barFormatConfigDirective',
+   'directiveName': 'bar-format-params',
    'modelClass': gviz.column_style.BarFormatModel,
+   'formatterClass': google.visualization.BarFormat,
    'description': 'Adds a colored bar to a numeric cell indicating whether ' +
                   'the cell value is above or below a specified base value'},
   {'id': 'DateFormat', 'title': 'Date',
-   'directiveName': 'dateFormatConfigDirective',
+   'directiveName': 'date-format-params',
    'modelClass': gviz.column_style.DateFormatModel,
+   'formatterClass': google.visualization.DateFormat,
    'description': 'Formats a JavaScript Date value in a variety of ways, ' +
                   'including "January 1, 2009," "1/1/09" and "Jan 1, 2009'},
   {'id': 'NumberFormat', 'title': 'Number',
-   'directiveName': 'numberFormatConfigDirective',
+   'directiveName': 'number-format-params',
    'modelClass': gviz.column_style.NumberFormatModel,
+   'formatterClass': google.visualization.NumberFormat,
    'description': 'Describes how numeric columns should be formatted'},
   {'id': 'PatternFormat', 'title': 'Pattern',
-   'directiveName': 'patternFormatConfigDirective',
+   'directiveName': 'pattern-format-params',
    'modelClass': gviz.column_style.PatternFormatModel,
+   'formatterClass': google.visualization.PatternFormat,
    'description': 'Enables you to merge the values of designated columns ' +
                   'into a single column, along with arbitrary text'},
 ];

@@ -32,7 +32,7 @@ const gviz = explorer.components.widget.data_viz.gviz;
  * @export
  */
 gviz.column_style.ColumnStyleModel = class {
-  constructor(columnId, title, dataRole, seriesColor) {
+  constructor(columnId, title, dataRole, seriesColor, dataFormat) {
     /**
      * Specifies the column id that the style applies to.
      * @export {string}
@@ -58,6 +58,14 @@ gviz.column_style.ColumnStyleModel = class {
      * @export {string}
      */
     this.series_color = seriesColor || '';
+
+    /**
+     * A string representing the gviz format to apply to the column.
+     * For more on formats, see:
+     *    https://developers.google.com/chart/interactive/docs/reference#formatters
+     * @export {string}
+     */
+    this.data_format = dataFormat || '';
   }
 }
 

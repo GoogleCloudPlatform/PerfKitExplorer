@@ -82,10 +82,50 @@ fdescribe('columnStyleFormatService', function() {
   });
 
   describe('newModel', function() {
+    it('should throw an error if the formatId is not provided', function() {
+      expect(function() {
+        svc.newModel();
+      }).toThrowError('newModel failed: formatId is required');
+    });
+
+    it('should throw an error if the formatId is not valid', function() {
+      expect(function() {
+        svc.newModel('INVALID');
+      }).toThrowError('newModel failed: formatId \'INVALID\' cannot be found');
+    });
+
     describe('should return the appropriate model for', function() {
       it('ArrowFormat', function() {
         var expectedFormat = new ArrowFormatModel();
         var actualFormat = svc.newModel('ArrowFormat');
+
+        expect(actualFormat).toEqual(expectedFormat);
+      });
+
+      it('BarFormat', function() {
+        var expectedFormat = new BarFormatModel();
+        var actualFormat = svc.newModel('BarFormat');
+
+        expect(actualFormat).toEqual(expectedFormat);
+      });
+
+      it('DateFormat', function() {
+        var expectedFormat = new DateFormatModel();
+        var actualFormat = svc.newModel('DateFormat');
+
+        expect(actualFormat).toEqual(expectedFormat);
+      });
+
+      it('NumberFormat', function() {
+        var expectedFormat = new NumberFormatModel();
+        var actualFormat = svc.newModel('NumberFormat');
+
+        expect(actualFormat).toEqual(expectedFormat);
+      });
+
+      it('PatternFormat', function() {
+        var expectedFormat = new PatternFormatModel();
+        var actualFormat = svc.newModel('PatternFormat');
 
         expect(actualFormat).toEqual(expectedFormat);
       });

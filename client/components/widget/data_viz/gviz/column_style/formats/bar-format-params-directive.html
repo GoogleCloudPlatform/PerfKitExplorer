@@ -1,0 +1,104 @@
+<div>
+
+  <div class="pk-sidebar-item-label">base</div>
+  <div class="pk-sidebar-item-value">
+    <input type="number"
+        class="form-control"
+        ng-model="ngModel.data_format_params.base">
+  </div>
+  <md-tooltip md-direction="right">
+    A number indicating the base value, used to compare against the cell value
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">negative color</div>
+  <div class="input-group pk-sidebar-item-value">
+    <input
+        class="form-control column-style-series-color"
+        placeholder="(default)"
+        ng-model="ngModel.data_format_params.colorNegative">
+    <span class="input-group-addon column-style-series-color-button">
+      <input
+          type="color"
+          class="column-style-series-color-picker"
+          ng-model="ngModel.data_format_params.colorNegative">
+      <md-tooltip>
+        Show a dialog that will let you pick a color
+      <md-tooltip>
+    </span>
+  </div>
+  <md-tooltip md-direction="right">
+    A string indicating the negative value section of bars
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">positive color</div>
+  <div class="input-group pk-sidebar-item-value">
+    <input
+        class="form-control column-style-series-color"
+        placeholder="(default)"
+        ng-model="ngModel.data_format_params.colorPositive">
+    <span class="input-group-addon column-style-series-color-button">
+      <input
+          type="color"
+          class="column-style-series-color-picker"
+          ng-model="ngModel.data_format_params.colorPositive">
+      <md-tooltip>
+        Show a dialog that will let you pick a color
+      <md-tooltip>
+    </span>
+  </div>
+  <md-tooltip md-direction="right">
+    A string indicating the color of the positive value section of bars
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">
+    <input type="checkbox"
+        class="widget-results-pivot"
+        ng-model="ngModel.data_format_params.drawZeroLine">
+          draw zero line
+  </div>
+  <md-tooltip md-direction="right">
+    A boolean indicating if to draw a 1 pixel dark base line when negative
+    values are present
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">max</div>
+  <div class="pk-sidebar-item-value">
+    <input type="number"
+        class="form-control"
+        ng-model="ngModel.data_format_params.max">
+  </div>
+  <md-tooltip md-direction="right">
+    The maximum number value for the bar range
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">min</div>
+  <div class="pk-sidebar-item-value">
+    <input type="number"
+        class="form-control"
+        ng-model="ngModel.data_format_params.min">
+  </div>
+  <md-tooltip md-direction="right">
+    The minimum number value for the bar range
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">
+    <input type="checkbox"
+        class="widget-results-pivot"
+        ng-model="ngModel.data_format_params.showValue">
+          show value
+  </div>
+  <md-tooltip md-direction="right">
+    If true, shows values and bars; if false, shows only bars
+  </md-tooltip>
+
+  <div class="pk-sidebar-item-label">width</div>
+  <div class="pk-sidebar-item-value">
+    <input type="number"
+        class="form-control"
+        ng-model="ngModel.data_format_params.width">
+  </div>
+  <md-tooltip md-direction="right">
+    Thickness of each bar, in pixels
+  </md-tooltip>
+
+</div>

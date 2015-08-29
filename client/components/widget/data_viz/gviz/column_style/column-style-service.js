@@ -39,7 +39,7 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  */
 gviz.column_style.ColumnStyleService = class {
   constructor(errorService, arrayUtilService, dashboardService,
-    chartWrapperService) {
+      columnStyleFormatService, chartWrapperService) {
     /** @export {!ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
 
@@ -48,6 +48,9 @@ gviz.column_style.ColumnStyleService = class {
 
     /** @export {!ErrorService} */
     this.errorSvc = errorService;
+
+    /** @export {!ColumnStyleFormatService} */
+    this.columnStyleFormatSvc = columnStyleFormatService;
 
     /** @export {!ChartWrapperService} */
     this.chartWrapperSvc = chartWrapperService;
@@ -200,7 +203,7 @@ gviz.column_style.ColumnStyleService = class {
       throw new Error('applyToDataTable failed: \'dataTable\' is required.');
     }
 
-    let columnId;
+    let columnIndex, format;
 
     columns.forEach(column => {
       let columnIndex = this.getColumnIndex(column.column_id, dataTable);
@@ -217,9 +220,33 @@ gviz.column_style.ColumnStyleService = class {
         } else {
           dataTable.setColumnProperty(columnIndex, 'role', column.data_role);
         }
+
+        if (!goog.string.isEmptySafe(column.data_format)) {
+          formatter = this.getGvizFormatter(column);
+          formatter.format(dataTable, columnIndex);
+        }
       }
     });
   }
+
+  /**
+   * Returns true if the provided column is a data series, otherwise false.
+   *
+   * @param {!ColumnStyleModel} column
+   * @return {!google.visualization.Formatter}
+   * @export
+   */
+  getGvizFormatter(column) {
+    let format = null;
+    let formatter = null;
+
+    format = this.columnStyleFormatSvc.getFormat(column.data_format);
+    formatter = Object.create(format.formatterClass.prototype);
+    format.formatterClass.apply(formatter, column.data_format_params);
+
+    return formatter;
+  }
+
 
   /**
    * Returns true if the provided column is a data series, otherwise false.

@@ -40,7 +40,11 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * @ngInject
  */
 gviz.column_style.ColumnStyleFormatService = class {
-  constructor(errorService, arrayUtilService, dashboardService) {
+  constructor($rootScope,
+      errorService, arrayUtilService, dashboardService) {
+    /** @private {!Angular.Scope} */
+    this.$rootScope_ = $rootScope;
+
     /** @export {!ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
 
@@ -58,19 +62,26 @@ gviz.column_style.ColumnStyleFormatService = class {
         this.allFormats, 'id');
   }
 
-  newModel(formatId) {
+  getFormat(formatId) {
     if (goog.string.isEmptySafe(formatId)) {
-      throw new Error('newModel failed: formatName is required');
+      throw new Error('newModel failed: formatId is required');
     }
 
     let format = this.allFormatsIndex[formatId];
 
     if (!goog.isDefAndNotNull(format)) {
-      throw new Error('newModel failed: formatId \'' + formatName +
-          '\' cannot be found.');
+      throw new Error('newModel failed: formatId \'' + formatId +
+          '\' cannot be found');
     }
 
-    return Object.create(format.modelClass);
+    return format;
+  }
+
+  newModel(formatId) {
+    let format = this.getFormat(formatId);
+    let formatModel = Object.create(format.modelClass.prototype);
+    format.modelClass.apply(formatModel);
+    return formatModel;
   }
 }
 

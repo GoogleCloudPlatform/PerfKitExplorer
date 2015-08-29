@@ -1,0 +1,19 @@
+<div>
+  <div class="pk-sidebar-item-label">format</div>
+  <div class="pk-sidebar-item-value">
+    <md-select
+            class="column-style-format-select"
+            placeholder="(default)"
+            ng-model="ngModel.data_format">
+      <md-option ng-show="ngModel.data_format" value="">(default)</md-option>
+      <md-option ng-repeat="format in formatSvc.allFormats"
+              value="{{ format.id }}"
+              title="{{ format.description }}">
+          {{ format.title || format.id }}</md-option>
+    </md-select>
+  </div>
+  <md-tooltip md-direction="right">
+    The format to apply to your data.  Parameters will depend on the choice.
+  </md-tooltip>
+  <div class="column-style-format-params"></div>
+</div>

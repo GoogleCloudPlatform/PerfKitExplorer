@@ -72,9 +72,15 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataV
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleFormatConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleFormatService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleToolbarDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.formats.ArrowFormatParamsDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.formats.BarFormatParamsDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.formats.DateFormatParamsDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.formats.NumberFormatParamsDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.formats.PatternFormatParamsDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
@@ -291,6 +297,8 @@ explorer.application.module.directive('columnStyle',
     explorer.components.widget.data_viz.gviz.column_style.ColumnStyleDirective);
 explorer.application.module.directive('columnStyleConfig',
     explorer.components.widget.data_viz.gviz.column_style.ColumnStyleConfigDirective);
+explorer.application.module.directive('columnStyleFormatConfig',
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleFormatConfigDirective);
 explorer.application.module.directive('columnStyleToolbar',
     explorer.components.widget.data_viz.gviz.column_style.ColumnStyleToolbarDirective);
 explorer.application.module.directive('gvizChartWidget',
@@ -299,6 +307,18 @@ explorer.application.module.directive('queryResultConfig',
     explorer.components.widget.query.QueryResultConfigDirective);
 explorer.application.module.directive('widgetEditor',
     explorer.components.widget.query.WidgetEditorDirective);
+
+/** BQ PerfKit Format directives. */
+explorer.application.module.directive('arrowFormatParams',
+    explorer.components.widget.data_viz.gviz.column_style.formats.ArrowFormatParamsDirective);
+explorer.application.module.directive('barFormatParams',
+    explorer.components.widget.data_viz.gviz.column_style.formats.BarFormatParamsDirective);
+explorer.application.module.directive('dateFormatParams',
+    explorer.components.widget.data_viz.gviz.column_style.formats.DateFormatParamsDirective);
+explorer.application.module.directive('numberFormatParams',
+    explorer.components.widget.data_viz.gviz.column_style.formats.NumberFormatParamsDirective);
+explorer.application.module.directive('patternFormatParams',
+    explorer.components.widget.data_viz.gviz.column_style.formats.PatternFormatParamsDirective);
 
 /** BQ PerfKit Query Builder Directives. */
 explorer.application.module.directive('metadataPicker',
