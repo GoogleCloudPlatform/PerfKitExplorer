@@ -88,6 +88,15 @@ gviz.column_style.ColumnStyleDirective = function() {
       });
 
       /**
+       * Returns true if the column is a series, otherwise false.
+       * @return {boolean}
+       */
+      $scope.isASeries = function() {
+        return (columnStyleService.isColumnASeries(
+            $scope.widgetConfig, $scope.ngModel));
+      }
+
+      /**
        * Returns true if the column provided by ngModel is selected, otherwise false.
        * @return {boolean}
        */

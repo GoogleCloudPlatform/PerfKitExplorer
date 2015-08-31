@@ -59,7 +59,6 @@ describe('gvizDirective', function() {
         '<gviz-chart-widget widget-config="widgetConfig"/>');
     var component = compile(directiveElement)(rootScope);
 
-    httpBackend.expectGET("/static/components/widget/data_viz/gviz/gviz-charts.json").respond({});
     rootScope.$apply();
     timeout.flush();
 
@@ -143,9 +142,12 @@ describe('gvizDirective', function() {
         // Return 10 rows by default
         spyOn(GvizDataTable.prototype, 'getNumberOfRows').and.returnValue(10);
 
+        httpBackend.expectGET(
+            '/static/components/widget/data_viz/gviz/gviz-charts.json')
+          .respond({});
+
         // Setup fake data for component's attributes
         explorerService.newDashboard();
-
         $rootScope.$apply();
 
         rootScope.widgetConfig = dashboardService.selectedWidget;

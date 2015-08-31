@@ -22,23 +22,26 @@ goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+goog.require('p3rf.perfkit.explorer.mocks.chartTypeMock');
 
 
 describe('ColumnStyleDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, $httpBackend, uiConfig;
   var configService, columnStyleService, dashboardService, GvizDataTable;
-  var providedDataTable, providedData;
+  var providedDataTable, providedData, mockChartTypes;
 
   const explorer = p3rf.perfkit.explorer;
   const ColumnStyleModel = explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
+  beforeEach(module('chartTypeMock'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_,
       _$httpBackend_, _configService_, _dashboardService_,
-      _explorerService_, _columnStyleService_, _GvizDataTable_) {
+      _explorerService_, _columnStyleService_, _GvizDataTable_,
+      chartTypeMockData) {
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
@@ -48,12 +51,18 @@ describe('ColumnStyleDirective', function() {
     columnStyleSvc = _columnStyleService_;
     explorerSvc = _explorerService_;
     GvizDataTable = _GvizDataTable_;
+    $httpBackend = _$httpBackend_;
 
     scope = _$rootScope_.$new();
     scope.providedModel = new ColumnStyleModel();
 
+    _$httpBackend_.whenGET(
+        /\/static\/components\/widget\/data_viz\/gviz\/gviz-charts\.json/)
+      .respond(chartTypeMockData);
+
     explorerSvc.newDashboard();
     scope.$digest();
+    _$httpBackend_.flush();
 
     scope.providedWidget = dashboardSvc.selectedWidget;
 

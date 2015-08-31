@@ -28,22 +28,32 @@ describe('columnStyleService', function() {
 
   var svc, providedDataTable, GvizDataTable, providedConfig,
       providedColumn1, providedColumn2;
-  var dashboardSvc, widgetFactorySvc, errorSvc;
+  var dashboardSvc, widgetFactorySvc, errorSvc, chartTypeMockData;
+  var $httpBackend;
 
   var ChartWidgetConfig = p3rf.perfkit.explorer.models.ChartWidgetConfig;
   var ColumnStyleModel = gviz.column_style.ColumnStyleModel;
 
   beforeEach(module('explorer'));
-  beforeEach(module('googleVisualizationMocks'));
+  beforeEach(module('chartTypeMock'));
+
+  beforeEach(inject(function(_$httpBackend_, _chartTypeMockData_) {
+    _$httpBackend_.expectGET(
+        '/static/components/widget/data_viz/gviz/gviz-charts.json')
+      .respond(_chartTypeMockData_);
+    $httpBackend = _$httpBackend_;
+  }));
 
   beforeEach(inject(function(
-      columnStyleService, _GvizDataTable_, _dashboardService_,
-      _widgetFactoryService_, _errorService_) {
+      columnStyleService, _GvizDataTable_,
+      _dashboardService_, _widgetFactoryService_, _errorService_) {
     svc = columnStyleService;
     GvizDataTable = _GvizDataTable_;
     dashboardSvc = _dashboardService_;
     widgetFactorySvc = _widgetFactoryService_;
     errorSvc = _errorService_;
+
+    $httpBackend.flush();
 
     errorSvc.logToConsole = false;
   }));
@@ -144,6 +154,150 @@ describe('columnStyleService', function() {
       expect(providedConfig.model.chart.columns).toEqual(expectedColumns);
       expect(dashboardSvc.refreshWidget).toHaveBeenCalledWith(providedConfig);
     });
+  });
+
+  describe('isColumnASeries', function() {
+    it('should return false if the column is the first in the list', function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      expect(svc.isColumnASeries(providedConfig, providedColumns[0])).toBeFalse();
+    });
+
+    it('should return false if the column has an assigned non-series role',
+        function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'annotation')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      expect(svc.isColumnASeries(providedConfig, providedColumns[1])).toBeFalse();
+    });
+
+    it('should return true if the column has an assigned series role and the ' +
+       'chart supports series data',
+        function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'data')
+      ];
+      providedConfig.model.chart.chartType = 'Histogram';
+      providedConfig.model.chart.columns = providedColumns;
+
+      expect(svc.isColumnASeries(providedConfig, providedColumns[1])).toBeTrue();
+    });
+
+    it('should return true for the first column if seriesStartColumnIndex is 0',
+        function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'data')
+      ];
+      providedConfig.model.chart.chartType = 'Histogram';
+      providedConfig.model.chart.columns = providedColumns;
+
+      expect(svc.isColumnASeries(providedConfig, providedColumns[0])).toBeTrue();
+    });
+  });
+
+  describe('getSeriesColumns', function() {
+    it('should return data series columns', function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'data'),
+        new ColumnStyleModel('sales_amt', null, 'tooltip'),
+        new ColumnStyleModel('sales_amt', null, null)
+      ];
+      providedConfig.model.chart.chartType = 'AreaChart';
+      providedConfig.model.chart.columns = providedColumns;
+
+      var expectedColumns = [providedColumns[1], providedColumns[3]];
+
+      expect(svc.getSeriesColumns(providedConfig)).toEqual(expectedColumns);
+    });
+
+    it('should start with the seriesStartColumnIndex column', function() {
+      var providedColumns = [
+        new ColumnStyleModel('timestamp'),
+        new ColumnStyleModel('sales_amt', null, 'data'),
+        new ColumnStyleModel('sales_amt', null, 'tooltip'),
+        new ColumnStyleModel('sales_amt', null, null)
+      ];
+      providedConfig.model.chart.chartType = 'Histogram';
+      providedConfig.model.chart.columns = providedColumns;
+
+      var expectedColumns = [
+          providedColumns[0], providedColumns[1], providedColumns[3]];
+
+      expect(svc.getSeriesColumns(providedConfig)).toEqual(expectedColumns);
+    });
+  });
+
+  describe('getEffectiveChartConfig', function() {
+    beforeEach(inject(function() {
+      providedConfig.model.chart.chartType = 'AreaChart';
+    }));
+
+    it('should populate series color', function() {
+      var providedColumns = [
+        new ColumnStyleModel('axis'),
+        new ColumnStyleModel('timestamp', null, null, 'blue'),
+        new ColumnStyleModel('sales_amt', null, null, 'red')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      var actualConfig = svc.getEffectiveChartConfig(providedConfig);
+      var expectedSeries = [
+        {'color': 'blue'},
+        {'color': 'red'}
+      ];
+
+      expect(actualConfig.series).toEqual(expectedSeries);
+    });
+
+    it('should ignore populated series colors', function() {
+      var providedColumns = [
+        new ColumnStyleModel('axis'),
+        new ColumnStyleModel('timestamp', null, null, 'blue'),
+        new ColumnStyleModel('sales_amt', null, null, 'red')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      var providedSeries = [
+        {'color': 'yellow'}
+      ];
+      providedConfig.model.chart.options.series = providedSeries;
+
+      var actualConfig = svc.getEffectiveChartConfig(providedConfig);
+      var expectedSeries = [
+        {'color': 'yellow'},
+        {'color': 'red'}
+      ];
+
+      expect(actualConfig.series).toEqual(expectedSeries);
+    });
+
+    it('should apply correctly when the columns have a custom order', function() {
+      var providedColumns = [
+        new ColumnStyleModel('axis'),
+        new ColumnStyleModel('sales_amt', null, null, 'red'),
+        new ColumnStyleModel('timestamp', null, null, 'blue')
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      var actualConfig = svc.getEffectiveChartConfig(providedConfig);
+      var expectedSeries = [
+        {'color': 'red'},
+        {'color': 'blue'}
+      ];
+
+      expect(actualConfig.series).toEqual(expectedSeries);
+    });
+
   });
 
   describe('applyToDataTable', function() {

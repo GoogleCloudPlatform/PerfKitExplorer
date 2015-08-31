@@ -38,7 +38,8 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * @ngInject
  */
 gviz.column_style.ColumnStyleService = class {
-  constructor(errorService, arrayUtilService, dashboardService) {
+  constructor(errorService, arrayUtilService, dashboardService,
+    chartWrapperService) {
     /** @export {!ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
 
@@ -47,6 +48,9 @@ gviz.column_style.ColumnStyleService = class {
 
     /** @export {!ErrorService} */
     this.errorSvc = errorService;
+
+    /** @export {!ChartWrapperService} */
+    this.chartWrapperSvc = chartWrapperService;
 
     /**
      * Specifies the currently selected column in the UX.
@@ -70,6 +74,12 @@ gviz.column_style.ColumnStyleService = class {
       'domain': {'id': 'domain', 'tooltip': 'Domain columns specify labels along the major axis of the chart'},
       'data': {'id': 'data', 'tooltip': 'Data role columns specify series data to render in the chart'},
     }
+
+    /**
+     * A list of roles that will result in a series when applied to a column.
+     * @export {!Array.<string>}
+     */
+    this.SERIES_DATA_ROLES = ['data', '', null];
   }
 
   /**
@@ -209,6 +219,120 @@ gviz.column_style.ColumnStyleService = class {
         }
       }
     });
+  }
+
+  /**
+   * Returns true if the provided column is a data series, otherwise false.
+   *
+   * @param {!ChartWidgetConfig} widget
+   * @param {!ColumnStyleModel} column
+   * @return {boolean}
+   */
+  isColumnASeries(widget, column) {
+    let dataTable = widget.state().datasource.data;
+    let chartType = this.chartWrapperSvc.allChartsIndex[
+        widget.model.chart.chartType];
+    if (!goog.isDefAndNotNull(chartType)) {
+      throw new Error(
+          'isColumnASeries failed: chart type ' +
+          widget.model.chart.chartType + ' is invalid');
+    }
+
+    let startColumn = chartType.seriesStartColumnIndex;
+
+    if (!goog.isDefAndNotNull(startColumn)) {
+      startColumn = 1;
+    }
+
+    // Ignore missing dataTable columns if no data is loaded.
+    let validInTable = true;
+    if (dataTable) {
+      validInTable = (this.getColumnIndex(
+          column.column_id, dataTable) !== -1);
+    }
+
+    let validSeriesRole = (this.SERIES_DATA_ROLES.indexOf(
+        column.data_role) !== -1);
+
+    let notDomainColumn = (
+        widget.model.chart.columns.indexOf(column) >= startColumn);
+
+    if (
+        chartType.seriesColor && validInTable && validSeriesRole &&
+        notDomainColumn) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Returns a list of ColumnStyleModel objects that will act as data series.
+   *
+   * @param {!ChartWidgetConfig} widget
+   * @return {!ChartConfig}
+   * @export
+   */
+  getSeriesColumns(widget) {
+    let seriesColumns = [];
+    let effectiveColumns = this.getEffectiveColumns(
+        widget.model.chart.columns, widget.state().datasource.data);
+
+    for (let i=0, len=effectiveColumns.length; i<len; ++i) {
+      let column = effectiveColumns[i];
+
+      if (this.isColumnASeries(widget, column)) {
+        seriesColumns.push(column);
+      }
+    }
+
+    return seriesColumns;
+  }
+
+  /**
+   * Returns a chartConfig based on the provided widget.
+   * If the chart.columns collection contains color information, it will be
+   * applied to the relevant chart.options.series[].
+   *
+   * @param {!ChartWidgetConfig} widget
+   * @return {!ChartConfig}
+   * @export
+   */
+  getEffectiveChartConfig(widget) {
+    if (!goog.isDefAndNotNull(widget)) {
+      throw new Error('applyToDataTable failed: \'widget\' is required.');
+    }
+
+    let columnIndex, series;
+    let columns = this.getSeriesColumns(widget);
+    let columnIds = Array.prototype.map.call(columns, column => column.column_id);
+    let dataTable = widget.state().datasource.data;
+
+    let effectiveConfig = angular.copy(widget.model.chart.options);
+    if (!goog.isDefAndNotNull(effectiveConfig.series)) {
+      effectiveConfig.series = [];
+    }
+
+    if (dataTable) {
+      columns.forEach(column => {
+        columnIndex = columnIds.indexOf(column.column_id);
+
+        if (columnIndex !== -1) {
+          // If there isn't a series defined, we will add one.
+          while (effectiveConfig.series.length - 1 < columnIndex) {
+            effectiveConfig.series.push({});
+          }
+
+          series = effectiveConfig.series[columnIndex];
+          if (!goog.string.isEmptySafe(column.series_color) &&
+              goog.string.isEmptySafe(series.color)) {
+            series.color = column.series_color;
+          }
+        }
+      });
+    }
+
+    return effectiveConfig;
   }
 
   /**

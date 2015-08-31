@@ -130,4 +130,56 @@ describe('arrayUtilService', function() {
       expect(providedValues).toEqual(expectedValues);
     });
   });
+
+  describe('getDictionary', function() {
+    var item0 = {'id': 0, 'title': 'ITEM 0'};
+    var item1 = {'id': 1, 'title': 'ITEM 1'};
+    var item2 = {'id': 2, 'title': 'ITEM 2'};
+
+    it('should return a dictionary from an object array.',
+        function() {
+      var providedArray = [item0, item1, item2];
+      var expectedDict = {0: item0, 1: item1, 2: item2};
+
+      var actualDict = svc.getDictionary(providedArray, 'id');
+
+      expect(actualDict).toEqual(expectedDict);
+    });
+
+    it('should throw when the key does not exist.', function() {
+      var providedArray = [item0, item1, item2];
+      var expectedError = ('arrayUtilService.getDictionary failed: ' +
+          'key NOTFOUND does not exist');
+      expect(function() {
+        svc.getDictionary(providedArray, 'NOTFOUND');
+      }).toThrowError(expectedError);
+    });
+
+    it('should throw when the array parameter is not an array.', function() {
+      var providedArray = 'Invalid value';
+      var expectedError = ('arrayUtilService.getDictionary failed: ' +
+          'array parameter must be a valid array');
+      expect(function() {
+        svc.getDictionary(providedArray, 'DOESNTMATTER');
+      }).toThrowError(expectedError);
+    });
+
+    it('should throw when the array does not contain objects.', function() {
+      var providedArray = [0, 1, 2];
+      var expectedError = ('arrayUtilService.getDictionary failed: ' +
+          'array must be a list of indexable objects');
+      expect(function() {
+        svc.getDictionary(providedArray, 'DOESNTMATTER');
+      }).toThrowError(expectedError);
+    });
+
+    it('should throw when the array contains the same key.', function() {
+      var providedArray = [item0, item1, item2, item1];
+      var expectedError = ('arrayUtilService.getDictionary failed: ' +
+          'key id already exists in the array');
+      expect(function() {
+        svc.getDictionary(providedArray, 'id');
+      }).toThrowError(expectedError);
+    });
+  });
 });

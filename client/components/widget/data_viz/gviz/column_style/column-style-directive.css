@@ -34,3 +34,19 @@
 .column-style-insert-control:hover {
   cursor: pointer !important;
 }
+
+.column-style-series-color-button {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.column-style-series-color-picker {
+  border: 0px;
+  background-color: transparent;
+  height: 30px;
+  padding: 0;
+  margin: 0;
+  width: 30px;
+}
