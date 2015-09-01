@@ -1,0 +1,4 @@
+[
+    {"name": "cloud", "type": "string", "mode": "required"},
+    {"name": "default_machine_type", "type": "string", "mode": "required"}
+]
