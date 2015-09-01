@@ -212,7 +212,10 @@ class SqlDataHandler(base.RequestHandlerBase):
       client = DataHandlerUtil.GetDataClient(self.env)
       client.project_id = config.default_project
 
+      logging.info('Converting request body to JSON')
       request_data = json.loads(self.request.body)
+      logging.info('Converted request body to JSON')
+
       datasource = request_data['datasource']
 
       query = datasource.get('query_exec') or datasource.get('query')
@@ -224,7 +227,9 @@ class SqlDataHandler(base.RequestHandlerBase):
 
       cache_duration = config.cache_duration or None
 
+      logging.info('Executing query')
       response = client.Query(query, cache_duration=cache_duration)
+      logging.info('Executed query')
 
       if query_config['results'].get('pivot'):
         pivot_config = query_config['results']['pivot_config']
@@ -236,18 +241,24 @@ class SqlDataHandler(base.RequestHandlerBase):
             values_name=pivot_config['value_field'])
         transformer.Transform()
 
+      logging.info('Converting reply to DataTable Format')
       response['results'] = (
           result_util.ReplyFormatter.RowsToDataTableFormat(response))
+      logging.info('Converted reply to DataTable Format')
 
       elapsed_time = time.time() - start_time
       response['elapsedTime'] = elapsed_time
+      logging.info('Rendering JSON')
       self.RenderJson(response)
+      logging.info('Rendered JSON')
 
     # If 'expected' errors occur (specifically dealing with SQL problems),
     # return JSON with descriptive text so that we can give the user a
     # constructive error message.
     # TODO: Formalize error reporting/handling across the application.
     except (big_query_client.BigQueryError, ValueError) as err:
+      logging.error('SqlDataHandler failed:')
+      logging.error(err)
       self.RenderJson({'error': err.message})
 
   def get(self):
