@@ -269,7 +269,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           scope.applyParameters();
 
           let promise = queryResultDataService.
-              fetchResults(scope.widgetConfig.model.datasource);
+              fetchResults(scope.widgetConfig);
           $timeout(function() {
             scope.widgetConfig.state().datasource.status =
                 ResultsDataStatus.FETCHING;

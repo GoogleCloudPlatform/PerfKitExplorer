@@ -116,7 +116,7 @@ WidgetEditorCtrl.prototype.openChartEditor = function() {
   let selectedChart = this.selectedChart;
   if (selectedChart) {
     let promise = this.queryResultDataService_.
-        fetchResults(selectedChart.model.datasource);
+        fetchResults(selectedChart);
 
     promise.then(angular.bind(this, function(dataTable) {
       this.openChartEditor_(dataTable);

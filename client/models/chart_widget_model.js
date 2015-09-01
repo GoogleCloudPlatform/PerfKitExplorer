@@ -154,6 +154,30 @@ explorer.models.DatasourceState = function() {
   this.status = ResultsDataStatus.TOFETCH;
 
   /**
+   * @type {string}
+   * @export
+   */
+  this.job_id = '';
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.row_count = '';
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.query_time = '';
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.query_size = '';
+
+  /**
    * @type {!Array.<string>}
    * @export
    */
@@ -265,6 +289,11 @@ explorer.models.ChartWidgetModel = function() {
   goog.base(this);
 
   this.type = WidgetType.CHART;
+
+  /**
+   * @type {boolean}
+   */
+  this.show_statistics = false;
 
   /**
    * @type {!ChartModel}

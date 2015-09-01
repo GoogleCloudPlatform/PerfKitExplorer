@@ -341,7 +341,7 @@ describe('gvizDirective', function() {
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.FETCHING);
           expect(queryResultDataServiceMock.fetchResults).
-              toHaveBeenCalledWith(model.datasource);
+              toHaveBeenCalledWith(rootScope.widgetConfig);
         }
     );
 

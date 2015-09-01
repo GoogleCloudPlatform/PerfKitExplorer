@@ -34,6 +34,10 @@
                ng-click="dashboardSvc.selectWidget(widget, container)">
             <gviz-chart-widget widget-config="widget"/>
           </div>
+          <div class="pk-widget-footer" ng-show="widget.model.show_statistics">
+            <widget-statistics
+                ng-model="widget"></widget-statistics>
+          </div>
         </perfkit-widget>
       </div>
       <div ng-show="container.model.container.footer_text"
