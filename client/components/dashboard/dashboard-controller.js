@@ -26,10 +26,10 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardDataService = explorer.components.dashboard.DashboardDataService;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const explorer = p3rf.perfkit.explorer;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 
@@ -44,8 +44,9 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @constructor
  * @ngInject
  */
-explorer.components.dashboard.DashboardCtrl = function($scope,
-    $location, dashboardDataService, dashboardService, widgetFactoryService) {
+explorer.components.dashboard.DashboardCtrl = function($scope, $state,
+    $location, dashboardDataService, dashboardService, widgetFactoryService,
+    sidebarTabService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -58,6 +59,8 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
    */
   this.location_ = $location;
 
+  this.$state_ = $state;
+
   /**
    * @type {DashboardDataService}
    * @private
@@ -69,6 +72,9 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
    * @private
    */
   this.widgetFactoryService_ = widgetFactoryService;
+
+  /** @export {!SidebarTabService} */
+  this.tabSvc = sidebarTabService;
 
   /**
    * @type {DashboardService}
@@ -89,25 +95,8 @@ explorer.components.dashboard.DashboardCtrl = function($scope,
    * @export
    */
   this.dashboardIsLoading = false;
-
-  this.initDashboard();
 };
-var DashboardCtrl = explorer.components.dashboard.DashboardCtrl;
-
-
-/**
- * Looks for a dashboard id in the url. If found, it fetches it, else, it
- * creates a new dashboard with one container and one widget.
- * @export
- */
-DashboardCtrl.prototype.initDashboard = function() {
-  var dashboardId = this.location_.search().dashboard;
-  if (dashboardId) {
-    this.fetchDashboard(dashboardId);
-  } else {
-    this.dashboard.addContainer();
-  }
-};
+const DashboardCtrl = explorer.components.dashboard.DashboardCtrl;
 
 
 /**
@@ -116,27 +105,6 @@ DashboardCtrl.prototype.initDashboard = function() {
  */
 DashboardCtrl.prototype.saveDashboard = function() {
   this.dashboard.save();
-};
-
-
-/**
- * Fetches a dashboard and puts it in the scope.
- * @param {string} dashboardId
- * @export
- */
-DashboardCtrl.prototype.fetchDashboard = function(dashboardId) {
-  var promise = this.dashboardDataService_.fetchDashboard(dashboardId);
-  this.dashboardIsLoading = true;
-
-  promise.then(angular.bind(this, function(dashboardConfig) {
-    this.dashboardIsLoading = false;
-    this.dashboard.setDashboard(dashboardConfig);
-  }));
-
-  promise.then(null, angular.bind(this, function(error) {
-    this.dashboardIsLoading = false;
-    this.errors.push(error.message);
-  }));
 };
 
 });  // goog.scope

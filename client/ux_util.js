@@ -32,7 +32,7 @@ goog.scope(function() {
  */
 p3rf.perfkit.explorer.UxUtil = function() {
 };
-var UxUtil = p3rf.perfkit.explorer.UxUtil;
+const UxUtil = p3rf.perfkit.explorer.UxUtil;
 
 
 /**
@@ -42,7 +42,7 @@ var UxUtil = p3rf.perfkit.explorer.UxUtil;
 UxUtil.Elements = {
   BUTTER_BAR: 'butter'
 };
-var Elements = UxUtil.Elements;
+const Elements = UxUtil.Elements;
 
 
 /**
@@ -53,7 +53,7 @@ UxUtil.WarningLevels = {
   INFO: 'info',
   ERROR: 'error'
 };
-var WarningLevels = UxUtil.WarningLevels;
+const WarningLevels = UxUtil.WarningLevels;
 
 
 /**
@@ -73,7 +73,7 @@ UxUtil.DEFAULT_ANIM_DURATION = 250;
  * @return {Element} The div/element matching the specified ID.
  */
 UxUtil.getElement = function(element_id) {
-  var element = goog.dom.getElement(element_id);
+  let element = goog.dom.getElement(element_id);
   if (!element) {
     throw 'An element with id "' + element_id + '" is required on the page.';
   }
@@ -88,8 +88,8 @@ UxUtil.getElement = function(element_id) {
  *     informational (default) from from error messages.
  */
 UxUtil.showButterBar = function(message, opt_warning_level) {
-  var element = UxUtil.getElement(Elements.BUTTER_BAR);
-  var warning_level = (
+  let element = UxUtil.getElement(Elements.BUTTER_BAR);
+  let warning_level = (
       opt_warning_level ? opt_warning_level : UxUtil.WarningLevels.INFO);
 
   goog.dom.setTextContent(element, message);
@@ -104,7 +104,7 @@ UxUtil.showButterBar = function(message, opt_warning_level) {
  * Hides the butter bar from the UX.
  */
 UxUtil.hideButterBar = function() {
-  var element = UxUtil.getElement(Elements.BUTTER_BAR);
+  let element = UxUtil.getElement(Elements.BUTTER_BAR);
 
   UxUtil.toggleVisibility(Elements.BUTTER_BAR, false);
 };
@@ -117,12 +117,12 @@ UxUtil.hideButterBar = function() {
  * @param {Element} element The element to center within it's container.
  */
 UxUtil.centerElement = function(element) {
-  var container = goog.dom.getParentElement(element);
-  var container_size = goog.style.getSize(container);
-  var element_size = goog.style.getSize(element);
+  let container = goog.dom.getParentElement(element);
+  let container_size = goog.style.getSize(container);
+  let element_size = goog.style.getSize(element);
 
-  var left = (container_size.width / 2) - (element_size.width / 2);
-  var top = goog.style.getPosition(element).y;
+  let left = (container_size.width / 2) - (element_size.width / 2);
+  let top = goog.style.getPosition(element).y;
 
   goog.style.setPosition(element, new goog.math.Coordinate(left, top));
 };
@@ -136,13 +136,13 @@ UxUtil.centerElement = function(element) {
  * @throws {string} An error that the specified element cannot be found.
  */
 UxUtil.toggleVisibility = function(element_id, show, opt_duration) {
-  var element = goog.dom.getElement(element_id);
+  let element = goog.dom.getElement(element_id);
 
   if (!element) {
     throw ('Element ' + element_id + ' not found.');
   }
-  var animation = null;
-  var duration = opt_duration ? opt_duration : UxUtil.DEFAULT_ANIM_DURATION;
+  let animation = null;
+  let duration = opt_duration ? opt_duration : UxUtil.DEFAULT_ANIM_DURATION;
 
   if (show) {
     animation = new goog.fx.dom.FadeInAndShow(element, duration);
@@ -166,7 +166,7 @@ UxUtil.toggleVisibility = function(element_id, show, opt_duration) {
  * @return {string} The value of the element.
  */
 UxUtil.getInputValue = function(element_id) {
-  var element = goog.dom.getElement(element_id);
+  let element = goog.dom.getElement(element_id);
   if (!element) {
     throw 'Element \'' + element_id + '\' not found.';
   }

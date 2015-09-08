@@ -1,19 +1,42 @@
-<div class="sidebar-group">
-  <div class="sidebar-group-title">Container</div>
+<div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">display columns</div>
-    <div class="sidebar-item-value">
-      <input type="number" min="1" class="form-control"
-             ng-model="ngModel.container.columns">
+  <div class="pk-sidebar-group-note" ng-hide="ngModel">
+    Click on a widget to the right to select a container and modify its
+    properties.
+  </div>
+
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">display columns</div>
+    <div class="pk-sidebar-item-value">
+      <input type="number" min="1" class="form-control container-columns"
+             ng-model="ngModel.columns" ng-disabled="!ngModel">
     </div>
   </div>
 
-  <div class="sidebar-item">
-    <div class="sidebar-item-label">height</div>
-    <div class="sidebar-item-value">
-      <input input type="number" min="1" class="form-control"
-             ng-model="ngModel.container.height">
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">height</div>
+    <div class="pk-sidebar-item-value">
+      <input input type="number" min="1"
+          class="form-control container-height"
+          ng-model="ngModel.height" ng-disabled="!ngModel">
     </div>
   </div>
+
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">header</div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control container-header-text"
+          ng-model="ngModel.header_text" ng-disabled="!ngModel"></textarea>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">footer</div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control container-footer-text"
+          ng-model="ngModel.footer_text" ng-disabled="!ngModel"></textarea>
+    </div>
+  </div>
+
+
 </div>

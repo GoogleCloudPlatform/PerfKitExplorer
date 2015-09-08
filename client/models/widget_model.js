@@ -25,7 +25,7 @@ goog.provide('p3rf.perfkit.explorer.models.WidgetState');
 goog.provide('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -35,7 +35,7 @@ explorer.models.WidgetType = {
   CHART: 'chart',
   CONTAINER: 'container'
 };
-var WidgetType = explorer.models.WidgetType;
+const WidgetType = explorer.models.WidgetType;
 
 
 
@@ -43,19 +43,25 @@ var WidgetType = explorer.models.WidgetType;
 explorer.models.WidgetState = function() {
   /**
    * @type {boolean}
-   * @expose
+   * @export
    */
   this.selected = false;
+
+  /**
+   * @type {!google.visualization.DataView}
+   * @export
+   */
+  this.data = null;
 
   /**
    * TODO: Change type to ContainerWidgetConfig when we figure
    * out how to solve the circular dependency.
    * @type {Object}
-   * @expose
+   * @export
    */
   this.parent = null;
 };
-var WidgetState = explorer.models.WidgetState;
+const WidgetState = explorer.models.WidgetState;
 
 
 
@@ -63,17 +69,17 @@ var WidgetState = explorer.models.WidgetState;
 explorer.models.LayoutModel = function() {
   /**
    * @type {number}
-   * @expose
+   * @export
    */
   this.columnspan = 1;
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.cssClasses = null;
 };
-var LayoutModel = explorer.models.LayoutModel;
+const LayoutModel = explorer.models.LayoutModel;
 
 
 
@@ -81,35 +87,35 @@ var LayoutModel = explorer.models.LayoutModel;
 explorer.models.WidgetModel = function() {
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.id = null;
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.title = '';
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.url = '';
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.type = null;
 
   /**
    * @type {!LayoutModel}
-   * @expose
+   * @export
    */
   this.layout = new LayoutModel();
 };
-var WidgetModel = explorer.models.WidgetModel;
+const WidgetModel = explorer.models.WidgetModel;
 
 
 
@@ -129,7 +135,7 @@ explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
    * WidgetConfig object that contains it.
    *
    * @type {!(Object|WidgetModel)}
-   * @expose
+   * @export
    */
   this.model = opt_model || new WidgetModel();
 
@@ -148,7 +154,7 @@ explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
    * dependency error.
    *
    * @return {WidgetState}
-   * @expose
+   * @export
    */
   this.state = function() {
     return widgetFactoryService.statesById[this.model.id];
@@ -158,6 +164,6 @@ explorer.models.WidgetConfig = function(widgetFactoryService, opt_model) {
   widgetFactoryService.statesById[this.model.id] =
       widgetFactoryService.statesById[this.model.id] || new WidgetState();
 };
-var WidgetConfig = explorer.models.WidgetConfig;
+const WidgetConfig = explorer.models.WidgetConfig;
 
 });  // goog.scope

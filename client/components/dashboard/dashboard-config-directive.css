@@ -1,3 +1,54 @@
+/*
+ * Contains styles for the dashboard config and panel.
+ *
+ * Color comments in the form color:number (eg: blue:900) are
+ * from Material Design, and can be found in context at
+ * https://www.google.com/design/spec/style/color.html#color-color-palette
+ */
+.dashboard-tab {
+  background-color: #eeeeee; /** grey: 200 */
+  border-right: 3px solid #eeeeee;
+  color: #212121; /** grey: 900 */
+}
+
+.dashboard-tab.pk-sidebar-tab-selected {
+  background-color: #424242; /** grey: 800 */
+  border-right: 3px solid #424242; /** grey:800 */
+  color: #fafafa; /** grey: 50 */
+}
+
+.dashboard-tab:hover,
+.dashboard-tab.pk-sidebar-tab-selected:hover {
+  background-color: #bdbdbd; /** grey:400 */
+  border-right: 3px solid #616161; /** grey:700 */
+  color: #212121; /** grey: 900 */
+}
+
+.dashboard-panel-title {
+  background-color: #424242; /** grey: 800 */
+  color: #fafafa; /** grey: 50 */
+}
+
+.dashboard-panel {
+  border-left: 1px solid #424242; /** grey:800 */
+  border-right: 1px solid #424242; /** grey:800 */
+}
+
+.dashboard-toolbar {
+  background-color: #424242; /** grey: 800 */
+  color: #eeeeee; /** grey:100 */
+}
+
+.dashboard-toolbar .btn:hover {
+  background-color: #616161; /** grey: 700 */
+}
+
+.dashboard-toolbar .open>.dropdown-toggle.btn-default {
+  background-color: #616161; /** grey: 700 */
+  border-color: transparent;
+  color: #fafafa; /** grey: 50 */
+}
+
 .param-row {
   width: 100%;
   display: flex;
@@ -12,6 +63,7 @@
   padding: 6px 12px;
   line-height: 1.42857143;
   color: #555;
+  width: 50%;
 }
 
 .param-row:not(:last-child) > * {

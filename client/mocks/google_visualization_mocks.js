@@ -17,12 +17,17 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.mocks.gvizMocks');
-
-var googleVisualizationMocks = angular.module('googleVisualizationMocks', []);
+goog.provide('p3rf.perfkit.explorer.mocks.googleVisualizationMocks');
 
 
-var getGvizChartWrapperMock = function() {
+goog.scope(function() {
+const explorer = p3rf.perfkit.explorer;
+
+explorer.mocks.googleVisualizationMocks = angular.module(
+    'googleVisualizationMocks', []);
+const googleVisualizationMocks = explorer.mocks.googleVisualizationMocks;
+
+let getGvizChartWrapperMock = function() {
   function GvizChartWrapper() {
   }
   GvizChartWrapper.prototype.draw = jasmine.createSpy();
@@ -40,7 +45,7 @@ var getGvizChartWrapperMock = function() {
 googleVisualizationMocks.factory('GvizChartWrapper', getGvizChartWrapperMock);
 
 
-var getGvizChartEditorMock = function() {
+let getGvizChartEditorMock = function() {
   function GvizChartEditor() {
   }
   GvizChartEditor.prototype.getChartWrapper = jasmine.createSpy();
@@ -51,7 +56,7 @@ var getGvizChartEditorMock = function() {
 googleVisualizationMocks.factory('GvizChartEditor', getGvizChartEditorMock);
 
 
-var getGvizDataTableMock = function() {
+let getGvizDataTableMock = function() {
   function GvizDataTable() {
   }
   GvizDataTable.prototype.getNumberOfRows = jasmine.createSpy();
@@ -62,7 +67,7 @@ var getGvizDataTableMock = function() {
 googleVisualizationMocks.factory('GvizDataTable', getGvizDataTableMock);
 
 
-var getGvizDataViewMock = function() {
+let getGvizDataViewMock = function() {
   function GvizDataView() {
   }
   GvizDataView.prototype.getFilteredRows = jasmine.createSpy();
@@ -76,7 +81,7 @@ var getGvizDataViewMock = function() {
 googleVisualizationMocks.factory('GvizDataView', getGvizDataViewMock);
 
 
-var GvizEventsMock = function() {
+let GvizEventsMock = function() {
   return {
     addListener: jasmine.createSpy(),
     removeListener: jasmine.createSpy(),
@@ -85,3 +90,5 @@ var GvizEventsMock = function() {
   };
 };
 googleVisualizationMocks.service('gvizEvents', GvizEventsMock);
+
+}); // goog.scope

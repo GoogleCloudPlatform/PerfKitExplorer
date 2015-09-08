@@ -22,8 +22,9 @@ goog.require('p3rf.perfkit.explorer.components.config.ConfigDialogCtrl');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 
 describe('ConfigDialogCtrl', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var ConfigService = explorer.components.config.ConfigService;
+  const explorer = p3rf.perfkit.explorer;
+  const ConfigService = explorer.components.config.ConfigService;
+
   var ctrl, scope, rootScope, location, q, configService;
   var httpBackend, endpoint, mockData;
 

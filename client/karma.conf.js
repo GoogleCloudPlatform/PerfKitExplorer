@@ -6,34 +6,37 @@ module.exports = function(config) {
 
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '../',
-    frameworks: ['jasmine', 'closure'],
+    frameworks: ['jasmine', 'closure', 'jasmine-matchers'],
 
     files: [
-      'third_party/js/jquery/jquery.js',
-      'third_party/js/angularjs/angular.js',
-      'third_party/js/angularjs/angular-mocks.js',
-      'third_party/js/bootstrap-ui/bootstrap-ui.js',
-      'third_party/js/codemirror/codemirror.js',
-      'third_party/js/uiGrid/ui-grid.js',
+      'bower_components/jquery/dist/jquery.js',
+      'bower_components/angular/angular.js',
+      'bower_components/angular-aria/angular-aria.js',
+      'bower_components/angular-animate/angular-animate.js',
+      'bower_components/angular-mocks/angular-mocks.js',
+      'bower_components/angular-material/angular-material.js',
+      'bower_components/angular-ui-router/release/angular-ui-router.js',
+      'bower_components/codemirror/lib/codemirror.js',
+      'bower_components/angular-ui-grid/ui-grid.js',
+      'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
       'third_party/js/jsapi/jsapi.js',
+      // Compiled Product Code
+      'deploy/client/perfkit_scripts.js',
+      // Tests Code
       'test/js/globals.js',
-      // closure base
-      {pattern: 'lib/closure-library/closure/goog/base.js'},
-      // included files - tests
       {pattern: 'client/**/*_test.js'},
-      // these are only watched and served
+      // Uncompiled Product Code
       {pattern: 'client/**/*!(_test).js', included: false},
-      // these are only watched and served
+      // HTML Templates
       {pattern: 'client/**/*.html'},
-      // external deps
+      // Closure Deps
       {pattern: 'lib/closure-library/closure/goog/deps.js', included: false, served: false},
       {pattern: 'lib/closure-library/closure/goog/**/*.js', included: false}
     ],
 
     preprocessors: {
+      // HTML Templates
       'client/**/*.html': ['html2js'],
-      'client/**/*_test.js': ['closure', 'closure-iit'],
-      'client/**/*!(_test).js': ['closure'],
       'lib/closure-library/closure/goog/deps.js': ['closure-deps']
     },
 
@@ -43,7 +46,7 @@ module.exports = function(config) {
       moduleName: 'p3rf.perfkit.explorer.templates'
     },
 
-    reporters: ['progress', 'html'],
+    reporters: ['nested', 'html'],
     browsers: ['Chrome'],
 
     autoWatch: true,

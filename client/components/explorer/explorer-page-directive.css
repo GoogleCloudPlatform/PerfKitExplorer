@@ -1,70 +1,59 @@
 html, body {
   height: 100%;
   width: 100%;
+  overflow: hidden;
 }
 
 * {
   box-sizing: border-box;
 }
 
-.perfkit2-page-canvas {
-  display: flex;
-  flex-direction: column;
+div:focus {
+  outline: none;
+}
+
+.pk-page-canvas {
   height: 100%;
   width: 100%;
 }
 
-.perfkit2-page-body {
-  display: flex;
-  flex-grow: 1;
+.pk-page-body {
+  overflow: hidden;
 }
 
-.perfkit2-resize-left, .perfkit2-resize-right {
+.pk-resize-left, .pk-resize-right {
   background-color: #F0F0F0;
   cursor: col-resize;
   flex-shrink: 0;
   width: 5px;
 }
 
-.perfkit2-resize-top, .perfkit2-resize-bottom {
+.pk-resize-top, .pk-resize-bottom {
   background-color: #F0F0F0;
   cursor: row-resize;
   flex-shrink: 0;
   height: 5px;
 }
 
-.perfkit2-page-header {
-  height: 93px;
-  background-color: rgb(241, 241, 241);
-  flex-shrink: 0;
-}
-
-.perfkit2-page-leftwell {
-  width: 225px;
+.pk-page-leftwell {
+  width: 300px;
   min-width: 225px;
-  overflow-x: auto;
-  overflow-y: auto;
+  overflow-x: none;
+  overflow-y: none;
   flex-shrink: 0;
 }
 
-.perfkit2-page-content {
+.pk-page-content {
   flex-grow: 1;
   overflow-x: auto;
   overflow-y: auto;
 }
 
-.perfkit2-page-content-cell {
+.pk-page-content-cell {
   padding: 8px;
 }
 
-.perfkit2-page-rightwell {
-  width: 200px;
-  overflow-x: auto;
-  overflow-y: auto;
-  flex-shrink: 0;
-}
-
-.perfkit2-page-footer {
+.pk-page-footer {
   height: 200px;
   min-height: 100px;
   overflow-x: auto;
@@ -72,13 +61,10 @@ html, body {
   flex-shrink: 0;
 }
 
-/* CSS Properties to make CodeMirror editor fill its contents. */
-.CodeMirror {
-  border: 1px solid #eee;
-  height: auto;
+md-tooltip.md-default-theme {
+  color: #000f55;
 }
 
-.CodeMirror-scroll {
-  overflow-y: hidden;
-  overflow-x: auto;
+md-tooltip.md-default-theme .md-background {
+  background-color: #fea;
 }

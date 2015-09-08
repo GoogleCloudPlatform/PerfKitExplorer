@@ -24,8 +24,8 @@ goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ConfigService = explorer.components.config.ConfigService;
+const explorer = p3rf.perfkit.explorer;
+const ConfigService = explorer.components.config.ConfigService;
 
 
 /**
@@ -62,7 +62,7 @@ explorer.components.config.ConfigDialogCtrl = function(
   /** @export @type {!Object} */
   this.workingConfig = configService.toJSON();
 };
-var ConfigDialogCtrl = (
+const ConfigDialogCtrl = (
     explorer.components.config.ConfigDialogCtrl);
 
 

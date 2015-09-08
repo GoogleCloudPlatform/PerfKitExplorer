@@ -35,16 +35,16 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('goog.Uri');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var ErrorService = explorer.components.error.ErrorService;
-var ErrorTypes = explorer.components.error.ErrorTypes;
-var WidgetConfig = explorer.models.WidgetConfig;
-var WidgetType = explorer.models.WidgetType;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const WidgetConfig = explorer.models.WidgetConfig;
+const WidgetType = explorer.models.WidgetType;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 
@@ -90,7 +90,7 @@ explorer.components.dashboard.DashboardDataService = function(
    */
   this.widgetFactoryService_ = widgetFactoryService;
 };
-var DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 
 
 /**
@@ -104,9 +104,9 @@ var DashboardDataService = explorer.components.dashboard.DashboardDataService;
  */
 DashboardDataService.prototype.post = function(
     endpoint, opt_queryData, opt_postData) {
-  var deferred = this.q_.defer();
+  let deferred = this.q_.defer();
 
-  var promise = this.http_.post(
+  let promise = this.http_.post(
       endpoint,
       opt_postData && opt_postData.toString(), {
         params: opt_queryData || null,
@@ -134,24 +134,24 @@ DashboardDataService.prototype.post = function(
  */
 DashboardDataService.prototype.postDashboard = function(content, endpoint,
     opt_id) {
-  var deferred = this.q_.defer();
-  var json = content && this.widgetFactoryService_.toJson(content);
+  let deferred = this.q_.defer();
+  let json = content && this.widgetFactoryService_.toJson(content);
 
-  var postData = new goog.Uri.QueryData();
+  let postData = new goog.Uri.QueryData();
 
   if (json) {
     postData.add('data', json);
   }
 
-  var queryData;
+  let queryData;
   if (opt_id) {
     queryData = {id: opt_id};
   }
 
-  var promise = this.post(endpoint, queryData, postData);
+  let promise = this.post(endpoint, queryData, postData);
 
   promise.then(angular.bind(this, function(response) {
-    var data = response.data;
+    let data = response.data;
     deferred.resolve(data);
   }));
   promise.then(null, angular.bind(this, function(error) {
@@ -186,7 +186,7 @@ DashboardDataService.prototype.create = function(dashboardConfig) {
  * @return {!angular.$q.Promise}
  */
 DashboardDataService.prototype.update = function(dashboardConfig) {
-  var dashboardId = dashboardConfig.model.id;
+  let dashboardId = dashboardConfig.model.id;
   return this.postDashboard(dashboardConfig, '/dashboard/edit', dashboardId);
 };
 
@@ -257,16 +257,16 @@ DashboardDataService.prototype.editOwner = function(
  * @return {!angular.$q.Promise}
  */
 DashboardDataService.prototype.list = function(opt_mine, opt_owner) {
-  var deferred = this.q_.defer();
+  let deferred = this.q_.defer();
 
-  var queryData = {
+  let queryData = {
     'owner': opt_owner || null,
     'mine': opt_mine || null
   };
-  var promise = this.post('/dashboard/list', queryData, null);
+  let promise = this.post('/dashboard/list', queryData, null);
 
   promise.then(angular.bind(this, function(response) {
-    var data = response.data;
+    let data = response.data;
     deferred.resolve(data);
   }));
   promise.then(null, angular.bind(this, function(error) {
@@ -284,19 +284,19 @@ DashboardDataService.prototype.list = function(opt_mine, opt_owner) {
  * @return {angular.$q.Promise.<DashboardModel>}
  */
 DashboardDataService.prototype.fetchDashboardJsonModel = function(dashboardId) {
-  var deferred = this.q_.defer();
-  var cacheKey = dashboardId;
-  var cachedData = this.cache_.get(cacheKey);
+  let deferred = this.q_.defer();
+  let cacheKey = dashboardId;
+  let cachedData = this.cache_.get(cacheKey);
 
   if (cachedData) {
     deferred.resolve(cachedData);
   } else {
-    var endpoint = '/dashboard/view';
-    var queryParameters = { id: dashboardId };
-    var promise = this.http_.get(endpoint, { params: queryParameters });
+    let endpoint = '/dashboard/view';
+    let queryParameters = { id: dashboardId };
+    let promise = this.http_.get(endpoint, { params: queryParameters });
 
     promise.then(angular.bind(this, function(response) {
-      var data = response.data;
+      let data = response.data;
       this.cache_.put(cacheKey, data);
       deferred.resolve(data);
     }));
@@ -318,11 +318,11 @@ DashboardDataService.prototype.fetchDashboardJsonModel = function(dashboardId) {
  * @return {angular.$q.Promise.<DashboardConfig>}
  */
 DashboardDataService.prototype.fetchDashboard = function(dashboardId) {
-  var deferred = this.q_.defer();
-  var promise = this.fetchDashboardJsonModel(dashboardId);
+  let deferred = this.q_.defer();
+  let promise = this.fetchDashboardJsonModel(dashboardId);
 
   promise.then(angular.bind(this, function(dashboardJsonModel) {
-    var dashboard =
+    let dashboard =
         this.widgetFactoryService_.toDashboardConfig(dashboardJsonModel);
     deferred.resolve(dashboard);
   }));

@@ -28,16 +28,31 @@ goog.provide('p3rf.perfkit.explorer.models.DataViewModel');
 goog.provide('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.provide('p3rf.perfkit.explorer.models.DatasourceState');
 goog.provide('p3rf.perfkit.explorer.models.ResultsDataStatus');
+goog.provide('p3rf.perfkit.explorer.models.SortOrder');
 
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
-var WidgetType = explorer.models.WidgetType;
+const explorer = p3rf.perfkit.explorer;
+const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const ColumnStyleModel = (
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel);
+const WidgetType = explorer.models.WidgetType;
+
+
+/**
+ * @enum {string}
+ */
+explorer.models.SortOrder = {
+  ASCENDING: 'ascending',
+  DESCENDING: 'descending'
+};
+const SortOrder = explorer.models.SortOrder;
 
 
 /**
@@ -52,7 +67,7 @@ p3rf.perfkit.explorer.models.ChartType = {
   PIE_CHART: 'PieChart',
   SCATTER_CHART: 'ScatterChart'
 };
-var ChartType = p3rf.perfkit.explorer.models.ChartType;
+const ChartType = p3rf.perfkit.explorer.models.ChartType;
 
 
 
@@ -82,7 +97,7 @@ p3rf.perfkit.explorer.models.ChartState = function() {
    */
   this.gvizError = null;
 };
-var ChartState = p3rf.perfkit.explorer.models.ChartState;
+const ChartState = p3rf.perfkit.explorer.models.ChartState;
 
 
 
@@ -98,9 +113,18 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
    * @type {!Object}
    * @export
    */
-  this.options = {};
+  this.options = {
+    'chartArea': {},
+    'legend': {}
+  };
+
+  /**
+   * @type {!Array.<!ColumnStyleModel}
+   * @export
+   */
+  this.columns = [];
 };
-var ChartModel = p3rf.perfkit.explorer.models.ChartModel;
+const ChartModel = p3rf.perfkit.explorer.models.ChartModel;
 
 
 /** @type {string} */
@@ -117,7 +141,7 @@ explorer.models.ResultsDataStatus = {
   FETCHING: 'Fetching',
   FETCHED: 'Fetched'
 };
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 
 
@@ -135,7 +159,7 @@ explorer.models.DatasourceState = function() {
    */
   this.errors = [];
 };
-var DatasourceState = explorer.models.DatasourceState;
+const DatasourceState = explorer.models.DatasourceState;
 
 
 
@@ -147,19 +171,28 @@ var DatasourceState = explorer.models.DatasourceState;
  */
 explorer.models.DataViewModel = function() {
   /**
-   * If true, the columns will appear in alphabetical order.  If false, they will be presented in order of appearance.
+   * If true, the columns will appear in alphabetical order.  If false, they
+   * will be presented in order of appearance.
    * @type {!boolean}
    * @export
    */
   this.sort_columns = false;
 
   /**
-   * If provided, specifies the first column index to sort.  This can be used with pivots, for example, to fix the
-   * columns that are row headings, and sort the "series" alphabetically.
+   * If provided, specifies the first column index to sort.  This can be used
+   * with pivots, for example, to fix the columns that are row headings, and
+   * sort the "series" alphabetically.
    * @type {?number}
    * @export
    */
   this.sort_column_start = null;
+
+  /**
+   * Specifies the sort order for the columns.  If not provided, will default
+   * to ascending.
+   * @export {?SortOrder}
+   */
+   this.sort_column_order = null;
 
   /**
    * @type {!Array.<number>}
@@ -179,7 +212,7 @@ explorer.models.DataViewModel = function() {
    */
   this.sort = [];
 };
-var DataViewModel = explorer.models.DataViewModel;
+const DataViewModel = explorer.models.DataViewModel;
 
 
 
@@ -220,7 +253,7 @@ explorer.models.DatasourceModel = function() {
    */
   this.view = new DataViewModel();
 };
-var DatasourceModel = explorer.models.DatasourceModel;
+const DatasourceModel = explorer.models.DatasourceModel;
 
 
 
@@ -245,7 +278,7 @@ explorer.models.ChartWidgetModel = function() {
    */
   this.datasource = new DatasourceModel();
 };
-var ChartWidgetModel = explorer.models.ChartWidgetModel;
+const ChartWidgetModel = explorer.models.ChartWidgetModel;
 goog.inherits(ChartWidgetModel, explorer.models.WidgetModel);
 
 
@@ -269,7 +302,7 @@ explorer.models.ChartWidgetState = function() {
    */
   this.datasource = new DatasourceState();
 };
-var ChartWidgetState = explorer.models.ChartWidgetState;
+const ChartWidgetState = explorer.models.ChartWidgetState;
 goog.inherits(ChartWidgetState, explorer.models.WidgetState);
 
 
@@ -321,7 +354,7 @@ explorer.models.ChartWidgetConfig = function(widgetFactoryService, opt_model) {
   widgetFactoryService.statesById[this.model.id] =
       widgetFactoryService.statesById[this.model.id] || new ChartWidgetState();
 };
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 // No formal goog.inherits to work around lack of generics.
 
 

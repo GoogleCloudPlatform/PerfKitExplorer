@@ -1,0 +1,26 @@
+div.pk-log {
+  height: 300px;
+  background-color: white;
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+table.pk-log {
+  width: 100%;
+}
+
+table.pk-log tr {
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+
+table.pk-log tr.warning:hover {
+  background-color: #FCFCFC;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+table.pk-log td {
+  padding: 8px;
+}

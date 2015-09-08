@@ -3,26 +3,11 @@
 <head>
   <title>Perfkit - {{ explorerCtrl.dashboard.current.model.title }}</title>
 
-  <!-- JQuery & Angular -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.16/angular-mocks.js"></script>
+  <base href="/">
 
-  <!-- AngularUI Grid -->
-  <script src="/static/third_party/uiGrid/ui-grid.js"></script>
-  <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
+  [% include 'third-party-scripts.html' %]
 
-  <!-- CodeMirror3 Editor -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/mode/javascript/javascript.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/mode/sql/sql.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.css" rel="stylesheet">
-
-  <!-- Bootstrap & Bootstrap UI -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
-
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
 
   <script>
     // Record page view in Google Analytics.
@@ -37,7 +22,8 @@
     // Initialize Google Visualizations
     try {
       google.load('visualization', '1.1', {packages: [
-        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey']});
+        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey', 'wordtree',
+        'annotationchart']});
     } catch (err) { }
 
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
@@ -52,9 +38,10 @@
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
   <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
 </head>
-<body ng-keydown="explorerCtrl.checkKeyDown($event)">
+<body ng-keydown="explorerCtrl.checkKeyDown($event)" layout="column">
 
-  <explorer-page />
+  <ui-view></ui-view>
+  <explorer-page></explorer-page>
 
 </body>
 </html>

@@ -1,0 +1,40 @@
+<div>
+  <button type="button"
+          class="btn btn-default dropdown-toggle container-add">
+    Insert
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu container-add-dropdown">
+    <li ng-click="ctrl.containerSvc.insertAt(0)"
+        class="container-add-top">
+        <a>top</a>
+    </li>
+    <li class="container-add-before"
+        ng-show="ctrl.dashboardSvc.selectedContainer"
+        ng-click="ctrl.containerSvc.insertBefore()">
+        <a>before</a>
+    </li>
+    <li class="container-add-after"
+        ng-show="ctrl.dashboardSvc.selectedContainer"
+        ng-click="ctrl.containerSvc.insertAfter()">
+      <a>after</a>
+    </li>
+    <li class="container-add-bottom"
+        ng-click="ctrl.containerSvc.insert()">
+      <a>bottom</a>
+    </li>
+  </ul>
+  <button type="button" class="btn btn-default container-move-up"
+          ng-disabled="!ctrl.dashboardSvc.selectedContainer"
+          ng-click="ctrl.containerSvc.movePrevious()">
+    <span class="glyphicon glyphicon-arrow-up"></span>
+  </button>
+  <button type="button" class="btn btn-default container-move-down"
+          ng-disabled="!ctrl.dashboardSvc.selectedContainer"
+          ng-click="ctrl.containerSvc.moveNext()">
+    <span class="glyphicon glyphicon-arrow-down"></span>
+  </button>
+  <button type="button" class="btn btn-default container-remove"
+          ng-disabled="!ctrl.dashboardSvc.selectedContainer"
+          ng-click="ctrl.containerSvc.remove()">Delete</button>
+</div>

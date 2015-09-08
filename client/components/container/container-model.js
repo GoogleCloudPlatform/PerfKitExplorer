@@ -29,10 +29,10 @@ goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.scope(function() {
-var WidgetConfig = p3rf.perfkit.explorer.models.WidgetConfig;
-var WidgetModel = p3rf.perfkit.explorer.models.WidgetModel;
-var WidgetState = p3rf.perfkit.explorer.models.WidgetState;
-var WidgetType = p3rf.perfkit.explorer.models.WidgetType;
+const WidgetConfig = p3rf.perfkit.explorer.models.WidgetConfig;
+const WidgetModel = p3rf.perfkit.explorer.models.WidgetModel;
+const WidgetState = p3rf.perfkit.explorer.models.WidgetState;
+const WidgetType = p3rf.perfkit.explorer.models.WidgetType;
 
 /**
  * @enum {string}
@@ -42,7 +42,7 @@ p3rf.perfkit.explorer.components.container.Flow = {
   COLUMN: 'column',
   WRAP: 'wrap'
 };
-var Flow = p3rf.perfkit.explorer.components.container.Flow;
+const Flow = p3rf.perfkit.explorer.components.container.Flow;
 
 
 /** @constructor */
@@ -50,29 +50,29 @@ p3rf.perfkit.explorer.components.container.
 ContainerModel = function() {
   /**
    * @type {Flow}
-   * @expose
+   * @export
    */
   this.flow = Flow.ROW;
 
   /**
    * @type {number}
-   * @expose
+   * @export
    */
   this.columns = 1;
 
   /**
    * @type {number}
-   * @expose
+   * @export
    */
   this.height = 250;
 
   /**
    * @type {Array.<WidgetConfig>}
-   * @expose
+   * @export
    */
   this.children = [];
 };
-var ContainerModel = (
+const ContainerModel = (
     p3rf.perfkit.explorer.components.container.ContainerModel);
 
 
@@ -88,11 +88,11 @@ ContainerWidgetModel = function() {
 
   /**
    * @type {ContainerModel}
-   * @expose
+   * @export
    */
   this.container = new ContainerModel();
 };
-var ContainerWidgetModel = (
+const ContainerWidgetModel = (
     p3rf.perfkit.explorer.components.container.
     ContainerWidgetModel);
 goog.inherits(ContainerWidgetModel, WidgetModel);
@@ -118,7 +118,7 @@ ContainerWidgetConfig = function(
    * ContainerWidgetConfig object that contains it.
    *
    * @type {!(Object|ContainerWidgetModel)}
-   * @expose
+   * @export
    */
   this.model = opt_model || new ContainerWidgetModel();
 
@@ -137,7 +137,7 @@ ContainerWidgetConfig = function(
    * dependency error.
    *
    * @return {WidgetState}
-   * @expose
+   * @export
    */
   this.state = function() {
     return widgetFactoryService.statesById[this.model.id];
@@ -147,7 +147,7 @@ ContainerWidgetConfig = function(
   widgetFactoryService.statesById[this.model.id] =
   widgetFactoryService.statesById[this.model.id] || new WidgetState();
 };
-var ContainerWidgetConfig = (
+const ContainerWidgetConfig = (
     p3rf.perfkit.explorer.components.container.
     ContainerWidgetConfig);
 // No formal goog.inherits to work around lack of generics.

@@ -1,0 +1,29 @@
+<div>
+  <div class="pk-relative-datepicker-left-nav">
+    <div class="pk-group-heading">Range Type</div>
+    <div
+      class="pk-relative-datepicker-left-nav-item"
+      ng-repeat="filter_type in filter_types"
+      ng-click="relativeDatepickerData.filter_type = filter_type.name"
+      ng-class="{'pk-relative-datepicker-left-nav-item-selected':
+                 (relativeDatepickerData.filter_type == filter_type.name)}">
+      <span ng-show="filter_type.name == 'CUSTOM'">{{ filter_type.name | lowercase }}</span>
+      <span ng-show="filter_type.name != 'CUSTOM'">
+        last n {{ filter_type.name | lowercase }}s</span>
+    </div>
+  </div><div class="pk-relative-datepicker-body">
+    <div ng-show="relativeDatepickerData.filter_type == 'CUSTOM'">
+      <datepicker ng-model="relativeDatepickerData.filter_value"></datepicker>
+      <div style="float: left; padding-top: 12px;">
+        <input type="checkbox" ng-model="relativeDatepickerData.specify_time"> Specify time
+      </div>
+      <timepicker hour-step="1" minute-step="5" show-seconds="true" second-step="5"
+                  show-meridian="false"
+                  ng-show="relativeDatepickerData.specify_time"
+                  ng-model="relativeDatepickerData.filter_value"></timepicker>
+    </div>
+    <div ng-show="relativeDatepickerData.filter_type != 'CUSTOM'">
+      <input ng-model="relativeDatepickerData.filter_value">
+    </div>
+  </div>
+</div>

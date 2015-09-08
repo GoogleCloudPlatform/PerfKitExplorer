@@ -21,7 +21,7 @@ goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -34,7 +34,7 @@ explorer.components.code_editor.CodeEditorMode = {
   SQL: 'SQL',
   LOG: 'LOG'
 };
-var Mode = explorer.components.code_editor.CodeEditorMode;
+const Mode = explorer.components.code_editor.CodeEditorMode;
 
 
 /**
@@ -62,7 +62,7 @@ explorer.components.code_editor.CodeEditorSettingsModel = function() {
    */
   this.isOpen = false;
 };
-var CodeEditorSettingsModel =
+const CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
 
 

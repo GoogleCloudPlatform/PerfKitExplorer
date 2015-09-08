@@ -20,7 +20,12 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDataServiceMock');
 
 
-var dashboardDataServiceMock = angular.module('dashboardDataServiceMock', []);
+goog.scope(function() {
+const explorer = p3rf.perfkit.explorer;
+
+explorer.components.dashboard.DashboardDataServiceMock = angular.module(
+    'dashboardDataServiceMock', []);
+const dashboardDataServiceMock = explorer.components.dashboard.DashboardDataServiceMock;
 
 
 dashboardDataServiceMock.value('dashboardDataServiceMockData',
@@ -111,3 +116,5 @@ dashboardDataServiceMock.value('dashboardDataServiceMockDashboardList',
       ];
       }
     });
+
+}); // goog.scope

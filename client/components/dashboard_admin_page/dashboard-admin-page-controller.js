@@ -28,13 +28,13 @@ goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdm
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
-var PageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
-var DashboardDataService = explorer.components.dashboard.DashboardDataService;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+const explorer = p3rf.perfkit.explorer;
+const PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
+const PageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 
@@ -100,7 +100,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
       {name: 'title', displayName: 'Title',
         cellTemplate:
             '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
-            '    <a ng-click="getExternalScopes().openDashboard(row.entity)">' +
+            '    <a ng-click="$event.stopPropagation(); grid.appScope.openDashboard(row.entity)">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
       {name: 'owner', displayName: 'Owner', width: 240},
@@ -108,12 +108,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
     ]
   };
 
-  var self = this;
-  $scope.gridScope = {
-    openDashboard: function(dashboard) {
-      self.openDashboard(dashboard);
-    }
-  };
+  $scope.openDashboard = this.openDashboard;
 
   this.gridOptions.onRegisterApi = angular.bind(this, function(gridApi) {
     this.pageService.selection = gridApi.selection;
@@ -135,7 +130,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
 
   this.initPage();
 };
-var DashboardAdminPageCtrl = (
+const DashboardAdminPageCtrl = (
     explorer.components.dashboard_admin_page.DashboardAdminPageCtrl);
 
 
@@ -154,7 +149,7 @@ DashboardAdminPageCtrl.prototype.initPage = function() {
  * @returns {DashboardModel}
  */
 DashboardAdminPageCtrl.prototype.verifySelection = function() {
-  var selection = this.getSelected();
+  let selection = this.getSelected();
 
   if (!selection) {
     throw 'verifySelection() failed: No dashboard selected.';
@@ -168,14 +163,14 @@ DashboardAdminPageCtrl.prototype.verifySelection = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.copyDashboard = function() {
-  var selectedDashboard = this.verifySelection();
+  let selectedDashboard = this.verifySelection();
 
-  var title = window.prompt(
+  let title = window.prompt(
     'Please provide the title for your dashboard',
     selectedDashboard.title);
 
   if (title) {
-    var promise = this.dashboardDataService.copy(
+    let promise = this.dashboardDataService.copy(
         selectedDashboard.id, title);
 
     promise.then(angular.bind(this, function(response) {
@@ -194,14 +189,14 @@ DashboardAdminPageCtrl.prototype.copyDashboard = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
-  var selectedDashboard = this.verifySelection();
+  let selectedDashboard = this.verifySelection();
 
-  var owner = window.prompt(
+  let owner = window.prompt(
     'Please provide an email address for the new owner:',
     selectedDashboard.owner);
 
   if (owner) {
-    var promise = this.dashboardDataService.editOwner(
+    let promise = this.dashboardDataService.editOwner(
         selectedDashboard.id, owner);
 
     promise.then(angular.bind(this, function(response) {
@@ -220,13 +215,13 @@ DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.renameDashboard = function() {
-  var selectedDashboard = this.verifySelection();
+  let selectedDashboard = this.verifySelection();
 
-  var title = window.prompt(
+  let title = window.prompt(
       'Please provide the title for your dashboard',
       selectedDashboard.title);
 
-  var promise = this.dashboardDataService.rename(
+  let promise = this.dashboardDataService.rename(
       selectedDashboard.id, title);
 
   promise.then(angular.bind(this, function(response) {
@@ -301,7 +296,7 @@ DashboardAdminPageCtrl.prototype.getSelected = function() {
     return null;
   }
 
-  var selectedItems = this.pageService.selection.getSelectedRows();
+  let selectedItems = this.pageService.selection.getSelectedRows();
 
   switch (selectedItems.length) {
     case 0:
@@ -332,13 +327,13 @@ DashboardAdminPageCtrl.prototype.listDashboardsByOwner = function(opt_owner) {
  * @export
  */
 DashboardAdminPageCtrl.prototype.deleteDashboard = function() {
-  var selectedDashboard = this.verifySelection();
+  let selectedDashboard = this.verifySelection();
 
   if (!window.confirm('Are you sure you want to delete this dashboard?')) {
     return;
   }
 
-  var promise = this.dashboardDataService.delete(selectedDashboard.id);
+  let promise = this.dashboardDataService.delete(selectedDashboard.id);
   this.pageService.isLoading = true;
 
   promise.then(angular.bind(this, function(response) {
@@ -395,7 +390,7 @@ DashboardAdminPageCtrl.prototype.editConfig = function() {
  * @export
  */
 DashboardAdminPageCtrl.prototype.downloadDashboard = function() {
-  var selectedDashboard = this.verifySelection();
+  let selectedDashboard = this.verifySelection();
 
   window.open('/dashboard/view?id=' + selectedDashboard.id + '&filename=perfkit_dashboard_' + selectedDashboard.id + '.json')
 };

@@ -29,12 +29,12 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataServi
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var WidgetEditorService = (
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const WidgetEditorService = (
     explorer.components.widget.data_viz.gviz.WidgetEditorService);
-var DashboardService = explorer.components.dashboard.DashboardService;
-var QueryResultDataService = (
+const DashboardService = explorer.components.dashboard.DashboardService;
+const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 
 
@@ -99,12 +99,12 @@ explorer.components.widget.data_viz.WidgetEditorCtrl = function($scope,
    */
   this.errors = [];
 
-  var self = this;
+  let self = this;
   $scope.$watch(
       function() { return self.dashboard.selectedWidget; },
       angular.bind(this, self.updateSelectedChart));
 };
-var WidgetEditorCtrl = explorer.components.widget.data_viz.WidgetEditorCtrl;
+const WidgetEditorCtrl = explorer.components.widget.data_viz.WidgetEditorCtrl;
 
 
 /**
@@ -113,9 +113,9 @@ var WidgetEditorCtrl = explorer.components.widget.data_viz.WidgetEditorCtrl;
  * @export
  */
 WidgetEditorCtrl.prototype.openChartEditor = function() {
-  var selectedChart = this.selectedChart;
+  let selectedChart = this.selectedChart;
   if (selectedChart) {
-    var promise = this.queryResultDataService_.
+    let promise = this.queryResultDataService_.
         fetchResults(selectedChart.model.datasource);
 
     promise.then(angular.bind(this, function(dataTable) {
@@ -137,8 +137,8 @@ WidgetEditorCtrl.prototype.openChartEditor = function() {
  * @private
  */
 WidgetEditorCtrl.prototype.openChartEditor_ = function(dataTable) {
-  var selectedChart = this.selectedChart;
-  var promise = this.widgetEditorService_.
+  let selectedChart = this.selectedChart;
+  let promise = this.widgetEditorService_.
       showEditor(selectedChart.model.chart, dataTable);
 
   promise.then(angular.bind(this, function(newGvizConfig) {
@@ -156,9 +156,9 @@ WidgetEditorCtrl.prototype.openChartEditor_ = function(dataTable) {
  * reference.
  */
 WidgetEditorCtrl.prototype.updateSelectedChart = function() {
-  var selectedWidget = this.dashboard.selectedWidget;
+  let selectedWidget = this.dashboard.selectedWidget;
   // Check if the widget has a 'chart' property
-  var isChart = selectedWidget && selectedWidget.model.chart;
+  let isChart = selectedWidget && selectedWidget.model.chart;
   this.selectedChart = isChart ? selectedWidget : null;
 };
 

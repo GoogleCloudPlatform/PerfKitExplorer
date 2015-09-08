@@ -20,7 +20,7 @@
 goog.provide('p3rf.perfkit.explorer.components.util.GetByPropertyFilter');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -35,7 +35,7 @@ var explorer = p3rf.perfkit.explorer;
  */
 explorer.components.util.GetByPropertyFilter = function(
     property_name, property_value, collection) {
-  for (var i = 0, len = collection.length; i < len; i++) {
+  for (let i = 0, len = collection.length; i < len; i++) {
     if (collection[i][property_name] === property_value) {
       return collection[i];
     }

@@ -20,33 +20,38 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartConfigDirective');
 
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
+
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
     chartWrapperService, dashboardService) {
   return {
     restrict: 'E',
     replace: true,
-    transclude: true,
+    transclude: false,
     scope: {
+      /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/chart-config-directive.html',
-    controller: function($scope) {
+    controller: ['$scope', function($scope) {
       /** @export */
       $scope.chartSvc = chartWrapperService;
 
       /** @export */
       $scope.dashboardSvc = dashboardService;
-    }
+    }]
   };
 };
 

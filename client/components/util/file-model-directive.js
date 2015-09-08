@@ -28,19 +28,20 @@ goog.provide('p3rf.perfkit.explorer.components.util.FileModelDirective');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**
  * @param {!angular.$parse} $parse Provides parsing services
  * @return {Object} Directive definition object.
+ * @ngInject
  */
-explorer.components.util.FileModelDirective = (function($parse) {
+explorer.components.util.FileModelDirective = function($parse) {
   return {
     restrict: 'A',
     link: function (scope, element, attrs) {
-      var model = $parse(attrs.fileModel);
-      var modelSetter = model.assign;
+      let model = $parse(attrs.fileModel);
+      let modelSetter = model.assign;
 
       element.bind('change', function () {
         scope.$apply(function () {
@@ -53,6 +54,6 @@ explorer.components.util.FileModelDirective = (function($parse) {
       });
     }
   };
-});
+};
 
 });  // goog.scope

@@ -1,39 +1,42 @@
-.perfkit-popup {
+.pk-popup {
   background-color: #fff;
-  border: 1px solid #999;
-  max-height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 4px;
+  max-height: 90%;
+  max-width: 70%;
   position: absolute;
   white-space: nowrap;
   z-index:65000;
 }
 
-.perfkit-popup-autocomplete {
-  overflow-y: auto;
+.pk-popup-autocomplete {
+  overflow-y: scroll;
 }
 
-.perfkit-popup-item {
+.pk-popup-item {
   padding: 4px;
 }
 
-.perfkit-popup-item:hover {
+.pk-popup-item:hover {
   background-color: #ddd;
   cursor: pointer;
   padding: 4px;
 }
 
-.perfkit-popup-item-selected {
+.pk-popup-item-selected {
   background-color: #ccc;
   font-weight: bold;
 }
 
-.perfkit-popup-title {
+.pk-popup-title {
   border-bottom: 1px solid #ccc;
   font-weight: bold;
   height: 24px;
   padding: 4px;
 }
 
-.perfkit-popup-leftwell {
+.pk-popup-leftwell {
   border-right: 1px solid #ccc;
   float: left;
   max-height: 300px;
@@ -42,13 +45,34 @@
   vertical-align: top;
 }
 
-.perfkit-popup-content {
+.pk-popup-content {
   display: table-cell;
   vertical-align: top;
   width: auto;
 }
 
-.perfkit-popup-note {
+.pk-popup-note {
+  background-color: #ffc;
+  color: #666;
+  font-style: italic;
+  padding: 4px;
+}
+
+.pk-popup-loading {
+  background-color: #ffc;
+  color: #666;
+  font-style: italic;
+  padding: 4px;
+}
+
+.pk-popup-error {
+  color: red;
+  font-style: italic;
+  font-weight: bold;
+  padding: 4px;
+}
+
+.pk-popup-empty {
   background-color: #ffc;
   color: #666;
   font-style: italic;

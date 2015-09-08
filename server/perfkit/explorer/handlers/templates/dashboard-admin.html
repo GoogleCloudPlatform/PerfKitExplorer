@@ -2,22 +2,12 @@
 <html lang="en" ng-app="explorer" ng-controller="DashboardAdminPageCtrl as pageCtrl">
 <head>
   <title>Perfkit - Dashboard Administration</title>
-  <!-- JQuery & Angular -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.18/angular-mocks.js"></script>
 
-  <!-- AngularUI Grid -->
-  <script src="/static/third_party/uiGrid/ui-grid.js"></script>
-  <link href="/static/third_party/uiGrid/ui-grid.css" rel="stylesheet">
+  <base href="/">
 
-  <!-- CodeMirror3 Editor -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/3.24.0/codemirror.js"></script>
+  [% include 'third-party-scripts.html' %]
 
-  <!-- Bootstrap & Bootstrap UI -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.10.0/ui-bootstrap-tpls.min.js"></script>
-
-  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
 
   <script>
     // Initialize Google Visualizations
@@ -36,16 +26,15 @@
   <script src="[[static_dir]]/perfkit_templates.js"></script>
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
 
-  <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
 </head>
 <body>
 
-<div class="perfkit-page">
+<div class="pk-page">
 
-  <div class="perfkit-header">
-    <div class="perfkit-header-section page-title">Perfkit Dashboard Administration</div>
-    <div class="perfkit-header-section perfkit-toolbar">
+  <div class="pk-header">
+    <div class="pk-header-section page-title">Perfkit Dashboard Administration</div>
+    <div class="pk-header-section pk-toolbar">
       <button type="button" class="btn btn-default"
               ng-click="pageCtrl.createDashboard()">Create</button>
       <button type="button" class="btn btn-default"
@@ -82,18 +71,18 @@
     </div>
   </div>
 
-  <div class="perfkit-page-body">
+  <div class="pk-page-body">
 
-    <div class="perfkit-page-sidebar-left">
-      <div class="perfkit-page-sidebar-option"
-           ng-class="{'perfkit-page-sidebar-option-selected': !pageCtrl.pageService.model.mine && !pageCtrl.pageService.model.filter_owner}"
+    <div class="pk-page-sidebar-left">
+      <div class="pk-page-sidebar-option"
+           ng-class="{'pk-page-sidebar-option-selected': !pageCtrl.pageService.model.mine && !pageCtrl.pageService.model.filter_owner}"
            ng-click="pageCtrl.listAllDashboards()">All dashboards</div>
-      <div class="perfkit-page-sidebar-option"
-           ng-class="{'perfkit-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
+      <div class="pk-page-sidebar-option"
+           ng-class="{'pk-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
     </div>
 
-    <div class="perfkit-page-content" ui-grid="pageCtrl.gridOptions" external-scopes="gridScope"
+    <div class="pk-page-content" ui-grid="pageCtrl.gridOptions"
          ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection />
   </div>
 </div>

@@ -24,14 +24,15 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardService = explorer.components.dashboard.DashboardService;
+const explorer = p3rf.perfkit.explorer;
+const DashboardService = explorer.components.dashboard.DashboardService;
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.dashboard.DashboardDirective = function() {
   return {
@@ -42,8 +43,12 @@ explorer.components.dashboard.DashboardDirective = function() {
       'ngModel': '='
     },
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
-    controller: function($scope,
-        explorerService, dashboardService) {
+    controller: [
+        '$scope', 'explorerService', 'dashboardService', 'containerService',
+        function($scope, explorerService, dashboardService, containerService) {
+      /** @export */
+      $scope.containerSvc = containerService;
+
       /** @export */
       $scope.dashboardSvc = dashboardService;
 
@@ -53,7 +58,7 @@ explorer.components.dashboard.DashboardDirective = function() {
       $scope.logError = function(msg) {
         console.log(msg);
       };
-    }
+    }]
   };
 };
 

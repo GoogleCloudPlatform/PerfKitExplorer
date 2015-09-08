@@ -26,15 +26,15 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigMod
 
 
 describe('dashboardVersionService', function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DatasourceModel = explorer.models.DatasourceModel;
-  var DashboardVersionService =
+  const explorer = p3rf.perfkit.explorer;
+  const DatasourceModel = explorer.models.DatasourceModel;
+  const DashboardVersionService =
       explorer.components.dashboard.DashboardVersionService;
-  var DashboardVersionModel =
+  const DashboardVersionModel =
       explorer.components.dashboard.DashboardVersionModel;
-  var QueryConfigModel =
+  const QueryConfigModel =
       explorer.models.perfkit_simple_builder.QueryConfigModel;
-  var PivotConfig =
+  const PivotConfig =
       explorer.models.perfkit_simple_builder.PivotConfigModel;
 
   var svc;
@@ -64,12 +64,12 @@ describe('dashboardVersionService', function() {
 
       it('should add config.results.pivot and pivot_config.',
           function() {
-            providedDatasource = {
+            var providedDatasource = {
               'config': {
                 'results': {}
               }};
 
-            providedDashboard = {
+            var providedDashboard = {
               'owner': 'TEST_OWNER',
               'type': 'dashboard',
               'children': [
@@ -85,7 +85,7 @@ describe('dashboardVersionService', function() {
 
             svc.verifyAndUpdateModel(providedDashboard);
 
-            expectedPivotConfig = new PivotConfig();
+            var expectedPivotConfig = new PivotConfig();
             expect(providedDatasource.config.results.pivot).toBe(false);
             expect(providedDatasource.config.results.pivot_config).toEqual(
                 expectedPivotConfig);

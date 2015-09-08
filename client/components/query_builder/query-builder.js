@@ -26,9 +26,9 @@ goog.require('goog.string');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var Filter = explorer.components.query_builder.Filter;
-var QueryProperties = explorer.components.query_builder.QueryProperties;
+const explorer = p3rf.perfkit.explorer;
+const Filter = explorer.components.query_builder.Filter;
+const QueryProperties = explorer.components.query_builder.QueryProperties;
 
 
 /**
@@ -36,7 +36,7 @@ var QueryProperties = explorer.components.query_builder.QueryProperties;
  */
 explorer.components.query_builder.QueryBuilder = function() {};
 
-var QueryBuilder = explorer.components.query_builder.QueryBuilder;
+const QueryBuilder = explorer.components.query_builder.QueryBuilder;
 
 
 /**
@@ -70,14 +70,14 @@ QueryBuilder.formatQuery = function(
    * @param {?string=} opt_prefix The string to prefix each arg with.
    * @param {?string=} opt_suffix The string to postfix each arg with.
    */
-  var addArgsToQuery = function(keyword, lineJoiner, opt_args, opt_prefix, opt_suffix) {
+  let addArgsToQuery = function(keyword, lineJoiner, opt_args, opt_prefix, opt_suffix) {
     /**
      * Prefixes a tab to a string.
      * @param {string} str the string that a tab will be prefixed to.
      * @return {string} the original string prefixed by a tab.
      */
-    var addTab = function(str) {
-      var result = '\t';
+    let addTab = function(str) {
+      let result = '\t';
 
       if (opt_prefix) { result += opt_prefix; }
       result += str;
@@ -93,7 +93,7 @@ QueryBuilder.formatQuery = function(
     }
   };
 
-  var query = [];
+  let query = [];
 
   addArgsToQuery('SELECT', ',\n', selectArgs);
   addArgsToQuery('FROM', ',\n', fromArgs);
@@ -132,16 +132,16 @@ QueryBuilder.getRegexpForMetadata = function(name) {
  *     statements.  Each group by statement is an element in the array.
  */
 QueryBuilder.buildGroupArgs = function(queryProperties) {
-  var groupArgs = [];
+  let groupArgs = [];
 
   if (queryProperties.aggregations.length == 0) {
     return groupArgs;
   }
 
-  var allFilters = queryProperties.fieldFilters.concat(
+  let allFilters = queryProperties.fieldFilters.concat(
       queryProperties.metadataFilters);
-  for (var i = 0, len = allFilters.length; i < len; i++) {
-    var field = allFilters[i];
+  for (let i = 0, len = allFilters.length; i < len; i++) {
+    let field = allFilters[i];
     if (field.displayMode != Filter.DisplayMode.HIDDEN) {
       if (goog.isDef(field.fieldAlias) &&
           !goog.string.isEmpty(field.fieldAlias)) {
@@ -166,13 +166,13 @@ QueryBuilder.buildGroupArgs = function(queryProperties) {
  *     statements.  Each select statement is an element in the array.
  */
 QueryBuilder.buildSelectArgs = function(queryProperties) {
-  var selectArgs = [];
+  let selectArgs = [];
 
   // Add fieldFilters
-  for (var i = 0, len = queryProperties.fieldFilters.length; i < len; i++) {
-    var field = queryProperties.fieldFilters[i];
+  for (let i = 0, len = queryProperties.fieldFilters.length; i < len; i++) {
+    let field = queryProperties.fieldFilters[i];
     if (field.displayMode != Filter.DisplayMode.HIDDEN) {
-      var fieldString = field.fieldName;
+      let fieldString = field.fieldName;
       if (goog.isDef(field.fieldAlias) &&
           !goog.string.isEmpty(field.fieldAlias) &&
           !(field.fieldName == field.fieldAlias)) {
@@ -183,8 +183,8 @@ QueryBuilder.buildSelectArgs = function(queryProperties) {
   }
 
   // Add metadataFilters
-  for (var i = 0, len = queryProperties.metadataFilters.length; i < len; i++) {
-    var metadata = queryProperties.metadataFilters[i];
+  for (let i = 0, len = queryProperties.metadataFilters.length; i < len; i++) {
+    let metadata = queryProperties.metadataFilters[i];
     if (metadata.displayMode != Filter.DisplayMode.HIDDEN) {
       selectArgs.push(QueryBuilder.getRegexpForMetadata(metadata.fieldName) +
                       ' AS ' + metadata.fieldName.replace(/\W/g, '_'));
@@ -194,21 +194,21 @@ QueryBuilder.buildSelectArgs = function(queryProperties) {
   // Add any value aggregations to the selectArgs.  The function name
   // is upper-cased, while the returned field name is lower-case.
   if (queryProperties.aggregations.length != 0) {
-    for (var j = 0, len = queryProperties.aggregations.length; j < len; j++) {
-      var aggregation = queryProperties.aggregations[j];
+    for (let j = 0, len = queryProperties.aggregations.length; j < len; j++) {
+      let aggregation = queryProperties.aggregations[j];
 
       if (aggregation.substr(aggregation.length - 1, 1) == '%') {
-        var percentile = parseFloat(aggregation.substr(0, aggregation.length - 1));
-        var decimal_place = aggregation.indexOf('.');
-        var multiplier = 100;
+        let percentile = parseFloat(aggregation.substr(0, aggregation.length - 1));
+        let decimal_place = aggregation.indexOf('.');
+        let multiplier = 100;
 
         if (decimal_place > -1) {
-          var magnitude = aggregation.length - decimal_place - 2;
+          let magnitude = aggregation.length - decimal_place - 2;
           multiplier = multiplier * (Math.pow(10, magnitude));
         }
 
-        var nth_place = percentile.toString().replace('.', '');
-        var column_name = 'p' + aggregation.replace('.', '_').replace('%', '');
+        let nth_place = percentile.toString().replace('.', '');
+        let column_name = 'p' + aggregation.replace('.', '_').replace('%', '');
 
         selectArgs.push('NTH(' + nth_place + ', QUANTILES(value, ' + multiplier + ')) AS ' + column_name);
       } else {
@@ -232,20 +232,20 @@ QueryBuilder.buildSelectArgs = function(queryProperties) {
  *     statements.  Each where statement is an element in the array.
  */
 QueryBuilder.buildWhereArgs = function(queryProperties) {
-  var whereArgs = [];
+  let whereArgs = [];
 
   // TODO: Remove redundant logic from this method and buildSelectArgs
   // Much of the logic between the fields and metadata is duplicated.
 
   // Add fieldFilters
-  for (var i = 0, iLen = queryProperties.fieldFilters.length; i < iLen; i++) {
-    var filter = queryProperties.fieldFilters[i];
-    var whereRow = [];
-    for (var j = 0, jLen = filter.filterClauses.length; j < jLen; j++) {
-      var filterClause = filter.filterClauses[j];
+  for (let i = 0, iLen = queryProperties.fieldFilters.length; i < iLen; i++) {
+    let filter = queryProperties.fieldFilters[i];
+    let whereRow = [];
+    for (let j = 0, jLen = filter.filterClauses.length; j < jLen; j++) {
+      let filterClause = filter.filterClauses[j];
       // TODO: Add support for multiple match_on values and rules
       // that are not placed between filter name and value
-      var value = filterClause.matchOn[0];
+      let value = filterClause.matchOn[0];
       if (goog.isString(value) && !filterClause.isFunction) {
         value = goog.string.quote(value);
       }
@@ -268,11 +268,11 @@ QueryBuilder.buildWhereArgs = function(queryProperties) {
   }
 
   // Add metadataFilters
-  for (var i = 0, iLen = queryProperties.metadataFilters.length;
+  for (let i = 0, iLen = queryProperties.metadataFilters.length;
        i < iLen; i++) {
-    var filter = queryProperties.metadataFilters[i];
+    let filter = queryProperties.metadataFilters[i];
     whereRow = [];
-    for (var j = 0, jLen = filter.filterClauses.length; j < jLen; j++) {
+    for (let j = 0, jLen = filter.filterClauses.length; j < jLen; j++) {
       filterClause = filter.filterClauses[j];
       // TODO: Add support for multiple match_on values and rules
       // that are not placed between filter name and value

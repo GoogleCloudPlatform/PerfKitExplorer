@@ -29,14 +29,14 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterMod
 
 
 goog.scope(function() {
-  var explorer = p3rf.perfkit.explorer;
-  var DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
-  var QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+  const explorer = p3rf.perfkit.explorer;
+  const DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
+  const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
   explorer.components.dashboard.versions.DashboardSchemaV7 = function() {
     this.version = '7';
   };
-  var DashboardSchema = (
+  const DashboardSchema = (
       explorer.components.dashboard.versions.DashboardSchemaV7);
 
   DashboardSchema.prototype.verify = function(dashboard) {

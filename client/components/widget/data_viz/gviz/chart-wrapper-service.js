@@ -23,11 +23,33 @@ goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapper
 
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
 goog.require('p3rf.perfkit.explorer.models.ChartModel');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartModel = explorer.models.ChartModel;
+const explorer = p3rf.perfkit.explorer;
+const ChartModel = explorer.models.ChartModel;
+const ChartType = explorer.models.ChartType;
 
+
+
+/**
+ * Describes the type definition for a chart.
+ * @constructor
+ */
+explorer.components.widget.data_viz.gviz.ChartTypeModel = function() {
+  /**
+   * Provides a real-world title for the chart.
+   * @export {string}
+   */
+  this.title = '';
+
+  /**
+   * Provides the className (and documentation id) for the chart.
+   * @export {string}
+   */
+  this.className = '';
+};
+var ChartTypeModel = explorer.components.widget.data_viz.gviz.ChartTypeModel;
 
 
 /**
@@ -38,7 +60,7 @@ var ChartModel = explorer.models.ChartModel;
  * @ngInject
  */
 explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
-    GvizChartWrapper) {
+    GvizChartWrapper, arrayUtilService) {
   /**
    * @private
    */
@@ -51,14 +73,56 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
   this.GvizChartWrapper_ = GvizChartWrapper;
 
   /**
-   * @type {Array<{{title: string, className: string}}>
+   * @type {!ArrayUtilService}
+   * @private
+   */
+  this.arrayUtilSvc_ = arrayUtilService;
+
+  /**
+   * A list of legend alignments for GViz charts.
+   * @export {!Array.<!string>}
+   */
+  this.LEGEND_ALIGNMENTS = [
+    'start',
+    'center',
+    'end'
+  ];
+
+  /**
+   * A list of legend positions for GViz charts.
+   * @export {!Array.<!string>}
+   */
+  this.LEGEND_POSITIONS = [
+    'none',
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'in'
+  ];
+
+  /**
+   * An angular-exposed copy of ChartType.
+   * @export @enum {string}
+   */
+  this.CHART_TYPES = explorer.models.ChartType;
+
+  /**
+   * Provides an ordered list of charts.
+   * @type {Array<!ChartTypeModel>
    * @export
    */
   this.allCharts = [];
 
+  /**
+   * Provides an indexed list of charts.
+   * @export {Object.<string, !ChartTypeModel>}
+   */
+  this.allChartsIndex = {};
+
   this.loadCharts();
 };
-var ChartWrapperService = (
+const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 
 
@@ -69,6 +133,8 @@ ChartWrapperService.prototype.loadCharts = function() {
   this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
       success(angular.bind(this, function(response) {
         $.merge(this.allCharts, response);
+        this.allChartsIndex = this.arrayUtilSvc_.getDictionary(
+            this.allCharts, 'className');
       })).
       error(angular.bind(this, function(response) {
         while (this.allCharts.length > 0) {
@@ -76,6 +142,7 @@ ChartWrapperService.prototype.loadCharts = function() {
         }
       }));
 };
+
 
 /**
  * Returns a new instance of a google.visualization.ChartWrapper.
@@ -87,7 +154,7 @@ ChartWrapperService.prototype.loadCharts = function() {
  */
 ChartWrapperService.prototype.create = function(
     opt_chartType, opt_gvizOptions, opt_dataTable) {
-  var chartWrapper = new this.GvizChartWrapper_();
+  let chartWrapper = new this.GvizChartWrapper_();
   if (opt_chartType) {
     chartWrapper.setChartType(opt_chartType);
   }
@@ -108,7 +175,7 @@ ChartWrapperService.prototype.create = function(
  * @return {ChartModel}
  */
 ChartWrapperService.prototype.getChartModel = function(gvizChartWrapper) {
-  var model = new ChartModel();
+  let model = new ChartModel();
   model.chartType = gvizChartWrapper.getChartType();
   model.options = gvizChartWrapper.getOptions();
   return model;

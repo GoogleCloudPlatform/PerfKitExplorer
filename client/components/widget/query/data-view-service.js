@@ -24,7 +24,8 @@
  * Sample JSON configuration object (or DataViewModel):
  * {
  *     "sort_columns": false,
- *     "sort_column_start": null
+ *     "sort_column_start": null,
+ *     "sort_column_order": null,
  *     "columns": [
  *         0,
  *         1,
@@ -51,11 +52,12 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.models.DataViewModel');
+goog.require('p3rf.perfkit.explorer.models.SortOrder');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DataViewModel = explorer.models.DataViewModel;
-
+const explorer = p3rf.perfkit.explorer;
+const DataViewModel = explorer.models.DataViewModel;
+const SortOrder = explorer.models.SortOrder;
 
 
 /**
@@ -65,14 +67,18 @@ var DataViewModel = explorer.models.DataViewModel;
  * @constructor
  * @ngInject
  */
-explorer.components.widget.query.DataViewService = function(GvizDataView) {
+explorer.components.widget.query.DataViewService = function(
+    GvizDataView, columnStyleService) {
   /**
    * @type {function(new:google.visualization.DataView, ...)}
    * @private
    */
   this.GvizDataView_ = GvizDataView;
+
+  /** @private {!ColumnStyleService} */
+  this.columnStyleSvc = columnStyleService;
 };
-var DataViewService = explorer.components.widget.query.DataViewService;
+const DataViewService = explorer.components.widget.query.DataViewService;
 
 
 /**
@@ -82,15 +88,16 @@ var DataViewService = explorer.components.widget.query.DataViewService;
  *
  * @param {!google.visualization.DataTable} dataTable
  * @param {!DataViewModel} model
+ * @param {!Array.<!ColumnStyleModel>}
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */
-DataViewService.prototype.create = function(dataTable, model) {
-  var view = new this.GvizDataView_(dataTable);
-  var sortedViewJson;
+DataViewService.prototype.create = function(dataTable, model, columns) {
+  let view = new this.GvizDataView_(dataTable);
+  let sortedViewJson;
 
   if (model.filter && model.filter.length > 0) {
     try {
-      var filteredRows = view.getFilteredRows(model.filter);
+      let filteredRows = view.getFilteredRows(model.filter);
       view.setRows(filteredRows);
     } catch (e) {
       // Catch errors when the filter property is invalid
@@ -100,7 +107,7 @@ DataViewService.prototype.create = function(dataTable, model) {
 
   if (model.sort && model.sort.length > 0) {
     try {
-      var sortedRows = view.getSortedRows(model.sort);
+      let sortedRows = view.getSortedRows(model.sort);
       // sortedRows are not applied to the view because it will conflict with
       // filteredRows. sortedRows are given as a second DataView initializer
       // object.
@@ -113,7 +120,8 @@ DataViewService.prototype.create = function(dataTable, model) {
 
   if (model.sort_columns) {
     try {
-      view.setColumns(this.getSortedColumns(dataTable, model.sort_column_start))
+      view.setColumns(this.getSortedColumns(
+        dataTable, model.sort_column_start, model.sort_column_order));
     } catch (e) {
       // Catch errors when the columns property is invalid
       return {error: {property: 'columns', message: e.message}};
@@ -125,36 +133,50 @@ DataViewService.prototype.create = function(dataTable, model) {
       // Catch errors when the columns property is invalid
       return {error: {property: 'columns', message: e.message}};
     }
+  } else {
+    // Use the column styles to determine order.
+    let columnIds = [];
+
+    columns.forEach(column => {
+      let columnIndex = this.columnStyleSvc.getColumnIndex(column.column_id, dataTable);
+      goog.asserts.assert(columnIndex !== -1);
+
+      columnIds.push(columnIndex);
+    });
+
+    view.setColumns(columnIds);
   }
 
-  var viewJson = angular.fromJson(view.toJSON());
+  let viewJson = angular.fromJson(view.toJSON());
   return sortedViewJson ?
       [viewJson, sortedViewJson] : [viewJson];
 };
 
+
 /**
- * Returns an array of DataView initializer objects corresponding to the
- * parameters provided (columns filtering, rows filtering and sorting) applied
- * to the DataTable provided.
+ * Returns an array of DataTable columns sorted according to the provided config.
  *
  * @param {!google.visualization.DataTable} dataTable
- * @param {?number} sortColumnStart The index of the column to begin sorting at.  This can be used to fix the first
- *    few columns of a tabular report.
+ * @param {?number} sortColumnStart The index of the column to begin sorting at.
+ *    This can be used to fix the first few columns of a tabular report.
+ * @param {!SortOrder=} opt_sortColumnOrder Specifies the order for the columns.
+ *    If not specified, will default to ascending.
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */
-DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart) {
+DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart,
+    opt_sortColumnOrder) {
   sortColumnStart = sortColumnStart || 0;
 
   if (sortColumnStart >= dataTable.getNumberOfColumns()) {
     throw 'sortColumnStart must be greater than or equal to the total column count.';
   }
 
-  var allColumnNames = [];
-  var outputColumns = [];
-  var sortableColumnNames = [];
+  let allColumnNames = [];
+  let outputColumns = [];
+  let sortableColumnNames = [];
 
-  for (var i = 0; i < dataTable.getNumberOfColumns(); ++i) {
-    var columnName = dataTable.getColumnLabel(i);
+  for (let i = 0; i < dataTable.getNumberOfColumns(); ++i) {
+    let columnName = dataTable.getColumnLabel(i);
     allColumnNames.push(columnName);
 
     if (i < sortColumnStart) {
@@ -166,7 +188,11 @@ DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart
 
   sortableColumnNames.sort();
 
-  for (var i = 0; i < sortableColumnNames.length; ++i) {
+  if (opt_sortColumnOrder === SortOrder.DESCENDING) {
+    sortableColumnNames.reverse();
+  }
+
+  for (let i = 0; i < sortableColumnNames.length; ++i) {
     sortableIndex = allColumnNames.indexOf(sortableColumnNames[i]);
 
     if (sortableIndex == -1) {

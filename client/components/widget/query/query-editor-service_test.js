@@ -31,7 +31,8 @@ describe('TestQueryServices', function() {
     svc = queryEditorService;
   }));
 
-  describe('QueryEditorService', function() {
+  it('Should initialize', function() {
+    expect(svc.picklists).not.toBeNull();
   });
 
 });

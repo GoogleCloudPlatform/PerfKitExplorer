@@ -1,0 +1,85 @@
+<div class="pk-sidebar-item column-style-item"
+     tabindex="0"
+     ng-class="{'column-style-item-selected': isSelected(),
+                'column-style-item-invalid': !isValid()}"
+     ng-focus="select()"
+     ng-click="select()">
+  <div>
+    <div class="pk-sidebar-item-label">field name</div>
+    <div class="input-group pk-sidebar-item-value">
+      <input
+          class="form-control widget-column-style-id"
+          placeholder="column id"
+          ng-focus="select()"
+          ng-model="ngModel.column_id">
+      <span class="input-group-addon"
+          ng-show="!isValid()">
+        <i class="fa fa-exclamation-triangle"></i>
+        <md-tooltip>
+          The column does not exist in the dataTable
+        <md-tooltip>
+      </span>
+      <span class="input-group-addon">
+        <i class="glyphicon glyphicon-remove"
+          ng-focus="select()"
+          ng-click="remove()"></i>
+      </span>
+    </div>
+    <md-tooltip md-direction="right">
+      The name of the <b>Field</b> from your <b>Query</b>
+    </md-tooltip>
+  </div>
+  <div>
+    <div class="pk-sidebar-item-label">title</div>
+    <div class="pk-sidebar-item-value">
+      <input
+          class="form-control widget-column-style-title"
+          placeholder="{{ ngModel.column_id }}"
+          ng-focus="select()"
+          ng-model="ngModel.title">
+    </div>
+    <md-tooltip md-direction="right">
+      A <b>readable</b> title to use in place of the field name
+    </md-tooltip>
+  </div>
+  <div>
+    <div class="pk-sidebar-item-label">role</div>
+    <div class="pk-sidebar-item-value">
+      <md-select
+             class="column-style-role-select"
+             placeholder="(default)"
+             ng-model="ngModel.data_role">
+        <md-option ng-show="ngModel.data_role" value="">(default)</md-option>
+        <md-option ng-repeat="(id, role) in columnStyleService.DATA_ROLES"
+                value="{{ id }}"
+                title="{{ role.tooltip }}">{{ role.title || id }}</md-option>
+      </md-select>
+    </div>
+    <md-tooltip md-direction="right">
+      Describes the role this column should play in a chart (select a role for more help)
+    </md-tooltip>
+  </div>
+  <div ng-show="isASeries()">
+    <div class="pk-sidebar-item-label">series color</div>
+    <div class="input-group pk-sidebar-item-value">
+      <input
+          class="form-control column-style-series-color"
+          placeholder="(auto-assigned)"
+          ng-focus="select()"
+          ng-model="ngModel.series_color">
+      <span class="input-group-addon column-style-series-color-button">
+        <input
+            type="color"
+            class="column-style-series-color-picker"
+            ng-focus="select()"
+            ng-model="ngModel.series_color">
+        <md-tooltip>
+          Show a dialog that will let you pick a color
+        <md-tooltip>
+      </span>
+    </div>
+    <md-tooltip md-direction="right">
+      Sets the color for series in charts
+    </md-tooltip>
+  </div>
+</div>

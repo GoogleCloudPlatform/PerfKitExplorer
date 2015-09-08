@@ -23,14 +23,16 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardDataService = explorer.components.dashboard.DashboardDataService;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var ExplorerService = explorer.components.explorer.ExplorerService;
+const explorer = p3rf.perfkit.explorer;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const ExplorerService = explorer.components.explorer.ExplorerService;
+const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 
 
 /**
@@ -41,13 +43,14 @@ var ExplorerService = explorer.components.explorer.ExplorerService;
  * @param {DashboardDataService} dashboardDataService
  * @param {DashboardService} dashboardService
  * @param {ExplorerService} explorerService
+ * @param {SidebarTabService} sidebarTabService
  * @constructor
  * @ngInject
- * @export
  */
 explorer.components.explorer.ExplorerCtrl = function(
     $scope, $location,
-    dashboardDataService, dashboardService, explorerService) {
+    dashboardDataService, dashboardService, explorerService,
+    sidebarTabService) {
   /**
    * @type {angular.Location}
    * @private
@@ -59,6 +62,12 @@ explorer.components.explorer.ExplorerCtrl = function(
    * @private
    */
   this.dashboardDataService_ = dashboardDataService;
+
+  /**
+   * @type {SidebarTabService}
+   * @export
+   */
+  this.sidebarTabService = sidebarTabService;
 
   /**
    * @type {DashboardService}
@@ -82,7 +91,11 @@ explorer.components.explorer.ExplorerCtrl = function(
 
   $scope.$watch(
       angular.bind(this, function() {
-        return this.dashboard.current.model.owner;
+        if (!goog.isDefAndNotNull(this.dashboard.current)) {
+          return null;
+        } else {
+          return this.dashboard.current.model.owner;
+        }
       }),
       angular.bind(this, function(owner) {
         if (!this.explorer.model.readOnly == null) {
@@ -107,7 +120,7 @@ explorer.components.explorer.ExplorerCtrl = function(
 
   this.initExplorer();
 };
-var ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
+const ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
 
 
 /**

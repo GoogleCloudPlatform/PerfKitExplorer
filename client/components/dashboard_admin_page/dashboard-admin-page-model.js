@@ -21,7 +21,7 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 
@@ -29,23 +29,23 @@ var explorer = p3rf.perfkit.explorer;
 explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
   /**
    * @type {bool}
-   * @expose
+   * @export
    */
   this.filter_owner = false;
 
   /**
    * @type {?string}
-   * @expose
+   * @export
    */
   this.owner = null;
 
   /**
    * @type {?bool}
-   * @expose
+   * @export
    */
   this.mine = null;
 };
-var DashboardAdminPageModel = (
+const DashboardAdminPageModel = (
     explorer.components.dashboard_admin_page.DashboardAdminPageModel);
 
 });  // goog.scope

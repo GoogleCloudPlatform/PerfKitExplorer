@@ -48,6 +48,8 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchem
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV5');
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6');
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV7');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV8');
+goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV9');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
 
@@ -57,13 +59,13 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigMod
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
-var DatasourceModel = explorer.models.DatasourceModel;
-var QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
-var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
-var versions = explorer.components.dashboard.versions;
+const explorer = p3rf.perfkit.explorer;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
+const DatasourceModel = explorer.models.DatasourceModel;
+const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
+const PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
+const versions = explorer.components.dashboard.versions;
 
 
 
@@ -94,7 +96,7 @@ explorer.components.dashboard.DashboardVersionService = function($filter) {
    */
   this.filter_ = $filter;
 };
-var DashboardVersionService =
+const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
 
 
@@ -104,7 +106,7 @@ var DashboardVersionService =
  * @export
  */
 DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
-  var version = this.getDashboardVersion(dashboard);
+  let version = this.getDashboardVersion(dashboard);
 
   // If the version is not current, run the update script to bring the version
   // current.
@@ -113,11 +115,11 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
       dashboard.version = version.version;
     }
   } else {
-    var dashboard_version_index = this.versions.indexOf(version);
-    var current_version_index = this.versions.indexOf(this.currentVersion);
+    let dashboard_version_index = this.versions.indexOf(version);
+    let current_version_index = this.versions.indexOf(this.currentVersion);
 
-    for (var i = dashboard_version_index - 1; i >= current_version_index; --i) {
-      var update_version = this.versions[i];
+    for (let i = dashboard_version_index - 1; i >= current_version_index; --i) {
+      let update_version = this.versions[i];
       update_version.update(dashboard);
       dashboard.version = update_version.version;
     }
@@ -135,7 +137,7 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
  * @export
  */
 DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
-  var version = null;
+  let version = null;
 
   // If a version # if provided, use it to validate.
   if (goog.isDef(dashboard.version) && dashboard.version !== '') {
@@ -157,7 +159,7 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
       }
     }
   }
-  for (var i = 0, len = this.versions.length; i < len; ++i) {
+  for (let i = 0, len = this.versions.length; i < len; ++i) {
     version = this.versions[i];
     try {
       if (version.verify(dashboard)) {
@@ -170,11 +172,14 @@ DashboardVersionService.prototype.getDashboardVersion = function(dashboard) {
   throw new Error('The model does not appear to be a valid dashboard.');
 };
 
+
 /**
  * Initializes the version list.
  */
 DashboardVersionService.prototype.initVersions = function() {
   return [
+    new versions.DashboardSchemaV9(),
+    new versions.DashboardSchemaV8(),
     new versions.DashboardSchemaV7(),
     new versions.DashboardSchemaV6(),
     new versions.DashboardSchemaV5(),

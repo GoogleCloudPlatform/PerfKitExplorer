@@ -22,13 +22,13 @@ goog.provide('p3rf.perfkit.explorer.models.IQueryConfigModel');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 
 /** @interface */
 explorer.models.IQueryConfigModel = function() {};
-var IQueryConfigModel = explorer.models.IQueryConfigModel;
+const IQueryConfigModel = explorer.models.IQueryConfigModel;
 
 
 /**

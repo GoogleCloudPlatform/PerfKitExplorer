@@ -31,7 +31,7 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 
@@ -64,6 +64,6 @@ explorer.components.dashboard.DashboardVersionModel = function(
    */
   this.update = opt_update || null;
 };
-var DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
+const DashboardVersionModel = explorer.components.dashboard.DashboardVersionModel;
 
 });  // goog.scope

@@ -1,39 +1,51 @@
-<div class="perfkit2-page-content-cell">
+<div class="pk-page-content-cell">
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
-  <div ng-repeat="container in dashboardSvc.widgets" class="perfkit-container"
-       ng-class="{'perfkit-container-selected': widget.state().selected}">
+  <div ng-repeat="container in dashboardSvc.containers" class="pk-container"
+       ng-class="{'pk-container-selected': container.state().selected}">
 
-    <container class="perfkit-container-content" container-config="container">
-      <perfkit-widget class="perfkit-widget"
-              ng-repeat="widget in container.model.container.children"
-              widget-config="widget">
-        <div class="perfkit-widget-header">
-          <span class="glyphicon glyphicon-remove perfkit-widget-button"
-                ng-hide="explorerSvc.model.readOnly"
-                ng-click="dashboardSvc.removeWidget(widget, container)"></span>
-          <span class="glyphicon glyphicon-refresh perfkit-widget-button"
-                ng-click="dashboardSvc.refreshWidget(widget)"></span>
-          <a class="perfkit-widget-button"
-             ng-show="widget.model.url"
-             ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
-            <span class="glyphicon glyphicon-link"></span>
-          </a>
-          <div class="perfkit-widget-title"
-               ng-click="dashboardSvc.selectWidget(widget, container)"
-               ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
-        </div>
-        <div class="perfkit-widget-content"
-             ng-click="dashboardSvc.selectWidget(widget, container)">
-          <gviz-chart-widget widget-config="widget"/>
-        </div>
-      </perfkit-widget>
+    <container class="pk-container-content" layout="column"
+               ng-model="container.model">
+      <div ng-show="container.model.container.header_text"
+           class="pk-container-header">
+        {{ container.model.container.header_text }}
+      </div>
+      <div layout="row" flex>
+        <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }}"
+                ng-repeat="widget in container.model.container.children"
+                widget-config="widget" flex>
+          <div class="pk-widget-header">
+            <span class="glyphicon glyphicon-remove pk-widget-button"
+                  ng-hide="explorerSvc.model.readOnly"
+                  ng-click="dashboardSvc.removeWidget(widget, container)"></span>
+            <span class="glyphicon glyphicon-refresh pk-widget-button"
+                  ng-click="dashboardSvc.refreshWidget(widget)"></span>
+            <a class="pk-widget-button"
+               ng-show="widget.model.url"
+               ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
+              <span class="glyphicon glyphicon-link"></span>
+            </a>
+            <div class="pk-widget-title"
+                 ng-click="dashboardSvc.selectWidget(widget, container)"
+                 ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
+          </div>
+          <div class="pk-widget-content"
+               style="min-height: {{ container.model.container.height }}px"
+               ng-click="dashboardSvc.selectWidget(widget, container)">
+            <gviz-chart-widget widget-config="widget"/>
+          </div>
+        </perfkit-widget>
+      </div>
+      <div ng-show="container.model.container.footer_text"
+           class="pk-container-footer">
+        {{ container.model.container.footer_text }}
+      </div>
     </container>
   </div>
 
   <div ng-hide="explorerSvc.model.readOnly">
     <button class="btn btn-primary"
-            ng-click="dashboardSvc.addContainer()">INSERT CONTAINER</button>
+            ng-click="containerSvc.insert()">INSERT CONTAINER</button>
   </div>
 </div>
 

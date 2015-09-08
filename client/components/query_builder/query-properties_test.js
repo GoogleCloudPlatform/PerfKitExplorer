@@ -22,11 +22,11 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
 
-var explorer = p3rf.perfkit.explorer;
-var Aggregation = explorer.components.query_builder.Aggregation;
-var Filter = explorer.components.query_builder.Filter;
-var FilterClause = explorer.components.query_builder.FilterClause;
-var QueryProperties = explorer.components.query_builder.QueryProperties;
+const explorer = p3rf.perfkit.explorer;
+const Aggregation = explorer.components.query_builder.Aggregation;
+const Filter = explorer.components.query_builder.Filter;
+const FilterClause = explorer.components.query_builder.FilterClause;
+const QueryProperties = explorer.components.query_builder.QueryProperties;
 
 
 describe('QueryProperties', function() {

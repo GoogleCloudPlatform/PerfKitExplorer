@@ -30,6 +30,9 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
@@ -41,14 +44,18 @@ goog.require('p3rf.perfkit.explorer.models.LayoutModel');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartType = explorer.models.ChartType;
-var ChartWrapperService = (
+const explorer = p3rf.perfkit.explorer;
+const ChartType = explorer.models.ChartType;
+const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
-var DataViewService = explorer.components.widget.query.DataViewService;
-var QueryResultDataService = (
+const ColumnStyleService = (
+    explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService);
+const DataViewService = explorer.components.widget.query.DataViewService;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
 
 
 /**
@@ -61,56 +68,69 @@ var ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @param {*} gvizEvents
  * @param {DataViewService} dataViewService
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.data_viz.gviz.gvizChart = function(
     $timeout, $location, chartWrapperService, queryResultDataService,
-    queryBuilderService, gvizEvents, dataViewService, dashboardService) {
-
+    queryBuilderService, gvizEvents, dataViewService, dashboardService,
+    errorService, columnStyleService) {
   return {
     restrict: 'E',
     replace: true,
     scope: {
       widgetConfig: '='
     },
-    // TODO: Use templateUrl instead of hardcoded template string.
-    //templateUrl: /static/components/widget/data_viz/gviz/gviz-directive.html',
-    template:
-        '<div>' +
-        '<div class="perfkit-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'perfkit-chart-hidden\': widgetConfig.state().chart.error}">' +
-        '</div>' +
-        '<div class="perfkit-chart-error" ng-show="' +
-        'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
-        '> {{widgetConfig.state().chart.error}}</div></div>' +
-        '<div class="spinner" ng-show="isDataFetching()"></div>' +
-        '</div>',
+    templateUrl: '/static/components/widget/data_viz/gviz/gviz-directive.html',
     link: function(scope, element, attributes) {
-      var isDrawing = false;
+      let isDrawing = false;
       // Create and attach to this element a gviz ChartWrapper
-      var chartWrapper = chartWrapperService.create();
+      let chartWrapper = chartWrapperService.create();
       chartWrapper.setContainerId(element[0].children[0]);
 
       scope.isDataFetching = function() {
-        return scope.widgetConfig.state().datasource.status ==
-               ResultsDataStatus.FETCHING;
+        return scope.widgetConfig.state().datasource.status ===
+            ResultsDataStatus.FETCHING;
       };
 
       scope.isDataFetched = function() {
-        return scope.widgetConfig.state().datasource.status ==
-               ResultsDataStatus.FETCHED;
+        return scope.widgetConfig.state().datasource.status ===
+            ResultsDataStatus.FETCHED;
       };
 
-      var isHeightEnforced = function() {
+      scope.isLoadingDisplayed = function() {
+        let widgetState = scope.widgetConfig.state();
+        return (
+            scope.widgetConfig.model.datasource.query && (
+                widgetState.datasource.status === ResultsDataStatus.FETCHING ||
+                widgetState.datasource.status === ResultsDataStatus.TOFETCH));
+      };
+
+      scope.isChartDisplayed = function() {
+        let widgetState = scope.widgetConfig.state();
+        return (
+            widgetState.datasource.status === ResultsDataStatus.FETCHED &&
+            !widgetState.chart.error);
+      };
+
+      scope.isErrorDisplayed = function() {
+        let widgetState = scope.widgetConfig.state();
+
+        return (
+            widgetState.datasource.status !== ResultsDataStatus.FETCHING &&
+            widgetState.chart.error);
+      };
+
+      let isHeightEnforced = function() {
         return scope.widgetConfig.model.chart.chartType !==
                ChartType.TABLE;
       };
 
-      var isWidthEnforced = function() {
+      let isWidthEnforced = function() {
         return scope.widgetConfig.model.chart.chartType ===
                ChartType.TABLE;
       };
 
-      var canScroll = function() {
+      let canScroll = function() {
         return scope.widgetConfig.model.chart.chartType ===
                ChartType.TABLE;
       };
@@ -119,8 +139,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
        * Checks if there is an error to display, update the error state and
        * returns the error.
        */
-      var checkForErrors = function() {
-        var message = null;
+      let checkForErrors = function() {
+        let message = null;
         if (!scope.widgetConfig.model.datasource.query) {
           message = gvizChart.ERR_NO_QUERY;
         }
@@ -128,7 +148,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_SAFE_MODE;
         }
         else if (scope.widgetConfig.queryError) {
-          message = scope.widgetConfig.queryError;
+          message = 'query error: ' + scope.widgetConfig.queryError;
         }
         else if (scope.widgetConfig.state().datasource.status ===
                  ResultsDataStatus.NODATA) {
@@ -138,7 +158,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_NO_CHART_CONFIGURATION;
         }
         else if (scope.widgetConfig.state().chart.gvizError) {
-          message = scope.widgetConfig.state().chart.gvizError.message;
+          message = 'chart error: ' +
+              scope.widgetConfig.state().chart.gvizError.message;
         }
         scope.widgetConfig.state().chart.error = message;
         return message;
@@ -149,7 +170,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
        * It enforces draw to be called maximum one time per tick and after all
        * changes have been handled.
        */
-      var triggerDraw = function() {
+      let triggerDraw = function() {
         if (!isDrawing) {
           isDrawing = true;
           $timeout(function() {
@@ -162,14 +183,25 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       /**
        * Draws the chart only if possible.
        */
-      var draw = function() {
+      let draw = function() {
         // Draw only if there is data and no errors.
         // If there is a gviz error we try to draw in order to let gviz update
         // the error.
         if (scope.widgetConfig.state().datasource.status ===
             ResultsDataStatus.FETCHED &&
             (scope.widgetConfig.state().chart.gvizError || !checkForErrors())) {
-          var options = angular.copy(scope.widgetConfig.model.chart.options);
+          let options = columnStyleService.getEffectiveChartConfig(scope.widgetConfig);
+
+          let data = scope.widgetConfig.state().datasource.data;
+
+          // Apply styles from the config to the DataTable.
+          if (data) {
+            columnStyleService.applyToDataTable(
+                scope.widgetConfig.model.chart.columns, data);
+          }
+
+          chartWrapper.setDataTable(data);
+
           // Force height and width options value with state value
           options.height = scope.widgetConfig.state().chart.height;
           options.width = scope.widgetConfig.state().chart.width;
@@ -195,7 +227,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         }
       };
 
-      var adjustHeight = function() {
+      let adjustHeight = function() {
         if (scope.widgetConfig.model.chart) {
           if (isHeightEnforced()) {
             scope.widgetConfig.state().chart.height =
@@ -207,7 +239,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       };
       adjustHeight();
 
-      var adjustWidth = function() {
+      let adjustWidth = function() {
         if (scope.widgetConfig.model.chart) {
           if (isWidthEnforced()) {
             scope.widgetConfig.state().chart.width =
@@ -228,7 +260,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       /**
        * Executes the datasource query, fetches new data and updates the chart.
        */
-      var fetchData = function() {
+      let fetchData = function() {
         if (!$location.search()['safeMode'] &&
             scope.widgetConfig.model.datasource.query &&
             scope.widgetConfig.state().datasource.status ===
@@ -236,27 +268,38 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           scope.applyParameters();
 
-          var promise = queryResultDataService.
+          let promise = queryResultDataService.
               fetchResults(scope.widgetConfig.model.datasource);
-          scope.widgetConfig.state().datasource.status =
-              ResultsDataStatus.FETCHING;
+          $timeout(function() {
+            scope.widgetConfig.state().datasource.status =
+                ResultsDataStatus.FETCHING;
+          });
 
           promise.then(function(dataTable) {
             scope.widgetConfig.queryError = null;
+            scope.widgetConfig.state().datasource.data = dataTable;
+
             if (dataTable.getNumberOfRows() > 0) {
               chartWrapper.setDataTable(dataTable);
-              scope.widgetConfig.state().datasource.status =
-                  ResultsDataStatus.FETCHED;
+
+              $timeout(function() {
+                scope.widgetConfig.state().datasource.status =
+                    ResultsDataStatus.FETCHED;
+              });
             } else {
-              scope.widgetConfig.state().datasource.status =
-                  ResultsDataStatus.NODATA;
+              $timeout(function() {
+                scope.widgetConfig.state().datasource.status =
+                    ResultsDataStatus.NODATA;
+              });
             }
           });
           // Error handling
           promise.then(null, function(response) {
-            scope.widgetConfig.state().datasource.status =
-                ResultsDataStatus.ERROR;
-            scope.widgetConfig.queryError = response.error;
+            $timeout(function() {
+              scope.widgetConfig.state().datasource.status =
+                  ResultsDataStatus.ERROR;
+              scope.widgetConfig.queryError = response.error;
+            });
           });
         } else {
           checkForErrors();
@@ -272,7 +315,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
        * @export
        */
       scope.applyParameters = function() {
-        var widget = scope.widgetConfig;
+        let widget = scope.widgetConfig;
         if (widget.model.datasource.custom_query !== true) {
           widget.model.datasource.query = (
               dashboardService.rewriteQuery(widget, false));
@@ -310,7 +353,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           } else {
             // Prevent overflow for charts
             scope.widgetConfig.model.layout.cssClasses =
-                'perfkit-widget-no-overflow';
+                'pk-widget-no-overflow';
           }
         }
       });
@@ -322,15 +365,20 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         triggerDraw();
       }, true);
 
-      var applyDataView = function() {
-        var dataViewsJson = dataViewService.create(
-            chartWrapper.getDataTable(),
-            scope.widgetConfig.model.datasource.view);
+      let applyDataView = function() {
+        let dataViewsJson = dataViewService.create(
+            scope.widgetConfig.state().datasource.data,
+            scope.widgetConfig.model.datasource.view,
+            columnStyleService.getEffectiveColumns(
+                scope.widgetConfig.model.chart.columns,
+                scope.widgetConfig.state().datasource.data));
 
         if (dataViewsJson.error) {
           // TODO: Display error in the UI instead of in the console.
-          console.log('View parameter error on property',
-              dataViewsJson.error.property, ':',
+          errorService.addError(
+              ErrorTypes.DANGER,
+              'View parameter error on property' +
+              dataViewsJson.error.property + ':' +
               dataViewsJson.error.message);
           return;
         }
@@ -396,7 +444,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
     }
   };
 };
-var gvizChart = explorer.components.widget.data_viz.gviz.gvizChart;
+let gvizChart = explorer.components.widget.data_viz.gviz.gvizChart;
 
 
 /** @type {string} */

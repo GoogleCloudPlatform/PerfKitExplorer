@@ -43,8 +43,10 @@ goog.require('goog.style');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
+const DEFAULT_TEMPLATE_URL = (
+    '/static/components/popupbox/popupbox-directive.html');
 
 /**
  * The Popupbox directive provides for a templated popup region that appears
@@ -58,14 +60,14 @@ var explorer = p3rf.perfkit.explorer;
  *
  * @param {!angular.$timeout} $timeout Provides timeout function for deferring.
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.popupbox.PopupboxDirective = function($timeout) {
   return {
     restrict: 'A',
     transclude: false,
     templateUrl: function(element, attrs) {
-      return attrs['popupboxTemplateUrl'] ||
-          '/static/components/popupbox/popupbox-directive.html';
+      return attrs.popupboxTemplateUrl || DEFAULT_TEMPLATE_URL;
     },
     scope: {
       /**
@@ -77,11 +79,17 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
       /**
        * The model element that represents the "selected" value for the popup.
        */
-      popupboxModel: '='
+      popupboxModel: '=',
+
+      /**
+       * A value that represents the state of the data.
+       * @type {string}
+       */
+      popupboxState: '='
     },
     link: function(scope, element, attrs) {
-      var input = element;
-      var popup = input.children()[0];
+      let input = element;
+      let popup = input.children()[0];
 
       scope.$watch('popupboxData',
           function(newVal, oldVal) {
@@ -90,6 +98,17 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
               scope.showPopup();
             }
           }, true);
+
+      if (scope.popupboxState) {
+        scope.$watch('popupboxState',
+          function(newVal, oldVal) {
+            if (newVal != oldVal) {
+              if (goog.style.isElementShown(popup)) {
+                scope.showPopup();
+              }
+            }
+          }, true);
+      }
 
       /**
        * Called when an editable row is focused.  It shows and positions the
@@ -107,7 +126,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
        * @param {Event} evt The event handler for the blur event.
        */
       scope.blurInput = function(evt) {
-        var relatedTarget = /** @type {?Node} */ (evt.relatedTarget);
+        let relatedTarget = /** @type {?Node} */ (evt.relatedTarget);
 
         if (relatedTarget && popup &&
                 goog.dom.contains(popup, relatedTarget)) {
@@ -119,19 +138,34 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
 
       /**
        * When a value is selected, sets the popupboxModel and closes the popup.
-       * @param {*} value The value that should be selected.
+       * If a popupbox-display-attr attribute is present, the matching property
+       * will be set.
+       * @param {*} data The data that should be selected.
        */
-      scope.selectValue = function(value) {
-        scope.popupboxModel = value;
+      scope.selectValue = function(data) {
+        if (attrs.popupboxDisplayAttr) {
+          scope.popupboxModel = data[attrs.popupboxDisplayAttr];
+        } else {
+          scope.popupboxModel = data;
+        }
+
         scope.hidePopup();
       };
 
       /**
-       * When a value is selected, sets the popupboxModel and closes the popup.
-       * @param {*} value The value that should be selected.
+       * Returns the display text for a row of data.  If popupbox-display-attr
+       * is specified, the matching property will be returned.  Otherwise, the
+       * entire object will be returned.
+       *
+       * @param {*} data The data that should be returned.
+       * @return {*} The returned data or appropriate attribute.
        */
       scope.getDisplayValue = function(data) {
-        return data;
+        if (attrs.popupboxDisplayAttr) {
+          return data[attrs.popupboxDisplayAttr];
+        } else {
+          return data;
+        }
       };
 
       /**
@@ -151,7 +185,7 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
           $timeout(function() {
             goog.style.setElementShown(popup, true);
 
-            var Overflow = goog.positioning.Overflow;
+            const Overflow = goog.positioning.Overflow;
             goog.positioning.positionAtAnchor(
                 input[0], goog.positioning.Corner.TOP_RIGHT,
                 popup, goog.positioning.Corner.TOP_LEFT,
@@ -172,6 +206,10 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
           scope.focusInput(evt);
         });
 
+        input.on('input', function() {
+          $timeout(function() { scope.showPopup(); });
+        });
+
         popup.addEventListener('blur', scope.blurInput, true);
 
         input.on('blur', function(evt) {
@@ -181,12 +219,19 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
         scope.hidePopup();
       };
 
+      /**
+       * Returns true if the displayValue starts with the current text,
+       * otherwise false.
+       */
+      scope.startsWith = function(data) {
+        let displayValue = scope.getDisplayValue(data);
+
+        return goog.string.startsWith(displayValue, input[0].value);
+      };
+
       scope.initPopup();
     }
   };
 };
-
-angular.module('ui.popupbox', []).directive(
-    'popupbox', ['$timeout', explorer.components.popupbox.PopupboxDirective]);
 
 });  // goog.scope

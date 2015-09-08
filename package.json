@@ -1,18 +1,28 @@
 {
   "name": "perfkit-explorer-deps",
-  "version": "1.0.0",
+  "version": "23.0.0",
   "description": "NPM dev/test dependencies for PerfKit Explorer",
   "author": "Joe Allan Muharsky <jmuharsky@gmail.com>",
   "dependencies": {
-    "gulp": "3.8.x"
-  },
-  "devDependencies": {
     "gulp": "3.8.x",
     "gulp-closure-compiler": "0.2.x",
-    "gulp-ng-html2js": "0.1.x",
-    "gulp-minify-html": "0.1.x",
     "gulp-concat": "2.5.x",
+    "gulp-flatten": "0.0.x",
+    "gulp-minify-html": "0.1.x",
+    "gulp-ng-html2js": "0.1.x",
     "gulp-uglify": "1.1.x"
+  },
+  "devDependencies": {
+    "jasmine": "^2.3.1",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.12.35",
+    "karma-chrome-launcher": "^0.1.12",
+    "karma-closure": "^0.1.0",
+    "karma-jasmine": "^0.3.5",
+    "karma-jasmine-html-reporter": "^0.1.8",
+    "karma-jasmine-matchers": "^2.0.0-beta1",
+    "karma-nested-reporter": "^0.1.3",
+    "karma-ng-html2js-preprocessor": "^0.1.2"
   },
   "preferGlobal": true,
   "private": true,

@@ -24,7 +24,7 @@ goog.provide('p3rf.perfkit.explorer.components.codemirror.CodeMirrorDirective');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -42,7 +42,7 @@ var explorer = p3rf.perfkit.explorer;
  */
 explorer.components.codemirror.CodeMirrorDirective = function(
     uiCodemirrorConfig, $timeout) {
-  var events = [
+  const events = [
     'cursorActivity', 'viewportChange', 'gutterClick', 'focus',
     'blur', 'scroll', 'update'
   ];
@@ -55,7 +55,7 @@ explorer.components.codemirror.CodeMirrorDirective = function(
       cmOptions: '='
     },
     link: function(scope, elm, attrs, ngModel) {
-      var options, opts, onChange, deferCodeMirror, codeMirror;
+      let options, opts, onChange, deferCodeMirror, codeMirror;
 
       if (elm[0].type !== 'textarea') {
         throw new Error(
@@ -71,7 +71,7 @@ explorer.components.codemirror.CodeMirrorDirective = function(
             scope.onChange();
           }
 
-          var newValue = instance.getValue();
+          let newValue = instance.getValue();
           if (newValue !== ngModel.$viewValue) {
             ngModel.$setViewValue(newValue);
             if (!scope.$$phase) {
@@ -88,7 +88,7 @@ explorer.components.codemirror.CodeMirrorDirective = function(
         codeMirror = CodeMirror.fromTextArea(elm[0], opts);
         codeMirror.on('change', onChange(opts['onChange']));
 
-        for (var i = 0, n = events.length, aEvent; i < n; ++i) {
+        for (let i = 0, n = events.length, aEvent; i < n; ++i) {
           aEvent = opts['on' + events[i].charAt(0).toUpperCase() +
                         events[i].slice(1)];
           if (aEvent === void 0) {

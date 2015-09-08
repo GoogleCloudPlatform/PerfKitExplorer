@@ -1,0 +1,26 @@
+.pk-group-heading {
+  color: #d14836;
+  padding: 4px;
+  font-weight: bold;
+}
+
+.pk-relative-datepicker-left-nav {
+  display: inline-block;
+  min-width: 120px;
+}
+
+.pk-relative-datepicker-left-nav-item {
+  cursor: pointer;
+  padding: 4px;
+}
+
+.pk-relative-datepicker-left-nav-item-selected {
+  font-weight: bold;
+}
+
+.pk-relative-datepicker-body {
+  vertical-align: top;
+  display: inline-block;
+  padding: 4px;
+}
+

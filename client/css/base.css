@@ -67,7 +67,7 @@ html, body {
   width: 100%;
 }
 
-.perfkit-page {
+.pk-page {
   display: flex;
   display: -webkit-flex;
   flex-direction: column;
@@ -78,7 +78,7 @@ html, body {
   width: 100%;
 }
 
-.perfkit-page-body {
+.pk-page-body {
   display: flex;
   display: -webkit-flex;
   flex: 1 1 auto;
@@ -86,50 +86,14 @@ html, body {
   height: 100%;
 }
 
-.perfkit-page-sidebar-left {
-  border-right: 1px solid #CCC;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-  font-size: 13px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 240px;
-}
-
-.perfkit-page-sidebar-right {
-  border-left: 1px solid #CCC;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -moz-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  -webkit-box-shadow: 0 4px 16px rgba(0,0,0,0.2);
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-  font-size: 13px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  width: 240px;
-}
-
-.perfkit-page-content {
+.pk-page-content {
   flex-grow: 100;
   -webkit-flex-grow: 100;
   overflow-x: auto;
   overflow-y: auto;
 }
 
-.perfkit-footer-button {
-  float: right;
-}
-
-.perfkit-sidebar-button {
-  float: right;
-  top: 9px;
-  right: 8px;
-}
-
-.perfkit-glyph-button:hover {
+.pk-glyph-button:hover {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
@@ -174,33 +138,6 @@ h2 {
   color: #DD4B39;
 }
 
-/* Sidebar Layout */
-.sidebar-group {
-  border-bottom: 1px solid rgb(235, 235, 235);
-  margin-top: 8px;
-  margin-left: 8px;
-  margin-right: 8px;
-  padding-bottom: 4px;
-}
-
-.sidebar-group-title {
-  color: #d14836;
-  font-weight: bold;
-  margin-bottom: 4px;
-}
-
-.sidebar-group-note {
-  color: #666;
-  font-size: .95em;
-  font-style: italic;
-  margin-bottom: 4px;
-}
-
-.sidebar-item {
-  margin-bottom: 4px;
-  padding-left: 4px;
-}
-
 .navigation-link {
   color: #000;
   font-weight: bold;
@@ -210,14 +147,6 @@ h2 {
 .navigation-link-current {
   color: #d14836;
   font-weight: bold;
-}
-
-.sidebar-item-label {
-  padding-bottom: 4px;
-}
-
-.sidebar-item-value {
-  padding-bottom: 4px;
 }
 
 /* Style overrides for Bootstrap + GViz Chart Editor */

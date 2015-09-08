@@ -25,20 +25,26 @@ goog.provide('p3rf.perfkit.explorer.components.code_editor.CodeEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var DashboardService = explorer.components.dashboard.DashboardService;
-var ExplorerService = explorer.components.explorer.ExplorerService;
-var CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
-var CodeEditorSettingsModel =
+const explorer = p3rf.perfkit.explorer;
+const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
+const CodeEditorSettingsModel =
     explorer.components.code_editor.CodeEditorSettingsModel;
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
-var ResultsDataStatus = explorer.models.ResultsDataStatus;
+const DashboardService = explorer.components.dashboard.DashboardService;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const ExplorerService = explorer.components.explorer.ExplorerService;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
+const ResultsDataStatus = explorer.models.ResultsDataStatus;
+const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 
@@ -46,36 +52,35 @@ var ResultsDataStatus = explorer.models.ResultsDataStatus;
  * See module docstring for more information about purpose and usage.
  *
  * @param {!angular.Scope} $scope
- * @param {!ExplorerService} explorerService
  * @param {!DashboardService} dashboardService
+ * @param {!ErrorService} explorerService
+ * @param {!ExplorerService} explorerService
+ * @param {!ExplorerStateService} explorerStateService
  * @param {!WidgetFactoryService} widgetFactoryService
  * @constructor
  * @ngInject
  */
 explorer.components.code_editor.CodeEditorCtrl = function(
-    $scope, explorerService, dashboardService, widgetFactoryService) {
-  /**
-   * @type {!WidgetFactoryService}
-   * @private
-   */
+    $scope, dashboardService, errorService, explorerService,
+    explorerStateService, widgetFactoryService) {
+  /** @private {!WidgetFactoryService} */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /**
-   * @type {!ExplorerService}
-   * @export
-   */
+  /** @export {!ExplorerService} */
   this.explorer = explorerService;
 
-  /**
-   * @type {!DashboardService}
-   * @export
-   */
+  /** @export {!DashboardService} */
   this.dashboard = dashboardService;
+
+  /** @export {!ErrorService} */
+  this.errorSvc = errorService;
+
+  /** @export {!ExplorerStateSvc} */
+  this.explorerStateSvc = explorerStateService;
 
   /**
    * Shortcut property to the code_editor section of the ExplorerSettingsModel.
-   * @type {!CodeEditorSettingsModel}
-   * @export
+   * @export {!CodeEditorSettingsModel}
    */
   this.settings = this.explorer.model.code_editor;
 
@@ -83,8 +88,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * The currently edited JSON.
    * Note: It is converted to a string to enable text editing from the view.
    *
-   * @type {{text: ?string}}
-   * @export
+   * @export {{text: ?string}}
    */
   this.currentJson = {text: null};
 
@@ -94,44 +98,40 @@ explorer.components.code_editor.CodeEditorCtrl = function(
    * Because saveToObject changes the current object, the angular watcher is
    * triggered and call saveToText.
    *
-   * @type {SaveState}
+   * @export {SaveState}
    */
   this.saveState = SaveState.NONE;
 
   /**
    * Options for the CodeMirror editor.
-   * @type {!Object}
-   * @export
+   * @export {!Object}
    */
   this.editorOptionsJSON = {
-    lineWrapping: false,
+    lineWrapping: true,
     lineNumbers: true,
     mode: 'application/json'
   };
 
   /**
    * Options for the CodeMirror editor.
-   * @type {!Object}
-   * @export
+   * @export {!Object}
    */
   this.editorOptionsSQL = {
-    lineWrapping: false,
+    lineWrapping: true,
     lineNumbers: true,
     mode: 'text/x-sql'
   };
 
   /**
    * Error messages raised by this controller.
-   *
-   * @type {!Array.<string>}
-   * @export
+   * @export {!Array.<string>}
    */
   this.errors = [];
 
   $scope.$watch(
       angular.bind(this, function() {
-        if (this.dashboard.selectedWidget) {
-          return this.dashboard.selectedWidget.model;
+        if (this.explorerStateSvc.widgets.selected) {
+          return this.explorerStateSvc.widgets.selected.model;
         } else {
           return null;
         }
@@ -143,7 +143,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
       angular.bind(this, this.saveTextToJson));
 
 };
-var CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
+const CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
 
 
 /**
@@ -154,7 +154,7 @@ CodeEditorCtrl.SaveState = {
   SAVING_TO_TEXT: 1,
   SAVING_TO_OBJECT: 2
 };
-var SaveState = CodeEditorCtrl.SaveState;
+let SaveState = CodeEditorCtrl.SaveState;
 
 
 /**
@@ -173,7 +173,7 @@ CodeEditorCtrl.prototype.openCodeEditor = function() {
  * @export
  */
 CodeEditorCtrl.prototype.changeSql = function() {
-  if (!this.dashboard.selectedWidget.model.datasource.custom_query) {
+  if (!this.explorerStateSvc.widgets.selected.model.datasource.custom_query) {
     this.explorer.customizeSql(false);
   }
 };
@@ -225,9 +225,14 @@ CodeEditorCtrl.prototype.saveJsonToText = function() {
   if (this.saveState === SaveState.SAVING_TO_OBJECT) {
     this.saveState = SaveState.NONE;
   } else {
-    var selectedWidget = this.dashboard.selectedWidget;
-    this.currentJson.text = selectedWidget ?
-        this.widgetFactoryService_.toJson(selectedWidget, true) : null;
+    let selectedWidget = this.explorerStateSvc.widgets.selected;
+    if (selectedWidget) {
+      this.currentJson.text =
+          this.widgetFactoryService_.toJson(selectedWidget, true);
+    } else {
+      this.currentJson.text = null;
+    }
+
     this.saveState = SaveState.SAVING_TO_TEXT;
   }
 };
@@ -241,15 +246,14 @@ CodeEditorCtrl.prototype.saveTextToJson = function() {
   if (this.saveState === SaveState.SAVING_TO_TEXT) {
     this.saveState = SaveState.NONE;
   } else {
-    var selectedWidget = this.dashboard.selectedWidget;
+    let selectedWidget = this.explorerStateSvc.widgets.selected;
     if (selectedWidget) {
-      var newModel;
+      let newModel;
       try {
         newModel = angular.fromJson(this.currentJson.text);
       } catch (e) {
-        // Catch errors when the JSON is invalid
-        // TODO: Display error in the UI instead of in the console.
-        console.log('json error:', e.message);
+        let msg = 'saveTextToJson failed: ' + e.message;
+        this.errorSvc.addError(ErrorTypes.DANGER, msg);
       }
 
       if (newModel) {
@@ -272,7 +276,7 @@ CodeEditorCtrl.prototype.getModeEnabled = function(mode) {
   switch (mode) {
     case CodeEditorMode.JSON:
     case CodeEditorMode.SQL:
-      return (this.dashboard.selectedWidget !== null);
+      return (this.explorerStateSvc.widgets.selected !== null);
     default:
       return true;
   }

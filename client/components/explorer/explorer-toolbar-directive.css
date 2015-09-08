@@ -1,0 +1,38 @@
+.pk-toolbar {
+  display: block;
+  flex-shrink: 0;
+  -webkit-flex-shrink: 0;
+  height: 44px;
+  padding: 4px;
+  padding-top: 5px;
+}
+
+.pk-toolbar-section {
+  display: inline-block;
+  margin-right: 4px;
+  padding-right: 8px;
+  white-space: nowrap;
+}
+
+.pk-toolbar-section:not(:last-child) {
+  border-right: 1px solid #ccc;
+}
+
+.pk-dropdown-button-section {
+  display: inline-block;
+  padding-left: 2px;
+  padding-right: 2px;
+}
+
+.dropdown-menu {
+  left: auto;
+  max-height: 400px;
+  overflow-y: auto;
+  top: auto !important;
+}
+
+.pk-toolbar .btn {
+  background-color: transparent;
+  border-color: transparent;
+  color: #fafafa; /** grey: 50 */
+}

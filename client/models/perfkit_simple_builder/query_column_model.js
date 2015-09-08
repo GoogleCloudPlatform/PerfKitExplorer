@@ -28,7 +28,7 @@ goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartFie
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.SamplesMartMeasures');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 
@@ -41,7 +41,7 @@ explorer.models.perfkit_simple_builder.LabelResult = function() {
   /** @type {!string} */
   this.label = '';
 };
-var LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
+const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 
 
 /**
@@ -53,7 +53,7 @@ explorer.models.perfkit_simple_builder.FieldResult = function(name) {
   /** @type {!string} */
   this.name = name || '';
 };
-var FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
+const FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
 
 
 /**
@@ -65,7 +65,7 @@ explorer.models.perfkit_simple_builder.MeasureResult = function(name) {
   /** @type {!string} */
   this.name = name || '';
 };
-var MeasureResult = explorer.models.perfkit_simple_builder.MeasureResult;
+const MeasureResult = explorer.models.perfkit_simple_builder.MeasureResult;
 
 
 /**
@@ -88,16 +88,17 @@ explorer.models.perfkit_simple_builder.PivotConfigModel = function() {
   this.column_field = '';
 
   /**
-   * @type {!string}
+   * @type {string}
    * @export
    */
   this.value_field = '';
 };
-var PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
+const PivotConfigModel = explorer.models.perfkit_simple_builder.PivotConfigModel;
 
 
 /**
  * Constants describing the types of filters applied to dates.
+ * @enum {string}
  * @export
  */
 explorer.models.perfkit_simple_builder.QueryDateGroupings = {
@@ -108,8 +109,12 @@ explorer.models.perfkit_simple_builder.QueryDateGroupings = {
   DAY: 'Day',
   HOUR: 'Hour'
 };
-var QueryDateGroupings = (
-    explorer.models.perfkit_simple_builder.QueryDateGroupings);
+const QueryDateGroupings =
+    explorer.models.perfkit_simple_builder.QueryDateGroupings;
+QueryDateGroupings.ALL = [
+  QueryDateGroupings.NONE, QueryDateGroupings.YEAR, QueryDateGroupings.MONTH,
+  QueryDateGroupings.WEEK, QueryDateGroupings.DAY, QueryDateGroupings.HOUR
+];
 
 
 /**
@@ -135,7 +140,7 @@ explorer.models.perfkit_simple_builder.SamplesMartFields = {
   METRIC_URI: 'metric_uri',
   SAMPLE_URI: 'sample_uri'
 };
-var SamplesMartFields = (
+const SamplesMartFields = (
     explorer.models.perfkit_simple_builder.SamplesMartFields);
 
 
@@ -156,7 +161,7 @@ explorer.models.perfkit_simple_builder.SamplesMartMeasures = {
   PCT_99: '99%',
   PCT_9999: '99.99%'
 };
-var SamplesMartMeasures = (
+const SamplesMartMeasures = (
     explorer.models.perfkit_simple_builder.SamplesMartMeasures);
 
 
@@ -167,7 +172,7 @@ explorer.models.perfkit_simple_builder.QueryShapes = {
   TABULAR: 'Tabular',
   PIVOT: 'Pivot'
 };
-var QueryShapes = explorer.models.perfkit_simple_builder.QueryShapes;
+const QueryShapes = explorer.models.perfkit_simple_builder.QueryShapes;
 
 
 /**
@@ -186,7 +191,7 @@ explorer.models.perfkit_simple_builder.QueryTablePartitioning = {
   ONETABLE: 'OneTable',
   PERDAY: 'PerDay'
 };
-var QueryTablePartitioning = (
+const QueryTablePartitioning = (
     explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 
 
@@ -256,6 +261,6 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   this.table_partition = QueryTablePartitioning.DEFAULT;
 };
 
-var QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
+const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
 
 });  // goog.scope

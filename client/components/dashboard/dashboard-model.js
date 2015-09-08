@@ -28,10 +28,10 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePart
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-var QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
+const explorer = p3rf.perfkit.explorer;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
 /** @constructor */
@@ -48,7 +48,7 @@ explorer.components.dashboard.DashboardParam = function(name, value) {
    */
   this.value = value || '';
 };
-var DashboardParam = explorer.components.dashboard.DashboardParam;
+const DashboardParam = explorer.components.dashboard.DashboardParam;
 
 
 /** @constructor */
@@ -61,7 +61,7 @@ explorer.components.dashboard.DashboardModel = function() {
 
   /**
    * @type {string}
-   * @expose
+   * @export
    */
   this.title = 'Untitled Dashboard';
 
@@ -134,7 +134,7 @@ explorer.components.dashboard.DashboardModel = function() {
    */
   this.params = [];
 };
-var DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 /**
@@ -161,10 +161,10 @@ explorer.components.dashboard.DashboardConfig = function(opt_model) {
    * DashboardConfig object that contains it.
    *
    * @type {!(Object|DashboardModel)}
-   * @expose
+   * @export
    */
   this.model = opt_model || new DashboardModel();
 };
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
 
 });  // goog.scope

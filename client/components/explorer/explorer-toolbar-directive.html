@@ -1,0 +1,56 @@
+<div class="pk-toolbar {{ ctrl.tabSvc.selectedTab.toolbarClass }}" ng-show="ctrl.tabSvc.selectedTab">
+
+  <!-- Replace this inline switch with "real" extensibility. -->
+  <div ng-switch="ctrl.tabSvc.selectedTab.id">
+
+    <div ng-switch-when="dashboard">
+      <dashboard-toolbar ng-model="ctrl.dashboardSvc.current.model" />
+    </div>
+
+    <div ng-switch-when="container">
+      <container-toolbar ng-model="ctrl.dashboardSvc.selectedContainer.model.container" />
+    </div>
+
+    <div ng-switch-when="widget.data">
+      <widget-toolbar ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.data.filter">
+      <widget-toolbar
+          ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.data.result">
+      <widget-toolbar
+          ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.config">
+      <widget-toolbar
+          ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.chart">
+      <widget-toolbar
+          ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.columns">
+      <column-style-toolbar ng-model="ctrl.dashboardSvc.selectedWidget" />
+    </div>
+
+    <div ng-switch-when="widget.alert.detector">
+      <alert-toolbar
+          ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.alert.notifications">
+      <alert-toolbar
+          ng-model="ctrl.dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-default>
+    </div>
+  </div>
+
+</div>

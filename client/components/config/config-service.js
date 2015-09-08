@@ -15,20 +15,23 @@
  *
  * @fileoverview Service for the configuration of the Explorer app.
  *
- * The initial settings are loaded from a global var INITIAL_CONFIG.  This
+ * The initial settings are loaded from a global let INITIAL_CONFIG.  This
  * is set by the server-side templates when rendering the page, to minimize
  * initial roundtrips.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
 goog.provide('p3rf.perfkit.explorer.components.config.ConfigService');
-
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var QueryTablePartitioning = (
+const explorer = p3rf.perfkit.explorer;
+const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
+const QueryTablePartitioning = (
     explorer.models.perfkit_simple_builder.QueryTablePartitioning);
 
 
@@ -40,41 +43,44 @@ var QueryTablePartitioning = (
  * @constructor
  * @ngInject
  */
-explorer.components.config.ConfigService = function($http, $location) {
+explorer.components.config.ConfigService = function($http, $location, errorService) {
   /** @private {!Angular.HttpService} */
   this.http_ = $http;
 
   /** @private {!Angular.LocationService} */
   this.location_ = location;
 
-  /** @export {!string} */
+  /** @private {!ErrorService} */
+  this.errorSvc_ = errorService;
+
+  /** @export {string} */
   this.default_project = INITIAL_CONFIG.default_project;
 
-  /** @export {!string} */
+  /** @export {string} */
   this.default_dataset = INITIAL_CONFIG.default_dataset;
 
-  /** @export {!string} */
+  /** @export {string} */
   this.default_table = INITIAL_CONFIG.default_table;
 
-  /** @export {!string} */
+  /** @export {string} */
   this.field_cube_dataset = INITIAL_CONFIG.field_cube_dataset;
 
-  /** @export {!string} */
+  /** @export {string} */
   this.field_cube_table = INITIAL_CONFIG.field_cube_table;
 
-  /** @export {!string} */
+  /** @export {string} */
   this.analytics_key = INITIAL_CONFIG.analytics_key;
 
-  /**@export {!number} */
+  /** @export {number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
 
-  /** @export {!string} */
+  /** @export {string} */
   this.table_partition = INITIAL_CONFIG.table_partition;
 
-  /** @export {!boolean} */
+  /** @export {boolean} */
   this.create_adminonly = INITIAL_CONFIG.create_adminonly;
 
-  /** @export {!boolean} */
+  /** @export {boolean} */
   this.view_adminonly = INITIAL_CONFIG.view_adminonly;
 
   /** @export {string} */
@@ -90,7 +96,7 @@ explorer.components.config.ConfigService = function($http, $location) {
      'tooltip': 'Each table represents a day.  Ex: results_20141024.'}
   ];
 };
-var ConfigService = explorer.components.config.ConfigService;
+const ConfigService = explorer.components.config.ConfigService;
 
 
 /**
@@ -160,7 +166,7 @@ ConfigService.prototype.populate = function(data) {
  * @return {!Object} A JSON representation of the config properties.
  */
 ConfigService.prototype.toJSON = function(data) {
-  var result = data || {};
+  let result = data || {};
 
   result.default_project = this.default_project;
   result.default_dataset = this.default_dataset;
@@ -181,7 +187,7 @@ ConfigService.prototype.toJSON = function(data) {
  * Reloads the global config from the server.
  */
 ConfigService.prototype.refresh = function() {
-  var promise = this.http_.get('/config');
+  let promise = this.http_.get('/config');
 
   promise.then(
       angular.bind(this, function(config) {
@@ -195,11 +201,11 @@ ConfigService.prototype.refresh = function() {
  * Updates the global config on the server.
  */
 ConfigService.prototype.update = function() {
-  var promise = this.http_.post('/config', this.toJSON());
+  let promise = this.http_.post('/config', this.toJSON());
 
-  promise.then(function() {
-      console.log('Global config updated.');
-  });
+  promise.then(angular.bind(this, function() {
+    this.errorSvc_.addError(ErrorTypes.INFO, 'Global config updated.');
+  }));
 };
 
 

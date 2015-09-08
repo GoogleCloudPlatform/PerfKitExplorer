@@ -36,18 +36,18 @@ goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('goog.math');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
-var ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-var ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-var ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-var DashboardConfig = explorer.components.dashboard.DashboardConfig;
-var DashboardModel = explorer.components.dashboard.DashboardModel;
-var DashboardVersionService =
+const explorer = p3rf.perfkit.explorer;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
-var WidgetConfig = explorer.models.WidgetConfig;
-var WidgetModel = explorer.models.WidgetModel;
-var WidgetState = explorer.models.WidgetState;
-var WidgetType = explorer.models.WidgetType;
+const WidgetConfig = explorer.models.WidgetConfig;
+const WidgetModel = explorer.models.WidgetModel;
+const WidgetState = explorer.models.WidgetState;
+const WidgetType = explorer.models.WidgetType;
 
 
 
@@ -67,7 +67,7 @@ explorer.components.widget.WidgetFactoryService = function(
    * Hash table of widgets.
    *
    * @type {!Object.<(ContainerWidgetConfig|WidgetConfig)>}
-   * @expose
+   * @export
    */
   this.widgetsById = {};
 
@@ -75,7 +75,7 @@ explorer.components.widget.WidgetFactoryService = function(
    * Hash table of widgets states.
    *
    * @type {!Object.<WidgetState>}
-   * @expose
+   * @export
    */
   this.statesById = {};
 
@@ -91,7 +91,7 @@ explorer.components.widget.WidgetFactoryService = function(
    */
   this.maxId = Math.pow(2, 31) - 1;
 };
-var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
+let WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
 
 
 /**
@@ -100,7 +100,7 @@ var WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  * @return {string}
  */
 WidgetFactoryService.prototype.generateWidgetId = function() {
-  var uid;
+  let uid;
   while (!uid || this.widgetsById[uid]) {
     uid = Math.floor(goog.math.uniformRandom(this.minId, this.maxId));
   }
@@ -166,7 +166,7 @@ WidgetFactoryService.prototype.toJson = function(widget, opt_pretty) {
  * @return {!(WidgetModel|DashboardModel)}
  */
 WidgetFactoryService.prototype.toModel = function(widget) {
-  var json = this.toJson(widget);
+  let json = this.toJson(widget);
   return /** @type {!(WidgetModel|DashboardModel)} */ (angular.fromJson(json));
 };
 
@@ -182,24 +182,24 @@ WidgetFactoryService.prototype.toDashboardConfig = function(dashboardModel)
     {
   this.dashboardVersionService_.verifyAndUpdateModel(dashboardModel);
 
-  var dashboard = new DashboardConfig(dashboardModel);
+  let dashboard = new DashboardConfig(dashboardModel);
   // Creates containers config object from containers JSON model.
-  for (var i = 0; i < dashboard.model.children.length; i++) {
-    var containerModel = dashboard.model.children[i];
+  for (let i = 0; i < dashboard.model.children.length; i++) {
+    let containerModel = dashboard.model.children[i];
     if (!containerModel.container) {
       throw new Error(
           'Top level DashboardModel\'s children should be containers.');
     }
-    var container =
+    let container =
         this.createObjectFromJsonModel(containerModel);
     // Replace the container with its config object form
     dashboard.model.children[i] = container;
 
     // Creates widgets config object from widgets JSON model.
-    var length = container.model.container.children.length;
-    for (var c = 0; c < length; c++) {
-      var widgetModel = container.model.container.children[c];
-      var widget =
+    let length = container.model.container.children.length;
+    for (let c = 0; c < length; c++) {
+      let widgetModel = container.model.container.children[c];
+      let widget =
           this.createObjectFromJsonModel(widgetModel);
       // Add a reference to the parent container
       widget.state().parent = container;
@@ -219,8 +219,8 @@ WidgetFactoryService.prototype.toDashboardConfig = function(dashboardModel)
  * @param {function((ContainerWidgetModel|WidgetModel))} callback
  */
 WidgetFactoryService.prototype.visitChildWidgets = function(widgets, callback) {
-  for (var i = 0; i < widgets.length; i++) {
-    var widgetModel = widgets[i];
+  for (let i = 0; i < widgets.length; i++) {
+    let widgetModel = widgets[i];
     if (widgetModel.container) {
       this.visitChildWidgets(widgetModel.container.children, callback);
     }
@@ -237,14 +237,14 @@ WidgetFactoryService.prototype.visitChildWidgets = function(widgets, callback) {
  */
 WidgetFactoryService.prototype.patchWidgetWithModel = function(widgetModel) {
   // Get the corresponding widget config by id.
-  var widgetConfig = this.widgetsById[widgetModel.id];
+  let widgetConfig = this.widgetsById[widgetModel.id];
 
   if (!widgetConfig) {
     throw new Error('Trying to patch a non existing widget with model id:',
         widgetModel.id);
   }
 
-  var oldChildren = widgetModel.container ?
+  let oldChildren = widgetModel.container ?
       widgetConfig.model.container.children : null;
 
   // Replace its model with the new one.
@@ -267,15 +267,15 @@ WidgetFactoryService.prototype.patchWidgetWithModel = function(widgetModel) {
  */
 WidgetFactoryService.prototype.patchDashboardWithModel = function(
     dashboardConfig, dashboardModel) {
-  var children =
+  let children =
       /** @type {!Array.<ContainerWidgetModel>} */ (dashboardModel.children);
-  var visitFn =
+  let visitFn =
       /** @type {!Function} */ (angular.bind(this, this.patchWidgetWithModel));
 
   // Patch children.
   this.visitChildWidgets(children, visitFn);
 
-  var oldChildren = dashboardConfig.model.children;
+  let oldChildren = dashboardConfig.model.children;
   // Replace the dashboard model with the new one.
   dashboardConfig.model = dashboardModel;
   // Keep the old children array references.

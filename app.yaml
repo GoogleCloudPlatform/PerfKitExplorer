@@ -1,8 +1,9 @@
 application: unset
-version: 22-6
-runtime: python27  # Which runtime to use.
-api_version: 1     # Which version of the API to use for that runtime.
-threadsafe: true  # Whether or not to enable threading.
+version: 22-7
+runtime: python27       # Which runtime to use.
+api_version: 1          # Which version of the API to use for that runtime.
+threadsafe: true        # Whether or not to enable threading.
+instance_class: F4      # Instance size to handle front-end requests.
 default_expiration: 30d
 
 # Third party libraries loaded from the App Engine environment.

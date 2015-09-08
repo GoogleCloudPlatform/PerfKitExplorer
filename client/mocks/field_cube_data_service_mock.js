@@ -19,7 +19,13 @@
 
 goog.provide('p3rf.perfkit.explorer.mocks.fieldCubeDataServiceMock');
 
-var fieldCubeDataServiceMock = angular.module('fieldCubeDataServiceMock', []);
+
+goog.scope(function() {
+const explorer = p3rf.perfkit.explorer;
+
+explorer.mocks.fieldCubeDataServiceMock = angular.module(
+    'fieldCubeDataServiceMock', []);
+const fieldCubeDataServiceMock = explorer.mocks.fieldCubeDataServiceMock;
 
 
 fieldCubeDataServiceMock.value('fieldCubeDataServiceMockData',
@@ -33,3 +39,5 @@ fieldCubeDataServiceMock.value('fieldCubeDataServiceMockData',
         ];
       }
     });
+
+}); // goog.scope

@@ -19,9 +19,13 @@
 
 goog.provide('p3rf.perfkit.explorer.mocks.queryResultDataServiceMock');
 
-var queryResultDataServiceMock =
-    angular.module('queryResultDataServiceMock', []);
 
+goog.scope(function() {
+const explorer = p3rf.perfkit.explorer;
+
+explorer.mocks.queryResultDataServiceMock = angular.module(
+    'queryResultDataServiceMock', []);
+const queryResultDataServiceMock = explorer.mocks.queryResultDataServiceMock;
 
 queryResultDataServiceMock.value('queryResultDataServiceMockData',
     {
@@ -47,3 +51,5 @@ queryResultDataServiceMock.value('queryResultDataServiceMockData',
         ]
       }}
     });
+
+}); // goog.scope

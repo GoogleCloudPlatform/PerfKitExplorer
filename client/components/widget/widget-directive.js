@@ -18,7 +18,7 @@
  * according to the layout object defined in the model.
  *
  * Usage:
- *   <perfkit-widget class="perfkit-widget" widget-config="widgetConfig"/>
+ *   <perfkit-widget class="pk-widget" widget-config="widgetConfig"/>
  *
  * Attributes:
  *  {p3rf.perfkit.explorer.models.WidgetConfig} widget-config
@@ -29,7 +29,7 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 
 goog.scope(function() {
-var explorer = p3rf.perfkit.explorer;
+const explorer = p3rf.perfkit.explorer;
 
 
 /**
@@ -45,19 +45,18 @@ explorer.components.widget.perfkitWidget = function() {
     scope: {
       widgetConfig: '='
     },
-    // TODO: Use templateUrl instead of hardcoded template strings.
     templateUrl: '/static/components/widget/widget-directive.html',
     link: function(scope, element, attributes) {
-      var basis;
+      let basis;
 
-      var adjustColumnSize = function() {
-        var columnspan = scope.widgetConfig.model.layout.columnspan;
+      let adjustColumnSize = function() {
+        let columnspan = scope.widgetConfig.model.layout.columnspan;
         // Column size is a percent value multiply by columnspan
         basis =
             (100 / scope.widgetConfig.state().parent.model.container.columns) *
             columnspan;
         // Set minimum width multiply by columnspan
-        var minWidth = perfkitWidget.MIN_COLUMN_WIDTH * columnspan;
+        let minWidth = perfkitWidget.MIN_COLUMN_WIDTH * columnspan;
         // Apply new style value
         scope.layoutStyle = {
           '-webkit-flex-basis': basis + '%',
@@ -88,7 +87,7 @@ explorer.components.widget.perfkitWidget = function() {
     }
   };
 };
-var perfkitWidget = explorer.components.widget.perfkitWidget;
+let perfkitWidget = explorer.components.widget.perfkitWidget;
 
 
 /** @type {number} */

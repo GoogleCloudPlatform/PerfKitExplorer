@@ -20,10 +20,12 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
+goog.require('p3rf.perfkit.explorer.models.SortOrder');
 goog.require('p3rf.perfkit.explorer.models.DataViewModel');
 
 describe('dataViewService', function() {
   var DataViewModel = p3rf.perfkit.explorer.models.DataViewModel;
+  var SortOrder = p3rf.perfkit.explorer.models.SortOrder;
   var svc, gvizDataViewMock, gvizDataTable;
 
   beforeEach(module('explorer'));
@@ -138,5 +140,51 @@ describe('dataViewService', function() {
           expect(dataViewJson.error.property).toEqual('sort');
         }
     );
+  });
+
+  describe('getSortedColumns', function() {
+    var dataTable;
+
+    beforeEach(function() {
+      var data = {
+        cols: [
+          {id: 'colskip', label: 'ColSkip', type: 'number'},
+          {id: 'col3', label: 'Col3', type: 'number'},
+          {id: 'col1', label: 'Col1', type: 'number'},
+          {id: 'col2', label: 'Col2', type: 'number'}
+        ],
+        rows: []
+      };
+
+      dataTable = new gvizDataTable(data);
+    });
+
+    it('should return the column indexes in ascending order when no ' +
+       'order is passed.', function() {
+      var cols = svc.getSortedColumns(dataTable, 0);
+
+      expect(cols).toEqual([2,3,1,0]);
+    });
+
+    it('should return the column indexes in ascending order when ' +
+       'SortOrder.ASCENDING is provided.', function() {
+      var cols = svc.getSortedColumns(dataTable, 0, SortOrder.ASCENDING);
+
+      expect(cols).toEqual([2,3,1,0]);
+    });
+
+    it('should return the column indexes in descending order when ' +
+       'SortOrder.DESCENDING is provided.', function() {
+      var cols = svc.getSortedColumns(dataTable, 0, SortOrder.DESCENDING);
+
+      expect(cols).toEqual([0,1,3,2]);
+    });
+
+    it('should ignore the first n columns specified by sort_column_offset',
+        function() {
+      var cols = svc.getSortedColumns(dataTable, 1);
+
+      expect(cols).toEqual([0,2,3,1]);
+    });
   });
 });
