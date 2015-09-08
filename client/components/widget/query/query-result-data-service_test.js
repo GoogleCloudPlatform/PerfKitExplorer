@@ -20,11 +20,13 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.mocks.queryResultDataServiceMock');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 
 describe('queryResultDataService', function() {
   var svc, rootScope;
   var httpBackend, endpoint, mockData;
+  var ChartWidgetConfig = p3rf.perfkit.explorer.models.ChartWidgetConfig;
 
   beforeEach(module('explorer'));
   beforeEach(module('googleVisualizationMocks'));
@@ -37,8 +39,10 @@ describe('queryResultDataService', function() {
     mockData = queryResultDataServiceMockData.data;
   }));
 
-  beforeEach(inject(function(queryResultDataService, $rootScope) {
+  beforeEach(inject(function(
+      queryResultDataService, widgetFactoryService, $rootScope) {
     svc = queryResultDataService;
+    widgetFactorySvc = widgetFactoryService;
     rootScope = $rootScope;
   }));
 
@@ -116,10 +120,13 @@ describe('queryResultDataService', function() {
         function() {
           var dataTable = null;
           var query = endpoint;
-          var params = {'datasource': {'query': 'fakeQuery1'}};
+          var widget = new ChartWidgetConfig(widgetFactorySvc);
+          widget.model.datasource.query = 'fakeQuery1';
+
+          var params = {'datasource': widget.model.datasource};
           httpBackend.expectPOST(query, params).respond(mockData);
 
-          var promise = svc.fetchResults({query: 'fakeQuery1'});
+          var promise = svc.fetchResults(widget);
           promise.then(function(data) {
             dataTable = data;
           });
@@ -134,11 +141,14 @@ describe('queryResultDataService', function() {
           var dataTable = null,
               dataTableCached = null;
           var query = endpoint;
-          var params = {'datasource': {'query': 'fakeQuery2'}};
+          var widget = new ChartWidgetConfig(widgetFactorySvc);
+          widget.model.datasource.query = 'fakeQuery2';
+
+          var params = {'datasource': widget.model.datasource};
           httpBackend.expectPOST(query, params).respond(mockData);
 
           // Fetch the data one time
-          var promise = svc.fetchResults({query: 'fakeQuery2'});
+          var promise = svc.fetchResults(widget);
           promise.then(function(data) {
             dataTable = data;
           });
@@ -147,7 +157,7 @@ describe('queryResultDataService', function() {
           expect(dataTable).not.toBeNull();
 
           // Now it should be cached
-          promise = svc.fetchResults({query: 'fakeQuery2'});
+          promise = svc.fetchResults(widget);
           promise.then(function(data) {
             dataTableCached = data;
           });
@@ -157,5 +167,22 @@ describe('queryResultDataService', function() {
           expect(dataTableCached).toBe(dataTable);
         }
     );
+    
+    it('should store query statistics in the datasource state', function() {
+      var query = endpoint;
+      var widget = new ChartWidgetConfig(widgetFactorySvc);
+      widget.model.datasource.query = 'fakeQuery2';
+
+      var params = {'datasource': widget.model.datasource};
+      httpBackend.expectPOST(query, params).respond(mockData);
+
+      var promise = svc.fetchResults(widget);          
+      httpBackend.flush();
+
+      expect(widget.state().datasource.job_id).toEqual(12345);
+      expect(widget.state().datasource.query_size).toEqual(123456);
+      expect(widget.state().datasource.query_time).toEqual(123);
+      expect(widget.state().datasource.row_count).toEqual(3);
+    });
   });
 });

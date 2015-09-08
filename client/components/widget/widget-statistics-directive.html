@@ -1,0 +1,13 @@
+<div class="widget-footer" ng-show="ngModel.state().datasource.status == 'Fetched'">
+  <span ng-show="explorerSvc.model.logStatistics">
+    <span class="propertybar-label">bq job </span>
+    <span class="propertybar-value">{{ ngModel.state().datasource.job_id }}</span>
+  </span>
+  <span class="propertybar-label"> returned </span>
+  <span class="propertybar-value">{{ ngModel.state().datasource.row_count | number:0 }}</span>
+  <span class="propertybar-label"> rows, processing </span>
+  <span class="propertybar-value">{{ ngModel.state().datasource.query_size / 1000000000 | number:2 }}</span>
+  <span class="propertybar-label">GB in </span>
+  <span class="propertybar-value">{{ ngModel.state().datasource.query_time | number:2 }}</span>
+  <span class="propertybar-label">sec</span>
+</div>

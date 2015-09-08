@@ -174,13 +174,14 @@ QueryResultDataService.prototype.applyRoles = function(data) {
 
 
 /**
- * Fetches the samples results of a datasource, creates a DataTable and caches
+ * Fetches the samples results of a widget, creates a DataTable and caches
  * it.
  *
- * @param {DatasourceModel} datasource
+ * @param {WidgetConfig} widget
  * @return {angular.$q.Promise.<google.visualization.DataTable>}
  */
-QueryResultDataService.prototype.fetchResults = function(datasource) {
+QueryResultDataService.prototype.fetchResults = function(widget) {
+  let datasource = widget.model.datasource;
   let deferred = this.q_.defer();
   let cacheKey = angular.toJson(datasource);
   let cachedDataTable = this.cache_.get(cacheKey);
@@ -198,11 +199,17 @@ QueryResultDataService.prototype.fetchResults = function(datasource) {
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
-        if (this.explorerService_.model.logStatistics) {
-          let rows = response.data.totalRows;
-          let size = response.data.totalBytesProcessed;
-          let speed = response.data.elapsedTime;
+        let rows = response.data.totalRows;
+        let size = response.data.totalBytesProcessed;
+        let time = response.data.elapsedTime;
+        let job = response.data.jobReference.jobId;
 
+        widget.state().datasource.job_id = job;
+        widget.state().datasource.row_count = rows;
+        widget.state().datasource.query_size = size;
+        widget.state().datasource.query_time = time;
+
+        if (this.explorerService_.model.logStatistics) {
           this.errorService_.addError(
               ErrorTypes.INFO,
               'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
