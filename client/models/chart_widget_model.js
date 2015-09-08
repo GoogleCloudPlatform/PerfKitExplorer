@@ -154,24 +154,28 @@ explorer.models.DatasourceState = function() {
   this.status = ResultsDataStatus.TOFETCH;
 
   /**
+   * Represents the BigQuery job ID that the query was executed under.
    * @type {string}
    * @export
    */
   this.job_id = '';
 
   /**
+   * Represents the number of rows returned by the query.
    * @type {number}
    * @export
    */
   this.row_count = '';
 
   /**
+   * Represents the total time (in seconds) that the query took to run.
    * @type {number}
    * @export
    */
   this.query_time = '';
 
   /**
+   * Represents the size (in bytes) of data scanned to produce the query result.
    * @type {number}
    * @export
    */
@@ -291,6 +295,7 @@ explorer.models.ChartWidgetModel = function() {
   this.type = WidgetType.CHART;
 
   /**
+   * If true, widgets will display query statistics (time, size, etc.).
    * @type {boolean}
    */
   this.show_statistics = false;
