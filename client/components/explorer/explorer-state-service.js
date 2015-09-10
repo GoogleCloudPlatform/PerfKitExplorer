@@ -95,7 +95,6 @@ explorer.components.explorer.ExplorerStateService = function(
    */
   this.widgetIsFocused = false;
 
-
   /**
    * Returns true if the footer is visible (expanded), otherwise false.
    * @export {boolean}

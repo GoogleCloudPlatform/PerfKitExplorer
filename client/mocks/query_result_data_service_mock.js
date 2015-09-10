@@ -30,26 +30,32 @@ const queryResultDataServiceMock = explorer.mocks.queryResultDataServiceMock;
 queryResultDataServiceMock.value('queryResultDataServiceMockData',
     {
       endpoint: '/data/sql',
-      data: { results: {
-        cols: [
-          {id: 'date', label: 'Date', type: 'date'},
-          {id: 'value', label: 'Response Time', type: 'number'}
-        ],
-        rows: [
-          {c: [
-            {v: '2013/03/03 00:48:04'},
-            {v: 0}
-          ]},
-          {c: [
-            {v: '2013/03/04 00:50:04', f: 'Custom text'},
-            {v: 0}
-          ]},
-          {c: [
-            {v: '2013/03/05 00:59:04'},
-            {v: 0}
-          ]}
-        ]
-      }}
+      data: {
+        elapsedTime: 123,
+        jobId: 12345,
+        totalRows: 3,
+        totalBytesProcessed: 123456,
+        results: {
+          cols: [
+            {id: 'date', label: 'Date', type: 'date'},
+            {id: 'value', label: 'Response Time', type: 'number'}
+          ],
+          rows: [
+            {c: [
+              {v: '2013/03/03 00:48:04'},
+              {v: 0}
+            ]},
+            {c: [
+              {v: '2013/03/04 00:50:04', f: 'Custom text'},
+              {v: 0}
+            ]},
+            {c: [
+              {v: '2013/03/05 00:59:04'},
+              {v: 0}
+            ]}
+          ]
+        }
+      }
     });
 
 }); // goog.scope
