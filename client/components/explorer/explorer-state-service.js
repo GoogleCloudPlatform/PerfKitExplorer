@@ -108,10 +108,17 @@ ExplorerStateService.prototype.selectWidget = function(
     containerId, widgetId) {
   let params = {};
   let valid = true;
+  let targetContainer, targetWidget = null;
 
   if (containerId) {
-    if (goog.isDefAndNotNull(this.containers.all[containerId])) {
+    if (this.containers.selected) {
+      this.containers.selected.state().selected = false;
+    }
+
+    targetContainer = this.containers.all[containerId];
+    if (goog.isDefAndNotNull(targetContainer)) {
       params['container'] = containerId;
+      targetContainer.state().selected = true;
     } else {
       this.errorSvc_.addError(ErrorTypes.DANGER,
         'Selection failed: container id ' + containerId + ' does not exist.');
@@ -122,8 +129,15 @@ ExplorerStateService.prototype.selectWidget = function(
   }
 
   if (widgetId) {
-    if (goog.isDefAndNotNull(this.widgets.all[widgetId])) {
+    if (this.widgets.selected) {
+      this.widgets.selected.state().selected = false;
+    }
+
+    targetWidget = this.widgets.all[widgetId];
+
+    if (goog.isDefAndNotNull(targetWidget) {
       params['widget'] = widgetId;
+      targetWidget.state().selected = true;
     } else {
       this.errorSvc_.addError(ErrorTypes.DANGER,
         'Selection failed: widget id ' + widgetId + ' does not exist.');
