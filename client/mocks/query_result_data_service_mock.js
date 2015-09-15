@@ -32,7 +32,9 @@ queryResultDataServiceMock.value('queryResultDataServiceMockData',
       endpoint: '/data/sql',
       data: {
         elapsedTime: 123,
-        jobId: 12345,
+        jobReference: {
+          jobId: 12345
+        },
         totalRows: 3,
         totalBytesProcessed: 123456,
         results: {
