@@ -12,6 +12,10 @@ div:focus {
   outline: none;
 }
 
+label {
+  font-weight: normal;
+}
+
 .pk-page-canvas {
   height: 100%;
   width: 100%;

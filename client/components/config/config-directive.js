@@ -32,7 +32,7 @@ goog.scope(function() {
    *
    * @return {Object} Directive definition object.
    */
-  explorer.components.config.ConfigDirective = function(configService) {
+  explorer.components.config.ConfigDirective = function() {
     return {
       restrict: 'E',
       replace: true,
@@ -41,9 +41,10 @@ goog.scope(function() {
         'ngModel': '='
       },
       templateUrl: '/static/components/config/config-directive.html',
-      controller: function($scope, configService) {
+      controller: [
+          '$scope', 'configService', function($scope, configService) {
         $scope.configSvc = configService;
-      }
+      }]
     };
   };
 

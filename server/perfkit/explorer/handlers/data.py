@@ -99,6 +99,9 @@ class FieldDataHandler(base.RequestHandlerBase):
 
     config = explorer_config.ExplorerConfigModel.Get()
     client = DataHandlerUtil.GetDataClient(self.env)
+
+    # TODO: Add a project-product mapping table to determine
+    # appropriate lookup tables.
     client.project_id = config.default_project
 
     query = explorer_method.ExplorerQueryBase(
