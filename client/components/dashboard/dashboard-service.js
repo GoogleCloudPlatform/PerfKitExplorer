@@ -788,6 +788,24 @@ DashboardService.prototype.removeContainer = function(container) {
 
 
 /**
+ * If clicking on a background UI element, unselect the current widget
+ * and container, if any.
+ *
+ * @param {Event} event;
+ */
+DashboardService.prototype.onDashboardClick = function(event) {
+  // Check if this is called from an event handler. In this case, only
+  // unselect if the clicked element is a background element, and
+  // ignore if it's propagated from something else such as a widget or
+  // button. Assumes that all "background" elements are marked
+  // with the "pk-background" class.
+  if (event.target.classList.contains('pk-background')) {
+    this.unselectWidget();
+  }
+};
+
+
+/**
  * Unselect the currently selected widget and container, if any.
  */
 DashboardService.prototype.unselectWidget = function() {
