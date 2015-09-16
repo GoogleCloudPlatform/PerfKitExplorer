@@ -371,25 +371,29 @@ DashboardService.prototype.initializeParams_ = function() {
  */
 DashboardService.prototype.selectWidget = function(
     widget, container, opt_supressStateChange) {
+  let currentContainer = this.explorerStateService_.containers.selected;
   let currentWidget = this.explorerStateService_.widgets.selected;
 
-  if (currentWidget) {
-    currentWidget.state().selected = false;
+  if (currentWidget !== widget) {
+    currentWidget && (currentWidget.state().selected = false);
+    widget && (widget.state().selected = true);
   }
 
-  let currentContainer = this.explorerStateService_.containers.selected;
-
-  if (currentContainer && currentContainer !== container) {
-    currentContainer.state().selected = false;
+  if (currentContainer !== container) {
+    currentContainer && (currentContainer.state().selected = false);
+    container && (container.state().selected = true);
   }
 
-  if (container && currentContainer !== container) {
-    container.state().selected = true;
+  if (!opt_supressStateChange) {
+    params = {widget: undefined, container: undefined};
+
+    if (widget) { params.widget = widget.model.id; }
+    if (container) { params.container = container.model.id };
+
+    this.$state_.go('explorer-dashboard-edit', params);
   }
 
   if (widget) {
-    widget.state().selected = true;
-
     if (this.sidebarTabService_.selectedTab &&
         !this.sidebarTabService_.selectedTab.requireWidget) {
       this.sidebarTabService_.selectTab(
@@ -410,20 +414,13 @@ DashboardService.prototype.selectWidget = function(
       this.scrollContainerIntoView(container);
     });
   } else {
-    if (this.sidebarTabService_.selectedTab &&
-        !this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
-      this.sidebarTabService_.selectTab(
-          this.sidebarTabService_.getFirstTab());
-    }
-  }
-
-  if (!opt_supressStateChange) {
-    params = {widget: undefined, container: undefined};
-
-    if (widget) { params.widget = widget.model.id; }
-    if (container) { params.container = container.model.id };
-
-    this.$state_.go('explorer-dashboard-edit', params);
+    this.timeout_(() => {      
+      if (this.sidebarTabService_.selectedTab &&
+          !this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
+        this.sidebarTabService_.selectTab(
+            this.sidebarTabService_.getFirstTab());
+      }
+    });
   }
 };
 

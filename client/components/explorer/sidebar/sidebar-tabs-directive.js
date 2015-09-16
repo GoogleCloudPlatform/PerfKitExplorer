@@ -53,22 +53,6 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
         this.tabSvc.toggleTab(tab);
         tab.tooltipVisible = false;
       };
-
-      // When selected widget changes to null, and the selected tab's
-      // requireWidget property is true, select the next visible (non-widget)
-      // tab.
-      $scope.$watch(
-          angular.bind(this, function() {
-            return this.dashboardSvc.selectedWidget; }),
-          angular.bind(this, function(newValue, oldValue) {
-            if (newValue !== oldValue) {
-              if (!newValue && this.tabSvc.selectedTab &&
-                  this.tabSvc.selectedTab.requireWidget) {
-                this.tabSvc.selectedTab = this.tabSvc.getNextTab(
-                    this.tabSvc.selectedTab);
-              }
-            }
-          }));
     }],
     controllerAs: 'ctrl'
   };
