@@ -319,6 +319,10 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
       if (container.model.id ===
           this.explorerStateService_.containers.selectedId) {
         container.state().selected = true;
+
+        if (!this.explorerStateService_.widgets.selectedId) {
+          this.selectWidget(null, container, true);
+        }
       }
       for (let widget of container.model.container.children) {
         this.explorerStateService_.widgets.all[widget.model.id] = widget;
@@ -395,6 +399,10 @@ DashboardService.prototype.selectWidget = function(
     this.timeout_(() => {
       this.scrollWidgetIntoView(widget);
     });
+  } else if (container) {
+    this.timeout_(() => {
+      this.scrollContainerIntoView(container);
+    });
   }
 
   if (!opt_supressStateChange) {
@@ -408,15 +416,41 @@ DashboardService.prototype.selectWidget = function(
 };
 
 
-DashboardService.prototype.scrollWidgetIntoView = function(widget) {
-  let widgetElement = angular.element(
-      document.getElementsByClassName('pk-widget-' + widget.model.id));
-  let contentElement = angular.element(
-      document.getElementsByClassName('pk-page-content'));
 
-  if ((widgetElement.length === 1) && (contentElement.length === 1)) {
-    goog.style.scrollIntoContainerView(widgetElement[0], contentElement[0]);
+/**
+ * Scrolls the specified content element (typically a widget or container) into view.
+ * @param {!angular.Element} targetElement The element to scroll into view.
+ */
+DashboardService.prototype.scrollPageElementIntoView = function(targetElement) {
+  let contentElement = angular.element(document.getElementsByClassName('pk-page-content'));
+
+  if ((targetElement.length === 1) && (contentElement.length === 1)) {
+    goog.style.scrollIntoContainerView(targetElement[0], contentElement[0]);
   }
+};
+
+
+/**
+ * Scrolls the specified container into view.
+ * @param {!ContainerConfig} container
+ */
+DashboardService.prototype.scrollContainerIntoView = function(container) {
+  let targetElement = angular.element(
+      document.getElementsByClassName('pk-container-' + container.model.id));
+
+  this.scrollPageElementIntoView(targetElement);
+};
+
+
+/**
+ * Scrolls the specified widget into view.
+ * @param {!WidgetConfig} widget
+ */
+DashboardService.prototype.scrollWidgetIntoView = function(widget) {
+  let targetElement = angular.element(
+      document.getElementsByClassName('pk-widget-' + widget.model.id));
+
+  this.scrollPageElementIntoView(targetElement);
 };
 
 

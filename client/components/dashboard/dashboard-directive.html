@@ -3,7 +3,7 @@
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
   <div ng-repeat="container in dashboardSvc.containers"
-       class="pk-container pk-background"
+       class="pk-container pk-container-{{ container.model.id }} pk-background"
        ng-class="{'pk-container-selected': container.state().selected}">
 
     <container class="pk-container-content" layout="column"
