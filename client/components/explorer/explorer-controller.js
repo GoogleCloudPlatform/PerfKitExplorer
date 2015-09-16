@@ -126,8 +126,10 @@ const ExplorerCtrl = explorer.components.explorer.ExplorerCtrl;
 /**
  * Handles KeyDown events on the page.  Specific behavior is noted below.
  *
- * ESC: If an element has focus, de-focus it.  Otherwise, if a widget is
- *     selected, de-select it.
+ * ESC: If an element has focus, de-focus it.
+ *     Otherwise, if a widget is selected, de-select it.
+ *     Otherwise, if a container is selected, de-select it.
+ *     Otherwise, if a tab is selected, de-select it.
  *
  * @param event
  * @export
@@ -136,7 +138,13 @@ ExplorerCtrl.prototype.checkKeyDown = function(event) {
   if (event.keyCode === this.explorer.KEY_ESCAPE) {
     if (document.activeElement === null ||
          document.activeElement === document.body) {
-      this.explorer.unselectWidget();
+      if (this.dashboard.selectedWidget) {
+        this.dashboard.selectWidget(null, this.dashboard.selectedContainer);
+      } else if (this.dashboard.selectedContainer) {
+        this.dashboard.selectWidget(null, null);
+      } else if (this.sidebarTabService.selectedTab) {
+        this.sidebarTabService.selectedTab = null;
+      }
     } else {
       document.activeElement.blur();
     }
