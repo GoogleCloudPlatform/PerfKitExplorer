@@ -3,7 +3,7 @@
       class="pk-sidebar-tab {{ tab.tabClass }}"
       ng-repeat="tab in ctrl.tabSvc.tabs"
       ng-click="ctrl.tabClicked(tab)"
-      ng-hide="tab.requireWidget && !ctrl.dashboardSvc.selectedWidget"
+      ng-show="ctrl.tabSvc.isTabVisible(tab)"
       ng-class="{'pk-sidebar-tab-selected': ctrl.tabSvc.selectedTab == tab}"
       ng-attr-selected="ctrl.tabSvc.selectedTab == tab">
     <md-tooltip

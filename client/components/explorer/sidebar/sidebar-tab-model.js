@@ -57,7 +57,7 @@ explorer.components.explorer.sidebar.SidebarTabModel = class {
      * PerfKit Explorer currently supports icons from the following sources:
      *   Font Awesome: https://fortawesome.github.io/Font-Awesome/icons/
      *   Bootstrap: http://getbootstrap.com/components/#glyphicons
-     *     an implementation of Glyphicons: http://glyphicons.com/
+     *     (an implementation of Glyphicons: http://glyphicons.com/)
      * @export {string}
      */
     this.iconClass = '';

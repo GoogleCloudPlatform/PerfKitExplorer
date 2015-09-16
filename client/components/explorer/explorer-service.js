@@ -199,6 +199,20 @@ explorer.components.explorer.ExplorerService = function(
               this.sidebarTabService_.selectTab(
                   this.sidebarTabService_.getFirstWidgetTab());
             }
+          } else if ($stateParams.container) {
+            // Otherwise, if a container is selected, make sure a container tab is selected.
+            if (!(this.sidebarTabService_.selectedTab &&
+                 this.sidebarTabService_.selectedTab.requireContainer)) {
+              this.sidebarTabService_.selectTab(
+                  this.sidebarTabService_.getFirstContainerTab());
+            }
+          } else {
+            // Otherwise, select the first global tab if another tab is selected.
+            if (this.sidebarTabService_.selectedTab &&
+                 !this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
+              this.sidebarTabService_.selectTab(
+                  this.sidebarTabService_.getFirstTab());
+            }
           }
 
           // If any dashboard parameters changed, refresh the dashboard.

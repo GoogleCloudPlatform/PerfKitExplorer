@@ -18,13 +18,14 @@
  */
 
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SIDEBAR_TABS');
-goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 
 
 explorer.components.explorer.sidebar.SIDEBAR_TABS = [
@@ -33,7 +34,7 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
     panelClass: 'dashboard-panel', toolbarClass: 'dashboard-toolbar'},
   {id: 'container', title: 'Container', iconClass: 'fa fa-dropbox',
-    hint: 'Container properties and text',
+    hint: 'Container properties and text', requireContainer: true,
     tabClass: 'dashboard-tab', panelTitleClass: 'dashboard-panel-title',
     panelClass: 'dashboard-panel', toolbarClass: 'dashboard-toolbar'},
   {id: 'widget.config', title: 'Widget', iconClass: 'fa fa-cube',
@@ -73,23 +74,25 @@ explorer.components.explorer.sidebar.SidebarTabService = function(
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = SIDEBAR_TABS;
 
-  /** @export {?ExplorerTabModel} */
+  /** @export {?SidebarTabModel} */
   this.selectedTab = null;
 };
 const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 
+
 /**
  * Marks the provided tab as the selected one.
- * @param {?ExplorerTabModel} tab
+ * @param {?SidebarTabModel} tab
  * @export
  */
 SidebarTabService.prototype.selectTab = function(tab) {
   this.selectedTab = tab;
 };
 
+
 /**
  * Toggles the selection state of a tab.
- * @param {?ExplorerTabModel} tab
+ * @param {?SidebarTabModel} tab
  * @export
  */
 SidebarTabService.prototype.toggleTab = function(tab) {
@@ -102,8 +105,26 @@ SidebarTabService.prototype.toggleTab = function(tab) {
 
 
 /**
+ * Selects the first available container-related tab.
+ * @return {?SidebarTabModel}
+ */
+SidebarTabService.prototype.getFirstContainerTab = function() {
+  for (let i=0, len=this.tabs.length; i < len; ++i) {
+    let currentTab = this.tabs[i];
+
+    if (currentTab.requireContainer) {
+      return currentTab;
+    }
+  }
+
+  console.log('getFirstContainerTab failed: No container tabs available.');
+  return null;
+};
+
+
+/**
  * Selects the first available widget-related tab.
- * @return {?ExplorerTabModel}
+ * @return {?SidebarTabModel}
  */
 SidebarTabService.prototype.getFirstWidgetTab = function() {
   for (let i=0, len=this.tabs.length; i < len; ++i) {
@@ -115,18 +136,45 @@ SidebarTabService.prototype.getFirstWidgetTab = function() {
   }
 
   console.log('getFirstWidgetTab failed: No widget tabs available.');
+  return null;
+};
+
+
+
+/**
+  * Returns true if the tab should be displayed, otherwise false.
+  * @param {!SidebarTabModel}
+  * @export
+  */
+SidebarTabService.prototype.isTabVisible = function(tab) {
+  // TODO(joemu): Replace this with data-driven logic.
+  if (tab.requireWidget &&
+      !this.explorerStateSvc_.widgets.selectedId) {
+    return false;
+  }
+
+  if (tab.requireContainer &&
+      !this.explorerStateSvc_.containers.selectedId) {
+    return false;
+  }
+
+  return true;
 };
 
 
 /**
  * Selects the first available tab.
- * @return {?ExplorerTabModel}
+ * @return {!SidebarTabModel}
  */
 SidebarTabService.prototype.getFirstTab = function() {
   return this.tabs[0];
 };
 
 
+/**
+ * Returns the last available tab.
+ * @return {!SidebarTabModel}
+ */
 SidebarTabService.prototype.getLastTab = function() {
   if (this.explorerStateSvc_.widgets.selectedId) {
     return this.tabs[this.tabs.length - 1];
@@ -134,7 +182,7 @@ SidebarTabService.prototype.getLastTab = function() {
     for (let i=this.tabs.length - 1; i >= 0; --i) {
       let currentTab = this.tabs[i];
 
-      if (!currentTab.requireWidget) {
+      if (this.isTabVisible(currentTab)) {
         return currentTab;
       }
     }
@@ -143,6 +191,11 @@ SidebarTabService.prototype.getLastTab = function() {
   console.log('getFirstTab failed: No non-widget tabs available.');
 };
 
+
+/**
+ * Returns the next available tab, or the first if at the end.
+ * @return {!SidebarTabModel}
+ */
 SidebarTabService.prototype.getNextTab = function() {
   if (this.selectedTab) {
     let selectedTabIndex = this.tabs.indexOf(
@@ -160,7 +213,7 @@ SidebarTabService.prototype.getNextTab = function() {
            i < len; ++i) {
         let currentTab = this.tabs[i];
 
-        if (!currentTab.requireWidget) {
+        if (this.isTabVisible(currentTab)) {
           return currentTab;
         }
       }
@@ -170,6 +223,10 @@ SidebarTabService.prototype.getNextTab = function() {
   return this.getFirstTab();
 };
 
+
+/**
+ * Returns the previous available tab, or the last if at the start.
+ */
 SidebarTabService.prototype.getPreviousTab = function() {
   if (this.selectedTab) {
     let selectedTabIndex = this.tabs.indexOf(
@@ -186,7 +243,7 @@ SidebarTabService.prototype.getPreviousTab = function() {
       for (let i=selectedTabIndex - 1; i >= 0; --i) {
         let currentTab = this.tabs[i];
 
-        if (!currentTab.requireWidget) {
+        if (this.isTabVisible(currentTab)) {
           return currentTab;
         }
       }

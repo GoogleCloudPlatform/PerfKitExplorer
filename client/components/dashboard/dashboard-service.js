@@ -391,11 +391,11 @@ DashboardService.prototype.selectWidget = function(
       this.sidebarTabService_.selectTab(
           this.sidebarTabService_.getFirstWidgetTab());
     }
-  }
 
-  this.timeout_(() => {
-    this.scrollWidgetIntoView(widget);
-  });
+    this.timeout_(() => {
+      this.scrollWidgetIntoView(widget);
+    });
+  }
 
   if (!opt_supressStateChange) {
     params = {widget: undefined, container: undefined};

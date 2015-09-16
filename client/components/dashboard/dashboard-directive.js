@@ -55,9 +55,23 @@ explorer.components.dashboard.DashboardDirective = function() {
       /** @export */
       $scope.explorerSvc = explorerService;
 
-      $scope.logError = function(msg) {
-        console.log(msg);
-      };
+      /** @export */
+      $scope.clickRefreshWidget = function(event, widget) {
+        dashboardService.refreshWidget(widget);
+        event.stopPropagation();
+      }
+
+      /** @export */
+      $scope.clickContainer = function(event, container) {
+        dashboardService.selectWidget(null, container);
+        event.stopPropagation();
+      }
+
+      /** @export */
+      $scope.clickWidget = function(event, widget, container) {
+        dashboardService.selectWidget(widget, container);
+        event.stopPropagation();
+      }
     }]
   };
 };
