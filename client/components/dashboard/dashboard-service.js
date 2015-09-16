@@ -409,6 +409,12 @@ DashboardService.prototype.selectWidget = function(
     this.timeout_(() => {
       this.scrollContainerIntoView(container);
     });
+  } else {
+    if (this.sidebarTabService_.selectedTab &&
+        !this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
+      this.sidebarTabService_.selectTab(
+          this.sidebarTabService_.getFirstTab());
+    }
   }
 
   if (!opt_supressStateChange) {
@@ -849,13 +855,7 @@ DashboardService.prototype.onDashboardClick = function(event) {
  * Unselect the currently selected widget and container, if any.
  */
 DashboardService.prototype.unselectWidget = function() {
-  let currentSelection = this.explorerStateService_.widgets.selected;
-
-  if (currentSelection) {
-    currentSelection.state().selected = false;
-  }
-
-  this.explorerStateService_.selectWidget(null, null);
+  this.selectWidget(null, null);
 };
 
 
