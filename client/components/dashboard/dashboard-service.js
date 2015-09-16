@@ -390,8 +390,8 @@ DashboardService.prototype.selectWidget = function(
   if (widget) {
     widget.state().selected = true;
 
-    if (!(this.sidebarTabService_.selectedTab &&
-          this.sidebarTabService_.selectedTab.requireWidget)) {
+    if (this.sidebarTabService_.selectedTab &&
+        !this.sidebarTabService_.selectedTab.requireWidget) {
       this.sidebarTabService_.selectTab(
           this.sidebarTabService_.getFirstWidgetTab());
     }
@@ -400,6 +400,12 @@ DashboardService.prototype.selectWidget = function(
       this.scrollWidgetIntoView(widget);
     });
   } else if (container) {
+    if (this.sidebarTabService_.selectedTab &&
+        !this.sidebarTabService_.selectedTab.requireContainer) {
+      this.sidebarTabService_.selectTab(
+          this.sidebarTabService_.getFirstContainerTab());
+    }
+
     this.timeout_(() => {
       this.scrollContainerIntoView(container);
     });

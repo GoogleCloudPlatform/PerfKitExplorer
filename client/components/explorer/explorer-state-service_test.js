@@ -27,7 +27,7 @@ goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 
 describe('ExplorerStateService', function() {
   var svc, $rootScope, $state;
-  var errorSvc, explorerSvc, containerService;
+  var errorSvc, explorerSvc, containerSvc;
 
   const explorer = p3rf.perfkit.explorer;
   const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
