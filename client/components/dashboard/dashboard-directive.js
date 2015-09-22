@@ -44,8 +44,8 @@ explorer.components.dashboard.DashboardDirective = function() {
     },
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
     controller: [
-        '$scope', 'explorerService', 'dashboardService', 'containerService',
-        function($scope, explorerService, dashboardService, containerService) {
+        '$scope', 'explorerService', 'dashboardService', 'containerService', 'sidebarTabService',
+        function($scope, explorerService, dashboardService, containerService, sidebarTabService) {
       /** @export */
       $scope.containerSvc = containerService;
 
@@ -55,9 +55,31 @@ explorer.components.dashboard.DashboardDirective = function() {
       /** @export */
       $scope.explorerSvc = explorerService;
 
-      $scope.logError = function(msg) {
-        console.log(msg);
-      };
+      /** @export */
+      $scope.clickRefreshWidget = function(event, widget) {
+        dashboardService.refreshWidget(widget);
+        event.stopPropagation();
+      }
+
+      /** @export */
+      $scope.clickContainer = function(event, container) {
+        dashboardService.selectWidget(null, container);
+        event.stopPropagation();
+
+        if (!sidebarTabService.selectedTab) {
+          sidebarTabService.selectTab(sidebarTabService.getFirstContainerTab());
+        }
+      }
+
+      /** @export */
+      $scope.clickWidget = function(event, widget, container) {
+        dashboardService.selectWidget(widget, container);
+        event.stopPropagation();
+
+        if (!sidebarTabService.selectedTab) {
+          sidebarTabService.selectTab(sidebarTabService.getFirstWidgetTab());
+        }
+      }
     }]
   };
 };

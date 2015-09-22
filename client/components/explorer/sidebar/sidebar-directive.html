@@ -2,7 +2,7 @@
   ng-show="tabSvc.selectedTab">
 
   <div class="pk-sidebar-panel-header
-              {{ tabSvc.selectedTab.panelTitleClass}}">
+              {{ tabSvc.selectedTab.panelTitleClass }}">
     <div style="float: right">
       <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)"
           aria-label="close panel">
@@ -15,6 +15,8 @@
 
   <div class="pk-sidebar-panel-content
               {{ tabSvc.selectedTab.panelClass }}" flex>
+
+    <!-- TODO(joemu): Replace this switch with a data-driven approach. -->
     <div ng-switch="tabSvc.selectedTab.id">
 
       <div ng-switch-when="dashboard">

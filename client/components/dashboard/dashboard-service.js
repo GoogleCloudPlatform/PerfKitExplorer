@@ -319,6 +319,10 @@ DashboardService.prototype.setDashboard = function(dashboardConfig) {
       if (container.model.id ===
           this.explorerStateService_.containers.selectedId) {
         container.state().selected = true;
+
+        if (!this.explorerStateService_.widgets.selectedId) {
+          this.selectWidget(null, container, true);
+        }
       }
       for (let widget of container.model.container.children) {
         this.explorerStateService_.widgets.all[widget.model.id] = widget;
@@ -367,35 +371,18 @@ DashboardService.prototype.initializeParams_ = function() {
  */
 DashboardService.prototype.selectWidget = function(
     widget, container, opt_supressStateChange) {
+  let currentContainer = this.explorerStateService_.containers.selected;
   let currentWidget = this.explorerStateService_.widgets.selected;
 
-  if (currentWidget) {
-    currentWidget.state().selected = false;
+  if (currentWidget !== widget) {
+    currentWidget && (currentWidget.state().selected = false);
+    widget && (widget.state().selected = true);
   }
 
-  let currentContainer = this.explorerStateService_.containers.selected;
-
-  if (currentContainer && currentContainer !== container) {
-    currentContainer.state().selected = false;
+  if (currentContainer !== container) {
+    currentContainer && (currentContainer.state().selected = false);
+    container && (container.state().selected = true);
   }
-
-  if (container && currentContainer !== container) {
-    container.state().selected = true;
-  }
-
-  if (widget) {
-    widget.state().selected = true;
-
-    if (!(this.sidebarTabService_.selectedTab &&
-          this.sidebarTabService_.selectedTab.requireWidget)) {
-      this.sidebarTabService_.selectTab(
-          this.sidebarTabService_.getFirstWidgetTab());
-    }
-  }
-
-  this.timeout_(() => {
-    this.scrollWidgetIntoView(widget);
-  });
 
   if (!opt_supressStateChange) {
     params = {widget: undefined, container: undefined};
@@ -405,18 +392,74 @@ DashboardService.prototype.selectWidget = function(
 
     this.$state_.go('explorer-dashboard-edit', params);
   }
+
+  if (widget) {
+    if (this.sidebarTabService_.selectedTab &&
+        !this.sidebarTabService_.selectedTab.requireWidget) {
+      this.sidebarTabService_.selectTab(
+          this.sidebarTabService_.getFirstWidgetTab());
+    }
+
+    this.timeout_(() => {
+      this.scrollWidgetIntoView(widget);
+    });
+  } else if (container) {
+    if (this.sidebarTabService_.selectedTab &&
+        !this.sidebarTabService_.selectedTab.requireContainer) {
+      this.sidebarTabService_.selectTab(
+          this.sidebarTabService_.getFirstContainerTab());
+    }
+
+    this.timeout_(() => {
+      this.scrollContainerIntoView(container);
+    });
+  } else {
+    this.timeout_(() => {      
+      if (this.sidebarTabService_.selectedTab &&
+          !this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
+        this.sidebarTabService_.selectTab(
+            this.sidebarTabService_.getFirstTab());
+      }
+    });
+  }
 };
 
 
-DashboardService.prototype.scrollWidgetIntoView = function(widget) {
-  let widgetElement = angular.element(
-      document.getElementsByClassName('pk-widget-' + widget.model.id));
-  let contentElement = angular.element(
-      document.getElementsByClassName('pk-page-content'));
 
-  if ((widgetElement.length === 1) && (contentElement.length === 1)) {
-    goog.style.scrollIntoContainerView(widgetElement[0], contentElement[0]);
+/**
+ * Scrolls the specified content element (typically a widget or container) into view.
+ * @param {!angular.Element} targetElement The element to scroll into view.
+ */
+DashboardService.prototype.scrollPageElementIntoView = function(targetElement) {
+  let contentElement = angular.element(document.getElementsByClassName('pk-page-content'));
+
+  if ((targetElement.length === 1) && (contentElement.length === 1)) {
+    goog.style.scrollIntoContainerView(targetElement[0], contentElement[0]);
   }
+};
+
+
+/**
+ * Scrolls the specified container into view.
+ * @param {!ContainerConfig} container
+ */
+DashboardService.prototype.scrollContainerIntoView = function(container) {
+  let targetElement = angular.element(
+      document.getElementsByClassName('pk-container-' + container.model.id));
+
+  this.scrollPageElementIntoView(targetElement);
+};
+
+
+/**
+ * Scrolls the specified widget into view.
+ * @param {!WidgetConfig} widget
+ */
+DashboardService.prototype.scrollWidgetIntoView = function(widget) {
+  let targetElement = angular.element(
+      document.getElementsByClassName('pk-widget-' + widget.model.id));
+
+  this.scrollPageElementIntoView(targetElement);
 };
 
 
@@ -809,13 +852,7 @@ DashboardService.prototype.onDashboardClick = function(event) {
  * Unselect the currently selected widget and container, if any.
  */
 DashboardService.prototype.unselectWidget = function() {
-  let currentSelection = this.explorerStateService_.widgets.selected;
-
-  if (currentSelection) {
-    currentSelection.state().selected = false;
-  }
-
-  this.explorerStateService_.selectWidget(null, null);
+  this.selectWidget(null, null);
 };
 
 

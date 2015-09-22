@@ -21,23 +21,31 @@
 
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 
 
 describe('ExplorerStateService', function() {
   var svc, $rootScope, $state;
-  var errorSvc;
+  var errorSvc, explorerSvc, containerSvc;
 
   const explorer = p3rf.perfkit.explorer;
   const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
+  const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+  const WidgetConfig = explorer.models.WidgetConfig;
 
   beforeEach(module('explorer'));
 
   beforeEach(inject(function(
-      _$rootScope_, _$state_, explorerStateService, errorService) {
+      _$rootScope_, _$state_, explorerStateService, errorService, explorerService, containerService) {
     $rootScope = _$rootScope_;
     $state = _$state_;
     svc = explorerStateService;
     errorSvc = errorService;
+    containerSvc = containerService;
+    explorerSvc = explorerService;
+
+    explorerSvc.newDashboard(false);
   }));
 
   describe('should correctly initialize', function() {
@@ -56,32 +64,38 @@ describe('ExplorerStateService', function() {
     var widget1, widget2, container1, container2;
 
     beforeEach(inject(function() {
-      widget1 = {model: {id: 'w1', title: 'widget 1'}};
-      widget2 = {model: {id: 'w2', title: 'widget 2'}};
-      container1 = {model: {id: 'c1', title: 'container 1'}};
-      container2 = {model: {id: 'c2', title: 'container 2'}};
+      container1 = containerSvc.insert(true, false);
+      container2 = containerSvc.insert(true, false);
 
-      svc.widgets.add(widget1);
-      svc.widgets.add(widget2);
-      svc.containers.add(container1);
-      svc.containers.add(container2);
+      widget1 = container1.model.container.children[0];
+      widget2 = container2.model.container.children[0];
     }));
 
     describe('selectWidget', function() {
       it('should select items by id', function() {
+        expect(svc.containers.selected).toBeNull();
+        expect(svc.widgets.selected).toBeNull();
+
         svc.selectWidget(container2.model.id, widget2.model.id);
         $rootScope.$apply();
 
         expect(svc.containers.selected).toEqual(container2);
+        expect(container2.state().selected).toBeTrue();
         expect(svc.widgets.selected).toEqual(widget2);
+        expect(widget2.state().selected).toBeTrue();
       });
 
       it('should unselect items when NULL is passed', function() {
+        svc.selectWidget(container1.model.id, widget1.model.id);
+        $rootScope.$apply();
+
         svc.selectWidget(null, null);
         $rootScope.$apply();
 
         expect(svc.containers.selected).toBeNull();
+        expect(container2.state().selected).toBeFalse();
         expect(svc.widgets.selected).toBeNull();
+        expect(container2.state().selected).toBeFalse();
       });
 
       describe('should write to the log when providing an invalid',
