@@ -118,8 +118,13 @@ describe('dashboardService', function() {
 
       it('should update the widget state to selected.', function() {
         svc.unselectWidget();
+        $rootScope.$apply();
+
         expect(widget.state().selected).toBeFalsy();
+
         svc.selectWidget(widget, container);
+        $rootScope.$apply();
+
         expect(widget.state().selected).toBeTruthy();
       });
 
@@ -139,7 +144,7 @@ describe('dashboardService', function() {
         sidebarTabService.selectedTab = null;
 
         svc.selectWidget(widget, container);
-        $rootScope.$digest();
+        $rootScope.$apply();
 
         expect(sidebarTabService.selectedTab).toBe(sidebarTabService.tabs[2]);
         expect(sidebarTabService.selectedTab.requireWidget).toBeTrue();

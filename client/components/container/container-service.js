@@ -74,7 +74,7 @@ explorer.components.container.ContainerService = class {
    */
   moveFirst(opt_container) {
     this.move_(
-        angular.bind(arrayUtilSvc, arrayUtilSvc.moveFirst), opt_container);
+        angular.bind(this.arrayUtilSvc, this.arrayUtilSvc.moveFirst), opt_container);
   };
 
   /**
@@ -86,7 +86,7 @@ explorer.components.container.ContainerService = class {
    */
   movePrevious(opt_container) {
     this.move_(
-        angular.bind(arrayUtilSvc, arrayUtilSvc.movePrevious), opt_container);
+        angular.bind(this.arrayUtilSvc, this.arrayUtilSvc.movePrevious), opt_container);
   };
 
   /**
@@ -98,7 +98,7 @@ explorer.components.container.ContainerService = class {
    */
   moveNext(opt_container) {
     this.move_(
-        angular.bind(arrayUtilSvc, arrayUtilSvc.moveNext), opt_container);
+        angular.bind(this.arrayUtilSvc, this.arrayUtilSvc.moveNext), opt_container);
   };
 
   /**
@@ -110,7 +110,7 @@ explorer.components.container.ContainerService = class {
    */
   moveLast(opt_container) {
     this.move_(
-        angular.bind(arrayUtilSvc, arrayUtilSvc.moveLast), opt_container);
+        angular.bind(this.arrayUtilSvc, this.arrayUtilSvc.moveLast), opt_container);
   };
 
 
