@@ -376,16 +376,24 @@ DashboardService.prototype.selectWidget = function(
 
   if (currentWidget !== widget) {
     currentWidget && (currentWidget.state().selected = false);
-    widget && (widget.state().selected = true);
+
+    if (widget) {
+      widget.state().selected = true;
+      this.explorerStateService_.widgets.selectedId = widget.model.id;
+    }
   }
 
   if (currentContainer !== container) {
     currentContainer && (currentContainer.state().selected = false);
-    container && (container.state().selected = true);
+
+    if (container) {
+      container.state().selected = true;
+      this.explorerStateService_.containers.selectedId = container.model.id;
+    }
   }
 
   if (!opt_supressStateChange) {
-    params = {widget: undefined, container: undefined};
+    params = {widget: null, container: null};
 
     if (widget) { params.widget = widget.model.id; }
     if (container) { params.container = container.model.id };
@@ -394,8 +402,8 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (widget) {
-    if (this.sidebarTabService_.selectedTab &&
-        !this.sidebarTabService_.selectedTab.requireWidget) {
+    if (!(this.sidebarTabService_.selectedTab &&
+          this.sidebarTabService_.selectedTab.requireWidget)) {
       this.sidebarTabService_.selectTab(
           this.sidebarTabService_.getFirstWidgetTab());
     }
@@ -404,8 +412,8 @@ DashboardService.prototype.selectWidget = function(
       this.scrollWidgetIntoView(widget);
     });
   } else if (container) {
-    if (this.sidebarTabService_.selectedTab &&
-        !this.sidebarTabService_.selectedTab.requireContainer) {
+    if (!(this.sidebarTabService_.selectedTab &&
+          this.sidebarTabService_.selectedTab.requireContainer)) {
       this.sidebarTabService_.selectTab(
           this.sidebarTabService_.getFirstContainerTab());
     }
@@ -414,9 +422,9 @@ DashboardService.prototype.selectWidget = function(
       this.scrollContainerIntoView(container);
     });
   } else {
-    this.timeout_(() => {      
-      if (this.sidebarTabService_.selectedTab &&
-          !this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
+    this.timeout_(() => {
+      if (!(this.sidebarTabService_.selectedTab &&
+            this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab))) {
         this.sidebarTabService_.selectTab(
             this.sidebarTabService_.getFirstTab());
       }

@@ -96,7 +96,7 @@ describe('widgetFactoryService', function() {
     });
   });
 
-  describe('toJson', function() {
+  describe('.toJson', function() {
 
     it('should return a valid json.', function() {
       var widget = new WidgetConfig(svc);

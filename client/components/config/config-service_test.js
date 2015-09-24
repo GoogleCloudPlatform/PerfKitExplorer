@@ -129,7 +129,7 @@ describe('configService', function() {
     });
   });
 
-  describe('toJSON', function() {
+  describe('#toJSON', function() {
     it('should convert settings to a JSON representation.', function() {
       expected_data = {
         'default_project': '',

@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabServic
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirective');
 
 describe('SidebarTabsDirective', function() {
-  var scope, $compile, $httpBackend, $rootScope;
+  var scope, $compile, $httpBackend, $rootScope, $timeout;
   var containerService, dashboardSvc, sidebarTabSvc;
   var mockTabs;
 
@@ -41,6 +41,7 @@ describe('SidebarTabsDirective', function() {
        _$timeout_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
+    $timeout = _$timeout_;
     $httpBackend = _$httpBackend_;
   }));
 
@@ -132,14 +133,15 @@ describe('SidebarTabsDirective', function() {
       expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[0]);
     });
 
-    it('select the next tab if the current tab requires a widget', function() {
+    it('select the first tab if the current tab requires a widget', function() {
       expect(dashboardSvc.selectedWidget).not.toBeNull();
       sidebarTabSvc.selectedTab = mockTabs[1];
 
       dashboardSvc.unselectWidget();
+      $timeout.flush();
       scope.$digest();
 
-      expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[2]);
+      expect(sidebarTabSvc.selectedTab).toEqual(mockTabs[0]);
     });
   });
 
