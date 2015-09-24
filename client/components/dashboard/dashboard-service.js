@@ -374,22 +374,22 @@ DashboardService.prototype.selectWidget = function(
   let currentContainer = this.explorerStateService_.containers.selected;
   let currentWidget = this.explorerStateService_.widgets.selected;
 
-  if (currentWidget !== widget) {
-    currentWidget && (currentWidget.state().selected = false);
-
-    if (widget) {
-      widget.state().selected = true;
-      this.explorerStateService_.widgets.selectedId = widget.model.id;
-    }
+  if (currentWidget) {
+    currentWidget.state().selected = false;
   }
 
-  if (currentContainer !== container) {
-    currentContainer && (currentContainer.state().selected = false);
+  if (currentContainer) {
+    currentContainer.state().selected = false;
+  }
 
-    if (container) {
-      container.state().selected = true;
-      this.explorerStateService_.containers.selectedId = container.model.id;
-    }
+  if (widget) {
+    widget.state().selected = true;
+    this.explorerStateService_.widgets.selectedId = widget.model.id;
+  }
+
+  if (container) {
+    container.state().selected = true;
+    this.explorerStateService_.containers.selectedId = container.model.id;
   }
 
   if (!opt_supressStateChange) {
