@@ -89,6 +89,7 @@ const WidgetEditorService = (
  *
  * @param {ChartModel} chartModel
  * @param {google.visualization.DataTable} dataTable
+ * @param {google.visualization.DataTable} dataView
  * @return {angular.$q.Promise.<ChartModel>}
  */
 WidgetEditorService.prototype.showEditor = function(chartModel, dataTable, dataView) {

@@ -1,8 +1,8 @@
 .modal-dialog {
   height: 90%;
   margin: auto;
-  min-width: 500px;
   max-width: 95%;
+  min-width: 500px;
 }
 
 .modal-content {
