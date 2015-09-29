@@ -153,7 +153,7 @@ ChartWrapperService.prototype.loadCharts = function() {
  * @return {google.visualization.ChartWrapper}
  */
 ChartWrapperService.prototype.create = function(
-    opt_chartType, opt_gvizOptions, opt_dataTable) {
+    opt_chartType, opt_gvizOptions, opt_dataTable, opt_dataView) {
   let chartWrapper = new this.GvizChartWrapper_();
   if (opt_chartType) {
     chartWrapper.setChartType(opt_chartType);
@@ -163,6 +163,9 @@ ChartWrapperService.prototype.create = function(
   }
   if (opt_dataTable) {
     chartWrapper.setDataTable(opt_dataTable);
+  }
+  if (opt_dataView) {
+    chartWrapper.setView(opt_dataView);
   }
   return chartWrapper;
 };
