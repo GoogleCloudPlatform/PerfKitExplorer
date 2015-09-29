@@ -15,7 +15,9 @@
  *
  * @fileoverview chartWrapperService is an angular service used to create
  * instances of google.visualization.ChartWrapper. It also provides some helper
- * methods around ChartWrapper.
+ * methods around ChartWrapper.  To learn more about ChartWrapper, see:
+ *    https://developers.google.com/chart/interactive/docs/reference#chartwrapperobject
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -150,6 +152,7 @@ ChartWrapperService.prototype.loadCharts = function() {
  * @param {?string=} opt_chartType
  * @param {*=} opt_gvizOptions
  * @param {?google.visualization.DataTable=} opt_dataTable
+ * @param {?google.visualization.DataView=} opt_dataView
  * @return {google.visualization.ChartWrapper}
  */
 ChartWrapperService.prototype.create = function(
