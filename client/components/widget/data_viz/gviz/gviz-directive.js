@@ -385,6 +385,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
         try {
           chartWrapper.setView(dataViewsJson);
+
           triggerDraw();
         } catch (e) {
           // TODO: Display error in the UI instead of

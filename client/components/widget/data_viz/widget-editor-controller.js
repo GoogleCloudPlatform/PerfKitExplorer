@@ -115,7 +115,9 @@ const WidgetEditorCtrl = explorer.components.widget.data_viz.WidgetEditorCtrl;
 WidgetEditorCtrl.prototype.openChartEditor = function() {
   let selectedChart = this.selectedChart;
   if (selectedChart) {
-    let promise = this.queryResultDataService_.
+    let dataView = this.selectedChart.state().view;
+    this.openChartEditor_(dataView);
+/*    let promise = this.queryResultDataService_.
         fetchResults(selectedChart);
 
     promise.then(angular.bind(this, function(dataTable) {
@@ -124,7 +126,7 @@ WidgetEditorCtrl.prototype.openChartEditor = function() {
 
     promise.then(null, angular.bind(this, function(error) {
       this.errors.push(error.message);
-    }));
+    })); */
   }
 };
 
@@ -142,6 +144,8 @@ WidgetEditorCtrl.prototype.openChartEditor_ = function(dataTable) {
       showEditor(selectedChart.model.chart, dataTable);
 
   promise.then(angular.bind(this, function(newGvizConfig) {
+    let columnConfig = selectedChart.model.chart.columns;
+    newGvizConfig.columns = columnConfig;
     selectedChart.model.chart = newGvizConfig;
   }));
 
