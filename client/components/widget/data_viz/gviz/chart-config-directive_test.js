@@ -15,7 +15,7 @@
  *
  * @fileoverview Tests for ChartConfigDirective, which encapsulates the UX for
  * configuring GViz charts.
- * 
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -53,7 +53,7 @@ describe('ChartConfigDirective', function() {
             .respond(200);
 
         scope.providedWidgetModel = new ChartWidgetModel();
-        
+
         var directiveElement = angular.element(
             '<chart-config ng-model="providedWidgetModel" />');
 
@@ -123,6 +123,18 @@ describe('ChartConfigDirective', function() {
       expect(targetElement.length).toBe(1);
     });
 
+    it('the right of the chart area', function() {
+      var targetElement = directiveElement.find(
+          'input.widget-chart-area-right');
+      expect(targetElement.length).toBe(1);
+    });
+
+    it('the bottom of the chart area', function() {
+      var targetElement = directiveElement.find(
+          'input.widget-chart-area-bottom');
+      expect(targetElement.length).toBe(1);
+    });
+
     it('the height of the chart area', function() {
       var targetElement = directiveElement.find(
           'input.widget-chart-area-height');
@@ -149,7 +161,7 @@ describe('ChartConfigDirective', function() {
 
       directiveElement = angular.element(
           '<chart-config ng-model="widgetModel" />');
-          
+
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
@@ -159,7 +171,7 @@ describe('ChartConfigDirective', function() {
     xit('the chart type', function() {
       var actualElement = directiveElement.find(
           'md-select.widget-chart-type md-select-label span:first-child')[0];
-      
+
       expect(actualElement.innerHTML).toBe('Table');
 
       chartConfig.chartType = 'Area';
@@ -174,7 +186,7 @@ describe('ChartConfigDirective', function() {
       var actualElement = directiveElement.find(
           'md-select.widget-chart-legend-alignment md-select-label ' +
           'span:first-child')[0];
-      
+
       expect(actualElement.innerHTML).toBe('Left');
 
       chartConfig.options.legend.alignment = 'Top';
@@ -213,12 +225,12 @@ describe('ChartConfigDirective', function() {
     it('the chart area top', function() {
       var actualElement = directiveElement.find(
           'input.widget-chart-area-top')[0];
-      
+
       expect(actualElement.value).toBe('');
-      
+
       chartConfig.options.chartArea.top = 42;
       scope.$digest();
-      
+
       expect(actualElement.value).toBe('42');
     });
 
@@ -289,7 +301,7 @@ describe('ChartConfigDirective', function() {
 
       expect(nontableConfigContainer
           .hasClass('ng-hide')).toBe(false);
-          
+
       chartConfig.chartType = 'Table';
       scope.$digest();
 
