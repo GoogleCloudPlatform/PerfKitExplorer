@@ -138,10 +138,13 @@ WidgetEditorCtrl.prototype.openChartEditor = function() {
  */
 WidgetEditorCtrl.prototype.openChartEditor_ = function(dataTable) {
   let selectedChart = this.selectedChart;
-  let promise = this.widgetEditorService_.
-      showEditor(selectedChart.model.chart, dataTable);
+  let promise = this.widgetEditorService_.showEditor(
+    selectedChart.model.chart,
+    selectedChart.state().datasource.data,
+    selectedChart.state().datasource.view);
 
   promise.then(angular.bind(this, function(newGvizConfig) {
+    newGvizConfig.columns = selectedChart.model.chart.columns;
     selectedChart.model.chart = newGvizConfig;
   }));
 
