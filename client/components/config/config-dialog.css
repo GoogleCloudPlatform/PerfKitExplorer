@@ -1,0 +1,14 @@
+.modal-dialog {
+  height: 90%;
+  margin: 30px auto;
+  max-width: 500px;
+  width: 90%;
+}
+
+.modal-content {
+  height: 100%;
+}
+
+.modal-content > :first-child {
+  height: 100%;
+}
