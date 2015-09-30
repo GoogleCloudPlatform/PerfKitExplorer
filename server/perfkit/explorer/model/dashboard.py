@@ -314,6 +314,31 @@ class Dashboard(ndb.Model):
     return owner
 
   @classmethod
+  def IsQueryCustom(cls, query, dashboard_id, widget_id):
+    try:
+      dashboard_model = Dashboard.GetDashboard(dashboard_id)
+    except InitializeError:
+      return True
+
+    widget_model = cls.FindWidget(dashboard_model.GetDashboardData(), widget_id)
+    if not widget_model:
+      return True
+
+    try:
+      return query != widget_model['datasource']['query']
+    except KeyError:
+      return True
+
+  @classmethod
+  def FindWidget(cls, dashboard, widget_id):
+    for container in dashboard['children']:
+      for widget in container['container']['children']:
+        if widget['id'] == widget_id:
+          return widget
+
+    return None
+
+  @classmethod
   def _pre_delete_hook(cls, key):
     if not explorer_config_util.ExplorerConfigUtil.CanSave():
       raise SecurityError('The current user is not authorized to delete dashboards')
