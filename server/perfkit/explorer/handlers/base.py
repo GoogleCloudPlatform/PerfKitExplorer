@@ -31,6 +31,7 @@ import webapp2
 from google.appengine.api import users
 
 from perfkit.common import data_source_config
+from perfkit.common import http_util
 from perfkit.explorer.model import explorer_config
 
 
@@ -90,6 +91,12 @@ class RequestHandlerBase(webapp2.RequestHandler):
     template_values['static_dir'] = ('/_static/%s' %
                                      os.environ['CURRENT_VERSION_ID'])
     template_values['env'] = self.env
+
+    if http_util.GetBoolParam(self.request, 'debug',
+                              os.environ.get('PKE_DEBUG', False)):
+      template_values['min'] = ''
+    else:
+      template_values['min'] = '.min'
 
     if users.get_current_user():
       template_values['current_user_email'] = users.get_current_user().email()
