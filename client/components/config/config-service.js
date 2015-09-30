@@ -66,6 +66,15 @@ explorer.components.config.ConfigService = function($http, $location,
 
   /** @export {number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
+
+  /** @export {boolean} */
+  this.restrict_view_to_admin = INITIAL_CONFIG.restrict_view_to_admin;
+
+  /** @export {boolean} */
+  this.restrict_save_to_admin = INITIAL_CONFIG.restrict_save_to_admin;
+
+  /** @export {boolean} */
+  this.restrict_query_to_admin = INITIAL_CONFIG.restrict_query_to_admin;
 };
 const ConfigService = explorer.components.config.ConfigService;
 
@@ -95,6 +104,18 @@ ConfigService.prototype.populate = function(data) {
   if (goog.isDef(data.cache_duration)) {
     this.cache_duration = data.cache_duration;
   }
+
+  if (goog.isDef(data.restrict_view_to_admin)) {
+    this.restrict_view_to_admin = data.restrict_view_to_admin;
+  }
+
+  if (goog.isDef(data.restrict_save_to_admin)) {
+    this.restrict_save_to_admin = data.restrict_save_to_admin;
+  }
+
+  if (goog.isDef(data.restrict_query_to_admin)) {
+    this.restrict_query_to_admin = data.restrict_query_to_admin;
+  }
 };
 
 
@@ -112,6 +133,9 @@ ConfigService.prototype.toJSON = function(data) {
   result.default_table = this.default_table;
   result.analytics_key = this.analytics_key;
   result.cache_duration = this.cache_duration;
+  result.restrict_view_to_admin = this.restrict_view_to_admin;
+  result.restrict_save_to_admin = this.restrict_save_to_admin;
+  result.restrict_query_to_admin = this.restrict_query_to_admin;
 
   return result;
 };

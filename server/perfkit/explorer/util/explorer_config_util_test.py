@@ -24,8 +24,9 @@ import unittest
 from google.appengine.ext import testbed
 
 from perfkit.common import gae_test_util
+from perfkit.explorer.model import dashboard
 from perfkit.explorer.model import explorer_config as explorer_config_model
-from perfkit.explorer.util import explorer_config_util as explorer_config_util
+from perfkit.explorer.util import explorer_config_util
 
 
 class ExplorerConfigTest(unittest.TestCase):

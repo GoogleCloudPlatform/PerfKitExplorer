@@ -17,6 +17,7 @@ GAE Model for the datastore."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
+import logging
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
@@ -316,8 +317,9 @@ class Dashboard(ndb.Model):
   @classmethod
   def IsQueryCustom(cls, query, dashboard_id, widget_id):
     try:
-      dashboard_model = Dashboard.GetDashboard(dashboard_id)
+      dashboard_model = Dashboard.GetDashboard(int(dashboard_id))
     except InitializeError:
+      logging.error('Dashboard %s not found', dashboard_id)
       return True
 
     widget_model = cls.FindWidget(dashboard_model.GetDashboardData(), widget_id)
@@ -325,15 +327,26 @@ class Dashboard(ndb.Model):
       return True
 
     try:
-      return query != widget_model['datasource']['query']
+      datasource = widget_model.get('datasource')
+
+      if not datasource:
+        raise KeyError('Datasource not provided')
+
+      saved_query = datasource.get('query_exec') or datasource.get('query')
+
+      if saved_query:
+        if query.strip() == saved_query.strip():
+          return False
     except KeyError:
       return True
+
+    return True
 
   @classmethod
   def FindWidget(cls, dashboard, widget_id):
     for container in dashboard['children']:
       for widget in container['container']['children']:
-        if widget['id'] == widget_id:
+        if str(widget['id']) == str(widget_id):
           return widget
 
     return None

@@ -47,12 +47,45 @@ class DataTest(unittest.TestCase):
     data.DATASET_NAME = 'samples_mart_mockdata'
     base.DEFAULT_ENVIRONMENT = config.Environments.TESTING
 
+    self.maxDiff = None
+
     self.app = webtest.TestApp(data.app)
     self.testbed = testbed.Testbed()
     self.testbed.activate()
 
     self.testbed.init_datastore_v3_stub()
     self.testbed.init_memcache_stub()
+
+    self.VALID_SQL = ('SELECT\n'
+        '\tproduct_name,\n'
+        '\ttest,\n'
+        '\tAVG(value) AS avg,\n'
+        'FROM [samples_mart_testdata.results]\n'
+        'WHERE\n'
+        '\ttimestamp >= 1356739200 AND\n'
+        '\ttimestamp < 1356825600\n'
+        'GROUP BY\n'
+        '\tproduct_name,\n'
+        '\ttest')
+
+    self.VALID_DASHBOARD = {'children': [
+        {'container': {'children': [
+            {'id': '1'},
+            {'id': '2'}
+        ]}},
+        {'container': {'children': [
+            {'id': '3', 'datasource': {'query': self.VALID_SQL}},
+            {'id': '4'}
+    ]}}]}
+
+    self.VALID_RESULTS = {
+      'cols': [
+          {'id': 'product_name', 'label': 'product_name', 'type': 'string'},
+          {'id': 'test', 'label': 'test', 'type': 'string'},
+          {'id': 'avg', 'label': 'avg', 'type': 'number'}],
+      'rows': [{'c': [{'v': 'widget-factory'},
+                      {'v': 'create-widgets'},
+                      {'v': 6.872222222222222}]}]}
 
     test_util.SetConfigPaths()
 
@@ -71,6 +104,7 @@ class DataTest(unittest.TestCase):
         credential_file=credentials_lib.DEFAULT_CREDENTIALS)
 
   @pytest.mark.integration
+  @pytest.mark.cube
   def testFieldsHandler(self):
     expected_result = [{u'name': u'jdoe'}]
 
@@ -86,6 +120,7 @@ class DataTest(unittest.TestCase):
     self.assertEqual(resp.json['rows'], expected_result)
 
   @pytest.mark.integration
+  @pytest.mark.cube
   def testAllMetdataHandler(self):
     expected_result = [{u'count': 6, u'name': u'attributes',
                         u'values': [{u'count': 3, u'name': u'important'},
@@ -109,6 +144,7 @@ class DataTest(unittest.TestCase):
     self.assertEqual(resp.json['labels'], expected_result)
 
   @pytest.mark.integration
+  @pytest.mark.cube
   def testFilteredMetadataHandler(self):
     expected_result = [{u'count': 1, u'name': u'perfect', u'values': []},
                        {u'count': 3, u'name': u'shape',
@@ -131,38 +167,14 @@ class DataTest(unittest.TestCase):
   @pytest.mark.integration
   def testSqlHandler(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    sql = ('SELECT\n'
-           '\tproduct_name,\n'
-           '\ttest,\n'
-           '\tAVG(value) AS avg,\n'
-           'FROM [samples_mart_testdata.results]\n'
-           'WHERE\n'
-           '\ttimestamp >= 1356739200 AND\n'
-           '\ttimestamp < 1356825600\n'
-           'GROUP BY\n'
-           '\tproduct_name,\n'
-           '\ttest')
 
-    expected_results = {'cols': [{'id': 'product_name',
-                                  'label': 'product_name',
-                                  'type': 'string'},
-                                 {'id': 'test',
-                                  'label': 'test',
-                                  'type': 'string'},
-                                 {'id': 'avg',
-                                  'label': 'avg',
-                                  'type': 'number'}],
-                        'rows': [{'c': [{'v': 'widget-factory'},
-                                        {'v': 'create-widgets'},
-                                        {'v': 6.872222222222222}]}]}
-
-    data = {'dashboard_id': 1, 'id': 2, 'datasource': {'query': sql, 'config': {'results': {}}}}
+    data = {'dashboard_id': 1, 'id': 2, 'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
 
     resp = self.app.post(url='/data/sql',
                          params=json.dumps(data),
                          headers={'Content-type': 'application/json',
                                   'Accept': 'text/plain'})
-    self.assertEqual(resp.json['results'], expected_results)
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
 
   def testSqlHandlerFailsWithoutDashboardId(self):
     sql = 'SELECT foo FROM bar'
@@ -187,18 +199,9 @@ class DataTest(unittest.TestCase):
     self.assertEqual(resp.json['error'], expected_message)
 
   def testSqlHandlerFailsCustomQueryForNonAdminWithRestricted(self):
-    provided_query = 'SELECT foo FROM bar'
     custom_query = 'SELECT stuff FROM mysource'
 
-    dashboard_json = json.dumps({'children': [
-        {'container': {'children': [
-            {'id': '1'},
-            {'id': '2'}
-        ]}},
-        {'container': {'children': [
-            {'id': '3', 'datasource': {'query': provided_query}},
-            {'id': '4'}
-        ]}}]})
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
     self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
 
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
@@ -213,6 +216,23 @@ class DataTest(unittest.TestCase):
                          headers={'Content-type': 'application/json',
                                   'Accept': 'text/plain'})
     self.assertEqual(resp.json['error'], expected_message)
+
+  def testSqlHandlerPassesBuiltinQueryForNonAdminWithRestricted(self):
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
+
+    data = {'dashboard_id': 1, 'id': 3, 'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
+
+    self.maxDiff = None
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
 
 if __name__ == '__main__':
   unittest.main()
