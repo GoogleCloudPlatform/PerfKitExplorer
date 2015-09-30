@@ -18,16 +18,22 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
 import json
+import logging
 import pytest
 import webtest
 import unittest
+
+from google.appengine.ext import testbed
 
 from perfkit import test_util
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
 from perfkit.common import data_source_config as config
+from perfkit.common import gae_test_util
 from perfkit.explorer.handlers import base
 from perfkit.explorer.handlers import data
+from perfkit.explorer.model import dashboard
+from perfkit.explorer.model import explorer_config
 
 
 # TODO: Change tests to verify generated SQL rather than results to remove
@@ -42,11 +48,22 @@ class DataTest(unittest.TestCase):
     base.DEFAULT_ENVIRONMENT = config.Environments.TESTING
 
     self.app = webtest.TestApp(data.app)
+    self.testbed = testbed.Testbed()
+    self.testbed.activate()
+
+    self.testbed.init_datastore_v3_stub()
+    self.testbed.init_memcache_stub()
 
     test_util.SetConfigPaths()
 
     # Rewrite the DataHandlerUtil methods to return local clients.
     data.DataHandlerUtil.GetDataClient = self._GetTestDataClient
+
+    self.explorer_config = explorer_config.ExplorerConfigModel.Get()
+    self.explorer_config.default_project = config.Services.GetServiceUri(
+      config.Environments.TESTING, config.Services.PROJECT_ID)
+    self.explorer_config.restrict_view_to_admin = False
+    self.explorer_config.put()
 
   def _GetTestDataClient(self, env=None):
     return big_query_client.BigQueryClient(
@@ -113,6 +130,7 @@ class DataTest(unittest.TestCase):
 
   @pytest.mark.integration
   def testSqlHandler(self):
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
     sql = ('SELECT\n'
            '\tproduct_name,\n'
            '\ttest,\n'
@@ -138,7 +156,7 @@ class DataTest(unittest.TestCase):
                                         {'v': 'create-widgets'},
                                         {'v': 6.872222222222222}]}]}
 
-    data = {'datasource': {'query': sql, 'config': {'results': {}}}}
+    data = {'dashboard_id': 1, 'id': 2, 'datasource': {'query': sql, 'config': {'results': {}}}}
 
     resp = self.app.post(url='/data/sql',
                          params=json.dumps(data),
@@ -146,6 +164,55 @@ class DataTest(unittest.TestCase):
                                   'Accept': 'text/plain'})
     self.assertEqual(resp.json['results'], expected_results)
 
+  def testSqlHandlerFailsWithoutDashboardId(self):
+    sql = 'SELECT foo FROM bar'
+    expected_message = 'The dashboard id is required to run a query'
+    data = {'id': 2, 'datasource': {'query': sql, 'config': {'results': {}}}}
+
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['error'], expected_message)
+
+  def testSqlHandlerFailsWithoutWidgetId(self):
+    sql = 'SELECT foo FROM bar'
+    expected_message = 'The widget id is required to run a query'
+    data = {'dashboard_id': 2, 'datasource': {'query': sql, 'config': {'results': {}}}}
+
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['error'], expected_message)
+
+  def testSqlHandlerFailsCustomQueryForNonAdminWithRestricted(self):
+    provided_query = 'SELECT foo FROM bar'
+    custom_query = 'SELECT stuff FROM mysource'
+
+    dashboard_json = json.dumps({'children': [
+        {'container': {'children': [
+            {'id': '1'},
+            {'id': '2'}
+        ]}},
+        {'container': {'children': [
+            {'id': '3', 'datasource': {'query': provided_query}},
+            {'id': '4'}
+        ]}}]})
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
+
+    expected_message = 'The user is not authorized to run custom queries'
+    data = {'dashboard_id': 1, 'id': 2, 'datasource': {'query': custom_query, 'config': {'results': {}}}}
+
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['error'], expected_message)
 
 if __name__ == '__main__':
   unittest.main()
