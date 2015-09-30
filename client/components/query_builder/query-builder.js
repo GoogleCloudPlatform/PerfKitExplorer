@@ -271,9 +271,9 @@ QueryBuilder.buildWhereArgs = function(queryProperties) {
   for (let i = 0, iLen = queryProperties.metadataFilters.length;
        i < iLen; i++) {
     let filter = queryProperties.metadataFilters[i];
-    whereRow = [];
+    let whereRow = [];
     for (let j = 0, jLen = filter.filterClauses.length; j < jLen; j++) {
-      filterClause = filter.filterClauses[j];
+      let filterClause = filter.filterClauses[j];
       // TODO: Add support for multiple match_on values and rules
       // that are not placed between filter name and value
       whereRow.push(QueryBuilder.getRegexpForMetadata(filter.fieldName) +

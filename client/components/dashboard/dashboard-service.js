@@ -393,7 +393,7 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (!opt_supressStateChange) {
-    params = {widget: null, container: null};
+    let params = {widget: null, container: null};
 
     if (widget) { params.widget = widget.model.id; }
     if (container) { params.container = container.model.id };
@@ -519,7 +519,7 @@ DashboardService.prototype.selectContainer = function(
   }
 
   if (!opt_supressStateChange) {
-    params = {container: undefined};
+    let params = {container: undefined};
 
     if (widget) { params.widget = widget.model.id; }
     if (container) { params.container = container.model.id };
@@ -794,7 +794,12 @@ DashboardService.prototype.moveWidgetToContainer = function(
   targetContainer.model.container.columns += widget.model.layout.columnspan;
   targetContainer.model.container.children.push(widget);
   widget.state().parent = targetContainer;
-  this.selectedContainer = targetContainer;
+
+  // Move the container selection to the target container. Don't change
+  // widget selection.
+  container.state().selected = false;
+  targetContainer.state().selected = true;
+  this.explorerStateService_.containers.selectedId = targetContainer.model.id;
 
   if (widget.state().datasource) {
     widget.state().datasource.status = ResultsDataStatus.TOFETCH;

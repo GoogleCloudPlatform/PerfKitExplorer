@@ -241,6 +241,6 @@ explorer.components.container.ContainerService = class {
     delete this.explorerStateSvc.containers.all[targetContainer.model.id];
   }
 };
-const ContainerService = explorer.components.util.ContainerService;
+const ContainerService = explorer.components.container.ContainerService;
 
 });  // goog.scope

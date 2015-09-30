@@ -193,7 +193,7 @@ DataViewService.prototype.getSortedColumns = function(dataTable, sortColumnStart
   }
 
   for (let i = 0; i < sortableColumnNames.length; ++i) {
-    sortableIndex = allColumnNames.indexOf(sortableColumnNames[i]);
+    let sortableIndex = allColumnNames.indexOf(sortableColumnNames[i]);
 
     if (sortableIndex == -1) {
       throw 'sortableColumn not found.';
