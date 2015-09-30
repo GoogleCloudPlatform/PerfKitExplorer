@@ -21,6 +21,7 @@ import json
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+from perfkit.explorer.util import explorer_config_util
 from perfkit.explorer.util import user_validator
 import dashboard_fields as fields
 
@@ -311,3 +312,17 @@ class Dashboard(ndb.Model):
       owner = '{user}@{domain}'.format(user=owner, domain=DEFAULT_DOMAIN)
 
     return owner
+
+  @classmethod
+  def _pre_delete_hook(cls, key):
+    if not explorer_config_util.ExplorerConfigUtil.CanSave():
+      raise SecurityError('The current user is not authorized to delete dashboards')
+
+  def _pre_put_hook(self):
+    if not explorer_config_util.ExplorerConfigUtil.CanSave():
+      raise SecurityError('The current user is not authorized to save dashboards')
+
+  @classmethod
+  def _pre_get_hook(cls, key):
+    if not explorer_config_util.ExplorerConfigUtil.CanView():
+      raise SecurityError('The current user is not authorized to view dashboards')
