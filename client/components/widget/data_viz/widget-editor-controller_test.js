@@ -127,7 +127,7 @@ describe('WidgetEditorCtrl', function() {
     });
   });
 
-  fdescribe('openWidgetEditor', function() {
+  describe('openWidgetEditor', function() {
 
     it('should show the WidgetEditor and update the selected chart ' +
        'configuration.',
