@@ -33,7 +33,7 @@ class ExplorerConfigUtil():
       return True
 
     config = config or explorer_config.ExplorerConfigModel.Get()
-    return (not config.restrict_save_to_admin)
+    return config.grant_save_to_public
 
   @classmethod
   def CanView(cls, config=None):
@@ -42,7 +42,7 @@ class ExplorerConfigUtil():
       return True
 
     config = config or explorer_config.ExplorerConfigModel.Get()
-    return (not config.restrict_view_to_admin)
+    return config.grant_view_to_public
 
   @classmethod
   def CanQuery(cls, config=None):
@@ -51,4 +51,4 @@ class ExplorerConfigUtil():
       return True
 
     config = config or explorer_config.ExplorerConfigModel.Get()
-    return (not config.restrict_query_to_admin)
+    return config.grant_query_to_public

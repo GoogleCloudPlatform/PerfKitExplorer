@@ -52,32 +52,36 @@
 
   <div class="pk-sidebar-group-title">Security</div>
 
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">
-      <input type="checkbox"
-             class="widget-columns-show-date"
-             ng-model="ngModel.restrict_view_to_admin">
-      <label for="restrict_view_to_admin">Restrict dashboard VIEW to Administrators</label>
-    </div>
+  <div class="pk-sidebar-note">
+    Use the checkboxes below to control what non-admin users can do with dashboards and queries.
   </div>
 
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">
-      <input type="checkbox"
-             class="widget-columns-show-date"
-             ng-model="ngModel.restrict_save_to_admin">
-      <label for="restrict_save_to_admin">Restrict dashboard SAVE to Administrators</label>
-    </div>
-  </div>
-
-  <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">
-      <input type="checkbox"
-             class="widget-columns-show-date"
-             ng-model="ngModel.restrict_query_to_admin">
-      <label for="restrict_query_to_admin">Restrict dashboard QUERY to Administrators</label>
-    </div>
-  </div>
+  <table class="pk-sidebar-table">
+    <tr>
+      <th>&nbsp;</th>
+      <th>
+        <div title="Allows users to view dashboards and the execute any queries they contain">View</div>
+      </th>
+      <th>
+        <div title="Allows users to create dashboards, and owers and writers to edit their dashboards">Save</div>
+      </th>
+      <th>
+        <div title="Allows users to execute arbitrary BQSQL queries">Query</div>
+      </th>
+    </tr>
+    <tr>
+      <td>Admin</td>
+      <td><input type="checkbox" checked disabled></td>
+      <td><input type="checkbox" checked disabled></td>
+      <td><input type="checkbox" checked disabled></td>
+    </tr>
+    <tr>
+      <td>Public</td>
+      <td><input type="checkbox" ng-model="ngModel.grant_view_to_public"></td>
+      <td><input type="checkbox" ng-model="ngModel.grant_save_to_public"></td>
+      <td><input type="checkbox" ng-model="ngModel.grant_query_to_public"></td>
+    </tr>
+  </table>
 
   <div class="pk-sidebar-group-title">Miscellaneous</div>
 

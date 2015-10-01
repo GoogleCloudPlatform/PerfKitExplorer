@@ -242,7 +242,7 @@ class SqlDataHandler(base.RequestHandlerBase):
       if not query:
         raise KeyError('datasource.query must be provided.')
 
-      if (config.restrict_query_to_admin and
+      if (not config.grant_query_to_public and
           not users.is_current_user_admin() and
           dashboard.Dashboard.IsQueryCustom(query, dashboard_id, widget_id)):
         raise SecurityError('The user is not authorized to run custom queries')

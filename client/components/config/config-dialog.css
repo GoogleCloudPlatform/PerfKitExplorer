@@ -12,3 +12,16 @@
 .modal-content > :first-child {
   height: 100%;
 }
+
+.pk-sidebar-table {
+  margin-bottom: 8px;
+}
+
+.pk-sidebar-table th, .pk-sidebar-table td {
+  padding: 8px;
+  vertical-align: bottom;
+}
+
+.pk-sidebar-table td {
+  text-align: center;
+}

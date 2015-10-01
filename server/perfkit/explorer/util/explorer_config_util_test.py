@@ -45,86 +45,86 @@ class ExplorerConfigTest(unittest.TestCase):
   def tearDown(self):
     self.testbed.deactivate()
 
-  def testCanSaveTrueForAdminWhenRestricted(self):
+  def testCanSaveTrueForAdminWithoutRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    self.config.restrict_save_to_admin = True
+    self.config.grant_save_to_public = False
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanSave(self.config), True)
 
-  def testCanSaveTrueForAdminWhenUnrestricted(self):
+  def testCanSaveTrueForAdminWithRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    self.config.restrict_save_to_admin = False
+    self.config.grant_save_to_public = True
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanSave(self.config), True)
 
-  def testCanSaveFalseForNonAdminWhenRestricted(self):
+  def testCanSaveFalseForPublicWithoutRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=False)
-    self.config.restrict_save_to_admin = True
+    self.config.grant_save_to_public = False
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanSave(self.config), False)
 
-  def testCanSaveTrueForNonAdminWhenUnrestricted(self):
+  def testCanSaveTrueForPublicWithRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=False)
-    self.config.restrict_save_to_admin = False
+    self.config.grant_save_to_public = True
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanSave(self.config), True)
 
-  def testCanViewTrueForAdminWhenRestricted(self):
+  def testCanViewTrueForAdminWithoutRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    self.config.restrict_view_to_admin = True
+    self.config.grant_view_to_public = False
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanView(self.config), True)
 
-  def testCanViewTrueForAdminWhenUnrestricted(self):
+  def testCanViewTrueForAdminWithRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    self.config.restrict_view_to_admin = False
+    self.config.grant_view_to_public = True
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanView(self.config), True)
 
-  def testCanViewFalseForNonAdminWhenRestricted(self):
+  def testCanViewFalseForPublicWithoutRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=False)
-    self.config.restrict_view_to_admin = True
+    self.config.grant_view_to_public = False
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanView(self.config), False)
 
-  def testCanViewTrueForNonAdminWhenUnrestricted(self):
+  def testCanViewTrueForPublicWithRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=False)
-    self.config.restrict_view_to_admin = False
+    self.config.grant_view_to_public = True
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanView(self.config), True)
 
-  def testCanQueryTrueForAdminWhenRestricted(self):
+  def testCanQueryTrueForAdminWithoutRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    self.config.restrict_query_to_admin = True
+    self.config.grant_query_to_public = False
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanQuery(self.config), True)
 
-  def testCanQueryTrueForAdminWhenUnrestricted(self):
+  def testCanQueryTrueForAdminWithRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
-    self.config.restrict_query_to_admin = False
+    self.config.grant_query_to_public = True
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanQuery(self.config), True)
 
-  def testCanQueryFalseForNonAdminWhenRestricted(self):
+  def testCanQueryFalseForPublicWithoutRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=False)
-    self.config.restrict_query_to_admin = True
+    self.config.grant_query_to_public = False
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanQuery(self.config), False)
 
-  def testCanQueryTrueForNonAdminWhenUnrestricted(self):
+  def testCanQueryTrueForPublicWithRights(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=False)
-    self.config.restrict_query_to_admin = False
+    self.config.grant_query_to_public = True
 
     self.assertEqual(
         explorer_config_util.ExplorerConfigUtil.CanQuery(self.config), True)

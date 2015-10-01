@@ -95,7 +95,7 @@ class DataTest(unittest.TestCase):
     self.explorer_config = explorer_config.ExplorerConfigModel.Get()
     self.explorer_config.default_project = config.Services.GetServiceUri(
       config.Environments.TESTING, config.Services.PROJECT_ID)
-    self.explorer_config.restrict_view_to_admin = False
+    self.explorer_config.grant_view_to_public = True
     self.explorer_config.put()
 
   def _GetTestDataClient(self, env=None):
@@ -198,7 +198,7 @@ class DataTest(unittest.TestCase):
                                   'Accept': 'text/plain'})
     self.assertEqual(resp.json['error'], expected_message)
 
-  def testSqlHandlerFailsCustomQueryForNonAdminWithRestricted(self):
+  def testSqlHandlerFailsCustomQueryForPublicWithoutRights(self):
     custom_query = 'SELECT stuff FROM mysource'
 
     dashboard_json = json.dumps(self.VALID_DASHBOARD)
@@ -217,7 +217,7 @@ class DataTest(unittest.TestCase):
                                   'Accept': 'text/plain'})
     self.assertEqual(resp.json['error'], expected_message)
 
-  def testSqlHandlerPassesBuiltinQueryForNonAdminWithRestricted(self):
+  def testSqlHandlerPassesBuiltinQueryForPublicWithoutCustomQuery(self):
     dashboard_json = json.dumps(self.VALID_DASHBOARD)
     self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
 

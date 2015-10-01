@@ -68,13 +68,13 @@ explorer.components.config.ConfigService = function($http, $location,
   this.cache_duration = INITIAL_CONFIG.cache_duration;
 
   /** @export {boolean} */
-  this.restrict_view_to_admin = INITIAL_CONFIG.restrict_view_to_admin;
+  this.grant_view_to_public = INITIAL_CONFIG.grant_view_to_public;
 
   /** @export {boolean} */
-  this.restrict_save_to_admin = INITIAL_CONFIG.restrict_save_to_admin;
+  this.grant_save_to_public = INITIAL_CONFIG.grant_save_to_public;
 
   /** @export {boolean} */
-  this.restrict_query_to_admin = INITIAL_CONFIG.restrict_query_to_admin;
+  this.grant_query_to_public = INITIAL_CONFIG.grant_query_to_public;
 };
 const ConfigService = explorer.components.config.ConfigService;
 
@@ -105,16 +105,16 @@ ConfigService.prototype.populate = function(data) {
     this.cache_duration = data.cache_duration;
   }
 
-  if (goog.isDef(data.restrict_view_to_admin)) {
-    this.restrict_view_to_admin = data.restrict_view_to_admin;
+  if (goog.isDef(data.grant_view_to_public)) {
+    this.grant_view_to_public = data.grant_view_to_public;
   }
 
-  if (goog.isDef(data.restrict_save_to_admin)) {
-    this.restrict_save_to_admin = data.restrict_save_to_admin;
+  if (goog.isDef(data.grant_save_to_public)) {
+    this.grant_save_to_public = data.grant_save_to_public;
   }
 
-  if (goog.isDef(data.restrict_query_to_admin)) {
-    this.restrict_query_to_admin = data.restrict_query_to_admin;
+  if (goog.isDef(data.grant_query_to_public)) {
+    this.grant_query_to_public = data.grant_query_to_public;
   }
 };
 
@@ -133,9 +133,9 @@ ConfigService.prototype.toJSON = function(data) {
   result.default_table = this.default_table;
   result.analytics_key = this.analytics_key;
   result.cache_duration = this.cache_duration;
-  result.restrict_view_to_admin = this.restrict_view_to_admin;
-  result.restrict_save_to_admin = this.restrict_save_to_admin;
-  result.restrict_query_to_admin = this.restrict_query_to_admin;
+  result.grant_view_to_public = this.grant_view_to_public;
+  result.grant_save_to_public = this.grant_save_to_public;
+  result.grant_query_to_public = this.grant_query_to_public;
 
   return result;
 };

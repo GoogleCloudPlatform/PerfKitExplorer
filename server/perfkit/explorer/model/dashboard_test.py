@@ -18,8 +18,8 @@ class DashboardTest(unittest.TestCase):
     self.testbed.init_memcache_stub()
 
     self.config = explorer_config.ExplorerConfigModel.Get()
-    self.config.restrict_view_to_admin = False
-    self.config.restrict_save_to_admin = False
+    self.config.grant_view_to_public = True
+    self.config.grant_save_to_public = True
     self.config.put()
 
   def tearDown(self):
@@ -34,7 +34,7 @@ class DashboardTest(unittest.TestCase):
     self.assertEquals(provided_data, actual_dashboard.data)
 
   def testGetFailsForNonAdminWithRestricted(self):
-    self.config.restrict_view_to_admin = True
+    self.config.grant_view_to_public = False
     self.config.put()
 
     provided_data = '{"type": "sample"}'
@@ -60,7 +60,7 @@ class DashboardTest(unittest.TestCase):
                       dashboard.Dashboard.GetDashboard, nonexistent_id)
 
   def testCreateFailsForNonAdminWithRestricted(self):
-    self.config.restrict_save_to_admin = True
+    self.config.grant_save_to_public = False
     self.config.put()
 
     provided_data = '{"type": "sample"}'
@@ -75,7 +75,7 @@ class DashboardTest(unittest.TestCase):
     new_dashboard = dashboard.Dashboard(data=provided_data)
     new_dashboard.put()
 
-    self.config.restrict_save_to_admin = True
+    self.config.grant_save_to_public = False
     self.config.put()
 
     provided_data = '{"type": "updated_sample"}'
@@ -90,7 +90,7 @@ class DashboardTest(unittest.TestCase):
     new_dashboard = dashboard.Dashboard(data=provided_data)
     new_dashboard.put()
 
-    self.config.restrict_save_to_admin = True
+    self.config.grant_save_to_public = False
     self.config.put()
 
     self.assertRaisesRegexp(
@@ -109,8 +109,8 @@ class DashboardIsQueryCustomTest(unittest.TestCase):
     self.testbed.init_memcache_stub()
 
     self.config = explorer_config.ExplorerConfigModel.Get()
-    self.config.restrict_view_to_admin = False
-    self.config.restrict_save_to_admin = False
+    self.config.grant_view_to_public = True
+    self.config.grant_save_to_public = True
     self.config.put()
 
     self.provided_query = 'SELECT foo FROM bar'
