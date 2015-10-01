@@ -382,7 +382,7 @@ QueryBuilderService.prototype.getSql = function(
     tableId = projectId + ':' + tableId;
   }
 
-  let tableExpr = '';
+  let tableExpression = '';
 
   if (tablePartition == QueryTablePartitioning.PERDAY) {
     if (!startFilter) {
