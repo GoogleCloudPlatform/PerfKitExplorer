@@ -1,6 +1,6 @@
 PerfKit Explorer Installation Guide
 ===================================
-PerfKit is a service & web front end for composing queries and dashboards, and sharing the results.
+PerfKit is a service & web front end for composing queries and dashboards, and sharing the results.  You can see a [live deployment and demo dashboard here] (https://perfkit-explorer.appspot.com/explore?dashboard=5714163003293696).  You can click and interact with widgets (graphs), see the SQL, edit the json, and move things around on the demo dashboard.  When you visit the site it will ask you permission to use your account.  The full secuity model of the dashboard is active and permission is needed to verify your identity for permission checking.  Everyone has read.  Writing dashboards and execution of arbitrary queries is restricted.
 
 Note the installation instructions below are based on using a Google Cloud Platform Compute instance, using the
 Debian Backports image. Instructions for platform installation may vary depending on your operating system and
