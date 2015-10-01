@@ -133,14 +133,20 @@ describe('WidgetEditorCtrl', function() {
        'configuration.',
         function() {
           var config = {obj: 'fake config'};
+          var expectedData = {'type': 'Table'};
+          var expectedView = {'type': 'View'};
+
           dashboardService.selectedWidget =
               new ChartWidgetConfig(widgetFactoryService);
+          dashboardService.selectedWidget.state().datasource.data = expectedData;
+          dashboardService.selectedWidget.state().datasource.view = expectedView;
           scope.$digest();
 
-          ctrl.openChartEditor_({});
+          ctrl.openChartEditor({});
+
           expect(widgetEditorServiceMock.showEditor).toHaveBeenCalledWith(
               dashboardService.selectedWidget.model.chart,
-              jasmine.any(Object));
+              expectedData, expectedView);
 
           showEditorDeferred.resolve(config);
           scope.$digest();
