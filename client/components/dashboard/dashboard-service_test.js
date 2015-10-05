@@ -263,6 +263,24 @@ describe('dashboardService', function() {
       });
     });
 
+    describe('cloneWidget', function() {
+      var expectedTitle = 'PROVIDED_TITLE';
+
+      beforeEach(inject(function() {
+        widget.title = expectedTitle;
+      }));
+
+      it('should create a copy of the current widget with a new id', function() {
+        var sourceId = widget.model.id;
+        var targetWidget = svc.cloneWidget(widget, container);
+
+        expect(targetWidget).not.toEqual(widget);
+        expect(targetWidget.model.id).not.toEqual(sourceId);
+        expect(widget.model.id).toEqual(sourceId);
+        expect(targetWidget.model.title).toEqual(widget.model.title);
+      });
+    });
+
     describe('removeWidget', function() {
 
       it('should remove the widget from the container.', function() {

@@ -649,7 +649,7 @@ DashboardService.prototype.restoreBuilder = function(widget) {
  * if needed.
  *
  * @param {!ContainerWidgetConfig} container
- * @return {!WidgetConfig} widget
+ * @return {!WidgetConfig}
  * @export
  */
 DashboardService.prototype.addWidget = function(
@@ -664,6 +664,7 @@ DashboardService.prototype.addWidget = function(
  *
  * @param {!ContainerWidgetConfig} container
  * @param {!WidgetConfig} widget
+ * @return {!WidgetConfig}
  * @export
  */
 DashboardService.prototype.addWidgetAfter = function(
@@ -672,7 +673,7 @@ DashboardService.prototype.addWidgetAfter = function(
 
   let index = container.model.container.children.indexOf(widget);
 
-  this.addWidgetAt(container, ++index, opt_autoSelect);
+  return this.addWidgetAt(container, ++index, opt_autoSelect);
 };
 
 
@@ -741,6 +742,23 @@ DashboardService.prototype.addWidgetAt = function(
   }
 
   return widget;
+};
+
+
+/**
+ * Creates a copy of the provided widget, and inserts it directly after the provided one.
+ * @param {!WidgetConfig} widget
+ * @param {!ContainerWidgetConfig} container
+ * @return {!WidgetConfig}
+ * @export
+ */
+DashboardService.prototype.cloneWidget = function(widget, container) {
+  let newModel = angular.copy(widget.model);
+  let newWidget = this.addWidgetAfter(container, widget);
+  newModel['id'] = newWidget.model.id;
+  newWidget.model = newModel;
+
+  return newWidget;
 };
 
 
