@@ -26,6 +26,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 
 
 goog.scope(function() {
@@ -33,6 +34,7 @@ const explorer = p3rf.perfkit.explorer;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ErrorService = explorer.components.error.ErrorService;
 const ExplorerService = explorer.components.explorer.ExplorerService;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 
 
 
@@ -49,7 +51,8 @@ const ExplorerService = explorer.components.explorer.ExplorerService;
  * @ngInject
  */
 explorer.components.widget.query.QueryResultDataService = function(
-    explorerService, errorService, $http, $filter, $cacheFactory, $q, GvizDataTable) {
+    explorerService, explorerStateService, errorService,
+    $http, $filter, $cacheFactory, $q, GvizDataTable) {
   /**
    * @type {!angular.$http}
    * @private
@@ -74,6 +77,12 @@ explorer.components.widget.query.QueryResultDataService = function(
    * @private
    */
   this.errorService_ = errorService;
+
+  /**
+   * @type {!ExplorerStateService}
+   * @private
+   */
+  this.explorerStateService_ = explorerStateService;
 
   /**
    * @type {!angular.$q}
@@ -191,7 +200,10 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
   } else {
     let endpoint = '/data/sql';
 
-    let postData = {'datasource': datasource};
+    let postData = {
+      'dashboard_id': this.explorerStateService_.selectedDashboard.model.id,
+      'id': widget.model.id,
+      'datasource': datasource};
     let promise = this.http_.post(endpoint, postData);
 
     promise.then(angular.bind(this, function(response) {

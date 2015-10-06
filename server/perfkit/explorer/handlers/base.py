@@ -69,6 +69,9 @@ class _JsonEncoder(json.JSONEncoder):
 
 class RequestHandlerBase(webapp2.RequestHandler):
   """Provides common functions to request handler subclasses."""
+  def __init__(self, request=None, response=None):
+    self.config = explorer_config.ExplorerConfigModel.Get()
+    super(RequestHandlerBase, self).__init__(request, response)
 
   @property
   def env(self):
@@ -102,7 +105,7 @@ class RequestHandlerBase(webapp2.RequestHandler):
       template_values['current_user_email'] = users.get_current_user().email()
     template_values['current_user_admin'] = str(
         users.is_current_user_admin()).lower()
-    current_config = explorer_config.ExplorerConfigModel.Get().to_dict()
+    current_config = self.config.to_dict()
 
     template_values['analytics_key'] = current_config['analytics_key']
     template_values['initial_config'] = json.dumps(current_config)

@@ -10,5 +10,8 @@ var INITIAL_CONFIG = {
   'default_dataset': '',
   'default_table': '',
   'analytics_key': '',
-  'cache_duration': 0
+  'cache_duration': 0,
+  'grant_view_to_public': false,
+  'grant_save_to_public': false,
+  'grant_query_to_public': false
 };

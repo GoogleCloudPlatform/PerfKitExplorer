@@ -28,7 +28,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
         'default_dataset': explorer_config.DEFAULT_DATASET,
         'default_table': explorer_config.DEFAULT_TABLE,
         'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION,
+        'grant_save_to_public': False,
+        'grant_view_to_public': False,
+        'grant_query_to_public': False,
     }
 
     actual_config = explorer_config.ExplorerConfigModel.Get().to_dict()
@@ -49,14 +52,20 @@ class ExplorerConfigModelTest(unittest.TestCase):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
 
     provided_project = 'MODIFIED_PROJECT'
-    provided_data = {'default_project': provided_project}
+    provided_data = {
+        'default_project': provided_project,
+        'grant_save_to_public': True
+    }
 
     expected_config = {
         'default_project': provided_project,
         'default_dataset': explorer_config.DEFAULT_DATASET,
         'default_table': explorer_config.DEFAULT_TABLE,
         'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION,
+        'grant_save_to_public': True,
+        'grant_view_to_public': False,
+        'grant_query_to_public': False,
     }
 
     explorer_config.ExplorerConfigModel.Update(provided_data)
@@ -68,7 +77,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
 
     provided_project = 'EXPECTED_PROJECT'
-    provided_data = {'default_project': provided_project}
+    provided_data = {
+        'default_project': provided_project,
+        'grant_view_to_public': True
+    }
 
     initial_config = explorer_config.ExplorerConfigModel.Get()
     self.assertNotEqual(initial_config.default_project, provided_project)
@@ -77,7 +89,10 @@ class ExplorerConfigModelTest(unittest.TestCase):
         'default_dataset': initial_config.default_dataset,
         'default_table': initial_config.default_table,
         'analytics_key': initial_config.analytics_key,
-        'cache_duration': initial_config.cache_duration
+        'cache_duration': initial_config.cache_duration,
+        'grant_save_to_public': False,
+        'grant_view_to_public': True,
+        'grant_query_to_public': False,
     }
 
     explorer_config.ExplorerConfigModel.Update(provided_data)
@@ -89,14 +104,20 @@ class ExplorerConfigModelTest(unittest.TestCase):
   def testLoad(self):
     gae_test_util.setCurrentUser(self.testbed, is_admin=True)
     provided_project = 'MODIFIED_PROJECT'
-    provided_data = {'default_project': provided_project}
+    provided_data = {
+        'default_project': provided_project,
+        'grant_query_to_public': True,
+    }
 
     expected_config = {
         'default_project': provided_project,
         'default_dataset': explorer_config.DEFAULT_DATASET,
         'default_table': explorer_config.DEFAULT_TABLE,
         'analytics_key': explorer_config.DEFAULT_ANALYTICS_KEY,
-        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION
+        'cache_duration': explorer_config.DEFAULT_CACHE_DURATION,
+        'grant_save_to_public': False,
+        'grant_view_to_public': False,
+        'grant_query_to_public': True,
     }
 
     initial_config_row = explorer_config.ExplorerConfigModel.Get()
