@@ -15,13 +15,12 @@ limitations under the License.
 Base class and utility functions for Perfkit Explorer Http requests.
 
 This module provides utility functions for Explorer http handlers, and
-extends webapp2.RequestHandler for improved support of version-specific script
-paths and authentication.
+extends common.base.RequestHandlerBase for improved support of
+version-specific script paths and authentication.
 """
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
-import datetime
 import json
 import os
 
@@ -32,6 +31,7 @@ from google.appengine.api import users
 
 from perfkit.common import data_source_config
 from perfkit.common import http_util
+from perfkit.common.handlers import base
 from perfkit.explorer.model import explorer_config
 
 
@@ -54,20 +54,7 @@ class InitializeError(Error):
     super(InitializeError, self).__init__(message)
 
 
-class _JsonEncoder(json.JSONEncoder):
-  """Json encoder for handling application domain objects."""
-
-  def default(self, obj):
-    if isinstance(obj, datetime.datetime):
-      return obj.isoformat() + ('' if obj.utcoffset() else 'Z')
-    elif isinstance(obj, users.User):
-      # Expose only a few fields from user.
-      return {'gaianame': obj.user_login, 'full_name': obj.full_name}
-    else:
-      return super(_JsonEncoder, self).default(obj)
-
-
-class RequestHandlerBase(webapp2.RequestHandler):
+class RequestHandlerBase(base.RequestHandlerBase):
   """Provides common functions to request handler subclasses."""
   def __init__(self, request=None, response=None):
     self.config = explorer_config.ExplorerConfigModel.Get()
@@ -113,22 +100,3 @@ class RequestHandlerBase(webapp2.RequestHandler):
     template = _JINJA_ENVIRONMENT.get_template(template_file)
     self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
     self.response.out.write(template.render(template_values))
-
-  def RenderJson(self, data, status=200, filename=None):
-    """Renders the provided data as JSON, using the _JsonEncoder class.
-
-    Args:
-      data: Json-serializable object.
-      status: int. HTTP status code.
-    """
-    self.response.set_status(status)
-
-    # Read https://wiki.corp.google.com/twiki/bin/view/Main/ISETeamJSON for
-    # proper handling of JSON response.
-    self.response.headers['Content-Type'] = 'application/json; charset=utf-8'
-
-    if filename:
-      self.response.headers["Content-Disposition"] = (
-          'attachment; filename=' + filename)
-
-    self.response.out.write(_JsonEncoder(sort_keys=True).encode(data))
