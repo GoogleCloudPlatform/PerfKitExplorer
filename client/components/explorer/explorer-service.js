@@ -145,62 +145,6 @@ explorer.components.explorer.ExplorerService = function(
           this.initializeDashboard();
         });
       }
-
-      // Set the dashboard parameters in the URL.
-      angular.forEach(this.dashboard.params, param => {
-        try {
-          $state.current.reloadOnSearch = false;
-          $location.search(param.name, param.value);
-        } finally {
-          $state.current.reloadOnSearch = true;
-        }
-      });
-    }
-  });
-
-  $rootScope.$on('$locationChangeStart',
-      (event, newUrl, oldUrl) => {
-    this.queryParams = {};
-
-    // Store the current dashboard parameter values from the query string.
-    let oldQueryData = new goog.Uri(oldUrl).getQueryData();
-    angular.forEach(oldQueryData.getKeys(), paramName => {
-      if (goog.isDef($state.params[paramName])) { return; }
-
-      this.queryParams[paramName] = oldQueryData.get(paramName);
-    });
-  });
-
-  $rootScope.$on('$locationChangeSuccess',
-      (event, newUrl, oldUrl) => {
-    if (newUrl !== oldUrl) {
-      // If the dashboard changed, reload the page.
-      if ($location.search()['dashboard'] &&
-          $location.search()['dashboard'] !== this.dashboard.current.model.id) {
-        $window.location.reload();
-      } else {
-          // Patch in the state parameters if the url doesn't specify them.
-          angular.forEach(Object.keys($state.params), paramName => {
-            try {
-              $state.current.reloadOnSearch = false;
-              if (goog.isDefAndNotNull($state.params[paramName]) &&
-                  $state.params[paramName] !== $location.search()[paramName]) {
-                $location.search(paramName, $state.params[paramName]);
-              }
-            } finally {
-              $state.current.reloadOnSearch = true;
-            }
-          });
-
-          // If any dashboard parameters changed, refresh the dashboard.
-          angular.forEach(this.dashboard.params, param => {
-            if ($location.search()[param.name] !==
-                this.queryParams[param.name]) {
-              this.dashboard.refreshDashboard();
-              return false;
-            }
-          });
-      }
     }
   });
 
