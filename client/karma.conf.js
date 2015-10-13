@@ -36,7 +36,7 @@ module.exports = function(config) {
 
     preprocessors: {
       // HTML Templates
-      'client/**/*.html': ['html2js'],
+      'client/**/*.html': ['ng-html2js'],
       'lib/closure-library/closure/goog/deps.js': ['closure-deps']
     },
 
