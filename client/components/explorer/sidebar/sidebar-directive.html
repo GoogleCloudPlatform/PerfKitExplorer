@@ -51,7 +51,7 @@
           <widget-config ng-model="dashboardSvc.selectedWidget.model" />
         </div>
         <div class="pk-sidebar-group-title">Datasource</div>
-        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
+        <widget-datasource ng-model="dashboardSvc.selectedWidget.model" />
       </div>
 
       <div ng-switch-when="widget.chart">

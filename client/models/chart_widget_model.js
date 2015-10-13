@@ -246,6 +246,9 @@ const DataViewModel = explorer.models.DataViewModel;
 
 /** @constructor */
 explorer.models.DatasourceModel = function() {
+  /** @export {string} */
+  this.data_service = 'BigQuery';
+
   /**
    * @type {!QueryConfigModel}
    * @export

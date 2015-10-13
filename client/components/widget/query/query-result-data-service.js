@@ -198,12 +198,21 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
   if (cachedDataTable) {
     deferred.resolve(cachedDataTable);
   } else {
-    let endpoint = '/data/sql';
+    let endpoint = '';
+    let postData = {};
 
-    let postData = {
-      'dashboard_id': this.explorerStateService_.selectedDashboard.model.id,
-      'id': widget.model.id,
-      'datasource': datasource};
+    switch (widget.model.datasource.data_service) {
+      case 'GQL':
+        endpoint = widget.model.datasource.config.service_url || '/data/gql';
+        postData['query'] = widget.model.datasource.query_exec;
+        break;
+      default:
+        endpoint = '/data/sql';
+        postData['dashboard_id'] = this.explorerStateService_.selectedDashboard.model.id;
+        postData['id'] = widget.model.id;
+        postData['datasource'] = datasource;
+    }
+
     let promise = this.http_.post(endpoint, postData);
 
     promise.then(angular.bind(this, function(response) {
@@ -211,17 +220,17 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
-        let rows = response.data.totalRows;
-        let size = response.data.totalBytesProcessed;
-        let time = response.data.elapsedTime;
-        let job = response.data.jobReference.jobId;
+        if (widget.data_service == 'BigQuery' && this.explorerService_.model.logStatistics) {
+          let rows = response.data.totalRows;
+          let time = response.data.elapsedTime;
+          let size = response.data.totalBytesProcessed;
+          let job = response.data.jobReference.jobId;
 
-        widget.state().datasource.job_id = job;
-        widget.state().datasource.row_count = rows;
-        widget.state().datasource.query_size = size;
-        widget.state().datasource.query_time = time;
+          widget.state().datasource.job_id = job;
+          widget.state().datasource.row_count = rows;
+          widget.state().datasource.query_size = size;
+          widget.state().datasource.query_time = time;
 
-        if (this.explorerService_.model.logStatistics) {
           this.errorService_.addError(
               ErrorTypes.INFO,
               'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
@@ -229,10 +238,15 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
               'in ' + this.filter_('number')(speed, 2) + ' sec.');
         }
 
-        let data = response.data.results;
-        this.parseDates_(data);
-
-        let dataTable = new this.GvizDataTable_(data);
+        let data, dataTable;
+        if (widget.data_service == 'BigQuery') {
+          data = response.data.results;
+          this.parseDates_(data);
+          dataTable = new this.GvizDataTable_(data);
+        } else {
+          data = response.data;
+          dataTable = google.visualization.arrayToDataTable(data);
+        }
 
         this.cache_.put(cacheKey, dataTable);
         deferred.resolve(dataTable);

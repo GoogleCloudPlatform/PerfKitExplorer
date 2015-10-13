@@ -1,0 +1,20 @@
+<div>
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">
+      Data Service
+    </div>
+    <div class="pk-sidebar-item-value">
+      <md-select
+          ng-model="ngModel.datasource.data_service"
+          ng-change="changeDataService"
+          class="pk-sidebar-input-full widget-data-service">
+        <md-option ng-value="'GQL'">GQL</md-option>
+        <md-option ng-value="'BigQuery'">Big Query</md-option>
+      </md-select>
+    </div>
+  </div>
+  <div ng-switch="ngModel.datasource.data_service">
+    <gql-query-config ng-model="ngModel" ng-switch-when="GQL" />
+    <query-builder-datasource-config ng-model="ngModel" ng-switch-default />
+  </div>
+</div>
