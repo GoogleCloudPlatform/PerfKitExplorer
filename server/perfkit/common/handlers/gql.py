@@ -32,6 +32,7 @@ import webapp2
 from google.appengine.ext import ndb
 
 from perfkit.common import http_util
+from perfkit.common import gae_datastore_result_util as util
 
 # All DataStore entities that you want to query must be imported here down to
 # the class name.
@@ -68,6 +69,7 @@ class GqlHandler(base.RequestHandlerBase):
       results = query.fetch()
       data = [result.to_dict() for result in results]
 
+      data = util.ResultFormatter.FormatGQLResult(data)
       self.RenderJson(data)
     except Exception as err:
       self.RenderJson(
