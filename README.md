@@ -130,14 +130,6 @@ Compile and Deploy PerfKit Explorer
          version: beta
          instance_class: F2
 
-1. Modify the `config/data_source_config.json` so that the production tags are
-   appropriate for the repository you created in the previous step. For example:
-
-         project_id: perfkit-explorer-demo
-         project_name: perfkit-samples
-         samples-mart: perfkit-samples.samples_mart
-         analytics-key: UA-12345
-
 1. Compile the application.
 
          bash compile.sh
