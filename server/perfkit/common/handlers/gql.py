@@ -54,7 +54,7 @@ class GqlHandler(base.RequestHandlerBase):
       self.ExecuteQuery(query_gql)
     except http_util.ParameterError as err:
       self.RenderJson(
-          data={'message': err.message}, status=500)
+          data={'error': err.message}, status=500)
 
   def post(self):
     """Handles a POST request."""
@@ -73,7 +73,7 @@ class GqlHandler(base.RequestHandlerBase):
       self.RenderJson(data)
     except Exception as err:
       self.RenderJson(
-          data={'message': err.message}, status=500)
+          data={'error': err.message}, status=500)
 
 # Main WSGI app as specified in app.yaml
 app = webapp2.WSGIApplication(
