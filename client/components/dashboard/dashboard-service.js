@@ -398,7 +398,19 @@ DashboardService.prototype.selectWidget = function(
     if (widget) { params.widget = widget.model.id; }
     if (container) { params.container = container.model.id };
 
-    this.$state_.go('explorer-dashboard-edit', params);
+    this.$state_.go('explorer-dashboard-edit', params, {location: false});
+
+    if (widget) {
+      this.location_.search('widget', widget.model.id);
+    } else {
+      this.location_.search('widget', null);
+    }
+
+    if (container) {
+      this.location_.search('container', container.model.id);
+    } else {
+      this.location_.search('container', null);
+    }
   }
 
   if (widget) {
