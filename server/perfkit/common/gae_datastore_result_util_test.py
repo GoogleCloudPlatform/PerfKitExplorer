@@ -31,7 +31,7 @@ class GAEDataStoreResultUtilTest(unittest.TestCase):
     ]
 
     expected_data = [
-      ['color', 'shape'],
+      [{'label': 'color', 'id': 'color'}, {'label': 'shape', 'id': 'shape'}],
       ['blue', 'circle'],
       ['red', 'square']
     ]
@@ -41,6 +41,33 @@ class GAEDataStoreResultUtilTest(unittest.TestCase):
 
     self.assertEqual(actual, expected_data)
 
+  def testResolveGQLTypeForString(self):
+    provided = 'TEST'
+    expected = provided
+    actual = util.ResultFormatter.ResolveGQLType(provided)
+
+    self.assertEqual(actual, expected)
+
+  def testResolveGQLTypeForNumber(self):
+    provided = 42
+    expected = provided
+    actual = util.ResultFormatter.ResolveGQLType(provided)
+
+    self.assertEqual(actual, expected)
+
+  def testResolveGQLTypeForUser(self):
+    provided = {'gaianame': 'test@mydomain.com'}
+    expected = 'test@mydomain.com'
+    actual = util.ResultFormatter.ResolveGQLType(provided)
+
+    self.assertEqual(actual, expected)
+
+  def testResolveGQLTypeForGenericDictionary(self):
+    provided = {'a': 'FIRST', 'b': 'MIDDLE', 'c': 'LAST', 'd': 42}
+    expected = 'FIRST'
+    actual = util.ResultFormatter.ResolveGQLType(provided)
+
+    self.assertEqual(actual, expected)
 
 if __name__ == '__main__':
   unittest.main()

@@ -137,6 +137,17 @@ describe('columnStyleService', function() {
       svc.getEffectiveColumns(
           providedConfig.model.chart.columns, providedDataTable);
     });
+
+    fit('should work properly with array-based dataTables', function() {
+      var data = [['color', 'shape'], ['blue', 'circle'], ['red', 'square']];
+      var dataTable = google.visualization.arrayToDataTable(data, false);
+      var expectedColumns = [
+        new ColumnStyleModel('color'),
+        new ColumnStyleModel('shape')
+      ];
+      var actualColumns = svc.getEffectiveColumns([], dataTable);
+      expect(actualColumns).toEqual(expectedColumns);
+    });
   });
 
   describe('addColumnsFromDatasource', function() {

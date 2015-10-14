@@ -245,7 +245,13 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
           dataTable = new this.GvizDataTable_(data);
         } else {
           data = response.data;
-          dataTable = google.visualization.arrayToDataTable(data);
+          try {
+            dataTable = google.visualization.arrayToDataTable(data, false);
+          } catch (err) {
+            this.errorService_.addError(ErrorTypes.DANGER, err);
+            deferred.reject({'error': err});
+            return;
+          }
         }
 
         this.cache_.put(cacheKey, dataTable);

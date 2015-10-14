@@ -16,9 +16,37 @@ Utility functions for dealing with AppEngine DataStore results."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
+import logging
+
+from google.appengine.api import users
 
 class ResultFormatter(object):
   """Collection of utility methods used to format BigQuery replies."""
+
+  @classmethod
+  def ResolveGQLType(cls, value):
+    """Converts datastore types where necessary (such as UserProperty) to GViz-compatible types.
+
+    Args:
+      value: The value to check.
+
+    Returns:
+      A single value type for the dict.
+    """
+    if type(value) is users.User:
+      return value.email()
+    if type(value) is dict:
+      props = [key for key in sorted(value.iterkeys())]
+      if props:
+        logging.warning('ResultFormatter.ResolveGQLType failed: Dictionary unrecognized:')
+        logging.warning(value)
+        return value[props[0]]
+      else:
+        return None
+    else:
+      logging.warning(type(value))
+      return value
+
 
   @classmethod
   def FormatGQLResult(cls, data):
@@ -34,10 +62,10 @@ class ResultFormatter(object):
 
     if data:
       # Get column names from the first row.
-      columns = [attr for attr in data[0].iterkeys()]
+      columns = [{'label': attr, 'id': attr} for attr in data[0].iterkeys()]
       result.append(columns)
 
       for row in data:
-        result.append([row.get(column) for column in columns])
+        result.append([cls.ResolveGQLType(row.get(column['id'])) for column in columns])
 
     return result
