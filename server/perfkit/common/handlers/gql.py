@@ -50,6 +50,7 @@ class GqlHandler(base.RequestHandlerBase):
   def get(self):
     """Handles a GET request."""
     try:
+    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
       query_gql = http_util.GetStringParam(self.request, 'query')
       self.ExecuteQuery(query_gql)
     except http_util.ParameterError as err:
@@ -58,6 +59,7 @@ class GqlHandler(base.RequestHandlerBase):
 
   def post(self):
     """Handles a POST request."""
+    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
     request_data = json.loads(self.request.body)
     query_gql = request_data['query']
 
