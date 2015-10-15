@@ -16,6 +16,7 @@ GAE Model for the datastore."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
+import datetime
 import json
 import logging
 
@@ -51,7 +52,9 @@ class Dashboard(ndb.Model):
   """
 
   created_by = ndb.UserProperty()
+  created_date = ndb.DateTimeProperty()
   modified_by = ndb.UserProperty()
+  modified_date = ndb.DateTimeProperty()
   writers = ndb.StringProperty(repeated=True)
   title = ndb.StringProperty(default='')
   data = ndb.TextProperty(default='')
@@ -171,7 +174,6 @@ class Dashboard(ndb.Model):
     data['owner'] = new_owner.email()
 
     dashboard_row.created_by = new_owner
-    dashboard_row.modified_by = new_owner
     dashboard_row.data = json.dumps(data)
 
     dashboard_row.put()
@@ -359,6 +361,15 @@ class Dashboard(ndb.Model):
   def _pre_put_hook(self):
     if not explorer_config_util.ExplorerConfigUtil.CanSave():
       raise SecurityError('The current user is not authorized to save dashboards')
+
+    self.modified_by = users.get_current_user()
+    self.modified_date = datetime.datetime.now()
+
+    if not self.created_by:
+      self.created_by = users.get_current_user()
+
+    if not self.created_date:
+      self.created_date = datetime.datetime.now()
 
   @classmethod
   def _pre_get_hook(cls, key):
