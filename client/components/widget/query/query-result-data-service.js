@@ -220,38 +220,40 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
-        if (widget.data_service == 'BigQuery' && this.explorerService_.model.logStatistics) {
-          let rows = response.data.totalRows;
-          let time = response.data.elapsedTime;
-          let size = response.data.totalBytesProcessed;
-          let job = response.data.jobReference.jobId;
-
-          widget.state().datasource.job_id = job;
-          widget.state().datasource.row_count = rows;
-          widget.state().datasource.query_size = size;
-          widget.state().datasource.query_time = time;
-
-          this.errorService_.addError(
-              ErrorTypes.INFO,
-              'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
-              'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
-              'in ' + this.filter_('number')(speed, 2) + ' sec.');
-        }
-
         let data, dataTable;
-        if (widget.data_service == 'BigQuery') {
-          data = response.data.results;
-          this.parseDates_(data);
-          dataTable = new this.GvizDataTable_(data);
-        } else {
-          data = response.data;
-          try {
-            dataTable = google.visualization.arrayToDataTable(data, false);
-          } catch (err) {
-            this.errorService_.addError(ErrorTypes.DANGER, err);
-            deferred.reject({'error': err});
-            return;
-          }
+        switch (widget.model.datasource.data_service) {
+          case 'GQL':
+            data = response.data;
+            try {
+              dataTable = google.visualization.arrayToDataTable(data, false);
+            } catch (err) {
+              this.errorService_.addError(ErrorTypes.DANGER, err);
+              deferred.reject({'error': err});
+              return;
+            }
+            break;
+          default:
+            let rows = response.data.totalRows;
+            let time = response.data.elapsedTime;
+            let size = response.data.totalBytesProcessed;
+            let job = response.data.jobReference.jobId;
+
+            widget.state().datasource.job_id = job;
+            widget.state().datasource.row_count = rows;
+            widget.state().datasource.query_size = size;
+            widget.state().datasource.query_time = time;
+
+            if (this.explorerService_.model.logStatistics) {
+              this.errorService_.addError(
+                  ErrorTypes.INFO,
+                  'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
+                  'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
+                  'in ' + this.filter_('number')(speed, 2) + ' sec.');
+            }
+
+            data = response.data.results;
+            this.parseDates_(data);
+            dataTable = new this.GvizDataTable_(data);
         }
 
         this.cache_.put(cacheKey, dataTable);

@@ -50,7 +50,7 @@ class GqlHandler(base.RequestHandlerBase):
   def get(self):
     """Handles a GET request."""
     try:
-    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
+      self.response.headers.add_header("Access-Control-Allow-Origin", "*")
       query_gql = http_util.GetStringParam(self.request, 'query')
       self.ExecuteQuery(query_gql)
     except http_util.ParameterError as err:
@@ -64,6 +64,11 @@ class GqlHandler(base.RequestHandlerBase):
     query_gql = request_data['query']
 
     self.ExecuteQuery(query_gql)
+
+  def options(self):
+    """Handles an OPTIONS request."""
+    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
+    self.response.set_status(200)
 
   def ExecuteQuery(self, query_gql):
     try:
