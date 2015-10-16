@@ -1,61 +1,64 @@
 <div>
-  <button type="button"
-          class="btn btn-default dropdown-toggle column-add">
-    Insert
-    <span class="caret"></span>
-    <md-tooltip md-direction="top">
-      Adds one or more <b>Column Styles</b> <i>(click to see options)</i>
-    </md-tooltip>
-  </button>
-  <ul class="dropdown-menu column-add-dropdown">
-    <li class="columns-add-datasource"
-        ng-show="ngModel.state().datasource.data"
-        ng-click="ctrl.columnStyleSvc.addColumnsFromDatasource(ngModel)">
-      <a>from datasource</a>
-      <md-tooltip md-direction="right">
-        Adds a <b>Column Style</b> for each field in your selected widget's <b>Query</b>
+  <div class="btn-group" uib-dropdown>
+    <button type="button"
+            class="btn btn-default column-add"
+            uib-dropdown-toggle>
+      Insert
+      <span class="caret"></span>
+      <md-tooltip md-direction="top">
+        Adds one or more <b>Column Styles</b> <i>(click to see options)</i>
       </md-tooltip>
-    </li>
-    <li class="column-add-top"
-        ng-click="ctrl.arrayUtilSvc.insertAt(
-            ngModel.model.chart.columns,
-            ctrl.columnStyleSvc.newColumn(),
-            0)">
-      <a>top</a>
-      <md-tooltip md-direction="right">
-        Adds a <b>Column Style</b> at the top of the list
-      </md-tooltip>
-    </li>
-    <li class="column-add-before"
-        ng-show="ctrl.columnStyleSvc.selectedColumn"
-        ng-click="ctrl.arrayUtilSvc.insertBefore(
-            ngModel.model.chart.columns,
-            ctrl.columnStyleSvc.newColumn(),
-            ctrl.columnStyleSvc.selectedColumn)">
-      <a>before</a>
-      <md-tooltip md-direction="right">
-        Adds a <b>Column Style</b> at the bottom of the list
-      </md-tooltip>
-    </li>
-    <li class="column-add-after"
-        ng-show="ctrl.columnStyleSvc.selectedColumn"
-        ng-click="ctrl.arrayUtilSvc.insertAfter(
-            ngModel.model.chart.columns,
-            ctrl.columnStyleSvc.newColumn(),
-            ctrl.columnStyleSvc.selectedColumn)">
-      <a>after</a>
-      <md-tooltip md-direction="right">
-        Adds a <b>Column Style</b> after the selected column
-      </md-tooltip>
-    </li>
-    <li class="column-add-bottom"
-        ng-click="ctrl.columnStyleSvc.addColumn(ngModel.model)">
-      <a>bottom</a>
-      <md-tooltip md-direction="right">
-        Adds a <b>Column Style</b> before the selected column
-      </md-tooltip>
-    </li>
-  </ul>
+    </button>
+    <ul class="uib-dropdown-menu column-add-dropdown">
+      <li class="columns-add-datasource"
+          ng-show="ngModel.state().datasource.data"
+          ng-click="ctrl.columnStyleSvc.addColumnsFromDatasource(ngModel)">
+        <a>from datasource</a>
+        <md-tooltip md-direction="right">
+          Adds a <b>Column Style</b> for each field in your selected widget's <b>Query</b>
+        </md-tooltip>
+      </li>
+      <li class="column-add-top"
+          ng-click="ctrl.arrayUtilSvc.insertAt(
+              ngModel.model.chart.columns,
+              ctrl.columnStyleSvc.newColumn(),
+              0)">
+        <a>top</a>
+        <md-tooltip md-direction="right">
+          Adds a <b>Column Style</b> at the top of the list
+        </md-tooltip>
+      </li>
+      <li class="column-add-before"
+          ng-show="ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.arrayUtilSvc.insertBefore(
+              ngModel.model.chart.columns,
+              ctrl.columnStyleSvc.newColumn(),
+              ctrl.columnStyleSvc.selectedColumn)">
+        <a>before</a>
+        <md-tooltip md-direction="right">
+          Adds a <b>Column Style</b> at the bottom of the list
+        </md-tooltip>
+      </li>
+      <li class="column-add-after"
+          ng-show="ctrl.columnStyleSvc.selectedColumn"
+          ng-click="ctrl.arrayUtilSvc.insertAfter(
+              ngModel.model.chart.columns,
+              ctrl.columnStyleSvc.newColumn(),
+              ctrl.columnStyleSvc.selectedColumn)">
+        <a>after</a>
+        <md-tooltip md-direction="right">
+          Adds a <b>Column Style</b> after the selected column
+        </md-tooltip>
+      </li>
+      <li class="column-add-bottom"
+          ng-click="ctrl.columnStyleSvc.addColumn(ngModel.model)">
+        <a>bottom</a>
+        <md-tooltip md-direction="right">
+          Adds a <b>Column Style</b> before the selected column
+        </md-tooltip>
+      </li>
+    </ul>
+  </div>
   <button type="button" class="btn btn-default column-move-up"
           ng-disabled="!ctrl.columnStyleSvc.selectedColumn"
           ng-click="ctrl.columnStyleSvc.movePrevious(

@@ -2,13 +2,14 @@
   <button type="button"
           class="btn btn-default dashboard-create"
           ng-click="ctrl.createDashboard()">Create</button>
-  <div class="pk-dropdown-button-section">
+  <div class="btn-group pk-dropdown-button-section" uib-dropdown>
     <button type="button"
-            class="btn btn-default dropdown-toggle dashboard-open">
+            class="btn btn-default dashboard-open"
+            uib-dropdown-toggle>
       Open...
       <span class="caret"></span>
     </button>
-    <ul class="dropdown-menu dashboard-open-dropdown">
+    <ul class="uib-dropdown-menu dashboard-open-dropdown">
       <li ng-click="ctrl.openDashboardAdmin()"
           class="dashboard-open-admin">
         <a>Dashboard Administration</a>

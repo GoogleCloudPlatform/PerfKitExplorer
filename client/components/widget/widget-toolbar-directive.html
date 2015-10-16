@@ -4,29 +4,32 @@
           ng-click="ctrl.refreshSelectedWidget()">
     Refresh
   </button>
-  <button type="button"
-          class="btn btn-default dropdown-toggle widget-insert">
-    Insert
-    <span class="caret"></span>
-  </button>
-  <ul class="dropdown-menu widget-insert-dropdown">
-    <li ng-click="ctrl.insertWidgetAt(0)"
-        class="widget-insert-first">
-      <a>left</a>
-    </li>
-    <li ng-click="ctrl.insertWidgetBeforeSelected()"
-        class="widget-insert-before">
-      <a>before</a>
-    </li>
-    <li ng-click="ctrl.insertWidgetAfterSelected()"
-        class="widget-insert-after">
-      <a>after</a>
-    </li>
-    <li ng-click="ctrl.insertWidget()"
-        class="widget-insert-last">
-      <a>right</a>
-    </li>
-  </ul>
+  <div class="btn-group" uib-dropdown>
+    <button type="button"
+            class="btn btn-default widget-insert"
+            uib-dropdown-toggle>
+      Insert
+      <span class="caret"></span>
+    </button>
+    <ul class="uib-dropdown-menu widget-insert-dropdown">
+      <li ng-click="ctrl.insertWidgetAt(0)"
+          class="widget-insert-first">
+        <a>left</a>
+      </li>
+      <li ng-click="ctrl.insertWidgetBeforeSelected()"
+          class="widget-insert-before">
+        <a>before</a>
+      </li>
+      <li ng-click="ctrl.insertWidgetAfterSelected()"
+          class="widget-insert-after">
+        <a>after</a>
+      </li>
+      <li ng-click="ctrl.insertWidget()"
+          class="widget-insert-last">
+        <a>right</a>
+      </li>
+    </ul>
+  </div>
   <button type="button" class="btn btn-default widget-clone"
           ng-click="ctrl.cloneWidget()">
     Clone
