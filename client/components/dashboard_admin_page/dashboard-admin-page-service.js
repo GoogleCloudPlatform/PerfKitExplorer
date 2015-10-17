@@ -110,6 +110,17 @@ DashboardAdminPageService.prototype.addDashboard = function(dashboardJson) {
   dashboard.title = dashboardJson.title;
   dashboard.owner = dashboardJson.owner;
 
+  dashboard.created_by = dashboardJson.created_by;
+  if (dashboardJson.created_date) {
+    dashboard.created_date = new Date(dashboardJson.created_date);
+  }
+
+  dashboard.modified_by = dashboardJson.modified_by;
+  if (dashboardJson.modified_date) {
+    dashboard.modified_date = new Date(dashboardJson.modified_date);
+  }
+
+  console.log(dashboard);
   this.dashboards.push(dashboard);
 };
 

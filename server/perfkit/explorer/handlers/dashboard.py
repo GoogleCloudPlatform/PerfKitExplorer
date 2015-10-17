@@ -117,7 +117,6 @@ class CreateDashboardHandler(base.RequestHandlerBase):
       owner = dashboard_model.Dashboard.GetDashboardOwner(owner_email)
 
       dashboard = dashboard_model.Dashboard()
-      dashboard.created_by = users.get_current_user()
       dashboard.title = title
       dashboard_id = dashboard.put().integer_id()
 
@@ -158,11 +157,8 @@ class UploadDashboardHandler(base.RequestHandlerBase):
         owner_email = data[fields.OWNER]
 
       title = dashboard_model.Dashboard.GetDashboardTitle(data)
-      created_by = dashboard_model.Dashboard.GetDashboardOwner(
-          owner_email)
 
       dashboard = dashboard_model.Dashboard()
-      dashboard.created_by = created_by
       dashboard.title = title
       dashboard_id = dashboard.put().integer_id()
 
@@ -253,7 +249,6 @@ class EditDashboardHandler(base.RequestHandlerBase):
       row.data = json.dumps(data)
       row.title = title
       row.owner = new_owner
-      row.modified_by = users.get_current_user()
       row.put()
       self.RenderJson(data)
     except (base.InitializeError, dashboard_model.InitializeError,
@@ -449,12 +444,28 @@ class ListDashboardHandler(base.RequestHandlerBase):
       results = query.fetch(limit=2000)
 
       response = []
+      dashboard_data = None
+
       for result in results:
+        dashboard_data = json.loads(result.data)
+        created_by = None
+        modified_by = None
+
+        if result.created_by:
+          created_by = result.created_by.email()
+
+        if result.modified_by:
+          modified_by = result.modified_by.email()
+
         response.append({
             fields.ID: result.key.integer_id(),
-            fields.OWNER: result.created_by.email(),
+            fields.OWNER: dashboard_data['owner'],
             fields.TITLE: (result.title or
-                           dashboard_model.DEFAULT_DASHBOARD_TITLE)})
+                           dashboard_model.DEFAULT_DASHBOARD_TITLE),
+            fields.CREATED_BY: created_by,
+            fields.CREATED_DATE: result.created_date,
+            fields.MODIFIED_BY: modified_by,
+            fields.MODIFIED_DATE: result.modified_date})
 
       self.RenderJson({fields.DATA: response})
     except (base.InitializeError, dashboard_model.InitializeError,
