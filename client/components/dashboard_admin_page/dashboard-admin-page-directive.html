@@ -50,9 +50,9 @@
            ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
     </div>
 
-    <div flex>
-      <div ui-grid="pageCtrl.gridOptions" style="border: 0"
-          ui-grid-auto-resize ui-grid-resize-columns ui-grid-selection />
+    <div flex layout="column">
+      <div ui-grid="pageCtrl.gridOptions" style="border: 0" flex
+          ui-grid-resize-columns ui-grid-selection></div>
     </div>
   </div>
 </div>

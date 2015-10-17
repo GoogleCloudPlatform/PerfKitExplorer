@@ -98,18 +98,18 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
     multiSelect: false,
     virtualizationThreshold: 100,
     columnDefs: [
-      {name: 'title', displayName: 'Title',
+      {name: 'title', displayName: 'Title', minWidth: 200,
         cellTemplate:
             '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
             '    <a ng-click="$event.stopPropagation(); grid.appScope.openDashboard(row.entity)">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
-      {name: 'owner', displayName: 'Owner', width: 200},
-      {name: 'created_by', displayName: 'Created by', width: 200},
-      {name: 'created_date', displayName: 'on', width: 120, cellFilter: "date:'yyyy-MM-dd HH:mm'"},
-      {name: 'modified_by', displayName: 'Modified by', width: 200},
-      {name: 'modified_date', displayName: 'on', width: 120, cellFilter: "date:'yyyy-MM-dd HH:mm'"},
-      {name: 'id', displayName: 'ID', width: 160}
+      {name: 'owner', displayName: 'Owner', minWidth: 80},
+      {name: 'created_by', displayName: 'Created by', minWidth: 80},
+      {name: 'created_date', displayName: 'on', maxWidth: 120, cellFilter: "date:'yyyy-MM-dd HH:mm'"},
+      {name: 'modified_by', displayName: 'Modified by', minWidth: 80},
+      {name: 'modified_date', displayName: 'on', maxWidth: 120, cellFilter: "date:'yyyy-MM-dd HH:mm'"},
+      {name: 'id', displayName: 'ID', width: 130}
     ]
   };
 
