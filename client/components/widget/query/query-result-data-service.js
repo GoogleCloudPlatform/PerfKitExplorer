@@ -203,8 +203,11 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
 
     switch (widget.model.datasource.data_service) {
       case 'GQL':
-        endpoint = widget.model.datasource.config.service_url || '/data/gql';
+        endpoint = '/data/gql';
         postData['query'] = widget.model.datasource.query_exec;
+        if (widget.model.datasource.config.service_url) {
+          postData['url'] = widget.model.datasource.config.service_url;
+        }
         break;
       default:
         endpoint = '/data/sql';

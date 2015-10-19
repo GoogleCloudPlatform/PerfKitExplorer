@@ -24,8 +24,10 @@ GET     /data/gql - Returns the results of the provided GQL query.
 
 __author__ = 'jmuharsky@gmail.com (Joe Allan Muharsky)'
 
-import json
 import base
+import json
+import logging
+import urllib
 
 import webapp2
 
@@ -39,6 +41,7 @@ from perfkit.common import gae_datastore_result_util as util
 from perfkit.explorer.model.explorer_config import ExplorerConfigModel
 from perfkit.explorer.model.dashboard import Dashboard
 
+from google.appengine.api import urlfetch
 
 class GqlHandler(base.RequestHandlerBase):
   """Http handler for returning the results of a GQL query.
@@ -50,37 +53,45 @@ class GqlHandler(base.RequestHandlerBase):
   def get(self):
     """Handles a GET request."""
     try:
-      self.response.headers.add_header("Access-Control-Allow-Origin", "*")
       query_gql = http_util.GetStringParam(self.request, 'query')
-      self.ExecuteQuery(query_gql)
+      query_url = http_util.GetStringParam(self.request, 'url', False)
+
+      self.ExecuteQuery(query_gql, query_url)
+
     except http_util.ParameterError as err:
       self.RenderJson(
           data={'error': err.message}, status=500)
 
   def post(self):
     """Handles a POST request."""
-    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
     request_data = json.loads(self.request.body)
-    query_gql = request_data['query']
+    query_gql = request_data.get('query')
+    query_url = request_data.get('url')
 
-    self.ExecuteQuery(query_gql)
+    self.ExecuteQuery(query_gql, query_url)
 
-  def options(self):
-    """Handles an OPTIONS request."""
-    self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-    self.response.set_status(200)
-
-  def ExecuteQuery(self, query_gql):
+  def ExecuteQuery(self, query_gql, url=None):
     try:
-      query = ndb.gql(query_gql)
-      results = query.fetch()
-      data = [result.to_dict() for result in results]
+      if url:
+        form_fields = {"query": query_gql}
+        form_data = urllib.urlencode(form_fields)
+        response = urlfetch.fetch(url=url,
+            payload=form_data,
+            method=urlfetch.POST,
+            headers={'Content-Type': 'application/x-www-form-urlencoded'})
+        logging.error(response)
+        results = json.loads(response.content)
+      else:
+        query = ndb.gql(query_gql)
+        results = query.fetch()
+        data = [result.to_dict() for result in results]
+        data = util.ResultFormatter.FormatGQLResult(data)
 
-      data = util.ResultFormatter.FormatGQLResult(data)
       self.RenderJson(data)
     except Exception as err:
       self.RenderJson(
           data={'error': err.message}, status=500)
+
 
 # Main WSGI app as specified in app.yaml
 app = webapp2.WSGIApplication(
