@@ -36,6 +36,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
@@ -239,14 +240,14 @@ explorer.application.module.directive('resize',
     explorer.components.layout.ResizeDirective);
 
 /** Explorer page and config-related directives. */
-// TODO: Rename alertLog to something else; overloads with
-//     regression alerts.
 explorer.application.module.directive('explorerConfig',
     explorer.components.config.ConfigDirective);
 explorer.application.module.directive('explorerHeader',
     explorer.components.explorer.ExplorerHeaderDirective);
 explorer.application.module.directive('explorerPage',
     explorer.components.explorer.ExplorerPageDirective);
+explorer.application.module.directive('dashboardAdminPage',
+    explorer.components.dashboard_admin_page.DashboardAdminPageDirective);
 explorer.application.module.directive('explorerToolbar',
     explorer.components.explorer.ExplorerToolbarDirective);
 explorer.application.module.directive('log',

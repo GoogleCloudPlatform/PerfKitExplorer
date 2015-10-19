@@ -1,0 +1,58 @@
+<div layout="column" flex>
+
+  <div class="pk-header">
+    <div class="pk-header-toolbar">
+      <button type="button" class="btn btn-default dropdown-toggle">
+        <span class="glyphicon glyphicon-cog"></span>
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu pull-right">
+        <li ng-show="pageCtrl.pageService.CURRENT_USER_ADMIN"
+            ng-click="pageCtrl.editConfig()">
+          <a>Edit config</a>
+        </li>
+      </ul>
+    </div>
+    <div class="page-title">Perfkit Dashboard Administration</div>
+  </div>
+  <div class="pk-toolbar dashboard-toolbar">
+    <button type="button" class="btn btn-default"
+            ng-click="pageCtrl.createDashboard()">Create</button>
+    <button type="button" class="btn btn-default"
+            ng-click="pageCtrl.uploadDashboard()">Upload</button>
+    <span ng-show="pageCtrl.getSelected()">
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.openDashboard(pageCtrl.getSelected())">Open</button>
+      <button type="button" class="btn btn-default" ng-hide="pageCtrl.pageService.model.mine"
+              ng-click="pageCtrl.listDashboardsByOwner(pageCtrl.getSelected().owner)">More from this owner</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.copyDashboard()">Copy</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.downloadDashboard()">Download</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.renameDashboard()">Rename</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.editDashboardOwner()">Edit owner</button>
+      <button type="button" class="btn btn-default"
+              ng-click="pageCtrl.deleteDashboard()">Delete</button>
+    </span>
+
+  </div>
+
+  <div class="pk-page-body" flex layout="row">
+
+    <div class="pk-page-sidebar-left" style="border-right: 1px solid #424234;">
+      <div class="pk-page-sidebar-option"
+           ng-class="{'pk-page-sidebar-option-selected': !pageCtrl.pageService.model.mine}"
+           ng-click="pageCtrl.listAllDashboards()">All dashboards</div>
+      <div class="pk-page-sidebar-option"
+           ng-class="{'pk-page-sidebar-option-selected': pageCtrl.pageService.model.mine}"
+           ng-click="pageCtrl.listMyDashboards()">Owned by me</div>
+    </div>
+
+    <div flex layout="column">
+      <div ui-grid="pageCtrl.gridOptions" style="border: 0" flex
+          ui-grid-resize-columns ui-grid-selection></div>
+    </div>
+  </div>
+</div>
