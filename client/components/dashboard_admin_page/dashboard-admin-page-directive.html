@@ -2,16 +2,18 @@
 
   <div class="pk-header">
     <div class="pk-header-toolbar">
-      <button type="button" class="btn btn-default dropdown-toggle">
-        <span class="glyphicon glyphicon-cog"></span>
-        <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu pull-right">
-        <li ng-show="pageCtrl.pageService.CURRENT_USER_ADMIN"
-            ng-click="pageCtrl.editConfig()">
-          <a>Edit config</a>
-        </li>
-      </ul>
+      <div class="btn-group" uib-dropdown>
+        <button type="button" class="btn btn-default" uib-dropdown-toggle>
+          <span class="glyphicon glyphicon-cog"></span>
+          <span class="caret"></span>
+        </button>
+        <ul class="uib-dropdown-menu pull-right">
+          <li ng-show="pageCtrl.pageService.CURRENT_USER_ADMIN"
+              ng-click="pageCtrl.editConfig()">
+            <a>Edit config</a>
+          </li>
+        </ul>
+      </div>
     </div>
     <div class="page-title">Perfkit Dashboard Administration</div>
   </div>
