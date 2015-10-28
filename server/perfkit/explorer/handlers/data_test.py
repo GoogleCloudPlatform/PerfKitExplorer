@@ -217,6 +217,48 @@ class DataTest(unittest.TestCase):
                                   'Accept': 'text/plain'})
     self.assertEqual(resp.json['error'], expected_message)
 
+  @pytest.mark.integration
+  def testSqlHandlerPassesWithoutDashboardIdForPublicWithCustomQuery(self):
+    self.explorer_config.grant_query_to_public = True
+
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
+
+    data = {'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
+
+    self.maxDiff = None
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    logging.error(resp.json)
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
+
+  @pytest.mark.integration
+  def testSqlHandlerPassesWithoutDashboardIdForAdminWithoutCustomQuery(self):
+    self.explorer_config.grant_query_to_public = False
+
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+
+    data = {'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
+
+    self.maxDiff = None
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    logging.error(resp.json)
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
+
+  @pytest.mark.integration
   def testSqlHandlerPassesBuiltinQueryForPublicWithoutCustomQuery(self):
     dashboard_json = json.dumps(self.VALID_DASHBOARD)
     self.dashboard_model = dashboard.Dashboard(data=dashboard_json)

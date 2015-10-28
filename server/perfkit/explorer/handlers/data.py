@@ -225,14 +225,6 @@ class SqlDataHandler(base.RequestHandlerBase):
 
       request_data = json.loads(self.request.body)
 
-      dashboard_id = request_data.get('dashboard_id')
-      if not dashboard_id:
-        raise KeyError('The dashboard id is required to run a query')
-
-      widget_id = request_data.get('id')
-      if not widget_id:
-        raise KeyError('The widget id is required to run a query')
-
       datasource = request_data.get('datasource')
       if not datasource:
         raise KeyError('The datasource is required to run a query')
@@ -243,9 +235,21 @@ class SqlDataHandler(base.RequestHandlerBase):
         raise KeyError('datasource.query must be provided.')
 
       if (not config.grant_query_to_public and
-          not users.is_current_user_admin() and
-          dashboard.Dashboard.IsQueryCustom(query, dashboard_id, widget_id)):
-        raise SecurityError('The user is not authorized to run custom queries')
+          not users.is_current_user_admin()):
+        dashboard_id = request_data.get('dashboard_id')
+        if not dashboard_id:
+          raise KeyError('The dashboard id is required to run a query')
+
+        widget_id = request_data.get('id')
+        if not widget_id:
+          raise KeyError('The widget id is required to run a query')
+
+        if dashboard.Dashboard.IsQueryCustom(query, dashboard_id, widget_id):
+          raise SecurityError('The user is not authorized to run custom queries')
+        else:
+          logging.error('Query is identical.')
+      else:
+        logging.error('User is authorized.')
 
       query_config = request_data['datasource']['config']
 
