@@ -14,30 +14,32 @@
       Log Statistics
     </button>
 
-    <button type="button" class="btn btn-default dropdown-toggle">
-      <span class="glyphicon glyphicon-cog"></span>
-      <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu pull-right">
-      <li ng-hide="ctrl.explorerSvc.model.readOnly"
-          ng-click="ctrl.dashboardSvc.saveDashboard()">
-        <a>Save</a>
-      </li>
-      <li ng-click="ctrl.saveDashboardCopy()"
-          ng-show="ctrl.dashboardSvc.current.model.id">
-        <a>Save as...</a>
-      </li>
-      <li ng-hide="ctrl.explorerSvc.model.readOnly ||
-                   !ctrl.dashboardSvc.current.model.id"
-          ng-click="ctrl.dashboardSvc.deleteDashboard()">
-        <a>Delete</a>
-      </li>
-      <li class="divider"></li>
-      <li ng-show="ctrl.explorerSvc.CURRENT_USER_ADMIN"
-          ng-click="ctrl.editConfig()">
-        <a>Edit config</a>
-      </li>
-    </ul>
+    <div class="btn-group" uib-dropdown>
+      <button type="button" class="btn btn-default" uib-dropdown-toggle>
+        <span class="glyphicon glyphicon-cog"></span>
+        <span class="caret"></span>
+      </button>
+      <ul class="uib-dropdown-menu pull-right">
+        <li ng-hide="ctrl.explorerSvc.model.readOnly"
+            ng-click="ctrl.dashboardSvc.saveDashboard()">
+          <a>Save</a>
+        </li>
+        <li ng-click="ctrl.saveDashboardCopy()"
+            ng-show="ctrl.dashboardSvc.current.model.id">
+          <a>Save as...</a>
+        </li>
+        <li ng-hide="ctrl.explorerSvc.model.readOnly ||
+                    !ctrl.dashboardSvc.current.model.id"
+            ng-click="ctrl.dashboardSvc.deleteDashboard()">
+          <a>Delete</a>
+        </li>
+        <li class="divider"></li>
+        <li ng-show="ctrl.explorerSvc.CURRENT_USER_ADMIN"
+            ng-click="ctrl.editConfig()">
+          <a>Edit config</a>
+        </li>
+      </ul>
+    </div>
 
   </div>
 
