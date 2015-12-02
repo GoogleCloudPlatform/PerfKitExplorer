@@ -128,7 +128,7 @@ describe('TestQueryBuilder', function() {
     });
   });
 
-  fdescribe('getSql', function() {
+  describe('getSql', function() {
 
     describe('should succeed when the custom_query is true and the datasource is missing ', function() {
       var query, expectedSql;
