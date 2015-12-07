@@ -44,6 +44,9 @@ gulp.task('third_party', function() {
   gulp.src('bower_components/angular-material/angular-material.*')
     .pipe(gulp.dest('deploy/client/third_party/angular-material'));
 
+  gulp.src('bower_components/angular-sanitize/angular-sanitize.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular'));
+
   /** Angular UI */
   gulp.src('bower_components/angular-bootstrap/ui-bootstrap-tpls*.js')
       .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui'));
@@ -59,6 +62,13 @@ gulp.task('third_party', function() {
 
   gulp.src('bower_components/angular-ui-grid/ui-grid.*')
       .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+
+  /** Angular Markdown */
+  gulp.src('bower_components/showdown/compressed/**/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/showdown'));
+
+  gulp.src('bower_components/angular-markdown-directive/markdown.js')
+      .pipe(gulp.dest('deploy/client/third_party/angular-markdown'));
 
   /** CodeMirror */
   gulp.src('bower_components/codemirror/lib/codemirror.*')
