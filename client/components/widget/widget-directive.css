@@ -29,7 +29,7 @@
   margin: 0.25em 0;
 }
 
-.pk-widget-header {
+.pk-widget-toolbar {
   background: #ffffff;
   display: flex;
   flex-direction: row-reverse;
@@ -37,9 +37,16 @@
   padding: 4px 10px;
 }
 
-.pk-widget-footer {
-  padding-left: 8px;
+.pk-widget-footer, .pk-widget-header {
   padding-bottom: 4px;
+  padding-left: 8px;
+  padding-right: 8px;
+  padding-top: 4px;
+}
+
+.pk-widget-statistics {
+  padding-bottom: 4px;
+  padding-left: 8px;
 }
 
 .pk-widget-title {

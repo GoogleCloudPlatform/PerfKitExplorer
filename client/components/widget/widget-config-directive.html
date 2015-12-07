@@ -16,6 +16,28 @@
   </div>
 
   <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">
+      header (supports
+      <a href="http://showdownjs.github.io/demo/" target="_blank">Showdown</a>)
+    </div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control container-header-text"
+          ng-model="ngModel.header_text" ng-disabled="!ngModel"></textarea>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">
+      footer (supports
+      <a href="http://showdownjs.github.io/demo/" target="_blank">Showdown</a>)
+    </div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control container-footer-text"
+          ng-model="ngModel.footer_text" ng-disabled="!ngModel"></textarea>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item">
     <div class="pk-sidebar-item-label">column span</div>
     <div class="pk-sidebar-item-value">
       <input type="number" min="1"
