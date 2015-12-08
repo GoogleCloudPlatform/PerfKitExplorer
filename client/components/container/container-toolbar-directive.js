@@ -46,7 +46,7 @@ goog.scope(function() {
          * @export
          */
         this.removeSelectedContainer = function() {
-          if (!window.confirm('Are you sure you want to delete this container?')) {
+          if (!window.confirm('The selected container will be deleted.')) {
             return;
           }
 

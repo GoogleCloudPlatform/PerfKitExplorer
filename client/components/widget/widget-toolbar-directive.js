@@ -90,7 +90,7 @@ goog.scope(function() {
 
         /** @export */
         this.removeSelectedWidget = function() {
-          if (!window.confirm('Are you sure you want to delete this widget?')) {
+          if (!window.confirm('The selected widget will be deleted.')) {
             return;
           }
 
