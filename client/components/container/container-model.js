@@ -66,6 +66,24 @@ ContainerModel = function() {
    */
   this.height = 250;
 
+  /** @export {?number} */
+  this.widget_header_height = null;
+
+  /** @export {?number} */
+  this.widget_footer_height = null;
+
+  /** @export {string} */
+  this.header_text = '';
+
+  /** @export {string} */
+  this.footer_text = '';
+
+  /**
+   * @type {number}
+   * @export
+   */
+  this.height = 250;
+
   /**
    * @type {Array.<WidgetConfig>}
    * @export

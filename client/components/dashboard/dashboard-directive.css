@@ -1,3 +1,7 @@
+.pk-section-fixed-height {
+  overflow-y: auto;
+}
+
 *[markdown-to-html] table {
   border: 1px solid #ccc;
 }

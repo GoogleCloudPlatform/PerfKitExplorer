@@ -9,8 +9,10 @@
     <container class="pk-container-content" layout="column"
                ng-model="container.model"
                ng-click="clickContainer($event, container)">
-      <div ng-show="container.model.container.header_text"
+      <div ng-show="container.model.container.header_text || container.model.container.header_height"
            class="pk-container-header"
+           ng-class="{'pk-section-fixed-height': container.model.container.header_height}"
+           ng-style="{'height': container.model.container.header_height + 'px'}"
            markdown-to-html="container.model.container.header_text">
       </div>
       <div layout="row" flex>
@@ -59,8 +61,10 @@
           </div>
         </perfkit-widget>
       </div>
-      <div ng-show="container.model.container.footer_text"
+      <div ng-show="container.model.container.footer_text || container.model.container.footer_height"
            class="pk-container-footer"
+           ng-class="{'pk-section-fixed-height': container.model.container.footer_height}"
+           ng-style="{'height': container.model.container.footer_height + 'px'}"
            markdown-to-html="container.model.container.footer_text">
       </div>
     </container>

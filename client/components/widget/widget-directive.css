@@ -29,6 +29,11 @@
   margin: 0.25em 0;
 }
 
+.pk-widget-section-text {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
 .pk-widget-toolbar {
   background: #ffffff;
   display: flex;
