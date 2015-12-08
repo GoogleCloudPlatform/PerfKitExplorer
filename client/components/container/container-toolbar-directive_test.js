@@ -144,9 +144,33 @@ describe('ContainerToolbarDirective', function() {
           'button.container-remove');
       expect(targetElement.length).toBe(1);
 
+      spyOn(actualController, 'removeSelectedContainer');
+      targetElement.click();
+      expect(actualController.removeSelectedContainer).toHaveBeenCalled();
+    });
+
+    it('call the remove method when the user confirms the deletion', function() {
+      var targetElement = actualElement.find(
+          'button.container-remove');
+      expect(targetElement.length).toBe(1);
+
+      spyOn(window, 'confirm').and.returnValue(true);
+
       spyOn(containerService, 'remove');
       targetElement.click();
       expect(containerService.remove).toHaveBeenCalled();
+    });
+
+    it('do nothing when the user does not confirm the deletion', function() {
+      var targetElement = actualElement.find(
+          'button.container-remove');
+      expect(targetElement.length).toBe(1);
+
+      spyOn(window, 'confirm').and.returnValue(false);
+
+      spyOn(containerService, 'remove');
+      targetElement.click();
+      expect(containerService.remove).not.toHaveBeenCalled();
     });
 
   });

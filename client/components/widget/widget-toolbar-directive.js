@@ -90,6 +90,10 @@ goog.scope(function() {
 
         /** @export */
         this.removeSelectedWidget = function() {
+          if (!window.confirm('The selected widget will be deleted.')) {
+            return;
+          }
+
           this.dashboardSvc.removeWidget(
               this.dashboardSvc.selectedWidget, this.dashboardSvc.selectedContainer);
         };
