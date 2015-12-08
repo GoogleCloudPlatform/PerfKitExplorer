@@ -106,9 +106,9 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
             '</div>'},
       {name: 'owner', displayName: 'Owner', minWidth: 80},
       {name: 'created_by', displayName: 'Created by', minWidth: 80},
-      {name: 'created_date', displayName: 'Created on', maxWidth: 120, cellFilter: "date:'yyyy-MM-dd HH:mm'"},
+      {name: 'created_date', displayName: 'Created on', maxWidth: 115, type: 'date', cellFilter: 'date:\'MMM dd yyyy\''},
       {name: 'modified_by', displayName: 'Modified by', minWidth: 80},
-      {name: 'modified_date', displayName: 'Modified on', maxWidth: 120, cellFilter: "date:'yyyy-MM-dd HH:mm'"},
+      {name: 'modified_date', displayName: 'Modified on', maxWidth: 115, type: 'date', cellFilter: 'date:\'MMM dd yyyy\''},
       {name: 'id', displayName: 'ID', width: 130}
     ]
   };
