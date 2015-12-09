@@ -343,6 +343,37 @@ class DashboardTest(unittest.TestCase):
                         params=[('id', dashboard_id)])
     self.assertDictEqual(resp.json, expected_response)
 
+  def testListDashboards(self):
+    provided_data_1 = '{{"title": "foo", "owner": "{owner:}"}}'.format(
+        owner=DEFAULT_USERS[0]['email'])
+    provided_data_2 = '{{"title": "boo", "owner": "{owner:}"}}'.format(
+        owner=DEFAULT_USERS[0]['email'])
+    expected_titles = ['bar', 'foo']
+
+    dashboard_model.Dashboard(data=provided_data_1, title='foo').put()
+    dashboard_model.Dashboard(data=provided_data_2, title='bar').put()
+
+    resp = self.app.get(url='/dashboard/list',
+                        status=200)
+    self.assertEqual(len(resp.json['data']), 2)
+    self.assertEqual(
+        [dashboard['title'] for dashboard in resp.json['data']],
+        expected_titles)
+
+  def testListDashboardWithoutOwner(self):
+    provided_data = '{"title": "foo"}'
+    expected_titles = ['foo']
+
+    dashboard_id = dashboard_model.Dashboard(
+        data=provided_data, title='foo').put().id()
+
+    resp = self.app.get(url='/dashboard/list',
+                        status=200)
+    self.assertEqual(len(resp.json['data']), 1)
+    self.assertEqual(
+        [dashboard['title'] for dashboard in resp.json['data']],
+        expected_titles)
+
 
 if __name__ == '__main__':
   unittest.main()
