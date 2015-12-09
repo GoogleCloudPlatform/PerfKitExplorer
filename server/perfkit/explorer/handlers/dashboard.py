@@ -459,7 +459,7 @@ class ListDashboardHandler(base.RequestHandlerBase):
 
         response.append({
             fields.ID: result.key.integer_id(),
-            fields.OWNER: dashboard_data['owner'],
+            fields.OWNER: dashboard_data.get('owner'),
             fields.TITLE: (result.title or
                            dashboard_model.DEFAULT_DASHBOARD_TITLE),
             fields.CREATED_BY: created_by,
