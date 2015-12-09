@@ -15,6 +15,11 @@
  *
  * @fileoverview ContainerConfigDirective encapsulates HTML, style and behavior
  *     for the gviz container config.
+ *
+ * Containers are rendered with Showdown markdown, and use the Angular Sanitize
+ * service.  You can read more about the $sanitize service at:
+ *    https://docs.angularjs.org/api/ngSanitize/service/$sanitize
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 

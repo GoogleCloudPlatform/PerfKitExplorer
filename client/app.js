@@ -101,7 +101,7 @@ const explorer = p3rf.perfkit.explorer;
 let requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
-  'p3rf.perfkit.explorer.templates',
+  'p3rf.perfkit.explorer.templates', 'btford.markdown',
   explorer.mocks.application.module.name];
 
 // TODO: Replace with ui-router implementation.

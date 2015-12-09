@@ -5,20 +5,18 @@
   "author": "Joe Allan Muharsky <jmuharsky@gmail.com>",
   "dependencies": {},
   "devDependencies": {
-    "angular": "~1.4.7",
-    "angular-mocks": "~1.4.7",
+    "angular": "~1.4.8",
+    "angular-bootstrap": "~0.14.3",
+    "angular-markdown-directive": "~0.3.1",
     "angular-material": "~0.10.1",
+    "angular-mocks": "~1.4.8",
     "angular-ui-router": "~0.2.15",
-    "angular-ui-grid": "~3.0.0-rc.22",
-    "angular-bootstrap": "~0.14.1",
+    "angular-ui-grid": "~3.0.7",
     "bootstrap-css-only": "~3.3.5",
     "codemirror": "~5.7.0",
     "jquery": "~2.1.4"
   },
   "preferGlobal": true,
   "private": true,
-  "license": "Apache2",
-  "resolutions": {
-    "angular": "~1.4.1"
-  }
+  "license": "Apache2"
 }

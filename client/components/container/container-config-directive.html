@@ -23,7 +23,13 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">header</div>
+    <md-tooltip md-direction="right">
+      Header text is formatted using "Showdown" markdown.  Click the link for help and details.
+    </md-tooltip>
+    <div class="pk-sidebar-item-label">
+      header text (formatted with
+      <a href="http://showdownjs.github.io/demo/" target="_blank">Showdown</a>)
+    </div>
     <div class="pk-sidebar-item-value">
       <textarea class="form-control container-header-text"
           ng-model="ngModel.header_text" ng-disabled="!ngModel"></textarea>
@@ -31,12 +37,17 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">footer</div>
+    <md-tooltip md-direction="right">
+      Footer text is formatted using "Showdown" markdown.  Click the link for help and details.
+    </md-tooltip>
+    <div class="pk-sidebar-item-label">
+      footer text (formatted with
+      <a href="http://showdownjs.github.io/demo/" target="_blank">Showdown</a>)
+    </div>
     <div class="pk-sidebar-item-value">
       <textarea class="form-control container-footer-text"
           ng-model="ngModel.footer_text" ng-disabled="!ngModel"></textarea>
     </div>
   </div>
-
 
 </div>

@@ -10,8 +10,7 @@
                ng-model="container.model"
                ng-click="clickContainer($event, container)">
       <div ng-show="container.model.container.header_text"
-           class="pk-container-header">
-        {{ container.model.container.header_text }}
+           class="pk-container-header" btf-markdown="container.model.container.header_text">
       </div>
       <div layout="row" flex>
         <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }} pk-background"
@@ -45,8 +44,7 @@
         </perfkit-widget>
       </div>
       <div ng-show="container.model.container.footer_text"
-           class="pk-container-footer">
-        {{ container.model.container.footer_text }}
+           class="pk-container-footer" btf-markdown="container.model.container.footer_text">
       </div>
     </container>
   </div>
