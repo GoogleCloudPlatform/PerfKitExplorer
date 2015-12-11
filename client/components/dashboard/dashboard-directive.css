@@ -1,5 +1,10 @@
+.pk-section-fixed-height {
+  overflow-y: auto;
+}
+
 *[markdown-to-html] table {
   border: 1px solid #ccc;
+  margin-bottom: 12px;
 }
 
 *[markdown-to-html] thead > tr:last-child,
