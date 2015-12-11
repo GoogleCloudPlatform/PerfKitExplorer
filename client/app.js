@@ -101,7 +101,7 @@ const explorer = p3rf.perfkit.explorer;
 let requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
-  'p3rf.perfkit.explorer.templates', 'btford.markdown',
+  'p3rf.perfkit.explorer.templates', 'ng-showdown',
   explorer.mocks.application.module.name];
 
 // TODO: Replace with ui-router implementation.
@@ -119,10 +119,13 @@ if (useMockData) {
 explorer.application.module = angular.module('explorer', requiredModules);
 
 explorer.application.module.config(
-    ['$locationProvider', function($locationProvider) {
-      // See http://docs.angularjs.org/guide/dev_guide.services.$location
-      $locationProvider.html5Mode(true).hashPrefix('!');
-    }]);
+    ['$locationProvider', '$showdownProvider',
+     function($locationProvider, $showdownProvider) {
+  $showdownProvider.setOption('tables', true);
+
+  // See http://docs.angularjs.org/guide/dev_guide.services.$location
+  $locationProvider.html5Mode(true).hashPrefix('!');
+}]);
 
 explorer.application.module.config(
     explorer.components.explorer.ExplorerRouterConfig);

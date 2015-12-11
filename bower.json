@@ -7,14 +7,15 @@
   "devDependencies": {
     "angular": "~1.4.8",
     "angular-bootstrap": "~0.14.3",
-    "angular-markdown-directive": "~0.3.1",
     "angular-material": "~0.10.1",
     "angular-mocks": "~1.4.8",
     "angular-ui-router": "~0.2.15",
     "angular-ui-grid": "~3.0.7",
     "bootstrap-css-only": "~3.3.5",
     "codemirror": "~5.7.0",
-    "jquery": "~2.1.4"
+    "jquery": "~2.1.4",
+    "showdown": "~1.3.0",
+    "ng-showdown": "~1.1.0"
   },
   "preferGlobal": true,
   "private": true,
