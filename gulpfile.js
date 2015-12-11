@@ -64,11 +64,11 @@ gulp.task('third_party', function() {
       .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
 
   /** Angular Markdown */
-  gulp.src('bower_components/showdown/compressed/**/*.js')
+  gulp.src('bower_components/showdown/dist/**/*.js')
       .pipe(gulp.dest('deploy/client/third_party/showdown'));
 
-  gulp.src('bower_components/angular-markdown-directive/markdown.js')
-      .pipe(gulp.dest('deploy/client/third_party/angular-markdown'));
+  gulp.src('bower_components/ng-showdown/dist/**/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/showdown'));
 
   /** CodeMirror */
   gulp.src('bower_components/codemirror/lib/codemirror.*')
