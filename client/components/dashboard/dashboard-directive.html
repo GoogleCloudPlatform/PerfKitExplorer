@@ -40,7 +40,7 @@
               ng-class="{'pk-section-fixed-height': container.model.container.widget_header_height}"
               ng-click="clickWidget($event, widget, container)"
               ng-style="{'height': container.model.container.widget_header_height + 'px'}"
-              markdown-to-html="widget.model.header_text">
+              markdown-to-html="widget.model.header_text || ''">
           </div>
           <div class="pk-widget-content"
                style="min-height: {{ container.model.container.height }}px"
@@ -52,7 +52,7 @@
               ng-class="{'pk-section-fixed-height': container.model.container.widget_footer_height}"
               ng-click="clickWidget($event, widget, container)"
               ng-style="{'height': container.model.container.widget_footer_height + 'px'}"
-              markdown-to-html="widget.model.footer_text">
+              markdown-to-html="widget.model.footer_text || ''">
           </div>
           <div class="pk-widget-footer" ng-show="widget.model.show_statistics"
                ng-click="clickWidget($event, widget, container)">

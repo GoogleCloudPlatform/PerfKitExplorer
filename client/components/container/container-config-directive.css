@@ -1,0 +1,45 @@
+.pk-table-entry-grid {
+  margin-bottom: 12px;
+}
+
+.pk-table-entry-grid th {
+  padding: 8px;
+}
+
+.pk-table-entry-grid thead th {
+  padding-left: 13px;
+}
+
+.pk-table-entry-grid tbody th {
+  padding-left: 0;
+  padding-bottom: 4px;
+}
+
+.pk-table-entry-grid tr:not(:last-child) input.form-control {
+  border-bottom: 0;
+}
+
+.pk-table-entry-grid td:not(:last-child) input.form-control {
+  border-right: 0;
+}
+
+.pk-table-entry-grid input.form-control {
+  border-radius: 0;
+}
+
+.pk-table-entry-grid tr:last-child td:nth-child(2) input.form-control {
+  border-bottom-left-radius: 4px;
+}
+
+.pk-table-entry-grid tr:last-child td:last-child input.form-control {
+  border-bottom-right-radius: 4px;
+}
+
+.pk-table-entry-grid tr:first-child td:nth-child(2) input.form-control {
+  border-top-left-radius: 4px;
+}
+
+.pk-table-entry-grid tr:first-child td:last-child input.form-control {
+  border-top-right-radius: 4px;
+}
+
