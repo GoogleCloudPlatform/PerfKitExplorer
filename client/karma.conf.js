@@ -15,10 +15,13 @@ module.exports = function(config) {
       'bower_components/angular-animate/angular-animate.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/angular-material/angular-material.js',
+      'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-ui-router/release/angular-ui-router.js',
       'bower_components/codemirror/lib/codemirror.js',
       'bower_components/angular-ui-grid/ui-grid.js',
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+      'bower_components/showdown/dist/showdown.js',
+      'bower_components/ng-showdown/dist/ng-showdown.js',
       'third_party/js/jsapi/jsapi.js',
       // Compiled Product Code
       'deploy/client/perfkit_scripts.js',
