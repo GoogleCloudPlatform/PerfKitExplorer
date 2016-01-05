@@ -248,8 +248,6 @@ class SqlDataHandler(base.RequestHandlerBase):
           raise SecurityError('The user is not authorized to run custom queries')
         else:
           logging.error('Query is identical.')
-      else:
-        logging.error('User is authorized.')
 
       query_config = request_data['datasource']['config']
 
