@@ -77,6 +77,17 @@ class RequestHandlerBase(webapp2.RequestHandler):
   def env(self):
     return self.request.get('env', DEFAULT_ENVIRONMENT)
 
+  def RenderText(self, text, status=200):
+    """Returns text.
+
+    Args:
+      text: string. The text to return.
+      status: int. HTTP status code, defaults to 200.
+    """
+    self.response.set_status(status)
+    self.response.headers['Content-Type'] = 'text/html; charset=utf-8'
+    self.response.out.write(text)
+
   def RenderHtml(self, template_file, template_values, status=200):
     """Renders HTML given a template filename and values.
 

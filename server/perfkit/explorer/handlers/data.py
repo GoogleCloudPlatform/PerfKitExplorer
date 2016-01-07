@@ -26,7 +26,10 @@ import json
 import logging
 import time
 
+from google.appengine.api import urlfetch_errors
 from google.appengine.api import users
+from google.appengine.runtime import apiproxy_errors
+import google.appengine.runtime
 
 import base
 
@@ -47,6 +50,7 @@ from google.appengine.api import urlfetch
 
 DATASET_NAME = 'samples_mart'
 URLFETCH_TIMEOUT = 50
+ERROR_TIMEOUT = 'The request timed out.'
 
 urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
 
@@ -278,6 +282,10 @@ class SqlDataHandler(base.RequestHandlerBase):
     # TODO: Formalize error reporting/handling across the application.
     except (big_query_client.BigQueryError, ValueError, KeyError, SecurityError) as err:
       self.RenderJson({'error': err.message})
+    except (google.appengine.runtime.DeadlineExceededError,
+            apiproxy_errors.DeadlineExceededError,
+            urlfetch_errors.DeadlineExceededError):
+      self.RenderText(text=ERROR_TIMEOUT, status=408)
 
   def get(self):
     """Request handler for GET operations."""
