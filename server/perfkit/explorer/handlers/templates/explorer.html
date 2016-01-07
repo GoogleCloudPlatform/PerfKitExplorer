@@ -1,13 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="explorer" ng-controller="ExplorerCtrl as explorerCtrl">
+<html lang="en" ng-controller="ExplorerCtrl as explorerCtrl">
 <head>
   <title>Perfkit - {{ explorerCtrl.dashboard.current.model.title }}</title>
 
   <base href="/">
 
-  [% include 'third-party-scripts.html' %]
-
   <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
+
+  <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
+</head>
+<body ng-keydown="explorerCtrl.checkKeyDown($event)" layout="column">
+
+  <ui-view></ui-view>
+  <explorer-page></explorer-page>
 
   <script>
     // Record page view in Google Analytics.
@@ -15,17 +20,24 @@
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  </script>
 
-    ga('create', '[[analytics_key]]', 'auto');
-    ga('send', 'pageview');
+  [% include 'third-party-scripts.html' %]
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    var initializeAngular = function() {
+      angular.element(document).ready(function() {
+        angular.bootstrap(document, ['explorer']);
+      });
+    }
 
     // Initialize Google Visualizations
-    try {
-      google.load('visualization', '1.1', {packages: [
-        'corechart', 'charteditor', 'calendar', 'geochart', 'sankey', 'wordtree',
-        'annotationchart']});
-    } catch (err) { }
-
+    google.charts.load('42', {packages: [
+      'corechart', 'charteditor', 'calendar', 'geochart', 'sankey', 'wordtree',
+      'annotationchart']});
+    google.charts.setOnLoadCallback(initializeAngular);
+    
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
     [% autoescape false %]
@@ -36,11 +48,5 @@
   <!-- Perfkit -->
   <script src="[[static_dir]]/perfkit_templates.js"></script>
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
-  <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
-</head>
-<body ng-keydown="explorerCtrl.checkKeyDown($event)" layout="column">
-  <ui-view></ui-view>
-  <explorer-page></explorer-page>
-
 </body>
 </html>

@@ -1,20 +1,33 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="explorer">
+<html lang="en">
 <head>
   <title>Perfkit - Dashboard Administration</title>
 
   <base href="/">
 
-  [% include 'third-party-scripts.html' %]
-
   <meta name="viewport" content="initial-scale=1, maximum-scale=1" />
 
-  <script>
-    // Initialize Google Visualizations
-    try {
-      google.load('visualization', '1', {packages: ['corechart', 'charteditor']});
-    } catch (err) { }
+  <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
+</head>
+<body layout="column">
 
+  <ui-view></ui-view>
+  <dashboard-admin-page></dashboard-admin-page>
+
+  [% include 'third-party-scripts.html' %]
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script>
+    var initializeAngular = function() {
+      angular.element(document).ready(function() {
+        angular.bootstrap(document, ['explorer']);
+      });
+    }
+
+    // Initialize Google Visualizations
+    google.charts.load('42', {packages: ['corechart', 'charteditor']});
+    google.charts.setOnLoadCallback(initializeAngular);
+    
     var CURRENT_USER_EMAIL = '[[current_user_email]]';
     var CURRENT_USER_ADMIN = [[current_user_admin]];
     [% autoescape false %]
@@ -25,13 +38,6 @@
   <!-- Perfkit -->
   <script src="[[static_dir]]/perfkit_templates.js"></script>
   <script src="[[static_dir]]/perfkit_scripts.js"></script>
-
-  <link type="text/css" rel="stylesheet" href="[[static_dir]]/perfkit_styles.css" />
-</head>
-<body layout="column">
-
-  <ui-view></ui-view>
-  <dashboard-admin-page></dashboard-admin-page>
 
 </body>
 </html>
