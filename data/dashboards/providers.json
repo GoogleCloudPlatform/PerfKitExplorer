@@ -1,0 +1,6 @@
+{"cloud":"GCP","default_machine_type":"n1-standard-1"}
+{"cloud":"AWS","default_machine_type":"m3.medium"}
+{"cloud":"Azure","default_machine_type":"Small"}
+{"cloud":"DigitalOcean","default_machine_type":"2gb"}
+{"cloud":"Rackspace","default_machine_type":"general1-1"}
+{"cloud":"Openstack","default_machine_type":"m1.small"}

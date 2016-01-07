@@ -40,10 +40,13 @@ describe('queryResultDataService', function() {
   }));
 
   beforeEach(inject(function(
-      queryResultDataService, widgetFactoryService, $rootScope) {
+      explorerService, queryResultDataService, widgetFactoryService, $rootScope) {
     svc = queryResultDataService;
     widgetFactorySvc = widgetFactoryService;
     rootScope = $rootScope;
+
+    explorerService.newDashboard();
+    $rootScope.$apply();
   }));
 
   it('should initialize the appropriate objects.', function() {
@@ -123,7 +126,11 @@ describe('queryResultDataService', function() {
           var widget = new ChartWidgetConfig(widgetFactorySvc);
           widget.model.datasource.query = 'fakeQuery1';
 
-          var params = {'datasource': widget.model.datasource};
+          var params = {
+              'dashboard_id': null,
+              'id': widget.model.id,
+              'datasource': widget.model.datasource
+          };
           httpBackend.expectPOST(query, params).respond(mockData);
 
           var promise = svc.fetchResults(widget);
@@ -144,7 +151,11 @@ describe('queryResultDataService', function() {
           var widget = new ChartWidgetConfig(widgetFactorySvc);
           widget.model.datasource.query = 'fakeQuery2';
 
-          var params = {'datasource': widget.model.datasource};
+          var params = {
+              'dashboard_id': null,
+              'id': widget.model.id,
+              'datasource': widget.model.datasource
+          };
           httpBackend.expectPOST(query, params).respond(mockData);
 
           // Fetch the data one time
@@ -167,16 +178,20 @@ describe('queryResultDataService', function() {
           expect(dataTableCached).toBe(dataTable);
         }
     );
-    
+
     it('should store query statistics in the datasource state', function() {
       var query = endpoint;
       var widget = new ChartWidgetConfig(widgetFactorySvc);
       widget.model.datasource.query = 'fakeQuery2';
 
-      var params = {'datasource': widget.model.datasource};
+      var params = {
+          'dashboard_id': null,
+          'id': widget.model.id,
+          'datasource': widget.model.datasource
+      };
       httpBackend.expectPOST(query, params).respond(mockData);
 
-      var promise = svc.fetchResults(widget);          
+      var promise = svc.fetchResults(widget);
       httpBackend.flush();
 
       expect(widget.state().datasource.job_id).toEqual(12345);

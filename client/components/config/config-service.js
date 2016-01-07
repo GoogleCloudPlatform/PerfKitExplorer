@@ -66,6 +66,15 @@ explorer.components.config.ConfigService = function($http, $location,
 
   /** @export {number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
+
+  /** @export {boolean} */
+  this.grant_view_to_public = INITIAL_CONFIG.grant_view_to_public;
+
+  /** @export {boolean} */
+  this.grant_save_to_public = INITIAL_CONFIG.grant_save_to_public;
+
+  /** @export {boolean} */
+  this.grant_query_to_public = INITIAL_CONFIG.grant_query_to_public;
 };
 const ConfigService = explorer.components.config.ConfigService;
 
@@ -95,6 +104,18 @@ ConfigService.prototype.populate = function(data) {
   if (goog.isDef(data.cache_duration)) {
     this.cache_duration = data.cache_duration;
   }
+
+  if (goog.isDef(data.grant_view_to_public)) {
+    this.grant_view_to_public = data.grant_view_to_public;
+  }
+
+  if (goog.isDef(data.grant_save_to_public)) {
+    this.grant_save_to_public = data.grant_save_to_public;
+  }
+
+  if (goog.isDef(data.grant_query_to_public)) {
+    this.grant_query_to_public = data.grant_query_to_public;
+  }
 };
 
 
@@ -112,6 +133,9 @@ ConfigService.prototype.toJSON = function(data) {
   result.default_table = this.default_table;
   result.analytics_key = this.analytics_key;
   result.cache_duration = this.cache_duration;
+  result.grant_view_to_public = this.grant_view_to_public;
+  result.grant_save_to_public = this.grant_save_to_public;
+  result.grant_query_to_public = this.grant_query_to_public;
 
   return result;
 };

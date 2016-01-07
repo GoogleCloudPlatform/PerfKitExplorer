@@ -41,66 +41,66 @@ goog.scope(function() {
         this.explorerSvc = explorerService;
 
         /** @export */
+        this.cloneWidget = function() {
+          this.dashboardSvc.cloneWidget(
+            this.dashboardSvc.selectedWidget, this.dashboardSvc.selectedContainer);
+        };
+
+        /** @export */
         this.insertWidget = function() {
-          this.dashboardSvc.addWidget(
-              this.dashboardSvc.selectedContainer);
+          this.dashboardSvc.addWidget(this.dashboardSvc.selectedContainer);
         };
 
         /** @export */
         this.insertWidgetAt = function(index) {
-          this.dashboardSvc.addWidgetAt(
-              this.selectedContainer, index);
+          this.dashboardSvc.addWidgetAt(this.selectedContainer, index);
         };
 
         /** @export */
         this.insertWidgetBeforeSelected = function() {
           this.dashboardSvc.addWidgetBefore(
-              this.dashboardSvc.selectedContainer,
-              this.dashboardSvc.selectedWidget);
+              this.dashboardSvc.selectedContainer, this.dashboardSvc.selectedWidget);
         };
 
         /** @export */
         this.insertWidgetAfterSelected = function() {
           this.dashboardSvc.addWidgetAfter(
-              this.dashboardSvc.selectedContainer,
-              this.dashboardSvc.selectedWidget);
+              this.dashboardSvc.selectedContainer, this.dashboardSvc.selectedWidget);
         };
 
         /** @export */
         this.moveWidgetToPreviousContainer = function() {
-          this.dashboardSvc.moveWidgetToPreviousContainer(
-              this.dashboardSvc.selectedWidget);
+          this.dashboardSvc.moveWidgetToPreviousContainer(this.dashboardSvc.selectedWidget);
         };
 
         /** @export */
         this.moveWidgetToPrevious = function() {
-          this.dashboardSvc.moveWidgetToPrevious(
-              this.dashboardSvc.selectedWidget);
+          this.dashboardSvc.moveWidgetToPrevious(this.dashboardSvc.selectedWidget);
         };
 
         /** @export */
         this.moveWidgetToNext = function() {
-          this.dashboardSvc.moveWidgetToNext(
-              this.dashboardSvc.selectedWidget);
+          this.dashboardSvc.moveWidgetToNext(this.dashboardSvc.selectedWidget);
         };
 
         /** @export */
         this.moveWidgetToNextContainer = function() {
-          this.dashboardSvc.moveWidgetToNextContainer(
-              this.dashboardSvc.selectedWidget);
+          this.dashboardSvc.moveWidgetToNextContainer(this.dashboardSvc.selectedWidget);
         };
 
         /** @export */
         this.removeSelectedWidget = function() {
+          if (!window.confirm('The selected widget will be deleted.')) {
+            return;
+          }
+
           this.dashboardSvc.removeWidget(
-              this.dashboardSvc.selectedWidget,
-              this.dashboardSvc.selectedContainer);
+              this.dashboardSvc.selectedWidget, this.dashboardSvc.selectedContainer);
         };
 
         /** @export */
         this.refreshSelectedWidget = function() {
-          this.dashboardSvc.refreshWidget(
-              this.dashboardSvc.selectedWidget);
+          this.dashboardSvc.refreshWidget(this.dashboardSvc.selectedWidget);
         };
 
       }],

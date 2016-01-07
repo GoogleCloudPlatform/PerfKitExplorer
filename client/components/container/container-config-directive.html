@@ -14,7 +14,7 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">height</div>
+    <div class="pk-sidebar-item-label">widget height (px)</div>
     <div class="pk-sidebar-item-value">
       <input input type="number" min="1"
           class="form-control container-height"
@@ -23,7 +23,62 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">header</div>
+    <div class="pk-sidebar-item-label">header/footer heights (px)</div>
+    <div class="pk-sidebar-item-value">
+      <style>
+
+      </style>
+      <table class="pk-table-entry-grid">
+        <thead>
+          <tr>
+            <th>&nbsp;</th>
+            <th>container</th>
+            <th>widget</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>header</th>
+            <td>
+              <input input type="number" min="0"
+                  class="form-control container-header-height"
+                  ng-model="ngModel.header_height" ng-disabled="!ngModel"
+                  placeholder="stretch">
+            </td>
+            <td>
+              <input input type="number" min="0"
+                  class="form-control container-widget-header-height"
+                  ng-model="ngModel.widget_header_height" ng-disabled="!ngModel"
+                  placeholder="stretch">
+            </td>
+          </tr>
+          <tr>
+            <th>footer</th>
+            <td>
+              <input input type="number" min="0"
+                  class="form-control container-footer-height"
+                  ng-model="ngModel.footer_height" ng-disabled="!ngModel"
+                  placeholder="stretch">
+            </td>
+            <td>
+              <input input type="number" min="0"
+                  class="form-control container-widget-footer-height"
+                  ng-model="ngModel.widget_footer_height" ng-disabled="!ngModel"
+                  placeholder="stretch">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+  <div class="pk-sidebar-item">
+    <md-tooltip md-direction="right">
+      Header text is formatted using "Showdown" markdown.  Click the link for help and details.
+    </md-tooltip>
+    <div class="pk-sidebar-item-label">
+      header text (formatted with
+      <a href="https://github.com/GoogleCloudPlatform/PerfKitExplorer/wiki/Showdown-Markdown-Syntax"
+         target="_blank">Showdown</a>)
+    </div>
     <div class="pk-sidebar-item-value">
       <textarea class="form-control container-header-text"
           ng-model="ngModel.header_text" ng-disabled="!ngModel"></textarea>
@@ -31,12 +86,18 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">footer</div>
+    <md-tooltip md-direction="right">
+      Footer text is formatted using "Showdown" markdown.  Click the link for help and details.
+    </md-tooltip>
+    <div class="pk-sidebar-item-label">
+      footer text (formatted with
+      <a href="https://github.com/GoogleCloudPlatform/PerfKitExplorer/wiki/Showdown-Markdown-Syntax"
+         target="_blank">Showdown</a>)
+    </div>
     <div class="pk-sidebar-item-value">
       <textarea class="form-control container-footer-text"
           ng-model="ngModel.footer_text" ng-disabled="!ngModel"></textarea>
     </div>
   </div>
-
 
 </div>

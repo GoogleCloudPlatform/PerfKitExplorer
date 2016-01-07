@@ -1,0 +1,25 @@
+.pk-section-fixed-height {
+  overflow-y: auto;
+}
+
+*[markdown-to-html] table {
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+*[markdown-to-html] thead > tr:last-child,
+*[markdown-to-html] tbody > tr {
+  border-bottom: 1px solid #ccc;
+}
+
+*[markdown-to-html] th {
+  background-color: #fcfcfc;
+  color: #666;
+  padding: 8px;
+  text-align: left;
+}
+
+*[markdown-to-html] td {
+  padding: 8px;
+  background-color: #fcfcfc;
+}

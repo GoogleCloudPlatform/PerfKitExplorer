@@ -89,9 +89,10 @@ const WidgetEditorService = (
  *
  * @param {ChartModel} chartModel
  * @param {google.visualization.DataTable} dataTable
+ * @param {google.visualization.DataTable} dataView
  * @return {angular.$q.Promise.<ChartModel>}
  */
-WidgetEditorService.prototype.showEditor = function(chartModel, dataTable) {
+WidgetEditorService.prototype.showEditor = function(chartModel, dataTable, dataView) {
   let deferred = this.q_.defer();
 
   let editorClosed = function() {
@@ -110,7 +111,7 @@ WidgetEditorService.prototype.showEditor = function(chartModel, dataTable) {
 
   // Create a new chart wrapper based on the chart configuration
   let chartWrapper = this.chartWrapperService_.create(chartModel.chartType,
-      chartModel.options, dataTable);
+      chartModel.options, dataTable, dataView);
   editor.openDialog(chartWrapper);
 
   return deferred.promise;

@@ -29,23 +29,26 @@ gulp.task('third_party', function() {
       .pipe(gulp.dest('deploy/client/third_party/jquery'));
 
   /** Angular */
-  gulp.src('bower_components/angular/angular.min.*')
+  gulp.src('bower_components/angular/angular.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('bower_components/angular-animate/angular-animate.min.*')
+  gulp.src('bower_components/angular-animate/angular-animate.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('bower_components/angular-aria/angular-aria.min.*')
+  gulp.src('bower_components/angular-aria/angular-aria.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
   gulp.src('bower_components/angular-mocks/angular-mocks.*')
     .pipe(gulp.dest('deploy/client/third_party/angular'));
 
-  gulp.src('bower_components/angular-material/angular-material.min.*')
+  gulp.src('bower_components/angular-material/angular-material.*')
     .pipe(gulp.dest('deploy/client/third_party/angular-material'));
 
+  gulp.src('bower_components/angular-sanitize/angular-sanitize.*')
+    .pipe(gulp.dest('deploy/client/third_party/angular'));
+
   /** Angular UI */
-  gulp.src('bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js')
+  gulp.src('bower_components/angular-bootstrap/ui-bootstrap-tpls*.js')
       .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui'));
 
   gulp.src('bower_components/bootstrap-css-only/css/bootstrap.min.css')
@@ -54,11 +57,18 @@ gulp.task('third_party', function() {
   gulp.src('bower_components/bootstrap-css-only/fonts/*.*')
       .pipe(gulp.dest('deploy/client/third_party/bootstrap-ui/fonts'));
 
-  gulp.src('bower_components/angular-ui-router/release/angular-ui-router.min.js')
+  gulp.src('bower_components/angular-ui-router/release/angular-ui-router*.js')
       .pipe(gulp.dest('deploy/client/third_party/angular-ui-router'));
 
   gulp.src('bower_components/angular-ui-grid/ui-grid.*')
       .pipe(gulp.dest('deploy/client/third_party/ui-grid'));
+
+  /** Angular Markdown */
+  gulp.src('bower_components/showdown/dist/**/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/showdown'));
+
+  gulp.src('bower_components/ng-showdown/dist/**/*.js')
+      .pipe(gulp.dest('deploy/client/third_party/showdown'));
 
   /** CodeMirror */
   gulp.src('bower_components/codemirror/lib/codemirror.*')
@@ -131,8 +141,9 @@ gulp.task('prod', ['common'], function() {
       compilerFlags: {
         angular_pass: true,
         compilation_level: 'SIMPLE_OPTIMIZATIONS',
+        formatting: 'PRETTY_PRINT',
         language_in: 'ECMASCRIPT6',
-        language_out: 'ECMASCRIPT5',
+        language_out: 'ECMASCRIPT5_STRICT',
         manage_closure_dependencies: true,
         only_closure_dependencies: true,
         process_closure_primitives: true,

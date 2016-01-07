@@ -48,29 +48,35 @@ const Flow = p3rf.perfkit.explorer.components.container.Flow;
 /** @constructor */
 p3rf.perfkit.explorer.components.container.
 ContainerModel = function() {
-  /**
-   * @type {Flow}
-   * @export
-   */
+  /** @export {Flow} */
   this.flow = Flow.ROW;
 
-  /**
-   * @type {number}
-   * @export
-   */
+  /** @export {number} */
   this.columns = 1;
 
-  /**
-   * @type {number}
-   * @export
-   */
+  /** @export {number} */
   this.height = 250;
 
-  /**
-   * @type {Array.<WidgetConfig>}
-   * @export
-   */
+  /** @export {?number} */
+  this.header_height = null;
+
+  /** @export {string} */
+  this.header_text = '';
+
+  /** @export {?number} */
+  this.footer_height = null;
+
+  /** @export {string} */
+  this.footer_text = '';
+
+  /** @export {Array.<WidgetConfig>} */
   this.children = [];
+
+  /** @export {?number} */
+  this.widget_header_height = null;
+
+  /** @export {?number} */
+  this.widget_footer_height = null;
 };
 const ContainerModel = (
     p3rf.perfkit.explorer.components.container.ContainerModel);

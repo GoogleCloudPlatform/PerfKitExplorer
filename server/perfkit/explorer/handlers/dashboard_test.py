@@ -17,6 +17,9 @@ Tests for data handlers in the Perfkit Explorer application."""
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
+import datetime
+
+import mock
 import json
 import os
 import webtest
@@ -27,6 +30,7 @@ from google.appengine.ext import testbed
 
 from perfkit.explorer.handlers import dashboard
 from perfkit.explorer.model import dashboard as dashboard_model
+from perfkit.explorer.model import explorer_config
 from perfkit.explorer.util import user_validator
 
 DEFAULT_USERS = [{'id': '1', 'email': 'test01@mydomain.com'},
@@ -46,9 +50,19 @@ class DashboardTest(unittest.TestCase):
     self.testbed.init_memcache_stub()
     self.testbed.init_user_stub()
 
+    self.config = explorer_config.ExplorerConfigModel.Get()
+    self.config.grant_view_to_public = True
+    self.config.grant_save_to_public = True
+    self.config.put()
+
     os.environ['USER_EMAIL'] = DEFAULT_USERS[0]['email']
     os.environ['USER_ID'] = DEFAULT_USERS[0]['id']
     dashboard_model.DEFAULT_DOMAIN = 'mydomain.com'
+
+    p = mock.patch(dashboard_model.__name__ + '.datetime')
+    self.mock_datetime = p.start()
+    self.addCleanup(p.stop)
+    self.mock_datetime.datetime.now.return_value = datetime.datetime.now()
 
     DashboardTest.original_getDashboardOwner = (
         dashboard_model.Dashboard.GetDashboardOwner)
@@ -111,10 +125,16 @@ class DashboardTest(unittest.TestCase):
     provided_data = '{"title": "foo"}'
     expected_response = {'id': '1', 'title': 'foo',
                          'owner': DEFAULT_USERS[0]['email']}
+    expected_created_date = datetime.datetime(2014, 2, 20, 2, 36, 10)
+    self.mock_datetime.datetime.now.return_value = expected_created_date
 
     resp = self.app.post(url='/dashboard/create',
                          params=[('data', provided_data)])
     self.assertDictEqual(resp.json, expected_response)
+
+    stored_dashboard = dashboard_model.Dashboard.get_by_id(1)
+    self.assertEqual(stored_dashboard.created_date, expected_created_date)
+    self.assertEqual(stored_dashboard.modified_date, expected_created_date)
 
   def testCopyDashboard(self):
     provided_data = '{{"title": "foo", "owner": "{owner:}"}}'.format(
@@ -182,9 +202,20 @@ class DashboardTest(unittest.TestCase):
     original_data = '{"title": "untitled"}'
     new_owner = 'newowner@mydomain.com'
 
-    dashboard_id = dashboard_model.Dashboard(
+    expected_created_date = datetime.datetime(2014, 2, 20, 2, 36, 10)
+    self.mock_datetime.datetime.now.return_value = expected_created_date
+
+    stored_dashboard = dashboard_model.Dashboard(
         created_by=users.get_current_user(),
-        data=original_data).put().id()
+        data=original_data)
+    dashboard_id = stored_dashboard.put().id()
+
+    self.assertEqual(stored_dashboard.created_date, expected_created_date)
+    self.assertEqual(stored_dashboard.modified_date, expected_created_date)
+
+    expected_modified_date = datetime.datetime(2015, 10, 15, 5, 7, 42)
+    self.mock_datetime.datetime.now.return_value = expected_modified_date
+
     updated_data = (
         '{{"title": "untitled", "owner": "{owner:}"}}').format(
         owner=new_owner)
@@ -194,6 +225,8 @@ class DashboardTest(unittest.TestCase):
                           ('email', new_owner)])
     stored_dashboard = dashboard_model.Dashboard.get_by_id(dashboard_id)
     self.assertJsonEqual(stored_dashboard.data, updated_data)
+    self.assertEqual(stored_dashboard.created_date, expected_created_date)
+    self.assertEqual(stored_dashboard.modified_date, expected_modified_date)
 
   def testEditDashboardOwnerWithoutDomain(self):
     nodomain_owner = 'newowner'
@@ -309,6 +342,37 @@ class DashboardTest(unittest.TestCase):
                         status=400,
                         params=[('id', dashboard_id)])
     self.assertDictEqual(resp.json, expected_response)
+
+  def testListDashboards(self):
+    provided_data_1 = '{{"title": "foo", "owner": "{owner:}"}}'.format(
+        owner=DEFAULT_USERS[0]['email'])
+    provided_data_2 = '{{"title": "boo", "owner": "{owner:}"}}'.format(
+        owner=DEFAULT_USERS[0]['email'])
+    expected_titles = ['bar', 'foo']
+
+    dashboard_model.Dashboard(data=provided_data_1, title='foo').put()
+    dashboard_model.Dashboard(data=provided_data_2, title='bar').put()
+
+    resp = self.app.get(url='/dashboard/list',
+                        status=200)
+    self.assertEqual(len(resp.json['data']), 2)
+    self.assertEqual(
+        [dashboard['title'] for dashboard in resp.json['data']],
+        expected_titles)
+
+  def testListDashboardWithoutOwner(self):
+    provided_data = '{"title": "foo"}'
+    expected_titles = ['foo']
+
+    dashboard_id = dashboard_model.Dashboard(
+        data=provided_data, title='foo').put().id()
+
+    resp = self.app.get(url='/dashboard/list',
+                        status=200)
+    self.assertEqual(len(resp.json['data']), 1)
+    self.assertEqual(
+        [dashboard['title'] for dashboard in resp.json['data']],
+        expected_titles)
 
 
 if __name__ == '__main__':

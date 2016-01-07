@@ -44,6 +44,9 @@ describe('configService', function() {
     expect(svc.default_table).toEqual('');
     expect(svc.analytics_key).toEqual('');
     expect(svc.cache_duration).toEqual(0);
+    expect(svc.grant_view_to_public).toEqual(false);
+    expect(svc.grant_save_to_public).toEqual(false);
+    expect(svc.grant_query_to_public).toEqual(false);
   });
 
   describe('populate', function() {
@@ -53,13 +56,19 @@ describe('configService', function() {
       var provided_default_table = 'PROVIDED_TABLE';
       var provided_analytics_key = 'PROVIDED_ANALYTICS_KEY';
       var provided_cache_duration = 30;
+      var provided_grant_view_to_public = true;
+      var provided_grant_save_to_public = true;
+      var provided_grant_query_to_public = true;
 
       provided_data = {
         'default_project': provided_default_project,
         'default_dataset': provided_default_dataset,
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
-        'cache_duration': provided_cache_duration
+        'cache_duration': provided_cache_duration,
+        'grant_view_to_public': provided_grant_view_to_public,
+        'grant_save_to_public': provided_grant_save_to_public,
+        'grant_query_to_public': provided_grant_query_to_public
       };
 
       svc.populate(provided_data);
@@ -69,6 +78,9 @@ describe('configService', function() {
       expect(svc.default_table).toEqual(provided_default_table);
       expect(svc.analytics_key).toEqual(provided_analytics_key);
       expect(svc.cache_duration).toEqual(provided_cache_duration);
+      expect(svc.grant_view_to_public).toEqual(provided_grant_view_to_public);
+      expect(svc.grant_save_to_public).toEqual(provided_grant_query_to_public);
+      expect(svc.grant_query_to_public).toEqual(provided_grant_save_to_public);
     });
 
     it('should populate empty values.', function() {
@@ -136,7 +148,10 @@ describe('configService', function() {
         'default_dataset': '',
         'default_table': '',
         'analytics_key': '',
-        'cache_duration': 0
+        'cache_duration': 0,
+        'grant_view_to_public': false,
+        'grant_save_to_public': false,
+        'grant_query_to_public': false
       };
 
       expect(svc.toJSON()).toEqual(expected_data);
@@ -154,7 +169,10 @@ describe('configService', function() {
         'default_dataset': provided_default_dataset,
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
-        'cache_duration': provided_cache_duration
+        'cache_duration': provided_cache_duration,
+        'grant_view_to_public': true,
+        'grant_save_to_public': true,
+        'grant_query_to_public': true
       };
 
       svc.populate(provided_data);
@@ -189,7 +207,10 @@ describe('configService', function() {
         'default_dataset': provided_default_dataset,
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
-        'cache_duration': provided_cache_duration
+        'cache_duration': provided_cache_duration,
+        'grant_view_to_public': false,
+        'grant_save_to_public': false,
+        'grant_query_to_public': false
       };
 
       svc.populate(provided_data);
@@ -198,7 +219,7 @@ describe('configService', function() {
   });
 
   describe('update', function() {
-    it('Should call the appropriate handler.', function() {
+    it('should call the appropriate handler.', function() {
       provided_default_project = 'PROVIDED_PROJECT';
       provided_default_dataset = 'PROVIDED_DATASET';
       provided_default_table = 'PROVIDED_TABLE';
@@ -233,7 +254,10 @@ describe('configService', function() {
         'default_dataset': provided_default_dataset,
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
-        'cache_duration': provided_cache_duration
+        'cache_duration': provided_cache_duration,
+        'grant_view_to_public': true,
+        'grant_save_to_public': false,
+        'grant_query_to_public': true
       };
 
       httpBackend.expectGET(new RegExp('/config')).respond(provided_data);

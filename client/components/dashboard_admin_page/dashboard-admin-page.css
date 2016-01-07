@@ -17,12 +17,12 @@
 
 .pk-page-sidebar-option
 {
-  padding: 4px;
+  padding: 8px;
 }
 
 .pk-page-sidebar-option:hover
 {
-  padding: 4px;
+  padding: 8px;
   cursor: pointer;
   background-color: #eee;
 }

@@ -233,14 +233,14 @@ explorer.components.container.ContainerService = class {
     let targetContainer = opt_container || this.dashboardSvc.selectedContainer;
 
     if (this.dashboardSvc.selectedWidget.state().parent === targetContainer) {
-      this.unselectWidget();
+      this.dashboardSvc.unselectWidget();
     }
 
     this.move_(
-        angular.bind(arrayUtilSvc, arrayUtilSvc.remove), targetContainer);
+        angular.bind(this.arrayUtilSvc, this.arrayUtilSvc.remove), targetContainer);
     delete this.explorerStateSvc.containers.all[targetContainer.model.id];
   }
 };
-const ContainerService = explorer.components.util.ContainerService;
+const ContainerService = explorer.components.container.ContainerService;
 
 });  // goog.scope

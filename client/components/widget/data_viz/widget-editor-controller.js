@@ -108,40 +108,19 @@ const WidgetEditorCtrl = explorer.components.widget.data_viz.WidgetEditorCtrl;
 
 
 /**
- * Fetches the data of the selected chart and then opens the google
- * visualization chart editor.
+ * Opens the google visualization chart editor with the data and the
+ * configuration of the selected chart.
  * @export
  */
 WidgetEditorCtrl.prototype.openChartEditor = function() {
   let selectedChart = this.selectedChart;
-  if (selectedChart) {
-    let promise = this.queryResultDataService_.
-        fetchResults(selectedChart);
-
-    promise.then(angular.bind(this, function(dataTable) {
-      this.openChartEditor_(dataTable);
-    }));
-
-    promise.then(null, angular.bind(this, function(error) {
-      this.errors.push(error.message);
-    }));
-  }
-};
-
-
-/**
- * Opens the google visualization chart editor with the data and the
- * configuration of the selected chart.
- *
- * @param {google.visualization.DataTable} dataTable
- * @private
- */
-WidgetEditorCtrl.prototype.openChartEditor_ = function(dataTable) {
-  let selectedChart = this.selectedChart;
-  let promise = this.widgetEditorService_.
-      showEditor(selectedChart.model.chart, dataTable);
+  let promise = this.widgetEditorService_.showEditor(
+    selectedChart.model.chart,
+    selectedChart.state().datasource.data,
+    selectedChart.state().datasource.view);
 
   promise.then(angular.bind(this, function(newGvizConfig) {
+    newGvizConfig.columns = selectedChart.model.chart.columns;
     selectedChart.model.chart = newGvizConfig;
   }));
 

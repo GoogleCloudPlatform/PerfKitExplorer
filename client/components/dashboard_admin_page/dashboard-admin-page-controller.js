@@ -93,18 +93,23 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
   this.gridOptions = {
     data: 'pageService.dashboards',
     enableFiltering: true,
+    enableHighlighting: true,
     enableRowHeaderSelection: false,
     multiSelect: false,
     virtualizationThreshold: 100,
     columnDefs: [
-      {name: 'title', displayName: 'Title',
+      {name: 'title', displayName: 'Title', minWidth: 200,
         cellTemplate:
             '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
             '    <a ng-click="$event.stopPropagation(); grid.appScope.openDashboard(row.entity)">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
-      {name: 'owner', displayName: 'Owner', width: 240},
-      {name: 'id', displayName: 'ID', width: 160}
+      {name: 'owner', displayName: 'Owner', minWidth: 80},
+      {name: 'created_by', displayName: 'Created by', minWidth: 80},
+      {name: 'created_date', displayName: 'Created on', maxWidth: 115, type: 'date', cellFilter: 'date:\'MMM dd yyyy\''},
+      {name: 'modified_by', displayName: 'Modified by', minWidth: 80},
+      {name: 'modified_date', displayName: 'Modified on', maxWidth: 115, type: 'date', cellFilter: 'date:\'MMM dd yyyy\''},
+      {name: 'id', displayName: 'ID', width: 130}
     ]
   };
 

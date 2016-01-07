@@ -16,11 +16,14 @@ GAE Model for the datastore."""
 
 __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
+import datetime
 import json
+import logging
 
 from google.appengine.api import users
 from google.appengine.ext import ndb
 
+from perfkit.explorer.util import explorer_config_util
 from perfkit.explorer.util import user_validator
 import dashboard_fields as fields
 
@@ -49,7 +52,9 @@ class Dashboard(ndb.Model):
   """
 
   created_by = ndb.UserProperty()
+  created_date = ndb.DateTimeProperty()
   modified_by = ndb.UserProperty()
+  modified_date = ndb.DateTimeProperty()
   writers = ndb.StringProperty(repeated=True)
   title = ndb.StringProperty(default='')
   data = ndb.TextProperty(default='')
@@ -169,7 +174,6 @@ class Dashboard(ndb.Model):
     data['owner'] = new_owner.email()
 
     dashboard_row.created_by = new_owner
-    dashboard_row.modified_by = new_owner
     dashboard_row.data = json.dumps(data)
 
     dashboard_row.put()
@@ -311,3 +315,63 @@ class Dashboard(ndb.Model):
       owner = '{user}@{domain}'.format(user=owner, domain=DEFAULT_DOMAIN)
 
     return owner
+
+  @classmethod
+  def IsQueryCustom(cls, query, dashboard_id, widget_id):
+    try:
+      dashboard_model = Dashboard.GetDashboard(int(dashboard_id))
+    except InitializeError:
+      logging.error('Dashboard %s not found', dashboard_id)
+      return True
+
+    widget_model = cls.FindWidget(dashboard_model.GetDashboardData(), widget_id)
+    if not widget_model:
+      return True
+
+    try:
+      datasource = widget_model.get('datasource')
+
+      if not datasource:
+        raise KeyError('Datasource not provided')
+
+      saved_query = datasource.get('query_exec') or datasource.get('query')
+
+      if saved_query:
+        if query.strip() == saved_query.strip():
+          return False
+    except KeyError:
+      return True
+
+    return True
+
+  @classmethod
+  def FindWidget(cls, dashboard, widget_id):
+    for container in dashboard['children']:
+      for widget in container['container']['children']:
+        if str(widget['id']) == str(widget_id):
+          return widget
+
+    return None
+
+  @classmethod
+  def _pre_delete_hook(cls, key):
+    if not explorer_config_util.ExplorerConfigUtil.CanSave():
+      raise SecurityError('The current user is not authorized to delete dashboards')
+
+  def _pre_put_hook(self):
+    if not explorer_config_util.ExplorerConfigUtil.CanSave():
+      raise SecurityError('The current user is not authorized to save dashboards')
+
+    self.modified_by = users.get_current_user()
+    self.modified_date = datetime.datetime.now()
+
+    if not self.created_by:
+      self.created_by = users.get_current_user()
+
+    if not self.created_date:
+      self.created_date = datetime.datetime.now()
+
+  @classmethod
+  def _pre_get_hook(cls, key):
+    if not explorer_config_util.ExplorerConfigUtil.CanView():
+      raise SecurityError('The current user is not authorized to view dashboards')

@@ -51,6 +51,10 @@ class ExplorerConfigModel(ndb.Model):
   analytics_key = ndb.StringProperty(default=DEFAULT_ANALYTICS_KEY)
   cache_duration = ndb.IntegerProperty(default=DEFAULT_CACHE_DURATION)
 
+  grant_save_to_public = ndb.BooleanProperty(default=False)
+  grant_view_to_public = ndb.BooleanProperty(default=False)
+  grant_query_to_public = ndb.BooleanProperty(default=False)
+
   def Load(self, data):
     """Sets the properties of the current config according to the provided data.
 

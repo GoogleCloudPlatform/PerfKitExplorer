@@ -225,6 +225,30 @@ describe('WidgetToolbarDirective', function() {
         targetElement.click();
         expect(actualController.removeSelectedWidget).toHaveBeenCalled();
       });
+
+      it('call the remove method when the user confirms the action', function() {
+        var targetElement = actualElement.find(
+            'button.widget-delete');
+        expect(targetElement.length).toBe(1);
+
+        spyOn(window, 'confirm').and.returnValue(true);
+
+        spyOn(dashboardService, 'removeWidget');
+        targetElement.click();
+        expect(dashboardService.removeWidget).toHaveBeenCalled();
+      });
+
+      it('do nothing when the user does not confirm the action', function() {
+        var targetElement = actualElement.find(
+            'button.widget-delete');
+        expect(targetElement.length).toBe(1);
+
+        spyOn(window, 'confirm').and.returnValue(false);
+
+        spyOn(dashboardService, 'removeWidget');
+        targetElement.click();
+        expect(dashboardService.removeWidget).not.toHaveBeenCalled();
+      });
     });
   });
 });

@@ -40,6 +40,18 @@ goog.scope(function() {
 
         /** @export {!DashboardService} */
         this.dashboardSvc = dashboardService;
+
+        /**
+         * Prompts the user for confirmation, then deletes the selected container.
+         * @export
+         */
+        this.removeSelectedContainer = function() {
+          if (!window.confirm('The selected container will be deleted.')) {
+            return;
+          }
+
+          this.containerSvc.remove()
+        }
       }],
       controllerAs: 'ctrl'
     };

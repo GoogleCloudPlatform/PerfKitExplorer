@@ -18,16 +18,22 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 
 import json
+import logging
 import pytest
 import webtest
 import unittest
+
+from google.appengine.ext import testbed
 
 from perfkit import test_util
 from perfkit.common import big_query_client
 from perfkit.common import credentials_lib
 from perfkit.common import data_source_config as config
+from perfkit.common import gae_test_util
 from perfkit.explorer.handlers import base
 from perfkit.explorer.handlers import data
+from perfkit.explorer.model import dashboard
+from perfkit.explorer.model import explorer_config
 
 
 # TODO: Change tests to verify generated SQL rather than results to remove
@@ -41,12 +47,56 @@ class DataTest(unittest.TestCase):
     data.DATASET_NAME = 'samples_mart_mockdata'
     base.DEFAULT_ENVIRONMENT = config.Environments.TESTING
 
+    self.maxDiff = None
+
     self.app = webtest.TestApp(data.app)
+    self.testbed = testbed.Testbed()
+    self.testbed.activate()
+
+    self.testbed.init_datastore_v3_stub()
+    self.testbed.init_memcache_stub()
+
+    self.VALID_SQL = ('SELECT\n'
+        '\tproduct_name,\n'
+        '\ttest,\n'
+        '\tAVG(value) AS avg,\n'
+        'FROM [samples_mart_testdata.results]\n'
+        'WHERE\n'
+        '\ttimestamp >= 1356739200 AND\n'
+        '\ttimestamp < 1356825600\n'
+        'GROUP BY\n'
+        '\tproduct_name,\n'
+        '\ttest')
+
+    self.VALID_DASHBOARD = {'children': [
+        {'container': {'children': [
+            {'id': '1'},
+            {'id': '2'}
+        ]}},
+        {'container': {'children': [
+            {'id': '3', 'datasource': {'query': self.VALID_SQL}},
+            {'id': '4'}
+    ]}}]}
+
+    self.VALID_RESULTS = {
+      'cols': [
+          {'id': 'product_name', 'label': 'product_name', 'type': 'string'},
+          {'id': 'test', 'label': 'test', 'type': 'string'},
+          {'id': 'avg', 'label': 'avg', 'type': 'number'}],
+      'rows': [{'c': [{'v': 'widget-factory'},
+                      {'v': 'create-widgets'},
+                      {'v': 6.872222222222222}]}]}
 
     test_util.SetConfigPaths()
 
     # Rewrite the DataHandlerUtil methods to return local clients.
     data.DataHandlerUtil.GetDataClient = self._GetTestDataClient
+
+    self.explorer_config = explorer_config.ExplorerConfigModel.Get()
+    self.explorer_config.default_project = config.Services.GetServiceUri(
+      config.Environments.TESTING, config.Services.PROJECT_ID)
+    self.explorer_config.grant_view_to_public = True
+    self.explorer_config.put()
 
   def _GetTestDataClient(self, env=None):
     return big_query_client.BigQueryClient(
@@ -54,6 +104,7 @@ class DataTest(unittest.TestCase):
         credential_file=credentials_lib.DEFAULT_CREDENTIALS)
 
   @pytest.mark.integration
+  @pytest.mark.cube
   def testFieldsHandler(self):
     expected_result = [{u'name': u'jdoe'}]
 
@@ -69,6 +120,7 @@ class DataTest(unittest.TestCase):
     self.assertEqual(resp.json['rows'], expected_result)
 
   @pytest.mark.integration
+  @pytest.mark.cube
   def testAllMetdataHandler(self):
     expected_result = [{u'count': 6, u'name': u'attributes',
                         u'values': [{u'count': 3, u'name': u'important'},
@@ -92,6 +144,7 @@ class DataTest(unittest.TestCase):
     self.assertEqual(resp.json['labels'], expected_result)
 
   @pytest.mark.integration
+  @pytest.mark.cube
   def testFilteredMetadataHandler(self):
     expected_result = [{u'count': 1, u'name': u'perfect', u'values': []},
                        {u'count': 3, u'name': u'shape',
@@ -113,39 +166,115 @@ class DataTest(unittest.TestCase):
 
   @pytest.mark.integration
   def testSqlHandler(self):
-    sql = ('SELECT\n'
-           '\tproduct_name,\n'
-           '\ttest,\n'
-           '\tAVG(value) AS avg,\n'
-           'FROM [samples_mart_testdata.results]\n'
-           'WHERE\n'
-           '\ttimestamp >= 1356739200 AND\n'
-           '\ttimestamp < 1356825600\n'
-           'GROUP BY\n'
-           '\tproduct_name,\n'
-           '\ttest')
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
 
-    expected_results = {'cols': [{'id': 'product_name',
-                                  'label': 'product_name',
-                                  'type': 'string'},
-                                 {'id': 'test',
-                                  'label': 'test',
-                                  'type': 'string'},
-                                 {'id': 'avg',
-                                  'label': 'avg',
-                                  'type': 'number'}],
-                        'rows': [{'c': [{'v': 'widget-factory'},
-                                        {'v': 'create-widgets'},
-                                        {'v': 6.872222222222222}]}]}
-
-    data = {'datasource': {'query': sql, 'config': {'results': {}}}}
+    data = {'dashboard_id': 1, 'id': 2, 'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
 
     resp = self.app.post(url='/data/sql',
                          params=json.dumps(data),
                          headers={'Content-type': 'application/json',
                                   'Accept': 'text/plain'})
-    self.assertEqual(resp.json['results'], expected_results)
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
 
+  def testSqlHandlerFailsWithoutDashboardId(self):
+    sql = 'SELECT foo FROM bar'
+    expected_message = 'The dashboard id is required to run a query'
+    data = {'id': 2, 'datasource': {'query': sql, 'config': {'results': {}}}}
+
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['error'], expected_message)
+
+  def testSqlHandlerFailsWithoutWidgetId(self):
+    sql = 'SELECT foo FROM bar'
+    expected_message = 'The widget id is required to run a query'
+    data = {'dashboard_id': 2, 'datasource': {'query': sql, 'config': {'results': {}}}}
+
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['error'], expected_message)
+
+  def testSqlHandlerFailsCustomQueryForPublicWithoutRights(self):
+    custom_query = 'SELECT stuff FROM mysource'
+
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
+
+    expected_message = 'The user is not authorized to run custom queries'
+    data = {'dashboard_id': 1, 'id': 2, 'datasource': {'query': custom_query, 'config': {'results': {}}}}
+
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['error'], expected_message)
+
+  @pytest.mark.integration
+  def testSqlHandlerPassesWithoutDashboardIdForPublicWithCustomQuery(self):
+    self.explorer_config.grant_query_to_public = True
+
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
+
+    data = {'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
+
+    self.maxDiff = None
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    logging.error(resp.json)
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
+
+  @pytest.mark.integration
+  def testSqlHandlerPassesWithoutDashboardIdForAdminWithoutCustomQuery(self):
+    self.explorer_config.grant_query_to_public = False
+
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+
+    data = {'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
+
+    self.maxDiff = None
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    logging.error(resp.json)
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
+
+  @pytest.mark.integration
+  def testSqlHandlerPassesBuiltinQueryForPublicWithoutCustomQuery(self):
+    dashboard_json = json.dumps(self.VALID_DASHBOARD)
+    self.dashboard_model = dashboard.Dashboard(data=dashboard_json)
+
+    gae_test_util.setCurrentUser(self.testbed, is_admin=True)
+    self.dashboard_model.put()
+    gae_test_util.setCurrentUser(self.testbed, is_admin=False)
+
+    data = {'dashboard_id': 1, 'id': 3, 'datasource': {'query': self.VALID_SQL, 'config': {'results': {}}}}
+
+    self.maxDiff = None
+    resp = self.app.post(url='/data/sql',
+                         params=json.dumps(data),
+                         headers={'Content-type': 'application/json',
+                                  'Accept': 'text/plain'})
+    self.assertEqual(resp.json['results'], self.VALID_RESULTS)
 
 if __name__ == '__main__':
   unittest.main()

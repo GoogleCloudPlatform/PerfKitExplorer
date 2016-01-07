@@ -393,12 +393,24 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (!opt_supressStateChange) {
-    params = {widget: null, container: null};
+    let params = {widget: null, container: null};
 
     if (widget) { params.widget = widget.model.id; }
     if (container) { params.container = container.model.id };
 
-    this.$state_.go('explorer-dashboard-edit', params);
+    this.$state_.go('explorer-dashboard-edit', params, {location: false});
+
+    if (widget) {
+      this.location_.search('widget', widget.model.id);
+    } else {
+      this.location_.search('widget', null);
+    }
+
+    if (container) {
+      this.location_.search('container', container.model.id);
+    } else {
+      this.location_.search('container', null);
+    }
   }
 
   if (widget) {
@@ -519,7 +531,7 @@ DashboardService.prototype.selectContainer = function(
   }
 
   if (!opt_supressStateChange) {
-    params = {container: undefined};
+    let params = {container: undefined};
 
     if (widget) { params.widget = widget.model.id; }
     if (container) { params.container = container.model.id };
@@ -649,7 +661,7 @@ DashboardService.prototype.restoreBuilder = function(widget) {
  * if needed.
  *
  * @param {!ContainerWidgetConfig} container
- * @return {!WidgetConfig} widget
+ * @return {!WidgetConfig}
  * @export
  */
 DashboardService.prototype.addWidget = function(
@@ -664,6 +676,7 @@ DashboardService.prototype.addWidget = function(
  *
  * @param {!ContainerWidgetConfig} container
  * @param {!WidgetConfig} widget
+ * @return {!WidgetConfig}
  * @export
  */
 DashboardService.prototype.addWidgetAfter = function(
@@ -672,7 +685,7 @@ DashboardService.prototype.addWidgetAfter = function(
 
   let index = container.model.container.children.indexOf(widget);
 
-  this.addWidgetAt(container, ++index, opt_autoSelect);
+  return this.addWidgetAt(container, ++index, opt_autoSelect);
 };
 
 
@@ -745,6 +758,23 @@ DashboardService.prototype.addWidgetAt = function(
 
 
 /**
+ * Creates a copy of the provided widget, and inserts it directly after the provided one.
+ * @param {!WidgetConfig} widget
+ * @param {!ContainerWidgetConfig} container
+ * @return {!WidgetConfig}
+ * @export
+ */
+DashboardService.prototype.cloneWidget = function(widget, container) {
+  let newModel = angular.copy(widget.model);
+  let newWidget = this.addWidgetAfter(container, widget);
+  newModel['id'] = newWidget.model.id;
+  newWidget.model = newModel;
+
+  return newWidget;
+};
+
+
+/**
  * Remove a given widget from the given container.
  *
  * @param {!WidgetConfig} widget
@@ -794,7 +824,12 @@ DashboardService.prototype.moveWidgetToContainer = function(
   targetContainer.model.container.columns += widget.model.layout.columnspan;
   targetContainer.model.container.children.push(widget);
   widget.state().parent = targetContainer;
-  this.selectedContainer = targetContainer;
+
+  // Move the container selection to the target container. Don't change
+  // widget selection.
+  container.state().selected = false;
+  targetContainer.state().selected = true;
+  this.explorerStateService_.containers.selectedId = targetContainer.model.id;
 
   if (widget.state().datasource) {
     widget.state().datasource.status = ResultsDataStatus.TOFETCH;

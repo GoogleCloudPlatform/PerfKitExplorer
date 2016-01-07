@@ -25,6 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryProperties');
+goog.require('p3rf.perfkit.explorer.components.util.TypeUtil');
 goog.require('p3rf.perfkit.explorer.dateUtil');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
@@ -49,6 +50,7 @@ const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel
 const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 const QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
+const TypeUtil = explorer.components.util.TypeUtil;
 
 
 /**
@@ -344,9 +346,9 @@ QueryBuilderService.prototype.getSql = function(
     }
   }
 
-  if (model.filters.official === 'true') {
+  if (TypeUtil.isTruthy(model.filters.official)) {
     fieldFilters.push(this.createSimpleFilter('official', [true]));
-  } else if (model.filters.official === 'false') {
+  } else if (TypeUtil.isFalsy(model.filters.official)) {
     fieldFilters.push(this.createSimpleFilter('official', [false]));
   }
 
@@ -382,7 +384,7 @@ QueryBuilderService.prototype.getSql = function(
     tableId = projectId + ':' + tableId;
   }
 
-  let tableExpr = '';
+  let tableExpression = '';
 
   if (tablePartition == QueryTablePartitioning.PERDAY) {
     if (!startFilter) {

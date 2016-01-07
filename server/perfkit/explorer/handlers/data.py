@@ -26,6 +26,8 @@ import json
 import logging
 import time
 
+from google.appengine.api import users
+
 import base
 
 from perfkit.common import big_query_client
@@ -34,6 +36,7 @@ from perfkit.common import big_query_result_pivot
 from perfkit.common import data_source_config
 from perfkit.common import gae_big_query_client
 from perfkit.common import http_util
+from perfkit.explorer.model import dashboard
 from perfkit.explorer.model import explorer_config
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
@@ -46,6 +49,14 @@ DATASET_NAME = 'samples_mart'
 URLFETCH_TIMEOUT = 50
 
 urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
+
+
+class Error(Exception):
+  pass
+
+
+class SecurityError(Error):
+  pass
 
 
 class DataHandlerUtil(object):
@@ -213,12 +224,30 @@ class SqlDataHandler(base.RequestHandlerBase):
       client.project_id = config.default_project
 
       request_data = json.loads(self.request.body)
-      datasource = request_data['datasource']
+
+      datasource = request_data.get('datasource')
+      if not datasource:
+        raise KeyError('The datasource is required to run a query')
 
       query = datasource.get('query_exec') or datasource.get('query')
 
       if not query:
-        raise TypeError('datasource.query must be provided.')
+        raise KeyError('datasource.query must be provided.')
+
+      if (not config.grant_query_to_public and
+          not users.is_current_user_admin()):
+        dashboard_id = request_data.get('dashboard_id')
+        if not dashboard_id:
+          raise KeyError('The dashboard id is required to run a query')
+
+        widget_id = request_data.get('id')
+        if not widget_id:
+          raise KeyError('The widget id is required to run a query')
+
+        if dashboard.Dashboard.IsQueryCustom(query, dashboard_id, widget_id):
+          raise SecurityError('The user is not authorized to run custom queries')
+        else:
+          logging.error('Query is identical.')
 
       query_config = request_data['datasource']['config']
 
@@ -247,7 +276,7 @@ class SqlDataHandler(base.RequestHandlerBase):
     # return JSON with descriptive text so that we can give the user a
     # constructive error message.
     # TODO: Formalize error reporting/handling across the application.
-    except (big_query_client.BigQueryError, ValueError) as err:
+    except (big_query_client.BigQueryError, ValueError, KeyError, SecurityError) as err:
       self.RenderJson({'error': err.message})
 
   def get(self):

@@ -36,6 +36,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageCtrl');
+goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdminPageService');
 goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
@@ -100,7 +101,7 @@ const explorer = p3rf.perfkit.explorer;
 let requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
-  'p3rf.perfkit.explorer.templates',
+  'p3rf.perfkit.explorer.templates', 'ng-showdown',
   explorer.mocks.application.module.name];
 
 // TODO: Replace with ui-router implementation.
@@ -118,10 +119,13 @@ if (useMockData) {
 explorer.application.module = angular.module('explorer', requiredModules);
 
 explorer.application.module.config(
-    ['$locationProvider', function($locationProvider) {
-      // See http://docs.angularjs.org/guide/dev_guide.services.$location
-      $locationProvider.html5Mode(true).hashPrefix('!');
-    }]);
+    ['$locationProvider', '$showdownProvider',
+     function($locationProvider, $showdownProvider) {
+  $showdownProvider.setOption('tables', true);
+
+  // See http://docs.angularjs.org/guide/dev_guide.services.$location
+  $locationProvider.html5Mode(true).hashPrefix('!');
+}]);
 
 explorer.application.module.config(
     explorer.components.explorer.ExplorerRouterConfig);
@@ -239,14 +243,14 @@ explorer.application.module.directive('resize',
     explorer.components.layout.ResizeDirective);
 
 /** Explorer page and config-related directives. */
-// TODO: Rename alertLog to something else; overloads with
-//     regression alerts.
 explorer.application.module.directive('explorerConfig',
     explorer.components.config.ConfigDirective);
 explorer.application.module.directive('explorerHeader',
     explorer.components.explorer.ExplorerHeaderDirective);
 explorer.application.module.directive('explorerPage',
     explorer.components.explorer.ExplorerPageDirective);
+explorer.application.module.directive('dashboardAdminPage',
+    explorer.components.dashboard_admin_page.DashboardAdminPageDirective);
 explorer.application.module.directive('explorerToolbar',
     explorer.components.explorer.ExplorerToolbarDirective);
 explorer.application.module.directive('log',
