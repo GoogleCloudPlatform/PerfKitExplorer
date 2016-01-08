@@ -202,6 +202,7 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
 
     let postData = {
       'dashboard_id': this.explorerStateService_.selectedDashboard.model.id,
+      'dashboard_project_id': this.explorerStateService_.selectedDashboard.model.project_id,
       'id': widget.model.id,
       'datasource': datasource};
     let promise = this.http_.post(endpoint, postData);

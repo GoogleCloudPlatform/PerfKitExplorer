@@ -225,7 +225,6 @@ class SqlDataHandler(base.RequestHandlerBase):
 
       config = explorer_config.ExplorerConfigModel.Get()
       client = DataHandlerUtil.GetDataClient(self.env)
-      client.project_id = config.default_project
 
       request_data = json.loads(self.request.body)
 
@@ -253,9 +252,18 @@ class SqlDataHandler(base.RequestHandlerBase):
         else:
           logging.error('Query is identical.')
 
-      query_config = request_data['datasource']['config']
+      query_config = datasource.get('config')
+      if not query_config:
+        raise KeyError('The datasource requires a .config property.')
 
       cache_duration = config.cache_duration or None
+
+      results = query_config.get('results')
+      if not results:
+        raise KeyError('The datasource config requires a .results property.')
+
+      dashboard_project_id = request_data.get('dashboard_project_id')
+      client.project_id = results.get('project_id') or dashboard_project_id or config.default_project
 
       response = client.Query(query, cache_duration=cache_duration)
 
