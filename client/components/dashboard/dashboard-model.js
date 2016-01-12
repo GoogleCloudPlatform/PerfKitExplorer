@@ -24,6 +24,10 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+
+// TODO(joemu): Factor out Bigquery config into extension model.
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 
 
@@ -31,6 +35,8 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const BigqueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
+const CurrentTimestampGranularity = explorer.ext.bigquery.CurrentTimestampGranularity;
 const QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
@@ -133,6 +139,16 @@ explorer.components.dashboard.DashboardModel = function() {
    * @export
    */
   this.params = [];
+  
+  /**
+   * @type {{string}, {*}}
+   */
+  this.config = {
+    bigQuery: new BigqueryConfigModel()
+  };
+  
+  this.config.bigQuery.optimizeCurrentTimestamp.enabled = false;
+  this.config.bigQuery.optimizeCurrentTimestamp.granularity = CurrentTimestampGranularity.HOUR;
 };
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 

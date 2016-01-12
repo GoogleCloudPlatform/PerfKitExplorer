@@ -20,6 +20,7 @@
 
 goog.provide('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MeasureResult');
@@ -38,6 +39,7 @@ const MeasureResult = explorer.models.perfkit_simple_builder.MeasureResult;
 const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel;
 const QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
 const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
+const BigqueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
 
 
 /**
@@ -62,6 +64,12 @@ const DEFAULT_ROW_LIMIT = 100;
  *
  */
 explorer.models.perfkit_simple_builder.QueryConfigModel = function() {
+  /**
+   * bigQuery provides properties and config to affect bigquery-specific behavior.
+   * @type {!BigqueryConfigModel}
+   */
+  this.bigQuery = new BigqueryConfigModel();
+
   /**
    * filters provide properties and metadata to restrict the results of data in a generated SQL statement.
    * @type {!QueryFilterModel}

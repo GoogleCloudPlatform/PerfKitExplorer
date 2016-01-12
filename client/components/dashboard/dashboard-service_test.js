@@ -216,14 +216,6 @@ describe('dashboardService', function() {
           'cache_duration': 30
         });
       }));
-
-      it('should change the widget datasource status to TOFETCH.', function() {
-        widget.state().datasource.status = ResultsDataStatus.FETCHED;
-        svc.refreshWidget(widget);
-        $timeout.flush();
-        expect(widget.state().datasource.status).
-            toEqual(ResultsDataStatus.TOFETCH);
-      });
     });
 
     describe('addWidget', function() {

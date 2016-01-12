@@ -93,7 +93,7 @@
     </div>
   </div>
 
-  <div class="pk-sidebar-group-title">Datasource Defaults</div>
+  <div class="pk-sidebar-group-title">BigQuery Settings</div>
 
   <div class="pk-sidebar-item">
     <div class="pk-sidebar-item-label">project id</div>
@@ -131,9 +131,35 @@
                  dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)"
               ng-model="ngModel.table_partition">
         <md-option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
-                ng-value="{{ option.partition }}"
+                ng-value="option.partition"
                 title="{{ option.tooltip }}">{{ option.label }}</md-option>
       </md-select>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">optimize CURRENT_TIMESTAMP</div>
+    <div class="pk-sidebar-item-value">
+      <table class="checkbox-row">
+        <tr>
+          <td class="checkbox-row-checkbox">
+            <md-checkbox
+                    class="dashboard-datasource-bigquery-optimize-current-timestamp-enabled"
+                    ng-model="ngModel.config.bigQuery.optimizeCurrentTimestamp.enabled">
+              optimize for last
+            </md-checkbox>
+          </td>
+          <td class="checkbox-row-select">
+            <md-select
+                    class="dashboard-datasource-bigquery-optimize-current-timestamp-granularity"
+                    ng-model="ngModel.config.bigQuery.optimizeCurrentTimestamp.granularity">
+              <md-option
+                      ng-repeat="granularity in bigqueryConfigSvc.ALL_TIMESTAMP_GRANULARITY"
+                      ng-value="granularity">{{ granularity }}</md-option>
+            </md-select>
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 

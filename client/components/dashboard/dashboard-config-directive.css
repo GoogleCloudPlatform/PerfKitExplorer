@@ -104,3 +104,39 @@
 .param-row:last-child > :last-child {
   border-bottom-right-radius: 4px;
 }
+
+.checkbox-row {
+  height: 30px;
+}
+
+.checkbox-row td {
+  vertical-align: top;
+}
+
+.checkbox-row-checkbox {
+  padding-top: 4px;
+  padding-right: 2px;
+}
+
+.checkbox-row-checkbox md-checkbox {
+  margin: 0 !important;
+}
+
+.checkbox-row-text {
+  padding-top: 9px;
+  white-space: nowrap;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.checkbox-row-select {
+  padding-top: 3px;
+}
+
+.checkbox-row-select md-select {
+  margin-bottom: 0 !important;
+}
+
+.checkbox-row-select md-select-value {
+  padding-top: 0;
+}
