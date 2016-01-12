@@ -64,11 +64,37 @@ describe('gvizDirective', function() {
 
     return {
       component: component,
-      chartDiv: angular.element(component[0].children[0]),
-      errorDiv: angular.element(component[0].children[1]),
-      spinnerDiv: angular.element(component[0].children[2])
+      chartDiv: angular.element(
+          component[0].getElementsByClassName('pk-chart')[0]),
+      errorDiv: angular.element(
+          component[0].getElementsByClassName('pk-chart-error')[0]),
+      spinnerDiv: angular.element(
+          component[0].getElementsByClassName('pk-chart-loading')[0])
     };
   }
+
+  beforeEach(function() {
+    jasmine.addMatchers({
+      toHaveParentState: function() {
+        return {
+          compare: function(actual, expected) {
+            var parentState = actual.parentNode.className.replace(
+                /.*pk-cond-(\S+)/, '$1');
+
+            var result = {};
+            result.pass = (parentState == expected);
+            var elemText = actual.tagName + '(' + actual.className + ')';
+            if (!result.pass) {
+              result.message =
+                  'Expected state "' + expected + '", was "' +
+                  parentState + '".';
+            }
+            return result;
+          }
+        }
+      }
+    });
+  });
 
   beforeEach(module('explorer'));
   beforeEach(module('googleVisualizationMocks'));
@@ -88,22 +114,8 @@ describe('gvizDirective', function() {
     $provide.service('queryResultDataService', queryResultDataService);
   }));
 
-  beforeEach(inject(function($templateCache, $httpBackend) {
-    var template =
-        '<div>' +
-        '<div class="pk-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'pk-chart-hidden\': !isChartDisplayed()}">' +
-        '</div>' +
-        '<div class="pk-chart-error" ng-show="' +
-        'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
-        '> {{widgetConfig.state().chart.error}}</div></div>' +
-        '<div class="spinner" ng-show="isDataFetching()"></div>' +
-        '</div>';
-
+  beforeEach(inject(function($httpBackend) {
     httpBackend = $httpBackend;
-    $templateCache.put(
-        '/static/components/widget/data_viz/gviz/gviz-directive.html',
-        template);
   }));
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
@@ -243,8 +255,7 @@ describe('gvizDirective', function() {
           state().datasource.status = ResultsDataStatus.FETCHING;
           var component = setupComponent();
 
-          expect(component.spinnerDiv[0].className.split(' '))
-              .not.toContain('ng-hide');
+          expect(component.spinnerDiv[0]).toHaveParentState('fetching');
         }
     );
 
@@ -252,13 +263,11 @@ describe('gvizDirective', function() {
         function() {
           state().datasource.status = ResultsDataStatus.NODATA;
           var component = setupComponent();
-          expect(component.spinnerDiv[0].className.split(' '))
-              .toContain('ng-hide');
+          expect(component.spinnerDiv[0]).toHaveParentState('nodata');
 
           state().datasource.status = ResultsDataStatus.FETCHED;
           rootScope.$apply();
-          expect(component.spinnerDiv[0].className.split(' '))
-              .toContain('ng-hide');
+          expect(component.spinnerDiv[0]).toHaveParentState('fetched');
         }
     );
 
@@ -267,19 +276,7 @@ describe('gvizDirective', function() {
           setupData(true);
           var component = setupComponent();
 
-          expect(component.chartDiv.hasClass('pk-chart-hidden')).
-              toBeFalsy();
-        }
-    );
-
-    it('should hide the chart when there is an error.',
-        function() {
-          setupData();
-          var component = setupComponent();
-          state().chart.error = 'fake error';
-          rootScope.$apply();
-          expect(component.chartDiv.hasClass('pk-chart-hidden')).
-              toBeTruthy();
+          expect(component.chartDiv[0]).toHaveParentState('fetched');
         }
     );
 
@@ -287,8 +284,7 @@ describe('gvizDirective', function() {
         function() {
           setupData(true);
           var component = setupComponent();
-          expect(component.chartDiv[0].className.split(' '))
-              .not.toContain('ng-hide');
+          expect(component.chartDiv[0]).toHaveParentState('fetched');
         }
     );
 
@@ -296,19 +292,7 @@ describe('gvizDirective', function() {
         function() {
           state().datasource.status = ResultsDataStatus.FETCHING;
           var component = setupComponent();
-          expect(component.chartDiv[0].className.split(' '))
-              .toContain('ng-hide');
-        }
-    );
-
-    it('should show the error when there is one.',
-        function() {
-          setupData(true);
-          var component = setupComponent();
-          state().chart.error = 'fake error';
-          rootScope.$apply();
-          expect(component.errorDiv[0].className.split(' '))
-              .not.toContain('ng-hide');
+          expect(component.chartDiv[0]).toHaveParentState('fetching');
         }
     );
 
@@ -316,8 +300,7 @@ describe('gvizDirective', function() {
         function() {
           setupData(true);
           var component = setupComponent();
-          expect(component.errorDiv[0].className.split(' '))
-              .toContain('ng-hide');
+          expect(component.errorDiv[0]).toHaveParentState('fetched');
         }
     );
   });

@@ -1,14 +1,20 @@
 <div>
-  <div class="pk-chart"
-       ng-show="isChartDisplayed()">
-  </div>
-  <div layout="row" layout-sm="column" layout-align="space-around"
-       class="pk-chart-loading md-primary md-hue-3"
-       ng-show="isLoadingDisplayed()">
-    <md-progress-circular md-mode="indeterminate"></md-progress-circular>
-  </div>
-  <div class="pk-chart-error"
-       ng-show="isErrorDisplayed()">
-    {{ widgetConfig.state().chart.error }}
+  <div class="pk-conditional" ng-class="getWidgetStatusClass()">
+    <div class="pk-if pk-cond-nodata pk-chart-nodata">
+      No data available.
+    </div>
+    <div class="pk-if pk-cond-tofetch pk-chart-queued">
+      <span>
+        z<sup>z<sup>z</sup></sup>
+      </span>
+    </div>
+    <div class="pk-if pk-cond-fetching pk-chart-loading md-primary md-hue-3">
+      <md-progress-circular md-mode="indeterminate"></md-progress-circular>
+    </div>
+    <div class="pk-if pk-cond-fetched pk-chart">
+    </div>
+    <div class="pk-if pk-cond-error pk-chart-error">
+      {{ widgetConfig.state().chart.error }}
+    </div>
   </div>
 </div>

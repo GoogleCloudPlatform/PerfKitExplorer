@@ -63,6 +63,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  *
  * @param {angular.$timeout} $timeout
  * @param {!angular.$location} $location
+ * @param {!angular.$animate} $animate
  * @param {ChartWrapperService} chartWrapperService
  * @param {QueryResultDataService} queryResultDataService
  * @param {*} gvizEvents
@@ -71,7 +72,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @ngInject
  */
 explorer.components.widget.data_viz.gviz.gvizChart = function(
-    $timeout, $location, chartWrapperService, queryResultDataService,
+    $timeout, $location, $animate, chartWrapperService, queryResultDataService,
     queryBuilderService, gvizEvents, dataViewService, dashboardService,
     errorService, columnStyleService) {
   return {
@@ -85,39 +86,21 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       let isDrawing = false;
       // Create and attach to this element a gviz ChartWrapper
       let chartWrapper = chartWrapperService.create();
-      chartWrapper.setContainerId(element[0].children[0]);
+      chartWrapper.setContainerId(element[0].getElementsByClassName('pk-chart')[0]);
 
-      scope.isDataFetching = function() {
-        return scope.widgetConfig.state().datasource.status ===
-            ResultsDataStatus.FETCHING;
-      };
+      // We currently have animations enabled globally thanks to the
+      // material design module, this has the side effect of animating
+      // ng-class, ng-show, and other directives. This seems to be
+      // very broken, resulting in wrong class assignments and other
+      // nasty surprises. Opt out for this class.
+      //
+      // See also: https://github.com/angular/angular.js/issues/3587
+      $animate.enabled(element, false);
 
-      scope.isDataFetched = function() {
-        return scope.widgetConfig.state().datasource.status ===
-            ResultsDataStatus.FETCHED;
-      };
+      scope.ResultsDataStatus = ResultsDataStatus;
 
-      scope.isLoadingDisplayed = function() {
-        let widgetState = scope.widgetConfig.state();
-        return (
-            scope.widgetConfig.model.datasource.query && (
-                widgetState.datasource.status === ResultsDataStatus.FETCHING ||
-                widgetState.datasource.status === ResultsDataStatus.TOFETCH));
-      };
-
-      scope.isChartDisplayed = function() {
-        let widgetState = scope.widgetConfig.state();
-        return (
-            widgetState.datasource.status === ResultsDataStatus.FETCHED &&
-            !widgetState.chart.error);
-      };
-
-      scope.isErrorDisplayed = function() {
-        let widgetState = scope.widgetConfig.state();
-
-        return (
-            widgetState.datasource.status !== ResultsDataStatus.FETCHING &&
-            widgetState.chart.error);
+      scope.getWidgetStatusClass = function() {
+        return 'pk-cond-' + scope.widgetConfig.state().datasource.status.toLowerCase();
       };
 
       let isHeightEnforced = function() {
