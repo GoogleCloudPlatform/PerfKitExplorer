@@ -18,7 +18,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 
@@ -150,7 +150,7 @@ DashboardModel.prototype.getDefaultOwner = function() {
  * @constructor
  * @param {(Object|DashboardModel)=} opt_model JSON or WidgetModel.
  */
-explorer.components.dashboard.DashboardConfig = function(opt_model) {
+explorer.components.dashboard.DashboardInstance = function(opt_model) {
   /**
    * The persisted model of the dashboard. It's usually a simple JSON object
    * returned by the server but it respects the DashboardModel class
@@ -158,13 +158,13 @@ explorer.components.dashboard.DashboardConfig = function(opt_model) {
    *
    * Warning: Do not keep a reference on this property, it can be replaced by
    * an updated JSON at any time. Instead, keep a reference on the
-   * DashboardConfig object that contains it.
+   * DashboardInstance object that contains it.
    *
    * @type {!(Object|DashboardModel)}
    * @export
    */
   this.model = opt_model || new DashboardModel();
 };
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 
 });  // goog.scope

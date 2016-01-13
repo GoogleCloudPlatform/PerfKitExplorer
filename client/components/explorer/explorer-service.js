@@ -20,7 +20,7 @@
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
@@ -35,7 +35,7 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardService = explorer.components.dashboard.DashboardService;
 const DashboardVersionService = explorer.components.dashboard.DashboardVersionService;
@@ -191,7 +191,7 @@ ExplorerService.prototype.initializeDashboard = function() {
  */
 ExplorerService.prototype.newDashboard = function(
     opt_autoCreateWidget = true, opt_autoSelect) {
-  var dashboard = new DashboardConfig();
+  var dashboard = new DashboardInstance();
   dashboard.model.version =
       this.dashboardVersionService_.currentVersion.version;
 

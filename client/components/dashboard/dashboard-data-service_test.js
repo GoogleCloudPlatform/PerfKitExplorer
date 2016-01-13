@@ -18,7 +18,7 @@
  */
 
 goog.require('p3rf.perfkit.explorer.application.module');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataServiceMock');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
@@ -33,7 +33,7 @@ goog.require('goog.Uri');
 describe('dashboardDataService', function() {
   const explorer = p3rf.perfkit.explorer;
   const ChartState = explorer.models.ChartState;
-  const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+  const DashboardInstance = explorer.components.dashboard.DashboardInstance;
   const DatasourceState = explorer.models.DatasourceState;
   const WidgetConfig = explorer.models.WidgetConfig;
   const WidgetState = explorer.models.WidgetState;
@@ -184,7 +184,7 @@ describe('dashboardDataService', function() {
 
     it('should POST a dashboardConfig and return it with an id.', function() {
       var expectedId = '123456';
-      var dashboardConfig = new DashboardConfig();
+      var dashboardConfig = new DashboardInstance();
       dashboardConfig.model.id = null;
 
       httpBackend.whenPOST('/dashboard/create').respond(
@@ -215,7 +215,7 @@ describe('dashboardDataService', function() {
     });
 
     it('should reject the promise when POST fail.', function() {
-      var dashboardConfig = new DashboardConfig();
+      var dashboardConfig = new DashboardInstance();
 
       httpBackend.whenPOST('/dashboard/create').respond(
           function(method, url, data) {
@@ -245,7 +245,7 @@ describe('dashboardDataService', function() {
 
     it('should POST a dashboardConfig that already has an id.', function() {
       var expectedId = '123456';
-      var dashboardConfig = new DashboardConfig();
+      var dashboardConfig = new DashboardInstance();
       dashboardConfig.model.id = expectedId;
 
       var idReceived;
@@ -273,7 +273,7 @@ describe('dashboardDataService', function() {
     });
 
     it('should reject the promise when POST fail.', function() {
-      var dashboardConfig = new DashboardConfig();
+      var dashboardConfig = new DashboardInstance();
 
       httpBackend.whenPOST('/dashboard/edit').respond(
           function(method, url, data) {

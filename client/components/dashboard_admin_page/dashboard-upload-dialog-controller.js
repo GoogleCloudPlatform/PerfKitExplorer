@@ -20,12 +20,12 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard_admin_page.FileUploadDialogCtrl');
 
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 
 
 /**
@@ -69,7 +69,7 @@ explorer.components.dashboard_admin_page.FileUploadDialogCtrl = function(
   /** @export {string} */
   this.filename = '';
 
-  /** @export {DashboardConfig} */
+  /** @export {DashboardInstance} */
   this.dashboard = null;
 
   /** @export {string} */
@@ -99,7 +99,7 @@ FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
       dashboard_object = angular.fromJson(dashboard_json);
 
       try {
-        this.dashboard = new DashboardConfig(dashboard_object);
+        this.dashboard = new DashboardInstance(dashboard_object);
         this.dashboardVersionService_.verifyAndUpdateModel(this.dashboard.model);
         this.error = '';
       }
