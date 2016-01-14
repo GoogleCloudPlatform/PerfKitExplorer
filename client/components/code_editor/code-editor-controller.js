@@ -123,6 +123,17 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   };
 
   /**
+   * Options for the CodeMirror editor.
+   * @export {!Object}
+   */
+  this.editorOptionsSQLReadOnly = {
+    lineWrapping: true,
+    lineNumbers: true,
+    mode: 'text/x-sql',
+    readOnly: true
+  };
+
+  /**
    * Error messages raised by this controller.
    * @export {!Array.<string>}
    */
