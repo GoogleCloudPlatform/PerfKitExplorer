@@ -19,6 +19,7 @@
 
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.util.WorkQueueService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
@@ -39,6 +40,7 @@ describe('gvizDirective', function() {
       ContainerWidgetConfig);
   var ResultsDataStatus =
       p3rf.perfkit.explorer.models.ResultsDataStatus;
+  var WorkQueueService = explorer.components.util.WorkQueueService;
   var compile, rootScope, timeout, chartWrapperMock, gvizChartErrorCallback,
       gvizEventsMock, GvizDataTable,
       queryResultDataServiceMock, fetchResultsDeferred, model, state, configService,
@@ -301,7 +303,7 @@ describe('gvizDirective', function() {
 
   describe('datasource', function() {
 
-    it('should start to fetch data when the datasource status is TOFETCH.',
+    it('should queue and fetch data when the datasource status is TOFETCH.',
         function() {
           setupData();
           setupComponent();
@@ -311,8 +313,18 @@ describe('gvizDirective', function() {
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.NODATA);
 
-          // Ask to fetch again.
+          // Ask to fetch. We're still in TOFETCH state since the
+          // query is queued but not yet started.
           state().datasource.status = ResultsDataStatus.TOFETCH;
+          rootScope.$apply();
+          timeout.verifyNoPendingTasks();
+          expect(state().datasource.status).
+              toEqual(ResultsDataStatus.TOFETCH);
+
+          // Simulate notification from work queue service that
+          // query should execute now. This should switch us to
+          // FETCHING state.
+          fetchResultsDeferred.notify(WorkQueueService.NOTIFICATION.STARTED);
           rootScope.$apply();
           timeout.flush();
           expect(state().datasource.status).

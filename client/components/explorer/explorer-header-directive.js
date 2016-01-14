@@ -41,9 +41,9 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
     controller: [
-        '$scope', '$modal', 'explorerService', 'dashboardService', 'errorService',
+        '$scope', '$modal', 'explorerService', 'dashboardService', 'errorService', 'workQueueService',
         function(
-            $scope, $modal, explorerService, dashboardService, errorService) {
+            $scope, $modal, explorerService, dashboardService, errorService, workQueueService) {
       /** @export */
       this.explorerSvc = explorerService;
 
@@ -58,6 +58,9 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
 
       /** @export */
       this.errorSvc = errorService;
+
+      /** @export */
+      this.workQueueSvc = workQueueService;
 
       // TODO(#139): Move to dedicated container service.
       /**

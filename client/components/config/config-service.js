@@ -69,6 +69,9 @@ explorer.components.config.ConfigService = function($http, $location,
   /** @export {number} */
   this.cache_duration = INITIAL_CONFIG.cache_duration;
 
+  /** @export {number} */
+  this.max_parallel_queries = INITIAL_CONFIG.max_parallel_queries;
+
   /** @export {boolean} */
   this.grant_view_to_public = INITIAL_CONFIG.grant_view_to_public;
 
@@ -107,6 +110,10 @@ ConfigService.prototype.populate = function(data) {
     this.cache_duration = data.cache_duration;
   }
 
+  if (goog.isDef(data.max_parallel_queries)) {
+    this.max_parallel_queries = data.max_parallel_queries;
+  }
+
   if (goog.isDef(data.grant_view_to_public)) {
     this.grant_view_to_public = data.grant_view_to_public;
   }
@@ -125,7 +132,8 @@ ConfigService.prototype.populate = function(data) {
  * Returns basic configuration for use in tests.
  *
  * It only contains values that are expected to be set to non-default
- * values for typical dashboards. For other
+ * values for typical dashboards. Other values that can remain as
+ * defaults should not be included here.
  *
  * The returned object is a fresh copy, so the caller may modify
  * values as needed.
@@ -156,6 +164,7 @@ ConfigService.prototype.toJSON = function(data) {
   result.default_table = this.default_table;
   result.analytics_key = this.analytics_key;
   result.cache_duration = this.cache_duration;
+  result.max_parallel_queries = this.max_parallel_queries;
   result.grant_view_to_public = this.grant_view_to_public;
   result.grant_save_to_public = this.grant_save_to_public;
   result.grant_query_to_public = this.grant_query_to_public;
