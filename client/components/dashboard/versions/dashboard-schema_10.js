@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2015 Google Inc. All rights reserved.
+ * @copyright Copyright 2016 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,8 @@
  *
  * @fileoverview Version info class, including update and verify scripts.
  *
- * v8   2015-Aug    Adds a chart.columns array to store column styles.
+ * v10  2016-Jan    Adds config.bigQuery.optimizeTimestamp to dashboards
+ *                  and widgets.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
