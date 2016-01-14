@@ -17,7 +17,9 @@
  *
  * The initial settings are loaded from a global let INITIAL_CONFIG.  This
  * is set by the server-side templates when rendering the page, to minimize
- * initial roundtrips.
+ * initial roundtrips. For tests, INITIAL_CONFIG is set in the test/globals.js
+ * file.
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -116,6 +118,27 @@ ConfigService.prototype.populate = function(data) {
   if (goog.isDef(data.grant_query_to_public)) {
     this.grant_query_to_public = data.grant_query_to_public;
   }
+};
+
+
+/**
+ * Returns basic configuration for use in tests.
+ *
+ * It only contains values that are expected to be set to non-default
+ * values for typical dashboards. For other
+ *
+ * The returned object is a fresh copy, so the caller may modify
+ * values as needed.
+ *
+ * @return {!object} A JSON object containing config data.
+ */
+ConfigService.prototype.getConfigForTesting = function() {
+  return goog.object.clone({
+    'default_project': 'TEST_PROJECT',
+    'default_dataset': 'TEST_DATASET',
+    'default_table': 'TEST_TABLE',
+    'analytics_key': 'TEST_ANALYTICS_KEY'
+  });
 };
 
 
