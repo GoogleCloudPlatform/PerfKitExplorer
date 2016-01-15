@@ -107,7 +107,7 @@ explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
       let changeValue = function(new_val, old_val) {
         if (scope.supressChangeEvents) { return; }
 
-        this.suppressChangeEvents = true;
+        scope.suppressChangeEvents = true;
 
         try {
           let filter_data = scope.relativeDatepickerData;
@@ -124,11 +124,11 @@ explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
                   dateText += $filter('date')(date, ' HH:mm:ss');
                 }
 
-                if (date.getMilliseconds > 0) {
+                if (date.getMilliseconds() > 0) {
                   dateText += $filter('date')(date, '.sss');
                 }
 
-                if (date.getTimezoneOffset > 0) {
+                if (date.getTimezoneOffset() > 0) {
                   dateText += $filter('date')(date, ' Z');
                 }
 
@@ -143,7 +143,7 @@ explorer.components.widget.query.builder.RelativeDatepickerDirective = function(
             }
           }
         } finally {
-          this.suppressChangeEvents = false;
+          scope.suppressChangeEvents = false;
         }
       };
 
