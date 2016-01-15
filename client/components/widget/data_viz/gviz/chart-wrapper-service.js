@@ -134,7 +134,7 @@ const ChartWrapperService = (
 ChartWrapperService.prototype.loadCharts = function() {
   this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
       success(angular.bind(this, function(response) {
-        $.merge(this.allCharts, response);
+        goog.array.extend(this.allCharts, response);
         this.allChartsIndex = this.arrayUtilSvc_.getDictionary(
             this.allCharts, 'className');
       })).
