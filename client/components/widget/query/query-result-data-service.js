@@ -243,7 +243,7 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
               ErrorTypes.INFO,
               'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
               'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
-              'in ' + this.filter_('number')(speed, 2) + ' sec.');
+              'in ' + this.filter_('number')(time, 2) + ' sec.');
         }
 
         let data = response.data.results;
