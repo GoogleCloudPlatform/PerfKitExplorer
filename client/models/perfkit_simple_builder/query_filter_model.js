@@ -29,6 +29,7 @@ const explorer = p3rf.perfkit.explorer;
 
 /**
  * Describes a label/value pair used in PerfKit sample metadata.
+ * @constructor
  * @export
  */
 p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter = function() {
@@ -57,7 +58,7 @@ const MetadataFilter = p3rf.perfkit.explorer.models.perfkit_simple_builder.Metad
 
 /**
  * Constants describing the types of filters applied to dates.
- * @enum
+ * @enum {string}
  * @export
  */
 p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType = {

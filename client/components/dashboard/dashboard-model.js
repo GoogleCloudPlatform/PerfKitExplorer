@@ -159,7 +159,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
  * @return {string} An email address if one exists, otherwise an empty string.
  */
 DashboardModel.prototype.getDefaultOwner = function() {
-  return CURRENT_USER_EMAIL;
+  return goog.global['CURRENT_USER_EMAIL'];
 };
 
 

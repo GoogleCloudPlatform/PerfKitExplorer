@@ -145,7 +145,7 @@ gviz.column_style.ColumnStyleService = class {
    * columns present in the dataTable.
    *
    * @param {!Array.<ColumnStyleModel>} columns
-   * @param {!google.visualizations.DataTable} dataTable
+   * @param {!google.visualization.DataTable} dataTable
    * @return {!Array.<!ColumnStyleModel>}
    * @export
    */
@@ -188,7 +188,7 @@ gviz.column_style.ColumnStyleService = class {
    * the label for the column, as well as other properties in the future.
    *
    * @param {!Array.<ColumnStyleModel>} columns
-   * @param {!google.visualizations.DataTable} dataTable
+   * @param {!google.visualization.DataTable} dataTable
    * @export
    */
   applyToDataTable(columns, dataTable) {
@@ -338,7 +338,7 @@ gviz.column_style.ColumnStyleService = class {
   /**
    * Returns the index of the DataTable column matching the provided id.
    * @param {string} columnId
-   * @param {!google.visualizations.DataTable} dataTable
+   * @param {!google.visualization.DataTable} dataTable
    * @return {number} The 0-based index of the column, or -1 if not found.
    * @export
    */

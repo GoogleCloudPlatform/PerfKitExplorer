@@ -51,7 +51,7 @@ const WorkQueueService = explorer.components.util.WorkQueueService;
  * The STARTED notification is sent when a work item changes state
  * from "queued" to "executing".
  *
- * @enum{string}
+ * @enum {string}
  */
 WorkQueueService.NOTIFICATION = {
   STARTED: 'Started'

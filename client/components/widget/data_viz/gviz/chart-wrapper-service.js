@@ -111,7 +111,7 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
 
   /**
    * Provides an ordered list of charts.
-   * @type {Array<!ChartTypeModel>
+   * @type {Array<!ChartTypeModel>}
    * @export
    */
   this.allCharts = [];

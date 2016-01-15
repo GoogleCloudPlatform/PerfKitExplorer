@@ -38,7 +38,7 @@ goog.scope(function() {
  * ResizeDirection.RIGHT, because the resizer is on the right, and dragging
  * the resizer to the right would make the element larger.
  *
- * @enum
+ * @enum {string}
  */
 p3rf.perfkit.explorer.components.layout.ResizeDirections = {
   LEFT: 'LEFT',
@@ -51,7 +51,7 @@ const ResizeDirections = p3rf.perfkit.explorer.components.layout.ResizeDirection
 
 /**
  * Holds state and behavior for resize-related layout events.
- * @param {!angular.Scope}
+ * @param {!angular.Scope} $rootScope
  * @returns {!ResizeService}
  * @ngInject
  * @export
@@ -104,7 +104,7 @@ const ResizeService = p3rf.perfkit.explorer.components.layout.ResizeService;
  * size of the element being resized.
  *
  * @param {!Element} resizeElement The element being resized.
- * @param {!ResizeDirection} resizeDirection The direction that the
+ * @param {!ResizeDirections} resizeDirection The direction that the
  *     resizeElement is being resized.
  * @param {!Event} event The event args.  The clientX and clientY properties
  *     will be evaluated.

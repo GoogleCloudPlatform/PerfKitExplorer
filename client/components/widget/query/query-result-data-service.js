@@ -46,7 +46,7 @@ const WorkQueueService = explorer.components.util.WorkQueueService;
  * See module docstring for more information about purpose and usage.
  *
  * @param {!ExplorerService} explorerService
- * @param {!ExplorerStateService} explorerService
+ * @param {!ExplorerStateService} explorerStateService
  * @param {!ErrorService} errorService
  * @param {!ConfigService} configService
  * @param {!WorkQueueService} workQueueService

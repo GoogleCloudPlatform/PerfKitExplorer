@@ -119,7 +119,7 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
   };
 
   /**
-   * @type {!Array.<!ColumnStyleModel}
+   * @type {!Array.<!ColumnStyleModel>}
    * @export
    */
   this.columns = [];

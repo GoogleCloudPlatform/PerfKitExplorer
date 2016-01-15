@@ -58,7 +58,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
   this.dashboardDataService_ = dashboardDataService;
 
   /** @export @type {!string} */
-  this.CURRENT_USER_ADMIN = CURRENT_USER_ADMIN;
+  this.CURRENT_USER_ADMIN = goog.global['CURRENT_USER_ADMIN'];
 
   /** @export {!boolean} */
   this.isLoading = false;

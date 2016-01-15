@@ -38,17 +38,19 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
 
 /**
  * Service that provides model access for the Explorer page at the top-level.
- * @param {!Angular.HttpService} $location
- * @param {!Angular.LocationService} $location
+ * @param {!angular.HttpService} $http
+ * @param {!angular.LocationService} $location
  * @constructor
  * @ngInject
  */
 explorer.components.config.ConfigService = function($http, $location,
     errorService) {
-  /** @private {!Angular.HttpService} */
+  var INITIAL_CONFIG = goog.global['INITIAL_CONFIG'];
+
+  /** @private {!angular.HttpService} */
   this.http_ = $http;
 
-  /** @private {!Angular.LocationService} */
+  /** @private {!angular.LocationService} */
   this.location_ = location;
 
   /** @private {!ErrorService} */
@@ -87,7 +89,7 @@ const ConfigService = explorer.components.config.ConfigService;
 /**
  * Sets properties based on the JSON data received.
  *
- * @param {!object} data A JSON object containing config data.
+ * @param {!Object} data A JSON object containing config data.
  */
 ConfigService.prototype.populate = function(data) {
   if (goog.isDef(data.default_project)) {

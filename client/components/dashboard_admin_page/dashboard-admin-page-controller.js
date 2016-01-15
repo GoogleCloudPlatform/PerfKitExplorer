@@ -79,7 +79,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
   /** @private @type {DashboardAdminPageService} */
   $scope.pageService = dashboardAdminPageService;
 
-  /** @export @type {DashboardAdminPageService */
+  /** @export @type {DashboardAdminPageService} */
   this.pageService = dashboardAdminPageService;
 
   /**

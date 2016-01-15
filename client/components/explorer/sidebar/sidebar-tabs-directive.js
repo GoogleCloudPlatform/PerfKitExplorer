@@ -45,7 +45,7 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
 
       /**
        * Reacts to a tab being clicked.  It toggles the tab and hides the tooltip.
-       * @param {!SidebarTabModel}
+       * @param {!SidebarTabModel} tab
        * @export
        */
       this.tabClicked = function(tab) {

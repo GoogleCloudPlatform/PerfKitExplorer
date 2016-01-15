@@ -117,7 +117,7 @@ explorer.components.query_builder.Filter.DisplayMode = {
  * @param {explorer.components.query_builder.FilterClause.MatchRule} matchRule
  *     The rule to use when matching.  This rule can expect one or more values
  *     for example between or greater than.
- * @param {?bool=} opt_isFunction Used to indicate matchOn values that are
+ * @param {?boolean=} opt_isFunction Used to indicate matchOn values that are
  *     function calls, and therefore shouldn't be quoted.
  * @constructor
  */

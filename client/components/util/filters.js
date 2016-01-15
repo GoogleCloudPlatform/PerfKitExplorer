@@ -31,7 +31,7 @@ const explorer = p3rf.perfkit.explorer;
  * @param {!*} property_value
  * @param {!Array<*>} collection
  *
- * @return {bool}
+ * @return {boolean}
  */
 explorer.components.util.GetByPropertyFilter = function(
     property_name, property_value, collection) {

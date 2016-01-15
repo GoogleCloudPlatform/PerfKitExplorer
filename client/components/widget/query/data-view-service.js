@@ -88,7 +88,7 @@ const DataViewService = explorer.components.widget.query.DataViewService;
  *
  * @param {!google.visualization.DataTable} dataTable
  * @param {!DataViewModel} model
- * @param {!Array.<!ColumnStyleModel>}
+ * @param {!Array.<!ColumnStyleModel>} columns
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */
 DataViewService.prototype.create = function(dataTable, model, columns) {

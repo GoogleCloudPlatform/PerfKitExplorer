@@ -102,7 +102,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /** @private {!ArrayUtilService} */
+  /** @private {!ErrorService} */
   this.errorService_ = errorService;
 
   /** @private {!ExplorerStateService} */
@@ -254,11 +254,10 @@ DashboardService.prototype.saveDashboard = function() {
 /**
  * Iterates through the dashboard and applies functions to the contents.
  * @param {!DashboardInstance} dashboard The dashboard config to iterate.
- * @param {?Function(ContainerConfig)} updateContainerFn The function to apply
+ * @param {?function(ContainerConfig)} updateContainerFn The function to apply
  *    to each container.
- * @param {?Function(WidgetConfig)} updateWidgetFn The function to apply to each
+ * @param {?function(WidgetConfig)} updateWidgetFn The function to apply to each
  *    widget.
- * @param updateWidgetFn
  */
 DashboardService.prototype.updateDashboard = function(
     dashboard, updateContainerFn, updateWidgetFn) {
@@ -629,7 +628,7 @@ DashboardService.prototype.refreshWidget = function(widget) {
  * Changes the widget datasource to accept a custom SQL statement.
  *
  * @param {!WidgetConfig} widget
- * @param {!bool} rewrite If true, rewrites the query based on the QueryBuilder
+ * @param {!boolean} rewrite If true, rewrites the query based on the QueryBuilder
  *    settings.  Otherwise, leaves the query as-is.  Defaults to false.
  * @export
  */

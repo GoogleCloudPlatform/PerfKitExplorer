@@ -49,7 +49,7 @@ const ExplorerModel = explorer.components.explorer.ExplorerModel;
  * @param {!ArrayUtilService} arrayUtilService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!DashboardService} dashboardService
- * @param {!Angular.LocationService} $location
+ * @param {!angular.$location} $location
  * @constructor
  * @ngInject
  */
@@ -121,7 +121,7 @@ explorer.components.explorer.ExplorerService = function(
    * @type {!string}
    * @export
    */
-  this.CURRENT_USER_ADMIN = CURRENT_USER_ADMIN;
+  this.CURRENT_USER_ADMIN = goog.global['CURRENT_USER_ADMIN'];
 
   /**
    * @type {Array.<*>}
