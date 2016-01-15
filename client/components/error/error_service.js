@@ -78,14 +78,14 @@ const ErrorService = components.error.ErrorService;
  * @param {?string=} opt_errorId The ID of the error message.  It will replace
  *     an error with the same ID.  If not provided, the error is added to the
  *     list unconditionally.
- * @return {ErrorModel} A new or existing ErrorModel.
+ * @return {?ErrorModel} A new or existing ErrorModel, or null if not needed.
  * @export
  */
 ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
   if (goog.isDef(opt_errorId)) {
     if (ErrorTypes.All.indexOf(errorType) >
         ErrorTypes.All.indexOf(this.MAX_ERROR_SEVERITY)) {
-      return;
+      return null;
     }
 
     let existingError = this.filter_('getByProperty')(
