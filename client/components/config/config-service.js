@@ -155,11 +155,10 @@ ConfigService.prototype.getConfigForTesting = function() {
 /**
  * Provides a copy of the object as JSON.
  *
- * @param {?Object} data An object that the properties will be applied to.
  * @return {!Object} A JSON representation of the config properties.
  */
-ConfigService.prototype.toJSON = function(data) {
-  let result = data || {};
+ConfigService.prototype.toJSON = function() {
+  let result = {};
 
   result.default_project = this.default_project;
   result.default_dataset = this.default_dataset;
