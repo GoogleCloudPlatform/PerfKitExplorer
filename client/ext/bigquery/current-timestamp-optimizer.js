@@ -158,17 +158,29 @@ goog.scope(function() {
      *
      * @param {!DashboardModel} dashboard The active dashboard.
      * @param {!WidgetModel} widget The widget to apply query optimizations against.
+     * @param {boolean} force If true, applies the optimization even if canApply returns false.
      */
     apply(dashboard, widget, force=false) {
       if (force || this.canApply(dashboard, widget)) {
-        let regex = /(\s|\(|,)(CURRENT_TIMESTAMP\(\))(\s|\)|,)/gi
         let query = widget.datasource.query_exec;
         let granularity = this.getEffectiveGranularity(dashboard, widget);
         let effectiveDate = this.getEffectiveDate(granularity);
-        let effectiveDateString = '$1TIMESTAMP(\'' + effectiveDate.toISOString() + '\')$3';
 
-        widget.datasource.query_exec = query.replace(regex, effectiveDateString);
+        widget.datasource.query_exec = this.replaceCurrentTimestamp(query, effectiveDate);
       }
+    }
+
+    /**
+     * Replaces the any instances of CURRENT_TIMESTAMP() with a fixed TIMESTAMP expression and
+     * returns the result.
+     * 
+     * @param {string} query The query string that will be evaluated.
+     * @param {Date} effectiveDate The datetime that will be used in place of CURRENT_TIMESTAMP().
+     */
+    replaceCurrentTimestamp(query, effectiveDate) {
+      let regex = /\bCURRENT_TIMESTAMP\s*\(\s*\)/gi
+      let effectiveDateString = 'TIMESTAMP(\'' + effectiveDate.toISOString() + '\')';
+      return query.replace(regex, effectiveDateString);
     }
   }
 });
