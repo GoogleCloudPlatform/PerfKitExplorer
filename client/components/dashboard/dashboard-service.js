@@ -1052,7 +1052,7 @@ DashboardService.prototype.addWriter = function() {
  * @export
  */
 DashboardService.prototype.addParam = function() {
-  this.current.model.params.push(new DashboardParam());
+  this.current.model.params.push(new DashboardParam('', ''));
 };
 
 

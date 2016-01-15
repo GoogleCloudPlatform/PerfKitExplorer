@@ -46,13 +46,13 @@ explorer.components.dashboard.DashboardParam = function(name, value) {
    * @type {string}
    * @export
    */
-  this.name = name || '';
+  this.name = name;
 
   /**
    * @type {string}
    * @export
    */
-  this.value = value || '';
+  this.value = value;
 };
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 
