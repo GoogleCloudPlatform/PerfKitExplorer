@@ -178,7 +178,7 @@ SidebarTabService.prototype.getFirstWidgetTab = function() {
 
 /**
   * Returns true if the tab should be displayed, otherwise false.
-  * @param {!SidebarTabModel}
+  * @param {!SidebarTabModel} tab
   * @export
   */
 SidebarTabService.prototype.isTabVisible = function(tab) {
@@ -229,7 +229,7 @@ SidebarTabService.prototype.getLastTab = function() {
     }
   }
 
-  console.log('getFirstTab failed: No non-widget tabs available.');
+  throw new Error('getFirstTab failed: No non-widget tabs available.');
 };
 
 
