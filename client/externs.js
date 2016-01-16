@@ -22,16 +22,27 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-angular.$httpBackend = function() {};
-angular.$httpBackend.prototype.whenGET = function(a) {};
-angular.$httpBackend.prototype.whenPOST = function(a) {};
-angular.$httpBackend.prototype.passThrough = function() {};
-angular.$httpBackend.prototype.respond = function(a) {};
+var jasmine = {};
+jasmine.createSpy = function() {};
 
+function CodeMirror() {};
 CodeMirror.prototype.setValue = function(a) {};
 
 function history() {}
 history.pushState = function(a, b, c) {};
 
-var CURRENT_USER_ADMIN = null;
-var CURRENT_USER_EMAIL = null;
+// TODO(klausw): not sure why these aren't being picked up automatically.
+// Prevents "Bad type annotation" error for IArrayLike in goog/object/object.js
+
+/**
+ * @interface
+ * @template KEY1, VALUE1
+ */
+function IObject() {}
+
+/**
+ * @interface
+ * @extends {IObject<number, VALUE2>}
+ * @template VALUE2
+ */
+function IArrayLike() {}
