@@ -147,7 +147,7 @@ div.pk-chart-queued {
   font-size: 120%;
 }
 
-.pk-chart-error {
+.pk-chart-error, .pk-chart-nodata {
   color: #777777;
   font-size: .95em;
   font-style: italic;

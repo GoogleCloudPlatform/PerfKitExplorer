@@ -32,6 +32,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+goog.require('p3rf.perfkit.explorer.components.util.WorkQueueService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
@@ -56,6 +57,7 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
 const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 const ResultsDataStatus = explorer.models.ResultsDataStatus;
+const WorkQueueService = explorer.components.util.WorkQueueService;
 
 
 /**
@@ -253,10 +255,6 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           let promise = queryResultDataService.
               fetchResults(scope.widgetConfig);
-          $timeout(function() {
-            scope.widgetConfig.state().datasource.status =
-                ResultsDataStatus.FETCHING;
-          });
 
           promise.then(function(dataTable) {
             scope.widgetConfig.queryError = null;
@@ -284,6 +282,15 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
               scope.widgetConfig.queryError = response.error;
             });
           });
+          // Progress notification
+          promise.then(null, null, angular.bind(this, function(notification) {
+            if (notification == WorkQueueService.NOTIFICATION.STARTED) {
+              $timeout(function() {
+                scope.widgetConfig.state().datasource.status =
+                    ResultsDataStatus.FETCHING;
+              });
+            }
+          }));
         } else {
           checkForErrors();
         }

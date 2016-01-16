@@ -11,6 +11,7 @@ var INITIAL_CONFIG = {
   'default_table': '',
   'analytics_key': '',
   'cache_duration': 0,
+  'max_parallel_queries': 5,
   'grant_view_to_public': false,
   'grant_save_to_public': false,
   'grant_query_to_public': false
