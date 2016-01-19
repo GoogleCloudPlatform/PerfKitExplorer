@@ -23,25 +23,33 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
+goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
+goog.require('p3rf.perfkit.explorer.components.util.WorkQueueService');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const ConfigService = explorer.components.config.ConfigService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ErrorService = explorer.components.error.ErrorService;
 const ExplorerService = explorer.components.explorer.ExplorerService;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
+const WorkQueueService = explorer.components.util.WorkQueueService;
 
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
+ * @param {!ExplorerService} explorerService
+ * @param {!ExplorerStateService} explorerService
  * @param {!ErrorService} errorService
+ * @param {!ConfigService} configService
+ * @param {!WorkQueueService} workQueueService
  * @param {!angular.$http} $http
  * @param {!angular.$filter} $filter
  * @param {angular.$cacheFactory} $cacheFactory
@@ -51,8 +59,8 @@ const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
  * @ngInject
  */
 explorer.components.widget.query.QueryResultDataService = function(
-    explorerService, explorerStateService, errorService,
-    $http, $filter, $cacheFactory, $q, GvizDataTable) {
+    explorerService, explorerStateService, errorService, configService,
+    workQueueService, $http, $filter, $cacheFactory, $q, GvizDataTable) {
   /**
    * @type {!angular.$http}
    * @private
@@ -95,6 +103,12 @@ explorer.components.widget.query.QueryResultDataService = function(
    * @private
    */
   this.GvizDataTable_ = GvizDataTable;
+
+  /**
+   * @private {!WorkQueueService}
+   */
+  this.workQueue_ = workQueueService;
+  this.workQueue_.setMaxParallelQueries(configService.max_parallel_queries);
 };
 const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
@@ -194,6 +208,7 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
   let deferred = this.q_.defer();
   let cacheKey = angular.toJson(datasource);
   let cachedDataTable = this.cache_.get(cacheKey);
+  let isSelected = widget.state().selected;
 
   if (cachedDataTable) {
     deferred.resolve(cachedDataTable);
@@ -204,7 +219,9 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
       'dashboard_id': this.explorerStateService_.selectedDashboard.model.id,
       'id': widget.model.id,
       'datasource': datasource};
-    let promise = this.http_.post(endpoint, postData);
+    let promise = this.workQueue_.enqueue(
+        () => this.http_.post(endpoint, postData),
+        isSelected);
 
     promise.then(angular.bind(this, function(response) {
       if (response.data.error) {
@@ -243,6 +260,10 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
       this.errorService_.addError(ErrorTypes.DANGER, response.error || response.statusText);
 
       deferred.reject(response);
+    }));
+    // Progress notification
+    promise.then(null, null, angular.bind(this, function(notification) {
+      deferred.notify(notification);
     }));
   }
   return deferred.promise;

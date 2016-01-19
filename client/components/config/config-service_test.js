@@ -44,6 +44,7 @@ describe('configService', function() {
     expect(svc.default_table).toEqual('');
     expect(svc.analytics_key).toEqual('');
     expect(svc.cache_duration).toEqual(0);
+    expect(svc.max_parallel_queries).toBeGreaterThan(0);
     expect(svc.grant_view_to_public).toEqual(false);
     expect(svc.grant_save_to_public).toEqual(false);
     expect(svc.grant_query_to_public).toEqual(false);
@@ -149,6 +150,7 @@ describe('configService', function() {
         'default_table': '',
         'analytics_key': '',
         'cache_duration': 0,
+        'max_parallel_queries': 5,
         'grant_view_to_public': false,
         'grant_save_to_public': false,
         'grant_query_to_public': false
@@ -170,6 +172,7 @@ describe('configService', function() {
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
         'cache_duration': provided_cache_duration,
+        'max_parallel_queries': 15,
         'grant_view_to_public': true,
         'grant_save_to_public': true,
         'grant_query_to_public': true
@@ -198,7 +201,8 @@ describe('configService', function() {
         'default_dataset': provided_default_dataset,
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
-        'cache_duration': provided_cache_duration
+        'cache_duration': provided_cache_duration,
+        'max_parallel_queries': 7
       };
 
       expected_data = {
@@ -208,6 +212,7 @@ describe('configService', function() {
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
         'cache_duration': provided_cache_duration,
+        'max_parallel_queries': 7,
         'grant_view_to_public': false,
         'grant_save_to_public': false,
         'grant_query_to_public': false
@@ -255,6 +260,7 @@ describe('configService', function() {
         'default_table': provided_default_table,
         'analytics_key': provided_analytics_key,
         'cache_duration': provided_cache_duration,
+        'max_parallel_queries': 10,
         'grant_view_to_public': true,
         'grant_save_to_public': false,
         'grant_query_to_public': true

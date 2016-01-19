@@ -25,6 +25,7 @@ DEFAULT_DATASET = 'samples_mart'
 DEFAULT_TABLE = 'results'
 DEFAULT_ANALYTICS_KEY = ''
 DEFAULT_CACHE_DURATION = 0
+DEFAULT_MAX_PARALLEL_QUERIES = 5
 
 GLOBAL_CONFIG_KEY = 'perfkit.explorer.config'
 
@@ -50,6 +51,8 @@ class ExplorerConfigModel(ndb.Model):
   default_table = ndb.StringProperty(default=DEFAULT_TABLE)
   analytics_key = ndb.StringProperty(default=DEFAULT_ANALYTICS_KEY)
   cache_duration = ndb.IntegerProperty(default=DEFAULT_CACHE_DURATION)
+  max_parallel_queries = ndb.IntegerProperty(
+      default=DEFAULT_MAX_PARALLEL_QUERIES)
 
   grant_save_to_public = ndb.BooleanProperty(default=False)
   grant_view_to_public = ndb.BooleanProperty(default=False)
