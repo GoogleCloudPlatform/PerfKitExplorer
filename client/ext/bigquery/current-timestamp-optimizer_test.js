@@ -69,32 +69,32 @@ goog.scope(function() {
       spyOn(testOptimizer, 'getCurrentDate').and.returnValue(PROVIDED_DATE);
     });
 
-    describe('getEffectiveDate', function() {
+    describe('getRoundedDate', function() {
       describe('should support restricting the date to the latest', function() {
         it('year', function() {
           let expected = new Date(PROVIDED_YEAR, 0, 1, 0, 0);
-          let actual = testOptimizer.getEffectiveDate(CurrentTimestampGranularity.YEAR);
+          let actual = testOptimizer.getRoundedDate(CurrentTimestampGranularity.YEAR);
 
           expect(actual).toEqual(expected);
         });
 
         it('month', function() {
           let expected = new Date(PROVIDED_YEAR, PROVIDED_MONTH, 1, 0, 0);
-          let actual = testOptimizer.getEffectiveDate(CurrentTimestampGranularity.MONTH);
+          let actual = testOptimizer.getRoundedDate(CurrentTimestampGranularity.MONTH);
 
           expect(actual).toEqual(expected);
         });
 
         it('day', function() {
           let expected = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, 0, 0);
-          let actual = testOptimizer.getEffectiveDate(CurrentTimestampGranularity.DAY);
+          let actual = testOptimizer.getRoundedDate(CurrentTimestampGranularity.DAY);
 
           expect(actual).toEqual(expected);
         });
 
         it('hour', function() {
           let expected = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, PROVIDED_HOUR, 0);
-          let actual = testOptimizer.getEffectiveDate(CurrentTimestampGranularity.HOUR);
+          let actual = testOptimizer.getRoundedDate(CurrentTimestampGranularity.HOUR);
 
           expect(actual).toEqual(expected);
         });
@@ -184,7 +184,7 @@ goog.scope(function() {
         spyOn(effectiveDate, 'toISOString').and.returnValue(expectedDateString);
 
         spyOn(testOptimizer, 'canApply').and.returnValue(true);
-        spyOn(testOptimizer, 'getEffectiveDate').and.returnValue(effectiveDate);
+        spyOn(testOptimizer, 'getRoundedDate').and.returnValue(effectiveDate);
 
         const PROVIDED_SQL = 'SELECT CURRENT_TIMESTAMP() FROM foo';
         const EXPECTED_SQL = 'SELECT TIMESTAMP(\'' + expectedDateString + '\') FROM foo';
@@ -205,7 +205,7 @@ goog.scope(function() {
           spyOn(effectiveDate, 'toISOString').and.returnValue(expectedDateString);
 
           spyOn(testOptimizer, 'canApply').and.returnValue(true);
-          spyOn(testOptimizer, 'getEffectiveDate').and.returnValue(effectiveDate);
+          spyOn(testOptimizer, 'getRoundedDate').and.returnValue(effectiveDate);
           spyOn(testOptimizer, 'getEffectiveGranularity').and.returnValue(CurrentTimestampGranularity.HOUR);
         });
 

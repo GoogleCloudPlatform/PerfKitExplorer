@@ -132,11 +132,11 @@ goog.scope(function() {
     }
 
     /**
-     * Returns the rounded effective date based on the provided granularity.
+     * Returns the rounded date based on the provided granularity.
      *
      * @param {!CurrentTimestampGranularity} granularity
      */
-    getEffectiveDate(granularity) {
+    getRoundedDate(granularity) {
       let ranks = {YEAR: 0, MONTH: 1, DAY: 2, HOUR: 3};
       let rank = ranks[granularity];
       goog.asserts.assert(goog.isDefAndNotNull(rank));
@@ -164,7 +164,7 @@ goog.scope(function() {
       if (force || this.canApply(dashboard, widget)) {
         let query = widget.datasource.query_exec;
         let granularity = this.getEffectiveGranularity(dashboard, widget);
-        let effectiveDate = this.getEffectiveDate(granularity);
+        let effectiveDate = this.getRoundedDate(granularity);
 
         widget.datasource.query_exec = this.replaceCurrentTimestamp(query, effectiveDate);
       }
