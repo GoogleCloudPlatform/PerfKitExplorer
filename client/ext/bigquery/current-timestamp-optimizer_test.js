@@ -180,8 +180,7 @@ goog.scope(function() {
 
       it('should replace CURRENT_TIMESTAMP() with the current effective date', function() {
         const effectiveDate = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, PROVIDED_HOUR, 0);
-        const expectedDateString = '2006-02-15T12:00:00.000Z'
-        spyOn(effectiveDate, 'toISOString').and.returnValue(expectedDateString);
+        const expectedDateString = effectiveDate.toISOString();
 
         spyOn(testOptimizer, 'canApply').and.returnValue(true);
         spyOn(testOptimizer, 'getRoundedDate').and.returnValue(effectiveDate);
@@ -199,10 +198,8 @@ goog.scope(function() {
         
         beforeEach(function() {
           effectiveDate = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, PROVIDED_HOUR, 0);
-          expectedDateString = '2006-02-15T12:00:00.000Z'
+          expectedDateString = effectiveDate.toISOString();
           expectedDateExpr = 'TIMESTAMP(\'' + expectedDateString + '\')';
-
-          spyOn(effectiveDate, 'toISOString').and.returnValue(expectedDateString);
 
           spyOn(testOptimizer, 'canApply').and.returnValue(true);
           spyOn(testOptimizer, 'getRoundedDate').and.returnValue(effectiveDate);

@@ -36,6 +36,9 @@ goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfig
 
 goog.scope(function() {
   const bigquery = p3rf.perfkit.explorer.ext.bigquery;
+  
+  const DATE_ROUNDING_TIMEZONE_OFFSET = 0;
+
 
   /**
    * Constants describing the types of granularity supported on timestamps.
@@ -133,16 +136,19 @@ goog.scope(function() {
 
     /**
      * Returns the rounded date based on the provided granularity.
+     * Boundaries for DAY, MONTH and YEAR are based on the local timezone.
      *
+     * @param {!Date} date
      * @param {!CurrentTimestampGranularity} granularity
      */
-    getRoundedDate(granularity) {
+    getRoundedDate(date, granularity) {
       let ranks = {YEAR: 0, MONTH: 1, DAY: 2, HOUR: 3};
       let rank = ranks[granularity];
       goog.asserts.assert(goog.isDefAndNotNull(rank));
 
-      let current = this.getCurrentDate();
-
+      // TODO: Replace constant with service- or dashboard-level setting.
+      date.setUTCOffset(DATE_ROUNDING_TIMEZONE_OFFSET);
+      
       let result = new Date(
         current.getFullYear(),
         rank >= ranks.MONTH ? current.getMonth() : 0,
@@ -158,10 +164,9 @@ goog.scope(function() {
      *
      * @param {!DashboardModel} dashboard The active dashboard.
      * @param {!WidgetModel} widget The widget to apply query optimizations against.
-     * @param {boolean} force If true, applies the optimization even if canApply returns false.
      */
-    apply(dashboard, widget, force=false) {
-      if (force || this.canApply(dashboard, widget)) {
+    apply(dashboard, widget) {
+      if (this.canApply(dashboard, widget)) {
         let query = widget.datasource.query_exec;
         let granularity = this.getEffectiveGranularity(dashboard, widget);
         let effectiveDate = this.getRoundedDate(granularity);
