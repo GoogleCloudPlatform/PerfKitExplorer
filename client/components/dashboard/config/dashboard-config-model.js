@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview DashboardConfigModel encapsulates the settings for dashboards.
+ * @fileoverview DashboardConfigModel encapsulates the settings for a single dashboard.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */

@@ -60,14 +60,14 @@ goog.scope(function() {
       /**
        * If true, the optimizer is enabled.  If false, it will not be applied.
        *
-       * @export {bool}
+       * @export {?boolean}
        */
       this.enabled = enabled;
 
       /**
        * Defines the granularity of the optimizer.  See the module docstring for more.
        * 
-       * @export {!CurrentTimestampGranularity}
+       * @export {CurrentTimestampGranularity}
        */
       this.granularity = granularity;
     }
