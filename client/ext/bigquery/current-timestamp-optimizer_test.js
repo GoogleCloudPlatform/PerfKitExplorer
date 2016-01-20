@@ -31,21 +31,10 @@ goog.scope(function() {
 
   describe('CurrentTimestampOptimizer', function() {
     let testOptimizer, dashboard, dashboardSetting, widget, widgetSetting;
-    let PROVIDED_DASHBOARD, PROVIDED_WIDGET, PROVIDED_DATE;
-
-    const PROVIDED_YEAR = 2006;
-    const PROVIDED_MONTH = 1;
-    const PROVIDED_DAY = 15;
-    const PROVIDED_HOUR = 8;
-    const PROVIDED_MINUTE = 14;
-    const PROVIDED_SECOND = 23;
+    let PROVIDED_DASHBOARD, PROVIDED_WIDGET;
 
     beforeEach(function() {
       testOptimizer = new CurrentTimestampOptimizer();
-
-      PROVIDED_DATE = new Date(
-          PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY,
-          PROVIDED_HOUR, PROVIDED_MINUTE, PROVIDED_SECOND);
       
       PROVIDED_WIDGET = {
         datasource: {
@@ -65,8 +54,6 @@ goog.scope(function() {
 
       dashboardSetting = PROVIDED_DASHBOARD.config.bigQuery.optimizeCurrentTimestamp;
       widgetSetting = PROVIDED_WIDGET.datasource.config.bigQuery.optimizeCurrentTimestamp;
-
-      spyOn(testOptimizer, 'getCurrentDate').and.returnValue(PROVIDED_DATE);
     });
 
     describe('getRoundedDate', function() {
