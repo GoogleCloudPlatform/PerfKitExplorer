@@ -1,3 +1,4 @@
+/* global pad */
 /**
  * @copyright Copyright 2016 Google Inc. All rights reserved.
  *
@@ -22,9 +23,11 @@
  *     original    CURRENT_TIMESTAMP()  2016-02-13 14:43:26
  *     granularity YEAR                 2016-01-01
  *                 MONTH                2016-02-01
- *                 WEEK                 2016-02-06 (Saturday of previous week)
  *                 DAY                  2016-02-13
  *                 HOUR                 2016-02-13 14:00:00
+ *
+ * All estimates for days are computed based on UTC time, from the DATE_ROUNDING_UTC_HOUR
+ * constant.  A future update will make this a server, dashboard and widget-level setting.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
@@ -36,7 +39,11 @@ goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfig
 
 goog.scope(function() {
   const bigquery = p3rf.perfkit.explorer.ext.bigquery;
-  
+  const components = p3rf.perfkit.explorer.components;
+  const DashboardModel = components.dashboard.DashboardModel;
+  const WidgetModel = components.widget.WidgetModel;
+
+
   // Number of hours after midnight in UTC to which dates should be rounded.
   // For example, set this to 8 if day-granularity dates should be rounded to the
   // most recent 08:00:00 in UTC. This is currently a constant, in the
@@ -53,7 +60,6 @@ goog.scope(function() {
   bigquery.CurrentTimestampGranularity = {
     YEAR: 'YEAR',
     MONTH: 'MONTH',
-    WEEK: 'WEEK',
     DAY: 'DAY',
     HOUR: 'HOUR'
   };
@@ -178,6 +184,37 @@ goog.scope(function() {
     }
 
     /**
+     * Returns a BigQuery TIMESTAMP() expression with a formatted date down to minutes.
+     * ex: TIMESTAMP('2015-02-23T05:00Z')
+     * @param {!Date} date The date to return.
+     * @return {string}
+     */
+    getTimestampExpression(date) {
+      let result = 'TIMESTAMP' +
+        '(\'' + date.getUTCFullYear() +
+        '-' + goog.string.padNumber(date.getUTCMonth() + 1, 2) +
+        '-' + goog.string.padNumber(date.getUTCDate(), 2) +
+        'T' + goog.string.padNumber(date.getUTCHours(), 2) +
+        ':' + goog.string.padNumber(date.getUTCMinutes(), 2) +
+        'Z\')';
+      return result;
+    }
+
+    /**
+     * Replaces the any instances of CURRENT_TIMESTAMP() with a fixed TIMESTAMP expression and
+     * returns the result.
+     * 
+     * @param {string} query The query string that will be evaluated.
+     * @param {Date} effectiveDate The datetime that will be used in place of CURRENT_TIMESTAMP().
+     * @return {string}
+     */
+    replaceCurrentTimestamp(query, effectiveDate) {
+      let regex = /\bCURRENT_TIMESTAMP\s*\(\s*\)/gi
+      let effectiveDateString = this.getTimestampExpression(effectiveDate);
+      return query.replace(regex, effectiveDateString);
+    }
+
+    /**
      * Applies the optimization to the current widget, modifying any CURRENT_TIMESTAMP() instances
      * in .query_exec.
      *
@@ -193,19 +230,6 @@ goog.scope(function() {
 
         widget.datasource.query_exec = this.replaceCurrentTimestamp(query, effectiveDate);
       }
-    }
-
-    /**
-     * Replaces the any instances of CURRENT_TIMESTAMP() with a fixed TIMESTAMP expression and
-     * returns the result.
-     * 
-     * @param {string} query The query string that will be evaluated.
-     * @param {Date} effectiveDate The datetime that will be used in place of CURRENT_TIMESTAMP().
-     */
-    replaceCurrentTimestamp(query, effectiveDate) {
-      let regex = /\bCURRENT_TIMESTAMP\s*\(\s*\)/gi
-      let effectiveDateString = 'TIMESTAMP(\'' + effectiveDate.toISOString() + '\')';
-      return query.replace(regex, effectiveDateString);
     }
   }
 });

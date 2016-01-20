@@ -173,6 +173,7 @@ goog.scope(function() {
     describe('apply', function() {
       it('should leave the query untouched when canApply returns false', function() {
         spyOn(testOptimizer, 'canApply').and.returnValue(false);
+        spyOn(testOptimizer, 'replaceCurrentTimestamp').and.callThrough();
 
         const PROVIDED_SQL = 'SELECT CURRENT_TIMESTAMP() FROM foo';
         const EXPECTED_SQL = PROVIDED_SQL;
@@ -180,87 +181,83 @@ goog.scope(function() {
 
         testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);        
         expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
+        expect(testOptimizer.replaceCurrentTimestamp).not.toHaveBeenCalled();
       });
 
-      it('should replace CURRENT_TIMESTAMP() with the current effective date', function() {
-        const effectiveDate = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, PROVIDED_HOUR, 0);
-        const expectedDateString = effectiveDate.toISOString();
-
+      it('should modify the query when canApply returns true', function() {
         spyOn(testOptimizer, 'canApply').and.returnValue(true);
-        spyOn(testOptimizer, 'getRoundedDate').and.returnValue(effectiveDate);
+        spyOn(testOptimizer, 'getTimestampExpression').and.returnValue('MODIFIED');
+        spyOn(testOptimizer, 'replaceCurrentTimestamp').and.callThrough();
 
         const PROVIDED_SQL = 'SELECT CURRENT_TIMESTAMP() FROM foo';
-        const EXPECTED_SQL = 'SELECT TIMESTAMP(\'' + expectedDateString + '\') FROM foo';
+        const EXPECTED_SQL = 'SELECT MODIFIED FROM foo';
         PROVIDED_WIDGET.datasource.query_exec = PROVIDED_SQL;
-        
+
         testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);
         expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
       });
+    });
 
-      describe('should replace CURRENT_TIMESTAMP() with the current effective date', function() {
-        let effectiveDate, expectedDateString, expectedDateExpr;
+    describe('getTimestampExpression', function() {
+      it('should return a BigQuery timestamp expression down to minutes', function() {
+        let provided = new Date(Date.UTC(2015, 1, 3, 5, 7));
+        let expected = 'TIMESTAMP(\'2015-02-03T05:07Z\')';
         
-        beforeEach(function() {
-          effectiveDate = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, PROVIDED_HOUR, 0);
-          expectedDateString = effectiveDate.toISOString();
-          expectedDateExpr = 'TIMESTAMP(\'' + expectedDateString + '\')';
+        let actual = testOptimizer.getTimestampExpression(provided);
+        expect(actual).toEqual(expected);
+      });
+    });
 
-          spyOn(testOptimizer, 'canApply').and.returnValue(true);
-          spyOn(testOptimizer, 'getRoundedDate').and.returnValue(effectiveDate);
-          spyOn(testOptimizer, 'getEffectiveGranularity').and.returnValue(CurrentTimestampGranularity.HOUR);
-        });
+    describe('replaceCurrentTimestamp', function() {
+      beforeEach(function() {
+        spyOn(testOptimizer, 'getTimestampExpression').and.returnValue('MODIFIED');
+      });
 
-        it('for a single occurrence', function() {
-          const PROVIDED_SQL = 'SELECT CURRENT_TIMESTAMP() FROM foo';
-          const EXPECTED_SQL = 'SELECT ' + expectedDateExpr + ' FROM foo';
-          PROVIDED_WIDGET.datasource.query_exec = PROVIDED_SQL;
-          
-          testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);
-          expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
-        });
+      it('for a single occurrence', function() {
+        const PROVIDED_SQL = 'SELECT CURRENT_TIMESTAMP() FROM foo';
+        const EXPECTED_SQL = 'SELECT MODIFIED FROM foo';
+        
+        let actual = testOptimizer.replaceCurrentTimestamp(PROVIDED_SQL);
+        expect(actual).toEqual(EXPECTED_SQL);
+      });
 
-        it('for any case', function() {
-          const PROVIDED_SQL = 'SELECT cUrREnt_TimEStaMP() FROM foo';
-          const EXPECTED_SQL = 'SELECT ' + expectedDateExpr + ' FROM foo';
-          PROVIDED_WIDGET.datasource.query_exec = PROVIDED_SQL;
-          
-          testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);
-          expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
-        });
+      it('for any case', function() {
+        const PROVIDED_SQL = 'SELECT cUrREnt_TimEStaMP() FROM foo';
+        const EXPECTED_SQL = 'SELECT MODIFIED FROM foo';
+        
+        let actual = testOptimizer.replaceCurrentTimestamp(PROVIDED_SQL);
+        expect(actual).toEqual(EXPECTED_SQL);
+      });
 
-        it('for a multiple occurrences', function() {
-          const PROVIDED_SQL = 'SELECT CURRENT_TIMESTAMP() FROM foo WHERE timestamp < CURRENT_TIMESTAMP() AND';
-          const EXPECTED_SQL = (
-              'SELECT ' + expectedDateExpr + ' FROM foo ' +
-              'WHERE timestamp < ' + expectedDateExpr + ' AND');
-          PROVIDED_WIDGET.datasource.query_exec = PROVIDED_SQL;
-          
-          testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);
-          expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
-        });
+      it('for a multiple occurrences', function() {
+        const PROVIDED_SQL = (
+            'SELECT CURRENT_TIMESTAMP() FROM foo WHERE timestamp < CURRENT_TIMESTAMP() AND');
+        const EXPECTED_SQL = (
+            'SELECT MODIFIED FROM foo WHERE timestamp < MODIFIED AND');
+        
+        let actual = testOptimizer.replaceCurrentTimestamp(PROVIDED_SQL);
+        expect(actual).toEqual(EXPECTED_SQL);
+      });
 
-        it('when adjacent to non-whitespace symbols', function() {
-          const PROVIDED_SQL = (
-              'SELECT * FROM TABLE_DATE_RANGE([proj:ds.tbl], ' +
-              'DATE_ADD(CURRENT_TIMESTAMP(), \'DAY\', -8), CURRENT_TIMESTAMP())');
-          const EXPECTED_SQL = (
-              'SELECT * FROM TABLE_DATE_RANGE([proj:ds.tbl], ' +
-              'DATE_ADD(' + expectedDateExpr + ', \'DAY\', -8), ' + expectedDateExpr + ')');
-          PROVIDED_WIDGET.datasource.query_exec = PROVIDED_SQL;
-          
-          testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);
-          expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
-        });
+      it('when adjacent to non-whitespace symbols', function() {
+        const PROVIDED_SQL = (
+            'SELECT * FROM TABLE_DATE_RANGE([proj:ds.tbl], ' +
+            'DATE_ADD(CURRENT_TIMESTAMP(), \'DAY\', -8), CURRENT_TIMESTAMP())');
+        const EXPECTED_SQL = (
+            'SELECT * FROM TABLE_DATE_RANGE([proj:ds.tbl], ' +
+            'DATE_ADD(MODIFIED, \'DAY\', -8), MODIFIED)');
+        
+        let actual = testOptimizer.replaceCurrentTimestamp(PROVIDED_SQL);
+        expect(actual).toEqual(EXPECTED_SQL);
       });
 
       it('should ignore CURRENT_TIMESTAMP() if it is part of another expression', function() {
         const PROVIDED_SQL = (
             'SELECT CUSTOM_CURRENT_TIMESTAMP() FROM foo');
         const EXPECTED_SQL = PROVIDED_SQL;
-        PROVIDED_WIDGET.datasource.query_exec = PROVIDED_SQL;
-        
-        testOptimizer.apply(PROVIDED_DASHBOARD, PROVIDED_WIDGET);
-        expect(PROVIDED_WIDGET.datasource.query_exec).toEqual(EXPECTED_SQL);
+
+        let actual = testOptimizer.replaceCurrentTimestamp(PROVIDED_SQL);
+        expect(actual).toEqual(EXPECTED_SQL);
       });
     });
   });
