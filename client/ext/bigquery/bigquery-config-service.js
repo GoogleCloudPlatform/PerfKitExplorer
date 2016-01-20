@@ -37,7 +37,8 @@ goog.scope(function() {
       /**
        * Exposes the list of granularity to the angular world.
        *
-       * @export {Array.<string>}
+       * @const {Object.<string, string>}
+       * @export 
        */
       this.ALL_TIMESTAMP_GRANULARITY = CurrentTimestampGranularity;
     }

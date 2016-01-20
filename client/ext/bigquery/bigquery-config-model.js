@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview BigqueryConfigModel encapsulates the settings for bigquery bigquery.
+ * @fileoverview BigqueryConfigModel encapsulates the settings for bigquery.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */

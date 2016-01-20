@@ -37,8 +37,14 @@ goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfig
 goog.scope(function() {
   const bigquery = p3rf.perfkit.explorer.ext.bigquery;
   
-  const DATE_ROUNDING_TIMEZONE_OFFSET = 0;
-
+  // Number of hours after midnight in UTC to which dates should be rounded.
+  // For example, set this to 8 if day-granularity dates should be rounded to the
+  // most recent 08:00:00 in UTC. This is currently a constant, in the
+  // future it's planned to be replaced with a server-supplied offset.
+  const DATE_ROUNDING_UTC_HOUR = 0;
+  
+  // Constant for the number of milliseconds in a day.
+  const MS_PER_DAY = 86400*1000;
 
   /**
    * Constants describing the types of granularity supported on timestamps.
@@ -147,13 +153,18 @@ goog.scope(function() {
       goog.asserts.assert(goog.isDefAndNotNull(rank));
 
       // TODO: Replace constant with service- or dashboard-level setting.
-      date.setUTCOffset(DATE_ROUNDING_TIMEZONE_OFFSET);
+      var now = date.getTime();
+      date.setUTCHours(DATE_ROUNDING_UTC_HOUR);
+      // If this puts us in the future, subtract a day.
+      if (date.getTime() > now) {
+        date = new Date(date.getTime() - MS_PER_DAY);
+      }
       
       let result = new Date(
-        current.getFullYear(),
-        rank >= ranks.MONTH ? current.getMonth() : 0,
-        rank >= ranks.DAY ? current.getDate() : 1,
-        rank >= ranks.HOUR ? current.getHours() : 0);
+        date.getFullYear(),
+        rank >= ranks.MONTH ? date.getMonth() : 0,
+        rank >= ranks.DAY ? date.getDate() : 1,
+        rank >= ranks.HOUR ? date.getHours() : 0);
 
       return result;
     }
@@ -169,7 +180,8 @@ goog.scope(function() {
       if (this.canApply(dashboard, widget)) {
         let query = widget.datasource.query_exec;
         let granularity = this.getEffectiveGranularity(dashboard, widget);
-        let effectiveDate = this.getRoundedDate(granularity);
+        let currentDate = this.getCurrentDate();
+        let effectiveDate = this.getRoundedDate(currentDate, granularity);
 
         widget.datasource.query_exec = this.replaceCurrentTimestamp(query, effectiveDate);
       }
