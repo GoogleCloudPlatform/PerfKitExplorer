@@ -29,7 +29,7 @@ goog.scope(function() {
   const CurrentTimestampOptimizer = explorer.ext.bigquery.CurrentTimestampOptimizer;
   const CurrentTimestampGranularity = explorer.ext.bigquery.CurrentTimestampGranularity;
 
-  fdescribe('CurrentTimestampOptimizer', function() {
+  describe('CurrentTimestampOptimizer', function() {
     let testOptimizer, dashboard, dashboardSetting, widget, widgetSetting;
     let PROVIDED_DASHBOARD, PROVIDED_WIDGET, PROVIDED_DATE;
 
@@ -72,29 +72,33 @@ goog.scope(function() {
     describe('getRoundedDate', function() {
       describe('should support restricting the date to the latest', function() {
         it('year', function() {
-          let expected = new Date(PROVIDED_YEAR, 0, 1, 0, 0);
-          let actual = testOptimizer.getRoundedDate(new Date(), CurrentTimestampGranularity.YEAR);
+          let provided = new Date(Date.UTC(2015, 1, 15, 8, 23));
+          let expected = new Date(Date.UTC(2015, 0, 1, 0, 0));
+          let actual = testOptimizer.getRoundedDate(provided, CurrentTimestampGranularity.YEAR);
 
           expect(actual).toEqual(expected);
         });
 
         it('month', function() {
-          let expected = new Date(PROVIDED_YEAR, PROVIDED_MONTH, 1, 0, 0);
-          let actual = testOptimizer.getRoundedDate(new Date(), CurrentTimestampGranularity.MONTH);
+          let provided = new Date(Date.UTC(2015, 2, 15, 8, 23));
+          let expected = new Date(Date.UTC(2015, 2, 1, 0, 0));
+          let actual = testOptimizer.getRoundedDate(provided, CurrentTimestampGranularity.MONTH);
 
           expect(actual).toEqual(expected);
         });
 
         it('day', function() {
-          let expected = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, 0, 0);
-          let actual = testOptimizer.getRoundedDate(new Date(), CurrentTimestampGranularity.DAY);
+          let provided = new Date(Date.UTC(2015, 2, 15, 8, 23));
+          let expected = new Date(Date.UTC(2015, 2, 15, 0, 0));
+          let actual = testOptimizer.getRoundedDate(provided, CurrentTimestampGranularity.DAY);
 
           expect(actual).toEqual(expected);
         });
 
         it('hour', function() {
-          let expected = new Date(PROVIDED_YEAR, PROVIDED_MONTH, PROVIDED_DAY, PROVIDED_HOUR, 0);
-          let actual = testOptimizer.getRoundedDate(new Date(), CurrentTimestampGranularity.HOUR);
+          let provided = new Date(Date.UTC(2015, 2, 15, 8, 23));
+          let expected = new Date(Date.UTC(2015, 2, 15, 8, 0));
+          let actual = testOptimizer.getRoundedDate(provided, CurrentTimestampGranularity.HOUR);
 
           expect(actual).toEqual(expected);
         });

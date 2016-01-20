@@ -148,23 +148,31 @@ goog.scope(function() {
      * @param {!CurrentTimestampGranularity} granularity
      */
     getRoundedDate(date, granularity) {
-      let ranks = {YEAR: 0, MONTH: 1, DAY: 2, HOUR: 3};
-      let rank = ranks[granularity];
-      goog.asserts.assert(goog.isDefAndNotNull(rank));
+      let originalTimeMs = date.getTime();
+      let result = new Date(originalTimeMs);
 
-      // TODO: Replace constant with service- or dashboard-level setting.
-      var now = date.getTime();
-      date.setUTCHours(DATE_ROUNDING_UTC_HOUR);
-      // If this puts us in the future, subtract a day.
-      if (date.getTime() > now) {
-        date = new Date(date.getTime() - MS_PER_DAY);
+      switch (granularity) {
+        case CurrentTimestampGranularity.HOUR:
+          result.setUTCMinutes(0, 0, 0);
+          break;
+        case CurrentTimestampGranularity.DAY:
+          result.setUTCHours(DATE_ROUNDING_UTC_HOUR, 0, 0, 0);
+          break;
+        case CurrentTimestampGranularity.MONTH:
+          result.setUTCHours(DATE_ROUNDING_UTC_HOUR, 0, 0, 0);
+          result.setUTCDate(1);
+          break;
+        case CurrentTimestampGranularity.YEAR:
+          result.setUTCHours(DATE_ROUNDING_UTC_HOUR, 0, 0, 0);
+          result.setUTCDate(1);
+          result.setUTCMonth(0);
+          break;
       }
-      
-      let result = new Date(
-        date.getFullYear(),
-        rank >= ranks.MONTH ? date.getMonth() : 0,
-        rank >= ranks.DAY ? date.getDate() : 1,
-        rank >= ranks.HOUR ? date.getHours() : 0);
+
+      // If this puts us in the future, subtract a day.
+      if (result.getTime() > originalTimeMs) {
+        result = new Date(result.getTime() - MS_PER_DAY);
+      }
 
       return result;
     }
