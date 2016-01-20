@@ -40,6 +40,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataT
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizer');
 goog.require('p3rf.perfkit.explorer.models.ChartType');
 goog.require('p3rf.perfkit.explorer.models.LayoutModel');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
@@ -51,6 +52,7 @@ const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 const ColumnStyleService = (
     explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService);
+const CurrentTimestampOptimizer = explorer.ext.bigquery.CurrentTimestampOptimizer;
 const DataViewService = explorer.components.widget.query.DataViewService;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
@@ -252,6 +254,9 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
             ResultsDataStatus.TOFETCH) {
 
           scope.applyParameters();
+
+          let optimizer = new CurrentTimestampOptimizer();
+          optimizer.apply(dashboardService.current.model, scope.widgetConfig.model);
 
           let promise = queryResultDataService.
               fetchResults(scope.widgetConfig);

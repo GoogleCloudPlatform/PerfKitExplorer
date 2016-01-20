@@ -24,7 +24,7 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
@@ -38,7 +38,7 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
@@ -127,7 +127,7 @@ DashboardDataService.prototype.post = function(
 /**
  * Sends a POST request to the server at the given endpoint with a optional
  * content.
- * @param {?DashboardConfig} content
+ * @param {?DashboardInstance} content
  * @param {!string} endpoint
  * @param {string=} opt_id
  * @return {angular.$q.Promise.<DashboardModel>} Dashboard with an id.
@@ -171,7 +171,7 @@ DashboardDataService.prototype.postDashboard = function(content, endpoint,
  * modifications applied by the server (the server adds an id to the dashboard
  * and could do other modifications in the future).
  *
- * @param {!DashboardConfig} dashboardConfig
+ * @param {!DashboardInstance} dashboardConfig
  * @return {angular.$q.Promise.<DashboardModel>} Dashboard with an id.
  */
 DashboardDataService.prototype.create = function(dashboardConfig) {
@@ -182,7 +182,7 @@ DashboardDataService.prototype.create = function(dashboardConfig) {
 /**
  * Updates the given dashboard on the server based on its id.
  *
- * @param {!DashboardConfig} dashboardConfig
+ * @param {!DashboardInstance} dashboardConfig
  * @return {!angular.$q.Promise}
  */
 DashboardDataService.prototype.update = function(dashboardConfig) {
@@ -315,7 +315,7 @@ DashboardDataService.prototype.fetchDashboardJsonModel = function(dashboardId) {
  * Fetches and parse a dashboard.
  *
  * @param {string} dashboardId
- * @return {angular.$q.Promise.<DashboardConfig>}
+ * @return {angular.$q.Promise.<DashboardInstance>}
  */
 DashboardDataService.prototype.fetchDashboard = function(dashboardId) {
   let deferred = this.q_.defer();

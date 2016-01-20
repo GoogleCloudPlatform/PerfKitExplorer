@@ -18,13 +18,13 @@
  */
 
 goog.require('p3rf.perfkit.explorer.application.module');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.mocks.googleVisualizationMocks');
 
 describe('DashboardCtrl', function() {
   const explorer = p3rf.perfkit.explorer;
-  const DashboardConfig = explorer.models.DashboardConfig;
+  const DashboardInstance = explorer.models.DashboardInstance;
 
   var ctrl, scope, rootScope, location, q, dashboardDataService;
   var httpBackend, endpoint, mockData;

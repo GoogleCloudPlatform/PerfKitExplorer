@@ -21,7 +21,7 @@
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerModel');
 
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorSettingsModel');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 
 
@@ -29,14 +29,14 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const CodeEditorSettingsModel = (
     explorer.components.code_editor.CodeEditorSettingsModel);
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 
 /** @constructor */
 explorer.components.explorer.ExplorerModel = function() {
-  /** @export {!Array.<(DashboardConfig|DashboardModel)>} */
+  /** @export {!Array.<(DashboardInstance|DashboardModel)>} */
   this.dashboards = [];
 
   /** @export {?boolean} */

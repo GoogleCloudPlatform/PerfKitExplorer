@@ -20,7 +20,7 @@
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
@@ -35,7 +35,7 @@ describe('widgetFactoryService', function() {
   const ContainerWidgetConfig =
       explorer.components.container.ContainerWidgetConfig;
   const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-  const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+  const DashboardInstance = explorer.components.dashboard.DashboardInstance;
   const DashboardModel = explorer.components.dashboard.DashboardModel;
   const WidgetConfig = explorer.models.WidgetConfig;
   const WidgetModel = explorer.models.WidgetModel;
@@ -188,7 +188,7 @@ describe('widgetFactoryService', function() {
   describe('patchDashboardWithModel', function() {
 
     it('should replace the model of a widget config object.', function() {
-      var dashboardConfig = new DashboardConfig();
+      var dashboardConfig = new DashboardInstance();
       var containerConfig = new ContainerWidgetConfig(svc);
       containerConfig.model.container.children.push(new ChartWidgetConfig(svc));
       containerConfig.model.container.children.push(new ChartWidgetConfig(svc));

@@ -93,6 +93,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDir
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.module');
 goog.require('p3rf.perfkit.explorer.mocks');
 goog.require('p3rf.perfkit.explorer.mocks.application.module');
 
@@ -103,6 +104,7 @@ let requiredModules = [
   'ui.codemirror', 'ui.bootstrap', 'ui.grid', 'ui.grid.autoResize',
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
   'p3rf.perfkit.explorer.templates', 'ng-showdown',
+  explorer.ext.bigquery.module.name,
   explorer.mocks.application.module.name];
 
 // TODO: Replace with ui-router implementation.

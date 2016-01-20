@@ -18,12 +18,16 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+
+// TODO(joemu): Factor out Bigquery config into extension model.
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 
 
@@ -31,6 +35,8 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const BigqueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
+const CurrentTimestampGranularity = explorer.ext.bigquery.CurrentTimestampGranularity;
 const QueryTablePartitioning = explorer.models.perfkit_simple_builder.QueryTablePartitioning;
 
 
@@ -133,6 +139,17 @@ explorer.components.dashboard.DashboardModel = function() {
    * @export
    */
   this.params = [];
+  
+  /**
+   * @dict
+   */
+  this.config = {
+  };
+
+  // TODO: Factor these and other BigQuery-related defaults into a dedicated service.
+  this.config['bigQuery'] = new BigqueryConfigModel();
+  this.config.bigQuery.optimizeCurrentTimestamp.enabled = false;
+  this.config.bigQuery.optimizeCurrentTimestamp.granularity = CurrentTimestampGranularity.HOUR;
 };
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 
@@ -150,7 +167,7 @@ DashboardModel.prototype.getDefaultOwner = function() {
  * @constructor
  * @param {(Object|DashboardModel)=} opt_model JSON or WidgetModel.
  */
-explorer.components.dashboard.DashboardConfig = function(opt_model) {
+explorer.components.dashboard.DashboardInstance = function(opt_model) {
   /**
    * The persisted model of the dashboard. It's usually a simple JSON object
    * returned by the server but it respects the DashboardModel class
@@ -158,13 +175,13 @@ explorer.components.dashboard.DashboardConfig = function(opt_model) {
    *
    * Warning: Do not keep a reference on this property, it can be replaced by
    * an updated JSON at any time. Instead, keep a reference on the
-   * DashboardConfig object that contains it.
+   * DashboardInstance object that contains it.
    *
    * @type {!(Object|DashboardModel)}
    * @export
    */
   this.model = opt_model || new DashboardModel();
 };
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 
 });  // goog.scope

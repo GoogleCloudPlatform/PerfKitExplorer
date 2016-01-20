@@ -181,3 +181,8 @@ h2 {
 .has-error {
   color: #a94442;
 }
+
+/* Modify Angular Material tooltip to allow linebreaks */
+md-tooltip .md-content {
+  height: auto;
+}
