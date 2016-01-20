@@ -141,12 +141,13 @@ explorer.components.dashboard.DashboardModel = function() {
   this.params = [];
   
   /**
-   * @type {{string}, {*}}
+   * @dict
    */
   this.config = {
-    bigQuery: new BigqueryConfigModel()
   };
-  
+
+  // TODO: Factor these and other BigQuery-related defaults into a dedicated service.
+  this.config['bigQuery'] = new BigqueryConfigModel();
   this.config.bigQuery.optimizeCurrentTimestamp.enabled = false;
   this.config.bigQuery.optimizeCurrentTimestamp.granularity = CurrentTimestampGranularity.HOUR;
 };
