@@ -25,7 +25,5 @@
   {"title": "Stepped Area", "className": "SteppedAreaChart",
    "seriesColor": true},
   {"title": "Table", "className": "Table"},
-  {"title": "Timeline", "className": "Timeline"},
-  {"title": "Tree Map", "className": "TreeMap"},
   {"title": "Word Tree", "className": "WordTree"}
 ]
