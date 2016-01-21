@@ -41,3 +41,16 @@
   margin-right: 4px;
   padding: 4px;
 }
+
+.pk-header-status {
+  background-color: #B0BEC5;  /* MD "Blue Grey" palette @200 */
+  border: 3px solid #b0bec5;
+  border-radius: 2px 2px 2px 2px;
+  /* Set text to match .btn. TODO(klausw): figure out where these got set. */
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+}

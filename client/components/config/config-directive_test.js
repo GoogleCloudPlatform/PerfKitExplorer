@@ -70,6 +70,10 @@ describe('configDirective', function() {
 
       var cacheDurationElement = configElement.find('input#cache_duration');
       expect(cacheDurationElement.length).toBe(1);
+
+      var maxParallelQueriesElement =
+          configElement.find('input#max_parallel_queries');
+      expect(maxParallelQueriesElement.length).toBe(1);
     });
   });
 
@@ -91,7 +95,7 @@ describe('configDirective', function() {
       var providedTable = 'PROVIDED_TABLE';
       var providedAnalyticsKey = 'PROVIDED_ANALYTICS_KEY';
       var providedCacheDuration = 30;
-      var expectedCacheDuration = '30';
+      var providedMaxParallelQueries = 42;
 
       beforeEach(function() {
         scope.data.default_project = providedProject;
@@ -99,6 +103,7 @@ describe('configDirective', function() {
         scope.data.default_table = providedTable;
         scope.data.analytics_key = providedAnalyticsKey;
         scope.data.cache_duration = providedCacheDuration;
+        scope.data.max_parallel_queries = providedMaxParallelQueries;
 
         scope.$digest();
       });
@@ -125,7 +130,14 @@ describe('configDirective', function() {
 
       it('cache duration.', function() {
         var cacheDurationElement = configElement.find('input#cache_duration');
-        expect(cacheDurationElement.eq(0).val()).toBe(expectedCacheDuration);
+        expect(parseInt(cacheDurationElement.eq(0).val())).toBe(
+            providedCacheDuration);
+      });
+      it('max_parallel_queries.', function() {
+        var maxParallelQueriesElement =
+            configElement.find('input#max_parallel_queries');
+        expect(parseInt(maxParallelQueriesElement.eq(0).val())).toBe(
+            providedMaxParallelQueries);
       });
     });
   });

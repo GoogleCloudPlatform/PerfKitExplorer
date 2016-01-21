@@ -21,11 +21,13 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirective');
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigService');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ConfigService = explorer.components.config.ConfigService;
+const BigqueryConfigService = explorer.ext.bigquery.BigqueryConfigService;
 
 
 /**
@@ -44,8 +46,8 @@ explorer.components.dashboard.DashboardConfigDirective = function(configService)
     },
     templateUrl: '/static/components/dashboard/dashboard-config-directive.html',
     controller: [
-        '$scope', 'configService', 'explorerService', 'dashboardService',
-        function($scope, configService, explorerService, dashboardService) {
+        '$scope', 'configService', 'explorerService', 'dashboardService', 'bigqueryConfigService',
+        function($scope, configService, explorerService, dashboardService, bigqueryConfigService) {
       /** @export */
       $scope.configSvc = configService;
 
@@ -54,6 +56,9 @@ explorer.components.dashboard.DashboardConfigDirective = function(configService)
 
       /** @export */
       $scope.explorerSvc = explorerService;
+      
+      /** @export */
+      $scope.bigqueryConfigSvc = bigqueryConfigService;
     }]
   };
 };

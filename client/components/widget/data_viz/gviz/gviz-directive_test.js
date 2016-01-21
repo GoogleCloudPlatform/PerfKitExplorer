@@ -19,6 +19,7 @@
 
 goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.util.WorkQueueService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataTable');
@@ -39,6 +40,7 @@ describe('gvizDirective', function() {
       ContainerWidgetConfig);
   var ResultsDataStatus =
       p3rf.perfkit.explorer.models.ResultsDataStatus;
+  var WorkQueueService = explorer.components.util.WorkQueueService;
   var compile, rootScope, timeout, chartWrapperMock, gvizChartErrorCallback,
       gvizEventsMock, GvizDataTable,
       queryResultDataServiceMock, fetchResultsDeferred, model, state, configService,
@@ -64,11 +66,37 @@ describe('gvizDirective', function() {
 
     return {
       component: component,
-      chartDiv: angular.element(component[0].children[0]),
-      errorDiv: angular.element(component[0].children[1]),
-      spinnerDiv: angular.element(component[0].children[2])
+      chartDiv: angular.element(
+          component[0].getElementsByClassName('pk-chart')[0]),
+      errorDiv: angular.element(
+          component[0].getElementsByClassName('pk-chart-error')[0]),
+      spinnerDiv: angular.element(
+          component[0].getElementsByClassName('pk-chart-loading')[0])
     };
   }
+
+  beforeEach(function() {
+    jasmine.addMatchers({
+      toHaveParentState: function() {
+        return {
+          compare: function(actual, expected) {
+            var parentState = actual.parentNode.className.replace(
+                /.*pk-cond-(\S+)/, '$1');
+
+            var result = {};
+            result.pass = (parentState == expected);
+            var elemText = actual.tagName + '(' + actual.className + ')';
+            if (!result.pass) {
+              result.message =
+                  'Expected state "' + expected + '", was "' +
+                  parentState + '".';
+            }
+            return result;
+          }
+        }
+      }
+    });
+  });
 
   beforeEach(module('explorer'));
   beforeEach(module('googleVisualizationMocks'));
@@ -88,22 +116,8 @@ describe('gvizDirective', function() {
     $provide.service('queryResultDataService', queryResultDataService);
   }));
 
-  beforeEach(inject(function($templateCache, $httpBackend) {
-    var template =
-        '<div>' +
-        '<div class="pk-chart"  ng-hide="!isDataFetched()" ng-class=' +
-        '"{\'pk-chart-hidden\': !isChartDisplayed()}">' +
-        '</div>' +
-        '<div class="pk-chart-error" ng-show="' +
-        'widgetConfig.state().chart.error"><div ng-hide="isDataFetching()"' +
-        '> {{widgetConfig.state().chart.error}}</div></div>' +
-        '<div class="spinner" ng-show="isDataFetching()"></div>' +
-        '</div>';
-
+  beforeEach(inject(function($httpBackend) {
     httpBackend = $httpBackend;
-    $templateCache.put(
-        '/static/components/widget/data_viz/gviz/gviz-directive.html',
-        template);
   }));
 
   beforeEach(inject(function($compile, $rootScope, $timeout, GvizChartWrapper,
@@ -131,13 +145,7 @@ describe('gvizDirective', function() {
         dataViewServiceMock = dataViewService;
 
         // Setup global config.
-        configService.populate({
-          'default_project': 'TEST_PROJECT',
-          'default_dataset': 'TEST_DATASET',
-          'default_table': 'TEST_TABLE',
-          'analytics_key': 'TEST_ANALYTICS_KEY',
-          'cache_duration': 30
-        });
+        configService.populate(configService.getConfigForTesting());
 
         // Return 10 rows by default
         spyOn(GvizDataTable.prototype, 'getNumberOfRows').and.returnValue(10);
@@ -243,8 +251,7 @@ describe('gvizDirective', function() {
           state().datasource.status = ResultsDataStatus.FETCHING;
           var component = setupComponent();
 
-          expect(component.spinnerDiv[0].className.split(' '))
-              .not.toContain('ng-hide');
+          expect(component.spinnerDiv[0]).toHaveParentState('fetching');
         }
     );
 
@@ -252,13 +259,11 @@ describe('gvizDirective', function() {
         function() {
           state().datasource.status = ResultsDataStatus.NODATA;
           var component = setupComponent();
-          expect(component.spinnerDiv[0].className.split(' '))
-              .toContain('ng-hide');
+          expect(component.spinnerDiv[0]).toHaveParentState('nodata');
 
           state().datasource.status = ResultsDataStatus.FETCHED;
           rootScope.$apply();
-          expect(component.spinnerDiv[0].className.split(' '))
-              .toContain('ng-hide');
+          expect(component.spinnerDiv[0]).toHaveParentState('fetched');
         }
     );
 
@@ -267,19 +272,7 @@ describe('gvizDirective', function() {
           setupData(true);
           var component = setupComponent();
 
-          expect(component.chartDiv.hasClass('pk-chart-hidden')).
-              toBeFalsy();
-        }
-    );
-
-    it('should hide the chart when there is an error.',
-        function() {
-          setupData();
-          var component = setupComponent();
-          state().chart.error = 'fake error';
-          rootScope.$apply();
-          expect(component.chartDiv.hasClass('pk-chart-hidden')).
-              toBeTruthy();
+          expect(component.chartDiv[0]).toHaveParentState('fetched');
         }
     );
 
@@ -287,8 +280,7 @@ describe('gvizDirective', function() {
         function() {
           setupData(true);
           var component = setupComponent();
-          expect(component.chartDiv[0].className.split(' '))
-              .not.toContain('ng-hide');
+          expect(component.chartDiv[0]).toHaveParentState('fetched');
         }
     );
 
@@ -296,19 +288,7 @@ describe('gvizDirective', function() {
         function() {
           state().datasource.status = ResultsDataStatus.FETCHING;
           var component = setupComponent();
-          expect(component.chartDiv[0].className.split(' '))
-              .toContain('ng-hide');
-        }
-    );
-
-    it('should show the error when there is one.',
-        function() {
-          setupData(true);
-          var component = setupComponent();
-          state().chart.error = 'fake error';
-          rootScope.$apply();
-          expect(component.errorDiv[0].className.split(' '))
-              .not.toContain('ng-hide');
+          expect(component.chartDiv[0]).toHaveParentState('fetching');
         }
     );
 
@@ -316,15 +296,14 @@ describe('gvizDirective', function() {
         function() {
           setupData(true);
           var component = setupComponent();
-          expect(component.errorDiv[0].className.split(' '))
-              .toContain('ng-hide');
+          expect(component.errorDiv[0]).toHaveParentState('fetched');
         }
     );
   });
 
   describe('datasource', function() {
 
-    it('should start to fetch data when the datasource status is TOFETCH.',
+    it('should queue and fetch data when the datasource status is TOFETCH.',
         function() {
           setupData();
           setupComponent();
@@ -334,8 +313,18 @@ describe('gvizDirective', function() {
           expect(state().datasource.status).
               toEqual(ResultsDataStatus.NODATA);
 
-          // Ask to fetch again.
+          // Ask to fetch. We're still in TOFETCH state since the
+          // query is queued but not yet started.
           state().datasource.status = ResultsDataStatus.TOFETCH;
+          rootScope.$apply();
+          timeout.verifyNoPendingTasks();
+          expect(state().datasource.status).
+              toEqual(ResultsDataStatus.TOFETCH);
+
+          // Simulate notification from work queue service that
+          // query should execute now. This should switch us to
+          // FETCHING state.
+          fetchResultsDeferred.notify(WorkQueueService.NOTIFICATION.STARTED);
           rootScope.$apply();
           timeout.flush();
           expect(state().datasource.status).

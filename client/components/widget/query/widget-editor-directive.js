@@ -15,6 +15,7 @@
  *
  * @fileoverview WidgetEditorDirective encapsulates HTML, style and behavior
  *     for the page footer of Explorer.
+ *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 

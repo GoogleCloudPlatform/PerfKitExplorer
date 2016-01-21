@@ -61,6 +61,12 @@
                 ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
       </textarea>
     </div>
+    <div ng-switch-when="Last Query" flex class="pk-footer-body">
+      <textarea codemirror
+                cm-options="footerCtrl.editorOptionsSQLReadOnly"
+                ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query_exec">
+      </textarea>
+    </div>
     <div ng-switch-when="LOG" flex layout="column">
       <log />
     </div>

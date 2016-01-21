@@ -32,6 +32,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.gvizChart');
 
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
+goog.require('p3rf.perfkit.explorer.components.util.WorkQueueService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.GvizEvents');
@@ -39,6 +40,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataT
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizer');
 goog.require('p3rf.perfkit.explorer.models.ChartType');
 goog.require('p3rf.perfkit.explorer.models.LayoutModel');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
@@ -50,12 +52,14 @@ const ChartWrapperService = (
     explorer.components.widget.data_viz.gviz.ChartWrapperService);
 const ColumnStyleService = (
     explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService);
+const CurrentTimestampOptimizer = explorer.ext.bigquery.CurrentTimestampOptimizer;
 const DataViewService = explorer.components.widget.query.DataViewService;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const QueryResultDataService = (
     explorer.components.widget.query.QueryResultDataService);
 const ResultsDataStatus = explorer.models.ResultsDataStatus;
+const WorkQueueService = explorer.components.util.WorkQueueService;
 
 
 /**
@@ -63,6 +67,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  *
  * @param {angular.$timeout} $timeout
  * @param {!angular.$location} $location
+ * @param {!angular.$animate} $animate
  * @param {ChartWrapperService} chartWrapperService
  * @param {QueryResultDataService} queryResultDataService
  * @param {*} gvizEvents
@@ -71,7 +76,7 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
  * @ngInject
  */
 explorer.components.widget.data_viz.gviz.gvizChart = function(
-    $timeout, $location, chartWrapperService, queryResultDataService,
+    $timeout, $location, $animate, chartWrapperService, queryResultDataService,
     queryBuilderService, gvizEvents, dataViewService, dashboardService,
     errorService, columnStyleService) {
   return {
@@ -85,39 +90,21 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       let isDrawing = false;
       // Create and attach to this element a gviz ChartWrapper
       let chartWrapper = chartWrapperService.create();
-      chartWrapper.setContainerId(element[0].children[0]);
+      chartWrapper.setContainerId(element[0].getElementsByClassName('pk-chart')[0]);
 
-      scope.isDataFetching = function() {
-        return scope.widgetConfig.state().datasource.status ===
-            ResultsDataStatus.FETCHING;
-      };
+      // We currently have animations enabled globally thanks to the
+      // material design module, this has the side effect of animating
+      // ng-class, ng-show, and other directives. This seems to be
+      // very broken, resulting in wrong class assignments and other
+      // nasty surprises. Opt out for this class.
+      //
+      // See also: https://github.com/angular/angular.js/issues/3587
+      $animate.enabled(element, false);
 
-      scope.isDataFetched = function() {
-        return scope.widgetConfig.state().datasource.status ===
-            ResultsDataStatus.FETCHED;
-      };
+      scope.ResultsDataStatus = ResultsDataStatus;
 
-      scope.isLoadingDisplayed = function() {
-        let widgetState = scope.widgetConfig.state();
-        return (
-            scope.widgetConfig.model.datasource.query && (
-                widgetState.datasource.status === ResultsDataStatus.FETCHING ||
-                widgetState.datasource.status === ResultsDataStatus.TOFETCH));
-      };
-
-      scope.isChartDisplayed = function() {
-        let widgetState = scope.widgetConfig.state();
-        return (
-            widgetState.datasource.status === ResultsDataStatus.FETCHED &&
-            !widgetState.chart.error);
-      };
-
-      scope.isErrorDisplayed = function() {
-        let widgetState = scope.widgetConfig.state();
-
-        return (
-            widgetState.datasource.status !== ResultsDataStatus.FETCHING &&
-            widgetState.chart.error);
+      scope.getWidgetStatusClass = function() {
+        return 'pk-cond-' + scope.widgetConfig.state().datasource.status.toLowerCase();
       };
 
       let isHeightEnforced = function() {
@@ -268,12 +255,11 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           scope.applyParameters();
 
+          let optimizer = new CurrentTimestampOptimizer();
+          optimizer.apply(dashboardService.current.model, scope.widgetConfig.model);
+
           let promise = queryResultDataService.
               fetchResults(scope.widgetConfig);
-          $timeout(function() {
-            scope.widgetConfig.state().datasource.status =
-                ResultsDataStatus.FETCHING;
-          });
 
           promise.then(function(dataTable) {
             scope.widgetConfig.queryError = null;
@@ -301,6 +287,15 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
               scope.widgetConfig.queryError = response.error;
             });
           });
+          // Progress notification
+          promise.then(null, null, angular.bind(this, function(notification) {
+            if (notification == WorkQueueService.NOTIFICATION.STARTED) {
+              $timeout(function() {
+                scope.widgetConfig.state().datasource.status =
+                    ResultsDataStatus.FETCHING;
+              });
+            }
+          }));
         } else {
           checkForErrors();
         }

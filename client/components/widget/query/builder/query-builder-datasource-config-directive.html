@@ -44,4 +44,41 @@
       </md-select>
     </div>
   </div>
+
+  <div class="pk-sidebar-item">
+    <md-tooltip md-direction="right">
+      Replaces CURRENT_TIMESTAMP() in SQL queries with fixed timestamps.  This setting affects <br>
+      the selected widget.  Use the dashboard panel setting to affect all widgets on the dashboard.
+    </md-tooltip>
+    <div class="pk-sidebar-item-label">optimize CURRENT_TIMESTAMP</div>
+    <div class="pk-sidebar-item-value">
+      <table class="checkbox-row">
+        <tr>
+          <td class="checkbox-row-select">
+            <md-select
+                    class="dashboard-datasource-bigquery-optimize-current-timestamp-enabled"
+                    placeholder="{{ dashboardSvc.current.model.config.bigQuery.optimizeCurrentTimestamp.enabled ? 'enabled' : 'disabled' }}*"
+                    ng-model="ngModel.datasource.config.bigQuery.optimizeCurrentTimestamp.enabled">
+              <md-option ng-value="true">enabled</md-option>
+              <md-option ng-value="false">disabled</md-option>
+            </md-select>
+          </td>
+          <td class="checkbox-row-text">
+            for last
+          </td>
+          <td class="checkbox-row-select">
+            <md-select
+                    class="dashboard-datasource-bigquery-optimize-current-timestamp-granularity"
+                    placeholder="{{ dashboardSvc.current.model.config.bigQuery.optimizeCurrentTimestamp.granularity }}*"
+                    ng-model="ngModel.datasource.config.bigQuery.optimizeCurrentTimestamp.granularity">
+              <md-option
+                      ng-repeat="granularity in bigqueryConfigSvc.ALL_TIMESTAMP_GRANULARITY"
+                      ng-value="granularity">{{ granularity }}</md-option>
+            </md-select>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
 </div>

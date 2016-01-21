@@ -45,13 +45,16 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-datasource-config-directive.html',
     controller: [
-        '$scope', 'configService', 'dashboardService',
-        function($scope, configService, dashboardService) {
+        '$scope', 'configService', 'dashboardService', 'bigqueryConfigService',
+        function($scope, configService, dashboardService, bigqueryConfigService) {
       /** @export {!ConfigService} */
       $scope.configSvc = configService;
 
       /** @export {!DashboardService} */
       $scope.dashboardSvc = dashboardService;
+      
+      /** @export {!BigqueryConfigService} */
+      $scope.bigqueryConfigSvc = bigqueryConfigService;
     }]
   };
 };

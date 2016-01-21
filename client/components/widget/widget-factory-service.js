@@ -25,7 +25,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
@@ -40,7 +40,7 @@ const explorer = p3rf.perfkit.explorer;
 const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
@@ -147,7 +147,7 @@ WidgetFactoryService.prototype.stringifyReplacer_ = function(key, val) {
 /**
  * Returns the JSON corresponding to the given widget and its children.
  *
- * @param {!(WidgetConfig|DashboardConfig)} widget
+ * @param {!(WidgetConfig|DashboardInstance)} widget
  * @param {boolean=} opt_pretty Causes the resulting string to be
  *     pretty-printed.
  * @return {string}
@@ -162,7 +162,7 @@ WidgetFactoryService.prototype.toJson = function(widget, opt_pretty) {
  * Returns a clone of the model corresponding to the given widget config.
  * Note: It converts every child widgets into model objects as well.
  *
- * @param {!(WidgetConfig|DashboardConfig)} widget
+ * @param {!(WidgetConfig|DashboardInstance)} widget
  * @return {!(WidgetModel|DashboardModel)}
  */
 WidgetFactoryService.prototype.toModel = function(widget) {
@@ -176,13 +176,13 @@ WidgetFactoryService.prototype.toModel = function(widget) {
  * Note: It wraps every child widgets into config objects as well.
  *
  * @param {!DashboardModel} dashboardModel
- * @return {!DashboardConfig}
+ * @return {!DashboardInstance}
  */
 WidgetFactoryService.prototype.toDashboardConfig = function(dashboardModel)
     {
   this.dashboardVersionService_.verifyAndUpdateModel(dashboardModel);
 
-  let dashboard = new DashboardConfig(dashboardModel);
+  let dashboard = new DashboardInstance(dashboardModel);
   // Creates containers config object from containers JSON model.
   for (let i = 0; i < dashboard.model.children.length; i++) {
     let containerModel = dashboard.model.children[i];
@@ -262,7 +262,7 @@ WidgetFactoryService.prototype.patchWidgetWithModel = function(widgetModel) {
  * replaces the model of every child widgets with the corresponding model based
  * on the model id.
  *
- * @param {!DashboardConfig} dashboardConfig
+ * @param {!DashboardInstance} dashboardConfig
  * @param {!DashboardModel} dashboardModel
  */
 WidgetFactoryService.prototype.patchDashboardWithModel = function(

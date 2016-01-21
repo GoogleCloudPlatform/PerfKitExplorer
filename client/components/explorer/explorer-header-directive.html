@@ -1,6 +1,9 @@
 <div class="pk-header">
 
   <div class="pk-header-toolbar">
+    <span class="pk-header-status" ng-show="!ctrl.workQueueSvc.isEmpty()">
+      {{ ctrl.workQueueSvc.getStatus() }}
+    </span>
 
     <button type="button" class="btn btn-default"
             ng-click="ctrl.explorerSvc.showLog()"

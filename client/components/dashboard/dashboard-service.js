@@ -24,18 +24,18 @@ goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfig');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
-goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePartitioning');
 goog.require('goog.array');
 goog.require('goog.asserts');
@@ -46,7 +46,7 @@ const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 const ConfigService = explorer.components.config.ConfigService;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
-const DashboardConfig = explorer.components.dashboard.DashboardConfig;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
@@ -253,7 +253,7 @@ DashboardService.prototype.saveDashboard = function() {
 
 /**
  * Iterates through the dashboard and applies functions to the contents.
- * @param {!DashboardConfig} dashboard The dashboard config to iterate.
+ * @param {!DashboardInstance} dashboard The dashboard config to iterate.
  * @param {?Function(ContainerConfig)} updateContainerFn The function to apply
  *    to each container.
  * @param {?Function(WidgetConfig)} updateWidgetFn The function to apply to each
@@ -305,7 +305,7 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * Set the current dashboard and the set the widgets array to reference the
  * dashboard's widgets.
  *
- * @param {!DashboardConfig} dashboardConfig
+ * @param {!DashboardInstance} dashboardConfig
  * @export
  */
 DashboardService.prototype.setDashboard = function(dashboardConfig) {
@@ -593,7 +593,6 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   return this.queryBuilderService_.getSql(
         widget.model.datasource.config,
         project_name, dataset_name, table_name, table_partition, params);
-
 };
 
 
@@ -605,15 +604,6 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
  * @export
  */
 DashboardService.prototype.refreshWidget = function(widget) {
-  if (widget.model.datasource.custom_query !== true) {
-    widget.model.datasource.query = this.rewriteQuery(widget, false);
-    widget.model.datasource.query_exec = this.rewriteQuery(widget, true);
-  } else {
-    widget.model.datasource.query_exec = (
-        this.queryBuilderService_.replaceTokens(
-            widget.model.datasource.query, this.params));
-  }
-
   if (widget.model.datasource.query) {
     this.timeout_(function() {
       widget.state().datasource.status = ResultsDataStatus.TOFETCH;

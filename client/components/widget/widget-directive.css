@@ -88,6 +88,11 @@
   display: none !important;
 }
 
+.pk-chart-loading md-progress-circular {
+  left: 50%;
+  transform: translate(-50%, 0);
+}
+
 .pk-chart-loading .md-left .md-half-circle {
   border-color: #B0BEC5 !important; /** Blue-Grey 200 */
 }
@@ -96,7 +101,53 @@
   border-color: #CFD8DC !important; /** Blue-Grey 100 */
 }
 
-.pk-chart-error {
+/**
+ * A pk-conditional is used with pk-if children to control visibility.
+ *
+ * The child nodes are invisible (display:none) by default.
+ *
+ * The parent pk-conditional node gets a pk-cond-STATE class set based
+ * on current state, and the child nodes automatically become visible
+ * based on CSS selectors when they match their expected state.
+ */
+.pk-conditional .pk-if {
+  display: none;
+}
+
+/** Configure conditional visibility for gviz-directive child nodes. */
+.pk-conditional.pk-cond-fetched .pk-chart,
+.pk-conditional.pk-cond-tofetch .pk-chart-queued,
+.pk-conditional.pk-cond-fetching .pk-chart-loading,
+.pk-conditional.pk-cond-nodata .pk-chart-nodata,
+.pk-conditional.pk-cond-error .pk-chart-error {
+  display: block;
+}
+
+@keyframes pk-queued-anim {
+  from { color: #cfd8dc }
+  to { color: #b0bec5 }
+}
+
+div.pk-chart-queued {
+  color: grey;
+  margin: 0px;
+  position: relative;
+  height: 50px;
+  animation: pk-queued-anim 0.5s ease-in-out infinite alternate;
+}
+
+.pk-chart-queued span {
+  position: absolute;
+  left: 50%;
+  top: 25px;
+  transform: translate(-50%, 0);
+}
+
+.pk-chart-queued sup {
+  font-size: 120%;
+}
+
+.pk-chart-error, .pk-chart-nodata {
   color: #777777;
   font-size: .95em;
   font-style: italic;

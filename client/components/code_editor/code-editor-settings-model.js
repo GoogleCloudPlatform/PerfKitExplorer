@@ -32,7 +32,8 @@ const explorer = p3rf.perfkit.explorer;
 explorer.components.code_editor.CodeEditorMode = {
   JSON: 'JSON',
   SQL: 'SQL',
-  LOG: 'LOG'
+  LOG: 'LOG',
+  LAST_QUERY: 'Last Query'
 };
 const Mode = explorer.components.code_editor.CodeEditorMode;
 
@@ -54,7 +55,7 @@ explorer.components.code_editor.CodeEditorSettingsModel = function() {
    * @type {Array.<string>}
    * @export
    */
-  this.modes = [Mode.JSON, Mode.SQL, Mode.LOG];
+  this.modes = [Mode.JSON, Mode.SQL, Mode.LOG, Mode.LAST_QUERY];
 
   /**
    * @type {boolean}
