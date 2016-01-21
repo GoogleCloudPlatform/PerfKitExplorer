@@ -15,7 +15,6 @@
  *
  * @fileoverview Tests for ChartConfigDirective, which encapsulates the UX for
  * configuring GViz charts.
- *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
@@ -53,7 +52,6 @@ describe('ChartConfigDirective', function() {
             .respond(200);
 
         scope.providedWidgetModel = new ChartWidgetModel();
-
         var directiveElement = angular.element(
             '<chart-config ng-model="providedWidgetModel" />');
 
@@ -161,7 +159,6 @@ describe('ChartConfigDirective', function() {
 
       directiveElement = angular.element(
           '<chart-config ng-model="widgetModel" />');
-
       $compile(directiveElement)(scope);
       scope.$digest();
     }));
@@ -171,7 +168,6 @@ describe('ChartConfigDirective', function() {
     xit('the chart type', function() {
       var actualElement = directiveElement.find(
           'md-select.widget-chart-type md-select-label span:first-child')[0];
-
       expect(actualElement.innerHTML).toBe('Table');
 
       chartConfig.chartType = 'Area';
