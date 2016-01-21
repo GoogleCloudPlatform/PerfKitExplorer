@@ -36,7 +36,7 @@ const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 explorer.components.explorer.ExplorerHeaderDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
