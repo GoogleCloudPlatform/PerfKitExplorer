@@ -12,7 +12,7 @@ div:focus {
   outline: none;
 }
 
-.pk-page-canvas {
+explorer-page {
   height: 100%;
   width: 100%;
 }

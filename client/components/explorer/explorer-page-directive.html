@@ -1,43 +1,41 @@
-<div class="pk-page-canvas" layout="column" flex>
-  <explorer-header layout="column"></explorer-header>
+<explorer-header layout="column"></explorer-header>
 
-  <div class="pk-page-body" ng-controller="DashboardCtrl as dashboardCtrl"
-       layout="row" flex>
+<div class="pk-page-body" ng-controller="DashboardCtrl as dashboardCtrl"
+      layout="row" flex>
 
-    <sidebar-tabs></sidebar-tabs>
+  <sidebar-tabs></sidebar-tabs>
 
-    <div class="pk-page-leftwell" id="pk-page-leftwell" layout="column"
-         ng-show="dashboardCtrl.tabSvc.selectedTab">
+  <div class="pk-page-leftwell" id="pk-page-leftwell" layout="column"
+        ng-show="dashboardCtrl.tabSvc.selectedTab">
 
-      <sidebar></sidebar>
+    <sidebar></sidebar>
 
-    </div>
+  </div>
 
-    <div resize="right" resize-element-id="pk-page-leftwell"
-         ng-show="explorerCtrl.sidebarTabService.selectedTab">&nbsp;</div>
+  <div resize="right" resize-element-id="pk-page-leftwell"
+        ng-show="explorerCtrl.sidebarTabService.selectedTab">&nbsp;</div>
 
-    <div layout="column" flex>
+  <div layout="column" flex>
 
-      <explorer-toolbar></explorer-toolbar>
+    <explorer-toolbar></explorer-toolbar>
 
-      <div class="pk-page-content pk-background" layout="column" flex
-           ng-click="dashboardSvc.onDashboardClick($event)">
-        <dashboard ng-model="dashboardCtrl.dashboard.current.model"></dashboard>
-      </div>
-
+    <div class="pk-page-content pk-background" layout="column" flex
+          ng-click="dashboardSvc.onDashboardClick($event)">
+      <dashboard ng-model="dashboardCtrl.dashboard.current.model"></dashboard>
     </div>
 
   </div>
 
-  <div
-      resize="top" resize-element-id="pk-page-footer"
-      ng-show="explorerCtrl.explorer.model.code_editor.isOpen">&nbsp;</div>
+</div>
 
-  <div
-      class="pk-page-footer" id="pk-page-footer" layout="column"
-      ng-show="explorerCtrl.explorer.model.code_editor.isOpen">
+<div
+    resize="top" resize-element-id="pk-page-footer"
+    ng-show="explorerCtrl.explorer.model.code_editor.isOpen">&nbsp;</div>
 
-    <widget-editor layout="column" flex></widget-editor>
+<div
+    class="pk-page-footer" id="pk-page-footer" layout="column"
+    ng-show="explorerCtrl.explorer.model.code_editor.isOpen">
 
-  </div>
+  <widget-editor layout="column" flex></widget-editor>
+
 </div>
