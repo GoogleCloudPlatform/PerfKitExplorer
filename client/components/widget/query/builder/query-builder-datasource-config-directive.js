@@ -37,7 +37,7 @@ const DashboardService = explorer.components.dashboard.DashboardService;
 explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: false,
     scope: {
       /** @type {!ChartWidgetModel} */

@@ -38,7 +38,7 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
     chartWrapperService, dashboardService) {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: false,
     scope: {
       /** @type {!ChartWidgetModel} */

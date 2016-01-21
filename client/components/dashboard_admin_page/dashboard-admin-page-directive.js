@@ -27,7 +27,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageDirective = function(
     resizeService, explorerService) {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     templateUrl: '/static/components/dashboard_admin_page/dashboard-admin-page-directive.html',
     controllerAs: 'pageCtrl',

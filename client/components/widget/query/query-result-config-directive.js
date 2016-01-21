@@ -38,7 +38,7 @@ const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 explorer.components.widget.query.QueryResultConfigDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: false,
     scope: {
       /** @type {!ChartWidgetModel} */

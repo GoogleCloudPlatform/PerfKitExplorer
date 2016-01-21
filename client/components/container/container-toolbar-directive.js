@@ -30,7 +30,7 @@ goog.scope(function() {
       arrayUtilService, containerService, dashboardService) {
     return {
       restrict: 'E',
-      replace: true,
+      replace: false,
       scope: {},
       transclude: false,
       templateUrl: '/static/components/container/container-toolbar-directive.html',

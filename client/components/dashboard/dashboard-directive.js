@@ -37,7 +37,7 @@ const DashboardService = explorer.components.dashboard.DashboardService;
 explorer.components.dashboard.DashboardDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     scope: {
       'ngModel': '='

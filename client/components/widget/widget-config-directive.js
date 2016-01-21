@@ -33,7 +33,7 @@ const explorer = p3rf.perfkit.explorer;
 explorer.components.widget.WidgetConfigDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: false,
     scope: {
       'ngModel': '='

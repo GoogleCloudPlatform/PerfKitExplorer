@@ -40,7 +40,7 @@ const explorer = p3rf.perfkit.explorer;
 explorer.components.widget.perfkitWidget = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     scope: {
       widgetConfig: '='

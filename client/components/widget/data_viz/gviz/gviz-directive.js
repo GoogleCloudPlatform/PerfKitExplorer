@@ -81,7 +81,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
     errorService, columnStyleService) {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     scope: {
       widgetConfig: '='
     },

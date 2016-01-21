@@ -30,7 +30,7 @@ goog.scope(function() {
       dashboardService, errorService, explorerService, sidebarTabService) {
     return {
       restrict: 'E',
-      replace: true,
+      replace: false,
       scope: {
         ngModel: '='
       },

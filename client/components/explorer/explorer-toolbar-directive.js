@@ -31,7 +31,7 @@ goog.scope(function() {
       dashboardService, sidebarTabService) {
     return {
       restrict: 'E',
-      replace: true,
+      replace: false,
       transclude: false,
       scope: {},
       templateUrl: '/static/components/explorer/explorer-toolbar-directive.html',

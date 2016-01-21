@@ -39,7 +39,7 @@ const BigqueryConfigService = explorer.ext.bigquery.BigqueryConfigService;
 explorer.components.dashboard.DashboardConfigDirective = function(configService) {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     scope: {
       'ngModel': '='

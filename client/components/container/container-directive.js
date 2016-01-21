@@ -43,7 +43,7 @@ const explorer = p3rf.perfkit.explorer;
 explorer.components.container.ContainerDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     scope: {
       ngModel: '='
