@@ -101,12 +101,6 @@ describe('SidebarTabsDirective', function() {
       scope.$digest();
     }));
 
-    it('the tab collection', function() {
-      expect(directiveElement[0].getAttribute('class'))
-          .toMatch('pk-sidebar-tabs');
-      expect(directiveElement.children.length).toBe(2);
-    });
-
     it('each tab', function() {
       var targetElement = directiveElement.find(
           'div.pk-sidebar-tab');
