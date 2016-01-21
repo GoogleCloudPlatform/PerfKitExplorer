@@ -35,7 +35,6 @@ const gviz = explorer.components.widget.data_viz.gviz;
 gviz.column_style.ColumnStyleDirective = function() {
   return {
     restrict: 'E',
-    replace: false,
     transclude: false,
     scope: {
       /** @type {!ColumnStyleModel} */

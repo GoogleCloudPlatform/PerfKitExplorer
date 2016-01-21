@@ -31,7 +31,6 @@ explorer.components.explorer.sidebar.SidebarDirective = function(
   dashboardService, sidebarTabService) {
   return {
     restrict: 'E',
-    replace: false,
     transclude: true,
     templateUrl: '/static/components/explorer/sidebar/sidebar-directive.html',
     controller: ['$scope', function($scope) {

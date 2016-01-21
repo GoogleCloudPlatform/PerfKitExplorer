@@ -30,7 +30,6 @@ goog.scope(function() {
       dashboardService, explorerService) {
     return {
       restrict: 'E',
-      replace: false,
       scope: {
         ngModel: '='
       },

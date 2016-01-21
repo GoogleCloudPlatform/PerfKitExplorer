@@ -35,7 +35,6 @@ goog.scope(function() {
   explorer.components.config.ConfigDirective = function() {
     return {
       restrict: 'E',
-      replace: false,
       transclude: true,
       scope: {
         'ngModel': '='

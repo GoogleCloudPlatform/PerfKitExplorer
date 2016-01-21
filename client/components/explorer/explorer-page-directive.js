@@ -32,7 +32,6 @@ explorer.components.explorer.ExplorerPageDirective = function(
     resizeService, explorerService) {
   return {
     restrict: 'E',
-    replace: false,
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-page-directive.html',
     controllerAs: 'pageCtrl',

@@ -40,7 +40,6 @@ const PicklistStates = explorer.components.widget.query.picklist.PicklistStates;
 explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = function() {
   return {
     restrict: 'E',
-    replace: false,
     transclude: false,
     scope: {
       /** @type {!ChartWidgetModel} */
