@@ -13,7 +13,7 @@
            class="pk-container-header"
            ng-class="{'pk-section-fixed-height': container.model.container.header_height}"
            ng-style="{'height': container.model.container.header_height + 'px'}"
-           markdown-to-html="container.model.container.header_text">
+           markdown-to-html="container.model.container.header_text | stripHtml">
       </div>
       <div layout="row" flex>
         <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }} pk-background"
@@ -40,7 +40,7 @@
               ng-class="{'pk-section-fixed-height': container.model.container.widget_header_height}"
               ng-click="clickWidget($event, widget, container)"
               ng-style="{'height': container.model.container.widget_header_height + 'px'}"
-              markdown-to-html="widget.model.header_text || ''">
+              markdown-to-html="(widget.model.header_text || '') | stripHtml">
           </div>
           <div class="pk-widget-content"
                style="min-height: {{ container.model.container.height }}px"
@@ -52,7 +52,7 @@
               ng-class="{'pk-section-fixed-height': container.model.container.widget_footer_height}"
               ng-click="clickWidget($event, widget, container)"
               ng-style="{'height': container.model.container.widget_footer_height + 'px'}"
-              markdown-to-html="widget.model.footer_text || ''">
+              markdown-to-html="(widget.model.footer_text || '') | stripHtml">
           </div>
           <div class="pk-widget-footer" ng-show="widget.model.show_statistics"
                ng-click="clickWidget($event, widget, container)">
@@ -65,7 +65,7 @@
            class="pk-container-footer"
            ng-class="{'pk-section-fixed-height': container.model.container.footer_height}"
            ng-style="{'height': container.model.container.footer_height + 'px'}"
-           markdown-to-html="container.model.container.footer_text">
+           markdown-to-html="container.model.container.footer_text | stripHtml">
       </div>
     </container>
   </div>
