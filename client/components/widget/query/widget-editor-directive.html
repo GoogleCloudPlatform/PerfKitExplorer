@@ -1,75 +1,72 @@
-<div class="pk-footer-open" layout="column" flex>
-  <div class="pk-footer-toolbar">
+<div class="pk-footer-toolbar">
 
-    <div class="pk-footer-actions">
-      <span class="glyphicon glyphicon-remove pk-glyph-button pk-footer-button"
-            ng-click="footerCtrl.closeCodeEditor()"></span>
-    </div>
-
-    <div class="btn-group pk-toolbar-section">
-      <button type="button" class="btn btn-default"
-           ng-model="footerCtrl.settings.selectedMode"
-           ng-repeat="mode in footerCtrl.settings.modes"
-           ng-disabled="!footerCtrl.getModeEnabled(mode)"
-           btn-radio="mode">{{ mode }}</button>
-    </div>
-    <div class="pk-toolbar-section" ng-switch="footerCtrl.settings.selectedMode">
-      <div ng-switch-when="JSON">
-        <button type="button" class="btn btn-primary"
-                ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
-          Refresh
-        </button>
-      </div>
-      <div ng-switch-when="SQL">
-        <button type="button" class="btn btn-primary"
-                ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
-          Refresh
-        </button>
-        <button type="button" class="btn btn-default"
-                ng-show="!footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                ng-click="footerCtrl.explorer.customizeSql(true)">
-          Customize SQL
-        </button>
-        <button type="button" class="btn btn-default"
-                ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                ng-click="footerCtrl.explorer.restoreBuilder()">
-          Use SQL Builder
-        </button>
-      </div>
-      <div ng-switch-when="LOG">
-        <button type="button" class="btn btn-default"
-                ng-show="footerCtrl.explorer.errorService.errors.length > 0"
-                ng-click="footerCtrl.explorer.errorService.removeAllErrors()">
-          Clear {{ footerCtrl.explorer.errorService.errors.length }} warning<span ng-show="footerCtrl.explorer.errorService.errors.length > 1">s</span>
-        </button>
-      </div>
-    </div>
-
+  <div class="pk-footer-actions">
+    <span class="glyphicon glyphicon-remove pk-glyph-button pk-footer-button"
+          ng-click="footerCtrl.closeCodeEditor()"></span>
   </div>
-  <div ng-switch="footerCtrl.settings.selectedMode" class="pk-footer-body"
-      flex layout="column">
-    <div ng-switch-when="JSON" flex class="pk-footer-body">
-      <textarea codemirror
-                cm-options="footerCtrl.editorOptionsJSON"
-                ng-model="footerCtrl.currentJson.text">
-      </textarea>
+
+  <div class="btn-group pk-toolbar-section">
+    <button type="button" class="btn btn-default"
+          ng-model="footerCtrl.settings.selectedMode"
+          ng-repeat="mode in footerCtrl.settings.modes"
+          ng-disabled="!footerCtrl.getModeEnabled(mode)"
+          btn-radio="mode">{{ mode }}</button>
+  </div>
+  <div class="pk-toolbar-section" ng-switch="footerCtrl.settings.selectedMode">
+    <div ng-switch-when="JSON">
+      <button type="button" class="btn btn-primary"
+              ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
+        Refresh
+      </button>
     </div>
-    <div ng-switch-when="SQL" flex class="pk-footer-body">
-      <textarea codemirror
-                cm-options="footerCtrl.editorOptionsSQL"
-                ng-change="footerCtrl.changeSql()"
-                ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
-      </textarea>
+    <div ng-switch-when="SQL">
+      <button type="button" class="btn btn-primary"
+              ng-click="footerCtrl.dashboard.refreshWidget(footerCtrl.dashboard.selectedWidget)">
+        Refresh
+      </button>
+      <button type="button" class="btn btn-default"
+              ng-show="!footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+              ng-click="footerCtrl.explorer.customizeSql(true)">
+        Customize SQL
+      </button>
+      <button type="button" class="btn btn-default"
+              ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
+              ng-click="footerCtrl.explorer.restoreBuilder()">
+        Use SQL Builder
+      </button>
     </div>
-    <div ng-switch-when="Last Query" flex class="pk-footer-body">
-      <textarea codemirror
-                cm-options="footerCtrl.editorOptionsSQLReadOnly"
-                ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query_exec">
-      </textarea>
+    <div ng-switch-when="LOG">
+      <button type="button" class="btn btn-default"
+              ng-show="footerCtrl.explorer.errorService.errors.length > 0"
+              ng-click="footerCtrl.explorer.errorService.removeAllErrors()">
+        Clear {{ footerCtrl.explorer.errorService.errors.length }} warning<span ng-show="footerCtrl.explorer.errorService.errors.length > 1">s</span>
+      </button>
     </div>
-    <div ng-switch-when="LOG" flex layout="column">
-      <log />
-    </div>
+  </div>
+
+</div>
+<div ng-switch="footerCtrl.settings.selectedMode" class="pk-footer-body"
+    flex layout="column">
+  <div ng-switch-when="JSON" flex class="pk-footer-body">
+    <textarea codemirror
+              cm-options="footerCtrl.editorOptionsJSON"
+              ng-model="footerCtrl.currentJson.text">
+    </textarea>
+  </div>
+  <div ng-switch-when="SQL" flex class="pk-footer-body">
+    <textarea codemirror
+              cm-options="footerCtrl.editorOptionsSQL"
+              ng-change="footerCtrl.changeSql()"
+              ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query">
+    </textarea>
+  </div>
+  <div ng-switch-when="Last Query" flex class="pk-footer-body">
+    <textarea codemirror
+              cm-options="footerCtrl.editorOptionsSQLReadOnly"
+              ng-model="footerCtrl.dashboard.selectedWidget.model.datasource.query_exec">
+    </textarea>
+  </div>
+  <div ng-switch-when="LOG" flex layout="column">
+    <log />
   </div>
 </div>
-

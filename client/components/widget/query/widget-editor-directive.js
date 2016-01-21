@@ -37,7 +37,7 @@ const CodeEditorCtrl = explorer.components.code_editor.CodeEditorCtrl;
 explorer.components.widget.query.WidgetEditorDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
+    replace: false,
     transclude: true,
     templateUrl: '/static/components/widget/query/widget-editor-directive.html',
     controllerAs: 'footerCtrl',
