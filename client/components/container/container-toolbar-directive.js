@@ -13,6 +13,8 @@
 
 goog.provide('p3rf.perfkit.explorer.components.container.ContainerToolbarDirective');
 
+goog.require('p3rf.perfkit.explorer.components.container.ContainerService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 
@@ -34,10 +36,10 @@ goog.scope(function() {
       transclude: false,
       templateUrl: '/static/components/container/container-toolbar-directive.html',
       controller: ['$scope', function($scope) {
-        /** @export {!ContainerService} */
+        /** @export {!explorer.components.container.ContainerService} */
         this.containerSvc = containerService;
 
-        /** @export {!DashboardService} */
+        /** @export {!explorer.components.dashboard.DashboardService} */
         this.dashboardSvc = dashboardService;
 
         /**

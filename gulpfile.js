@@ -117,10 +117,12 @@ var closureCompilerConfig = {
     jscomp_off: 'missingProperties',
     externs: [
       'client/externs.js',
-      'client/externs/gviz-api.js',
-      'client/externs/angular-1.4.js',
       'client/externs/angular-1.4-http-promise_templated.js',
+      'client/externs/angular-1.4.js',
       'client/externs/angular-1.4-q_templated.js',
+      'client/externs/angular-ui-router.js',
+      'client/externs/gviz-api.js',
+      'client/externs/ui-bootstrap.js',
     ],
     closure_entry_point: 'p3rf.perfkit.explorer.application.module'
   }

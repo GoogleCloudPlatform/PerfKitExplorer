@@ -21,9 +21,16 @@
 
 goog.provide('p3rf.perfkit.explorer.components.container.ContainerService');
 
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
+
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
 
 
 /**
@@ -34,13 +41,13 @@ const explorer = p3rf.perfkit.explorer;
  */
 explorer.components.container.ContainerService = class {
   constructor(arrayUtilService, dashboardService, explorerStateService) {
-    /** @export {!ArrayUtilService} */
+    /** @export {!explorer.components.util.ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
 
-    /** @export {!DashboardService} */
+    /** @export {!explorer.components.dashboard.DashboardService} */
     this.dashboardSvc = dashboardService;
 
-    /** @export {!ExplorerStateService} */
+    /** @export {!explorer.components.explorer.ExplorerStateService} */
     this.explorerStateSvc = explorerStateService;
   };
 
