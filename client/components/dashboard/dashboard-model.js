@@ -139,9 +139,9 @@ explorer.components.dashboard.DashboardModel = function() {
    * @export
    */
   this.params = [];
-  
+
   /**
-   * @dict
+   * @type {Object}
    */
   this.config = {
   };
