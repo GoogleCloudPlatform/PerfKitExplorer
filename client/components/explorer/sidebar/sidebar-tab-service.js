@@ -21,11 +21,12 @@ goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SIDEBAR_TABS');
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
-
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService
 
 
 explorer.components.explorer.sidebar.SIDEBAR_TABS = [

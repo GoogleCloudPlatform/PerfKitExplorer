@@ -33,7 +33,7 @@ goog.scope(function() {
   /**
    * Sets up the explorer routing for selection and focus.
    *
-   * @param {!UIRouter.StateProviderService} $stateProvider
+   * @param {!ui.router.$stateProvider} $stateProvider
    * @constructor
    * @ngInject
    */

@@ -23,15 +23,16 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
 goog.require('p3rf.perfkit.explorer.models.ChartModel');
 goog.require('p3rf.perfkit.explorer.models.ChartType');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const ChartModel = explorer.models.ChartModel;
 const ChartType = explorer.models.ChartType;
-
 
 
 /**

@@ -20,11 +20,15 @@
 goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 
 goog.require('p3rf.perfkit.explorer.components.code_editor.CodeEditorMode');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerModel');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('goog.array');
 goog.require('goog.asserts');
@@ -36,12 +40,15 @@ const explorer = p3rf.perfkit.explorer;
 const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const CodeEditorMode = explorer.components.code_editor.CodeEditorMode;
 const DashboardInstance = explorer.components.dashboard.DashboardInstance;
+const ContainerService = explorer.components.container.ContainerService;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardService = explorer.components.dashboard.DashboardService;
 const DashboardVersionService = explorer.components.dashboard.DashboardVersionService;
 const ErrorService = explorer.components.error.ErrorService;
 const ExplorerModel = explorer.components.explorer.ExplorerModel;
-
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
+const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 
 
 /**

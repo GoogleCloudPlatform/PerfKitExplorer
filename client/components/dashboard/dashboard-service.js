@@ -130,10 +130,10 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!angular.$location} */
   this.location_ = $location;
 
-  /** @private {ui.router.$state} */
+  /** @private {!ui.router.$state} */
   this.$state_ = $state;
 
-  /** @private {ui.router.$stateParams} */
+  /** @private {!ui.router.$stateParams} */
   this.$stateParams_ = $stateParams;
 
   /** @export {Array.<!DashboardParam>} */
@@ -440,7 +440,7 @@ DashboardService.prototype.selectWidget = function(
 
 /**
  * Scrolls the specified content element (typically a widget or container) into view.
- * @param {!angular.element} targetElement The element to scroll into view.
+ * @param {!angular.JQLite} targetElement The element to scroll into view.
  */
 DashboardService.prototype.scrollPageElementIntoView = function(targetElement) {
   let contentElement = angular.element(document.getElementsByClassName('pk-page-content'));
@@ -536,7 +536,7 @@ DashboardService.prototype.selectContainer = function(
 /**
  * Rewrites the current widget's query based on the config.
  * @param {!Widget} widget The widget to rewrite the query against.
- * @param {!bool=} replaceParams If true, parameters (%%NAME%%) will be
+ * @param {boolean=} replaceParams If true, parameters (%%NAME%%) will be
  *     replaced with the current param value (from the dashboard or url).
  *     Defaults to false.
  * @return {string} Rewritten query.
@@ -883,7 +883,7 @@ DashboardService.prototype.removeContainer = function(container) {
  * If clicking on a background UI element, unselect the current widget
  * and container, if any.
  *
- * @param {Event} event;
+ * @param {Event} event
  */
 DashboardService.prototype.onDashboardClick = function(event) {
   // Check if this is called from an event handler. In this case, only
@@ -1077,7 +1077,7 @@ DashboardService.prototype.getTablePartition = function(partitionName) {
  * Tokens are identified by strings wrapped in the QueryBuilderService
  * properties TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.
  *
- * @param artifact {string} The string to replace.
+ * @param {string} value The string to replace.
  * @returns {string} A title with tokens replaced with param values.
  * @export
  */

@@ -13,12 +13,18 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleToolbarDirective');
 
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
-
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
   const explorer = p3rf.perfkit.explorer;
   const gviz = explorer.components.widget.data_viz.gviz;
+  const ArrayUtilService = explorer.components.util.ArrayUtilService;
+  const ColumnStyleService = gviz.column_style.ColumnStyleService;
+  const DashboardService = explorer.components.dashboard.DashboardService;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
 
   /**

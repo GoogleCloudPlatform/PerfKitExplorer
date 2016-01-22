@@ -50,6 +50,8 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.DataViewService');
 
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizDataView');
 goog.require('p3rf.perfkit.explorer.models.DataViewModel');
 goog.require('p3rf.perfkit.explorer.models.SortOrder');
@@ -58,6 +60,8 @@ goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const DataViewModel = explorer.models.DataViewModel;
 const SortOrder = explorer.models.SortOrder;
+const ColumnStyleModel = explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel;
+const ColumnStyleService = explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService;
 
 
 /**

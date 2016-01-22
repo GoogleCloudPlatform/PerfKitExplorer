@@ -31,20 +31,20 @@ const ErrorTypes = components.error.ErrorTypes;
 
 
 /**
- * @param {!angular.RootScope} $rootScope Provides access to the root scope.
- * @param {!angular.Filter} $filter Angular filter service.
- * @param {!angular.Window} $window Angular window service.
+ * @param {!angular.Scope} $rootScope Provides access to the root scope.
+ * @param {!angular.$filter} $filter Angular filter service.
+ * @param {!angular.$window} $window Angular window service.
  * @ngInject
  * @constructor
  */
 components.error.ErrorService = function($rootScope, $filter, $window) {
-  /** @type {angular.Filter} */
+  /** @private {!angular.$filter} */
   this.filter_ = $filter;
 
-  /** @type {angular.Window} */
+  /** @private {!angular.$window} */
   this.window_ = window;
 
-  /** @type {angular.RootScope} */
+  /** @private {!angular.Scope} */
   this.rootScope_ = $rootScope;
 
   /** @export {!Array.<ErrorModel>} */

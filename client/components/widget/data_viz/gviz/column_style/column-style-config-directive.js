@@ -20,10 +20,14 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleConfigDirective');
 
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const gviz = explorer.components.widget.data_viz.gviz;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ColumnStyleService = explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService;
 
 
 /**

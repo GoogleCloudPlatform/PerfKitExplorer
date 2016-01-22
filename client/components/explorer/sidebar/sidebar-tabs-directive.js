@@ -16,11 +16,13 @@ goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabsDirec
 
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
+const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 
 
 /**
@@ -37,7 +39,7 @@ explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
     controller: [
         '$scope', 'dashboardService', 'sidebarTabService',
         function($scope, dashboardService, sidebarTabService) {
-      /** @export {!DashboardService} */
+      /** @export {!explorer.components.dashboard.DashboardService} */
       this.dashboardSvc = dashboardService;
 
       /** @export {!SidebarTabService} */

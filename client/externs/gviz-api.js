@@ -394,7 +394,6 @@ google.visualization.ChartWrapper.prototype.toJSON = function() {};
 /** @constructor */
 google.visualization.ControlWrapper = function(opt_specification) {};
 google.visualization.ControlWrapper.prototype.draw = function(opt_container) {};
-google.visualization.ControlWrapper.prototype.toJSON = function() {};
 google.visualization.ControlWrapper.prototype.getDataSourceUrl = function() {};
 google.visualization.ControlWrapper.prototype.getDataTable = function() {};
 google.visualization.ControlWrapper.prototype.getControlName = function() {};
@@ -417,7 +416,7 @@ google.visualization.ControlWrapper.prototype.setOption = function(key, value) {
 google.visualization.ControlWrapper.prototype.setOptions = function(options) {};
 
 /** @return {string} JSON representation. */
-google.visualization.ChartWrapper.prototype.toJSON = function() {};
+google.visualization.ControlWrapper.prototype.toJSON = function() {};
 
 /** @constructor */
 google.visualization.ChartEditor = function(opt_config) {};

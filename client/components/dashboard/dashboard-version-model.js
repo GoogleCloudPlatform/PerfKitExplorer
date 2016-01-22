@@ -30,9 +30,12 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardVersionModel');
 
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+
+
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 
 
 /**

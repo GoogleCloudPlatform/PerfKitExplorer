@@ -120,7 +120,7 @@ var closureCompilerConfig = {
       'client/externs/angular-1.4-http-promise_templated.js',
       'client/externs/angular-1.4.js',
       'client/externs/angular-1.4-q_templated.js',
-      'client/externs/angular-ui-router.js',
+      'client/externs/angular_ui_router.js',
       'client/externs/gviz-api.js',
       'client/externs/ui-bootstrap.js',
     ],

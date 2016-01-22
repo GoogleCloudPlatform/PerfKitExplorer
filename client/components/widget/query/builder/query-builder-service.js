@@ -21,6 +21,7 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.Aggregation');
 goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
 goog.require('p3rf.perfkit.explorer.components.query_builder.Filter');
 goog.require('p3rf.perfkit.explorer.components.query_builder.FilterClause');
 goog.require('p3rf.perfkit.explorer.components.query_builder.QueryBuilder');
@@ -38,6 +39,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryTablePart
 goog.scope(function() {
 
 const explorer = p3rf.perfkit.explorer;
+const DashboardParam = explorer.components.dashboard.DashboardParam;
 const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 const DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
 const Filter = explorer.components.query_builder.Filter;
@@ -77,12 +79,10 @@ const Aggregation = explorer.components.widget.query.builder.Aggregation;
 /**
  * The QueryBuilder service transforms a query model into SQL.
  *
- * @param {!Angular.FilterService} $filter
  * @constructor
  * @ngInject
  */
-explorer.components.widget.query.builder.QueryBuilderService = function(
-    $filter) {
+explorer.components.widget.query.builder.QueryBuilderService = function() {
   /**
    * Specifies the character sequence that precedes parameter tokens.
    * @export {string}

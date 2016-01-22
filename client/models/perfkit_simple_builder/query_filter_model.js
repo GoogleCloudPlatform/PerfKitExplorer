@@ -107,7 +107,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter = function(
   /**
    * specify_time determines whether a time component should be added to the date.  It is only used when filter_type
    * is 'CUSTOM', and if not provided, 00:00 (midnight) will be assumed.
-   * @type {!bool}
+   * @type {boolean}
    */
   this.specify_time = opt_specifyTime || false;
 

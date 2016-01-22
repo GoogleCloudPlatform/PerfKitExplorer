@@ -20,15 +20,24 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 
-goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
-
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const gviz = explorer.components.widget.data_viz.gviz;
 const ColumnStyleModel = gviz.column_style.ColumnStyleModel;
+const DashboardService = explorer.components.dashboard.DashboardService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
+const ErrorService = explorer.components.error.ErrorService;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
+const ChartWrapperService = explorer.components.widget.data_viz.gviz.ChartWrapperService;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
 
 /**

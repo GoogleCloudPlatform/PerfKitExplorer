@@ -22,7 +22,10 @@ goog.provide('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
-
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 
 
 goog.scope(function() {
@@ -30,7 +33,10 @@ const explorer = p3rf.perfkit.explorer;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
-
+const DashboardModel = explorer.components.dashboard.DashboardModel;
+const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
+const WidgetModel = explorer.models.WidgetModel;
+const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 
 /**
  * Service that provides state and content for the Explorer page.
@@ -39,7 +45,7 @@ const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
  */
 explorer.components.explorer.ExplorerStateService = function(
     $state, errorService) {
-  /** @export {!AngularUI.State} */
+  /** @export {!ui.router.$state} */
   this.$state = $state;
 
   /** @private {!ErrorService} */
@@ -69,7 +75,7 @@ explorer.components.explorer.ExplorerStateService = function(
 
   /**
    * Provides storage for a list of widget data.
-   * @export {!Dictionary.<string, WidgetDataModel>}
+   * @export {!Object.<string, WidgetDataModel>}
    */
   this.widgetData = {};
 
