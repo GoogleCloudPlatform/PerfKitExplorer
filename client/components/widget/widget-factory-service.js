@@ -128,6 +128,8 @@ WidgetFactoryService.prototype.createObjectFromJsonModel = function(
       return new ContainerWidgetConfig(this, widgetJson);
     case WidgetType.CHART:
       return new ChartWidgetConfig(this, widgetJson);
+    case WidgetType.TEXT:
+      return new ChartWidgetConfig(this, widgetJson);
     default:
       this.errorService_.addWarning(
           'Widget ' + widgetJson.id + ' type not recognized: ' + widgetJson.type);
