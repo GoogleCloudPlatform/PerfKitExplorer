@@ -52,6 +52,7 @@
     <span class="glyphicon glyphicon-arrow-down"></span>
   </button>
   <button type="button" class="btn btn-default widget-sql-show"
+          ng-show="ctrl.dashboardSvc.selectedWidget.model.type == 'chart'"
           ng-click="ctrl.explorerSvc.viewSql(true)">
     Edit SQL
   </button>

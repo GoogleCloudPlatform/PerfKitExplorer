@@ -53,7 +53,7 @@ goog.scope(function() {
 
         /** @export */
         this.insertWidgetAt = function(index) {
-          this.dashboardSvc.addWidgetAt(this.selectedContainer, index);
+          this.dashboardSvc.addWidgetAt(this.dashboardSvc.selectedContainer, index);
         };
 
         /** @export */

@@ -414,21 +414,13 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (widget) {
-    if (!(this.sidebarTabService_.selectedTab &&
-          this.sidebarTabService_.selectedTab.requireWidget)) {
-      this.sidebarTabService_.selectTab(
-          this.sidebarTabService_.getFirstWidgetTab());
-    }
+    this.sidebarTabService_.resolveSelectedTabForWidget();
 
     this.timeout_(() => {
       this.scrollWidgetIntoView(widget);
     });
   } else if (container) {
-    if (!(this.sidebarTabService_.selectedTab &&
-          this.sidebarTabService_.selectedTab.requireContainer)) {
-      this.sidebarTabService_.selectTab(
-          this.sidebarTabService_.getFirstContainerTab());
-    }
+    this.sidebarTabService_.resolveSelectedTabForWidget();
 
     this.timeout_(() => {
       this.scrollContainerIntoView(container);
@@ -436,15 +428,11 @@ DashboardService.prototype.selectWidget = function(
   } else {
     this.timeout_(() => {
       if (this.sidebarTabService_.selectedTab) {
-        if (!this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
-          this.sidebarTabService_.selectTab(
-              this.sidebarTabService_.getFirstTab());
-        }
+        this.sidebarTabService_.resolveSelectedTabForDashboard();
       }
     });
   }
 };
-
 
 
 /**

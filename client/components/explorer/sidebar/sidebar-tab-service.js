@@ -42,19 +42,19 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
     panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'},
   {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
-    hint: 'Query filters and constraints', requireWidget: true,
+    hint: 'Query filters and constraints', requireWidget: true, requireChart: true,
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
   {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
-    hint: 'Query columns and results', requireWidget: true,
+    hint: 'Query columns and results', requireWidget: true, requireChart: true,
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
   {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
-    hint: 'Chart type and settings', requireWidget: true,
+    hint: 'Chart type and settings', requireWidget: true, requireChart: true,
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
   {id: 'widget.columns', title: 'Columns', iconClass: 'fa fa-columns',
-    hint: 'Column styling and order', requireWidget: true,
+    hint: 'Column styling and order', requireWidget: true, requireChart: true,
     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
     panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'}
 ];
@@ -87,6 +87,41 @@ const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService
  */
 SidebarTabService.prototype.selectTab = function(tab) {
   this.selectedTab = tab;
+};
+
+
+/**
+ * Selects the appropriate tab for widget selection.
+ */
+SidebarTabService.prototype.resolveSelectedTabForWidget = function() {
+  if (!(this.selectedTab &&
+      this.selectedTab.requireWidget &&
+      this.isTabVisible(this.selectedTab))) {
+    this.selectTab(this.getFirstWidgetTab());
+  }
+};
+
+
+/**
+ * Selects the appropriate tab for container selection.
+ */
+SidebarTabService.prototype.resolveSelectedTabForContainer = function() {
+  if (!(this.selectedTab &&
+      this.selectedTab.requireContainer &&
+      this.isTabVisible(this.selectedTab))) {
+    this.selectTab(this.getFirstContainerTab());
+  }
+};
+
+
+/**
+ * Selects the appropriate tab for container selection.
+ */
+SidebarTabService.prototype.resolveSelectedTabForDashboard = function() {
+  if (!(this.selectedTab &&
+       this.isTabVisible(this.selectedTab))) {
+    this.selectTab(this.getFirstTab());
+  }
 };
 
 
@@ -127,15 +162,12 @@ SidebarTabService.prototype.getFirstContainerTab = function() {
  * @return {?SidebarTabModel}
  */
 SidebarTabService.prototype.getFirstWidgetTab = function() {
-  for (let i=0, len=this.tabs.length; i < len; ++i) {
-    let currentTab = this.tabs[i];
-
-    if (currentTab.requireWidget) {
+  for (let currentTab of this.tabs) {
+    if (currentTab.requireWidget && this.isTabVisible(currentTab)) {
       return currentTab;
     }
   }
 
-  console.log('getFirstWidgetTab failed: No widget tabs available.');
   return null;
 };
 
@@ -151,6 +183,12 @@ SidebarTabService.prototype.isTabVisible = function(tab) {
   if (tab.requireWidget &&
       !this.explorerStateSvc_.widgets.selectedId) {
     return false;
+  }
+
+  if (tab.requireChart &&
+      this.explorerStateSvc_.widgets.selected &&
+      this.explorerStateSvc_.widgets.selected.model.type == 'text') {
+        return false;
   }
 
   if (tab.requireContainer &&

@@ -66,9 +66,7 @@ explorer.components.dashboard.DashboardDirective = function() {
         dashboardService.selectWidget(null, container);
         event.stopPropagation();
 
-        if (!sidebarTabService.selectedTab) {
-          sidebarTabService.selectTab(sidebarTabService.getFirstContainerTab());
-        }
+        sidebarTabService.resolveSelectedTabForContainer();
       }
 
       /** @export */
@@ -76,9 +74,7 @@ explorer.components.dashboard.DashboardDirective = function() {
         dashboardService.selectWidget(widget, container);
         event.stopPropagation();
 
-        if (!sidebarTabService.selectedTab) {
-          sidebarTabService.selectTab(sidebarTabService.getFirstWidgetTab());
-        }
+        sidebarTabService.resolveSelectedTabForWidget();
       }
     }]
   };

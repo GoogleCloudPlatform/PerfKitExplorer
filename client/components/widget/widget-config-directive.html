@@ -16,14 +16,38 @@
   </div>
 
   <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">content</div>
+    <div class="pk-sidebar-item-value">
+      <md-select
+          ng-model="ngModel.type"
+          class="pk-sidebar-input-full widget-type">
+        <md-option ng-value="'chart'">chart</md-option>
+        <md-option ng-value="'text'">text</md-option>
+      </md-select>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item">
     <div class="pk-sidebar-item-label">
       header (formatted with
       <a href="https://github.com/GoogleCloudPlatform/PerfKitExplorer/wiki/Showdown-Markdown-Syntax"
          target="_blank">Showdown</a>)
     </div>
     <div class="pk-sidebar-item-value">
-      <textarea class="form-control container-header-text"
+      <textarea class="form-control widget-header-text"
           ng-model="ngModel.header_text" ng-disabled="!ngModel"></textarea>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item" ng-show="ngModel.type === 'text'">
+    <div class="pk-sidebar-item-label">
+      body (formatted with
+      <a href="https://github.com/GoogleCloudPlatform/PerfKitExplorer/wiki/Showdown-Markdown-Syntax"
+         target="_blank">Showdown</a>)
+    </div>
+    <div class="pk-sidebar-item-value">
+      <textarea class="form-control widget-body-text"
+          ng-model="ngModel.datasource.text" ng-disabled="!ngModel"></textarea>
     </div>
   </div>
 
@@ -34,8 +58,20 @@
          target="_blank">Showdown</a>)
     </div>
     <div class="pk-sidebar-item-value">
-      <textarea class="form-control container-footer-text"
+      <textarea class="form-control widget-footer-text"
           ng-model="ngModel.footer_text" ng-disabled="!ngModel"></textarea>
+    </div>
+  </div>
+
+  <div class="pk-sidebar-item"
+      ng-show="ngModel.type">
+    <div class="pk-sidebar-item-value">
+      <md-checkbox class="widget-scroll-overflow" ng-model="ngModel.scroll_overflow">
+        <md-tooltip md-direction="right">
+          If true, will scroll overflow content, rather than stretching the widget to accomodate.
+        </md-tooltip>
+        scroll overflow
+      </md-checkbox>
     </div>
   </div>
 
