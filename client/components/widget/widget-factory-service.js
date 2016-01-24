@@ -28,12 +28,14 @@ goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetState');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 goog.require('goog.math');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
@@ -44,6 +46,7 @@ const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
+const ErrorService = explorer.components.error.ErrorService;
 const WidgetConfig = explorer.models.WidgetConfig;
 const WidgetModel = explorer.models.WidgetModel;
 const WidgetState = explorer.models.WidgetState;
@@ -60,8 +63,12 @@ const WidgetType = explorer.models.WidgetType;
  * @ngInject
  */
 explorer.components.widget.WidgetFactoryService = function(
-    dashboardVersionService) {
+    dashboardVersionService, errorService) {
+  /** @type {!DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
+
+  /** @type {!ErrorService} */
+  this.errorService_ = errorService;
 
   /**
    * Hash table of widgets.
@@ -121,8 +128,11 @@ WidgetFactoryService.prototype.createObjectFromJsonModel = function(
       return new ContainerWidgetConfig(this, widgetJson);
     case WidgetType.CHART:
       return new ChartWidgetConfig(this, widgetJson);
+    default:
+      this.errorService_.addWarning(
+          'Widget ' + widgetJson.id + ' type not recognized: ' + widgetJson.type);
+      return new WidgetConfig(this,widgetJson);
   }
-  throw new Error('Widget type not recognized:', widgetJson.type);
 };
 
 

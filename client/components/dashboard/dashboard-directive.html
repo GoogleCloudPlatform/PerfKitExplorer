@@ -44,8 +44,8 @@
           </div>
           <div class="pk-widget-content"
                style="min-height: {{ container.model.container.height }}px"
-               ng-click="clickWidget($event, widget, container)">
-            <gviz-chart-widget widget-config="widget"/>
+               ng-click="clickWidget($event, widget, container)" ng-switch="widget.model.type">
+            <gviz-chart-widget widget-config="widget" ng-switch-when="chart" />
           </div>
           <div ng-show="widget.model.footer_text || container.model.container.widget_footer_height"
               class="pk-widget-section-text"
