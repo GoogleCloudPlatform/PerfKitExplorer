@@ -435,10 +435,11 @@ DashboardService.prototype.selectWidget = function(
     });
   } else {
     this.timeout_(() => {
-      if (!(this.sidebarTabService_.selectedTab &&
-            this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab))) {
-        this.sidebarTabService_.selectTab(
-            this.sidebarTabService_.getFirstTab());
+      if (this.sidebarTabService_.selectedTab) {
+        if (!this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
+          this.sidebarTabService_.selectTab(
+              this.sidebarTabService_.getFirstTab());
+        }
       }
     });
   }
