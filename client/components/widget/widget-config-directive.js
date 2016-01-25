@@ -20,6 +20,8 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
@@ -29,8 +31,9 @@ const explorer = p3rf.perfkit.explorer;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
-explorer.components.widget.WidgetConfigDirective = function() {
+explorer.components.widget.WidgetConfigDirective = function(widgetFactoryService) {
   return {
     restrict: 'E',
     replace: true,
@@ -38,7 +41,12 @@ explorer.components.widget.WidgetConfigDirective = function() {
     scope: {
       'ngModel': '='
     },
-    templateUrl: '/static/components/widget/widget-config-directive.html'
+    templateUrl: '/static/components/widget/widget-config-directive.html',
+    link: function(scope) {
+      // TODO: Improve logic to keep Containers out of widget type picklists.
+      scope.widgetTypes = angular.copy(widgetFactoryService.widgetTypes);
+      delete scope.widgetTypes['CONTAINER'];
+    }
   };
 };
 

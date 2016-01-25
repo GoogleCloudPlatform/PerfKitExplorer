@@ -67,9 +67,12 @@ const SIDEBAR_TABS = explorer.components.explorer.sidebar.SIDEBAR_TABS;
  * @ngInject
  */
 explorer.components.explorer.sidebar.SidebarTabService = function(
-    explorerStateService) {
+    explorerStateService, widgetFactoryService) {
   /** @private {!ExplorerStateService} */
   this.explorerStateSvc_ = explorerStateService;
+
+  /** @private {!WidgetFactoryService} */
+  this.widgetFactorySvc_ = widgetFactoryService;
 
   /** @export {!Array.<!SidebarTabModel>} */
   this.tabs = SIDEBAR_TABS;
@@ -187,7 +190,7 @@ SidebarTabService.prototype.isTabVisible = function(tab) {
 
   if (tab.requireChart &&
       this.explorerStateSvc_.widgets.selected &&
-      this.explorerStateSvc_.widgets.selected.model.type == 'text') {
+      this.explorerStateSvc_.widgets.selected.model.type == this.widgetFactorySvc_.widgetTypes.TEXT) {
         return false;
   }
 

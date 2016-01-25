@@ -71,6 +71,12 @@ explorer.components.widget.WidgetFactoryService = function(
   this.errorService_ = errorService;
 
   /**
+   * Exposes the widget types enum for directives.
+   * @export {!Object.<string, string>}
+   */
+  this.widgetTypes = WidgetType;
+
+  /**
    * Hash table of widgets.
    *
    * @type {!Object.<(ContainerWidgetConfig|WidgetConfig)>}

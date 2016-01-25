@@ -24,7 +24,7 @@
                   ng-hide="explorerSvc.model.readOnly"
                   ng-click="$event.stopPropagation(); dashboardSvc.removeWidget(widget, container)"></span>
             <span class="glyphicon glyphicon-refresh pk-widget-button"
-                  ng-show="widget.model.type === 'chart'"
+                  ng-show="widget.model.type === widgetFactorySvc.widgetTypes.CHART"
                   ng-click="clickRefreshWidget($event, widget)"></span>
             <a class="pk-widget-button"
                ng-show="widget.model.url"
@@ -47,10 +47,11 @@
                ng-style="{height: widget.model.scroll_overflow ? container.model.container.height + 'px' : 'auto',
                           'min-height': container.model.container.height + 'px',
                           'overflow-y': widget.model.scroll_overflow ? 'auto' : 'visible'}"
-               ng-click="clickWidget($event, widget, container)"
-               ng-switch="widget.model.type">
-            <gviz-chart-widget widget-config="widget" ng-switch-when="chart"></gviz-chart-widget>
-            <div class="pk-widget-section-text" ng-switch-when="text"
+               ng-click="clickWidget($event, widget, container)">
+            <gviz-chart-widget widget-config="widget"
+                 ng-if="widget.model.type == widgetFactorySvc.widgetTypes.CHART"></gviz-chart-widget>
+            <div class="pk-widget-section-text"
+                 ng-if="widget.model.type == widgetFactorySvc.widgetTypes.TEXT"
                  ng-show="widget.model.datasource.text"
                  markdown-to-html="widget.model.datasource.text | stripHtml">
             </div>

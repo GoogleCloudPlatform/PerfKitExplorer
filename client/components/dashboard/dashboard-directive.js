@@ -45,7 +45,9 @@ explorer.components.dashboard.DashboardDirective = function() {
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
     controller: [
         '$scope', 'explorerService', 'dashboardService', 'containerService', 'sidebarTabService',
-        function($scope, explorerService, dashboardService, containerService, sidebarTabService) {
+        'widgetFactoryService',
+        function($scope, explorerService, dashboardService, containerService, sidebarTabService,
+            widgetFactoryService) {
       /** @export */
       $scope.containerSvc = containerService;
 
@@ -54,6 +56,9 @@ explorer.components.dashboard.DashboardDirective = function() {
 
       /** @export */
       $scope.explorerSvc = explorerService;
+
+      /** @export */
+      $scope.widgetFactorySvc = widgetFactoryService;
 
       /** @export */
       $scope.clickRefreshWidget = function(event, widget) {
