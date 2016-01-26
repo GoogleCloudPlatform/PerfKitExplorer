@@ -74,7 +74,7 @@
            class="pk-container-footer"
            ng-class="{'pk-section-fixed-height': container.model.container.footer_height}"
            ng-style="{'height': container.model.container.footer_height + 'px'}"
-           markdown-to-html="container.model.container.footer_text">
+           markdown-to-html="container.model.container.footer_text | stripHtml">
       </div>
     </container>
   </div>
