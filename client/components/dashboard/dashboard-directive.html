@@ -44,9 +44,9 @@
               markdown-to-html="(widget.model.header_text || '') | stripHtml">
           </div>
           <div class="pk-widget-content"
-               ng-style="{height: widget.model.scroll_overflow ? container.model.container.height + 'px' : 'auto',
+               ng-style="{height: isWidgetScrollable(widget, container) ? container.model.container.height + 'px' : 'auto',
                           'min-height': container.model.container.height + 'px',
-                          'overflow-y': widget.model.scroll_overflow ? 'auto' : 'visible'}"
+                          'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'visible'}"
                ng-click="clickWidget($event, widget, container)">
             <gviz-chart-widget widget-config="widget"
                  ng-if="widget.model.type == widgetFactorySvc.widgetTypes.CHART"></gviz-chart-widget>
