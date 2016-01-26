@@ -33,7 +33,8 @@ const explorer = p3rf.perfkit.explorer;
  */
 explorer.models.WidgetType = {
   CHART: 'chart',
-  CONTAINER: 'container'
+  CONTAINER: 'container',
+  TEXT: 'text'
 };
 const WidgetType = explorer.models.WidgetType;
 

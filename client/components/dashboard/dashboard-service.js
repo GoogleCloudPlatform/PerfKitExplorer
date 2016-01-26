@@ -111,8 +111,8 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!SidebarTabService} */
   this.sidebarTabService_ = sidebarTabService;
 
-  /** @private {!WidgetFactoryService} */
-  this.widgetFactoryService_ = widgetFactoryService;
+  /** @export {!WidgetFactoryService} */
+  this.widgetFactorySvc = widgetFactoryService;
 
   /** @private {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
@@ -414,21 +414,13 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (widget) {
-    if (!(this.sidebarTabService_.selectedTab &&
-          this.sidebarTabService_.selectedTab.requireWidget)) {
-      this.sidebarTabService_.selectTab(
-          this.sidebarTabService_.getFirstWidgetTab());
-    }
+    this.sidebarTabService_.resolveSelectedTabForWidget();
 
     this.timeout_(() => {
       this.scrollWidgetIntoView(widget);
     });
   } else if (container) {
-    if (!(this.sidebarTabService_.selectedTab &&
-          this.sidebarTabService_.selectedTab.requireContainer)) {
-      this.sidebarTabService_.selectTab(
-          this.sidebarTabService_.getFirstContainerTab());
-    }
+    this.sidebarTabService_.resolveSelectedTabForContainer();
 
     this.timeout_(() => {
       this.scrollContainerIntoView(container);
@@ -436,15 +428,11 @@ DashboardService.prototype.selectWidget = function(
   } else {
     this.timeout_(() => {
       if (this.sidebarTabService_.selectedTab) {
-        if (!this.sidebarTabService_.isTabVisible(this.sidebarTabService_.selectedTab)) {
-          this.sidebarTabService_.selectTab(
-              this.sidebarTabService_.getFirstTab());
-        }
+        this.sidebarTabService_.resolveSelectedTabForDashboard();
       }
     });
   }
 };
-
 
 
 /**
@@ -725,7 +713,7 @@ DashboardService.prototype.addWidgetAt = function(
 
   // TODO: Add a simple widget instead of a chart when we have
   // other widget types.
-  let widget = new ChartWidgetConfig(this.widgetFactoryService_);
+  let widget = new ChartWidgetConfig(this.widgetFactorySvc);
   widget.state().datasource.status = ResultsDataStatus.NODATA;
 
   this.explorerStateService_.widgets.all[widget.model.id] = widget;
@@ -837,7 +825,7 @@ DashboardService.prototype.moveWidgetToContainer = function(
  */
 DashboardService.prototype.newContainer = function(
     opt_autoCreateWidget = true) {
-  let container = new ContainerWidgetConfig(this.widgetFactoryService_);
+  let container = new ContainerWidgetConfig(this.widgetFactorySvc);
 
   if (opt_autoCreateWidget) {
     this.addWidget(container, false);
@@ -965,7 +953,7 @@ DashboardService.prototype.moveWidgetToPreviousContainer = function(widget) {
 
   if (containerIndex === 0) {
     if (container.model.container.children.length > 1) {
-      targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
+      targetContainer = new ContainerWidgetConfig(this.widgetFactorySvc);
       targetContainer.model.container.columns = 0;
       goog.array.insertAt(this.containers, targetContainer, 0);
       this.explorerStateService_.containers.add(targetContainer);
@@ -997,12 +985,11 @@ DashboardService.prototype.moveWidgetToNextContainer = function(widget) {
 
   let container = /** @type {ContainerWidgetConfig} */ (widget.state().parent);
   let containerIndex = this.containers.indexOf(container);
-  let index = container.model.container.children.indexOf(widget);
   let targetContainer = null;
 
   if (containerIndex === (this.containers.length - 1)) {
     if (container.model.container.children.length > 1) {
-      targetContainer = new ContainerWidgetConfig(this.widgetFactoryService_);
+      targetContainer = new ContainerWidgetConfig(this.widgetFactorySvc);
       targetContainer.model.container.columns = 0;
       this.containers.push(targetContainer);
       this.explorerStateService_.containers.add(targetContainer);

@@ -71,6 +71,12 @@ explorer.components.widget.WidgetFactoryService = function(
   this.errorService_ = errorService;
 
   /**
+   * Exposes the widget types enum for directives.
+   * @export {!Object.<string, string>}
+   */
+  this.widgetTypes = WidgetType;
+
+  /**
    * Hash table of widgets.
    *
    * @type {!Object.<(ContainerWidgetConfig|WidgetConfig)>}
@@ -127,6 +133,8 @@ WidgetFactoryService.prototype.createObjectFromJsonModel = function(
     case WidgetType.CONTAINER:
       return new ContainerWidgetConfig(this, widgetJson);
     case WidgetType.CHART:
+      return new ChartWidgetConfig(this, widgetJson);
+    case WidgetType.TEXT:
       return new ChartWidgetConfig(this, widgetJson);
     default:
       this.errorService_.addWarning(
