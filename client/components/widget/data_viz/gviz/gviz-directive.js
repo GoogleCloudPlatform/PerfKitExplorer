@@ -304,23 +304,10 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       /**
        * Applies the current parameters to the widget's query.
        *
-       * If the query is a custom query, it will rewrite .query_exec to replace
-       * parameter tokens with values.  If the query is a Query Builder query,
-       * it will rewrite .query tokens, and .query_exec with values.
        * @export
        */
       scope.applyParameters = function() {
-        let widget = scope.widgetConfig;
-        if (widget.model.datasource.custom_query !== true) {
-          widget.model.datasource.query = (
-              dashboardService.rewriteQuery(widget, false));
-          widget.model.datasource.query_exec = (
-              dashboardService.rewriteQuery(widget, true));
-        } else {
-          widget.model.datasource.query_exec = (
-              queryBuilderService.replaceTokens(widget.model.datasource.query,
-              dashboardService.params));
-        }
+        dashboardService.rebuildQuery(scope.widgetConfig);
       };
 
       // When the datasource status change

@@ -585,6 +585,28 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
         project_name, dataset_name, table_name, table_partition, params);
 };
 
+/**
+ * Rebuilds the current widget's query based on the config.
+ *
+ * If the query is a custom query, it will rewrite .query_exec to replace
+ * parameter tokens with values.  If the query is a Query Builder query,
+ * it will rewrite .query tokens, and .query_exec with values.
+ *
+ * @param {!WidgetConfig} widget The widget to rewrite the query against.
+ */
+DashboardService.prototype.rebuildQuery = function(widget) {
+  if (widget.model.datasource.custom_query !== true) {
+    widget.model.datasource.query = (
+        this.rewriteQuery(widget, false));
+    widget.model.datasource.query_exec = (
+        this.rewriteQuery(widget, true));
+  } else {
+    widget.model.datasource.query_exec = (
+        this.queryBuilderService_.replaceTokens(widget.model.datasource.query,
+                                          this.params));
+  }
+};
+
 
 /**
  * Updates the widget's query, if applicable, and changes the widget
@@ -594,6 +616,7 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
  * @export
  */
 DashboardService.prototype.refreshWidget = function(widget) {
+  this.rebuildQuery(widget);
   if (widget.model.datasource.query) {
     this.timeout_(function() {
       widget.state().datasource.status = ResultsDataStatus.TOFETCH;
