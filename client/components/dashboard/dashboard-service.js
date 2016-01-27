@@ -548,6 +548,7 @@ DashboardService.prototype.selectContainer = function(
  * @param {!bool=} replaceParams If true, parameters (%%NAME%%) will be
  *     replaced with the current param value (from the dashboard or url).
  *     Defaults to false.
+ * @return {string} Rewritten query.
  */
 DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
   goog.asserts.assert(widget, 'Bad parameters: widget is missing.');
