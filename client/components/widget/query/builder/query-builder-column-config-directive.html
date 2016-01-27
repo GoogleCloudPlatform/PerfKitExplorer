@@ -1,22 +1,22 @@
 <div>
   <div class="pk-sidebar-note"
-      ng-show="ngModel.datasource.custom_query">
+      ng-show="ngModel.model.datasource.custom_query">
     Custom SQL statements do not support the builder UX.  To build your
     SQL statement with UI controls, click 'Use SQL Builder' in the toolbar.
   </div>
-  <div ng-hide="ngModel.datasource.custom_query">
+  <div ng-hide="ngModel.model.datasource.custom_query">
     <div class="pk-sidebar-group-title">Columns</div>
   
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">
         <input type="checkbox"
                class="widget-columns-show-date"
-               ng-model="ngModel.datasource.config.results.show_date">
+               ng-model="ngModel.model.datasource.config.results.show_date">
         show date
       </div>
     </div>
   
-    <div class="pk-sidebar-item" ng-show="ngModel.datasource.config.results.show_date">
+    <div class="pk-sidebar-item" ng-show="ngModel.model.datasource.config.results.show_date">
       <div class="pk-sidebar-item-label">
         grouping (blank for none)
       </div>
@@ -24,8 +24,9 @@
         <input class="form-control widget-columns-date-group"
            popupbox
            popupbox-data="queryEditorSvc.date_groupings.ALL"
-           popupbox-model="ngModel.datasource.config.results.date_group"
-           ng-model="ngModel.datasource.config.results.date_group">
+           popupbox-model="ngModel.model.datasource.config.results.date_group"
+           ng-model="ngModel.model.datasource.config.results.date_group"
+           ng-change="">
       </div>
     </div>
     
@@ -39,7 +40,7 @@
             multibox-focus-on-select="true"
             multibox-data="queryEditorSvc.samples_mart_fields"
             multibox-on-insert-option="addFieldColumn()"
-            multibox-selected-options="ngModel.datasource.config.results.fields">
+            multibox-selected-options="ngModel.model.datasource.config.results.fields">
         </span>
       </div>
     </div>
@@ -47,11 +48,11 @@
     <div class="pk-sidebar-item">
       <div class="pk-sidebar-item-label">
         <input type="checkbox"
-            ng-model="ngModel.datasource.config.results.measure_values">
+            ng-model="ngModel.model.datasource.config.results.measure_values">
         measure values
       </div>
       <div class="pk-sidebar-item-value"
-          ng-show="ngModel.datasource.config.results.measure_values === true">
+          ng-show="ngModel.model.datasource.config.results.measure_values === true">
         <span
             class="widget-columns-measures"
             multibox
@@ -60,7 +61,7 @@
             multibox-focus-on-select="true"
             multibox-data="queryEditorSvc.samples_mart_measures"
             multibox-on-insert-option="addMeasureColumn()"
-            multibox-selected-options="ngModel.datasource.config.results.measures">
+            multibox-selected-options="ngModel.model.datasource.config.results.measures">
         </span>
       </div>
     </div>
@@ -76,7 +77,7 @@
             multibox-popup-prop="name"
             multibox-focus-on-select="true"
             multibox-on-insert-option="addMetadataColumn()"
-            multibox-selected-options="ngModel.datasource.config.results.labels">
+            multibox-selected-options="ngModel.model.datasource.config.results.labels">
         </span>
       </div>
     </div>

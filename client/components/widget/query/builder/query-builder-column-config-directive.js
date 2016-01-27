@@ -37,19 +37,24 @@ const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
  * @ngInject
  */
 explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = function(
-    queryEditorService) {
+    queryEditorService, dashboardService) {
   return {
     restrict: 'E',
     replace: true,
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
-      'ngModel': '='
+      /** @type {!ChartWidgetConfig} */
+      ngModel: '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-column-config-directive.html',
     controller: ['$scope', function($scope) {
       /** @export {!QueryEditorService} */
       $scope.queryEditorSvc = queryEditorService;
+
+      /** @export */
+      $scope.rewriteQuery = function() {
+        dashboardService.rewriteQuery($scope.ngModel);
+      };
 
       /**
        * Adds a new option to the field list.

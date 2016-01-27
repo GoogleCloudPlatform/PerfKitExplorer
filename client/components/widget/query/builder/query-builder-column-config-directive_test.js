@@ -21,20 +21,21 @@
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective');
-goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('QueryBuilderColumnConfigDirective', function() {
   var scope, $compile, $httpBackend, $timeout;
-  var configSvc, dashboardSvc;
+  var configSvc, dashboardSvc, widgetFactoryService;
 
   const explorer = p3rf.perfkit.explorer;
-  const ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
-       _$timeout_, _configService_, _dashboardService_, _explorerService_) {
+       _$timeout_, _configService_, _dashboardService_, _explorerService_,
+       _widgetFactoryService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
@@ -42,9 +43,9 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     configSvc = _configService_;
     dashboardSvc = _dashboardService_;
-    explorerService = _explorerService_;
+    widgetFactoryService = _widgetFactoryService_;
 
-    explorerService.newDashboard();
+    _explorerService_.newDashboard();
 
     scope.$digest();
   }));
@@ -53,10 +54,10 @@ describe('QueryBuilderColumnConfigDirective', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        scope.providedWidgetModel = new ChartWidgetModel();
+        scope.providedWidgetConfig = new ChartWidgetConfig(widgetFactoryService);
 
         var actualElement = angular.element(
-            '<query-builder-column-config ng-model="providedWidgetModel" />');
+            '<query-builder-column-config ng-model="providedWidgetConfig" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -71,10 +72,10 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var actualElement;
 
     beforeEach(inject(function() {
-      scope.widgetModel = new ChartWidgetModel();
+      scope.WidgetConfig = new ChartWidgetConfig(widgetFactoryService);
 
       actualElement = angular.element(
-        '<query-builder-column-config ng-model="widgetModel" />');
+        '<query-builder-column-config ng-model="WidgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
@@ -115,13 +116,13 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var results;
 
     beforeEach(inject(function() {
-      scope.widgetModel = dashboardSvc.selectedWidget.model;
+      scope.WidgetConfig = dashboardSvc.selectedWidget;
 
       results = (
         dashboardSvc.selectedWidget.model.datasource.config.results);
 
       actualElement = angular.element(
-        '<query-builder-column-config ng-model="widgetModel" />');
+        '<query-builder-column-config ng-model="WidgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
@@ -200,13 +201,13 @@ describe('QueryBuilderColumnConfigDirective', function() {
     var filters;
 
     beforeEach(inject(function() {
-      scope.widgetModel = dashboardSvc.selectedWidget.model;
+      scope.WidgetConfig = dashboardSvc.selectedWidget;
 
       results = (
         dashboardSvc.selectedWidget.model.datasource.config.results);
 
       actualElement = angular.element(
-        '<query-builder-column-config ng-model="widgetModel" />');
+        '<query-builder-column-config ng-model="WidgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

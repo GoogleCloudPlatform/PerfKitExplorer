@@ -43,20 +43,26 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
     replace: true,
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      /** @type {!ChartWidgetConfig} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-filter-config-directive.html',
-    controller: ['$scope', 'picklistService', function($scope, picklistService) {
+    controller: ['$scope', 'dashboardService', 'picklistService',
+        function($scope, dashboardService, picklistService) {
       /** @export {!PicklistService} */
       $scope.picklistSvc = picklistService;
+
+      /** @export */
+      $scope.rewriteQuery = function() {
+        dashboardService.rewriteQuery(ngModel);
+      };
 
       /**
        * Adds an end date to the filters.
        * @export
        */
       $scope.addEndDate = function() {
-        $scope.ngModel.datasource.config.filters.end_date =
+        $scope.ngModel.model.datasource.config.filters.end_date =
             new DateFilter(new Date().toISOString());
       };
 
@@ -65,7 +71,7 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
        * @export
        */
       $scope.removeEndDate = function() {
-        $scope.ngModel.datasource.config.filters.end_date = null;
+        $scope.ngModel.model.datasource.config.filters.end_date = null;
       };
 
       /**
@@ -73,7 +79,7 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
        * @export
        */
       $scope.addOfficial = function() {
-        $scope.ngModel.datasource.config.filters.official = true;
+        $scope.ngModel.model.datasource.config.filters.official = true;
       };
 
       /**
@@ -81,7 +87,7 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
        * @export
        */
       $scope.removeOfficial = function() {
-        $scope.ngModel.datasource.config.filters.official = null;
+        $scope.ngModel.model.datasource.config.filters.official = null;
       };
 
       /**
@@ -89,11 +95,11 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
        * @export
        */
       $scope.addMetadataFilter = function() {
-        $scope.ngModel.datasource.config.filters.metadata.push(new MetadataFilter());
+        $scope.ngModel.model.datasource.config.filters.metadata.push(new MetadataFilter());
       };
 
       $scope.refreshPicklist = function(picklistName) {
-        picklistService.refresh(picklistName, $scope.ngModel.datasource.config.filters);
+        picklistService.refresh(picklistName, $scope.ngModel.model.datasource.config.filters);
       }
       
       $scope.isPicklistLoading = function(picklistName) {

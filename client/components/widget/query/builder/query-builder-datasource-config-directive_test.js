@@ -21,37 +21,38 @@
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
-goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('QueryBuilderDatasourceConfigDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
-  var configService, dashboardService;
+  var configService, dashboardService, widgetFactoryService;
 
   const explorer = p3rf.perfkit.explorer;
-  const ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_,
-      _configService_, _dashboardService_) {
+      _configService_, _dashboardService_, _widgetFactoryService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $timeout = _$timeout_;
 
     configService = _configService_;
     dashboardService = _dashboardService_;
+    widgetFactoryService = _widgetFactoryService_;
   }));
 
   describe('compilation', function() {
 
     it('should succeed as a standalone element.', function() {
       function compile() {
-        scope.providedWidgetModel = new ChartWidgetModel();
+        scope.providedWidgetConfig = new ChartWidgetConfig(widgetFactoryService);
 
         var actualElement = angular.element(
-          '<query-builder-datasource-config ng-model="providedWidgetModel" />');
+          '<query-builder-datasource-config ng-model="providedWidgetConfig" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -60,10 +61,10 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
     });
 
     it('should contain the expected elements.', function() {
-      scope.widgetModel = new ChartWidgetModel();
+      scope.widgetConfig = new ChartWidgetConfig(widgetFactoryService);
 
       var actualElement = angular.element(
-        '<query-builder-datasource-config ng-model="widgetModel" />');
+        '<query-builder-datasource-config ng-model="widgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

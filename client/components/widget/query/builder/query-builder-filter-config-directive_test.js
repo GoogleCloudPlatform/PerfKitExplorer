@@ -21,14 +21,14 @@
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective');
-goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('QueryFilterDirective', function() {
   var scope, $compile, $httpBackend, $timeout, uiConfig;
-  var configSvc, dashboardSvc;
+  var configSvc, dashboardSvc, widgetFactorySvc;
 
   const explorer = p3rf.perfkit.explorer;
-  const ChartWidgetModel = explorer.models.ChartWidgetModel;
+  const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
   const TEMPLATE_DATEPICKER = 'template/datepicker/datepicker.html';
   const TEMPLATE_TIMEPICKER = 'template/timepicker/timepicker.html';
@@ -37,17 +37,18 @@ describe('QueryFilterDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
-       _$timeout_, _configService_, _explorerService_, _dashboardService_) {
+       _$timeout_, configService, explorerService, dashboardService,
+       widgetFactoryService) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
     $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
 
-    configSvc = _configService_;
-    explorerSvc = _explorerService_;
-    dashboardSvc = _dashboardService_;
+    configSvc = configService;
+    dashboardSvc = dashboardService;
+    widgetFactorySvc = widgetFactoryService;
 
-    explorerSvc.newDashboard();
+    explorerService.newDashboard();
     scope.$digest();
   }));
 
@@ -58,10 +59,10 @@ describe('QueryFilterDirective', function() {
         $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
         $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
-        scope.providedWidgetModel = new ChartWidgetModel();
+        scope.providedWidgetConfig = new ChartWidgetConfig(widgetFactorySvc);
 
         var actualElement = angular.element(
-            '<query-builder-filter-config ng-model="providedWidgetModel" />');
+            '<query-builder-filter-config ng-model="providedWidgetConfig" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -78,10 +79,10 @@ describe('QueryFilterDirective', function() {
       $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
       $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
-      scope.widgetModel = new ChartWidgetModel();
+      scope.WidgetConfig = new ChartWidgetConfig(widgetFactorySvc);
 
       actualElement = angular.element(
-        '<query-builder-filter-config ng-model="widgetModel" />');
+        '<query-builder-filter-config ng-model="WidgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
@@ -167,12 +168,12 @@ describe('QueryFilterDirective', function() {
       $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
       $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
-      scope.widgetModel = dashboardSvc.selectedWidget.model;
+      scope.WidgetConfig = dashboardSvc.selectedWidget;
 
-      filters = scope.widgetModel.datasource.config.filters;
+      filters = scope.WidgetConfig.model.datasource.config.filters;
 
       actualElement = angular.element(
-        '<query-builder-filter-config ng-model="widgetModel" />');
+        '<query-builder-filter-config ng-model="WidgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
@@ -288,12 +289,12 @@ describe('QueryFilterDirective', function() {
       $httpBackend.expectGET(TEMPLATE_DATEPICKER).respond(200);
       $httpBackend.expectGET(TEMPLATE_TIMEPICKER).respond(200);
 
-      scope.widgetModel = dashboardSvc.selectedWidget.model;
+      scope.WidgetConfig = dashboardSvc.selectedWidget;
 
-      filters = scope.widgetModel.datasource.config.filters;
+      filters = scope.WidgetConfig.model.datasource.config.filters;
 
       actualElement = angular.element(
-        '<query-builder-filter-config ng-model="widgetModel" />');
+        '<query-builder-filter-config ng-model="WidgetConfig" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

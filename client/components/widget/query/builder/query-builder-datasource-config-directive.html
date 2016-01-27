@@ -3,7 +3,8 @@
     <div class="pk-sidebar-item-label">project id</div>
     <div class="pk-sidebar-item-value">
       <input class="form-control widget_datasource_project_id"
-             ng-model="ngModel.datasource.config.results.project_id"
+             ng-model="ngModel.model.datasource.config.results.project_id"
+             ng-change="rewriteQuery()"
              placeholder="{{ dashboardSvc.current.model.project_id ||
                              configSvc.default_project }}">
     </div>
@@ -13,7 +14,7 @@
     <div class="pk-sidebar-item-label">dataset</div>
     <div class="pk-sidebar-item-value">
       <input class="form-control widget_datasource_dataset_name"
-             ng-model="ngModel.datasource.config.results.dataset_name"
+             ng-model="ngModel.model.datasource.config.results.dataset_name"
              placeholder="{{ dashboardSvc.current.model.dataset_name ||
                              configSvc.default_dataset }}">
     </div>
@@ -23,7 +24,7 @@
     <div class="pk-sidebar-item-label">table</div>
     <div class="pk-sidebar-item-value">
       <input class="form-control widget_datasource_table_name"
-             ng-model="ngModel.datasource.config.results.table_name"
+             ng-model="ngModel.model.datasource.config.results.table_name"
              placeholder="{{ dashboardSvc.current.model.table_name ||
                              configSvc.default_table }}">
     </div>
@@ -37,7 +38,7 @@
              placeholder="{{ dashboardSvc.getTablePartition(
                  dashboardSvc.current.model.table_partition ||
                  dashboardSvc.DEFAULT_TABLE_PARTITION).label }} (default)"
-             ng-model="ngModel.datasource.config.results.table_partition">
+             ng-model="ngModel.model.datasource.config.results.table_partition">
         <md-option ng-repeat="option in dashboardSvc.TABLE_PARTITIONS"
                 value="{{ option.partition }}"
                 title="{{ option.tooltip }}">{{ option.label }}</md-option>
@@ -58,7 +59,7 @@
             <md-select
                     class="dashboard-datasource-bigquery-optimize-current-timestamp-enabled"
                     placeholder="{{ dashboardSvc.current.model.config.bigQuery.optimizeCurrentTimestamp.enabled ? 'enabled' : 'disabled' }}*"
-                    ng-model="ngModel.datasource.config.bigQuery.optimizeCurrentTimestamp.enabled">
+                    ng-model="ngModel.model.datasource.config.bigQuery.optimizeCurrentTimestamp.enabled">
               <md-option ng-value="true">enabled</md-option>
               <md-option ng-value="false">disabled</md-option>
             </md-select>
@@ -70,7 +71,7 @@
             <md-select
                     class="dashboard-datasource-bigquery-optimize-current-timestamp-granularity"
                     placeholder="{{ dashboardSvc.current.model.config.bigQuery.optimizeCurrentTimestamp.granularity }}*"
-                    ng-model="ngModel.datasource.config.bigQuery.optimizeCurrentTimestamp.granularity">
+                    ng-model="ngModel.model.datasource.config.bigQuery.optimizeCurrentTimestamp.granularity">
               <md-option
                       ng-repeat="granularity in bigqueryConfigSvc.ALL_TIMESTAMP_GRANULARITY"
                       ng-value="granularity">{{ granularity }}</md-option>

@@ -40,7 +40,7 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
     replace: true,
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      /** @type {!ChartWidgetConfig} */
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-datasource-config-directive.html',
@@ -55,6 +55,11 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
       
       /** @export {!BigqueryConfigService} */
       $scope.bigqueryConfigSvc = bigqueryConfigService;
+      
+      /** @export */
+      $scope.rewriteQuery = function() {
+        dashboardService.rewriteQuery($scope.ngModel);
+      };
     }]
   };
 };

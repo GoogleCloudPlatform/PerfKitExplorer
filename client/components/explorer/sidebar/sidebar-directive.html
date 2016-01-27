@@ -28,21 +28,19 @@
       </div>
 
       <div ng-switch-when="widget.data">
-        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
+        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget" />
       </div>
 
       <div ng-switch-when="widget.data.filter">
         <query-builder-filter-config
-            ng-model="dashboardSvc.selectedWidget.model" />
+            ng-model="dashboardSvc.selectedWidget" />
       </div>
 
       <div ng-switch-when="widget.data.result">
         <!-- TODO(joemu): Refactor into a single directive for the panel. -->
-        <query-builder-column-config
-            ng-model="dashboardSvc.selectedWidget.model">
-        </query-builder-column-config>
+        <query-builder-column-config ng-model="dashboardSvc.selectedWidget"></query-builder-column-config>
         <div class="pk-sidebar-group-title">Result Shape</div>
-        <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
+        <query-result-config ng-model="dashboardSvc.selectedWidget.model"></query-result-config>
       </div>
 
       <div ng-switch-when="widget.config">
@@ -52,7 +50,7 @@
         </div>
         <div ng-show="dashboardSvc.selectedWidget.model.type === dashboardSvc.widgetFactorySvc.widgetTypes.CHART">
           <div class="pk-sidebar-group-title">Datasource</div>
-          <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
+          <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget" />
         </div>
       </div>
 
