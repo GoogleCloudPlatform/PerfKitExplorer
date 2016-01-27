@@ -54,7 +54,7 @@ explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective = fun
 
       /** @export */
       $scope.rewriteQuery = function() {
-        dashboardService.rewriteQuery(ngModel);
+        dashboardService.rewriteQuery($scope.ngModel);
       };
 
       /**
