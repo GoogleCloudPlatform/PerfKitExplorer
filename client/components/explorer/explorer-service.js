@@ -287,7 +287,7 @@ ExplorerService.prototype.viewSql = function(rewrite) {
   }
 
   if (rewrite === true && !widget.model.datasource.custom_query) {
-    this.dashboard.rewriteQuery(widget);
+    widget.model.datasource.query = this.dashboard.rewriteQuery(widget);
   }
 
   this.model.code_editor.isOpen = true;
