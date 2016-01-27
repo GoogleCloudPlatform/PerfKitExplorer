@@ -241,27 +241,6 @@ ExplorerService.prototype.listDashboards = function() {
 
 
 /**
- * Updates the query and state of the selected widget's datasource.
- * @export
- */
-ExplorerService.prototype.customizeSql = function(rewrite) {
-  if (rewrite !== true) {
-    rewrite = false;
-  }
-
-  let widget = this.dashboard.selectedWidget;
-  if (!widget) {
-    throw new Error('No selected widget.');
-  }
-  this.dashboard.customizeSql(widget, rewrite);
-  this.model.readOnly = false;
-  this.model.code_editor.isOpen = true;
-
-  this.model.code_editor.selectedMode = CodeEditorMode.SQL;
-};
-
-
-/**
  * Shows the JSON editor for the selected widget.
  * @export
  */
@@ -335,30 +314,6 @@ ExplorerService.prototype.unselectWidget = function() {
   if (this.model.code_editor.selectedMode !== CodeEditorMode.LOG) {
     this.model.code_editor.isOpen = false;
   }
-};
-
-
-/**
- * Updates the query and state of the selected widget's datasource.
- * @export
- */
-ExplorerService.prototype.restoreBuilder = function() {
-  let widget = this.dashboard.selectedWidget;
-  if (!widget) {
-    throw new Error('No selected widget.');
-  }
-  if (!widget.model.datasource) {
-    throw new Error('Selected widget doesn\'t have a datasource property.');
-  }
-
-  if (widget.model.datasource.query) {
-    let msg = (
-        'Restoring the Query Builder will remove any custom SQL you have ' +
-        'provided.  Do you want to continue?');
-    if (!window.confirm(msg)) { return; }
-  }
-
-  this.dashboard.restoreBuilder(widget);
 };
 
 

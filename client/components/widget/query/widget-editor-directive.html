@@ -27,12 +27,12 @@
         </button>
         <button type="button" class="btn btn-default"
                 ng-show="!footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                ng-click="footerCtrl.explorer.customizeSql(true)">
+                ng-click="footerCtrl.bigqueryWidgetSvc.customizeSql(footerCtrl.dashboard.selectedWidget)">
           Customize SQL
         </button>
         <button type="button" class="btn btn-default"
                 ng-show="footerCtrl.dashboard.selectedWidget && footerCtrl.dashboard.selectedWidget.model.datasource.custom_query"
-                ng-click="footerCtrl.explorer.restoreBuilder()">
+                ng-click="footerCtrl.bigqueryWidgetSvc.restoreBuilder(footerCtrl.dashboard.selectedWidget)">
           Use SQL Builder
         </button>
       </div>

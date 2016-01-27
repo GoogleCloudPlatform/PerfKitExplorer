@@ -184,14 +184,11 @@ describe('explorerService', function() {
       boundWidget = dashboardService.selectedWidget;
     }));
 
-    it('should open the code editor to the SQL pane', function() {
+    fit('should open the code editor to the SQL pane', function() {
       expect(svc.model.code_editor.isOpen).toEqual(false);
-
-      spyOn(dashboardService, 'rewriteQuery');
 
       svc.viewSql();
 
-      expect(dashboardService.rewriteQuery).not.toHaveBeenCalled();
       expect(svc.model.code_editor.isOpen).toEqual(true);
       expect(svc.model.code_editor.selectedMode).toEqual(CodeEditorMode.SQL)
     });
