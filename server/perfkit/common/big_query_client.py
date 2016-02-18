@@ -592,6 +592,8 @@ class BigQueryClient(object):
       The query results.  See big query's docs for the results format:
       http://goto.google.com/big_query_query_results
     """
+    job_id = None
+
     try:
       timeout_ms = (timeout or DEFAULT_QUERY_TIMEOUT) * 1000
       job_collection = self.service.jobs()
@@ -610,6 +612,7 @@ class BigQueryClient(object):
         return query_reply
 
       job_reference = query_reply['jobReference']
+      job_id = job_reference['jobId']
 
       if 'rows' in query_reply:
         rows = query_reply['rows']
@@ -621,7 +624,7 @@ class BigQueryClient(object):
         query_reply = self._ExecuteRequestWithRetries(
             job_collection.getQueryResults(
                 projectId=self.project_id,
-                jobId=job_reference['jobId'],
+                jobId=job_id,
                 timeoutMs=timeout_ms,
                 startIndex=len(rows)))
         if 'rows' in query_reply:
@@ -631,9 +634,13 @@ class BigQueryClient(object):
       result_util.ReplyFormatter.ConvertValuesToTypedData(query_reply)
       return query_reply
     except HttpError as err:
-      msg = http_util.GetHttpErrorResponse(err)
+      msg = 'BigQueryClient.Query failed: %s' % http_util.GetHttpErrorResponse(err)
       logging.error(msg)
-      logging.error(query)
+      
+      if job_id:
+        logging.debug('jobId: %s', job_id)
+      else:
+        logging.debug('query: \n%s', query)
 
       raise BigQueryError(msg, query)
 
