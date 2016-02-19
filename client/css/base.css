@@ -72,11 +72,6 @@
   float: right;
 }
 
-html, body {
-  height: 100%;
-  width: 100%;
-}
-
 .pk-page {
   display: flex;
   display: -webkit-flex;
@@ -123,6 +118,11 @@ html, body {
 }
 
 /* Element Styling */
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   font-family: arial, sans-serif;
   font-size: 13px;
@@ -144,19 +144,46 @@ a:active {
   color: #DD4B39;
 }
 
+h1 {
+  font-size: 36px;
+  font-weight: bold;
+  margin-top: 8px;
+  margin-bottom: 12px;
+}
+
 h2 {
-  color: #DD4B39;
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: 6px;
+  margin-bottom: 12px;
 }
 
-.navigation-link {
-  color: #000;
+h3 {
+  font-size: 24px;
   font-weight: bold;
-  text-decoration: none;
+  margin-top: 6px;
+  margin-bottom: 10px;
 }
 
-.navigation-link-current {
-  color: #d14836;
+h4 {
+  font-size: 20px;
   font-weight: bold;
+  margin-top: 4px;
+  margin-bottom: 10px;
+}
+
+h5 {
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+h6 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-bottom: 8px;
 }
 
 /* Style overrides for Bootstrap + GViz Chart Editor */
