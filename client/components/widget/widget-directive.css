@@ -13,12 +13,57 @@
 
 .pk-widget-body {
   background: #ffffff;
+}
+
+.pk-widget-selected .pk-widget-body {
+  border: 2px solid #FFFF00;
+  margin: 14px;
+}
+
+.pk-widget:not(.pk-widget-selected) .pk-widget-body:hover {
   border: 1px solid #CCC;
   margin: 15px;
 }
 
+.pk-widget:not(.pk-widget-selected) .pk-widget-body:not(:hover) {
+  margin: 16px;
+}
+
 .pk-widget-body.pk-widget-no-overflow {
   overflow: hidden;
+}
+
+.pk-widget-toolbar {
+  background: #ffffff;
+  display: flex;
+  flex-direction: row-reverse;
+  min-height: 25px;
+  padding: 4px 10px;
+}
+
+.pk-widget-title {
+  color: #0d47a1;
+  display: inline-block;
+  flex-grow: 1;
+  font-weight: bold;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.pk-widget-selected .pk-widget-title {
+  color: #000;
+}
+
+.pk-widget-button {
+  margin-left: 4px;
+  cursor: pointer;
+}
+
+/** Buttons are only visible when the widget is selected or hovered. */
+.pk-widget:not(.pk-widget-selected) .pk-widget-body:not(:hover) .pk-widget-button {
+  visibility: hidden;
 }
 
 .pk-widget-content {
@@ -35,14 +80,6 @@
   padding-right: 10px;
 }
 
-.pk-widget-toolbar {
-  background: #ffffff;
-  display: flex;
-  flex-direction: row-reverse;
-  min-height: 25px;
-  padding: 4px 10px;
-}
-
 .pk-widget-footer, .pk-widget-header {
   padding-bottom: 4px;
   padding-left: 8px;
@@ -55,33 +92,12 @@
   padding-left: 8px;
 }
 
-.pk-widget-title {
-  display: inline-block;
-  flex-grow: 1;
-  font-weight: bold;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-
 .pk-container-title {
   display: inline-block;
 }
 
 .pk-add-container {
   margin: 15px;
-}
-
-.pk-widget-selected .pk-widget-body {
-  border-color: #ffff00;
-  border-width: 2px;
-  margin: 14px;
-}
-
-.pk-widget-selected .pk-widget-title {
-  color: #d14836;
-  font-weight: bold;
 }
 
 /** Hide all the errors drawn by the gviz charts */
@@ -161,16 +177,4 @@ div.pk-chart-queued {
 .pk-chart-hidden {
   visibility: hidden;
   position: absolute !important;
-}
-
-.pk-widget-close-button {
-  float: right;
-  margin-right: -4px;
-  margin-top: -2px;
-}
-
-.pk-widget-button {
-  margin-left: 4px;
-  cursor: pointer;
-
 }
