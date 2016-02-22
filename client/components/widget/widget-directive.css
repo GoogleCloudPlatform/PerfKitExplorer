@@ -16,12 +16,13 @@
 }
 
 .pk-widget-selected .pk-widget-body {
-  border: 2px solid #212121;
+  background-color: #fff;
+  border: 2px solid #616161;
   margin: 14px;
 }
 
 .pk-widget:not(.pk-widget-selected) .pk-widget-body:hover {
-  border: 1px dashed #CCC;
+  border: 1px dashed #ccc;
   margin: 15px;
 }
 
