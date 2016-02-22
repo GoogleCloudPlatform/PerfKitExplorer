@@ -185,70 +185,84 @@ describe('WidgetToolbarDirective', function() {
         targetElement.click();
         expect(actualController.moveWidgetToNextContainer).toHaveBeenCalled();
       });
+    });
 
-      it('show the widget sql panel', function() {
-        var targetElement = actualElement.find(
-            'button.widget-sql-show');
-        expect(targetElement.length).toBe(1);
+    it('show the widget sql panel', function() {
+      var targetElement = actualElement.find(
+          'button.widget-sql-show');
+      expect(targetElement.length).toBe(1);
 
-        spyOn(explorerService, 'viewSql');
-        targetElement.click();
-        expect(explorerService.viewSql).toHaveBeenCalled();
-      });
+      spyOn(explorerService, 'viewSql');
+      targetElement.click();
+      expect(explorerService.viewSql).toHaveBeenCalled();
+    });
 
-      it('use the sql builder', function() {
-        var targetElement = actualElement.find(
-            'button.widget-sql-build');
-        expect(targetElement.length).toBe(1);
+    it('use the sql builder', function() {
+      var targetElement = actualElement.find(
+          'button.widget-sql-build');
+      expect(targetElement.length).toBe(1);
 
-        spyOn(explorerService, 'restoreBuilder');
-        targetElement.click();
-        expect(explorerService.restoreBuilder).toHaveBeenCalled();
-      });
+      spyOn(explorerService, 'restoreBuilder');
+      targetElement.click();
+      expect(explorerService.restoreBuilder).toHaveBeenCalled();
+    });
 
-      it('show the widget json panel', function() {
-        var targetElement = actualElement.find(
-            'button.widget-json-show');
-        expect(targetElement.length).toBe(1);
+    it('show the widget json panel', function() {
+      var targetElement = actualElement.find(
+          'button.widget-json-show');
+      expect(targetElement.length).toBe(1);
 
-        spyOn(explorerService, 'editJson');
-        targetElement.click();
-        expect(explorerService.editJson).toHaveBeenCalled();
-      });
+      spyOn(explorerService, 'editJson');
+      targetElement.click();
+      expect(explorerService.editJson).toHaveBeenCalled();
+    });
 
-      it('remove the selected widget', function() {
-        var targetElement = actualElement.find(
-            'button.widget-delete');
-        expect(targetElement.length).toBe(1);
+    it('remove the selected widget', function() {
+      var targetElement = actualElement.find(
+          'button.widget-delete');
+      expect(targetElement.length).toBe(1);
 
-        spyOn(actualController, 'removeSelectedWidget');
-        targetElement.click();
-        expect(actualController.removeSelectedWidget).toHaveBeenCalled();
-      });
+      spyOn(actualController, 'removeSelectedWidget');
+      targetElement.click();
+      expect(actualController.removeSelectedWidget).toHaveBeenCalled();
+    });
+  });
+  
+  describe('.removeSelectedWidget', function() {
+    var targetElement;
 
-      it('call the remove method when the user confirms the action', function() {
-        var targetElement = actualElement.find(
-            'button.widget-delete');
-        expect(targetElement.length).toBe(1);
+    beforeEach(inject(function() {
+      actualElement = angular.element('<widget-toolbar />');
+      $compile(actualElement)(scope);
 
-        spyOn(window, 'confirm').and.returnValue(true);
+      scope.$digest();
 
-        spyOn(dashboardService, 'removeWidget');
-        targetElement.click();
-        expect(dashboardService.removeWidget).toHaveBeenCalled();
-      });
+      targetElement = actualElement.find('button.widget-delete');
+      actualController = actualElement.controller('widgetToolbar');
+    }));
 
-      it('do nothing when the user does not confirm the action', function() {
-        var targetElement = actualElement.find(
-            'button.widget-delete');
-        expect(targetElement.length).toBe(1);
+    it('should show a dialog with a the widget title.', function() {
+      spyOn(window, 'confirm').and.returnValue(false);
+      targetElement.click();
 
-        spyOn(window, 'confirm').and.returnValue(false);
+      var expectedMessage = 'The widget will be deleted:\n\nUntitled';
+      expect(window.confirm).toHaveBeenCalledWith(expectedMessage);
+    });
 
-        spyOn(dashboardService, 'removeWidget');
-        targetElement.click();
-        expect(dashboardService.removeWidget).not.toHaveBeenCalled();
-      });
+    it('should call the remove method when the user confirms the action', function() {
+      spyOn(window, 'confirm').and.returnValue(true);
+
+      spyOn(dashboardService, 'removeWidget');
+      targetElement.click();
+      expect(dashboardService.removeWidget).toHaveBeenCalled();
+    });
+
+    it('should do nothing when the user does not confirm the action', function() {
+      spyOn(window, 'confirm').and.returnValue(false);
+
+      spyOn(dashboardService, 'removeWidget');
+      targetElement.click();
+      expect(dashboardService.removeWidget).not.toHaveBeenCalled();
     });
   });
 });

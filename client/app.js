@@ -79,6 +79,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.WidgetEditorCtrl');
 goog.require('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetStatisticsDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.MetadataPickerDirective');
@@ -198,6 +199,8 @@ explorer.application.module.service('picklistService',
     explorer.components.widget.query.picklist.PicklistService);
 explorer.application.module.service('widgetFactoryService',
     explorer.components.widget.WidgetFactoryService);
+explorer.application.module.service('widgetService',
+    explorer.components.widget.WidgetService);
 explorer.application.module.service('queryBuilderService',
     explorer.components.widget.query.builder.QueryBuilderService);
 explorer.application.module.service('dashboardAdminPageService',
