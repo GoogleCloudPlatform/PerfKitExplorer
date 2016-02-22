@@ -83,7 +83,31 @@ explorer.components.dashboard.DashboardDirective = function() {
 
         sidebarTabService.resolveSelectedTabForWidget();
       }
-      
+
+      /** @export */
+      $scope.removeWidget = function(event, widget, container) {
+        event.stopPropagation();
+
+        if (!window.confirm('The widget will be deleted.')) {
+          return;
+        }
+
+        dashboardService.removeWidget(widget, container)
+      }
+
+      /** @export */
+      $scope.getSelectedClass = function(container) {
+        if (container.state().selected) {
+          if (explorerStateService.widgets.selected) {
+            return 'pk-container-selected-partial';
+          } else {
+            return 'pk-container-selected';
+          }
+        }
+        
+        return '';
+      }
+
       /**
        * Returns true if the widget should scroll its overflow, otherwise stretch.
        * @param {!WidgetConfig} widget
