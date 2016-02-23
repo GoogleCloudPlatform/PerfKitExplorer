@@ -22,16 +22,23 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
 
 
 describe('dashboardDirective', function() {
-  var scope, $compile;
+  var scope, $rootScope, $compile, $httpBackend;
+  var dashboardSvc, explorerSvc, chartTypeMockData;
 
   const explorer = p3rf.perfkit.explorer;
 
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
-  beforeEach(inject(function(_$rootScope_, _$compile_) {
+  beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
+      dashboardService, explorerService, chartTypeMockData) {
+    $rootScope = _$rootScope_;
     scope = _$rootScope_.$new();
     $compile = _$compile_;
+    $httpBackend = _$httpBackend_;
+    
+    dashboardSvc = dashboardService;
+    explorerSvc = explorerService;
   }));
 
   describe('compilation', function() {
@@ -43,4 +50,69 @@ describe('dashboardDirective', function() {
       expect(compile).not.toThrow();
     });
   });
+
+  describe('.removeWidget', function() {
+    var widget, container, element, controller;
+    var mockEvent;
+
+    beforeEach(inject(function() {
+      $httpBackend.whenGET(
+          /\/static\/components\/widget\/data_viz\/gviz\/gviz-charts\.json/)
+        .respond(chartTypeMockData);
+
+      explorerSvc.newDashboard();
+      scope.$digest();
+
+      container = dashboardSvc.containers[0];
+      widget = container.model.container.children[0];
+
+      scope['currentDashboard'] = dashboardSvc.current;
+
+      element = angular.element('<dashboard ng-model="currentDashboard" />');
+      $compile(element)(scope);
+
+      scope.$digest();
+
+      controller = element.isolateScope();
+    }));
+    
+    beforeEach(function() {
+      mockEvent = {
+        stopPropagation: function() {}
+      };
+    });
+
+    it('should show a dialog with the widget title.', function() {
+      spyOn(window, 'confirm').and.returnValue(false);
+      controller.removeWidget(mockEvent, widget, container);
+
+      var expectedMessage = 'The widget will be deleted:\n\nUntitled';
+      expect(window.confirm).toHaveBeenCalledWith(expectedMessage);
+    });
+
+    it('should show a dialog with the selected widget title.', function() {
+      spyOn(window, 'confirm').and.returnValue(false);
+      controller.removeWidget(mockEvent, widget, container);
+
+      var expectedMessage = 'The widget will be deleted:\n\nUntitled';
+      expect(window.confirm).toHaveBeenCalledWith(expectedMessage);
+    });
+
+    it('should call the remove method when the user confirms the action', function() {
+      spyOn(window, 'confirm').and.returnValue(true);
+
+      spyOn(dashboardSvc, 'removeWidget');
+      controller.removeWidget(mockEvent, widget, container);
+      expect(dashboardSvc.removeWidget).toHaveBeenCalled();
+    });
+
+    it('should do nothing when the user does not confirm the action', function() {
+      spyOn(window, 'confirm').and.returnValue(false);
+
+      spyOn(dashboardSvc, 'removeWidget');
+      controller.removeWidget(mockEvent, widget, container);
+      expect(dashboardSvc.removeWidget).not.toHaveBeenCalled();
+    });
+  });
+
 });
