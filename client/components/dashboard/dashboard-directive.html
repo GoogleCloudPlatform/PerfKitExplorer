@@ -27,6 +27,7 @@
                   ng-show="widget.model.type === widgetFactorySvc.widgetTypes.CHART"
                   ng-click="clickRefreshWidget($event, widget)"></span>
             <a class="pk-widget-button"
+               target="_blank"
                ng-show="widget.model.url"
                ng-click="$event.stopPropagation()"
                ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
