@@ -27,13 +27,13 @@ goog.require('p3rf.perfkit.explorer.models.ChartType');
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ChartType = explorer.models.ChartType;
-const DashboardService = explorer.components.dashboard.DashboardService;
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @constructor
  * @ngInject
  */
 explorer.components.dashboard.DashboardDirective = function() {
@@ -47,9 +47,9 @@ explorer.components.dashboard.DashboardDirective = function() {
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
     controller: [
         '$scope', 'explorerService', 'explorerStateService', 'dashboardService', 'containerService',
-        'sidebarTabService', 'widgetFactoryService',
+        'sidebarTabService', 'widgetFactoryService', 'widgetService',
         function($scope, explorerService, explorerStateService, dashboardService, containerService,
-            sidebarTabService, widgetFactoryService) {
+            sidebarTabService, widgetFactoryService, widgetService) {
       /** @export */
       $scope.containerSvc = containerService;
 
@@ -95,6 +95,17 @@ explorer.components.dashboard.DashboardDirective = function() {
         }
         
         return '';
+      }
+
+      /** @export */
+      $scope.removeWidget = function(event, widget, container) {
+        event.stopPropagation();
+
+        let msg = widgetService.getDeleteWarningMessage(widget);
+
+        if (!window.confirm(msg)) {
+          return;
+        }
       }
 
       /**

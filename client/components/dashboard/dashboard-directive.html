@@ -22,11 +22,12 @@
           <div class="pk-widget-toolbar">
             <span class="glyphicon glyphicon-remove pk-widget-button"
                   ng-hide="explorerSvc.model.readOnly"
-                  ng-click="$event.stopPropagation(); dashboardSvc.removeWidget(widget, container)"></span>
+                  ng-click="removeWidget($event, widget, container)"></span>
             <span class="glyphicon glyphicon-refresh pk-widget-button"
                   ng-show="widget.model.type === widgetFactorySvc.widgetTypes.CHART"
                   ng-click="clickRefreshWidget($event, widget)"></span>
             <a class="pk-widget-button"
+               target="_blank"
                ng-show="widget.model.url"
                ng-click="$event.stopPropagation()"
                ng-href="{{ dashboardSvc.replaceTokens(widget.model.url) }}">
