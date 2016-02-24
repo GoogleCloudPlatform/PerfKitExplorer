@@ -6,7 +6,7 @@
 }
 
 .pk-container:not(.pk-container-selected) > .pk-container-content:hover,
-.pk-container:not(.pk-container-selected-partial) > .pk-container-content:hover {
+.pk-container:not(.pk-container-selected-implicit) > .pk-container-content:hover {
   background: #e0e0e0;
   border: 1px dashed #bdbdbd;
   padding: 1px;
@@ -14,12 +14,15 @@
 
 .pk-container-selected > .pk-container-content {
   background: #e0e0e0;
+  /* Force border and padding changes to maintain jank-free border changes. */
   border: 2px solid #616161 !important;
   padding: 0 !important;
 }
 
-.pk-container-selected-partial > .pk-container-content {
+/* -implicit specifies that the container is selected because a child is selected. */
+.pk-container-selected-implicit > .pk-container-content {
   background: #e0e0e0;
+  /* Force border and padding changes to maintain jank-free border changes. */
   border: 1px solid #bdbdbd !important;
   padding: 1px !important;
 }
