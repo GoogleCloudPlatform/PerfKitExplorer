@@ -88,7 +88,7 @@ explorer.components.dashboard.DashboardDirective = function() {
       $scope.getSelectedClass = function(container) {
         if (container.state().selected) {
           if (explorerStateService.widgets.selected) {
-            return 'pk-container-selected-partial';
+            return 'pk-container-selected-implicit';
           } else {
             return 'pk-container-selected';
           }
@@ -106,6 +106,8 @@ explorer.components.dashboard.DashboardDirective = function() {
         if (!window.confirm(msg)) {
           return;
         }
+
+        dashboardService.removeWidget(widget, container);
       }
 
       /**
