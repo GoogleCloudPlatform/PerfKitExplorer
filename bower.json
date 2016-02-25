@@ -5,10 +5,10 @@
   "author": "Joe Allan Muharsky <jmuharsky@gmail.com>",
   "dependencies": {},
   "devDependencies": {
-    "angular": "~1.4.8",
+    "angular": "~1.4.9",
     "angular-bootstrap": "~0.14.3",
-    "angular-material": "~0.10.1",
-    "angular-mocks": "~1.4.8",
+    "angular-material": "~1.0.5",
+    "angular-mocks": "~1.4.9",
     "angular-ui-router": "~0.2.15",
     "angular-ui-grid": "~3.0.7",
     "bootstrap-css-only": "~3.3.5",
