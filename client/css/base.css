@@ -58,6 +58,16 @@
   display: -webkit-flex;
 }
 
+/* Bug workaround for http://crbug.com/546034 - flex issues on Chrome 48 */
+[layout="row"] > [flex="0"],
+[layout="row"] > [flex=""] {
+  min-width: 0;
+}
+[layout="column"] > [flex="0"],
+[layout="column"] > [flex=""] {
+  min-height: 0;
+}
+
 .pull-right {
   float: right;
 }

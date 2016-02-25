@@ -23,6 +23,7 @@
 
 .pk-widget-content {
   background: #ffffff;
+  overflow-y: auto;
 }
 
 .pk-container {

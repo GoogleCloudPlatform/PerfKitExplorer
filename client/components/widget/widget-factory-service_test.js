@@ -41,12 +41,13 @@ describe('widgetFactoryService', function() {
   const WidgetModel = explorer.models.WidgetModel;
   const WidgetType = explorer.models.WidgetType;
 
-  var svc, rootScope;
+  var svc, errorSvc, rootScope;
 
   beforeEach(module('explorer'));
 
-  beforeEach(inject(function(widgetFactoryService, $rootScope) {
+  beforeEach(inject(function(widgetFactoryService, errorService, $rootScope) {
     svc = widgetFactoryService;
+    errorSvc = errorService;
     rootScope = $rootScope;
   }));
 
@@ -93,6 +94,24 @@ describe('widgetFactoryService', function() {
 
       expect(widget.model.type).toEqual(WidgetType.CONTAINER);
       expect(widget.model).toEqual(json);
+    });
+    
+    it('should log a warning with the error service if the type is invalid.', function() {
+      var providedId = 'PROVIDED';
+      var providedType = 'UBERCHART314';
+      var expectedWarning = 'Widget ' + providedId + ' type not recognized: ' + providedType;
+
+      var json = new ChartWidgetModel();
+      json.id = providedId;
+      json.type = providedType;
+
+      spyOn(errorSvc, 'addWarning');
+
+      var widget = svc.createObjectFromJsonModel(json);
+
+      expect(widget.model.id).toEqual(providedId);
+      expect(widget.model.type).toEqual(providedType);
+      expect(errorSvc.addWarning).toHaveBeenCalledWith(expectedWarning);
     });
   });
 

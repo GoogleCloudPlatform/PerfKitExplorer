@@ -13,12 +13,17 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.WidgetToolbarDirective');
 
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
+goog.require('p3rf.perfkit.explorer.components.widget.WidgetService');
 
 
 goog.scope(function() {
   const explorer = p3rf.perfkit.explorer;
-
+  const DashboardService = explorer.components.dashboard.DashboardService;
+  const ExplorerService = explorer.components.explorer.ExplorerService;
+  const WidgetService = explorer.components.widget.WidgetService;
 
   /**
    * See module docstring for more information about purpose and usage.
@@ -27,7 +32,7 @@ goog.scope(function() {
    * @ngInject
    */
   explorer.components.widget.WidgetToolbarDirective = function(
-      dashboardService, explorerService) {
+      dashboardService, explorerService, widgetService) {
     return {
       restrict: 'E',
       scope: {
@@ -52,7 +57,7 @@ goog.scope(function() {
 
         /** @export */
         this.insertWidgetAt = function(index) {
-          this.dashboardSvc.addWidgetAt(this.selectedContainer, index);
+          this.dashboardSvc.addWidgetAt(this.dashboardSvc.selectedContainer, index);
         };
 
         /** @export */
@@ -89,12 +94,14 @@ goog.scope(function() {
 
         /** @export */
         this.removeSelectedWidget = function() {
-          if (!window.confirm('The selected widget will be deleted.')) {
+          let target = this.dashboardSvc.selectedWidget;
+          let msg = widgetService.getDeleteWarningMessage(target);
+
+          if (!window.confirm(msg)) {
             return;
           }
 
-          this.dashboardSvc.removeWidget(
-              this.dashboardSvc.selectedWidget, this.dashboardSvc.selectedContainer);
+          this.dashboardSvc.removeWidget(target, this.dashboardSvc.selectedContainer);
         };
 
         /** @export */

@@ -21,17 +21,19 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-const DashboardService = explorer.components.dashboard.DashboardService;
+const ChartType = explorer.models.ChartType;
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @constructor
  * @ngInject
  */
 explorer.components.dashboard.DashboardDirective = function() {
@@ -44,7 +46,9 @@ explorer.components.dashboard.DashboardDirective = function() {
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
     controller: [
         '$scope', 'explorerService', 'dashboardService', 'containerService', 'sidebarTabService',
-        function($scope, explorerService, dashboardService, containerService, sidebarTabService) {
+        'widgetFactoryService', 'widgetService',
+        function($scope, explorerService, dashboardService, containerService, sidebarTabService,
+            widgetFactoryService, widgetService) {
       /** @export */
       $scope.containerSvc = containerService;
 
@@ -53,6 +57,9 @@ explorer.components.dashboard.DashboardDirective = function() {
 
       /** @export */
       $scope.explorerSvc = explorerService;
+
+      /** @export */
+      $scope.widgetFactorySvc = widgetFactoryService;
 
       /** @export */
       $scope.clickRefreshWidget = function(event, widget) {
@@ -65,9 +72,7 @@ explorer.components.dashboard.DashboardDirective = function() {
         dashboardService.selectWidget(null, container);
         event.stopPropagation();
 
-        if (!sidebarTabService.selectedTab) {
-          sidebarTabService.selectTab(sidebarTabService.getFirstContainerTab());
-        }
+        sidebarTabService.resolveSelectedTabForContainer();
       }
 
       /** @export */
@@ -75,9 +80,51 @@ explorer.components.dashboard.DashboardDirective = function() {
         dashboardService.selectWidget(widget, container);
         event.stopPropagation();
 
-        if (!sidebarTabService.selectedTab) {
-          sidebarTabService.selectTab(sidebarTabService.getFirstWidgetTab());
+        sidebarTabService.resolveSelectedTabForWidget();
+      }
+
+      /** @export */
+      $scope.removeWidget = function(event, widget, container) {
+        event.stopPropagation();
+
+        let msg = widgetService.getDeleteWarningMessage(widget);
+
+        if (!window.confirm(msg)) {
+          return;
         }
+
+        dashboardService.removeWidget(widget, container)
+      }
+
+      /**
+       * Returns true if the widget should scroll its overflow, otherwise stretch.
+       * @param {!WidgetConfig} widget
+       * @param {!ContainerConfig} container
+       */
+      $scope.isWidgetScrollable = function(widget, container) {
+        // TODO: Replace with data-driven constraints for visualizations that support scrolling.
+        if (container.model.container.scroll_overflow === true) {
+          if (widget.model.type === widgetFactoryService.widgetTypes.TEXT) {
+            return true;
+          }
+          
+          if (widget.model.type === widgetFactoryService.widgetTypes.CHART) {
+            switch (widget.model.chart.chartType) {
+              case ChartType.TABLE:
+                return true;
+            }
+          }
+          
+          return false;
+        }
+      }
+      
+      /** @export {number} */
+      $scope.getWidgetFlexWidth = function(widget, container) {
+        let widgetSpan = widget.model.layout.columnspan;
+        let totalSpan = container.model.container.columns;
+
+        return Math.floor(widgetSpan / totalSpan * 100);
       }
     }]
   };

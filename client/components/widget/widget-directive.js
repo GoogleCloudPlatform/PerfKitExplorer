@@ -28,6 +28,7 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.perfkitWidget');
 
+
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 
@@ -36,6 +37,7 @@ const explorer = p3rf.perfkit.explorer;
  * See module docstring for more information about purpose and usage.
  *
  * @return {Object} Directive definition object.
+ * @ngInject
  */
 explorer.components.widget.perfkitWidget = function() {
   return {
