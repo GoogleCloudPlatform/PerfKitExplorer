@@ -4,7 +4,7 @@
 
   <div ng-repeat="container in dashboardSvc.containers"
        class="pk-container pk-container-{{ container.model.id }} pk-background"
-       ng-class="{'pk-container-selected': container.state().selected}">
+       ng-class="getSelectedClass(container)">
 
     <container class="pk-container-content" layout="column"
                ng-model="container.model"

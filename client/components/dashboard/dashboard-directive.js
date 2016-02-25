@@ -46,10 +46,10 @@ explorer.components.dashboard.DashboardDirective = function() {
     },
     templateUrl: '/static/components/dashboard/dashboard-directive.html',
     controller: [
-        '$scope', 'explorerService', 'dashboardService', 'containerService', 'sidebarTabService',
-        'widgetFactoryService', 'widgetService',
-        function($scope, explorerService, dashboardService, containerService, sidebarTabService,
-            widgetFactoryService, widgetService) {
+        '$scope', 'explorerService', 'explorerStateService', 'dashboardService', 'containerService',
+        'sidebarTabService', 'widgetFactoryService', 'widgetService',
+        function($scope, explorerService, explorerStateService, dashboardService, containerService,
+            sidebarTabService, widgetFactoryService, widgetService) {
       /** @export */
       $scope.containerSvc = containerService;
 
@@ -85,6 +85,19 @@ explorer.components.dashboard.DashboardDirective = function() {
       }
 
       /** @export */
+      $scope.getSelectedClass = function(container) {
+        if (container.state().selected) {
+          if (explorerStateService.widgets.selected) {
+            return 'pk-container-selected-implicit';
+          } else {
+            return 'pk-container-selected';
+          }
+        }
+        
+        return '';
+      }
+
+      /** @export */
       $scope.removeWidget = function(event, widget, container) {
         event.stopPropagation();
 
@@ -94,7 +107,7 @@ explorer.components.dashboard.DashboardDirective = function() {
           return;
         }
 
-        dashboardService.removeWidget(widget, container)
+        dashboardService.removeWidget(widget, container);
       }
 
       /**

@@ -44,6 +44,7 @@ div:focus {
 }
 
 .pk-page-content {
+  background-color: #F5F5F5;
   flex-grow: 1;
   overflow-x: auto;
   overflow-y: auto;
