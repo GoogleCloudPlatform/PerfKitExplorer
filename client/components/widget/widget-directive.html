@@ -1,6 +1,5 @@
-<div ng-style="layoutStyle"
+<div flex layout="column"
      ng-class="{'pk-widget-selected': widgetConfig.state().selected}">
-  <div class="pk-widget-body {{ widgetConfig.model.layout.cssClasses }}"
-       ng-transclude>
+  <div class="pk-widget-body" layout="column" flex ng-transclude>
   </div>
 </div>

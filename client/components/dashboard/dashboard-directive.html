@@ -3,8 +3,8 @@
   <div class="spinner" ng-show="explorerSvc.model.dashboardIsLoading"></div>
 
   <div ng-repeat="container in dashboardSvc.containers"
-       class="pk-container pk-container-{{ container.model.id }} pk-background"
-       ng-class="getSelectedClass(container)">
+       class="pk-container pk-background"
+       ng-class="['pk-container-' + container.model.id, getSelectedClass(container)]">
 
     <container class="pk-container-content" layout="column"
                ng-model="container.model"
@@ -18,7 +18,9 @@
       <div layout="row" flex>
         <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }} pk-background"
                 ng-repeat="widget in container.model.container.children"
-                widget-config="widget" flex>
+                widget-config="widget"
+                flex="{{ getWidgetFlexWidth(widget, container) }}"
+                layout="column">
           <div class="pk-widget-toolbar">
             <span class="glyphicon glyphicon-remove pk-widget-button"
                   ng-hide="explorerSvc.model.readOnly"
@@ -44,14 +46,14 @@
               ng-style="{'height': container.model.container.widget_header_height + 'px'}"
               markdown-to-html="(widget.model.header_text || '') | stripHtml">
           </div>
-          <div class="pk-widget-content"
+          <div class="pk-widget-content" flex layout="column"
                ng-style="{height: isWidgetScrollable(widget, container) ? container.model.container.height + 'px' : 'auto',
                           'min-height': container.model.container.height + 'px',
                           'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'visible'}"
                ng-click="clickWidget($event, widget, container)">
-            <gviz-chart-widget widget-config="widget"
+            <gviz-chart-widget widget-config="widget" flex
                  ng-if="widget.model.type == widgetFactorySvc.widgetTypes.CHART"></gviz-chart-widget>
-            <div class="pk-widget-section-text"
+            <div class="pk-widget-section-text" flex
                  ng-if="widget.model.type == widgetFactorySvc.widgetTypes.TEXT"
                  ng-show="widget.model.datasource.text"
                  markdown-to-html="widget.model.datasource.text | stripHtml">
