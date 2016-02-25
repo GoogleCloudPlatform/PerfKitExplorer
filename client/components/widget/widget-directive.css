@@ -21,12 +21,12 @@
   margin: 14px;
 }
 
-.pk-widget:not(.pk-widget-selected) .pk-widget-body:hover {
+.pk-widget > div:not(.pk-widget-selected) .pk-widget-body:hover {
   border: 1px dashed #ccc;
   margin: 15px;
 }
 
-.pk-widget:not(.pk-widget-selected) .pk-widget-body:not(:hover) {
+.pk-widget> div:not(.pk-widget-selected) .pk-widget-body:not(:hover) {
   margin: 16px;
 }
 
