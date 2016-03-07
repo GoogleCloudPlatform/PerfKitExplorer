@@ -70,6 +70,7 @@
 .pk-widget-content {
   background: #ffffff;
   overflow-y: auto;
+  overflow-x: auto;
 }
 
 .pk-container {
