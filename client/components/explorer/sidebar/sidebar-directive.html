@@ -1,5 +1,4 @@
-<div class="pk-sidebar-panel-header
-            {{ tabSvc.selectedTab.panelTitleClass }}">
+<div class="pk-sidebar-panel-header" ng-class="tabSvc.selectedTab.panelTitleClass">
   <div style="float: right">
     <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)"
         aria-label="close panel">
@@ -10,11 +9,11 @@
       {{ tabSvc.selectedTab.title }}</div>
 </div>
 
-<div class="pk-sidebar-panel-content
-            {{ tabSvc.selectedTab.panelClass }}" flex>
+<div class="pk-sidebar-panel-content" ng-class="tabSvc.selectedTab.panelClass"
+    flex layout="column">
 
   <!-- TODO(joemu): Replace this switch with a data-driven approach. -->
-  <div ng-switch="tabSvc.selectedTab.id">
+  <div ng-switch="tabSvc.selectedTab.id" flex layout="column">
 
     <div ng-switch-when="dashboard">
       <dashboard-config ng-model="dashboardSvc.current.model" />
@@ -63,8 +62,7 @@
   </div>
 </div>
 
-<div class="pk-sidebar-panel-footer
-            {{ tabSvc.selectedTab.panelTitleClass}}">
+<div class="pk-sidebar-panel-footer" ng-class="tabSvc.selectedTab.panelTitleClass">
   <md-button style="float: left" aria-label="previous tab"
       ng-click="tabSvc.selectedTab = tabSvc.getPreviousTab(tabSvc.selectedTab)">
     previous</md-button>

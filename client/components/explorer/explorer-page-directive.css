@@ -69,3 +69,7 @@ md-tooltip.md-default-theme {
 md-tooltip.md-default-theme .md-background {
   background-color: #fea;
 }
+
+explorer-header {
+  flex-shrink: 0;
+}
