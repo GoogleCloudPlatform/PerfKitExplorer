@@ -188,6 +188,9 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
           chartWrapper.setDataTable(data);
 
+          adjustHeight();
+          adjustWidth();
+
           // Force height and width options value with state value
           options.height = scope.widgetConfig.state().chart.height;
           options.width = scope.widgetConfig.state().chart.width;
@@ -227,12 +230,8 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
       let adjustWidth = function() {
         if (scope.widgetConfig.model.chart) {
-          if (isWidthEnforced()) {
-            scope.widgetConfig.state().chart.width =
-                element.parent().prop('offsetWidth') - 1;
-          } else {
-            scope.widgetConfig.state().chart.width = null;
-          }
+          scope.widgetConfig.state().chart.width =
+              element.parent().prop('offsetWidth') - 1;
         }
       };
       adjustWidth();

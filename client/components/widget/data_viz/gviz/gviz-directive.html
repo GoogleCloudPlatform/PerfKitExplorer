@@ -1,5 +1,5 @@
-<div>
-  <div class="pk-conditional" ng-class="getWidgetStatusClass()">
+<div layout="column" flex>
+  <div class="pk-conditional" ng-class="getWidgetStatusClass()" layout="column" flex>
     <div class="pk-if pk-cond-nodata pk-chart-nodata">
       No data available.
     </div>
@@ -11,7 +11,7 @@
     <div class="pk-if pk-cond-fetching pk-chart-loading md-primary md-hue-3">
       <md-progress-circular md-mode="indeterminate"></md-progress-circular>
     </div>
-    <div class="pk-if pk-cond-fetched pk-chart">
+    <div flex class="pk-if pk-cond-fetched pk-chart">
     </div>
     <div class="pk-if pk-cond-error pk-chart-error">
       {{ widgetConfig.state().chart.error }}
