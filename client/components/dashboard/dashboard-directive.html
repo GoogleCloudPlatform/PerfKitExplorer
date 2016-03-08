@@ -18,7 +18,9 @@
       <div layout="row" flex>
         <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }} pk-background"
                 ng-repeat="widget in container.model.container.children"
-                widget-config="widget" flex>
+                widget-config="widget"
+                flex="{{ getWidgetFlexWidth(widget, container) }}"
+                layout="columns">
           <div class="pk-widget-toolbar">
             <span class="glyphicon glyphicon-remove pk-widget-button"
                   ng-hide="explorerSvc.model.readOnly"

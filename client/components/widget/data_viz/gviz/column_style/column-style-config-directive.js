@@ -35,7 +35,6 @@ const gviz = explorer.components.widget.data_viz.gviz;
 gviz.column_style.ColumnStyleConfigDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
     transclude: false,
     scope: {
       /** @type {!ChartWidgetConfig} */

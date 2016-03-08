@@ -31,7 +31,6 @@ goog.scope(function() {
       arrayUtilService, columnStyleService, dashboardService) {
     return {
       restrict: 'E',
-      replace: true,
       scope: {
         /** @type {!ChartWidgetConfig} */
         ngModel: '='

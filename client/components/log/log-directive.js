@@ -35,7 +35,6 @@ const explorer = p3rf.perfkit.explorer;
 explorer.components.log.LogDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
     transclude: true,
     templateUrl: '/static/components/log/log-directive.html',
     controller: [

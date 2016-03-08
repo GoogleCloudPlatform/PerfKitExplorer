@@ -12,7 +12,7 @@ div:focus {
   outline: none;
 }
 
-.pk-page-canvas {
+explorer-page {
   height: 100%;
   width: 100%;
 }
@@ -68,4 +68,8 @@ md-tooltip.md-default-theme {
 
 md-tooltip.md-default-theme .md-background {
   background-color: #fea;
+}
+
+explorer-header {
+  flex-shrink: 0;
 }
