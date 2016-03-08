@@ -21,10 +21,14 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.DatasourceType');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const DatasourceType = explorer.models.DatasourceType;
+const WidgetType = explorer.models.WidgetType;
 
 
 /**
@@ -42,9 +46,19 @@ explorer.components.widget.WidgetConfigDirective = function(widgetFactoryService
     },
     templateUrl: '/static/components/widget/widget-config-directive.html',
     link: function(scope) {
-      // TODO: Improve logic to keep Containers out of widget type picklists.
-      scope.widgetTypes = angular.copy(widgetFactoryService.widgetTypes);
-      delete scope.widgetTypes['CONTAINER'];
+      scope.datasourceTypes = angular.copy(DatasourceType);
+      scope.widgetTypes = angular.copy(WidgetType);
+
+      scope.changeDatasource = function() {
+        switch (scope.ngModel.datasource.type) {
+          case DatasourceType.TEXT:
+            scope.ngModel.type = WidgetType.TEXT;
+            break;
+          default:
+            scope.ngModel.type = WidgetType.CHART;
+        }
+        console.log()
+      }
     }
   };
 };
