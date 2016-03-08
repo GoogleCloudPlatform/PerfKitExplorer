@@ -84,7 +84,10 @@ describe('gvizDirective', function() {
                 /.*pk-cond-(\S+)/, '$1');
 
             var result = {};
-            result.pass = (parentState == expected);
+            var classNames = parentState.split(' ');
+
+            result.pass = (classNames.indexOf(expected) > -1);
+
             var elemText = actual.tagName + '(' + actual.className + ')';
             if (!result.pass) {
               result.message =
@@ -144,10 +147,7 @@ describe('gvizDirective', function() {
         GvizDataTable = _GvizDataTable_;
         dataViewServiceMock = dataViewService;
 
-        // Setup global config.
         configService.populate(configService.getConfigForTesting());
-
-        // Return 10 rows by default
         spyOn(GvizDataTable.prototype, 'getNumberOfRows').and.returnValue(10);
 
         httpBackend.expectGET(
