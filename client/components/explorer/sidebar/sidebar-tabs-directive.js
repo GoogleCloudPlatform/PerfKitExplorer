@@ -32,7 +32,6 @@ const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 explorer.components.explorer.sidebar.SidebarTabsDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
     transclude: false,
     templateUrl: '/static/components/explorer/sidebar/sidebar-tabs-directive.html',
     controller: [

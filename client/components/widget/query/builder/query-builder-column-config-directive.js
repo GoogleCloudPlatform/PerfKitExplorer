@@ -40,7 +40,6 @@ explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = fun
     queryEditorService) {
   return {
     restrict: 'E',
-    replace: true,
     transclude: false,
     scope: {
       /** @type {!ChartWidgetModel} */

@@ -39,7 +39,6 @@ const ChartType = explorer.models.ChartType;
 explorer.components.dashboard.DashboardDirective = function() {
   return {
     restrict: 'E',
-    replace: true,
     transclude: true,
     scope: {
       'ngModel': '='
@@ -131,6 +130,14 @@ explorer.components.dashboard.DashboardDirective = function() {
           
           return false;
         }
+      }
+      
+      /** @export {number} */
+      $scope.getWidgetFlexWidth = function(widget, container) {
+        let widgetSpan = widget.model.layout.columnspan;
+        let totalSpan = container.model.container.columns;
+
+        return Math.floor(widgetSpan / totalSpan * 100);
       }
     }]
   };

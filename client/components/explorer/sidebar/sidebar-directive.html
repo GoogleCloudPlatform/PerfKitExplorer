@@ -1,81 +1,72 @@
-<div class="pk-sidebar-panel" layout="column" flex
-  ng-show="tabSvc.selectedTab">
+<div class="pk-sidebar-panel-header" ng-class="tabSvc.selectedTab.panelTitleClass">
+  <div style="float: right">
+    <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)"
+        aria-label="close panel">
+      <i class="fa fa-times"></i>
+    </md-button>
+  </div>
+  <div class="pk-sidebar-panel-header-text">
+      {{ tabSvc.selectedTab.title }}</div>
+</div>
 
-  <div class="pk-sidebar-panel-header
-              {{ tabSvc.selectedTab.panelTitleClass }}">
-    <div style="float: right">
-      <md-button ng-click="tabSvc.toggleTab(tabSvc.selectedTab)"
-          aria-label="close panel">
-        <i class="fa fa-times"></i>
-      </md-button>
+<div class="pk-sidebar-panel-content" ng-class="tabSvc.selectedTab.panelClass"
+    flex layout="column">
+
+  <!-- TODO(joemu): Replace this switch with a data-driven approach. -->
+  <div ng-switch="tabSvc.selectedTab.id" flex layout="column">
+
+    <div ng-switch-when="dashboard">
+      <dashboard-config ng-model="dashboardSvc.current.model" />
     </div>
-    <div class="pk-sidebar-panel-header-text">
-        {{ tabSvc.selectedTab.title }}</div>
-  </div>
 
-  <div class="pk-sidebar-panel-content
-              {{ tabSvc.selectedTab.panelClass }}" flex>
-
-    <!-- TODO(joemu): Replace this switch with a data-driven approach. -->
-    <div ng-switch="tabSvc.selectedTab.id">
-
-      <div ng-switch-when="dashboard">
-        <dashboard-config ng-model="dashboardSvc.current.model" />
-      </div>
-
-      <div ng-switch-when="container">
-        <container-config ng-model="dashboardSvc.selectedContainer.model.container" />
-      </div>
-
-      <div ng-switch-when="widget.data">
-        <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
-      </div>
-
-      <div ng-switch-when="widget.data.filter">
-        <query-builder-filter-config
-            ng-model="dashboardSvc.selectedWidget.model" />
-      </div>
-
-      <div ng-switch-when="widget.data.result">
-        <!-- TODO(joemu): Refactor into a single directive for the panel. -->
-        <query-builder-column-config
-            ng-model="dashboardSvc.selectedWidget.model">
-        </query-builder-column-config>
-        <div class="pk-sidebar-group-title">Result Shape</div>
-        <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
-      </div>
-
-      <div ng-switch-when="widget.config">
-        <!-- TODO(joemu): Refactor into a single directive for the panel. -->
-        <div class="pk-sidebar-group">
-          <widget-config ng-model="dashboardSvc.selectedWidget.model" />
-        </div>
-        <div ng-show="dashboardSvc.selectedWidget.model.type === dashboardSvc.widgetFactorySvc.widgetTypes.CHART">
-          <div class="pk-sidebar-group-title">Datasource</div>
-          <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
-        </div>
-      </div>
-
-      <div ng-switch-when="widget.chart">
-        <chart-config ng-model="dashboardSvc.selectedWidget.model" />
-      </div>
-
-      <div ng-switch-when="widget.columns">
-        <column-style-config ng-model="dashboardSvc.selectedWidget" />
-      </div>
-
-      <div ng-switch-default>UNSUPPORTED TYPE: {{ tabSvc.selectedTab.id }}</div>
+    <div ng-switch-when="container">
+      <container-config ng-model="dashboardSvc.selectedContainer.model.container" />
     </div>
-  </div>
 
-  <div class="pk-sidebar-panel-footer
-              {{ tabSvc.selectedTab.panelTitleClass}}">
-    <md-button style="float: left" aria-label="previous tab"
-        ng-click="tabSvc.selectedTab = tabSvc.getPreviousTab(tabSvc.selectedTab)">
-      previous</md-button>
-    <md-button style="float: right" aria-label="next tab"
-        ng-click="tabSvc.selectedTab = tabSvc.getNextTab(tabSvc.selectedTab)">
-      next</md-button>
-  </div>
+    <div ng-switch-when="widget.data">
+      <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
+    </div>
 
+    <div ng-switch-when="widget.data.filter">
+      <query-builder-filter-config
+          ng-model="dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.data.result">
+      <!-- TODO(joemu): Refactor into a single directive for the panel. -->
+      <query-builder-column-config
+          ng-model="dashboardSvc.selectedWidget.model">
+      </query-builder-column-config>
+      <div class="pk-sidebar-group-title">Result Shape</div>
+      <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.config">
+      <!-- TODO(joemu): Refactor into a single directive for the panel. -->
+      <div class="pk-sidebar-group">
+        <widget-config ng-model="dashboardSvc.selectedWidget.model" />
+      </div>
+      <div class="pk-sidebar-group-title">Datasource</div>
+      <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.chart">
+      <chart-config ng-model="dashboardSvc.selectedWidget.model" />
+    </div>
+
+    <div ng-switch-when="widget.columns">
+      <column-style-config ng-model="dashboardSvc.selectedWidget" />
+    </div>
+
+    <div ng-switch-default>UNSUPPORTED TYPE: {{ tabSvc.selectedTab.id }}</div>
+  </div>
+</div>
+
+<div class="pk-sidebar-panel-footer" ng-class="tabSvc.selectedTab.panelTitleClass">
+  <md-button style="float: left" aria-label="previous tab"
+      ng-click="tabSvc.selectedTab = tabSvc.getPreviousTab(tabSvc.selectedTab)">
+    previous</md-button>
+  <md-button style="float: right" aria-label="next tab"
+      ng-click="tabSvc.selectedTab = tabSvc.getNextTab(tabSvc.selectedTab)">
+    next</md-button>
 </div>

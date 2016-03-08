@@ -1,4 +1,9 @@
-<div class="pk-header">
+<div class="pk-header" flex layout="row">
+
+  <div class="page-title" flex>
+    <span ng-bind="ctrl.dashboardSvc.replaceTokens(
+                       ctrl.dashboardSvc.current.model.title)"></span>
+  </div>
 
   <div class="pk-header-toolbar">
     <span class="pk-header-status" ng-show="!ctrl.workQueueSvc.isEmpty()">
@@ -43,13 +48,6 @@
         </li>
       </ul>
     </div>
-
-  </div>
-
-  <div class="page-title">
-    <span ng-bind="ctrl.dashboardSvc.replaceTokens(
-                       ctrl.dashboardSvc.current.model.title)"></span>
-
   </div>
 
 </div>
