@@ -229,7 +229,7 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
   /** @export @type {!PivotConfigModel} */
   this.pivot_config = new PivotConfigModel();
 
-  /** @type @type {?number} */
+  /** @export @type {?number} */
   this.row_limit = null;
 
   /**

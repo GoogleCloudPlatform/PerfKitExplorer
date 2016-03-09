@@ -73,7 +73,7 @@ const versions = explorer.components.dashboard.versions;
 /**
  * See module docstring for a description of this service.
  *
- * @param {!angular.FilterService} $filter
+ * @param {!angular.$filter} $filter
  * @ngInject
  * @constructor
  */
@@ -93,7 +93,7 @@ explorer.components.dashboard.DashboardVersionService = function($filter) {
   this.currentVersion = this.versions[0];
 
   /**
-   * @type {!Angular.FilterService} $filter
+   * @type {!angular.$filter} $filter
    */
   this.filter_ = $filter;
 };

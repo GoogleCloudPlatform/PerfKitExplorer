@@ -26,7 +26,7 @@ const explorer = p3rf.perfkit.explorer;
 
 /**
  * Constants for the editor modes.
- * @enum
+ * @enum {string}
  * @export
  */
 explorer.components.code_editor.CodeEditorMode = {

@@ -23,6 +23,9 @@ goog.provide('p3rf.perfkit.explorer.components.layout.ResizeDirective');
 
 goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
 
+goog.scope(function() {
+const explorer = p3rf.perfkit.explorer;
+const ResizeService = explorer.components.layout.ResizeService;
 
 /**
  * The ResizeDirective is an attribute that adds behavior to the element around
@@ -32,7 +35,7 @@ goog.require('p3rf.perfkit.explorer.components.layout.ResizeService');
  * {!string} resizeElementId The Id of the element to resize.
  *
  * @param {!ResizeService} resizeService
- * @returns {!ResizeDirective}
+ * @returns {!explorer.components.layout.ResizeDirective}
  * @ngInject
  * @export
  * @constructor
@@ -68,3 +71,5 @@ p3rf.perfkit.explorer.components.layout.ResizeDirective = function(
         }
     };
 };
+
+});  // goog.scope

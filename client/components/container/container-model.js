@@ -107,7 +107,7 @@ goog.inherits(ContainerWidgetModel, WidgetModel);
 /**
  * @constructor
  * @param {!Object} widgetFactoryService
- * @param {?(Object|ContainerWidgetModel)} opt_model JSON or
+ * @param {?(Object|ContainerWidgetModel)=} opt_model JSON or
  *     ContainerWidgetModel.
  * @extends p3rf.perfkit.explorer.models.WidgetConfig
  */

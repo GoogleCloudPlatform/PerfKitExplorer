@@ -272,7 +272,7 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
         return (
                 scope.multiboxSelectedOptions.length > 0 &&
                 activeInput === scope.getLastInputElement() &&
-                activeInput &&
+                goog.isDefAndNotNull(activeInput) &&
                 activeInput.value === '');
       };
 

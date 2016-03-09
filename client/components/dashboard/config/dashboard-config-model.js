@@ -35,7 +35,7 @@ goog.scope(function() {
     constructor() {
       /**
        * A dictionary of config models provided by extensions.
-       * @export {{string, {IExplorerExtension}}}
+       * @export {Object.<string, IExplorerExtension>}
        */
       this.ext = {};
     }

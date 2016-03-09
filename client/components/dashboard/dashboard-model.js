@@ -46,13 +46,13 @@ explorer.components.dashboard.DashboardParam = function(name, value) {
    * @type {string}
    * @export
    */
-  this.name = name || '';
+  this.name = name;
 
   /**
    * @type {string}
    * @export
    */
-  this.value = value || '';
+  this.value = value;
 };
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 
@@ -139,9 +139,9 @@ explorer.components.dashboard.DashboardModel = function() {
    * @export
    */
   this.params = [];
-  
+
   /**
-   * @dict
+   * @type {Object}
    */
   this.config = {
   };
@@ -159,7 +159,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
  * @return {string} An email address if one exists, otherwise an empty string.
  */
 DashboardModel.prototype.getDefaultOwner = function() {
-  return CURRENT_USER_EMAIL;
+  return goog.global['CURRENT_USER_EMAIL'];
 };
 
 

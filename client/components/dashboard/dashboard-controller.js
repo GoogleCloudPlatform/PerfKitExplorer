@@ -23,6 +23,7 @@ goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 
 goog.scope(function() {
@@ -73,7 +74,7 @@ explorer.components.dashboard.DashboardCtrl = function($scope, $state,
    */
   this.widgetFactoryService_ = widgetFactoryService;
 
-  /** @export {!SidebarTabService} */
+  /** @export {!explorer.components.explorer.sidebar.SidebarTabService} */
   this.tabSvc = sidebarTabService;
 
   /**

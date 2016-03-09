@@ -22,12 +22,16 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDir
 
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.FieldResult');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.LabelResult');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
 const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
 
 /**

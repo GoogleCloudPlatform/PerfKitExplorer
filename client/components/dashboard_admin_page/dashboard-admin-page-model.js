@@ -28,7 +28,7 @@ const explorer = p3rf.perfkit.explorer;
 /** @constructor */
 explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
   /**
-   * @type {bool}
+   * @type {boolean}
    * @export
    */
   this.filter_owner = false;
@@ -40,7 +40,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
   this.owner = null;
 
   /**
-   * @type {?bool}
+   * @type {?boolean}
    * @export
    */
   this.mine = null;

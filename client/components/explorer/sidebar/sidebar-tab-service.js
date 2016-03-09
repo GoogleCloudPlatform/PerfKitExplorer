@@ -21,11 +21,12 @@ goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SIDEBAR_TABS');
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
-
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService
 
 
 explorer.components.explorer.sidebar.SIDEBAR_TABS = [
@@ -178,7 +179,7 @@ SidebarTabService.prototype.getFirstWidgetTab = function() {
 
 /**
   * Returns true if the tab should be displayed, otherwise false.
-  * @param {!SidebarTabModel}
+  * @param {!SidebarTabModel} tab
   * @export
   */
 SidebarTabService.prototype.isTabVisible = function(tab) {
@@ -229,7 +230,7 @@ SidebarTabService.prototype.getLastTab = function() {
     }
   }
 
-  console.log('getFirstTab failed: No non-widget tabs available.');
+  throw new Error('getFirstTab failed: No non-widget tabs available.');
 };
 
 

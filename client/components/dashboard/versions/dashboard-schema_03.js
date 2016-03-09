@@ -34,6 +34,7 @@ goog.scope(function() {
   const DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
   const PivotConfigModel = p3rf.perfkit.explorer.models.perfkit_simple_builder.PivotConfigModel;
 
+  /** @constructor */
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV3 = function() {
     this.version = '3';
   };
