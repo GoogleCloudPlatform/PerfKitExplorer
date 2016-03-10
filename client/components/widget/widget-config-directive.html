@@ -16,12 +16,13 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">content</div>
+    <div class="pk-sidebar-item-label">datasource</div>
     <div class="pk-sidebar-item-value">
       <md-select
-          ng-model="ngModel.type"
+          ng-model="ngModel.datasource.type"
+          ng-change="changeDatasource()"
           class="pk-sidebar-input-full widget-type">
-        <md-option ng-repeat="(name, value) in widgetTypes" ng-value="value">{{ value }}</md-option>
+        <md-option ng-repeat="(name, value) in datasourceTypes" ng-value="value">{{ value }}</md-option>
       </md-select>
     </div>
   </div>

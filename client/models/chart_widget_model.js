@@ -27,6 +27,7 @@ goog.provide('p3rf.perfkit.explorer.models.ChartWidgetState');
 goog.provide('p3rf.perfkit.explorer.models.DataViewModel');
 goog.provide('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.provide('p3rf.perfkit.explorer.models.DatasourceState');
+goog.provide('p3rf.perfkit.explorer.models.DatasourceType');
 goog.provide('p3rf.perfkit.explorer.models.ResultsDataStatus');
 goog.provide('p3rf.perfkit.explorer.models.SortOrder');
 
@@ -243,9 +244,20 @@ explorer.models.DataViewModel = function() {
 const DataViewModel = explorer.models.DataViewModel;
 
 
+/** @enum {string} */
+explorer.models.DatasourceType = {
+  BIGQUERY: 'BigQuery',
+  CLOUDSQL: 'Cloud SQL',
+  TEXT: 'Text'
+}
+const DatasourceType = explorer.models.DatasourceType;
+
 
 /** @constructor */
 explorer.models.DatasourceModel = function() {
+  /** @export {!DatasourceType} */
+  this.type = DatasourceType.BIGQUERY;
+
   /**
    * @type {!QueryConfigModel}
    * @export
