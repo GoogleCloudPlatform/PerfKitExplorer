@@ -20,10 +20,10 @@
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-describe('QueryBuilderDatasourceConfigDirective', function() {
+fdescribe('QueryBuilderDatasourceConfigDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -32,6 +32,7 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
   const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
   beforeEach(module('explorer'));
+  beforeEach(module('pkx.bigquery'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_,
@@ -51,7 +52,7 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<query-builder-datasource-config ng-model="providedWidgetModel" />');
+          '<bigquery-datasource-config ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -63,7 +64,7 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<query-builder-datasource-config ng-model="widgetModel" />');
+        '<bigquery-datasource-config ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

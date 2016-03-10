@@ -24,11 +24,17 @@ goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
 goog.require('p3rf.perfkit.explorer.models.DatasourceType');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
+goog.require('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigModel');
+
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const DatasourceType = explorer.models.DatasourceType;
 const WidgetType = explorer.models.WidgetType;
+
+const BigqueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
+const CloudsqlConfigModel = explorer.ext.cloudsql.CloudsqlConfigModel;
 
 
 /**
@@ -49,13 +55,31 @@ explorer.components.widget.WidgetConfigDirective = function(widgetFactoryService
       scope.datasourceTypes = angular.copy(DatasourceType);
       scope.widgetTypes = angular.copy(WidgetType);
 
+      // TODO: Factor out into extensibility directive.
       scope.changeDatasource = function() {
         switch (scope.ngModel.datasource.type) {
+          case DatasourceType.BIGQUERY:
+            scope.ngModel.type = WidgetType.CHART;
+
+            if (!goog.isDefAndNotNull(scope.ngModel.datasource.config.bigquery)) {
+              scope.ngModel.datasource.config.cloudsql = new BigqueryConfigModel();
+            };
+
+            break;
+          case DatasourceType.CLOUDSQL:
+            scope.ngModel.type = WidgetType.CHART;
+
+            if (!goog.isDefAndNotNull(scope.ngModel.datasource.config.cloudsql)) {
+              scope.ngModel.datasource.config.cloudsql = new CloudsqlConfigModel();
+            };
+
+            break;
           case DatasourceType.TEXT:
             scope.ngModel.type = WidgetType.TEXT;
+
             break;
           default:
-            scope.ngModel.type = WidgetType.CHART;
+            throw 'Datasource type not recognized: ' + scope.ngModel.datasource.type;
         }
         console.log()
       }

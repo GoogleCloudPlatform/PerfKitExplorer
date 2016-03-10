@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview QueryDatasourceDirective encapsulates HTML, style and behavior
- *     for widget query filters.
+ * @fileoverview BigQueryDatasourceDirective encapsulates HTML, style and behavior
+ *     for configuration of BigQuery datasources.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
+goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigDirective');
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
@@ -34,7 +34,7 @@ const DashboardService = explorer.components.dashboard.DashboardService;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective = function() {
+explorer.ext.bigquery.BigqueryConfigDirective = function() {
   return {
     restrict: 'E',
     transclude: false,
@@ -42,7 +42,7 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
       /** @type {!ChartWidgetModel} */
       'ngModel': '='
     },
-    templateUrl: '/static/components/widget/query/builder/query-builder-datasource-config-directive.html',
+    templateUrl: '/static/ext/bigquery/bigquery-config-directive.html',
     controller: [
         '$scope', 'configService', 'dashboardService', 'bigqueryConfigService',
         function($scope, configService, dashboardService, bigqueryConfigService) {
