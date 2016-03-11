@@ -36,10 +36,10 @@ const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
 /**
  * See module docstring for more information about purpose and usage.
  *
- * @ngInject
  * @export
  */
 explorer.components.container.ContainerService = class {
+  /** @ngInject */
   constructor(arrayUtilService, dashboardService, explorerStateService) {
     /** @export {!explorer.components.util.ArrayUtilService} */
     this.arrayUtilSvc = arrayUtilService;
