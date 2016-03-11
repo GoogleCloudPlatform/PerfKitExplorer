@@ -52,20 +52,20 @@ ArrayUtilService.prototype.swap = function(array, from, to) {
 /**
  * Returns the first non-null item in the array.
  * @param {Array.<*>} array
- * @param {bool=} required If true, an error will be thrown if no item is found.
+ * @param {boolean=} opt_required If true, an error will be thrown if no item is found.
  *    Defaults to false.
  * @returns {*} The first non-null element in the array.  If no item is found,
  *    either null is returned or an error is raised, depending on the value of
  *    the required param.
  */
-ArrayUtilService.prototype.getFirst = function(array, required) {
+ArrayUtilService.prototype.getFirst = function(array, opt_required) {
   for (let ctr = 0, len = array.length; ctr < len; ++ctr) {
     if (!goog.string.isEmptySafe(array[ctr])) {
       return array[ctr];
     }
   }
 
-  if (required) {
+  if (opt_required) {
     let msg = 'getFirst failed: No non-null item found.';
 
     throw new Error(msg);

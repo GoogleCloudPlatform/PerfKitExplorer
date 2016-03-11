@@ -75,7 +75,7 @@ picklist.PicklistModel = class {
     /** @export {!PicklistStates} */
     this.state = PicklistStates.EMPTY;
 
-    /** @export {!Array.{!PicklistItemModel}} */
+    /** @export {!Array.<!PicklistItemModel>} */
     this.items = [];
   }
 }

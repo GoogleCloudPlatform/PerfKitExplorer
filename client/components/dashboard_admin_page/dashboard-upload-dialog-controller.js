@@ -32,29 +32,21 @@ const DashboardInstance = explorer.components.dashboard.DashboardInstance;
  * See module docstring for more information about purpose and usage.
  *
  * @param {!angular.Scope} $scope
- * @param {!angular.Log} $log
- * @param {!angular.$modalInstance} $modalInstance
+ * @param {!angular.$log} $log
+ * @param {!ui.bootstrap.modalInstance} $modalInstance
  * @constructor
  * @ngInject
  */
 explorer.components.dashboard_admin_page.FileUploadDialogCtrl = function(
     $scope, $log, $modalInstance, dashboardDataService, dashboardVersionService,
     dashboardAdminPageService) {
-  /**
-   * @type {!angular.Scope}
-   * @private
-   */
+  /** @private {!angular.Scope} */
   this.scope_ = $scope;
 
-  /** @type {!angular.$log}
-   * @private
-   */
+  /** @private {!angular.$log} */
   this.log_ = $log;
 
-  /**
-   * @type {!angular.$modalInstance}
-   * @private
-   */
+  /** @private {!ui.bootstrap.modalInstance} */
   this.modalInstance_ = $modalInstance;
 
   /** @private */

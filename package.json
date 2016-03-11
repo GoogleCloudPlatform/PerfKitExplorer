@@ -5,6 +5,7 @@
   "author": "Joe Allan Muharsky <jmuharsky@gmail.com>",
   "dependencies": {
     "gulp": "3.9.x",
+    "gulp-util": "3.0.x",
     "gulp-closure-compiler": "0.2.x",
     "gulp-concat": "2.6.x",
     "gulp-flatten": "0.2.x",

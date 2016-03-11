@@ -20,13 +20,17 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 
+goog.require('p3rf.perfkit.explorer.components.error.ErrorModel');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardParam');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
@@ -74,11 +78,11 @@ const WidgetType = explorer.models.WidgetType;
  * @param {!ConfigService} configService
  * @param {!ExplorerStateService} explorerStateService
  * @param {!SidebarTabService} sidebarTabService
- * @param {!angular.Filter} $filter
- * @param {!angular.Location} $location
- * @param {!angular.RootScope} $rootScope
- * @param {!angular.Timeout} $timeout
- * @param {!angular.Window} $window
+ * @param {!angular.$filter} $filter
+ * @param {!angular.$location} $location
+ * @param {!angular.Scope} $rootScope
+ * @param {!angular.$timeout} $timeout
+ * @param {!angular.$window} $window
  * @constructor
  * @ngInject
  */
@@ -87,13 +91,13 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
     queryBuilderService,  dashboardVersionService, configService,
     explorerStateService, sidebarTabService, $filter, $location, $rootScope,
     $timeout, $window, $state, $stateParams) {
-  /** @private {!angular.Filter} */
+  /** @private {!angular.$filter} */
   this.filter_ = $filter;
 
-  /** @private {!angular.RootScope} */
+  /** @private {!angular.Scope} */
   this.rootScope_ = $rootScope;
 
-  /** @private {!angular.Timeout} */
+  /** @private {!angular.$timeout} */
   this.timeout_ = $timeout;
 
   /** @export {!ConfigService} */
@@ -102,7 +106,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!ArrayUtilService} */
   this.arrayUtilService_ = arrayUtilService;
 
-  /** @private {!ArrayUtilService} */
+  /** @private {!ErrorService} */
   this.errorService_ = errorService;
 
   /** @private {!ExplorerStateService} */
@@ -117,19 +121,19 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   /** @private {!DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /** @private {!DashboardVersionService} */
+  /** @private {!explorer.components.dashboard.DashboardVersionService} */
   this.dashboardVersionService_ = dashboardVersionService;
 
   /** @private {!QueryBuilderService} */
   this.queryBuilderService_ = queryBuilderService;
 
-  /** @private @type {!angular.Location} */
+  /** @private {!angular.$location} */
   this.location_ = $location;
 
-  /** @private @type {!AngularUI.Router.StateService} */
+  /** @private {!ui.router.$state} */
   this.$state_ = $state;
 
-  /** @private @type {!AngularUI.Router.StateParamsService} */
+  /** @private {!ui.router.$stateParams} */
   this.$stateParams_ = $stateParams;
 
   /** @export {Array.<!DashboardParam>} */
@@ -152,14 +156,14 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   ];
 
   Object.defineProperty(this, 'current', {
-    /** @export {DashboardModel} */
+    /** @export {function(): explorer.components.dashboard.DashboardModel} */
     get: function() {
       return explorerStateService.selectedDashboard;
     }
   });
 
   Object.defineProperty(this, 'containers', {
-    /** @export {!Array.<ContainerWidgetConfig>} */
+    /** @export {function(): ?Array.<ContainerWidgetConfig>} */
     get: function() {
       if (this.current) {
         return this.current.model.children;
@@ -170,20 +174,20 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   });
 
   Object.defineProperty(this, 'selectedWidget', {
-    /** @export {?WidgetConfig} */
+    /** @export {function(): ?WidgetConfig} */
     get: function() {
       return this.explorerStateService_.widgets.selected;
     }
   });
 
   Object.defineProperty(this, 'selectedContainer', {
-    /** @export {?ContainerWidgetModel} */
+    /** @export {function(): ?explorer.components.container.ContainerWidgetModel} */
     get: function() {
       return this.explorerStateService_.containers.selected;
     }
   });
 
-  /** @export {!Array.<!ErrorModel>} */
+  /** @export {!Array.<!explorer.components.error.ErrorModel>} */
   this.errors = [];
 };
 const DashboardService = explorer.components.dashboard.DashboardService;
@@ -254,11 +258,10 @@ DashboardService.prototype.saveDashboard = function() {
 /**
  * Iterates through the dashboard and applies functions to the contents.
  * @param {!DashboardInstance} dashboard The dashboard config to iterate.
- * @param {?Function(ContainerConfig)} updateContainerFn The function to apply
+ * @param {?function(ContainerWidgetConfig)} updateContainerFn The function to apply
  *    to each container.
- * @param {?Function(WidgetConfig)} updateWidgetFn The function to apply to each
+ * @param {?function(WidgetConfig)} updateWidgetFn The function to apply to each
  *    widget.
- * @param updateWidgetFn
  */
 DashboardService.prototype.updateDashboard = function(
     dashboard, updateContainerFn, updateWidgetFn) {
@@ -437,7 +440,7 @@ DashboardService.prototype.selectWidget = function(
 
 /**
  * Scrolls the specified content element (typically a widget or container) into view.
- * @param {!angular.Element} targetElement The element to scroll into view.
+ * @param {!angular.JQLite} targetElement The element to scroll into view.
  */
 DashboardService.prototype.scrollPageElementIntoView = function(targetElement) {
   let contentElement = angular.element(document.getElementsByClassName('pk-page-content'));
@@ -450,7 +453,7 @@ DashboardService.prototype.scrollPageElementIntoView = function(targetElement) {
 
 /**
  * Scrolls the specified container into view.
- * @param {!ContainerConfig} container
+ * @param {!ContainerWidgetConfig} container
  */
 DashboardService.prototype.scrollContainerIntoView = function(container) {
   let targetElement = angular.element(
@@ -533,7 +536,7 @@ DashboardService.prototype.selectContainer = function(
 /**
  * Rewrites the current widget's query based on the config.
  * @param {!Widget} widget The widget to rewrite the query against.
- * @param {!bool=} replaceParams If true, parameters (%%NAME%%) will be
+ * @param {boolean=} replaceParams If true, parameters (%%NAME%%) will be
  *     replaced with the current param value (from the dashboard or url).
  *     Defaults to false.
  * @return {string} Rewritten query.
@@ -629,7 +632,7 @@ DashboardService.prototype.refreshWidget = function(widget) {
  * Changes the widget datasource to accept a custom SQL statement.
  *
  * @param {!WidgetConfig} widget
- * @param {!bool} rewrite If true, rewrites the query based on the QueryBuilder
+ * @param {!boolean} rewrite If true, rewrites the query based on the QueryBuilder
  *    settings.  Otherwise, leaves the query as-is.  Defaults to false.
  * @export
  */
@@ -880,7 +883,7 @@ DashboardService.prototype.removeContainer = function(container) {
  * If clicking on a background UI element, unselect the current widget
  * and container, if any.
  *
- * @param {Event} event;
+ * @param {Event} event
  */
 DashboardService.prototype.onDashboardClick = function(event) {
   // Check if this is called from an event handler. In this case, only
@@ -1053,7 +1056,7 @@ DashboardService.prototype.addWriter = function() {
  * @export
  */
 DashboardService.prototype.addParam = function() {
-  this.current.model.params.push(new DashboardParam());
+  this.current.model.params.push(new DashboardParam('', ''));
 };
 
 
@@ -1074,7 +1077,7 @@ DashboardService.prototype.getTablePartition = function(partitionName) {
  * Tokens are identified by strings wrapped in the QueryBuilderService
  * properties TOKEN_START_SYMBOL and TOKEN_END_SYMBOL.
  *
- * @param artifact {string} The string to replace.
+ * @param {string} value The string to replace.
  * @returns {string} A title with tokens replaced with param values.
  * @export
  */

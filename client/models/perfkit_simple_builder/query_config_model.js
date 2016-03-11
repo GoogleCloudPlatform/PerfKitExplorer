@@ -28,6 +28,7 @@ goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryColumnMod
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
 
 
 goog.scope(function() {
@@ -40,6 +41,7 @@ const QueryColumnModel = explorer.models.perfkit_simple_builder.QueryColumnModel
 const QueryDateGroupings = explorer.models.perfkit_simple_builder.QueryDateGroupings;
 const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 const BigqueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
+const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 
 
 /**
