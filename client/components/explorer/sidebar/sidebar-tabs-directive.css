@@ -24,3 +24,21 @@
   padding-left: 32px;
   padding-top: 2px;
 }
+
+.pk-sidebar-tab.ng-hide:not(.ng-hide-animate) {
+  /*
+   * Ensure there's always enough room to fit the largest-used label
+   * currently this is "Data Results" which is longer than "Dashboard".
+   * This avoids unsightly relayout when showing/hiding labels.
+   *
+   * The default ng-hide behavior uses "display: none !important" which
+   * doesn't reserve space for elements. Use "visibility: hidden" instead
+   * which does reserve space, and set height and vertical padding to 0 so
+   * that hidden tabs don't take up vertical space.
+   */
+  display: inline-block !important;
+  height: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+  visibility: hidden;
+}
