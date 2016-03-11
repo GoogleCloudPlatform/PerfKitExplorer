@@ -36,12 +36,16 @@ goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
 goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizer');
 goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfigModel');
 
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.models.WidgetModel');
+
 
 goog.scope(function() {
-  const bigquery = p3rf.perfkit.explorer.ext.bigquery;
-  const components = p3rf.perfkit.explorer.components;
+  const explorer = p3rf.perfkit.explorer;
+  const bigquery = explorer.ext.bigquery;
+  const components = explorer.components;
   const DashboardModel = components.dashboard.DashboardModel;
-  const WidgetModel = components.widget.WidgetModel;
+  const WidgetModel = explorer.models.perfkit_simple_builder.ChartWidgetModel;
 
 
   // Number of hours after midnight in UTC to which dates should be rounded.

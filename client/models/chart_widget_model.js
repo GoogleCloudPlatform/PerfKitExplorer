@@ -162,24 +162,24 @@ explorer.models.DatasourceState = function() {
 
   /**
    * Represents the number of rows returned by the query.
-   * @type {number}
+   * @type {?number}
    * @export
    */
-  this.row_count = '';
+  this.row_count = null;
 
   /**
    * Represents the total time (in seconds) that the query took to run.
-   * @type {number}
+   * @type {?number}
    * @export
    */
-  this.query_time = '';
+  this.query_time = null;
 
   /**
    * Represents the size (in bytes) of data scanned to produce the query result.
-   * @type {number}
+   * @type {?number}
    * @export
    */
-  this.query_size = '';
+  this.query_size = null;
 
   /**
    * @type {!Array.<string>}

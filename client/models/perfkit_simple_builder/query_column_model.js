@@ -216,7 +216,7 @@ explorer.models.perfkit_simple_builder.QueryColumnModel = function() {
    * A list of 'name' objects where name is a string describing the measure.
    * Acceptable values are common non-arg functions (MIN, MAX, AVG, etc.), as
    * well as percentiles (99%, etc.).
-   * @export @type {Array.<!FieldResult>}
+   * @export @type {Array.<!MeasureResult>}
    */
   this.measures = [];
 

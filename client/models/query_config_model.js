@@ -33,14 +33,14 @@ const IQueryConfigModel = explorer.models.IQueryConfigModel;
 
 /**
  * Returns a JSON object that represents the query's settings.
- * @return {object}
+ * @return {Object}
  */
 IQueryConfigModel.prototype.getConfig = function() {};
 
 
 /**
  * Sets the query's configuration based on values in a JSON config.
- * @param {object} config A JSON object that represents the query's settings.
+ * @param {Object} config A JSON object that represents the query's settings.
  */
 IQueryConfigModel.prototype.setConfig = function(config) {};
 
