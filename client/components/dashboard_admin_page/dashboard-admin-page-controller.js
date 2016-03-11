@@ -35,7 +35,7 @@ const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardService = explorer.components.dashboard.DashboardService;
 const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
-
+const DashboardAdminPageService = explorer.components.dashboard_admin_page.DashboardAdminPageService;
 
 
 /**
@@ -43,7 +43,7 @@ const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  *
  * @param {!angular.Scope} $scope
  * @param {!angular.$location} $location
- * @param {!angular.$modal} $modal
+ * @param {!ui.bootstrap.modalInstance} $modal
  * @param {DashboardDataService} dashboardDataService
  * @param {PageService} dashboardAdminPageService
  * @constructor
@@ -53,20 +53,17 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
     $scope, $location, $modal, dashboardDataService, dashboardAdminPageService,
     uiGridSelectionService) {
   /**
-   * @type {!angular.Scope}
-   * @private
+   * @private {!angular.Scope}
    */
   this.scope_ = $scope;
 
   /**
-   * @type {!angular.$location}
-   * @private
+   * @private {!angular.$location}
    */
   this.location_ = $location;
 
   /**
-   * @type {!angular.$modal}
-   * @private
+   * @private {!ui.bootstrap.modalInstance}
    */
   this.modal_ = $modal;
 
@@ -79,7 +76,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
   /** @private @type {DashboardAdminPageService} */
   $scope.pageService = dashboardAdminPageService;
 
-  /** @export @type {DashboardAdminPageService */
+  /** @export @type {DashboardAdminPageService} */
   this.pageService = dashboardAdminPageService;
 
   /**

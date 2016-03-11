@@ -32,8 +32,8 @@ const ConfigService = explorer.components.config.ConfigService;
  * See module docstring for more information about purpose and usage.
  *
  * @param {!angular.Scope} $scope
- * @param {!angular.Log} $log
- * @param {!angular.$modalInstance} $modalInstance
+ * @param {!angular.$log} $log
+ * @param {!ui.bootstrap.modalInstance} $modalInstance
  * @constructor
  * @ngInject
  */
@@ -51,7 +51,7 @@ explorer.components.config.ConfigDialogCtrl = function(
   this.log_ = $log;
 
   /**
-   * @type {!angular.$modalInstance}
+   * @type {!ui.bootstrap.modalInstance}
    * @private
    */
   this.modalInstance_ = $modalInstance;

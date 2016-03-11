@@ -38,18 +38,20 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
 
 /**
  * Service that provides model access for the Explorer page at the top-level.
- * @param {!Angular.HttpService} $location
- * @param {!Angular.LocationService} $location
+ * @param {!angular.$http} $http
+ * @param {!angular.$location} $location
  * @constructor
  * @ngInject
  */
 explorer.components.config.ConfigService = function($http, $location,
     errorService) {
-  /** @private {!Angular.HttpService} */
+  var INITIAL_CONFIG = goog.global['INITIAL_CONFIG'];
+
+  /** @private {!angular.$http} */
   this.http_ = $http;
 
-  /** @private {!Angular.LocationService} */
-  this.location_ = location;
+  /** @private {!angular.$location} */
+  this.location_ = $location;
 
   /** @private {!ErrorService} */
   this.errorSvc_ = errorService;
@@ -87,7 +89,7 @@ const ConfigService = explorer.components.config.ConfigService;
 /**
  * Sets properties based on the JSON data received.
  *
- * @param {!object} data A JSON object containing config data.
+ * @param {!Object} data A JSON object containing config data.
  */
 ConfigService.prototype.populate = function(data) {
   if (goog.isDef(data.default_project)) {
@@ -138,7 +140,7 @@ ConfigService.prototype.populate = function(data) {
  * The returned object is a fresh copy, so the caller may modify
  * values as needed.
  *
- * @return {!object} A JSON object containing config data.
+ * @return {!Object} A JSON object containing config data.
  */
 ConfigService.prototype.getConfigForTesting = function() {
   return goog.object.clone({
@@ -153,11 +155,10 @@ ConfigService.prototype.getConfigForTesting = function() {
 /**
  * Provides a copy of the object as JSON.
  *
- * @param {?Object} data An object that the properties will be applied to.
  * @return {!Object} A JSON representation of the config properties.
  */
-ConfigService.prototype.toJSON = function(data) {
-  let result = data || {};
+ConfigService.prototype.toJSON = function() {
+  let result = {};
 
   result.default_project = this.default_project;
   result.default_dataset = this.default_dataset;

@@ -20,24 +20,33 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 
-goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
-
+goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleModel');
+goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const gviz = explorer.components.widget.data_viz.gviz;
 const ColumnStyleModel = gviz.column_style.ColumnStyleModel;
+const DashboardService = explorer.components.dashboard.DashboardService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
+const ErrorService = explorer.components.error.ErrorService;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
+const ChartWrapperService = explorer.components.widget.data_viz.gviz.ChartWrapperService;
+const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @export
- * @ngInject
  */
 gviz.column_style.ColumnStyleService = class {
+  /** @ngInject */
   constructor(errorService, arrayUtilService, dashboardService,
     chartWrapperService) {
     /** @export {!ArrayUtilService} */
@@ -145,7 +154,7 @@ gviz.column_style.ColumnStyleService = class {
    * columns present in the dataTable.
    *
    * @param {!Array.<ColumnStyleModel>} columns
-   * @param {!google.visualizations.DataTable} dataTable
+   * @param {!google.visualization.DataTable} dataTable
    * @return {!Array.<!ColumnStyleModel>}
    * @export
    */
@@ -188,7 +197,7 @@ gviz.column_style.ColumnStyleService = class {
    * the label for the column, as well as other properties in the future.
    *
    * @param {!Array.<ColumnStyleModel>} columns
-   * @param {!google.visualizations.DataTable} dataTable
+   * @param {!google.visualization.DataTable} dataTable
    * @export
    */
   applyToDataTable(columns, dataTable) {
@@ -338,7 +347,7 @@ gviz.column_style.ColumnStyleService = class {
   /**
    * Returns the index of the DataTable column matching the provided id.
    * @param {string} columnId
-   * @param {!google.visualizations.DataTable} dataTable
+   * @param {!google.visualization.DataTable} dataTable
    * @return {number} The 0-based index of the column, or -1 if not found.
    * @export
    */

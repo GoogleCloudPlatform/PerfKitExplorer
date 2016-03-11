@@ -39,7 +39,7 @@ const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService
  * Root controller for the Explorer page.
  *
  * @param {!angular.Scope} $scope
- * @param {!angular.Location} $location
+ * @param {!angular.$location} $location
  * @param {DashboardDataService} dashboardDataService
  * @param {DashboardService} dashboardService
  * @param {ExplorerService} explorerService
@@ -52,7 +52,7 @@ explorer.components.explorer.ExplorerCtrl = function(
     dashboardDataService, dashboardService, explorerService,
     sidebarTabService) {
   /**
-   * @type {angular.Location}
+   * @type {angular.$location}
    * @private
    */
   this.location_ = $location;
@@ -101,8 +101,8 @@ explorer.components.explorer.ExplorerCtrl = function(
         if (!this.explorer.model.readOnly == null) {
           this.explorer.model.readOnly = (
               this.dashboard.current.model.id &&
-              owner.email != CURRENT_USER_EMAIL &&
-              !CURRENT_USER_ADMIN);
+              owner.email != goog.global['CURRENT_USER_EMAIL'] &&
+              !goog.global['CURRENT_USER_ADMIN']);
         }
       }));
 

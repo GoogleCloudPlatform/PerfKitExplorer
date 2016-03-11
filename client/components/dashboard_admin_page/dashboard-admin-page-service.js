@@ -26,7 +26,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard_admin_page.DashboardAdm
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-const dashboardDataService = explorer.components.dashboard.DashboardDataService;
+const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const PageModel = explorer.components.dashboard_admin_page.DashboardAdminPageModel;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
 
@@ -40,8 +40,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
 explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
     dashboardDataService) {
   /**
-   * @type {Array.<!DashboardModel>}
-   * @export
+   * @export {Array.<!DashboardModel>}
    */
   this.dashboards = [];
 
@@ -50,21 +49,21 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
 
   /**
    * The selection service is initialized in the gridOptions onRegisterApi.
-   * @export @type {Array.<uiGridSelectionService>}
+   * @export {Array.<uiGridSelectionService>}
    */
   this.selection = null;
 
   /** @private {DashboardDataService} */
   this.dashboardDataService_ = dashboardDataService;
 
-  /** @export @type {!string} */
-  this.CURRENT_USER_ADMIN = CURRENT_USER_ADMIN;
+  /** @export {!string} */
+  this.CURRENT_USER_ADMIN = goog.global['CURRENT_USER_ADMIN'];
 
   /** @export {!boolean} */
   this.isLoading = false;
 
   /**
-   * @type {!DashboardAdminPageModel}
+   * @type {!explorer.components.dashboard_admin_page.DashboardAdminPageModel}
    * @export
    */
   this.model = new PageModel();
