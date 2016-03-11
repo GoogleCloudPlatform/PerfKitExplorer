@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.ext.text.TextConfigDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-fdescribe('TextConfigDirective', function() {
+describe('TextConfigDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -64,26 +64,14 @@ fdescribe('TextConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<bigquery-datasource-config ng-model="widgetModel" />');
+        '<text-config ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
 
-      var projectElement = actualElement.find(
-        'input.widget_datasource_project_id');
-      expect(projectElement.length).toBe(1);
-
-      var datasetElement = actualElement.find(
-        'input.widget_datasource_dataset_name');
-      expect(datasetElement.length).toBe(1);
-
-      var tableElement = actualElement.find(
-        'input.widget_datasource_table_name');
-      expect(tableElement.length).toBe(1);
-
-      var tableFormatElement = actualElement.find(
-        'md-select.widget_datasource_table_format');
-      expect(tableFormatElement.length).toBe(1);
+      var contentElement = actualElement.find(
+        'textarea.widget-body-text');
+      expect(contentElement.length).toBe(1);
     });
   });
 });

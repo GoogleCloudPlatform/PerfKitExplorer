@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-fdescribe('QueryBuilderDatasourceConfigDirective', function() {
+describe('BigqueryConfigDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -52,7 +52,7 @@ fdescribe('QueryBuilderDatasourceConfigDirective', function() {
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<bigquery-datasource-config ng-model="providedWidgetModel" />');
+          '<bigquery-config ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -64,7 +64,7 @@ fdescribe('QueryBuilderDatasourceConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<bigquery-datasource-config ng-model="widgetModel" />');
+        '<bigquery-config ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

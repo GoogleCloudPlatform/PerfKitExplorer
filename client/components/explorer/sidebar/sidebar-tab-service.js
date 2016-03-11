@@ -42,19 +42,19 @@ explorer.components.explorer.sidebar.SIDEBAR_TABS = [
     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
     panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'},
   {id: 'widget.data.filter', title: 'Data Filters', iconClass: 'fa fa-filter',
-    hint: 'Query filters and constraints', requireWidget: true, requireChart: true,
+    hint: 'Query filters and constraints', requireWidget: true, requireDatasourceTypes: ['BigQuery'],
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
   {id: 'widget.data.result', title: 'Data Results', iconClass: 'fa fa-table',
-    hint: 'Query columns and results', requireWidget: true, requireChart: true,
+    hint: 'Query columns and results', requireWidget: true, requireDatasourceTypes: ['BigQuery'],
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
   {id: 'widget.chart', title: 'Chart Config', iconClass: 'fa fa-bar-chart',
-    hint: 'Chart type and settings', requireWidget: true, requireChart: true,
+    hint: 'Chart type and settings', requireWidget: true, requireWidgetTypes: ['chart'],
     tabClass: 'bqgviz-tab', panelTitleClass: 'bqgviz-panel-title',
     panelClass: 'bqgviz-panel', toolbarClass: 'bqgviz-toolbar'},
   {id: 'widget.columns', title: 'Columns', iconClass: 'fa fa-columns',
-    hint: 'Column styling and order', requireWidget: true, requireChart: true,
+    hint: 'Column styling and order', requireWidget: true, requireDatasourceTypes: ['BigQuery', 'Cloud SQL'],
     tabClass: 'widget-tab', panelTitleClass: 'widget-panel-title',
     panelClass: 'widget-panel', toolbarClass: 'widget-toolbar'}
 ];
@@ -183,15 +183,24 @@ SidebarTabService.prototype.getFirstWidgetTab = function() {
   */
 SidebarTabService.prototype.isTabVisible = function(tab) {
   // TODO(joemu): Replace this with data-driven logic.
-  if (tab.requireWidget &&
-      !this.explorerStateSvc_.widgets.selectedId) {
-    return false;
-  }
+  if (tab.requireWidget) {
+    if (!this.explorerStateSvc_.widgets.selected) {
+      return false;
+    }
 
-  if (tab.requireChart &&
-      this.explorerStateSvc_.widgets.selected &&
-      this.explorerStateSvc_.widgets.selected.model.type == this.widgetFactorySvc_.widgetTypes.TEXT) {
-        return false;
+    let widget = this.explorerStateSvc_.widgets.selected;
+    
+    if (goog.isDefAndNotNull(tab.requireDatasourceTypes)) {
+      goog.asserts.assert(goog.isArrayLike(tab.requireDatasourceTypes));
+      
+      return (tab.requireDatasourceTypes.indexOf(widget.model.datasource.type) > -1);
+    }
+    
+    if (goog.isDefAndNotNull(tab.requireWidgetTypes)) {
+      goog.asserts.assert(goog.isArrayLike(tab.requireWidgetTypes));
+      
+      return (tab.requireWidgetTypes.indexOf(widget.model.type) > -1);
+    }
   }
 
   if (tab.requireContainer &&
