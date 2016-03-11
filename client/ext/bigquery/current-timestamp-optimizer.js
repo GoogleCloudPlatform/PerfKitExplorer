@@ -1,4 +1,3 @@
-/* global pad */
 /**
  * @copyright Copyright 2016 Google Inc. All rights reserved.
  *
@@ -32,17 +31,20 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
 goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizer');
-goog.provide('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfigModel');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfigModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 
 
 goog.scope(function() {
   const explorer = p3rf.perfkit.explorer;
   const bigquery = explorer.ext.bigquery;
+  const CurrentTimestampGranularity = bigquery.CurrentTimestampGranularity;
+  const CurrentTimestampOptimizerConfigModel = bigquery.CurrentTimestampOptimizerConfigModel;
+
   const components = explorer.components;
   const DashboardModel = components.dashboard.DashboardModel;
   const WidgetModel = explorer.models.perfkit_simple_builder.ChartWidgetModel;
@@ -56,41 +58,6 @@ goog.scope(function() {
   
   // Constant for the number of milliseconds in a day.
   const MS_PER_DAY = 86400*1000;
-
-  /**
-   * Constants describing the types of granularity supported on timestamps.
-   * @enum
-   */
-  bigquery.CurrentTimestampGranularity = {
-    YEAR: 'YEAR',
-    MONTH: 'MONTH',
-    DAY: 'DAY',
-    HOUR: 'HOUR'
-  };
-  const CurrentTimestampGranularity = bigquery.CurrentTimestampGranularity;
-
-  /**
-   * Describes the properties for configuring a CurrentTimestampOptimizer.
-   *
-   * @constructor
-   */
-  bigquery.CurrentTimestampOptimizerConfigModel = class {
-    constructor(enabled=null, granularity=null) {
-      /**
-       * If true, the optimizer is enabled.  If false, it will not be applied.
-       *
-       * @export {?boolean}
-       */
-      this.enabled = enabled;
-
-      /**
-       * Defines the granularity of the optimizer.  See the module docstring for more.
-       * 
-       * @export {CurrentTimestampGranularity}
-       */
-      this.granularity = granularity;
-    }
-  }
 
   /**
    * See the module docstring for a description of this optimizer.
