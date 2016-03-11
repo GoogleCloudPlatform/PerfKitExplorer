@@ -33,6 +33,7 @@ goog.scope(function() {
   const DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
   const QueryFilterModel = explorer.models.perfkit_simple_builder.QueryFilterModel;
 
+  /** @constructor */
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV6 = function() {
     this.version = '6';
   };

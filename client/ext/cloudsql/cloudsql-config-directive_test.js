@@ -20,10 +20,10 @@
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CloudsqlConfigDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-describe('QueryBuilderDatasourceConfigDirective', function() {
+describe('CloudsqlConfigDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -32,6 +32,7 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
   const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
   beforeEach(module('explorer'));
+  beforeEach(module('pkx.bigquery'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(_$rootScope_, _$compile_, _$timeout_,
@@ -51,7 +52,7 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<query-builder-datasource-config ng-model="providedWidgetModel" />');
+          '<cloudsql-config ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -63,26 +64,18 @@ describe('QueryBuilderDatasourceConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<query-builder-datasource-config ng-model="widgetModel" />');
+        '<cloudsql-config ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
 
-      var projectElement = actualElement.find(
-        'input.widget_datasource_project_id');
-      expect(projectElement.length).toBe(1);
+      var instanceElement = actualElement.find(
+        'input.widget_datasource_instance');
+      expect(instanceElement.length).toBe(1);
 
-      var datasetElement = actualElement.find(
-        'input.widget_datasource_dataset_name');
-      expect(datasetElement.length).toBe(1);
-
-      var tableElement = actualElement.find(
-        'input.widget_datasource_table_name');
-      expect(tableElement.length).toBe(1);
-
-      var tableFormatElement = actualElement.find(
-        'md-select.widget_datasource_table_format');
-      expect(tableFormatElement.length).toBe(1);
+      var databaseNameElement = actualElement.find(
+        'input.widget_datasource_database_name');
+      expect(databaseNameElement.length).toBe(1);
     });
   });
 });

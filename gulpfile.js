@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 
 try {
+  var gulpUtil = require('gulp-util');
   var closureCompiler = require('gulp-closure-compiler');
   var minifyHtml = require('gulp-minify-html');
   var ngHtml2Js = require('gulp-ng-html2js');
@@ -16,6 +17,7 @@ try {
 
 var jsSourceFiles = [
       'client/**/*.js', '!client/**/*_test.js', '!client/karma.conf.js',
+      '!client/externs.js', '!client/externs/**/*.js',
       'lib/closure-library/closure/goog/**/*.js',
       '!lib/closure-library/closure/goog/**/*_test.js'];
 
@@ -99,24 +101,48 @@ gulp.task('common', ['third_party'], function() {
     .pipe(gulp.dest('build'));
 });
 
+var closureCompilerConfig = {
+  compilerPath: 'bin/closure-compiler.jar',
+  fileName: 'build/perfkit_scripts.js',
+  compilerFlags: {
+    angular_pass: true,
+    compilation_level: 'SIMPLE_OPTIMIZATIONS',
+    formatting: 'PRETTY_PRINT',
+    language_in: 'ECMASCRIPT6',
+    language_out: 'ECMASCRIPT5_STRICT',
+    manage_closure_dependencies: true,
+    only_closure_dependencies: true,
+    process_closure_primitives: true,
+    warning_level: 'VERBOSE',
+    jscomp_off: 'missingProperties',
+    externs: [
+      'client/externs.js',
+      'client/externs/angular-1.4-http-promise_templated.js',
+      'client/externs/angular-1.4.js',
+      'client/externs/angular-1.4-q_templated.js',
+      'client/externs/angular_ui_router.js',
+      'client/externs/gviz-api.js',
+      'client/externs/ui-bootstrap.js',
+    ],
+    closure_entry_point: 'p3rf.perfkit.explorer.application.module'
+  }
+};
+
+var showClosureCompilerErrors = function(err) {
+  // Add a line break in the compiler output so that the first
+  // filename doesn't get munged with the generic error message.
+  // This makes it easier for editors to jump to the right
+  // location. Apply the fixup to the first line only (no /g
+  // modifier).
+  gulpUtil.log('***Compiler output:\n' +
+      err.message.replace(/^(Command failed:)?\s*/, '$1\n'));
+};
+
 gulp.task('test', ['common'], function() {
 
   gulp.src(jsSourceFiles)
-    .pipe(closureCompiler({
-      compilerPath: 'bin/closure-compiler.jar',
-      fileName: 'client/perfkit_scripts.js',
-      compilerFlags: {
-        angular_pass: true,
-        compilation_level: 'SIMPLE_OPTIMIZATIONS',
-        language_in: 'ECMASCRIPT6',
-        language_out: 'ECMASCRIPT5',
-        formatting: 'PRETTY_PRINT',
-        manage_closure_dependencies: true,
-        only_closure_dependencies: true,
-        process_closure_primitives: true,
-        closure_entry_point: 'p3rf.perfkit.explorer.application.module'
-      }
-    }))
+    .pipe(closureCompiler(closureCompilerConfig))
+    .on('error', showClosureCompilerErrors)
     .pipe(gulp.dest('deploy'));
 
   gulp.src('server/**/*.html')
@@ -135,21 +161,8 @@ gulp.task('test', ['common'], function() {
 gulp.task('prod', ['common'], function() {
 
   gulp.src(jsSourceFiles)
-    .pipe(closureCompiler({
-      compilerPath: 'bin/closure-compiler.jar',
-      fileName: 'build/perfkit_scripts.js',
-      compilerFlags: {
-        angular_pass: true,
-        compilation_level: 'SIMPLE_OPTIMIZATIONS',
-        formatting: 'PRETTY_PRINT',
-        language_in: 'ECMASCRIPT6',
-        language_out: 'ECMASCRIPT5_STRICT',
-        manage_closure_dependencies: true,
-        only_closure_dependencies: true,
-        process_closure_primitives: true,
-        closure_entry_point: 'p3rf.perfkit.explorer.application.module'
-      }
-    }))
+    .pipe(closureCompiler(closureCompilerConfig))
+    .on('error', showClosureCompilerErrors)
     .pipe(flatten())
     .pipe(gulp.dest('deploy/client'));
 

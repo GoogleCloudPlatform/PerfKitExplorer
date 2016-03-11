@@ -85,7 +85,6 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.builder.FieldCubeDat
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.MetadataPickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective');
-goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.builder.RelativeDatepickerDirective');
 goog.require('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistService');
@@ -94,9 +93,14 @@ goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultConfigDir
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryEditorService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.require('p3rf.perfkit.explorer.components.widget.query.WidgetEditorDirective');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.module');
 goog.require('p3rf.perfkit.explorer.mocks');
 goog.require('p3rf.perfkit.explorer.mocks.application.module');
+
+
+/** Registered extension modules. */
+goog.require('p3rf.perfkit.explorer.ext.bigquery.module');
+goog.require('p3rf.perfkit.explorer.ext.cloudsql.module');
+goog.require('p3rf.perfkit.explorer.ext.text.module');
 
 
 goog.scope(function() {
@@ -106,6 +110,8 @@ let requiredModules = [
   'ui.grid.resizeColumns', 'ui.grid.selection', 'ui.router', 'ngMaterial',
   'p3rf.perfkit.explorer.templates', 'ng-showdown',
   explorer.ext.bigquery.module.name,
+  explorer.ext.cloudsql.module.name,
+  explorer.ext.text.module.name,
   explorer.mocks.application.module.name];
 
 // TODO: Replace with ui-router implementation.
@@ -317,8 +323,6 @@ explorer.application.module.directive('metadataPicker',
     explorer.components.widget.query.builder.MetadataPickerDirective);
 explorer.application.module.directive('queryBuilderColumnConfig',
     explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective);
-explorer.application.module.directive('queryBuilderDatasourceConfig',
-    explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective);
 explorer.application.module.directive('queryBuilderFilterConfig',
     explorer.components.widget.query.builder.QueryBuilderFilterConfigDirective);
 explorer.application.module.directive('relativeDatepicker',

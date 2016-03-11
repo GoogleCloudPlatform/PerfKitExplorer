@@ -23,12 +23,14 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.query.QueryResultDataService');
 goog.provide('p3rf.perfkit.explorer.components.widget.query.DataTableJson');
+
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.util.WorkQueueService');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 
 
 goog.scope(function() {
@@ -39,14 +41,14 @@ const ErrorService = explorer.components.error.ErrorService;
 const ExplorerService = explorer.components.explorer.ExplorerService;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 const WorkQueueService = explorer.components.util.WorkQueueService;
-
+const WidgetConfig = explorer.models.WidgetConfig;
 
 
 /**
  * See module docstring for more information about purpose and usage.
  *
  * @param {!ExplorerService} explorerService
- * @param {!ExplorerStateService} explorerService
+ * @param {!ExplorerStateService} explorerStateService
  * @param {!ErrorService} errorService
  * @param {!ConfigService} configService
  * @param {!WorkQueueService} workQueueService
@@ -243,7 +245,7 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
               ErrorTypes.INFO,
               'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
               'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
-              'in ' + this.filter_('number')(speed, 2) + ' sec.');
+              'in ' + this.filter_('number')(time, 2) + ' sec.');
         }
 
         let data = response.data.results;

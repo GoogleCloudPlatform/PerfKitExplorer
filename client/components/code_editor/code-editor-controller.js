@@ -53,7 +53,7 @@ const WidgetFactoryService = explorer.components.widget.WidgetFactoryService;
  *
  * @param {!angular.Scope} $scope
  * @param {!DashboardService} dashboardService
- * @param {!ErrorService} explorerService
+ * @param {!ErrorService} errorService
  * @param {!ExplorerService} explorerService
  * @param {!ExplorerStateService} explorerStateService
  * @param {!WidgetFactoryService} widgetFactoryService
@@ -75,7 +75,7 @@ explorer.components.code_editor.CodeEditorCtrl = function(
   /** @export {!ErrorService} */
   this.errorSvc = errorService;
 
-  /** @export {!ExplorerStateSvc} */
+  /** @export {!ExplorerStateService} */
   this.explorerStateSvc = explorerStateService;
 
   /**

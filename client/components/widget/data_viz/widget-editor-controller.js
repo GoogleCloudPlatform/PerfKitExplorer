@@ -31,12 +31,9 @@ goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
-const WidgetEditorService = (
-    explorer.components.widget.data_viz.gviz.WidgetEditorService);
+const WidgetEditorService = explorer.components.widget.data_viz.WidgetEditorService;
 const DashboardService = explorer.components.dashboard.DashboardService;
-const QueryResultDataService = (
-    explorer.components.widget.query.QueryResultDataService);
-
+const QueryResultDataService = explorer.components.widget.query.QueryResultDataService;
 
 
 /**
@@ -53,49 +50,32 @@ const QueryResultDataService = (
 explorer.components.widget.data_viz.WidgetEditorCtrl = function($scope,
     dashboardService, widgetEditorService, queryResultDataService,
     GvizDataTable) {
-  /**
-   * @type {!angular.Scope}
-   * @private
-   */
+  /** @private {!angular.Scope} */
   this.scope_ = $scope;
 
-  /**
-   * @type {!ChartEditorService}
-   * @private
-   */
+  /** @private {!WidgetEditorService} */
   this.widgetEditorService_ = widgetEditorService;
 
-  /**
-   * @type {!QueryResultDataService}
-   * @private
-   */
+  /** @private {!QueryResultDataService} */
   this.queryResultDataService_ = queryResultDataService;
 
-  /**
-   * @type {!function(new:google.visualization.DataTable, ...)}
-   * @private
-   */
+  /** @private {!function(new:google.visualization.DataTable, ...)} */
   this.GvizDataTable_ = GvizDataTable;
 
-  /**
-   * @type {!DashboardService}
-   * @export
-   */
+  /** @export {!DashboardService} */
   this.dashboard = dashboardService;
 
   /**
    * The selected chart in the dashboard.
    *
-   * @type {?ChartWidgetConfig}
-   * @export
+   * @export {?ChartWidgetConfig}
    */
   this.selectedChart = null;
 
   /**
    * Error messages raised by this controller.
    *
-   * @type {!Array.<string>}
-   * @export
+   * @export {!Array.<string>}
    */
   this.errors = [];
 

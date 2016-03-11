@@ -15,10 +15,12 @@
 goog.provide('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarDirective');
 
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
+goog.require('p3rf.perfkit.explorer.models.DatasourceType');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const DatasourceType = explorer.models.DatasourceType;
 
 
 /**
@@ -36,6 +38,7 @@ explorer.components.explorer.sidebar.SidebarDirective = function(
     controller: ['$scope', function($scope) {
       $scope.dashboardSvc = dashboardService;
       $scope.tabSvc = sidebarTabService;
+      $scope.datasourceTypes = DatasourceType;
     }]
   };
 };

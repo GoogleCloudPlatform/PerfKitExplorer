@@ -99,8 +99,8 @@ const DashboardDataService = explorer.components.dashboard.DashboardDataService;
  * TODO (joemu): Factor this out to a helper function.
  * @param {!string} endpoint
  * @param {?*=} opt_queryData An object to send encoded in the query string.
- * @param {?goog.uri.QueryData=} opt_postData An object to send as posted data.
- * @return {angular.$q.Promise.<*>} A promise representing the POST request.
+ * @param {?goog.Uri.QueryData=} opt_postData An object to send as posted data.
+ * @return {!angular.$q.Promise.<*>} A promise representing the POST request.
  */
 DashboardDataService.prototype.post = function(
     endpoint, opt_queryData, opt_postData) {
@@ -108,10 +108,11 @@ DashboardDataService.prototype.post = function(
 
   let promise = this.http_.post(
       endpoint,
-      opt_postData && opt_postData.toString(), {
+      opt_postData && opt_postData.toString(),
+      /** @type {angular.$http.Config} */({
         params: opt_queryData || null,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-      });
+      }));
 
   promise.then(angular.bind(this, function(response) {
     deferred.resolve(response);
@@ -130,7 +131,7 @@ DashboardDataService.prototype.post = function(
  * @param {?DashboardInstance} content
  * @param {!string} endpoint
  * @param {string=} opt_id
- * @return {angular.$q.Promise.<DashboardModel>} Dashboard with an id.
+ * @return {!angular.$q.Promise.<DashboardModel>} Dashboard with an id.
  */
 DashboardDataService.prototype.postDashboard = function(content, endpoint,
     opt_id) {
@@ -249,7 +250,7 @@ DashboardDataService.prototype.editOwner = function(
 /**
  * Returns a list of dashboards.
  *
- * @param {bool=} opt_mine If true, limits the list to items owned by the
+ * @param {boolean=} opt_mine If true, limits the list to items owned by the
  *     current user.  This setting is not useful is opt_owner is specified.
  * @param {string=} opt_owner If provided, limits the list to dashboards owned
  *     by the provided email address.

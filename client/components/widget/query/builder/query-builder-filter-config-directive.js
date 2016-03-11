@@ -23,6 +23,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilder
 goog.require('p3rf.perfkit.explorer.components.widget.query.picklist.PicklistStates');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 
 goog.scope(function() {
@@ -30,6 +31,8 @@ const explorer = p3rf.perfkit.explorer;
 const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 const PicklistStates = explorer.components.widget.query.picklist.PicklistStates;
+const PicklistService = explorer.components.widget.query.picklist.PicklistService;
+const ChartWidgetModel = explorer.models.ChartWidgetModel;
 
 
 /**

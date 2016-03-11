@@ -37,7 +37,7 @@ const ErrorTypes = explorer.components.error.ErrorTypes;
  * selection ID's, and the .selectedId and .selected properties reference
  * this.
  *
- * @param {!AngularUI.StateService} stateService
+ * @param {!ui.router.$state} stateService
  * @param {!ErrorService} errorService
  * @param {string} stateName
  *
@@ -61,7 +61,7 @@ explorer.components.explorer.ExplorerStateModel = function(
    * If no item is selected, returns NULL.
    */
   Object.defineProperty(this, 'selectedId', {
-    /** @type {?string} */
+    /** @type {function(): ?string} */
     get: () => {
       if (stateService.params[stateName]) {
         return stateService.params[stateName];
@@ -78,7 +78,7 @@ explorer.components.explorer.ExplorerStateModel = function(
    * Returns the item matching the selected id.
    */
   Object.defineProperty(this, 'selected', {
-    /** @type {T} */
+    /** @type {function(): T} */
     get: () => {
       if (goog.isDefAndNotNull(this.selectedId)) {
         let selected = this.all[this.selectedId];
@@ -98,7 +98,7 @@ explorer.components.explorer.ExplorerStateModel = function(
    * returns false.
    */
    Object.defineProperty(this, 'selectedIdIsValid', {
-     /** @type {boolean} */
+     /** @type {function(): boolean} */
      get: () => {
        if (!goog.isDefAndNotNull(this.selectedId)) {
          return false;
@@ -132,15 +132,6 @@ ExplorerStateModel.prototype.add = function(item) {
     this.errorSvc_.addError(ErrorTypes.Danger,
         'add failed: item is invalid');
   }
-};
-
-
-/**
- * Clears the selection and items from the list.
- * @export
- */
-ExplorerStateModel.prototype.clear = function() {
-  this.all = {};
 };
 
 });  // goog.scope

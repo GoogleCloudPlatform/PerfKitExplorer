@@ -49,7 +49,7 @@ explorer.models.WidgetState = function() {
   this.selected = false;
 
   /**
-   * @type {!google.visualization.DataView}
+   * @type {?google.visualization.DataView}
    * @export
    */
   this.data = null;
@@ -57,7 +57,7 @@ explorer.models.WidgetState = function() {
   /**
    * TODO: Change type to ContainerWidgetConfig when we figure
    * out how to solve the circular dependency.
-   * @type {Object}
+   * @type {?Object}
    * @export
    */
   this.parent = null;

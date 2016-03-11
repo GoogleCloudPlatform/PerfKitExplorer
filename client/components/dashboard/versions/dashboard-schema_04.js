@@ -33,6 +33,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersi
 goog.scope(function() {
   const DashboardVersionUtil = p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil;
 
+  /** @constructor */
   p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV4 = function() {
     this.version = '4';
   };

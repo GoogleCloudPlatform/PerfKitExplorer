@@ -23,15 +23,16 @@
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.ChartWrapperService');
 
+goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.getGvizChartWrapper');
 goog.require('p3rf.perfkit.explorer.models.ChartModel');
 goog.require('p3rf.perfkit.explorer.models.ChartType');
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const ChartModel = explorer.models.ChartModel;
 const ChartType = explorer.models.ChartType;
-
 
 
 /**
@@ -111,7 +112,7 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
 
   /**
    * Provides an ordered list of charts.
-   * @type {Array<!ChartTypeModel>
+   * @type {Array<!ChartTypeModel>}
    * @export
    */
   this.allCharts = [];
@@ -134,7 +135,7 @@ const ChartWrapperService = (
 ChartWrapperService.prototype.loadCharts = function() {
   this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
       success(angular.bind(this, function(response) {
-        $.merge(this.allCharts, response);
+        goog.array.extend(this.allCharts, response);
         this.allChartsIndex = this.arrayUtilSvc_.getDictionary(
             this.allCharts, 'className');
       })).

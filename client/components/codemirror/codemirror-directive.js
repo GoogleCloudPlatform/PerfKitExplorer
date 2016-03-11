@@ -85,7 +85,7 @@ explorer.components.codemirror.CodeMirrorDirective = function(
       };
 
       deferCodeMirror = function() {
-        codeMirror = CodeMirror.fromTextArea(elm[0], opts);
+        let codeMirror = CodeMirror.fromTextArea(elm[0], opts);
         codeMirror.on('change', onChange(opts['onChange']));
 
         for (let i = 0, n = events.length, aEvent; i < n; ++i) {
