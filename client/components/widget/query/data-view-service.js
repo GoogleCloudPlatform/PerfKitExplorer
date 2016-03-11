@@ -102,7 +102,7 @@ DataViewService.prototype.create = function(dataTable, model, columns) {
   if (model.filter && model.filter.length > 0) {
     try {
       let filteredRows = view.getFilteredRows(model.filter);
-      view.setRows(filteredRows);
+      view.setRows(filteredRows, undefined);
     } catch (e) {
       // Catch errors when the filter property is invalid
       return {error: {property: 'filter', message: e.message}};
@@ -163,7 +163,7 @@ DataViewService.prototype.create = function(dataTable, model, columns) {
  * @param {!google.visualization.DataTable} dataTable
  * @param {?number} sortColumnStart The index of the column to begin sorting at.
  *    This can be used to fix the first few columns of a tabular report.
- * @param {!SortOrder=} opt_sortColumnOrder Specifies the order for the columns.
+ * @param {?SortOrder=} opt_sortColumnOrder Specifies the order for the columns.
  *    If not specified, will default to ascending.
  * @return {!(Array.<Object>|{error: {property: string, message: string}})}
  */

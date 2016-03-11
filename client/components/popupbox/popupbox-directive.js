@@ -114,9 +114,8 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
        * Called when an editable row is focused.  It shows and positions the
        * popup and tracks the change in selection.
        * @param {Event} evt The event handler for the focus event.
-       * @param {*} option The option that is being focused.
        */
-      scope.focusInput = function(evt, option) {
+      scope.focusInput = function(evt) {
         scope.showPopup();
       };
 
@@ -157,14 +156,14 @@ explorer.components.popupbox.PopupboxDirective = function($timeout) {
        * is specified, the matching property will be returned.  Otherwise, the
        * entire object will be returned.
        *
-       * @param {*} data The data that should be returned.
-       * @return {*} The returned data or appropriate attribute.
+       * @param {Object.<string, *>|string} data The data that should be returned.
+       * @return {string} The returned data or appropriate attribute.
        */
       scope.getDisplayValue = function(data) {
         if (attrs.popupboxDisplayAttr) {
           return data[attrs.popupboxDisplayAttr];
         } else {
-          return data;
+          return /** @type {string} */ (data);
         }
       };
 

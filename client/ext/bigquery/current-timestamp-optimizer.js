@@ -47,7 +47,7 @@ goog.scope(function() {
 
   const components = explorer.components;
   const DashboardModel = components.dashboard.DashboardModel;
-  const WidgetModel = explorer.models.perfkit_simple_builder.ChartWidgetModel;
+  const WidgetModel = explorer.models.WidgetModel;
 
 
   // Number of hours after midnight in UTC to which dates should be rounded.
@@ -176,7 +176,7 @@ goog.scope(function() {
      * returns the result.
      * 
      * @param {string} query The query string that will be evaluated.
-     * @param {Date} effectiveDate The datetime that will be used in place of CURRENT_TIMESTAMP().
+     * @param {!Date} effectiveDate The datetime that will be used in place of CURRENT_TIMESTAMP().
      * @return {string}
      */
     replaceCurrentTimestamp(query, effectiveDate) {

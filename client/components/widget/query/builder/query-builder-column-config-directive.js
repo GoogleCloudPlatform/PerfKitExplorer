@@ -46,7 +46,7 @@ explorer.components.widget.query.builder.QueryBuilderColumnConfigDirective = fun
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      // @type {!ChartWidgetModel}
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/query/builder/query-builder-column-config-directive.html',

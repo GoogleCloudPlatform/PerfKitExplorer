@@ -89,6 +89,12 @@ explorer.components.explorer.sidebar.SidebarTabModel = class {
      * @export {string}
      */
     this.toolbarClass = '';
+    
+    /**
+     * Indicates whether the toolbar's tooltip is visible.
+     * @export {boolean}
+     */
+    this.tooltipVisible = false;
   }
 }
 

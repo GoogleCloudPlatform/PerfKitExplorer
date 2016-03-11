@@ -250,9 +250,9 @@ DashboardDataService.prototype.editOwner = function(
 /**
  * Returns a list of dashboards.
  *
- * @param {boolean=} opt_mine If true, limits the list to items owned by the
+ * @param {?boolean=} opt_mine If true, limits the list to items owned by the
  *     current user.  This setting is not useful is opt_owner is specified.
- * @param {string=} opt_owner If provided, limits the list to dashboards owned
+ * @param {?string=} opt_owner If provided, limits the list to dashboards owned
  *     by the provided email address.
  *
  * @return {!angular.$q.Promise}

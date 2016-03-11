@@ -75,25 +75,25 @@ explorer.components.explorer.ExplorerStateService = function(
 
   /**
    * Provides storage for a list of widget data.
-   * @export {!Object.<string, WidgetDataModel>}
+   * @export {!Object.<string, *>}
    */
   this.widgetData = {};
 
   /**
    * Provides storage for a list of sidebar tabs and selection context.
-   * @export {!ExplorerStateModel<DashboardModel>}
+   * @export {!ExplorerStateModel<SidebarTabModel>}
    */
   this.tabs =
       /** @type {!ExplorerStateModel<SidebarTabModel>} */
-      (new ExplorerStateModel($state, 'tab'));
+      (new ExplorerStateModel($state, errorService, 'tab'));
 
   /**
    * Provides storage for a list of footer tabs and selection context.
-   * @export {!ExplorerStateModel<DashboardModel>}
+   * @export {!ExplorerStateModel<SidebarTabModel>}
    */
   this.footerTabs =
-      /** @type {!ExplorerStateModel<FooterTabModel>} */
-      (new ExplorerStateModel($state, 'footerTab'));
+      /** @type {!ExplorerStateModel<SidebarTabModel>} */
+      (new ExplorerStateModel($state, errorService, 'footerTab'));
 
   /**
    * Returns true if the selected widget is maximized, otherwise false.

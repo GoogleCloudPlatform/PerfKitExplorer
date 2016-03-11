@@ -66,21 +66,21 @@ const FieldCubeDataService = (
 explorer.components.widget.query.QueryEditorService = function() {
   /**
    * List of available date groupings.
-   * @type {!Array.<!string>}
+   * @type {!Object.<string, string>}
    * @export
    */
   this.date_groupings = QueryDateGroupings;
 
   /**
    * List of available fields.
-   * @type {!Array.<!string>}
+   * @type {!Object.<string, string>}
    * @export
    */
   this.samples_mart_fields = SamplesMartFields;
 
   /**
    * List of available measures to use on values.
-   * @type {!Array.<!string>}
+   * @type {!Object.<string, string>}
    * @export
    */
   this.samples_mart_measures = SamplesMartMeasures;

@@ -79,7 +79,7 @@ explorer.components.explorer.ExplorerStateModel = function(
    */
   Object.defineProperty(this, 'selected', {
     /** @type {function(): T} */
-    get: () => {
+    get: angular.bind(this, function() {
       if (goog.isDefAndNotNull(this.selectedId)) {
         let selected = this.all[this.selectedId];
 
@@ -89,7 +89,7 @@ explorer.components.explorer.ExplorerStateModel = function(
       }
 
       return null;
-    }
+    })
   });
 
   /**
@@ -98,13 +98,15 @@ explorer.components.explorer.ExplorerStateModel = function(
    * returns false.
    */
    Object.defineProperty(this, 'selectedIdIsValid', {
-     /** @type {function(): boolean} */
-     get: () => {
+     /**
+      * @type {function(): boolean}
+      */
+     get: angular.bind(this, function() {
        if (!goog.isDefAndNotNull(this.selectedId)) {
          return false;
        }
        return goog.isDefAndNotNull(this.all[this.selectedId]);
-     }
+     })
    })
 };
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
@@ -129,7 +131,7 @@ ExplorerStateModel.prototype.add = function(item) {
       goog.isDefAndNotNull(item.model.id)) {
     this.all[item.model.id] = item;
   } else {
-    this.errorSvc_.addError(ErrorTypes.Danger,
+    this.errorSvc_.addError(ErrorTypes.DANGER,
         'add failed: item is invalid');
   }
 };

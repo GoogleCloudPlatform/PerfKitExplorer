@@ -19,12 +19,15 @@
  */
 
 goog.provide('p3rf.perfkit.explorer.components.error.ErrorService');
+
+goog.require('p3rf.perfkit.explorer.components.error.AllErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorModel');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 
 
 goog.scope(function() {
 const components = p3rf.perfkit.explorer.components;
+const AllErrorTypes = components.error.AllErrorTypes;
 const ErrorModel = components.error.ErrorModel;
 const ErrorTypes = components.error.ErrorTypes;
 
@@ -51,7 +54,7 @@ components.error.ErrorService = function($rootScope, $filter, $window) {
   this.errors = [];
 
   /** @export {!Array.<!string>} */
-  this.errorTypes = ErrorTypes.All;
+  this.errorTypes = AllErrorTypes;
 
   /** @export {!boolean} */
   this.logToConsole = true;
@@ -72,8 +75,7 @@ const ErrorService = components.error.ErrorService;
  * If the opt_error_id flag is specified, then if an error with that ID can
  * be found, it will be replaced.  Otherwise, a new error will be added.
  *
- * @param {!string} errorType A string representing the type of error.  See
- *     components.errors.ErrorTypes for supported values.
+ * @param {!ErrorTypes} errorType A string representing the type of error.
  * @param {!string} text The text to display.
  * @param {?string=} opt_errorId The ID of the error message.  It will replace
  *     an error with the same ID.  If not provided, the error is added to the
@@ -83,8 +85,8 @@ const ErrorService = components.error.ErrorService;
  */
 ErrorService.prototype.addError = function(errorType, text, opt_errorId) {
   if (goog.isDef(opt_errorId)) {
-    if (ErrorTypes.All.indexOf(errorType) >
-        ErrorTypes.All.indexOf(this.MAX_ERROR_SEVERITY)) {
+    if (AllErrorTypes.indexOf(errorType) >
+        AllErrorTypes.indexOf(this.MAX_ERROR_SEVERITY)) {
       return null;
     }
 

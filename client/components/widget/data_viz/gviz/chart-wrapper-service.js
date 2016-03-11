@@ -112,14 +112,14 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
 
   /**
    * Provides an ordered list of charts.
-   * @type {Array<!ChartTypeModel>}
+   * @type {!Array<!ChartTypeModel>}
    * @export
    */
   this.allCharts = [];
 
   /**
    * Provides an indexed list of charts.
-   * @export {Object.<string, !ChartTypeModel>}
+   * @export {!Object.<string, !ChartTypeModel>}
    */
   this.allChartsIndex = {};
 
@@ -136,8 +136,8 @@ ChartWrapperService.prototype.loadCharts = function() {
   this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
       success(angular.bind(this, function(response) {
         goog.array.extend(this.allCharts, response);
-        this.allChartsIndex = this.arrayUtilSvc_.getDictionary(
-            this.allCharts, 'className');
+         this.allChartsIndex = /** @type {!Object<!ChartTypeModel>} */ (
+          this.arrayUtilSvc_.getDictionary(this.allCharts, 'className'));
       })).
       error(angular.bind(this, function(response) {
         while (this.allCharts.length > 0) {

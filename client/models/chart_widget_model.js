@@ -110,7 +110,7 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
   this.chartType = ChartModel.DEFAULT_CHART_TYPE;
 
   /**
-   * @type {!Object}
+   * @dict
    * @export
    */
   this.options = {

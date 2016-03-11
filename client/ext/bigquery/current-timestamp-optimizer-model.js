@@ -41,7 +41,7 @@ goog.scope(function() {
 
   /**
    * Constants describing the types of granularity supported on timestamps.
-   * @enum
+   * @enum {string}
    */
   bigquery.CurrentTimestampGranularity = {
     YEAR: 'YEAR',

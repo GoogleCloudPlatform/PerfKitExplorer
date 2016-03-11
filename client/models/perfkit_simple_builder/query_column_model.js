@@ -47,11 +47,12 @@ const LabelResult = explorer.models.perfkit_simple_builder.LabelResult;
 /**
  * Type definition for a label-result specifier.  Though it's a simple string,
  * the wrapper is required for angular binding purposes.
+ * @param {?string=} opt_name
  * @constructor
  */
-explorer.models.perfkit_simple_builder.FieldResult = function(name) {
+explorer.models.perfkit_simple_builder.FieldResult = function(opt_name) {
   /** @type {!string} */
-  this.name = name || '';
+  this.name = opt_name || '';
 };
 const FieldResult = explorer.models.perfkit_simple_builder.FieldResult;
 

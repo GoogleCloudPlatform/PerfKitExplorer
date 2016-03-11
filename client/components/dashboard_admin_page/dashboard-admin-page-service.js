@@ -49,7 +49,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageService = function(
 
   /**
    * The selection service is initialized in the gridOptions onRegisterApi.
-   * @export {Array.<uiGridSelectionService>}
+   * @export {Array.<*>}
    */
   this.selection = null;
 

@@ -198,7 +198,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           chartWrapper.setChartType(
               scope.widgetConfig.model.chart.chartType);
           chartWrapper.setOptions(options);
-          chartWrapper.draw();
+          chartWrapper.draw(undefined);
 
           if (scope.widgetConfig.state().chart.gvizError) {
             // After the chart is drawn, check if the gviz error is still there.
