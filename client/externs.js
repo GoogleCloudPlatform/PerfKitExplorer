@@ -30,19 +30,3 @@ CodeMirror.prototype.setValue = function(a) {};
 
 function history() {}
 history.pushState = function(a, b, c) {};
-
-// TODO(klausw): not sure why these aren't being picked up automatically.
-// Prevents "Bad type annotation" error for IArrayLike in goog/object/object.js
-
-/**
- * @interface
- * @template KEY1, VALUE1
- */
-function IObject() {}
-
-/**
- * @interface
- * @extends {IObject<number, VALUE2>}
- * @template VALUE2
- */
-function IArrayLike() {}

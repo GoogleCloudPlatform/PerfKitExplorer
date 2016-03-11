@@ -44,9 +44,9 @@ const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
  * See module docstring for more information about purpose and usage.
  *
  * @export
- * @ngInject
  */
 gviz.column_style.ColumnStyleService = class {
+  /** @ngInject */
   constructor(errorService, arrayUtilService, dashboardService,
     chartWrapperService) {
     /** @export {!ArrayUtilService} */
