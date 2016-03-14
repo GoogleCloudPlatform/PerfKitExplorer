@@ -8,6 +8,9 @@ default_expiration: 30d
 
 # Third party libraries loaded from the App Engine environment.
 libraries:
+- name: MySQLdb
+  # Warning: datetime returns None in 1.2.4b4 ?!
+  version: "1.2.4"
 - name: jinja2
   version: "2.6"
 - name: webapp2
