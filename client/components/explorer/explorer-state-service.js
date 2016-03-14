@@ -34,8 +34,8 @@ const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
 const DashboardModel = explorer.components.dashboard.DashboardModel;
-const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-const WidgetModel = explorer.models.WidgetModel;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const WidgetConfig = explorer.models.WidgetConfig;
 const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 
 /**
@@ -59,18 +59,18 @@ explorer.components.explorer.ExplorerStateService = function(
 
   /**
    * Provides storage for a list of containers and selection context.
-   * @export {!ExplorerStateModel<ContainerWidgetModel>}
+   * @export {!ExplorerStateModel<ContainerWidgetConfig>}
    */
   this.containers =
-      /** @type {!ExplorerStateModel<ContainerWidgetModel>} */
+      /** @type {!ExplorerStateModel<ContainerWidgetConfig>} */
       (new ExplorerStateModel($state, errorService, 'container'));
 
   /**
    * Provides storage for a list of widgets and selection context.
-   * @export {!ExplorerStateModel<WidgetModel>}
+   * @export {!ExplorerStateModel<WidgetConfig>}
    */
   this.widgets =
-      /** @type {!ExplorerStateModel<WidgetModel>} */
+      /** @type {!ExplorerStateModel<WidgetConfig>} */
       (new ExplorerStateModel($state, errorService, 'widget'));
 
   /**

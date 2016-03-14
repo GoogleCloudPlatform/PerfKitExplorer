@@ -416,13 +416,13 @@ DashboardService.prototype.selectWidget = function(
     }
   }
 
-  if (widget) {
+  if (goog.isDefAndNotNull(widget)) {
     this.sidebarTabService_.resolveSelectedTabForWidget();
 
     this.timeout_(() => {
       this.scrollWidgetIntoView(widget);
     });
-  } else if (container) {
+  } else if (goog.isDefAndNotNull(container)) {
     this.sidebarTabService_.resolveSelectedTabForContainer();
 
     this.timeout_(() => {
@@ -535,7 +535,7 @@ DashboardService.prototype.selectContainer = function(
 
 /**
  * Rewrites the current widget's query based on the config.
- * @param {!Widget} widget The widget to rewrite the query against.
+ * @param {!WidgetConfig} widget The widget to rewrite the query against.
  * @param {boolean=} replaceParams If true, parameters (%%NAME%%) will be
  *     replaced with the current param value (from the dashboard or url).
  *     Defaults to false.
@@ -547,34 +547,34 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
 
   let widgetConfig = widget.model.datasource.config;
 
-  let project_name = this.arrayUtilService_.getFirst([
+  let project_name = /** @type {string} */ (this.arrayUtilService_.getFirst([
       widgetConfig.results.project_id,
       this.current.model.project_id,
-      this.config.default_project], false);
+      this.config.default_project], false));
   if (project_name === null) {
     this.errorService_.addError(ErrorTypes.DANGER, 'Project name not found.');
   }
 
-  let dataset_name = this.arrayUtilService_.getFirst([
+  let dataset_name = /** @type {string} */ (this.arrayUtilService_.getFirst([
       widgetConfig.results.dataset_name,
       this.current.model.dataset_name,
-      this.config.default_dataset], false);
+      this.config.default_dataset], false));
   if (project_name === null) {
     this.errorService_.addError(ErrorTypes.DANGER, 'Dataset name not found.');
   }
 
-  let table_name = this.arrayUtilService_.getFirst([
+  let table_name = /** @type {string} */ (this.arrayUtilService_.getFirst([
       widgetConfig.results.table_name,
       this.current.model.table_name,
-      this.config.default_table], false);
+      this.config.default_table], false));
   if (project_name === null) {
     this.errorService_.addError(ErrorTypes.DANGER, 'Table name not found.');
   }
 
-  let table_partition = this.arrayUtilService_.getFirst([
+  let table_partition = /** @type {!QueryTablePartitioning} */ (this.arrayUtilService_.getFirst([
       widgetConfig.results.table_partition,
       this.current.model.table_partition,
-      this.DEFAULT_TABLE_PARTITION], false);
+      this.DEFAULT_TABLE_PARTITION], false));
   if (project_name === null) {
     this.errorService_.addError(ErrorTypes.DANGER,
                                 'Table partition not found.');
