@@ -195,7 +195,7 @@ DashboardDataService.prototype.update = function(dashboardConfig) {
 /**
  * Deletes the given dashboard on the server based on its id.
  *
- * @param {!number} dashboard_id
+ * @param {string} dashboard_id
  * @return {!angular.$q.Promise}
  */
 DashboardDataService.prototype.delete = function(dashboard_id) {
@@ -206,44 +206,55 @@ DashboardDataService.prototype.delete = function(dashboard_id) {
 /**
  * Creates a copy of the dashboard, with an optional new name.
  *
- * @param {!number} dashboard_id
+ * @param {?string} dashboardId
  * @param {?string=} opt_title The name of the new dashboard.  If omitted,
  *     will have the same name as the original.
  * @return {!angular.$q.Promise}
  */
-DashboardDataService.prototype.copy = function(dashboard_id, opt_title) {
+DashboardDataService.prototype.copy = function(dashboardId, opt_title) {
+  if (!dashboardId) {
+    throw 'DashboadDataService.copy() failed: Dashboard id is required.';
+  }
+
   return this.post(
-      '/dashboard/copy', {id: dashboard_id, title: opt_title}, null);
+      '/dashboard/copy', {id: dashboardId, title: opt_title}, null);
 };
 
 
 /**
  * Changes the name of a dashboard.
  *
- * @param {!number} dashboard_id
- * @param {!string} title The title of the new dashboard.  If omitted, will
- *     have the same title as the original.
+ * @param {?string} dashboardId
+ * @param {string} title The title of the new dashboard.
  * @return {!angular.$q.Promise}
  */
-DashboardDataService.prototype.rename = function(dashboard_id, title) {
+DashboardDataService.prototype.rename = function(dashboardId, title) {
+  if (!dashboardId) {
+    throw 'DashboadDataService.rename() failed: Dashboard id is required.';
+  }
+
   return this.post(
-      '/dashboard/rename', {id: dashboard_id, title: title}, null);
+      '/dashboard/rename', {id: dashboardId, title: title}, null);
 };
 
 
 /**
  * Transfers a dashboard to a new owner, based on the provided email address.
  *
- * @param {!number} dashboard_id
- * @param {!string} new_owner_email The email address of the new owner.  If
+ * @param {?string} dashboardId
+ * @param {string} newOwnerEmail The email address of the new owner.  If
  *     the email address cannot be resolved, no change will take place.
  * @return {!angular.$q.Promise}
  */
 DashboardDataService.prototype.editOwner = function(
-    dashboard_id, new_owner_email) {
+    dashboardId, newOwnerEmail) {
+  if (!dashboardId) {
+    throw 'DashboadDataService.editOwner() failed: Dashboard id is required.';
+  }
+
   return this.post(
       '/dashboard/edit-owner',
-      {id: dashboard_id, email: new_owner_email}, null);
+      {id: dashboardId, email: newOwnerEmail}, null);
 };
 
 
