@@ -103,7 +103,7 @@ gulp.task('common', ['third_party'], function() {
 
 var closureCompilerConfig = {
   compilerPath: 'bin/closure-compiler.jar',
-  fileName: 'build/perfkit_scripts.js',
+  fileName: 'deploy/client/perfkit_scripts.js',
   compilerFlags: {
     angular_pass: true,
     compilation_level: 'SIMPLE_OPTIMIZATIONS',
