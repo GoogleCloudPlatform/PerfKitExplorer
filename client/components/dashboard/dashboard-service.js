@@ -51,6 +51,7 @@ const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 const ConfigService = explorer.components.config.ConfigService;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 const DashboardInstance = explorer.components.dashboard.DashboardInstance;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
@@ -156,7 +157,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   ];
 
   Object.defineProperty(this, 'current', {
-    /** @export {function(): explorer.components.dashboard.DashboardModel} */
+    /** @export {function(): explorer.components.dashboard.DashboardInstance} */
     get: function() {
       return explorerStateService.selectedDashboard;
     }
@@ -308,16 +309,16 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * Set the current dashboard and the set the widgets array to reference the
  * dashboard's widgets.
  *
- * @param {!DashboardInstance} dashboardConfig
+ * @param {!DashboardInstance} dashboard
  * @export
  */
-DashboardService.prototype.setDashboard = function(dashboardConfig) {
-  this.explorerStateService_.selectedDashboard = dashboardConfig;
-  if (dashboardConfig) {
+DashboardService.prototype.setDashboard = function(dashboard) {
+  this.explorerStateService_.selectedDashboard = dashboard;
+  if (dashboard) {
     this.explorerStateService_.widgets.clear();
     this.explorerStateService_.containers.clear();
 
-    for (let container of dashboardConfig.model.children) {
+    for (let container of dashboard.model.children) {
       this.explorerStateService_.containers.all[container.model.id] = container;
       if (container.model.id ===
           this.explorerStateService_.containers.selectedId) {
@@ -420,13 +421,13 @@ DashboardService.prototype.selectWidget = function(
     this.sidebarTabService_.resolveSelectedTabForWidget();
 
     this.timeout_(() => {
-      this.scrollWidgetIntoView(widget);
+      this.scrollWidgetIntoView(/** @type {!WidgetConfig} */ (widget));
     });
   } else if (goog.isDefAndNotNull(container)) {
     this.sidebarTabService_.resolveSelectedTabForContainer();
 
     this.timeout_(() => {
-      this.scrollContainerIntoView(container);
+      this.scrollContainerIntoView(/** @type {!ContainerWidgetConfig} */ (container));
     });
   } else {
     this.timeout_(() => {

@@ -21,6 +21,7 @@ goog.require('p3rf.perfkit.explorer.application.module');
 goog.require('p3rf.perfkit.explorer.models.DatasourceModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilterType');
+goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.MetadataFilter');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryConfigModel');
 goog.require('p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings');
 
@@ -33,8 +34,10 @@ const explorer = p3rf.perfkit.explorer;
 const DatasourceModel = explorer.models.DatasourceModel;
 const DateFilter = explorer.models.perfkit_simple_builder.DateFilter;
 const DateFilterType = explorer.models.perfkit_simple_builder.DateFilterType;
+const MetadataFilter = explorer.models.perfkit_simple_builder.MetadataFilter;
 const QueryConfigModel = explorer.models.perfkit_simple_builder.QueryConfigModel;
 const QueryDateGroupings = p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryDateGroupings;
+
 
 describe('TestQueryConfigModel', function() {
   var query;
@@ -75,8 +78,11 @@ describe('TestQueryConfigModel', function() {
     it('should parse a standard label:value.',
         function() {
           var providedString = 'color:blue';
-          var expectedResult =
-              {'label': 'color', 'value': 'blue', 'text': 'color:blue'};
+          var expectedResult = new MetadataFilter();
+          expectedResult.label = 'color';
+          expectedResult.value = 'blue';
+          expectedResult.text = 'color:blue';
+
           var actualResult =
               QueryConfigModel.getMetadataFilterFromString(providedString);
           expect(actualResult).toEqual(expectedResult);
@@ -86,8 +92,10 @@ describe('TestQueryConfigModel', function() {
     it('should parse a label with no value.',
         function() {
           var providedString = 'important';
-          var expectedResult =
-              {'label': 'important', 'text': 'important'};
+          var expectedResult = new MetadataFilter();
+          expectedResult.label = 'important';
+          expectedResult.text = 'important';
+
           var actualResult =
               QueryConfigModel.getMetadataFilterFromString(providedString);
           expect(actualResult).toEqual(expectedResult);
@@ -97,9 +105,11 @@ describe('TestQueryConfigModel', function() {
     it('should parse a label:value pair where the value contains separators.',
         function() {
           var providedString = 'url:http://site';
-          var expectedResult =
-              {'label': 'url', 'value': 'http://site',
-               'text': 'url:http://site'};
+          var expectedResult = new MetadataFilter();
+          expectedResult.label = 'url';
+          expectedResult.value = 'http://site';
+          expectedResult.text = 'url:http://site';
+
           var actualResult =
               QueryConfigModel.getMetadataFilterFromString(providedString);
           expect(actualResult).toEqual(expectedResult);
@@ -109,8 +119,8 @@ describe('TestQueryConfigModel', function() {
     it('should parse a label:value pair with an empty string.',
         function() {
           var providedString = '';
-          var expectedResult =
-              {'label': '', 'text': ''};
+          var expectedResult = new MetadataFilter();
+
           var actualResult =
               QueryConfigModel.getMetadataFilterFromString(providedString);
           expect(actualResult).toEqual(expectedResult);

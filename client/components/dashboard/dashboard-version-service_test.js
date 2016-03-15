@@ -101,11 +101,10 @@ describe('dashboardVersionService', function() {
         expect(svc.currentVersion).not.toBeNull();
       });
 
-      it('should update the email, config, custom_query and querystring.',
+      it('should update the email, config and custom_query.',
           function() {
             providedDatasource = {
-              'query': 'TEST_QUERY',
-              'querystring': 'product_name=SAMPLE_PRODUCT'};
+              'query': 'TEST_QUERY'};
 
             providedDashboard = {
               'owner': 'TEST_OWNER',
@@ -123,7 +122,6 @@ describe('dashboardVersionService', function() {
 
             expectedOwner = 'TEST_OWNER';
             expectedConfig = new QueryConfigModel();
-            expectedConfig.filters.product_name = 'SAMPLE_PRODUCT';
 
             svc.verifyAndUpdateModel(providedDashboard);
 
@@ -137,8 +135,7 @@ describe('dashboardVersionService', function() {
 
       it('should add a custom_query flag when no query is present.',
          function() {
-           providedDatasource = {
-             'querystring': 'product_name=SAMPLE_PRODUCT'};
+           providedDatasource = {};
 
            providedDashboard = {
              'owner': 'TEST_OWNER',
@@ -156,7 +153,6 @@ describe('dashboardVersionService', function() {
 
            expectedOwner = 'TEST_OWNER';
            expectedConfig = new QueryConfigModel();
-           expectedConfig.filters.product_name = 'SAMPLE_PRODUCT';
 
            svc.verifyAndUpdateModel(providedDashboard);
 

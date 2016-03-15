@@ -192,7 +192,6 @@ describe('configService', function() {
       provided_other_project = 'PROVIDED_OTHER_PROJECT';
 
       provided_object = {
-        'other_property': provided_other_value,
         'default_project': provided_other_project
       };
 
@@ -206,7 +205,6 @@ describe('configService', function() {
       };
 
       expected_data = {
-        'other_property': provided_other_value,
         'default_project': provided_default_project,
         'default_dataset': provided_default_dataset,
         'default_table': provided_default_table,
@@ -219,7 +217,9 @@ describe('configService', function() {
       };
 
       svc.populate(provided_data);
-      expect(svc.toJSON(provided_object)).toEqual(expected_data);
+      var actualData = svc.toJSON(provided_object);
+
+      expect(actualData).toEqual(expected_data);
     });
   });
 

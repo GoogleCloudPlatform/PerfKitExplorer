@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 
@@ -33,7 +33,7 @@ const explorer = p3rf.perfkit.explorer;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
-const DashboardModel = explorer.components.dashboard.DashboardModel;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 const WidgetConfig = explorer.models.WidgetConfig;
 const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
@@ -53,7 +53,7 @@ explorer.components.explorer.ExplorerStateService = function(
 
   /**
    * Provides storage for a list of dashboards and selection context.
-   * @export {?DashboardModel}
+   * @export {?DashboardInstance}
    */
   this.selectedDashboard = null;
 

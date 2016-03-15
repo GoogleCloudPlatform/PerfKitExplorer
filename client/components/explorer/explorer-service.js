@@ -208,10 +208,11 @@ ExplorerService.prototype.initializeDashboard = function() {
  * Creates a new dashboard.
  * @param {boolean=} opt_autoCreateWidget
  * @param {boolean=} opt_autoSelect
+ * @return {!DashboardInstance}
  */
 ExplorerService.prototype.newDashboard = function(
     opt_autoCreateWidget = true, opt_autoSelect) {
-  var dashboard = new DashboardModel();
+  var dashboard = new DashboardInstance();
   dashboard.model.version =
       this.dashboardVersionService_.currentVersion.version;
 
