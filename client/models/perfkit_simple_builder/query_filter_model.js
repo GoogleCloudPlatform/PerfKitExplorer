@@ -79,8 +79,8 @@ const DateFilterType = p3rf.perfkit.explorer.models.perfkit_simple_builder.DateF
  * Provides a model for describing an absolute or relative time.
  *
  * @param {?string=} opt_filterValue Sets the initial value of filter_value.  Defaults to 'CUSTOM'.
- * @param {?string=} opt_filterType Sets the initial value of filter_type.  Defaults to NULL.
- * @param {?string=} opt_specifyTime Sets the initial value of specify_time.  Defaults to false.
+ * @param {?DateFilterType=} opt_filterType Sets the initial value of filter_type.  Defaults to NULL.
+ * @param {?boolean=} opt_specifyTime Sets the initial value of specify_time.  Defaults to false.
  * @param {?string=} opt_text Sets the initial text of the filter.  Defaults to filter_value, if provided, or ''.
  * @constructor
  */
@@ -100,7 +100,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.DateFilter = function(
    * filter_value contains the user-specified date or range.  If filter_type is 'CUSTOM', then filter_value will be
    * a date string (and a time as well, if specify_time is provided).  If the filter_type is anything else, then
    * filter_value will be the range (ex: # of days).
-   * @type {?string}
+   * @type {?string|number}
    */
   this.filter_value = opt_filterValue || null;
 
@@ -174,7 +174,7 @@ p3rf.perfkit.explorer.models.perfkit_simple_builder.QueryFilterModel = (
   /**
    * If given, only samples marked with the sample 'official' field value (true
    * or false) will be returned.
-   * @type {?string}
+   * @type {?boolean}
    * @export
    */
   this.official = null;

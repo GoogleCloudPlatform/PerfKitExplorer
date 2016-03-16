@@ -61,7 +61,7 @@ const FieldCubeDataService = (
 /**
  * Returns a list of fields or metadata, depending on the field_name.
  * @param {string} field_name The name of the field to list.
- * @param {QueryFilterModel} filters The filters to apply to the returned list
+ * @param {!QueryFilterModel} filters The filters to apply to the returned list
  *     of fields or metadata.
  * @return {angular.$q.Promise.<PicklistModel>} An object containing the list
  *     of fields or metadata.

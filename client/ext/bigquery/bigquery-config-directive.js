@@ -20,13 +20,15 @@
 
 goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigDirective');
 
-goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigService');
+goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const BigqueryConfigService = explorer.ext.bigquery.BigqueryConfigService;
 const ChartWidgetModel = explorer.models.ChartWidgetModel;
 const ConfigService = explorer.components.config.ConfigService;
 const DashboardService = explorer.components.dashboard.DashboardService;
@@ -41,7 +43,7 @@ explorer.ext.bigquery.BigqueryConfigDirective = function() {
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      // @type {!ChartWidgetModel}
       'ngModel': '='
     },
     templateUrl: '/static/ext/bigquery/bigquery-config-directive.html',

@@ -40,7 +40,7 @@ explorer.components.widget.data_viz.gviz.ChartConfigDirective = function(
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      // @type {!ChartWidgetModel}
       'ngModel': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/chart-config-directive.html',

@@ -44,8 +44,8 @@ explorer.components.widget.query.QueryResultConfigDirective = function() {
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
-      'ngModel': '='
+      // @type {!ChartWidgetModel}
+      ngModel: '='
     },
     templateUrl: '/static/components/widget/query/query-result-config-directive.html'
   };

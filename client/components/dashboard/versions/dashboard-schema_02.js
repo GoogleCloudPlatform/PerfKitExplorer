@@ -65,14 +65,6 @@ goog.scope(function() {
       if (!widget.datasource.config) {
         widget.datasource.config = new QueryConfigModel();
       }
-
-      // If a querystring is present, apply it to the config object.
-      if (widget.datasource.querystring) {
-        QueryConfigModel.applyQueryString(
-            widget.datasource.config,
-            widget.datasource.querystring);
-        delete widget.datasource.querystring;
-      }
     });
   };
 });

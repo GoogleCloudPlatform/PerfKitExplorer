@@ -336,7 +336,6 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
 
       /**
        * Shows the popup, relative to a specific element.
-       * @param {Element} input The element to offset the popup against.
        */
       scope.showPopup = function() {
         if (popup && activeInput) {
@@ -345,9 +344,8 @@ explorer.components.multibox.MultiboxDirective = (function($timeout) {
 
             const Overflow = goog.positioning.Overflow;
             goog.positioning.positionAtAnchor(
-                activeInput, goog.positioning.Corner.TOP_RIGHT,
-                popup, goog.positioning.Corner.TOP_LEFT,
-                null, null,
+                /** @type {Element} */ (activeInput), goog.positioning.Corner.TOP_RIGHT,
+                popup, goog.positioning.Corner.TOP_LEFT, null, null,
                 Overflow.ADJUST_Y + Overflow.RESIZE_WIDTH);
           });
         }

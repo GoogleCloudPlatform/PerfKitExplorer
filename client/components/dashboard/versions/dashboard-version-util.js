@@ -20,7 +20,15 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil');
 
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
+
+
 goog.scope(function() {
+  const explorer = p3rf.perfkit.explorer;
+  const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+  const WidgetConfig = explorer.models.WidgetConfig;
+
   /**
    * @constructor
    */
@@ -31,8 +39,8 @@ goog.scope(function() {
    * Updates the containers and widgets of a dashboard, based on supplied functions.
    *
    * @param dashboard The DashboardModel object to update.
-   * @param {?function(container)} updateContainerFn The function to apply to each container.
-   * @param {?function(widget)} updateWidgetFn The function to apply to each widget.
+   * @param {?function(ContainerWidgetConfig)} updateContainerFn The function to apply to each container.
+   * @param {?function(WidgetConfig)} updateWidgetFn The function to apply to each widget.
    */
   DashboardVersionUtil.UpdateDashboard = function(dashboard, updateContainerFn, updateWidgetFn) {
     angular.forEach(dashboard.children, function(containerConfig) {
@@ -53,8 +61,8 @@ goog.scope(function() {
    * halt the verification of widgets/containers.
    *
    * @param dashboard The DashboardModel object to update.
-   * @param {?function(container)} verifyContainerFn The function to apply to each container.
-   * @param {?function(widget)} verifyWidgetFn The function to apply to each widget.
+   * @param {?function(ContainerWidgetConfig)} verifyContainerFn The function to apply to each container.
+   * @param {?function(WidgetConfig)} verifyWidgetFn The function to apply to each widget.
    */
   DashboardVersionUtil.VerifyDashboard = function(dashboard, verifyContainerFn, verifyWidgetFn) {
     let container, widget = null;

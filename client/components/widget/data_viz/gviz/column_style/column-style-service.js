@@ -19,6 +19,7 @@
  */
 
 goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
+goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.DataRole');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
@@ -38,6 +39,15 @@ const ErrorService = explorer.components.error.ErrorService;
 const ArrayUtilService = explorer.components.util.ArrayUtilService;
 const ChartWrapperService = explorer.components.widget.data_viz.gviz.ChartWrapperService;
 const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
+
+
+/** @typedef {{
+ *    id: string,
+ *    tooltip: string
+ *  }}
+ */
+gviz.column_style.DataRole;
+const DataRole = gviz.column_style.DataRole;
 
 
 /**
@@ -69,7 +79,7 @@ gviz.column_style.ColumnStyleService = class {
 
     /**
      * A list of roles that can be applied to columns.
-     * @export {!Array.<!Object>}
+     * @export {!Object.<string, !DataRole>}
      */
     this.DATA_ROLES = {
       'annotation': {'id': 'annotation', 'tooltip': 'Text to display on the chart near the associated data point, displayed without any user interaction'},
@@ -279,7 +289,7 @@ gviz.column_style.ColumnStyleService = class {
    * Returns a list of ColumnStyleModel objects that will act as data series.
    *
    * @param {!ChartWidgetConfig} widget
-   * @return {!ChartConfig}
+   * @return {!Array.<!ColumnStyleModel>}
    * @export
    */
   getSeriesColumns(widget) {
@@ -304,7 +314,7 @@ gviz.column_style.ColumnStyleService = class {
    * applied to the relevant chart.options.series[].
    *
    * @param {!ChartWidgetConfig} widget
-   * @return {!ChartConfig}
+   * @return {!Object.<string, *>}
    * @export
    */
   getEffectiveChartConfig(widget) {

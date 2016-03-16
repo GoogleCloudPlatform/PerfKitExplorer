@@ -20,13 +20,17 @@
 
 goog.provide('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
 
+goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.models.ChartType');
+goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ChartType = explorer.models.ChartType;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const WidgetConfig = explorer.models.WidgetConfig;
 
 
 /**
@@ -112,7 +116,7 @@ explorer.components.dashboard.DashboardDirective = function() {
       /**
        * Returns true if the widget should scroll its overflow, otherwise stretch.
        * @param {!WidgetConfig} widget
-       * @param {!ContainerConfig} container
+       * @param {!ContainerWidgetConfig} container
        */
       $scope.isWidgetScrollable = function(widget, container) {
         // TODO: Replace with data-driven constraints for visualizations that support scrolling.
@@ -132,7 +136,13 @@ explorer.components.dashboard.DashboardDirective = function() {
         }
       }
       
-      /** @export {number} */
+      /**
+       * Returns the effective width of a widget within a container. 
+       * @param {!WidgetConfig} widget
+       * @param {!ContainerWidgetConfig} container
+       * @return {number}
+       * @export
+       */
       $scope.getWidgetFlexWidth = function(widget, container) {
         let widgetSpan = widget.model.layout.columnspan;
         let totalSpan = container.model.container.columns;

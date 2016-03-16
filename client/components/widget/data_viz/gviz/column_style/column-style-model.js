@@ -29,21 +29,25 @@ const gviz = explorer.components.widget.data_viz.gviz;
 /**
  * See module docstring for more information about purpose and usage.
  *
+ * @param {string=} opt_columnId
+ * @param {string=} opt_title
+ * @param {string=} opt_dataRole
+ * @param {string=} opt_seriesColor
  * @export
  */
 gviz.column_style.ColumnStyleModel = class {
-  constructor(columnId, title, dataRole, seriesColor) {
+  constructor(opt_columnId, opt_title, opt_dataRole, opt_seriesColor) {
     /**
      * Specifies the column id that the style applies to.
      * @export {string}
      */
-    this.column_id = columnId || '';
+    this.column_id = opt_columnId || '';
 
     /**
      * A string representing a real-world name for the column.
      * @export {string}
      */
-    this.title = title || '';
+    this.title = opt_title || '';
 
     /**
      * A string representing the gviz role to apply to the column.
@@ -51,13 +55,13 @@ gviz.column_style.ColumnStyleModel = class {
      *    https://developers.google.com/chart/interactive/docs/roles
      * @export {string}
      */
-    this.data_role = dataRole || '';
+    this.data_role = opt_dataRole || '';
 
     /**
      * A string representing the series color.
      * @export {string}
      */
-    this.series_color = seriesColor || '';
+    this.series_color = opt_seriesColor || '';
   }
 }
 

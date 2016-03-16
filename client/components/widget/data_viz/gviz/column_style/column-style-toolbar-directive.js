@@ -38,7 +38,7 @@ goog.scope(function() {
     return {
       restrict: 'E',
       scope: {
-        /** @type {!ChartWidgetConfig} */
+        // @type {!ChartWidgetConfig}
         ngModel: '='
       },
       transclude: false,

@@ -25,6 +25,8 @@ const explorer = p3rf.perfkit.explorer;
 
 
 
+// TODO: Refactor this into a standalone, generic service, and use generic type in place of *.
+
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -114,7 +116,7 @@ ArrayUtilService.prototype.insertAfter = function(
 /**
  * Returns the indexOf the provided value in array.
  * Throws an error if not found.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  * @return {number}
  */
@@ -133,7 +135,7 @@ ArrayUtilService.prototype.getIndex = function(
 
 /**
  * Moves the provided value to the previous position.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  */
 ArrayUtilService.prototype.movePrevious = function(
@@ -150,7 +152,7 @@ ArrayUtilService.prototype.movePrevious = function(
 
 /**
  * Moves the provided value to the next position.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  */
 ArrayUtilService.prototype.moveNext = function(
@@ -167,7 +169,7 @@ ArrayUtilService.prototype.moveNext = function(
 
 /**
  * Moves the provided value to the first position.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  */
 ArrayUtilService.prototype.moveFirst = function(
@@ -184,7 +186,7 @@ ArrayUtilService.prototype.moveFirst = function(
 
 /**
  * Moves the provided value to the last position.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  */
 ArrayUtilService.prototype.moveLast = function(
@@ -203,7 +205,7 @@ ArrayUtilService.prototype.moveLast = function(
 
 /**
  * Inserts a value into the array at the specified index.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  * @param {number} index
  */
@@ -215,7 +217,7 @@ ArrayUtilService.prototype.insertAt = function(
 
 /**
  * Removes a value from the array.
- * @param {Array.<*>} array
+ * @param {!Array.<*>} array
  * @param {*} value
  */
 ArrayUtilService.prototype.remove = function(array, value) {
@@ -229,10 +231,10 @@ ArrayUtilService.prototype.remove = function(array, value) {
 
 /**
  * Returns a dictionary of items from the provided object array.
- * @param {Array.<Object>} array
+ * @param {!Array.<Object>} array
  * @param {string} key The key property is read from the object
  *     to serve as the key for the dictionary.
- * @return {Object.<*, *>}
+ * @return {Object}
  */
 ArrayUtilService.prototype.getDictionary = function(array, key) {
   let dict = {};

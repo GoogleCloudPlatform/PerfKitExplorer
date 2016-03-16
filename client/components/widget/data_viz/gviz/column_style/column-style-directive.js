@@ -43,10 +43,10 @@ gviz.column_style.ColumnStyleDirective = function() {
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ColumnStyleModel} */
+      // @type {!ColumnStyleModel}
       'ngModel': '=',
 
-      /** @type {!ChartWidgetConfig} */
+      // @type {!ChartWidgetConfig}
       'widgetConfig': '='
     },
     templateUrl: '/static/components/widget/data_viz/gviz/column_style/column-style-directive.html',

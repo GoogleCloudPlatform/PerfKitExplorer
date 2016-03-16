@@ -26,6 +26,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerModel');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
@@ -46,6 +47,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardService = explorer.components.dashboard.DashboardService;
 const DashboardVersionService = explorer.components.dashboard.DashboardVersionService;
 const ErrorService = explorer.components.error.ErrorService;
+const ErrorTypes = explorer.components.error.ErrorTypes;
 const ExplorerModel = explorer.components.explorer.ExplorerModel;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
@@ -54,9 +56,18 @@ const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService
 /**
  * Service that provides model access for the Explorer page at the top-level.
  * @param {!ArrayUtilService} arrayUtilService
+ * @param {!ContainerService} containerService
  * @param {!DashboardDataService} dashboardDataService
  * @param {!DashboardService} dashboardService
+ * @param {!DashboardVersionService} dashboardVersionService
+ * @param {!ErrorService} errorService
+ * @param {!ExplorerStateService} explorerStateService
+ * @param {!SidebarTabService} sidebarTabService
  * @param {!angular.$location} $location
+ * @param {!Object} $state
+ * @param {!Object} $stateParams
+ * @param {!angular.Scope} $rootScope
+ * @param {!angular.$timeout} $timeout
  * @constructor
  * @ngInject
  */
@@ -195,6 +206,9 @@ ExplorerService.prototype.initializeDashboard = function() {
 
 /**
  * Creates a new dashboard.
+ * @param {boolean=} opt_autoCreateWidget
+ * @param {boolean=} opt_autoSelect
+ * @return {!DashboardInstance}
  */
 ExplorerService.prototype.newDashboard = function(
     opt_autoCreateWidget = true, opt_autoSelect) {

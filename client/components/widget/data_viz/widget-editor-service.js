@@ -89,7 +89,7 @@ const WidgetEditorService = (
  *
  * @param {ChartModel} chartModel
  * @param {google.visualization.DataTable} dataTable
- * @param {google.visualization.DataTable} dataView
+ * @param {google.visualization.DataView} dataView
  * @return {angular.$q.Promise.<ChartModel>}
  */
 WidgetEditorService.prototype.showEditor = function(chartModel, dataTable, dataView) {
@@ -110,9 +110,9 @@ WidgetEditorService.prototype.showEditor = function(chartModel, dataTable, dataV
   this.gvizEvents_.addListener(editor, 'ok', angular.bind(this, editorClosed));
 
   // Create a new chart wrapper based on the chart configuration
-  let chartWrapper = this.chartWrapperService_.create(chartModel.chartType,
-      chartModel.options, dataTable, dataView);
-  editor.openDialog(chartWrapper);
+  let chartWrapper = this.chartWrapperService_.create(
+      chartModel.chartType, chartModel.options, dataTable, dataView);
+  editor.openDialog(chartWrapper, undefined);
 
   return deferred.promise;
 };
