@@ -25,6 +25,8 @@ const explorer = p3rf.perfkit.explorer;
 
 
 
+// TODO: Refactor this into a standalone, generic service, and use generic type in place of *.
+
 /**
  * See module docstring for more information about purpose and usage.
  *

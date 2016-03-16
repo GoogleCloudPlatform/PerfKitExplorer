@@ -50,7 +50,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
 explorer.components.dashboard.DashboardVersionModel = function(
     opt_version, opt_verify, opt_update) {
   /**
-   * @type {?string}
+   * @type {string}
    * @export
    */
   this.version = opt_version || '';
