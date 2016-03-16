@@ -51,6 +51,7 @@ const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 const ConfigService = explorer.components.config.ConfigService;
 const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
 const DashboardInstance = explorer.components.dashboard.DashboardInstance;
+const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardParam = explorer.components.dashboard.DashboardParam;
 const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
@@ -156,7 +157,7 @@ explorer.components.dashboard.DashboardService = function(arrayUtilService,
   ];
 
   Object.defineProperty(this, 'current', {
-    /** @export {function(): explorer.components.dashboard.DashboardModel} */
+    /** @export {function(): explorer.components.dashboard.DashboardInstance} */
     get: function() {
       return explorerStateService.selectedDashboard;
     }
@@ -308,16 +309,16 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * Set the current dashboard and the set the widgets array to reference the
  * dashboard's widgets.
  *
- * @param {!DashboardInstance} dashboardConfig
+ * @param {!DashboardInstance} dashboard
  * @export
  */
-DashboardService.prototype.setDashboard = function(dashboardConfig) {
-  this.explorerStateService_.selectedDashboard = dashboardConfig;
-  if (dashboardConfig) {
+DashboardService.prototype.setDashboard = function(dashboard) {
+  this.explorerStateService_.selectedDashboard = dashboard;
+  if (dashboard) {
     this.explorerStateService_.widgets.clear();
     this.explorerStateService_.containers.clear();
 
-    for (let container of dashboardConfig.model.children) {
+    for (let container of dashboard.model.children) {
       this.explorerStateService_.containers.all[container.model.id] = container;
       if (container.model.id ===
           this.explorerStateService_.containers.selectedId) {
@@ -416,17 +417,17 @@ DashboardService.prototype.selectWidget = function(
     }
   }
 
-  if (widget) {
+  if (goog.isDefAndNotNull(widget)) {
     this.sidebarTabService_.resolveSelectedTabForWidget();
 
     this.timeout_(() => {
-      this.scrollWidgetIntoView(widget);
+      this.scrollWidgetIntoView(/** @type {!WidgetConfig} */ (widget));
     });
-  } else if (container) {
+  } else if (goog.isDefAndNotNull(container)) {
     this.sidebarTabService_.resolveSelectedTabForContainer();
 
     this.timeout_(() => {
-      this.scrollContainerIntoView(container);
+      this.scrollContainerIntoView(/** @type {!ContainerWidgetConfig} */ (container));
     });
   } else {
     this.timeout_(() => {
@@ -535,7 +536,7 @@ DashboardService.prototype.selectContainer = function(
 
 /**
  * Rewrites the current widget's query based on the config.
- * @param {!Widget} widget The widget to rewrite the query against.
+ * @param {!WidgetConfig} widget The widget to rewrite the query against.
  * @param {boolean=} replaceParams If true, parameters (%%NAME%%) will be
  *     replaced with the current param value (from the dashboard or url).
  *     Defaults to false.
@@ -547,37 +548,36 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
 
   let widgetConfig = widget.model.datasource.config;
 
-  let project_name = this.arrayUtilService_.getFirst([
+  let project_name = (this.arrayUtilService_.getFirst([
       widgetConfig.results.project_id,
       this.current.model.project_id,
-      this.config.default_project], false);
-  if (project_name === null) {
-    this.errorService_.addError(ErrorTypes.DANGER, 'Project name not found.');
+      this.config.default_project], false));
+  if (goog.isNull(project_name)) {
+    throw 'Project name not found.';
   }
 
-  let dataset_name = this.arrayUtilService_.getFirst([
+  let dataset_name = (this.arrayUtilService_.getFirst([
       widgetConfig.results.dataset_name,
       this.current.model.dataset_name,
-      this.config.default_dataset], false);
-  if (project_name === null) {
-    this.errorService_.addError(ErrorTypes.DANGER, 'Dataset name not found.');
+      this.config.default_dataset], false));
+  if (goog.isNull(dataset_name)) {
+    throw 'Dataset name not found.';
   }
 
-  let table_name = this.arrayUtilService_.getFirst([
+  let table_name = (this.arrayUtilService_.getFirst([
       widgetConfig.results.table_name,
       this.current.model.table_name,
-      this.config.default_table], false);
-  if (project_name === null) {
-    this.errorService_.addError(ErrorTypes.DANGER, 'Table name not found.');
+      this.config.default_table], false));
+  if (goog.isNull(table_name)) {
+    throw 'Table name not found.';
   }
 
-  let table_partition = this.arrayUtilService_.getFirst([
+  let table_partition = (this.arrayUtilService_.getFirst([
       widgetConfig.results.table_partition,
       this.current.model.table_partition,
-      this.DEFAULT_TABLE_PARTITION], false);
-  if (project_name === null) {
-    this.errorService_.addError(ErrorTypes.DANGER,
-                                'Table partition not found.');
+      this.DEFAULT_TABLE_PARTITION], false));
+  if (goog.isNull(table_partition)) {
+    throw 'Table partition not found.';
   }
 
   this.initializeParams_();
@@ -585,7 +585,10 @@ DashboardService.prototype.rewriteQuery = function(widget, replaceParams) {
 
   return this.queryBuilderService_.getSql(
         widget.model.datasource.config,
-        project_name, dataset_name, table_name, table_partition, params);
+        /** @type {string} */ (project_name),
+        /** @type {string} */ (dataset_name),
+        /** @type {string} */ (table_name),
+        /** @type {!QueryTablePartitioning} */ (table_partition), params);
 };
 
 /**

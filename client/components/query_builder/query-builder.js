@@ -53,7 +53,7 @@ const QueryBuilder = explorer.components.query_builder.QueryBuilder;
  * @param {!Array.<string>=} opt_whereArgs The lines of the where statement.
  * @param {!Array.<string>=} opt_groupArgs The lines of the group by statement.
  * @param {!Array.<string>=} opt_orderArgs The lines of the order by statement.
- * @param {number=} opt_rowLimit The maximum number of rows to return.
+ * @param {?number=} opt_rowLimit The maximum number of rows to return.
  * @return {string} The query string that was built based on the provided
  *     arguments.
  */

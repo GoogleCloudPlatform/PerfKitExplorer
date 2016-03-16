@@ -153,9 +153,14 @@ DashboardAdminPageCtrl.prototype.initPage = function() {
 DashboardAdminPageCtrl.prototype.verifySelection = function() {
   let selection = this.getSelected();
 
-  if (!selection) {
+  if (!goog.isDefAndNotNull(selection)) {
     throw 'verifySelection() failed: No dashboard selected.';
   }
+  
+  if (!goog.isNull(selection)) {
+    throw 'verifySelection() failed: Dashboard not saved.';
+  }
+
   return selection;
 };
 
@@ -195,7 +200,7 @@ DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
 
   let owner = window.prompt(
     'Please provide an email address for the new owner:',
-    selectedDashboard.owner);
+    /** @type {string} */ (selectedDashboard.owner));
 
   if (owner) {
     let promise = this.dashboardDataService.editOwner(
@@ -213,7 +218,7 @@ DashboardAdminPageCtrl.prototype.editDashboardOwner = function() {
 
 
 /**
- * Copies the currently selected dashboard
+ * Renames the selected dashboard.
  * @export
  */
 DashboardAdminPageCtrl.prototype.renameDashboard = function() {
@@ -223,8 +228,13 @@ DashboardAdminPageCtrl.prototype.renameDashboard = function() {
       'Please provide the title for your dashboard',
       selectedDashboard.title);
 
+  if (goog.string.isEmptySafe(title)) {
+    return;
+  }
+
   let promise = this.dashboardDataService.rename(
-      selectedDashboard.id, title);
+      /** @type {string} */ (selectedDashboard.id),
+      /** @type {string} */ (title));
 
   promise.then(angular.bind(this, function(response) {
     this.listDashboards();
@@ -318,7 +328,7 @@ DashboardAdminPageCtrl.prototype.getSelected = function() {
  */
 DashboardAdminPageCtrl.prototype.listDashboardsByOwner = function(opt_owner) {
   this.pageService.model.filter_owner = true;
-  this.pageService.model.owner = opt_owner || null;
+  this.pageService.model.owner = opt_owner || '';
   this.pageService.model.mine = false;
 
   this.clearDashboards();
@@ -335,17 +345,19 @@ DashboardAdminPageCtrl.prototype.deleteDashboard = function() {
     return;
   }
 
-  let promise = this.dashboardDataService.delete(selectedDashboard.id);
-  this.pageService.isLoading = true;
+  if (!goog.isNull(selectedDashboard.id)) {
+    let promise = this.dashboardDataService.delete(selectedDashboard.id);
+    this.pageService.isLoading = true;
 
-  promise.then(angular.bind(this, function(response) {
-    this.listDashboards();
-  }));
+    promise.then(angular.bind(this, function(response) {
+      this.listDashboards();
+    }));
 
-  promise.then(null, angular.bind(this, function(error) {
-    this.pageService.isLoading = false;
-    this.errors.push(error.message);
-  }));
+    promise.then(null, angular.bind(this, function(error) {
+      this.pageService.isLoading = false;
+      this.errors.push(error.message);
+    }));
+  }
 };
 
 

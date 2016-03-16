@@ -34,10 +34,10 @@ explorer.components.dashboard_admin_page.DashboardAdminPageModel = function() {
   this.filter_owner = false;
 
   /**
-   * @type {?string}
+   * @type {string}
    * @export
    */
-  this.owner = null;
+  this.owner = '';
 
   /**
    * @type {?boolean}

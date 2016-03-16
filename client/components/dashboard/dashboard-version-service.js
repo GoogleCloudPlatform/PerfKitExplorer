@@ -87,7 +87,7 @@ explorer.components.dashboard.DashboardVersionService = function($filter) {
 
   /**
    * The version to target for updates.  By default, this is the most recent version.
-   * @type {?DashboardVersionModel}
+   * @type {!DashboardVersionModel}
    * @export
    */
   this.currentVersion = this.versions[0];
@@ -112,15 +112,15 @@ DashboardVersionService.prototype.verifyAndUpdateModel = function(dashboard) {
   // If the version is not current, run the update script to bring the version
   // current.
   if (version == this.currentVersion) {
-    if (!goog.isDef(dashboard.version)) {
-      dashboard.version = version.version;
-    }
+    dashboard.version = version.version;
   } else {
     let dashboard_version_index = this.versions.indexOf(version);
+    
     let current_version_index = this.versions.indexOf(this.currentVersion);
 
     for (let i = dashboard_version_index - 1; i >= current_version_index; --i) {
       let update_version = this.versions[i];
+
       update_version.update(dashboard);
       dashboard.version = update_version.version;
     }

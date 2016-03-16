@@ -17,6 +17,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
+goog.provide('p3rf.perfkit.explorer.components.error.AllErrorTypes');
 goog.provide('p3rf.perfkit.explorer.components.error.ErrorModel');
 goog.provide('p3rf.perfkit.explorer.components.error.ErrorTypes');
 
@@ -27,39 +28,29 @@ const components = p3rf.perfkit.explorer.components;
 
 /**
  * Static type for Error levels.
+ * @enum {string}
  */
-components.error.ErrorTypes = function() {};
+components.error.ErrorTypes = {
+  WARNING: 'WARNING',
+  SUCCESS: 'SUCCESS',
+  INFO: 'INFO',
+  DANGER: 'DANGER'
+}
 const ErrorTypes = components.error.ErrorTypes;
-
-
-/** @export @type {!string} */
-ErrorTypes.WARNING = 'WARNING';
-
-
-/** @export @type {!string} */
-ErrorTypes.SUCCESS = 'SUCCESS';
-
-
-/** @export @type {!string} */
-ErrorTypes.INFO = 'INFO';
-
-
-/** @export @type {!string} */
-ErrorTypes.DANGER = 'DANGER';
 
 
 /**
  * Lists the error types by severity.
- * @export @type {Array.<!string>}
+ * @export {!Array.<!ErrorTypes>}
  */
-ErrorTypes.All = [
+components.error.AllErrorTypes = [
   ErrorTypes.DANGER, ErrorTypes.WARNING, ErrorTypes.INFO, ErrorTypes.SUCCESS];
+const AllErrorTypes = components.error.AllErrorTypes;
 
 
 
 /**
- * @param {!string} errorType A string describing the type of alert.  See
- *     ErrorTypes.All for a list of acceptable values.
+ * @param {!ErrorTypes} errorType A string describing the type of alert.
  * @param {!string} text The text to display for the error.
  * @param {?string=} opt_errorId An optional ID for the error.  Errors with
  *     an ID are replaced with another error with the same ID is added.
@@ -73,7 +64,7 @@ components.error.ErrorModel = function(
    *     components.error.ErrorTypes for supported values.
    * @export
    */
-  this.errorType = errorType || ErrorTypes.ERROR;
+  this.errorType = errorType || ErrorTypes.DANGER;
 
   /**
    * @type {!string} The text to display.
@@ -88,7 +79,7 @@ components.error.ErrorModel = function(
   this.errorId = '';
 
   if (goog.isDef(opt_errorId)) {
-    this.errorId = opt_errorId;
+    this.errorId = /** @type {string} */ (opt_errorId);
   }
 };
 

@@ -58,8 +58,8 @@ explorer.components.dashboard_admin_page.FileUploadDialogCtrl = function(
   /** @private */
   this.dashboardAdminPageService_ = dashboardAdminPageService;
 
-  /** @export {string} */
-  this.filename = '';
+  /** @export {?Blob} */
+  this.filename = null;
 
   /** @export {DashboardInstance} */
   this.dashboard = null;
@@ -76,7 +76,7 @@ const FileUploadDialogCtrl = (
 
 
 FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
-  if (!filename) {
+  if (!goog.isDefAndNotNull(filename)) {
     this.dashboard = null;
     return;
   }
@@ -85,10 +85,9 @@ FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
 
   reader.onload = angular.bind(this, function(e) {
     let dashboard_json = reader.result;
-    let dashboard_object = null;
 
     try {
-      dashboard_object = angular.fromJson(dashboard_json);
+      let dashboard_object = /** @type {!Object} */ (angular.fromJson(dashboard_json));
 
       try {
         this.dashboard = new DashboardInstance(dashboard_object);
@@ -110,7 +109,7 @@ FileUploadDialogCtrl.prototype.changeFilename = function(filename) {
     this.scope_.$apply();
   });
 
-  reader.readAsText(this.filename);
+  reader.readAsText(/** @type {!Blob} */ (this.filename));
 };
 
 /**

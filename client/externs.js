@@ -27,6 +27,3 @@ jasmine.createSpy = function() {};
 
 function CodeMirror() {};
 CodeMirror.prototype.setValue = function(a) {};
-
-function history() {}
-history.pushState = function(a, b, c) {};

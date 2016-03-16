@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorTypes');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateModel');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabModel');
-goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetModel');
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
 
@@ -33,9 +33,9 @@ const explorer = p3rf.perfkit.explorer;
 const ErrorService = explorer.components.error.ErrorService;
 const ErrorTypes = explorer.components.error.ErrorTypes;
 const ExplorerStateModel = explorer.components.explorer.ExplorerStateModel;
-const DashboardModel = explorer.components.dashboard.DashboardModel;
-const ContainerWidgetModel = explorer.components.container.ContainerWidgetModel;
-const WidgetModel = explorer.models.WidgetModel;
+const DashboardInstance = explorer.components.dashboard.DashboardInstance;
+const ContainerWidgetConfig = explorer.components.container.ContainerWidgetConfig;
+const WidgetConfig = explorer.models.WidgetConfig;
 const SidebarTabModel = explorer.components.explorer.sidebar.SidebarTabModel;
 
 /**
@@ -53,47 +53,47 @@ explorer.components.explorer.ExplorerStateService = function(
 
   /**
    * Provides storage for a list of dashboards and selection context.
-   * @export {?DashboardModel}
+   * @export {?DashboardInstance}
    */
   this.selectedDashboard = null;
 
   /**
    * Provides storage for a list of containers and selection context.
-   * @export {!ExplorerStateModel<ContainerWidgetModel>}
+   * @export {!ExplorerStateModel<ContainerWidgetConfig>}
    */
   this.containers =
-      /** @type {!ExplorerStateModel<ContainerWidgetModel>} */
+      /** @type {!ExplorerStateModel<ContainerWidgetConfig>} */
       (new ExplorerStateModel($state, errorService, 'container'));
 
   /**
    * Provides storage for a list of widgets and selection context.
-   * @export {!ExplorerStateModel<WidgetModel>}
+   * @export {!ExplorerStateModel<WidgetConfig>}
    */
   this.widgets =
-      /** @type {!ExplorerStateModel<WidgetModel>} */
+      /** @type {!ExplorerStateModel<WidgetConfig>} */
       (new ExplorerStateModel($state, errorService, 'widget'));
 
   /**
    * Provides storage for a list of widget data.
-   * @export {!Object.<string, WidgetDataModel>}
+   * @export {!Object.<string, *>}
    */
   this.widgetData = {};
 
   /**
    * Provides storage for a list of sidebar tabs and selection context.
-   * @export {!ExplorerStateModel<DashboardModel>}
+   * @export {!ExplorerStateModel<SidebarTabModel>}
    */
   this.tabs =
       /** @type {!ExplorerStateModel<SidebarTabModel>} */
-      (new ExplorerStateModel($state, 'tab'));
+      (new ExplorerStateModel($state, errorService, 'tab'));
 
   /**
    * Provides storage for a list of footer tabs and selection context.
-   * @export {!ExplorerStateModel<DashboardModel>}
+   * @export {!ExplorerStateModel<SidebarTabModel>}
    */
   this.footerTabs =
-      /** @type {!ExplorerStateModel<FooterTabModel>} */
-      (new ExplorerStateModel($state, 'footerTab'));
+      /** @type {!ExplorerStateModel<SidebarTabModel>} */
+      (new ExplorerStateModel($state, errorService, 'footerTab'));
 
   /**
    * Returns true if the selected widget is maximized, otherwise false.

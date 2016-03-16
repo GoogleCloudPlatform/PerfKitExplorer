@@ -40,7 +40,7 @@ explorer.components.util.TypeUtil = class {
    * 'false' (in any case), or the number 0.  If null or undefined is provided,
    * null is returned, and any other value will throw an error.
    *
-   * @param {string|number|boolean} value The value to evaluate.
+   * @param {?string|number|boolean} value The value to evaluate.
    * @return {?boolean} A boolean representation of the provided value, or
    *     null if a null/undefined value was provided.
    */
@@ -87,7 +87,7 @@ explorer.components.util.TypeUtil = class {
    * True is returned for the boolean true, a string 'true' (in any case),
    * or the number 1.  False is returned for any other value, or no value.
    *
-   * @param {string|number|boolean} value The value to evaluate.
+   * @param {?string|number|boolean} value The value to evaluate.
    * @return {boolean} True if the provided value evaluates to true, otherwise false.
    */
   static isTruthy(value) {
@@ -100,7 +100,7 @@ explorer.components.util.TypeUtil = class {
    * True is returned for the boolean false, a string 'false' (in any case),
    * or the number 0.  False is returned for any other value, or no value.
    *
-   * @param {string|number|boolean} value The value to evaluate.
+   * @param {?string|number|boolean} value The value to evaluate.
    * @return {boolean} True if the provided value evaluates to false, otherwise false.
    */
   static isFalsy(value) {

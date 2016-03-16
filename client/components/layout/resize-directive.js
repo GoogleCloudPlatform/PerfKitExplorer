@@ -35,7 +35,6 @@ const ResizeService = explorer.components.layout.ResizeService;
  * {!string} resizeElementId The Id of the element to resize.
  *
  * @param {!ResizeService} resizeService
- * @returns {!explorer.components.layout.ResizeDirective}
  * @ngInject
  * @export
  * @constructor
