@@ -18,7 +18,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.text.TextConfigDirective');
+goog.provide('p3rf.perfkit.explorer.ext.text.TextDatasourceDirective');
 
 
 goog.scope(function() {
@@ -29,15 +29,15 @@ const explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.ext.text.TextConfigDirective = function() {
+explorer.ext.text.TextDatasourceDirective = function() {
   return {
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      // @type {!ChartWidgetModel}
       'ngModel': '='
     },
-    templateUrl: '/static/ext/text/text-config-directive.html'
+    templateUrl: '/static/ext/text/text-datasource-directive.html'
   };
 };
 
