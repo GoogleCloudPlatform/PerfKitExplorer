@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.models.DatasourceType');
 goog.require('p3rf.perfkit.explorer.models.WidgetType');
 
 goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
-goog.require('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigModel');
+goog.require('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlDatasourceModel');
 
 
 goog.scope(function() {
@@ -34,7 +34,7 @@ const DatasourceType = explorer.models.DatasourceType;
 const WidgetType = explorer.models.WidgetType;
 
 const BigqueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
-const CloudsqlConfigModel = explorer.ext.cloudsql.CloudsqlConfigModel;
+const CloudsqlDatasourceModel = explorer.ext.cloudsql.CloudsqlDatasourceModel;
 
 
 /**
@@ -70,7 +70,7 @@ explorer.components.widget.WidgetConfigDirective = function(widgetFactoryService
             scope.ngModel.type = WidgetType.CHART;
 
             if (!goog.isDefAndNotNull(scope.ngModel.datasource.config.cloudsql)) {
-              scope.ngModel.datasource.config.cloudsql = new CloudsqlConfigModel();
+              scope.ngModel.datasource.config.cloudsql = new CloudsqlDatasourceModel();
             };
 
             break;

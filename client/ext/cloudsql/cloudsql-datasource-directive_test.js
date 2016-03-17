@@ -20,10 +20,10 @@
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.CloudsqlConfigDirective');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CloudsqlDatasourceDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-describe('CloudsqlConfigDirective', function() {
+describe('CloudsqlDatasourceDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -52,7 +52,7 @@ describe('CloudsqlConfigDirective', function() {
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<cloudsql-config ng-model="providedWidgetModel" />');
+          '<cloudsql-datasource ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -64,7 +64,7 @@ describe('CloudsqlConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<cloudsql-config ng-model="widgetModel" />');
+        '<cloudsql-datasource ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview CloudsqlConfigModel encapsulates the settings for cloud sql.
+ * @fileoverview CloudsqlDatasourceModel encapsulates the datasource settings for cloud sql.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigModel');
+goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlDatasourceModel');
 
 
 goog.scope(function() {
@@ -29,7 +29,7 @@ goog.scope(function() {
    *
    * @constructor
    */
-  explorer.ext.cloudsql.CloudsqlConfigModel = class {
+  explorer.ext.cloudsql.CloudsqlDatasourceModel = class {
     constructor() {
       /** @export {string} */
       this.instance = '';

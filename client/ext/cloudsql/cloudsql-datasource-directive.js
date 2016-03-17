@@ -18,7 +18,7 @@
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigDirective');
+goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlDatasourceDirective');
 
 
 goog.scope(function() {
@@ -29,15 +29,15 @@ const explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.ext.cloudsql.CloudsqlConfigDirective = function() {
+explorer.ext.cloudsql.CloudsqlDatasourceDirective = function() {
   return {
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      // @type {!ChartWidgetModel}
       'ngModel': '='
     },
-    templateUrl: '/static/ext/cloudsql/cloudsql-config-directive.html'
+    templateUrl: '/static/ext/cloudsql/cloudsql-datasource-directive.html'
   };
 };
 
