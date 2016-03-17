@@ -25,14 +25,14 @@
 goog.provide('p3rf.perfkit.explorer.components.dashboard.versions.DashboardSchemaV10');
 
 goog.require('p3rf.perfkit.explorer.components.dashboard.versions.DashboardVersionUtil');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceModel');
 goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
 
 
 goog.scope(function() {
   const explorer = p3rf.perfkit.explorer;
   const DashboardVersionUtil = explorer.components.dashboard.versions.DashboardVersionUtil;
-  const BigQueryConfigModel = explorer.ext.bigquery.BigqueryConfigModel;
+  const BigqueryDatasourceModel = explorer.ext.bigquery.BigqueryDatasourceModel;
   const CurrentTimestampGranularity = explorer.ext.bigquery.CurrentTimestampGranularity;
 
 
@@ -78,7 +78,7 @@ goog.scope(function() {
     }
 
     if (!goog.isDefAndNotNull(dashboard.config.bigQuery)) {
-      dashboard.config.bigQuery = new BigQueryConfigModel();
+      dashboard.config.bigQuery = new BigqueryDatasourceModel();
       
       dashboard.config.bigQuery.optimizeCurrentTimestamp.enabled = false;
       dashboard.config.bigQuery.optimizeCurrentTimestamp.granularity = CurrentTimestampGranularity.HOUR;
@@ -86,7 +86,7 @@ goog.scope(function() {
 
     DashboardVersionUtil.UpdateDashboard(dashboard, null, function(widget) {
       if (!goog.isDefAndNotNull(widget.datasource.config.bigQuery)) {
-        widget.datasource.config.bigQuery = new BigQueryConfigModel();
+        widget.datasource.config.bigQuery = new BigqueryDatasourceModel();
       }
     });
   };

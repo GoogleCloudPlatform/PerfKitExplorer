@@ -13,34 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview BigqueryConfigService encapsulates the settings for bigquery bigquery.
+ * @fileoverview BigqueryDatasourceModel encapsulates the settings for bigquery.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigService');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
+goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceModel');
+
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfigModel');
 
 
 goog.scope(function() {
   const explorer = p3rf.perfkit.explorer;
-  const CurrentTimestampGranularity = explorer.ext.bigquery.CurrentTimestampGranularity;
-
+  const CurrentTimestampOptimizerConfigModel = explorer.ext.bigquery.CurrentTimestampOptimizerConfigModel;
 
   /**
    * See module docstring for more information about purpose and usage.
    *
    * @constructor
    */
-  explorer.ext.bigquery.BigqueryConfigService = class {
+  explorer.ext.bigquery.BigqueryDatasourceModel = class {
     constructor() {
       /**
-       * Exposes the list of granularity to the angular world.
+       * The settings for the current timestamp optimizer.
        *
-       * @const {Object.<string, string>}
-       * @export 
+       * @export {!CurrentTimestampOptimizerConfigModel}
        */
-      this.ALL_TIMESTAMP_GRANULARITY = CurrentTimestampGranularity;
+      this.optimizeCurrentTimestamp = new CurrentTimestampOptimizerConfigModel();
     }
   }
 });

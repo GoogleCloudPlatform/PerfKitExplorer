@@ -73,9 +73,9 @@
 
   <div ng-switch="ngModel.datasource.type">
     <!-- TODO: Factor out into data-driven widget extensbility -->
-    <bigquery-config
+    <bigquery-datasource
         ng-switch-when="BigQuery"
-        ng-model="ngModel"></bigquery-config>
+        ng-model="ngModel"></bigquery-datasource>
     <cloudsql-datasource
         ng-switch-when="Cloud SQL"
         ng-model="ngModel"></cloudsql-datasource>
