@@ -72,7 +72,7 @@
                     placeholder="{{ dashboardSvc.current.model.config.bigQuery.optimizeCurrentTimestamp.granularity }}*"
                     ng-model="ngModel.datasource.config.bigQuery.optimizeCurrentTimestamp.granularity">
               <md-option
-                      ng-repeat="granularity in bigqueryConfigSvc.ALL_TIMESTAMP_GRANULARITY"
+                      ng-repeat="granularity in bigqueryDatasourceSvc.ALL_TIMESTAMP_GRANULARITY"
                       ng-value="granularity">{{ granularity }}</md-option>
             </md-select>
           </td>

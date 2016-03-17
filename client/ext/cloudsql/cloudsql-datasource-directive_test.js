@@ -20,10 +20,10 @@
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigDirective');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CloudsqlDatasourceDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-describe('BigqueryConfigDirective', function() {
+describe('CloudsqlDatasourceDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -52,7 +52,7 @@ describe('BigqueryConfigDirective', function() {
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<bigquery-config ng-model="providedWidgetModel" />');
+          '<cloudsql-datasource ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -64,26 +64,18 @@ describe('BigqueryConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<bigquery-config ng-model="widgetModel" />');
+        '<cloudsql-datasource ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();
 
-      var projectElement = actualElement.find(
-        'input.widget_datasource_project_id');
-      expect(projectElement.length).toBe(1);
+      var instanceElement = actualElement.find(
+        'input.widget_datasource_instance');
+      expect(instanceElement.length).toBe(1);
 
-      var datasetElement = actualElement.find(
-        'input.widget_datasource_dataset_name');
-      expect(datasetElement.length).toBe(1);
-
-      var tableElement = actualElement.find(
-        'input.widget_datasource_table_name');
-      expect(tableElement.length).toBe(1);
-
-      var tableFormatElement = actualElement.find(
-        'md-select.widget_datasource_table_format');
-      expect(tableFormatElement.length).toBe(1);
+      var databaseNameElement = actualElement.find(
+        'input.widget_datasource_database_name');
+      expect(databaseNameElement.length).toBe(1);
     });
   });
 });

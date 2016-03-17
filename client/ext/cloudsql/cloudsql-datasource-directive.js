@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview TextDirective encapsulates HTML, style and behavior
- *     for configuration of text datasources.
+ * @fileoverview CloudSqlDatasourceConfigDirective encapsulates HTML, style and behavior
+ *     for configuration of Cloud SQL datasources.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.text.TextConfigDirective');
+goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlDatasourceDirective');
 
 
 goog.scope(function() {
@@ -29,15 +29,15 @@ const explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.ext.text.TextConfigDirective = function() {
+explorer.ext.cloudsql.CloudsqlDatasourceDirective = function() {
   return {
     restrict: 'E',
     transclude: false,
     scope: {
-      /** @type {!ChartWidgetModel} */
+      // @type {!ChartWidgetModel}
       'ngModel': '='
     },
-    templateUrl: '/static/ext/text/text-config-directive.html'
+    templateUrl: '/static/ext/cloudsql/cloudsql-datasource-directive.html'
   };
 };
 

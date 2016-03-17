@@ -13,29 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview CloudsqlConfigModel encapsulates the settings for cloud sql.
+ * @fileoverview BigqueryDatasourceService encapsulates the settings for bigquery bigquery.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigModel');
+goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampGranularity');
 
 
 goog.scope(function() {
   const explorer = p3rf.perfkit.explorer;
+  const CurrentTimestampGranularity = explorer.ext.bigquery.CurrentTimestampGranularity;
+
 
   /**
    * See module docstring for more information about purpose and usage.
    *
    * @constructor
    */
-  explorer.ext.cloudsql.CloudsqlConfigModel = class {
+  explorer.ext.bigquery.BigqueryDatasourceService = class {
     constructor() {
-      /** @export {string} */
-      this.instance = '';
-      
-      /** @export {string} */
-      this.database_name = '';
+      /**
+       * Exposes the list of granularity to the angular world.
+       *
+       * @const {Object.<string, string>}
+       * @export 
+       */
+      this.ALL_TIMESTAMP_GRANULARITY = CurrentTimestampGranularity;
     }
   }
 });
