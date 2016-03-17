@@ -1,7 +1,8 @@
 goog.provide('p3rf.perfkit.explorer.ext.bigquery.module');
 
-goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceModel');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceDirective');
 
 
 goog.scope(function() {
@@ -9,5 +10,7 @@ goog.scope(function() {
   
   bigquery.module = angular.module('pkx.bigquery', []);
   
-  bigquery.module.service('bigqueryConfigService', bigquery.BigqueryConfigService);
+  bigquery.module.service('bigqueryDatasourceService', bigquery.BigqueryDatasourceService);
+
+  bigquery.module.directive('bigqueryDatasource', bigquery.BigqueryDatasourceDirective);
 });
