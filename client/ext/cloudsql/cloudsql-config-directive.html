@@ -1,4 +1,23 @@
 <div class="pk-sidebar-group-title">Cloud SQL Settings</div>
+
+<div class="pk-sidebar-group-note">
+  Provide the username/password that will be used to authenticate to Cloud SQL.  Each
+  Cloud SQL administrator is responsible for authorizing this account.  <b>Please
+  ensure that you only grant SELECT access to the relevant tables/views</b>.  Providing
+  access beyond that can allow dashboard authors to modify your data and/or schemas.
+  You can read more about how to create users and grant access in the 
+  <a href="http://dev.mysql.com/doc/refman/5.6/en/grant.html" target="_blank">MySql documentation</a>,
+  and the script below illustrates how to create and authorize the
+  user to a database (all objects) and table.
+  <div>
+    <code>
+      CREATE USER '{{ ngModel.username }}'@'localhost' IDENTIFIED BY '{{ ngModel.password }}';<br>
+      GRANT SELECT ON db1.* TO '{{ ngModel.username }}'@'localhost';<br>
+      GRANT SELECT ON db2.invoice TO '{{ ngModel.username }}'@'localhost';<br>
+    </code>
+  </div>
+</div>
+
 <div class="pk-sidebar-item">
   <div class="pk-sidebar-item-label">
     <label for="cloudsql_username">username</label></div>
