@@ -63,10 +63,14 @@ sidebar {
   margin-bottom: 4px;
 }
 
-.pk-sidebar-group-note code,
+.pk-sidebar-group-note  code,
 .pk-sidebar-note code {
-  display: inline-block;
   font-style: normal;
+}
+
+.pk-sidebar-group-note div > code,
+.pk-sidebar-note div > code {
+  display: inline-block;
   margin: 16px 24px;
 }
 

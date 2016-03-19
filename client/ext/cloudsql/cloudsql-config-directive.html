@@ -1,19 +1,16 @@
 <div class="pk-sidebar-group-title">Cloud SQL Settings</div>
 
-<div class="pk-sidebar-group-note">
-  Provide the username/password that will be used to authenticate to Cloud SQL.  Each
-  Cloud SQL administrator is responsible for authorizing this account.  <b>Please
-  ensure that you only grant SELECT access to the relevant tables/views</b>.  Providing
-  access beyond that can allow dashboard authors to modify your data and/or schemas.
-  You can read more about how to create users and grant access in the 
+<div class="pk-sidebar-note">
+  Provide the credentials used to authenticate to Cloud SQL datasources.  Database owners will
+  need to grant permissions to this account.  <b>Ensure that you only grant <code>SELECT</code>
+  access to the relevant tables/views</b>. You can read more about cloudsql security in the 
   <a href="http://dev.mysql.com/doc/refman/5.6/en/grant.html" target="_blank">MySql documentation</a>,
-  and the script below illustrates how to create and authorize the
-  user to a database (all objects) and table.
+  or use the example scripts below.
   <div>
     <code>
-      CREATE USER '{{ ngModel.username }}'@'localhost' IDENTIFIED BY '{{ ngModel.password }}';<br>
+      CREATE USER '{{ ngModel.username || 'username' }}'@'localhost' IDENTIFIED BY '{{ ngModel.password || 'password' }}';<br>
       GRANT SELECT ON db1.* TO '{{ ngModel.username }}'@'localhost';<br>
-      GRANT SELECT ON db2.invoice TO '{{ ngModel.username }}'@'localhost';<br>
+      GRANT SELECT ON db2.table1 TO '{{ ngModel.username }}'@'localhost';<br>
     </code>
   </div>
 </div>
@@ -24,6 +21,7 @@
   <div class="pk-sidebar-item-value">
     <input class="form-control"
             id="cloudsql_username"
+            placeholder="username"
             ng-model="ngModel.username">
   </div>
 </div>
@@ -34,6 +32,7 @@
   <div class="pk-sidebar-item-value">
     <input class="form-control"
             id="cloudsql_password"
+            placeholder="password"
             ng-model="ngModel.password">
   </div>
 </div>
