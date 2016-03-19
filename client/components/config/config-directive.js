@@ -39,7 +39,13 @@ goog.scope(function() {
       scope: {
         'ngModel': '='
       },
-      templateUrl: '/static/components/config/config-directive.html'
+      templateUrl: '/static/components/config/config-directive.html',
+      controller: ['$scope', function($scope) {
+        /** @return {boolean} */
+        $scope.isCurrentUserAdmin = function() {
+          return goog.global['CURRENT_USER_ADMIN'];
+        }
+      }]
     };
   };
 

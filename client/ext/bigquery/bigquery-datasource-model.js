@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview BigqueryConfigModel encapsulates the settings for bigquery.
+ * @fileoverview BigqueryDatasourceModel encapsulates the settings for bigquery.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigModel');
+goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceModel');
 
 goog.require('p3rf.perfkit.explorer.ext.bigquery.CurrentTimestampOptimizerConfigModel');
 
@@ -32,7 +32,7 @@ goog.scope(function() {
    *
    * @constructor
    */
-  explorer.ext.bigquery.BigqueryConfigModel = class {
+  explorer.ext.bigquery.BigqueryDatasourceModel = class {
     constructor() {
       /**
        * The settings for the current timestamp optimizer.

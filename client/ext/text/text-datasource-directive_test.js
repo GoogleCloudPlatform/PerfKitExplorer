@@ -20,10 +20,10 @@
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.ext.text.TextConfigDirective');
+goog.require('p3rf.perfkit.explorer.ext.text.TextDatasourceDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
-describe('TextConfigDirective', function() {
+describe('TextDatasourceDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, uiConfig;
   var configService, dashboardService;
@@ -52,7 +52,7 @@ describe('TextConfigDirective', function() {
         scope.providedWidgetModel = new ChartWidgetModel();
 
         var actualElement = angular.element(
-          '<text-config ng-model="providedWidgetModel" />');
+          '<text-datasource ng-model="providedWidgetModel" />');
 
         $compile(actualElement)(scope);
         scope.$digest();
@@ -64,7 +64,7 @@ describe('TextConfigDirective', function() {
       scope.widgetModel = new ChartWidgetModel();
 
       var actualElement = angular.element(
-        '<text-config ng-model="widgetModel" />');
+        '<text-datasource ng-model="widgetModel" />');
 
       $compile(actualElement)(scope);
       scope.$digest();

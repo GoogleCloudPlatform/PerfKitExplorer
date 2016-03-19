@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2016 Google Inc. All rights reserved.
+ * @copyright Copyright 2014 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview CloudsqlConfigDirective encapsulates HTML, style and behavior
- *     for configuration of Cloud SQL service settings.
+ * @fileoverview CloudSqlDatasourceConfigDirective encapsulates HTML, style and behavior
+ *     for configuration of Cloud SQL datasources.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigDirective');
-
-goog.require('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigService');
+goog.provide('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlDatasourceDirective');
 
 
 goog.scope(function() {
@@ -31,16 +29,15 @@ const explorer = p3rf.perfkit.explorer;
  *
  * @return {Object} Directive definition object.
  */
-explorer.ext.cloudsql.CloudsqlConfigDirective = function() {
+explorer.ext.cloudsql.CloudsqlDatasourceDirective = function() {
   return {
     restrict: 'E',
     transclude: false,
-    scope: {},
-    templateUrl: '/static/ext/cloudsql/cloudsql-config-directive.html',
-    controller: ['$scope', 'cloudsqlConfigService', function($scope, cloudsqlConfigService) {
-      // @export {!CloudsqlConfigService}
-      $scope.ngModel = cloudsqlConfigService.config;
-    }]
+    scope: {
+      // @type {!ChartWidgetModel}
+      'ngModel': '='
+    },
+    templateUrl: '/static/ext/cloudsql/cloudsql-datasource-directive.html'
   };
 };
 

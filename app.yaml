@@ -61,6 +61,14 @@ handlers:
   login: required
   secure: always
 
+################################################################################
+# Extension Libraries
+################################################################################
+- url: /cloudsql/config
+  script: perfkit.ext.cloudsql.handlers.cloudsql_config.app
+  login: admin
+  secure: always
+
 # URLs from /* are Explorer Pages, and return data in HTML format.
 # These pages rely in async calls to the Data Provider (noted above) to provide
 # full functionality.
