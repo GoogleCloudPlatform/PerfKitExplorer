@@ -16,17 +16,6 @@
   </div>
 
   <div class="pk-sidebar-item">
-    <div class="pk-sidebar-item-label">content</div>
-    <div class="pk-sidebar-item-value">
-      <md-select
-          ng-model="ngModel.type"
-          class="pk-sidebar-input-full widget-type">
-        <md-option ng-repeat="(name, value) in widgetTypes" ng-value="value">{{ value }}</md-option>
-      </md-select>
-    </div>
-  </div>
-
-  <div class="pk-sidebar-item">
     <div class="pk-sidebar-item-label">
       header (formatted with
       <a href="https://github.com/GoogleCloudPlatform/PerfKitExplorer/wiki/Showdown-Markdown-Syntax"
@@ -35,18 +24,6 @@
     <div class="pk-sidebar-item-value">
       <textarea class="form-control widget-header-text"
           ng-model="ngModel.header_text" ng-disabled="!ngModel"></textarea>
-    </div>
-  </div>
-
-  <div class="pk-sidebar-item" ng-show="ngModel.type === widgetTypes.TEXT">
-    <div class="pk-sidebar-item-label">
-      body (formatted with
-      <a href="https://github.com/GoogleCloudPlatform/PerfKitExplorer/wiki/Showdown-Markdown-Syntax"
-         target="_blank">Showdown</a>)
-    </div>
-    <div class="pk-sidebar-item-value">
-      <textarea class="form-control widget-body-text"
-          ng-model="ngModel.datasource.text" ng-disabled="!ngModel"></textarea>
     </div>
   </div>
 
@@ -78,5 +55,32 @@
              ng-model="ngModel.show_statistics">
       show statistics
     </div>
+  </div>
+
+  <div class="pk-sidebar-group-title">Datasource</div>
+
+  <div class="pk-sidebar-item">
+    <div class="pk-sidebar-item-label">type</div>
+    <div class="pk-sidebar-item-value">
+      <md-select
+          ng-model="ngModel.datasource.type"
+          ng-change="changeDatasource()"
+          class="pk-sidebar-input-full widget-type">
+        <md-option ng-repeat="(name, value) in datasourceTypes" ng-value="value">{{ value }}</md-option>
+      </md-select>
+    </div>
+  </div>
+
+  <div ng-switch="ngModel.datasource.type">
+    <!-- TODO: Factor out into data-driven widget extensbility -->
+    <bigquery-datasource
+        ng-switch-when="BigQuery"
+        ng-model="ngModel"></bigquery-datasource>
+    <cloudsql-datasource
+        ng-switch-when="Cloud SQL"
+        ng-model="ngModel"></cloudsql-datasource>
+    <text-datasource
+        ng-switch-when="Text"
+        ng-model="ngModel"></text-datasource>
   </div>
 </div>

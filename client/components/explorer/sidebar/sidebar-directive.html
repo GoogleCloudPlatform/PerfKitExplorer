@@ -23,31 +23,19 @@
       <container-config ng-model="dashboardSvc.selectedContainer.model.container" />
     </div>
 
-    <div ng-switch-when="widget.data">
-      <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
-    </div>
-
     <div ng-switch-when="widget.data.filter">
       <query-builder-filter-config
           ng-model="dashboardSvc.selectedWidget.model" />
     </div>
 
     <div ng-switch-when="widget.data.result">
-      <!-- TODO(joemu): Refactor into a single directive for the panel. -->
       <query-builder-column-config
           ng-model="dashboardSvc.selectedWidget.model">
       </query-builder-column-config>
-      <div class="pk-sidebar-group-title">Result Shape</div>
-      <query-result-config ng-model="dashboardSvc.selectedWidget.model" />
     </div>
 
     <div ng-switch-when="widget.config">
-      <!-- TODO(joemu): Refactor into a single directive for the panel. -->
-      <div class="pk-sidebar-group">
-        <widget-config ng-model="dashboardSvc.selectedWidget.model" />
-      </div>
-      <div class="pk-sidebar-group-title">Datasource</div>
-      <query-builder-datasource-config ng-model="dashboardSvc.selectedWidget.model" />
+      <widget-config ng-model="dashboardSvc.selectedWidget.model" />
     </div>
 
     <div ng-switch-when="widget.chart">
@@ -55,7 +43,11 @@
     </div>
 
     <div ng-switch-when="widget.columns">
-      <column-style-config ng-model="dashboardSvc.selectedWidget" />
+      <query-result-config ng-model="dashboardSvc.selectedWidget.model"></query-result-config>
+
+      <div class="pk-sidebar-group-title">Column Styles</div>
+
+      <column-style-config ng-model="dashboardSvc.selectedWidget"></column-style-config>
     </div>
 
     <div ng-switch-default>UNSUPPORTED TYPE: {{ tabSvc.selectedTab.id }}</div>

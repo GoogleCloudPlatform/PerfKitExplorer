@@ -24,6 +24,7 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
 import logging
+import MySQLdb
 import time
 
 from google.appengine.api import urlfetch_errors
@@ -38,12 +39,13 @@ from perfkit.common import big_query_result_util as result_util
 from perfkit.common import big_query_result_pivot
 from perfkit.common import data_source_config
 from perfkit.common import gae_big_query_client
+from perfkit.common import gae_cloud_sql_client
 from perfkit.common import http_util
 from perfkit.explorer.model import dashboard
 from perfkit.explorer.model import explorer_config
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
-
+from perfkit.ext.cloudsql.models import cloudsql_config
 import webapp2
 
 from google.appengine.api import urlfetch
@@ -224,8 +226,6 @@ class SqlDataHandler(base.RequestHandlerBase):
       urlfetch.set_default_fetch_deadline(URLFETCH_TIMEOUT)
 
       config = explorer_config.ExplorerConfigModel.Get()
-      client = DataHandlerUtil.GetDataClient(self.env)
-      client.project_id = config.default_project
 
       request_data = json.loads(self.request.body)
 
@@ -253,10 +253,29 @@ class SqlDataHandler(base.RequestHandlerBase):
         else:
           logging.error('Query is identical.')
 
-      query_config = request_data['datasource']['config']
-
       cache_duration = config.cache_duration or None
 
+      logging.debug('Query datasource: %s', datasource)
+      query_config = datasource['config']
+
+      if datasource.get('type', 'BigQuery') == 'Cloud SQL':
+        logging.debug('Using Cloud SQL backend')
+        cloudsql_client_config = query_config.get('cloudsql')
+        if not cloudsql_client_config:
+          cloudsql_client_config = {}
+
+        cloudsql_server_config = cloudsql_config.CloudsqlConfigModel.Get()
+
+        client = gae_cloud_sql_client.GaeCloudSqlClient(
+          instance=cloudsql_client_config.get('instance'),
+          db_name=cloudsql_client_config.get('database_name'),
+          db_user=cloudsql_server_config.username,
+          db_password=cloudsql_server_config.password)
+      else:
+        logging.debug('Using BigQuery backend')
+        client = DataHandlerUtil.GetDataClient(self.env)
+
+      client.project_id = config.default_project
       response = client.Query(query, cache_duration=cache_duration)
 
       if query_config['results'].get('pivot'):
@@ -282,6 +301,8 @@ class SqlDataHandler(base.RequestHandlerBase):
     # TODO: Formalize error reporting/handling across the application.
     except (big_query_client.BigQueryError, ValueError, KeyError, SecurityError) as err:
       self.RenderJson({'error': err.message})
+    except MySQLdb.OperationalError as err:
+      self.RenderJson({'error': 'MySQLdb error %s' % str(err)})
     except (google.appengine.runtime.DeadlineExceededError,
             apiproxy_errors.DeadlineExceededError,
             urlfetch_errors.DeadlineExceededError):

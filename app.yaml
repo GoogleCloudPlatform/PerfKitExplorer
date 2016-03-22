@@ -8,6 +8,9 @@ default_expiration: 30d
 
 # Third party libraries loaded from the App Engine environment.
 libraries:
+- name: MySQLdb
+  # Warning: datetime returns None in 1.2.4b4 ?!
+  version: "1.2.4"
 - name: jinja2
   version: "2.6"
 - name: webapp2
@@ -59,6 +62,14 @@ handlers:
 - url: /data/.*
   script: perfkit.explorer.handlers.data.app
   login: required
+  secure: always
+
+################################################################################
+# Extension Libraries
+################################################################################
+- url: /cloudsql/config
+  script: perfkit.ext.cloudsql.handlers.cloudsql_config.app
+  login: admin
   secure: always
 
 # URLs from /* are Explorer Pages, and return data in HTML format.
