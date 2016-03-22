@@ -36,12 +36,6 @@ from perfkit.common import big_query_client
 # GRANT SELECT ON `mystuff`.* TO 'readonly'@'localhost'                        |
 #------------------------------------------------------------------------------+
 
-# TODO(klausw): The password isn't needed according to docs, but I can't get it
-# working without it. A hardcoded password seems ok in this case since access
-# is limited to 'localhost' and also restricted by appengine application ID.
-DB_USER = 'readonly'
-DB_PASSWORD = 'appengine'
-
 SQL_TYPE_TO_BQ_TYPE = {
   MySQLdb.FIELD_TYPE.VARCHAR: 'STRING',
   MySQLdb.FIELD_TYPE.CHAR: 'STRING',
@@ -121,11 +115,16 @@ class GaeCloudSqlClient(object):
   shared_instance = None
 
   def __init__(self, instance=None, db_name=None,
-               db_user=DB_USER, db_password=DB_PASSWORD):
+               db_user=None, db_password=None):
     if not instance:
       raise CloudSqlError('Cloud SQL client: missing instance name')
     if not db_name:
       raise CloudSqlError('Cloud SQL client: missing db name')
+    if not db_user:
+      raise CloudSqlError('Cloud SQL client: missing db username')
+    if not db_password:
+      raise CloudSqlError('Cloud SQL client: missing db password')
+
     if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine/'):
       self.db = MySQLdb.connect(
           unix_socket='/cloudsql/' + instance, db=db_name, user=db_user,

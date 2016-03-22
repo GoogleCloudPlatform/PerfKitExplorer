@@ -24,6 +24,7 @@ __author__ = 'joemu@google.com (Joe Allan Muharsky)'
 
 import json
 import logging
+import MySQLdb
 import time
 
 from google.appengine.api import urlfetch_errors
@@ -44,7 +45,7 @@ from perfkit.explorer.model import dashboard
 from perfkit.explorer.model import explorer_config
 from perfkit.explorer.samples_mart import explorer_method
 from perfkit.explorer.samples_mart import product_labels
-
+from perfkit.ext.cloudsql.models import cloudsql_config
 import webapp2
 
 from google.appengine.api import urlfetch
@@ -259,12 +260,17 @@ class SqlDataHandler(base.RequestHandlerBase):
 
       if datasource.get('type', 'BigQuery') == 'Cloud SQL':
         logging.debug('Using Cloud SQL backend')
-        cloudsql_config = query_config.get('cloudsql')
-        if not cloudsql_config:
-          cloudsql_config = {}
+        cloudsql_client_config = query_config.get('cloudsql')
+        if not cloudsql_client_config:
+          cloudsql_client_config = {}
+
+        cloudsql_server_config = cloudsql_config.CloudsqlConfigModel.Get()
+
         client = gae_cloud_sql_client.GaeCloudSqlClient(
-          instance=cloudsql_config.get('instance'),
-          db_name=cloudsql_config.get('database_name'))
+          instance=cloudsql_client_config.get('instance'),
+          db_name=cloudsql_client_config.get('database_name'),
+          db_user=cloudsql_server_config.username,
+          db_password=cloudsql_server_config.password)
       else:
         logging.debug('Using BigQuery backend')
         client = DataHandlerUtil.GetDataClient(self.env)
@@ -295,6 +301,8 @@ class SqlDataHandler(base.RequestHandlerBase):
     # TODO: Formalize error reporting/handling across the application.
     except (big_query_client.BigQueryError, ValueError, KeyError, SecurityError) as err:
       self.RenderJson({'error': err.message})
+    except MySQLdb.OperationalError as err:
+      self.RenderJson({'error': 'MySQLdb error %s' % str(err)})
     except (google.appengine.runtime.DeadlineExceededError,
             apiproxy_errors.DeadlineExceededError,
             urlfetch_errors.DeadlineExceededError):
