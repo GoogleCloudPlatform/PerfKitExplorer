@@ -44,6 +44,8 @@ const WorkQueueService = explorer.components.util.WorkQueueService;
 const WidgetConfig = explorer.models.WidgetConfig;
 
 
+const ERR_UNEXPECTED = 'An unexpected error occurred.';
+
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -226,7 +228,11 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         isSelected);
 
     promise.then(angular.bind(this, function(response) {
-      if (response.data.error) {
+      console.log(response);
+      if (goog.isDefAndNotNull(response.data.error)) {
+        if (goog.string.isEmptySafe(response.data.error)) {
+          response.data.error = ERR_UNEXPECTED;
+        }
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
