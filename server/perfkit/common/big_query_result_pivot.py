@@ -173,10 +173,9 @@ class BigQueryPivotTransformer(object):
 
       # If the target cell already has a value, throw an error.
       if self.transformed_rows[row_index]['f'][column_index]['v']:
-        logging.error(
-            'Pivot failed: value already exists at row "%s", col "%s".',
-            row_name, column_name)
-        raise DuplicateValueError()
+        msg = 'Pivot failed: value already exists at row "%s", col "%s".' % (row_name, column_name)
+        logging.error(msg)
+        raise DuplicateValueError(msg)
 
       # Set the value of the target cell.
       self.transformed_rows[row_index]['f'][column_index]['v'] = value

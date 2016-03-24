@@ -299,8 +299,10 @@ class SqlDataHandler(base.RequestHandlerBase):
     # return JSON with descriptive text so that we can give the user a
     # constructive error message.
     # TODO: Formalize error reporting/handling across the application.
-    except (big_query_client.BigQueryError, ValueError, KeyError, SecurityError) as err:
-      self.RenderJson({'error': err.message})
+    except (big_query_client.BigQueryError, big_query_result_pivot.DuplicateValueError,
+            ValueError, KeyError, SecurityError) as err:
+      logging.error(str(err))
+      self.RenderJson({'error': str(err)})
     except MySQLdb.OperationalError as err:
       self.RenderJson({'error': 'MySQLdb error %s' % str(err)})
     except (google.appengine.runtime.DeadlineExceededError,
