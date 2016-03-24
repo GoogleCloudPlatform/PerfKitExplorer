@@ -119,18 +119,16 @@ describe('queryResultDataService', function() {
 
   describe('fetchResults', function() {
 
-    fit('should apply a default error messsage when an empty error is returned',
+    it('should apply a default error messsage when an empty error is returned',
         function() {
           var response = null;
           var query = endpoint;
           var widget = new ChartWidgetConfig(widgetFactorySvc);
           widget.model.datasource.query = 'fakeQuery1';
 
-          var response = {
+          var mockResponse = {
             endpoint: '/data/sql',
-            data: {
-              error: ''
-            }
+            error: ''
           }
     
           var params = {
@@ -138,19 +136,16 @@ describe('queryResultDataService', function() {
               'id': widget.model.id,
               'datasource': widget.model.datasource
           };
-          httpBackend.expectPOST(query, params).respond(response);
+          httpBackend.expectPOST(query, params).respond(mockResponse);
 
           var promise = svc.fetchResults(widget);
-          promise.then(function(data) {
+          promise.catch(function(data) {
             response = data;
           });
 
           httpBackend.flush();
-          console.log(response);
           expect(response).not.toBeNull();
-          expect(response.data).not.toBeNull();
-          expect(response.data.error).not.toBeNull();
-          expect(response.data.error).toBe('An unexpected error occurred.');
+          expect(response.error).toBe('An unexpected error occurred.');
         }
     );
 

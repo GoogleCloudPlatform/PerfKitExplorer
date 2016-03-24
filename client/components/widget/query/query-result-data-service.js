@@ -228,7 +228,6 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         isSelected);
 
     promise.then(angular.bind(this, function(response) {
-      console.log(response);
       if (goog.isDefAndNotNull(response.data.error)) {
         if (goog.string.isEmptySafe(response.data.error)) {
           response.data.error = ERR_UNEXPECTED;
