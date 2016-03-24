@@ -46,46 +46,7 @@ explorer.components.widget.perfkitWidget = function() {
     scope: {
       widgetConfig: '='
     },
-    templateUrl: '/static/components/widget/widget-directive.html',
-    link: function(scope, element, attributes) {
-      let basis;
-
-      let adjustColumnSize = function() {
-        let columnspan = scope.widgetConfig.model.layout.columnspan;
-        // Column size is a percent value multiply by columnspan
-        basis =
-            (100 / scope.widgetConfig.state().parent.model.container.columns) *
-            columnspan;
-        // Set minimum width multiply by columnspan
-        let minWidth = perfkitWidget.MIN_COLUMN_WIDTH * columnspan;
-        // Apply new style value
-        scope.layoutStyle = {
-          '-webkit-flex-basis': basis + '%',
-          'flex-basis': basis + '%',
-          'min-width': minWidth + 'px'
-        };
-      };
-      adjustColumnSize();
-
-      scope.$watch('widgetConfig.state().parent.model.container.columns',
-          function(oldVal, newVal) {
-            if (oldVal !== newVal &&
-                scope.widgetConfig.state().parent.model.container.columns > 0) {
-              adjustColumnSize();
-            }
-          }
-      );
-
-      // When the columnspan changes
-      scope.$watch('widgetConfig.model.layout.columnspan',
-          function(oldVal, newVal) {
-            if (oldVal !== newVal &&
-                scope.widgetConfig.model.layout.columnspan > 0) {
-              adjustColumnSize();
-            }
-          }
-      );
-    }
+    templateUrl: '/static/components/widget/widget-directive.html'
   };
 };
 let perfkitWidget = explorer.components.widget.perfkitWidget;
