@@ -239,19 +239,29 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         let rows = response.data.totalRows;
         let size = response.data.totalBytesProcessed;
         let time = response.data.elapsedTime;
-        let job = response.data.jobReference.jobId;
+        let jobReference = response.data.jobReference;
 
-        widget.state().datasource.job_id = job;
+        if (goog.isDefAndNotNull(jobReference)) {
+          widget.state().datasource.job_id = jobReference.jobId;
+        }
         widget.state().datasource.row_count = rows;
         widget.state().datasource.query_size = size;
         widget.state().datasource.query_time = time;
 
         if (this.explorerService_.model.logStatistics) {
-          this.errorService_.addError(
-              ErrorTypes.INFO,
-              'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
-              'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
-              'in ' + this.filter_('number')(time, 2) + ' sec.');
+          let clauses = [];
+          if (goog.isDefAndNotNull(rows)) {
+            clauses.push('Returned' + this.filter_('number')(rows, 0) + ' records');
+          }
+          if (goog.isDefAndNotNull(size)) {
+            clauses.push('Processing' + this.filter_('number')(size/1000000, 2) + 'MB');
+          }
+          if (goog.isDefAndNotNull(time)) {
+            clauses.push('In ' + this.filter_('number')(time, 2) + ' sec.');
+          }
+          let msg = clauses.join(' ');
+
+          this.errorService_.addError(ErrorTypes.INFO, msg);
         }
 
         let data = response.data.results;
