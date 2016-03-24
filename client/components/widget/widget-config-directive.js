@@ -21,10 +21,20 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.WidgetConfigDirective');
 
 goog.require('p3rf.perfkit.explorer.components.widget.WidgetFactoryService');
+goog.require('p3rf.perfkit.explorer.models.DatasourceType');
+goog.require('p3rf.perfkit.explorer.models.WidgetType');
+
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceModel');
+goog.require('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlDatasourceModel');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const DatasourceType = explorer.models.DatasourceType;
+const WidgetType = explorer.models.WidgetType;
+
+const BigqueryDatasourceModel = explorer.ext.bigquery.BigqueryDatasourceModel;
+const CloudsqlDatasourceModel = explorer.ext.cloudsql.CloudsqlDatasourceModel;
 
 
 /**
@@ -42,9 +52,37 @@ explorer.components.widget.WidgetConfigDirective = function(widgetFactoryService
     },
     templateUrl: '/static/components/widget/widget-config-directive.html',
     link: function(scope) {
-      // TODO: Improve logic to keep Containers out of widget type picklists.
-      scope.widgetTypes = angular.copy(widgetFactoryService.widgetTypes);
-      delete scope.widgetTypes['CONTAINER'];
+      scope.datasourceTypes = angular.copy(DatasourceType);
+      scope.widgetTypes = angular.copy(WidgetType);
+
+      // TODO: Factor out into extensibility directive.
+      scope.changeDatasource = function() {
+        switch (scope.ngModel.datasource.type) {
+          case DatasourceType.BIGQUERY:
+            scope.ngModel.type = WidgetType.CHART;
+
+            if (!goog.isDefAndNotNull(scope.ngModel.datasource.config.bigquery)) {
+              scope.ngModel.datasource.config.cloudsql = new BigqueryDatasourceModel();
+            };
+
+            break;
+          case DatasourceType.CLOUDSQL:
+            scope.ngModel.type = WidgetType.CHART;
+
+            if (!goog.isDefAndNotNull(scope.ngModel.datasource.config.cloudsql)) {
+              scope.ngModel.datasource.config.cloudsql = new CloudsqlDatasourceModel();
+            };
+
+            break;
+          case DatasourceType.TEXT:
+            scope.ngModel.type = WidgetType.TEXT;
+
+            break;
+          default:
+            throw 'Datasource type not recognized: ' + scope.ngModel.datasource.type;
+        }
+        console.log()
+      }
     }
   };
 };

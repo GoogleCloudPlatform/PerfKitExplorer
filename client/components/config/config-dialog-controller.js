@@ -21,11 +21,13 @@
 goog.provide('p3rf.perfkit.explorer.components.config.ConfigDialogCtrl');
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
+goog.require('p3rf.perfkit.explorer.ext.cloudsql.CloudsqlConfigService');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
 const ConfigService = explorer.components.config.ConfigService;
+const CloudsqlConfigService = explorer.ext.cloudsql.CloudsqlConfigService;
 
 
 /**
@@ -34,11 +36,13 @@ const ConfigService = explorer.components.config.ConfigService;
  * @param {!angular.Scope} $scope
  * @param {!angular.$log} $log
  * @param {!ui.bootstrap.modalInstance} $modalInstance
+ * @param {!ConfigService} configService
+ * @param {!CloudsqlConfigService} cloudsqlConfigService
  * @constructor
  * @ngInject
  */
 explorer.components.config.ConfigDialogCtrl = function(
-    $scope, $log, $modalInstance, configService) {
+    $scope, $log, $modalInstance, configService, cloudsqlConfigService) {
   /**
    * @type {!angular.Scope}
    * @private
@@ -56,10 +60,13 @@ explorer.components.config.ConfigDialogCtrl = function(
    */
   this.modalInstance_ = $modalInstance;
 
-  /** @export @type {ConfigService} */
+  /** @type {CloudsqlConfigService} */
+  this.cloudsqlConfigService = cloudsqlConfigService;
+
+  /** @export {ConfigService} */
   this.configService = configService;
 
-  /** @export @type {!Object} */
+  /** @export {!Object} */
   this.workingConfig = configService.toJSON();
 };
 const ConfigDialogCtrl = (
@@ -83,6 +90,10 @@ ConfigDialogCtrl.prototype.refresh = function() {
 ConfigDialogCtrl.prototype.ok = function() {
   this.configService.populate(this.workingConfig);
   this.configService.update();
+
+  // TODO: Refactor extension config updates into extensibility library.
+  this.cloudsqlConfigService.update();
+
   this.modalInstance_.close();
 };
 

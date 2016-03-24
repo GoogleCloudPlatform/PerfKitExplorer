@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * @fileoverview QueryDatasourceDirective encapsulates HTML, style and behavior
- *     for widget query filters.
+ * @fileoverview BigQueryDatasourceDirective encapsulates HTML, style and behavior
+ *     for configuration of BigQuery datasources.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
-goog.provide('p3rf.perfkit.explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective');
+goog.provide('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceDirective');
 
 goog.require('p3rf.perfkit.explorer.components.config.ConfigService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
-goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryConfigService');
+goog.require('p3rf.perfkit.explorer.ext.bigquery.BigqueryDatasourceService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetModel');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
-const BigqueryConfigService = explorer.ext.bigquery.BigqueryConfigService;
+const BigqueryDatasourceService = explorer.ext.bigquery.BigqueryDatasourceService;
 const ChartWidgetModel = explorer.models.ChartWidgetModel;
 const ConfigService = explorer.components.config.ConfigService;
 const DashboardService = explorer.components.dashboard.DashboardService;
@@ -38,7 +38,7 @@ const DashboardService = explorer.components.dashboard.DashboardService;
  *
  * @return {Object} Directive definition object.
  */
-explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective = function() {
+explorer.ext.bigquery.BigqueryDatasourceDirective = function() {
   return {
     restrict: 'E',
     transclude: false,
@@ -46,18 +46,18 @@ explorer.components.widget.query.builder.QueryBuilderDatasourceConfigDirective =
       // @type {!ChartWidgetModel}
       'ngModel': '='
     },
-    templateUrl: '/static/components/widget/query/builder/query-builder-datasource-config-directive.html',
+    templateUrl: '/static/ext/bigquery/bigquery-datasource-directive.html',
     controller: [
-        '$scope', 'configService', 'dashboardService', 'bigqueryConfigService',
-        function($scope, configService, dashboardService, bigqueryConfigService) {
+        '$scope', 'configService', 'dashboardService', 'bigqueryDatasourceService',
+        function($scope, configService, dashboardService, bigqueryDatasourceService) {
       /** @export {!ConfigService} */
       $scope.configSvc = configService;
 
       /** @export {!DashboardService} */
       $scope.dashboardSvc = dashboardService;
       
-      /** @export {!BigqueryConfigService} */
-      $scope.bigqueryConfigSvc = bigqueryConfigService;
+      /** @export {!BigqueryDatasourceService} */
+      $scope.bigqueryDatasourceSvc = bigqueryDatasourceService;
     }]
   };
 };
