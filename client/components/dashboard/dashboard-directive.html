@@ -40,7 +40,7 @@
                  ng-bind="dashboardSvc.replaceTokens(widget.model.title)"></div>
           </div>
           <div ng-show="widget.model.header_text || container.model.container.widget_header_height"
-              class="pk-widget-section-text"
+              class="pk-widget-header"
               ng-class="{'pk-section-fixed-height': container.model.container.widget_header_height}"
               ng-click="clickWidget($event, widget, container)"
               ng-style="{'height': container.model.container.widget_header_height + 'px'}"
@@ -60,7 +60,7 @@
             </div>
           </div>
           <div ng-show="widget.model.footer_text || container.model.container.widget_footer_height"
-              class="pk-widget-section-text"
+              class="pk-widget-footer"
               ng-class="{'pk-section-fixed-height': container.model.container.widget_footer_height}"
               ng-click="clickWidget($event, widget, container)"
               ng-style="{'height': container.model.container.widget_footer_height + 'px'}"

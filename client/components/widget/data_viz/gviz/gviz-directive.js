@@ -230,8 +230,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
 
       let adjustWidth = function() {
         if (scope.widgetConfig.model.chart) {
-          scope.widgetConfig.state().chart.width =
-              element.parent().prop('offsetWidth') - 1;
+          scope.widgetConfig.state().chart.width = element.parent().width();
         }
       };
       adjustWidth();
