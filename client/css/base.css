@@ -144,44 +144,48 @@ a:active {
   color: #DD4B39;
 }
 
-h1 {
-  font-size: 36px;
-  font-weight: bold;
+/**
+ * Heading styles are derived from the Material Design typography spec
+ * at https://www.google.com/design/spec/style/typography.html#typography-styles
+ */ 
+h1 { /* Display 2 */
+  font-size: 45px;
+  font-weight: normal;
   margin-top: 8px;
   margin-bottom: 12px;
 }
 
-h2 {
-  font-size: 30px;
-  font-weight: bold;
+h2 { /* Display 1 */
+  font-size: 34px;
+  font-weight: 400;
   margin-top: 6px;
   margin-bottom: 12px;
 }
 
-h3 {
+h3 { /* Headline */
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 400;
   margin-top: 6px;
   margin-bottom: 10px;
 }
 
-h4 {
+h4 { /* Title */
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 400;
   margin-top: 4px;
   margin-bottom: 10px;
 }
 
-h5 {
-  font-size: 16px;
-  font-weight: bold;
+h5 { /* Subheading */
+  font-size: 15px;
+  font-weight: 400;
   margin-top: 4px;
   margin-bottom: 8px;
 }
 
-h6 {
-  font-size: 14px;
-  font-weight: bold;
+h6 { /* Body 2 */
+  font-size: 13px;
+  font-weight: 600;
   margin-top: 4px;
   margin-bottom: 8px;
 }
