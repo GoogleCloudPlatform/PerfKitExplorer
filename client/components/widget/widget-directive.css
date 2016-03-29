@@ -17,7 +17,7 @@
 
 .pk-widget-selected .pk-widget-body {
   background-color: #fff;
-  border: 2px solid #616161;
+  border: 2px solid #1565C0;
   margin: 14px;
 }
 
@@ -38,8 +38,8 @@
   background: #ffffff;
   display: flex;
   flex-direction: row-reverse;
-  min-height: 25px;
-  padding: 4px 10px;
+  height: 40px;
+  padding: 12px 12px;
 }
 
 .pk-widget-title {
@@ -77,16 +77,8 @@
   margin: 0.25em 0;
 }
 
-.pk-widget-section-text {
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.pk-widget-footer, .pk-widget-header {
-  padding-bottom: 4px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 4px;
+.pk-widget-header, .pk-widget-content, .pk-widget-footer {
+  padding: 0 12px 12px;
 }
 
 .pk-widget-statistics {
