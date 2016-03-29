@@ -44,6 +44,9 @@ const WorkQueueService = explorer.components.util.WorkQueueService;
 const WidgetConfig = explorer.models.WidgetConfig;
 
 
+const ERR_FETCH = ''
+const ERR_UNEXPECTED = 'The HTTP response returned no details.';
+
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -226,7 +229,14 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         isSelected);
 
     promise.then(angular.bind(this, function(response) {
-      if (response.data.error) {
+      if (goog.isDefAndNotNull(response.data.error)) {
+        if (goog.string.isEmptySafe(response.data.error)) {
+          response.data.error = ERR_UNEXPECTED;
+        }
+        response.data.error = (
+          'An error occurred when fetching data from ' + widget.model.datasource.type + ': ' +
+          response.data.error
+        );
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
@@ -269,7 +279,11 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
     }));
     // Error handling
     promise.then(null, angular.bind(this, function(response) {
-      this.errorService_.addError(ErrorTypes.DANGER, response.error || response.statusText);
+      response.error = (
+        'An error occurred when fetching data from ' + widget.model.datasource.type + ': ' +
+        (response.error || response.statusText)
+      );
+      this.errorService_.addError(ErrorTypes.DANGER, response.error);
 
       deferred.reject(response);
     }));

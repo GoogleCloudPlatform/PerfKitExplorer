@@ -141,7 +141,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_SAFE_MODE;
         }
         else if (scope.widgetConfig.queryError) {
-          message = 'query error: ' + scope.widgetConfig.queryError;
+          message = scope.widgetConfig.queryError;
         }
         else if (scope.widgetConfig.state().datasource.status ===
                  ResultsDataStatus.NODATA) {

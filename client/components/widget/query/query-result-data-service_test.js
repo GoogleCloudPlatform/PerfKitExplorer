@@ -119,6 +119,36 @@ describe('queryResultDataService', function() {
 
   describe('fetchResults', function() {
 
+    it('should apply a default error messsage when an empty error is returned',
+        function() {
+          var response = null;
+          var query = endpoint;
+          var widget = new ChartWidgetConfig(widgetFactorySvc);
+          widget.model.datasource.query = 'fakeQuery1';
+
+          var mockResponse = {
+            endpoint: '/data/sql',
+            error: ''
+          }
+    
+          var params = {
+              'dashboard_id': null,
+              'id': widget.model.id,
+              'datasource': widget.model.datasource
+          };
+          httpBackend.expectPOST(query, params).respond(mockResponse);
+
+          var promise = svc.fetchResults(widget);
+          promise.catch(function(data) {
+            response = data;
+          });
+
+          httpBackend.flush();
+          expect(response).not.toBeNull();
+          expect(response.error).toBe('An unexpected error occurred.');
+        }
+    );
+
     it('should fetch the samples results of a query as a DataTable.',
         function() {
           var dataTable = null;
