@@ -44,6 +44,9 @@ const WorkQueueService = explorer.components.util.WorkQueueService;
 const WidgetConfig = explorer.models.WidgetConfig;
 
 
+const ERR_FETCH = ''
+const ERR_UNEXPECTED = 'The HTTP response returned no details.';
+
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -226,26 +229,43 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
         isSelected);
 
     promise.then(angular.bind(this, function(response) {
-      if (response.data.error) {
+      if (goog.isDefAndNotNull(response.data.error)) {
+        if (goog.string.isEmptySafe(response.data.error)) {
+          response.data.error = ERR_UNEXPECTED;
+        }
+        response.data.error = (
+          'An error occurred when fetching data from ' + widget.model.datasource.type + ': ' +
+          response.data.error
+        );
         this.errorService_.addError(ErrorTypes.DANGER, response.data.error);
         deferred.reject(response.data);
       } else {
         let rows = response.data.totalRows;
         let size = response.data.totalBytesProcessed;
         let time = response.data.elapsedTime;
-        let job = response.data.jobReference.jobId;
+        let jobReference = response.data.jobReference;
 
-        widget.state().datasource.job_id = job;
+        if (goog.isDefAndNotNull(jobReference)) {
+          widget.state().datasource.job_id = jobReference.jobId;
+        }
         widget.state().datasource.row_count = rows;
         widget.state().datasource.query_size = size;
         widget.state().datasource.query_time = time;
 
         if (this.explorerService_.model.logStatistics) {
-          this.errorService_.addError(
-              ErrorTypes.INFO,
-              'Returned ' + this.filter_('number')(rows, 0) + ' records, ' +
-              'processing ' + this.filter_('number')(size/1000000, 2) + 'MB ' +
-              'in ' + this.filter_('number')(time, 2) + ' sec.');
+          let clauses = [];
+          if (goog.isDefAndNotNull(rows)) {
+            clauses.push('Returned' + this.filter_('number')(rows, 0) + ' records');
+          }
+          if (goog.isDefAndNotNull(size)) {
+            clauses.push('Processing' + this.filter_('number')(size/1000000, 2) + 'MB');
+          }
+          if (goog.isDefAndNotNull(time)) {
+            clauses.push('In ' + this.filter_('number')(time, 2) + ' sec.');
+          }
+          let msg = clauses.join(' ');
+
+          this.errorService_.addError(ErrorTypes.INFO, msg);
         }
 
         let data = response.data.results;
@@ -259,7 +279,11 @@ QueryResultDataService.prototype.fetchResults = function(widget) {
     }));
     // Error handling
     promise.then(null, angular.bind(this, function(response) {
-      this.errorService_.addError(ErrorTypes.DANGER, response.error || response.statusText);
+      response.error = (
+        'An error occurred when fetching data from ' + widget.model.datasource.type + ': ' +
+        (response.error || response.statusText)
+      );
+      this.errorService_.addError(ErrorTypes.DANGER, response.error);
 
       deferred.reject(response);
     }));

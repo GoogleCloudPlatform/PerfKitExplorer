@@ -62,6 +62,9 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
 const WorkQueueService = explorer.components.util.WorkQueueService;
 
 
+/** @type {number} Specifies the number of pixels that the chart's width needs to be reduced by. */
+const CHART_EXTRA_HEIGHT_PX = 16;
+
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -134,7 +137,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
           message = gvizChart.ERR_SAFE_MODE;
         }
         else if (scope.widgetConfig.queryError) {
-          message = 'query error: ' + scope.widgetConfig.queryError;
+          message = scope.widgetConfig.queryError;
         }
         else if (scope.widgetConfig.state().datasource.status ===
                  ResultsDataStatus.NODATA) {
@@ -220,7 +223,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         if (scope.widgetConfig.model.chart) {
           if (isHeightEnforced()) {
             scope.widgetConfig.state().chart.height =
-                scope.widgetConfig.state().parent.model.container.height;
+                scope.widgetConfig.state().parent.model.container.height - CHART_EXTRA_HEIGHT_PX;
           } else {
             scope.widgetConfig.state().chart.height = null;
           }
