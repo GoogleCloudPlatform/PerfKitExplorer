@@ -62,6 +62,13 @@ const ResultsDataStatus = explorer.models.ResultsDataStatus;
 const WorkQueueService = explorer.components.util.WorkQueueService;
 
 
+// TODO: Determine why Linux and OSX Chrome versions treat chart sizing differently.
+/** @type {number} Specifies the number of pixels that the chart's width needs to be reduced by. */
+const CHART_EXTRA_WIDTH_PX = 16;
+/** @type {number} Specifies the number of pixels that the chart's width needs to be reduced by. */
+const CHART_EXTRA_HEIGHT_PX = 16;
+
+
 /**
  * See module docstring for more information about purpose and usage.
  *
@@ -220,7 +227,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
         if (scope.widgetConfig.model.chart) {
           if (isHeightEnforced()) {
             scope.widgetConfig.state().chart.height =
-                scope.widgetConfig.state().parent.model.container.height;
+                scope.widgetConfig.state().parent.model.container.height - CHART_EXTRA_HEIGHT_PX;
           } else {
             scope.widgetConfig.state().chart.height = null;
           }
@@ -231,7 +238,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       let adjustWidth = function() {
         if (scope.widgetConfig.model.chart) {
           scope.widgetConfig.state().chart.width =
-              element.parent().prop('offsetWidth') - 1;
+              element.parent().prop('offsetWidth') - CHART_EXTRA_WIDTH_PX;
         }
       };
       adjustWidth();
