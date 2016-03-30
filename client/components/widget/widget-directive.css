@@ -63,11 +63,11 @@
 }
 
 .pk-widget-header {
-  padding-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 .pk-widget-footer {
-  padding-top: 12px;
+  margin-top: 12px;
 }
 
 .pk-widget-statistics {
