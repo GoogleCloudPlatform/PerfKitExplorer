@@ -1,5 +1,6 @@
 <div flex layout="column"
      ng-class="{'pk-widget-selected': widgetConfig.state().selected}">
-  <div class="pk-widget-body" layout="column" flex ng-transclude>
+  <div class="pk-widget-body" layout="column" flex ng-transclude
+      ng-click="clickWidget($event, widget, container)">
   </div>
 </div>

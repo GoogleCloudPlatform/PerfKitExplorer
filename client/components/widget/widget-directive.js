@@ -46,7 +46,20 @@ explorer.components.widget.perfkitWidget = function() {
     scope: {
       widgetConfig: '='
     },
-    templateUrl: '/static/components/widget/widget-directive.html'
+    templateUrl: '/static/components/widget/widget-directive.html',
+    controller: ['dashboardService', 'sidebarTabService', '$scope', function(
+        dashboardService, sidebarTabService, $scope) {
+      /** @export */
+      $scope.clickWidget = function(event) {
+        let widget = $scope.widgetConfig;
+        let container = widget.state().parent;
+
+        dashboardService.selectWidget(widget, container);
+        event.stopPropagation();
+
+        sidebarTabService.resolveSelectedTabForWidget();
+      }
+    }]
   };
 };
 let perfkitWidget = explorer.components.widget.perfkitWidget;
