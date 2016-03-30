@@ -51,8 +51,12 @@ sidebar {
 .pk-sidebar-group-title {
   color: #212121;
   font-weight: bold;
-  margin-bottom: 4px;
-  padding-left: 4px;
+  margin: 16px 4px 4px 4px;
+  font-size: 1.1em;
+}
+
+.pk-sidebar-group-title:first-child {
+  margin: 0 4px 4px 4px;
 }
 
 .pk-sidebar-group-note,
