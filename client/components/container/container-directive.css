@@ -12,6 +12,11 @@
   padding: 1px;
 }
 
+/** Prevent trailing margin for mardown elements inside a container or child */
+.pk-container p:last-child {
+    margin: 0;
+}
+
 .pk-container-selected > .pk-container-content {
   background: #e0e0e0;
   /* Force border and padding changes to maintain jank-free border changes. */

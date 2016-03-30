@@ -4,30 +4,24 @@
  * Author: joemu@google.com (Joe Allan Muharsky)
  */
 
-.pk-widget {
-  flex-basis: 100%;
-  -webkit-flex-basis: 100%;
-  flex-shrink: 0;
-  -webkit-flex-shrink: 0;
-}
-
 .pk-widget-body {
   background: #ffffff;
+  padding: 16px;
 }
 
 .pk-widget-selected .pk-widget-body {
   background-color: #fff;
   border: 2px solid #1565C0;
-  margin: 14px;
+  margin: 6px;
 }
 
 .pk-widget > div:not(.pk-widget-selected) .pk-widget-body:hover {
   border: 1px dashed #ccc;
-  margin: 15px;
+  margin: 7px;
 }
 
 .pk-widget > div:not(.pk-widget-selected) .pk-widget-body:not(:hover) {
-  margin: 16px;
+  margin: 8px;
 }
 
 .pk-widget-body.pk-widget-no-overflow {
@@ -38,8 +32,7 @@
   background: #ffffff;
   display: flex;
   flex-direction: row-reverse;
-  height: 40px;
-  padding: 12px 12px;
+  height: 30px;
 }
 
 .pk-widget-title {
@@ -53,17 +46,13 @@
   vertical-align: middle;
 }
 
-.pk-widget-selected .pk-widget-title {
-  color: #000;
-}
-
 .pk-widget-button {
   margin-left: 4px;
   cursor: pointer;
 }
 
 /** Buttons are only visible when the widget is selected or hovered. */
-.pk-widget:not(.pk-widget-selected) .pk-widget-body:not(:hover) .pk-widget-button {
+.pk-widget > div:not(.pk-widget-selected) .pk-widget-body:not(:hover) .pk-widget-button {
   visibility: hidden;
 }
 
@@ -73,12 +62,12 @@
   overflow-x: auto;
 }
 
-.pk-container {
-  margin: 0.25em 0;
+.pk-widget-header {
+  margin-bottom: 12px;
 }
 
-.pk-widget-header, .pk-widget-content, .pk-widget-footer {
-  padding: 0 12px 12px;
+.pk-widget-footer {
+  margin-top: 12px;
 }
 
 .pk-widget-statistics {

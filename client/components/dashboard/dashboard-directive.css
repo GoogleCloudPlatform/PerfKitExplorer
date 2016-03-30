@@ -2,6 +2,11 @@
   overflow-y: auto;
 }
 
+.pk-content-footer {
+  margin: 16px 8px 8px;
+  
+}
+
 *[markdown-to-html] table {
   border: 1px solid #ccc;
   margin-bottom: 12px;
