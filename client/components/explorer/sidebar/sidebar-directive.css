@@ -93,6 +93,7 @@ sidebar {
 
 .pk-sidebar-item-value textarea {
   resize: vertical;
+  height: 120px;
 }
 
 .pk-sidebar-item-value md-select {
