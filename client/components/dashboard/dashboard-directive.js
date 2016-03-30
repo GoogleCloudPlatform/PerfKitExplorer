@@ -80,14 +80,6 @@ explorer.components.dashboard.DashboardDirective = function() {
       }
 
       /** @export */
-      $scope.clickWidget = function(event, widget, container) {
-        dashboardService.selectWidget(widget, container);
-        event.stopPropagation();
-
-        sidebarTabService.resolveSelectedTabForWidget();
-      }
-
-      /** @export */
       $scope.getSelectedClass = function(container) {
         if (container.state().selected) {
           if (explorerStateService.widgets.selected) {
