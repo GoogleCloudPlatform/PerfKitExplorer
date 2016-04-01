@@ -207,7 +207,7 @@ SidebarTabService.prototype.isTabVisible = function(tab) {
   }
 
   if (tab.requireContainer &&
-      !this.explorerStateSvc_.containers.selectedId) {
+      (!this.explorerStateSvc_.containers.selectedId || this.explorerStateSvc_.isWidgetMaximized)) {
     return false;
   }
 

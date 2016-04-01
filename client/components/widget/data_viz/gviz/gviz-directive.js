@@ -222,8 +222,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       let adjustHeight = function() {
         if (scope.widgetConfig.model.chart) {
           if (isHeightEnforced()) {
-            scope.widgetConfig.state().chart.height =
-                scope.widgetConfig.state().parent.model.container.height - CHART_EXTRA_HEIGHT_PX;
+            scope.widgetConfig.state().chart.height = element.parent().height() - CHART_EXTRA_HEIGHT_PX;
           } else {
             scope.widgetConfig.state().chart.height = null;
           }

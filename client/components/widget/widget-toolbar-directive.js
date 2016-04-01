@@ -32,7 +32,7 @@ goog.scope(function() {
    * @ngInject
    */
   explorer.components.widget.WidgetToolbarDirective = function(
-      dashboardService, explorerService, widgetService) {
+      dashboardService, explorerService, widgetService, explorerStateService) {
     return {
       restrict: 'E',
       scope: {
@@ -43,6 +43,7 @@ goog.scope(function() {
       controller: ['$scope', function($scope) {
         this.dashboardSvc = dashboardService;
         this.explorerSvc = explorerService;
+        this.explorerStateSvc = explorerStateService;
 
         /** @export */
         this.cloneWidget = function() {

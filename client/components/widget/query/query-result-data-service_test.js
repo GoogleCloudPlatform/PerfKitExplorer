@@ -145,7 +145,8 @@ describe('queryResultDataService', function() {
 
           httpBackend.flush();
           expect(response).not.toBeNull();
-          expect(response.error).toBe('An unexpected error occurred.');
+          expect(response.error).toBe(
+            'An error occurred when fetching data from BigQuery: The HTTP response returned no details.');
         }
     );
 

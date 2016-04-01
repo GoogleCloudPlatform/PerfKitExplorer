@@ -27,8 +27,7 @@ goog.scope(function() {
 
 
   const EXPLORER_PARAMS = [
-    'dashboard', 'container', 'widget', 'tab', 'footerTab',
-    '{focusWidget:boolean}', '{showFooter:boolean}'];
+    'dashboard', 'container', 'widget', 'maximized'];
 
   /**
    * Sets up the explorer routing for selection and focus.
@@ -37,10 +36,7 @@ goog.scope(function() {
    * @constructor
    * @ngInject
    */
-  explorer.components.explorer.ExplorerRouterConfig = function(
-      $stateProvider, $urlRouterProvider) {
-//    $urlRouterProvider.when('/explore', '/explore?dashboard');
-
+  explorer.components.explorer.ExplorerRouterConfig = function($stateProvider) {
     $stateProvider.state('explorer-dashboard-edit', {
       url: '/explore?' + EXPLORER_PARAMS.join('&'),
       template: '<div></div>'

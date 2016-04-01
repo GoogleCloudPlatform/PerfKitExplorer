@@ -80,6 +80,16 @@ explorer.components.dashboard.DashboardDirective = function() {
       }
 
       /** @export */
+      $scope.maximizeWidget = function(widget) {
+        let container = widget.state().parent;
+
+        explorerStateService.isWidgetMaximized = true;
+        dashboardService.selectWidget(widget, container);
+
+        sidebarTabService.resolveSelectedTabForWidget();
+      }
+
+      /** @export */
       $scope.getSelectedClass = function(container) {
         if (container.state().selected) {
           if (explorerStateService.widgets.selected) {

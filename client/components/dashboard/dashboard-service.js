@@ -313,11 +313,13 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * @export
  */
 DashboardService.prototype.setDashboard = function(dashboard) {
-  this.explorerStateService_.selectedDashboard = dashboard;
-  if (dashboard) {
+  if (goog.isDefAndNotNull(this.explorerStateService_.selectedDashboard)) {
     this.explorerStateService_.widgets.clear();
     this.explorerStateService_.containers.clear();
+  }
+  this.explorerStateService_.selectedDashboard = dashboard;
 
+  if (goog.isDefAndNotNull(dashboard)) {
     for (let container of dashboard.model.children) {
       this.explorerStateService_.containers.all[container.model.id] = container;
       if (container.model.id ===
@@ -397,24 +399,7 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (!opt_supressStateChange) {
-    let params = {widget: null, container: null};
-
-    if (widget) { params.widget = widget.model.id; }
-    if (container) { params.container = container.model.id };
-
-    this.$state_.go('explorer-dashboard-edit', params, {location: false});
-
-    if (widget) {
-      this.location_.search('widget', widget.model.id);
-    } else {
-      this.location_.search('widget', null);
-    }
-
-    if (container) {
-      this.location_.search('container', container.model.id);
-    } else {
-      this.location_.search('container', null);
-    }
+    this.explorerStateService_.updateState(widget, container);
   }
 
   if (goog.isDefAndNotNull(widget)) {

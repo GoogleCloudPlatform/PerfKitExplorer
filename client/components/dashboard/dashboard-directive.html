@@ -25,6 +25,8 @@
             <span class="glyphicon glyphicon-remove pk-widget-button"
                   ng-hide="explorerSvc.model.readOnly"
                   ng-click="removeWidget($event, widget, container)"></span>
+            <span class="glyphicon glyphicon-resize-full pk-widget-button"
+                  ng-click="maximizeWidget(widget)"></span>
             <span class="glyphicon glyphicon-refresh pk-widget-button"
                   ng-show="widget.model.type === widgetFactorySvc.widgetTypes.CHART"
                   ng-click="clickRefreshWidget($event, widget)"></span>
@@ -47,7 +49,7 @@
           <div class="pk-widget-content" flex layout="column"
                ng-style="{height: isWidgetScrollable(widget, container) ? container.model.container.height + 'px' : 'auto',
                           'min-height': container.model.container.height + 'px',
-                          'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'visible'}">
+                          'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'hidden'}">
             <gviz-chart-widget widget-config="widget" flex
                  ng-if="widget.model.type == widgetFactorySvc.widgetTypes.CHART"></gviz-chart-widget>
             <div class="pk-widget-section-text" flex

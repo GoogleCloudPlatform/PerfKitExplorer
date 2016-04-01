@@ -7,6 +7,10 @@
   
 }
 
+.pk-dashboard-widget-focus-container {
+  margin: 10px;
+}
+
 *[markdown-to-html] table {
   border: 1px solid #ccc;
   margin-bottom: 12px;
