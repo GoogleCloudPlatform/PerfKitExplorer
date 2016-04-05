@@ -47,7 +47,7 @@
           <div class="pk-widget-content" flex layout="column"
                ng-style="{height: isWidgetScrollable(widget, container) ? container.model.container.height + 'px' : 'auto',
                           'min-height': container.model.container.height + 'px',
-                          'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'visible'}">
+                          'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'hidden'}">
             <gviz-chart-widget widget-config="widget" flex
                  ng-if="widget.model.type == widgetFactorySvc.widgetTypes.CHART"></gviz-chart-widget>
             <div class="pk-widget-section-text" flex
