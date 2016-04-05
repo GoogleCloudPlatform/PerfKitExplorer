@@ -219,7 +219,7 @@ describe('gvizDirective', function() {
 
         var optionsArg = chartWrapperMock.setOptions.calls.mostRecent().args[0];
         expect(optionsArg).not.toBeNull();
-        expect(optionsArg.height).toEqual(123);
+        expect(optionsArg.height).toEqual(107);
       }
   );
 
