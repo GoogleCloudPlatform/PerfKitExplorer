@@ -313,11 +313,13 @@ DashboardService.prototype.saveDashboardCopy = function() {
  * @export
  */
 DashboardService.prototype.setDashboard = function(dashboard) {
-  this.explorerStateService_.selectedDashboard = dashboard;
-  if (dashboard) {
+  if (goog.isDefAndNotNull(this.explorerStateService_.selectedDashboard)) {
     this.explorerStateService_.widgets.clear();
     this.explorerStateService_.containers.clear();
+  }
+  this.explorerStateService_.selectedDashboard = dashboard;
 
+  if (goog.isDefAndNotNull(dashboard)) {
     for (let container of dashboard.model.children) {
       this.explorerStateService_.containers.all[container.model.id] = container;
       if (container.model.id ===
