@@ -74,4 +74,18 @@
     <button type="button" class="btn btn-default widget-delete"
             ng-click="ctrl.removeSelectedWidget()">Delete</button>
   </div>
+  <div class="pk-toolbar-section">
+    <button type="button"
+            class="btn btn-default widget-maximize"
+            ng-hide="ctrl.explorerStateSvc.isWidgetMaximized"
+            ng-click="ctrl.maximizeWidget()">
+      Maximize
+    </button>
+    <button type="button"
+            class="btn btn-default widget-restore"
+            ng-show="ctrl.explorerStateSvc.isWidgetMaximized"
+            ng-click="ctrl.restoreWidget()">
+      Restore
+    </button>
+  </div>
 </div>

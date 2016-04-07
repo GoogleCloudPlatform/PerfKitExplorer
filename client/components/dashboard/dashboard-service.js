@@ -295,6 +295,30 @@ DashboardService.prototype.refreshDashboard = function() {
 
 
 /**
+ * Maximizes a widget, focuses it and updates the tabs/panels.
+ * @export
+ */
+DashboardService.prototype.maximizeWidget = function(widget) {
+  let container = widget.state().parent;
+
+  this.explorerStateService_.isWidgetMaximized = true;
+  this.selectWidget(widget, container);
+
+  this.sidebarTabService_.resolveSelectedTabForWidget();
+};
+
+
+/**
+ * Restores a maximized widget.
+ * @export
+ */
+DashboardService.prototype.restoreWidget = function(widget) {
+  this.explorerStateService_.isWidgetMaximized = false;
+  this.explorerStateService_.updateState(widget, widget.state().parent);
+};
+
+
+/**
  * Saves a copy of the current dashboard.  If the dashboard has no ID, this
  * has the same effect as saveDashboard().
  * @export

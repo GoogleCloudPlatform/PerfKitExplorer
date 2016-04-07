@@ -75,8 +75,7 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
 
       /** @export */
       $scope.restoreWidget = function() {
-        explorerStateService.isWidgetMaximized = false;
-        explorerStateService.updateState($scope.ngModel, $scope.container);
+        dashboardService.restoreWidget($scope.ngModel);
       }
 
       /**

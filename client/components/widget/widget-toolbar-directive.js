@@ -52,6 +52,16 @@ goog.scope(function() {
         };
 
         /** @export */
+        this.maximizeWidget = function() {
+          this.dashboardSvc.maximizeWidget(this.dashboardSvc.selectedWidget);
+        };
+
+        /** @export */
+        this.restoreWidget = function() {
+          this.dashboardSvc.restoreWidget(this.dashboardSvc.selectedWidget);
+        };
+
+        /** @export */
         this.insertWidget = function() {
           this.dashboardSvc.addWidget(this.dashboardSvc.selectedContainer);
         };
