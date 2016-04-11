@@ -32,6 +32,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardConfigDirectiv
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardCtrl');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDirective');
+goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardWidgetFocusDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardToolbarDirective');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
@@ -273,6 +274,8 @@ explorer.application.module.directive('log',
 /** Dashboard directives. */
 explorer.application.module.directive('dashboard',
     explorer.components.dashboard.DashboardDirective);
+explorer.application.module.directive('dashboardWidgetFocus',
+    explorer.components.dashboard.DashboardWidgetFocusDirective);
 explorer.application.module.directive('dashboardConfig',
     explorer.components.dashboard.DashboardConfigDirective);
 explorer.application.module.directive('dashboardToolbar',

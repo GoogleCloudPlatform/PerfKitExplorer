@@ -14,8 +14,9 @@
   white-space: nowrap;
 }
 
-.pk-toolbar-section:not(:last-child) {
-  border-right: 1px solid #ccc;
+.pk-toolbar-section:not(:first-child) {
+  border-left: 1px solid #ccc;
+  padding-left: 8px;
 }
 
 .pk-dropdown-button-section {

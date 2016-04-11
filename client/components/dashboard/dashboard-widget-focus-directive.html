@@ -1,0 +1,52 @@
+<!--
+  This directive encapsulates the layout and behavior for a maximized widget.
+  In general, changes made here need to be replicated in dashboard-widget.html.
+-->
+<perfkit-widget class="pk-widget pk-widget-{{ ngModel.model.id }}"
+        widget-config="ngModel"
+        flex
+        layout="column">
+  <div class="pk-widget-toolbar">
+    <span class="glyphicon glyphicon-refresh pk-widget-button"
+          ng-show="ngModel.model.type === widgetFactorySvc.widgetTypes.CHART"
+          ng-click="clickRefreshWidget($event, widget)"></span>
+    <span class="glyphicon glyphicon-resize-small pk-widget-button"
+          ng-click="restoreWidget()"></span>
+    <a class="pk-widget-button"
+        target="_blank"
+        ng-show="ngModel.model.url"
+        ng-href="{{ dashboardSvc.replaceTokens(ngModel.model.url) }}">
+      <span class="glyphicon glyphicon-link"></span>
+    </a>
+    <div class="pk-widget-title"
+          ng-bind="dashboardSvc.replaceTokens(ngModel.model.title)"></div>
+  </div>
+  <div ng-show="ngModel.model.header_text"
+      class="pk-widget-header"
+      ng-class="{'pk-section-fixed-height': container.model.container.widget_header_height}"
+      ng-style="{'height': container.model.container.widget_header_height + 'px'}"
+      markdown-to-html="(ngModel.model.header_text || '') | stripHtml">
+  </div>
+  <div class="pk-widget-content" flex layout="column"
+        ng-style="{height: isWidgetScrollable(widget, container) ? container.model.container.height + 'px' : 'auto',
+                  'min-height': container.model.container.height + 'px',
+                  'overflow-y': isWidgetScrollable(widget, container) ? 'auto' : 'visible'}">
+    <gviz-chart-widget widget-config="ngModel" flex
+          ng-if="ngModel.model.type == widgetFactorySvc.widgetTypes.CHART"></gviz-chart-widget>
+    <div class="pk-widget-section-text" flex
+          ng-if="ngModel.model.type == widgetFactorySvc.widgetTypes.TEXT"
+          ng-show="ngModel.model.datasource.text"
+          markdown-to-html="ngModel.model.datasource.text | stripHtml">
+    </div>
+  </div>
+  <div ng-show="ngModel.model.footer_text"
+      class="pk-widget-footer"
+      ng-class="{'pk-section-fixed-height': container.model.container.widget_footer_height}"
+      ng-style="{'height': container.model.container.widget_footer_height + 'px'}"
+      markdown-to-html="(ngModel.model.footer_text || '') | stripHtml">
+  </div>
+  <div class="pk-widget-footer" ng-show="ngModel.model.show_statistics">
+    <widget-statistics
+        ng-model="widget"></widget-statistics>
+  </div>
+</perfkit-widget>

@@ -1,71 +1,91 @@
 <div>
-  <button type="button"
-          class="btn btn-default widget-refresh"
-          ng-click="ctrl.refreshSelectedWidget()">
-    Refresh
-  </button>
-  <div class="btn-group" uib-dropdown>
+  <div class="pk-toolbar-section">
     <button type="button"
-            class="btn btn-default widget-insert"
-            uib-dropdown-toggle>
-      Insert
-      <span class="caret"></span>
+            class="btn btn-default widget-refresh"
+            ng-click="ctrl.refreshSelectedWidget()">
+      Refresh
     </button>
-    <ul class="uib-dropdown-menu widget-insert-dropdown">
-      <li ng-click="ctrl.insertWidgetAt(0)"
-          class="widget-insert-first">
-        <a>left</a>
-      </li>
-      <li ng-click="ctrl.insertWidgetBeforeSelected()"
-          class="widget-insert-before">
-        <a>before</a>
-      </li>
-      <li ng-click="ctrl.insertWidgetAfterSelected()"
-          class="widget-insert-after">
-        <a>after</a>
-      </li>
-      <li ng-click="ctrl.insertWidget()"
-          class="widget-insert-last">
-        <a>right</a>
-      </li>
-    </ul>
+    <button type="button" class="btn btn-default widget-sql-show"
+            ng-show="ctrl.dashboardSvc.selectedWidget.model.type == ctrl.dashboardSvc.widgetFactorySvc.widgetTypes.CHART"
+            ng-click="ctrl.explorerSvc.viewSql(true)">
+      Edit SQL
+    </button>
+    <button type="button" class="btn btn-default widget-sql-build"
+            ng-show="ctrl.dashboardSvc.selectedWidget &&
+                    ctrl.dashboardSvc.selectedWidget.model.datasource.custom_query"
+            ng-click="ctrl.explorerSvc.restoreBuilder()">
+      Use SQL Builder
+    </button>
+    <button type="button" class="btn btn-default widget-json-show"
+            ng-click="ctrl.explorerSvc.editJson()">
+      Edit JSON
+    </button>
   </div>
-  <button type="button" class="btn btn-default widget-clone"
-          ng-click="ctrl.cloneWidget()">
-    Clone
-  </button>
-  <button type="button"
-          class="btn btn-default widget-move-previous-container"
-          ng-click="ctrl.moveWidgetToPreviousContainer()">
-    <span class="glyphicon glyphicon-arrow-up"></span>
-  </button>
-  <button type="button" class="btn btn-default widget-move-next"
-          ng-click="ctrl.moveWidgetToNext()">
-    <span class="glyphicon glyphicon-arrow-right"></span>
-  </button>
-  <button type="button" class="btn btn-default widget-move-previous"
-          ng-click="ctrl.moveWidgetToPrevious()">
-    <span class="glyphicon glyphicon-arrow-left"></span>
-  </button>
-  <button type="button" class="btn btn-default widget-move-next-container"
-          ng-click="ctrl.moveWidgetToNextContainer()">
-    <span class="glyphicon glyphicon-arrow-down"></span>
-  </button>
-  <button type="button" class="btn btn-default widget-sql-show"
-          ng-show="ctrl.dashboardSvc.selectedWidget.model.type == ctrl.dashboardSvc.widgetFactorySvc.widgetTypes.CHART"
-          ng-click="ctrl.explorerSvc.viewSql(true)">
-    Edit SQL
-  </button>
-  <button type="button" class="btn btn-default widget-sql-build"
-          ng-show="ctrl.dashboardSvc.selectedWidget &&
-                   ctrl.dashboardSvc.selectedWidget.model.datasource.custom_query"
-          ng-click="ctrl.explorerSvc.restoreBuilder()">
-    Use SQL Builder
-  </button>
-  <button type="button" class="btn btn-default widget-json-show"
-          ng-click="ctrl.explorerSvc.editJson()">
-    Edit JSON
-  </button>
-  <button type="button" class="btn btn-default widget-delete"
-          ng-click="ctrl.removeSelectedWidget()">Delete</button>
+  <div class="pk-toolbar-section" ng-hide="ctrl.explorerStateSvc.isWidgetMaximized">
+    <div class="btn-group" uib-dropdown>
+      <button type="button"
+              class="btn btn-default widget-insert"
+              uib-dropdown-toggle>
+        Insert
+        <span class="caret"></span>
+      </button>
+      <ul class="uib-dropdown-menu widget-insert-dropdown">
+        <li ng-click="ctrl.insertWidgetAt(0)"
+            class="widget-insert-first">
+          <a>left</a>
+        </li>
+        <li ng-click="ctrl.insertWidgetBeforeSelected()"
+            class="widget-insert-before">
+          <a>before</a>
+        </li>
+        <li ng-click="ctrl.insertWidgetAfterSelected()"
+            class="widget-insert-after">
+          <a>after</a>
+        </li>
+        <li ng-click="ctrl.insertWidget()"
+            class="widget-insert-last">
+          <a>right</a>
+        </li>
+      </ul>
+    </div>
+    <button type="button" class="btn btn-default widget-clone"
+            ng-click="ctrl.cloneWidget()">
+      Clone
+    </button>
+    <button type="button" class="btn btn-default widget-delete"
+            ng-click="ctrl.removeSelectedWidget()">Delete</button>
+  </div>
+  <div class="pk-toolbar-section" ng-hide="ctrl.explorerStateSvc.isWidgetMaximized">
+    <button type="button"
+            class="btn btn-default widget-move-previous-container"
+            ng-click="ctrl.moveWidgetToPreviousContainer()">
+      <span class="glyphicon glyphicon-arrow-up"></span>
+    </button>
+    <button type="button" class="btn btn-default widget-move-next"
+            ng-click="ctrl.moveWidgetToNext()">
+      <span class="glyphicon glyphicon-arrow-right"></span>
+    </button>
+    <button type="button" class="btn btn-default widget-move-previous"
+            ng-click="ctrl.moveWidgetToPrevious()">
+      <span class="glyphicon glyphicon-arrow-left"></span>
+    </button>
+    <button type="button" class="btn btn-default widget-move-next-container"
+            ng-click="ctrl.moveWidgetToNextContainer()">
+      <span class="glyphicon glyphicon-arrow-down"></span>
+    </button>
+  </div>
+  <div class="pk-toolbar-section">
+    <button type="button"
+            class="btn btn-default widget-maximize"
+            ng-hide="ctrl.explorerStateSvc.isWidgetMaximized"
+            ng-click="ctrl.maximizeWidget()">
+      Maximize
+    </button>
+    <button type="button"
+            class="btn btn-default widget-restore"
+            ng-show="ctrl.explorerStateSvc.isWidgetMaximized"
+            ng-click="ctrl.restoreWidget()">
+      Restore
+    </button>
+  </div>
 </div>

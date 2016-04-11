@@ -32,7 +32,7 @@ goog.scope(function() {
    * @ngInject
    */
   explorer.components.widget.WidgetToolbarDirective = function(
-      dashboardService, explorerService, widgetService) {
+      dashboardService, explorerService, widgetService, explorerStateService) {
     return {
       restrict: 'E',
       scope: {
@@ -43,11 +43,22 @@ goog.scope(function() {
       controller: ['$scope', function($scope) {
         this.dashboardSvc = dashboardService;
         this.explorerSvc = explorerService;
+        this.explorerStateSvc = explorerStateService;
 
         /** @export */
         this.cloneWidget = function() {
           this.dashboardSvc.cloneWidget(
             this.dashboardSvc.selectedWidget, this.dashboardSvc.selectedContainer);
+        };
+
+        /** @export */
+        this.maximizeWidget = function() {
+          this.dashboardSvc.maximizeWidget(this.dashboardSvc.selectedWidget);
+        };
+
+        /** @export */
+        this.restoreWidget = function() {
+          this.dashboardSvc.restoreWidget(this.dashboardSvc.selectedWidget);
         };
 
         /** @export */

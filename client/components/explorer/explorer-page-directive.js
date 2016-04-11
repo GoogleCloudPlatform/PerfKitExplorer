@@ -29,13 +29,20 @@ const explorer = p3rf.perfkit.explorer;
  * @ngInject
  */
 explorer.components.explorer.ExplorerPageDirective = function(
-    resizeService, explorerService) {
+    resizeService, explorerService, explorerStateService) {
   return {
     restrict: 'E',
     transclude: true,
     templateUrl: '/static/components/explorer/explorer-page-directive.html',
     controllerAs: 'pageCtrl',
     controller: ['$scope', function($scope) {
+      /** @export */
+      $scope.isWidgetMaximized = function() {
+        return (explorerStateService.widgets.selected && explorerStateService.isWidgetMaximized);
+      }
+
+      /** @export */
+      $scope.explorerStateSvc = explorerStateService;
     }],
     link: function(scope, element, attr) {
       element.on('mouseup', angular.bind(this, function(event) {

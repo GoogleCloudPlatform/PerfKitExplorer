@@ -295,6 +295,30 @@ DashboardService.prototype.refreshDashboard = function() {
 
 
 /**
+ * Maximizes a widget, focuses it and updates the tabs/panels.
+ * @export
+ */
+DashboardService.prototype.maximizeWidget = function(widget) {
+  let container = widget.state().parent;
+
+  this.explorerStateService_.isWidgetMaximized = true;
+  this.selectWidget(widget, container);
+
+  this.sidebarTabService_.resolveSelectedTabForWidget();
+};
+
+
+/**
+ * Restores a maximized widget.
+ * @export
+ */
+DashboardService.prototype.restoreWidget = function(widget) {
+  this.explorerStateService_.isWidgetMaximized = false;
+  this.explorerStateService_.updateState(widget, widget.state().parent);
+};
+
+
+/**
  * Saves a copy of the current dashboard.  If the dashboard has no ID, this
  * has the same effect as saveDashboard().
  * @export
@@ -399,24 +423,7 @@ DashboardService.prototype.selectWidget = function(
   }
 
   if (!opt_supressStateChange) {
-    let params = {widget: null, container: null};
-
-    if (widget) { params.widget = widget.model.id; }
-    if (container) { params.container = container.model.id };
-
-    this.$state_.go('explorer-dashboard-edit', params, {location: false});
-
-    if (widget) {
-      this.location_.search('widget', widget.model.id);
-    } else {
-      this.location_.search('widget', null);
-    }
-
-    if (container) {
-      this.location_.search('container', container.model.id);
-    } else {
-      this.location_.search('container', null);
-    }
+    this.explorerStateService_.updateState(widget, container);
   }
 
   if (goog.isDefAndNotNull(widget)) {

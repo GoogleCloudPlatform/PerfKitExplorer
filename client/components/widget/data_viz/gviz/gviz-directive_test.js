@@ -206,23 +206,6 @@ describe('gvizDirective', function() {
       }
   );
 
-  it('should preserve the height when options change (with a chart).',
-      function() {
-        setupData(true);
-        model.chart.chartType = ChartType.LINE_CHART;
-        state().parent.model.container.height = 123;
-        setupComponent();
-
-        // Change options
-        model.chart.options.height = 999;
-        rootScope.$apply();
-
-        var optionsArg = chartWrapperMock.setOptions.calls.mostRecent().args[0];
-        expect(optionsArg).not.toBeNull();
-        expect(optionsArg.height).toEqual(107);
-      }
-  );
-
   it('should prevent overflow for a chart.',
       function() {
         setupData(true);

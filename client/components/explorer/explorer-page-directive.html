@@ -20,8 +20,17 @@
     <explorer-toolbar></explorer-toolbar>
 
     <div class="pk-page-content pk-background" layout="column" flex
-          ng-click="dashboardSvc.onDashboardClick($event)">
-      <dashboard ng-model="dashboardCtrl.dashboard.current.model"></dashboard>
+          ng-click="dashboardSvc.onDashboardClick($event)"
+          ng-switch="isWidgetMaximized()">
+      <div ng-switch-when="true" layout="column" flex class="pk-dashboard-widget-focus-container">
+        <dashboard-widget-focus
+            ng-model="explorerStateSvc.widgets.selected"
+            layout="column" flex></dashboard-widget-focus>
+      </div>
+      <div ng-switch-default>
+        <dashboard
+            ng-model="dashboardCtrl.dashboard.current.model"></dashboard>
+      </div>
     </div>
 
   </div>

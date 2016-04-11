@@ -23,6 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardDataService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
 goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerStateService');
 goog.require('p3rf.perfkit.explorer.components.explorer.sidebar.SidebarTabService');
 
 
@@ -32,6 +33,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardDataService = explorer.components.dashboard.DashboardDataService;
 const DashboardService = explorer.components.dashboard.DashboardService;
 const ExplorerService = explorer.components.explorer.ExplorerService;
+const ExplorerStateService = explorer.components.explorer.ExplorerStateService;
 const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService;
 
 
@@ -49,7 +51,7 @@ const SidebarTabService = explorer.components.explorer.sidebar.SidebarTabService
  */
 explorer.components.explorer.ExplorerCtrl = function(
     $scope, $location,
-    dashboardDataService, dashboardService, explorerService,
+    dashboardDataService, dashboardService, explorerService, explorerStateService,
     sidebarTabService) {
   /**
    * @type {angular.$location}
@@ -62,6 +64,9 @@ explorer.components.explorer.ExplorerCtrl = function(
    * @private
    */
   this.dashboardDataService_ = dashboardDataService;
+
+  /** @private {ExplorerStateService} */
+  this.explorerStateService_ = explorerStateService;
 
   /**
    * @type {SidebarTabService}
@@ -139,7 +144,12 @@ ExplorerCtrl.prototype.checkKeyDown = function(event) {
     if (document.activeElement === null ||
          document.activeElement === document.body) {
       if (this.dashboard.selectedWidget) {
-        this.dashboard.selectWidget(null, this.dashboard.selectedContainer);
+        if (this.explorerStateService_.isWidgetMaximized) {
+          this.explorerStateService_.isWidgetMaximized = false;
+          this.explorerStateService_.updateState(this.dashboard.selectedWidget, this.dashboard.selectedContainer);
+        } else {
+          this.dashboard.selectWidget(null, this.dashboard.selectedContainer);
+        }
       } else if (this.dashboard.selectedContainer) {
         this.dashboard.selectWidget(null, null);
       } else if (this.sidebarTabService.selectedTab) {

@@ -4,7 +4,6 @@
    "seriesColor": true},
   {"title": "Bar", "className": "BarChart",
    "seriesColor": true},
-  {"title": "Calendar", "className": "Calendar"},
   {"title": "Candlestick", "className": "CandlestickChart",
    "seriesColor": true},
   {"title": "Column", "className": "ColumnChart",
