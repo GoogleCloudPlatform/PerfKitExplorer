@@ -16,6 +16,7 @@ goog.provide('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style
 goog.require('p3rf.perfkit.explorer.components.util.ArrayUtilService');
 goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style.ColumnStyleService');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardService');
+goog.require('p3rf.perfkit.explorer.components.explorer.ExplorerService');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 goog.scope(function() {
@@ -24,6 +25,7 @@ goog.scope(function() {
   const ArrayUtilService = explorer.components.util.ArrayUtilService;
   const ColumnStyleService = gviz.column_style.ColumnStyleService;
   const DashboardService = explorer.components.dashboard.DashboardService;
+  const ExplorerService = explorer.components.explorer.ExplorerService;
   const ChartWidgetConfig = explorer.models.ChartWidgetConfig;
 
 
@@ -34,7 +36,7 @@ goog.scope(function() {
    * @ngInject
    */
   gviz.column_style.ColumnStyleToolbarDirective = function(
-      arrayUtilService, columnStyleService, dashboardService) {
+      arrayUtilService, columnStyleService, explorerService, dashboardService) {
     return {
       restrict: 'E',
       scope: {
@@ -52,6 +54,17 @@ goog.scope(function() {
 
         /** @type {!DashboardService} */
         this.dashboardSvc = dashboardService;
+
+        /** @type {!ExplorerService} */
+        this.explorerSvc = explorerService;
+        
+        /**
+         * Refreshes the selected widget.
+         * @export
+         */
+        this.refreshSelectedWidget = function() {
+          dashboardService.refreshWidget(dashboardService.selectedWidget);
+        }
       }],
       controllerAs: 'ctrl'
     };
