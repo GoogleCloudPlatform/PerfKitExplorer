@@ -52,6 +52,8 @@
             ng-click="ctrl.cloneWidget()">
       Clone
     </button>
+    <button type="button" class="btn btn-default widget-delete"
+            ng-click="ctrl.removeSelectedWidget()">Delete</button>
   </div>
   <div class="pk-toolbar-section" ng-hide="ctrl.explorerStateSvc.isWidgetMaximized">
     <button type="button"
@@ -71,8 +73,6 @@
             ng-click="ctrl.moveWidgetToNextContainer()">
       <span class="glyphicon glyphicon-arrow-down"></span>
     </button>
-    <button type="button" class="btn btn-default widget-delete"
-            ng-click="ctrl.removeSelectedWidget()">Delete</button>
   </div>
   <div class="pk-toolbar-section">
     <button type="button"
