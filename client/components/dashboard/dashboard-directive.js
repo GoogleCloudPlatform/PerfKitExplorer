@@ -113,26 +113,12 @@ explorer.components.dashboard.DashboardDirective = function() {
       /**
        * Returns true if the widget should scroll its overflow, otherwise stretch.
        * @param {!WidgetConfig} widget
-       * @param {!ContainerWidgetConfig} container
+       * @return {boolean}
        */
-      $scope.isWidgetScrollable = function(widget, container) {
-        // TODO: Replace with data-driven constraints for visualizations that support scrolling.
-        if (container.model.container.scroll_overflow === true) {
-          if (widget.model.type === widgetFactoryService.widgetTypes.TEXT) {
-            return true;
-          }
-          
-          if (widget.model.type === widgetFactoryService.widgetTypes.CHART) {
-            switch (widget.model.chart.chartType) {
-              case ChartType.TABLE:
-                return true;
-            }
-          }
-          
-          return false;
-        }
+      $scope.isWidgetScrollable = function(widget) {
+        return widgetService.isScrollable(widget);
       }
-      
+
       /**
        * Returns the effective width of a widget within a container. 
        * @param {!WidgetConfig} widget

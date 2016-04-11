@@ -1,13 +1,17 @@
+<!--
+  This directive encapsulates the layout and behavior for a maximized widget.
+  In general, changes made here need to be replicated in dashboard-widget.html.
+-->
 <perfkit-widget class="pk-widget pk-widget-{{ ngModel.model.id }}"
         widget-config="ngModel"
         flex
         layout="column">
   <div class="pk-widget-toolbar">
-    <span class="glyphicon glyphicon-resize-small pk-widget-button"
-          ng-click="restoreWidget()"></span>
     <span class="glyphicon glyphicon-refresh pk-widget-button"
           ng-show="ngModel.model.type === widgetFactorySvc.widgetTypes.CHART"
           ng-click="clickRefreshWidget($event, widget)"></span>
+    <span class="glyphicon glyphicon-resize-small pk-widget-button"
+          ng-click="restoreWidget()"></span>
     <a class="pk-widget-button"
         target="_blank"
         ng-show="ngModel.model.url"

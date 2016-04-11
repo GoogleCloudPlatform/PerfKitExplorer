@@ -16,6 +16,10 @@
            markdown-to-html="container.model.container.header_text | stripHtml">
       </div>
       <div layout="row" flex>
+        <!--
+          This directive encapsulates the layout and behavior for a normal (non-maximized) widget.
+          In general, changes made here need to be replicated in dashboard-widget-focus-directive.html.
+        -->
         <perfkit-widget class="pk-widget pk-widget-{{ widget.model.id }} pk-background"
                 ng-repeat="widget in container.model.container.children"
                 widget-config="widget"
@@ -25,11 +29,11 @@
             <span class="glyphicon glyphicon-remove pk-widget-button"
                   ng-hide="explorerSvc.model.readOnly"
                   ng-click="removeWidget($event, widget, container)"></span>
-            <span class="glyphicon glyphicon-resize-full pk-widget-button"
-                  ng-click="maximizeWidget(widget)"></span>
             <span class="glyphicon glyphicon-refresh pk-widget-button"
                   ng-show="widget.model.type === widgetFactorySvc.widgetTypes.CHART"
                   ng-click="clickRefreshWidget($event, widget)"></span>
+            <span class="glyphicon glyphicon-resize-full pk-widget-button"
+                  ng-click="maximizeWidget(widget)"></span>
             <a class="pk-widget-button"
                target="_blank"
                ng-show="widget.model.url"

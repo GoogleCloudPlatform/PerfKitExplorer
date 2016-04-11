@@ -49,8 +49,8 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
     },
     templateUrl: '/static/components/dashboard/dashboard-widget-focus-directive.html',
     controller: [
-        '$scope', 'explorerStateService', 'dashboardService', 'widgetFactoryService',
-        function($scope, explorerStateService, dashboardService, widgetFactoryService) {
+        '$scope', 'explorerStateService', 'dashboardService', 'widgetFactoryService', 'widgetService',
+        function($scope, explorerStateService, dashboardService, widgetFactoryService, widgetService) {
       /** @export */
       $scope.dashboardSvc = dashboardService;
 
@@ -82,21 +82,7 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
        * Returns true if the widget should scroll its overflow, otherwise stretch.
        */
       $scope.isWidgetScrollable = function() {
-        // TODO: Replace with data-driven constraints for visualizations that support scrolling.
-        if ($scope.container.model.container.scroll_overflow === true) {
-          if ($scope.ngModel.model.type === widgetFactoryService.widgetTypes.TEXT) {
-            return true;
-          }
-          
-          if ($scope.ngModel.model.type === widgetFactoryService.widgetTypes.CHART) {
-            switch ($scope.ngModel.model.chart.chartType) {
-              case ChartType.TABLE:
-                return true;
-            }
-          }
-          
-          return false;
-        }
+        return widgetService.isScrollable($scope.ngModel);
       }
     }]
   };

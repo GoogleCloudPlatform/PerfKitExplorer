@@ -21,11 +21,13 @@
 goog.provide('p3rf.perfkit.explorer.components.widget.WidgetService');
 
 goog.require('p3rf.perfkit.explorer.components.container.ContainerWidgetConfig');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 
 
 goog.scope(function() {
 const explorer = p3rf.perfkit.explorer;
+const ChartType = explorer.models.ChartType;
 const WidgetConfig = explorer.models.WidgetConfig;
 
 
@@ -36,9 +38,12 @@ const WidgetConfig = explorer.models.WidgetConfig;
  * @constructor
  */
 explorer.components.widget.WidgetService = class {
-  constructor() {
+  /** @ngInject */
+  constructor(widgetFactoryService) {
     /** @export {string} */
     this.WIDGET_DELETE_WARNING = 'The widget will be deleted:\n\n';
+    
+    this.widgetFactorySvc = widgetFactoryService;
   };
 
   /**
@@ -58,6 +63,32 @@ explorer.components.widget.WidgetService = class {
 
     return this.WIDGET_DELETE_WARNING + widgetName;
   };
+  
+  /**
+   * Returns true if the widget is scrollable, otherwise false.
+   * @param {!WidgetConfig} widget
+   * @return {boolean}
+   * @export
+   */
+  isScrollable(widget) {
+    let container = widget.state().parent;
+
+    // TODO: Replace with data-driven constraints for visualizations that support scrolling.
+    if (container.model.container.scroll_overflow === true) {
+      if (widget.model.type === this.widgetFactorySvc.widgetTypes.TEXT) {
+        return true;
+      }
+      
+      if (widget.model.type === this.widgetFactorySvc.widgetTypes.CHART) {
+        switch (widget.model.chart.chartType) {
+          case ChartType.TABLE:
+            return true;
+        }
+      }
+    }
+      
+    return false;
+  }
 };
 const WidgetService = explorer.components.widget.WidgetService;
 
