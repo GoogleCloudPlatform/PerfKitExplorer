@@ -14,7 +14,7 @@
  * limitations under the License.
  *
  * @fileoverview DashboarDirective encapsulates HTML, style and behavior
- *     for displaying a dashboard.
+ *     for displaying a focused widget on a dashboard.
  * @author joemu@google.com (Joe Allan Muharsky)
  */
 
