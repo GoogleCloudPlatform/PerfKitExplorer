@@ -80,6 +80,13 @@ explorer.components.dashboard.DashboardDirective = function() {
       }
 
       /** @export */
+      $scope.clickCopyAsImage = function(event, widget) {
+        event.stopPropagation();
+
+        widgetService.copyAsImage(widget);
+      }
+
+      /** @export */
       $scope.maximizeWidget = function(widget) {
         $scope.dashboardSvc.maximizeWidget(widget);
       }

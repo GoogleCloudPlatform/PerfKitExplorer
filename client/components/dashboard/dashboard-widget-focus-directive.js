@@ -78,6 +78,14 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
         dashboardService.restoreWidget($scope.ngModel);
       }
 
+      /** @export */
+      $scope.clickCopyAsImage = function(event, widget) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        widgetService.copyAsImage(widget);
+      }
+
       /**
        * Returns true if the widget should scroll its overflow, otherwise stretch.
        */

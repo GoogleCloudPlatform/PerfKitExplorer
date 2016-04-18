@@ -63,7 +63,33 @@ explorer.components.widget.WidgetService = class {
 
     return this.WIDGET_DELETE_WARNING + widgetName;
   };
-  
+
+  /**
+   * Copies an image of the current chart to the clipboard.
+   * 
+   * @param {!WidgetConfig} widget
+   */
+  copyAsImage(widget) {
+    let chartWrapper = widget.state().chart.element;
+    let chartObject = chartWrapper.getChart();
+
+    let imageBuffer = document.getElementById('pk-chart-image-buffer');
+    let sel = window.getSelection();
+    imageBuffer.src = chartObject.getImageURI();
+
+    try {
+      let range = document.createRange();
+      range.selectNode(imageBuffer);
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      document.execCommand('copy');
+    } finally {
+      sel.removeAllRanges();
+      imageBuffer.src = '';
+    }
+  }
+
   /**
    * Returns true if the widget is scrollable, otherwise false.
    * @param {!WidgetConfig} widget
