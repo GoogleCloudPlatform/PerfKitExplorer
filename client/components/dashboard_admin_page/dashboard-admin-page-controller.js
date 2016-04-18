@@ -98,7 +98,7 @@ explorer.components.dashboard_admin_page.DashboardAdminPageCtrl = function(
       {name: 'title', displayName: 'Title', minWidth: 200,
         cellTemplate:
             '<div class="ngCellText ui-grid-cell-contents" ng-class="col.colIndex()">' +
-            '    <a ng-click="$event.stopPropagation(); grid.appScope.openDashboard(row.entity)">' +
+            '    <a ng-click="$event.stopPropagation();" href="/explore?dashboard={{ row.entity.id }}">' +
             '    {{row.entity[col.field]}}</a>' +
             '</div>'},
       {name: 'owner', displayName: 'Owner', minWidth: 80},
