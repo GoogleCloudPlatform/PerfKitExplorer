@@ -39,11 +39,13 @@ const WidgetConfig = explorer.models.WidgetConfig;
  */
 explorer.components.widget.WidgetService = class {
   /** @ngInject */
-  constructor(widgetFactoryService) {
+  constructor(widgetFactoryService, chartWrapperService) {
     /** @export {string} */
     this.WIDGET_DELETE_WARNING = 'The widget will be deleted:\n\n';
     
     this.widgetFactorySvc = widgetFactoryService;
+    
+    this.chartWrapperSvc = chartWrapperService;
   };
 
   /**
@@ -88,6 +90,25 @@ explorer.components.widget.WidgetService = class {
       sel.removeAllRanges();
       imageBuffer.src = '';
     }
+  }
+
+  /**
+   * Returns true if the widget is screenshottable, otherwise false.
+   * @param {!WidgetConfig} widget
+   * @return {boolean}
+   * @export
+   */
+  isCopyableAsImage(widget) {
+    if (widget.model.type === this.widgetFactorySvc.widgetTypes.CHART) {
+      let chartType = this.chartWrapperSvc.allChartsIndex[widget.model.chart.chartType];
+      goog.asserts.assert(goog.isDefAndNotNull(chartType));
+
+      if (chartType.canScreenshot === true) {
+        return true;
+      }
+    }
+    
+    return false;
   }
 
   /**

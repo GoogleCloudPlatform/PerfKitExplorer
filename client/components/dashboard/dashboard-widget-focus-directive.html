@@ -11,7 +11,7 @@
           ng-show="ngModel.model.type === widgetFactorySvc.widgetTypes.CHART"
           ng-click="clickRefreshWidget($event, ngModel)"></span>
     <span class="fa fa-camera pk-widget-button"
-          ng-show="ngModel.model.type === widgetFactorySvc.widgetTypes.CHART"
+          ng-show="widgetSvc.isCopyableAsImage(ngModel)"
           ng-click="clickCopyAsImage($event, ngModel)"
           aria-hidden="true">
       <md-tooltip>Copy the current chart as a PNG, which you can paste into your favorite program.</md-tooltip>

@@ -66,6 +66,9 @@ explorer.components.dashboard.DashboardDirective = function() {
       $scope.widgetFactorySvc = widgetFactoryService;
 
       /** @export */
+      $scope.widgetSvc = widgetService;
+
+      /** @export */
       $scope.clickRefreshWidget = function(event, widget) {
         dashboardService.refreshWidget(widget);
         event.stopPropagation();

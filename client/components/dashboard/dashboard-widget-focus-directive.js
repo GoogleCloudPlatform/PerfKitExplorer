@@ -57,6 +57,9 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
       /** @export */
       $scope.widgetFactorySvc = widgetFactoryService;
 
+      /** @export */
+      $scope.widgetSvc = widgetService;
+
       Object.defineProperty($scope, 'container', {
         get: function() {
           if ($scope.ngModel) {
