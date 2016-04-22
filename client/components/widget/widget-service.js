@@ -76,12 +76,14 @@ explorer.components.widget.WidgetService = class {
     let chartObject = chartWrapper.getChart();
 
     let imageBuffer = document.getElementById('pk-chart-image-buffer');
-    let sel = window.getSelection();
+    let sel = null;
     imageBuffer.src = chartObject.getImageURI();
 
     try {
       let range = document.createRange();
       range.selectNode(imageBuffer);
+
+      sel = window.getSelection();
       sel.removeAllRanges();
       sel.addRange(range);
 
