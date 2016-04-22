@@ -9,7 +9,13 @@
   <div class="pk-widget-toolbar">
     <span class="glyphicon glyphicon-refresh pk-widget-button"
           ng-show="ngModel.model.type === widgetFactorySvc.widgetTypes.CHART"
-          ng-click="clickRefreshWidget($event, widget)"></span>
+          ng-click="clickRefreshWidget($event, ngModel)"></span>
+    <span class="fa fa-camera pk-widget-button"
+          ng-show="widgetSvc.isCopyableAsImage(ngModel)"
+          ng-click="clickCopyAsImage($event, ngModel)"
+          aria-hidden="true">
+      <md-tooltip>Copy chart image to clipboard</md-tooltip>
+    </span>
     <span class="glyphicon glyphicon-resize-small pk-widget-button"
           ng-click="restoreWidget()"></span>
     <a class="pk-widget-button"

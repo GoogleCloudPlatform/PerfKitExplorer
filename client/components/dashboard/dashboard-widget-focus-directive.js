@@ -57,6 +57,9 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
       /** @export */
       $scope.widgetFactorySvc = widgetFactoryService;
 
+      /** @export */
+      $scope.widgetSvc = widgetService;
+
       Object.defineProperty($scope, 'container', {
         get: function() {
           if ($scope.ngModel) {
@@ -76,6 +79,14 @@ explorer.components.dashboard.DashboardWidgetFocusDirective = function() {
       /** @export */
       $scope.restoreWidget = function() {
         dashboardService.restoreWidget($scope.ngModel);
+      }
+
+      /** @export */
+      $scope.clickCopyAsImage = function(event, widget) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        widgetService.copyAsImage(widget);
       }
 
       /**

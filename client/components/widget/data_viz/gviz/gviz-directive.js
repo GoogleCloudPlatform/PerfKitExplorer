@@ -93,6 +93,7 @@ explorer.components.widget.data_viz.gviz.gvizChart = function(
       // Create and attach to this element a gviz ChartWrapper
       let chartWrapper = chartWrapperService.create();
       chartWrapper.setContainerId(element[0].getElementsByClassName('pk-chart')[0]);
+      scope.widgetConfig.state().chart.element = chartWrapper;
 
       // We currently have animations enabled globally thanks to the
       // material design module, this has the side effect of animating

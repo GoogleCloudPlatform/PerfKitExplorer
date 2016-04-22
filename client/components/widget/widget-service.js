@@ -39,11 +39,13 @@ const WidgetConfig = explorer.models.WidgetConfig;
  */
 explorer.components.widget.WidgetService = class {
   /** @ngInject */
-  constructor(widgetFactoryService) {
+  constructor(widgetFactoryService, chartWrapperService) {
     /** @export {string} */
     this.WIDGET_DELETE_WARNING = 'The widget will be deleted:\n\n';
     
     this.widgetFactorySvc = widgetFactoryService;
+    
+    this.chartWrapperSvc = chartWrapperService;
   };
 
   /**
@@ -63,7 +65,54 @@ explorer.components.widget.WidgetService = class {
 
     return this.WIDGET_DELETE_WARNING + widgetName;
   };
-  
+
+  /**
+   * Copies an image of the current chart to the clipboard.
+   * 
+   * @param {!WidgetConfig} widget
+   */
+  copyAsImage(widget) {
+    let chartWrapper = widget.state().chart.element;
+    let chartObject = chartWrapper.getChart();
+
+    let imageBuffer = document.getElementById('pk-chart-image-buffer');
+    let sel = null;
+    imageBuffer.src = chartObject.getImageURI();
+
+    try {
+      let range = document.createRange();
+      range.selectNode(imageBuffer);
+
+      sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+
+      document.execCommand('copy');
+    } finally {
+      sel.removeAllRanges();
+      imageBuffer.src = '';
+    }
+  }
+
+  /**
+   * Returns true if the widget is screenshottable, otherwise false.
+   * @param {!WidgetConfig} widget
+   * @return {boolean}
+   * @export
+   */
+  isCopyableAsImage(widget) {
+    if (widget.model.type === this.widgetFactorySvc.widgetTypes.CHART) {
+      let chartType = this.chartWrapperSvc.allChartsIndex[widget.model.chart.chartType];
+      goog.asserts.assert(goog.isDefAndNotNull(chartType));
+
+      if (chartType.canScreenshot === true) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+
   /**
    * Returns true if the widget is scrollable, otherwise false.
    * @param {!WidgetConfig} widget

@@ -66,6 +66,9 @@ explorer.components.dashboard.DashboardDirective = function() {
       $scope.widgetFactorySvc = widgetFactoryService;
 
       /** @export */
+      $scope.widgetSvc = widgetService;
+
+      /** @export */
       $scope.clickRefreshWidget = function(event, widget) {
         dashboardService.refreshWidget(widget);
         event.stopPropagation();
@@ -77,6 +80,13 @@ explorer.components.dashboard.DashboardDirective = function() {
         event.stopPropagation();
 
         sidebarTabService.resolveSelectedTabForContainer();
+      }
+
+      /** @export */
+      $scope.clickCopyAsImage = function(event, widget) {
+        event.stopPropagation();
+
+        widgetService.copyAsImage(widget);
       }
 
       /** @export */

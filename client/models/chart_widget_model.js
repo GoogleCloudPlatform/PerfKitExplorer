@@ -75,6 +75,12 @@ const ChartType = p3rf.perfkit.explorer.models.ChartType;
 /** @constructor */
 p3rf.perfkit.explorer.models.ChartState = function() {
   /**
+   * @type {?*}
+   * @export
+   */
+  this.element = null;
+
+  /**
    * @type {?number}
    * @export
    */

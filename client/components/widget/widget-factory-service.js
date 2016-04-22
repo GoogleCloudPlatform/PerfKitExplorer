@@ -29,6 +29,7 @@ goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardInstance');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardModel');
 goog.require('p3rf.perfkit.explorer.components.dashboard.DashboardVersionService');
 goog.require('p3rf.perfkit.explorer.components.error.ErrorService');
+goog.require('p3rf.perfkit.explorer.models.ChartType');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetConfig');
 goog.require('p3rf.perfkit.explorer.models.WidgetModel');
@@ -47,6 +48,7 @@ const DashboardModel = explorer.components.dashboard.DashboardModel;
 const DashboardVersionService =
     explorer.components.dashboard.DashboardVersionService;
 const ErrorService = explorer.components.error.ErrorService;
+const ChartType = explorer.models.ChartType;
 const WidgetConfig = explorer.models.WidgetConfig;
 const WidgetModel = explorer.models.WidgetModel;
 const WidgetState = explorer.models.WidgetState;
@@ -75,6 +77,12 @@ explorer.components.widget.WidgetFactoryService = function(
    * @export {!Object.<string, string>}
    */
   this.widgetTypes = WidgetType;
+
+  /**
+   * Exposes the chart types enum for directives.
+   * @export {!Object.<string, string>}
+   */
+  this.chartTypes = ChartType;
 
   /**
    * Hash table of widgets.
