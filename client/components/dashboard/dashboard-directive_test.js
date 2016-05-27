@@ -30,15 +30,25 @@ describe('dashboardDirective', function() {
   beforeEach(module('explorer'));
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
-  beforeEach(inject(function(_$rootScope_, _$compile_, _$httpBackend_,
-      dashboardService, explorerService, chartTypeMockData) {
+  beforeEach(inject(function(_$httpBackend_, _chartTypeMockData_) {
+    chartTypeMockData = _chartTypeMockData_;
+    $httpBackend = _$httpBackend_;
+
+    $httpBackend.whenGET(
+        '/static/components/widget/data_viz/gviz/gviz-charts.json')
+      .respond(200, chartTypeMockData);
+  }));
+
+  beforeEach(inject(function(_$rootScope_, _$compile_,
+      dashboardService, explorerService, chartWrapperService) {
     $rootScope = _$rootScope_;
     scope = _$rootScope_.$new();
     $compile = _$compile_;
-    $httpBackend = _$httpBackend_;
     
     dashboardSvc = dashboardService;
     explorerSvc = explorerService;
+    
+    $httpBackend.flush();
   }));
 
   describe('compilation', function() {
@@ -56,10 +66,6 @@ describe('dashboardDirective', function() {
     var mockEvent;
 
     beforeEach(inject(function() {
-      $httpBackend.whenGET(
-          /\/static\/components\/widget\/data_viz\/gviz\/gviz-charts\.json/)
-        .respond(chartTypeMockData);
-
       explorerSvc.newDashboard();
       scope.$digest();
 
