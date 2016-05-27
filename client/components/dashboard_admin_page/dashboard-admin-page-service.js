@@ -119,7 +119,6 @@ DashboardAdminPageService.prototype.addDashboard = function(dashboardJson) {
     dashboard.modified_date = new Date(dashboardJson.modified_date);
   }
 
-  console.log(dashboard);
   this.dashboards.push(dashboard);
 };
 
