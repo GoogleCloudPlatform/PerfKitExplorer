@@ -156,10 +156,6 @@ DashboardAdminPageCtrl.prototype.verifySelection = function() {
   if (!goog.isDefAndNotNull(selection)) {
     throw 'verifySelection() failed: No dashboard selected.';
   }
-  
-  if (!goog.isNull(selection)) {
-    throw 'verifySelection() failed: Dashboard not saved.';
-  }
 
   return selection;
 };
