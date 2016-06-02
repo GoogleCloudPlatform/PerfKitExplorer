@@ -103,7 +103,10 @@ explorer.components.widget.WidgetService = class {
   isCopyableAsImage(widget) {
     if (widget.model.type === this.widgetFactorySvc.widgetTypes.CHART) {
       let chartType = this.chartWrapperSvc.allChartsIndex[widget.model.chart.chartType];
-      goog.asserts.assert(goog.isDefAndNotNull(chartType));
+      goog.asserts.assert(
+          goog.isDefAndNotNull(chartType),
+          'Chart Type not valid: %s',
+          [widget.model.chart.chartType]);
 
       if (chartType.canScreenshot === true) {
         return true;

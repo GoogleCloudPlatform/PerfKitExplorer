@@ -23,7 +23,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.WidgetToolbarDirective');
 goog.require('p3rf.perfkit.explorer.models.ChartWidgetConfig');
 
 describe('WidgetToolbarDirective', function() {
-  var scope, $compile, $timeout, uiConfig;
+  var scope, $compile, $timeout, $httpBackend, uiConfig;
   var containerService, dashboardService, explorerService;
 
   const explorer = p3rf.perfkit.explorer;
@@ -33,10 +33,11 @@ describe('WidgetToolbarDirective', function() {
   beforeEach(module('p3rf.perfkit.explorer.templates'));
 
   beforeEach(inject(function(
-      _$rootScope_, _$compile_, _$timeout_,
+      _$rootScope_, _$compile_, _$timeout_, _$httpBackend_,
       _dashboardService_, _containerService_, _explorerService_) {
     scope = _$rootScope_.$new();
     $compile = _$compile_;
+    $httpBackend = _$httpBackend_;
     $timeout = _$timeout_;
 
     containerService = _containerService_;
@@ -44,6 +45,10 @@ describe('WidgetToolbarDirective', function() {
     explorerService = _explorerService_;
 
     explorerService.newDashboard();
+
+    $httpBackend.expectGET(
+        '/static/components/widget/data_viz/gviz/gviz-charts.json')
+        .respond(200);
 
     scope.$digest();
   }));
