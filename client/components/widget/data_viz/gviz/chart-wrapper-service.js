@@ -111,7 +111,8 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
   this.TOOLTIP_TRIGGERS = [
     'none',
     'focus',
-    'selection'
+    'selection',
+    'both'
   ];
 
   /**
