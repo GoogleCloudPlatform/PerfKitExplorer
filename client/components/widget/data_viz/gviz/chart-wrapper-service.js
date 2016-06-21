@@ -105,6 +105,16 @@ explorer.components.widget.data_viz.gviz.ChartWrapperService = function($http,
   ];
 
   /**
+   * A list of tooltip triggers for GViz charts.
+   * @export {!Array.<!string>}
+   */
+  this.TOOLTIP_TRIGGERS = [
+    'none',
+    'focus',
+    'selection'
+  ];
+
+  /**
    * An angular-exposed copy of ChartType.
    * @export @enum {string}
    */

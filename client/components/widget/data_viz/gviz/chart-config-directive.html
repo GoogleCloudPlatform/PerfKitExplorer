@@ -124,6 +124,44 @@
           </div>
         </div>
       </div>
+
+      <div class="pk-sidebar-group-title">Tooltips</div>
+
+      <div class="pk-sidebar-item">
+        <div class="pk-sidebar-item-label">
+          <input type="checkbox"
+                class="widget-results-pivot"
+                ng-model="ngModel.chart.options.tooltip.isHtml"> allow HTML
+        </div>
+        <md-tooltip md-direction="right">
+          Allows HTML content in the tooltip
+        </md-tooltip>
+      </div>
+
+      <div class="pk-sidebar-item">
+        <div class="pk-sidebar-item-label">
+          <input type="checkbox"
+                class="widget-results-pivot"
+                ng-model="ngModel.chart.options.tooltip.showColorCode"> show color code
+        </div>
+        <md-tooltip md-direction="right">
+          If true, show colored squares next to the series information in the tooltip
+        </md-tooltip>
+      </div>
+
+      <div class="pk-sidebar-item">
+        <div class="pk-sidebar-item-label">trigger</div>
+        <div class="pk-sidebar-item-value">
+          <md-select
+              ng-model="ngModel.chart.options.tooltip.trigger"
+              placeholder="focus"
+              class="pk-sidebar-input-full widget-chart-tooltip-trigger">
+            <md-option
+                ng-value="trigger"
+                ng-repeat="trigger in chartSvc.TOOLTIP_TRIGGERS">{{ trigger }}</md-option>
+          </md-select>
+        </div>
+      </div>
     </div>
 
     <div class="pk-sidebar-group-buttons">
