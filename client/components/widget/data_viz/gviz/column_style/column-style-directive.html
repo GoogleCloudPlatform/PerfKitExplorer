@@ -59,6 +59,16 @@
       Describes the role this column should play in a chart (select a role for more help)
     </md-tooltip>
   </div>
+  <div class="pk-sidebar-item" ng-show="ngModel.data_role === 'tooltip'">
+    <div class="pk-sidebar-item-label">
+      <input type="checkbox"
+             class="widget-results-pivot"
+             ng-model="ngModel.is_html"> allow HTML
+    </div>
+    <md-tooltip md-direction="right">
+      Renders the tooltip using HTML, which allows markup in the tooltip text
+    </md-tooltip>
+  </div>
   <div ng-show="isASeries()">
     <div class="pk-sidebar-item-label">series color</div>
     <div class="input-group pk-sidebar-item-value">
