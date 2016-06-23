@@ -40,9 +40,9 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
     templateUrl: '/static/components/explorer/explorer-header-directive.html',
     controllerAs: 'ctrl',
     controller: [
-        '$scope', '$modal', 'explorerService', 'dashboardService', 'errorService', 'workQueueService',
+        '$scope', '$modal', '$window', 'explorerService', 'dashboardService', 'errorService', 'workQueueService',
         function(
-            $scope, $modal, explorerService, dashboardService, errorService, workQueueService) {
+            $scope, $modal, $window, explorerService, dashboardService, errorService, workQueueService) {
       /** @export */
       this.explorerSvc = explorerService;
 
@@ -87,6 +87,40 @@ explorer.components.explorer.ExplorerHeaderDirective = function() {
           templateUrl: '/static/components/config/config-dialog.html',
           controller: 'ConfigDialogCtrl as dialog'
         });
+      };
+
+      /**
+       * Prompts the user to confirm, then deletes the selected dashboard.
+       * @export
+       */
+      this.deleteDashboard = function() {
+        goog.asserts.assert(
+            this.dashboardSvc.current.model.id,
+            'deleteDashboard failed: No id set.');
+
+        if (!$window.confirm('Are you sure you want to delete this dashboard?')) {
+          return;
+        }
+
+        let promise = this.dashboardSvc.deleteDashboard(
+            this.dashboardSvc.current.model);
+
+        promise.then(angular.bind(this, function(response) {
+          this.openDashboardAdmin();
+        }));
+
+        promise.then(null, angular.bind(this, function(error) {
+          this.errorSvc.addDanger(error.message);
+        }));
+      };
+
+      // TODO: Replace implementation with a ui-router change.
+      /**
+       * Opens the dashboard administration page.
+       * @export
+       */
+      this.openDashboardAdmin = function() {
+        $window.location = '/dashboard-admin';
       };
 
       /**
