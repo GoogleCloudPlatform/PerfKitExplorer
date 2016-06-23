@@ -46,7 +46,7 @@
     <div class="pk-sidebar-item-label">role</div>
     <div class="pk-sidebar-item-value">
       <md-select
-             class="column-style-role-select"
+             class="widget-column-style-role-select"
              placeholder="(default)"
              ng-model="ngModel.data_role">
         <md-option ng-show="ngModel.data_role" value="">(default)</md-option>
@@ -62,7 +62,7 @@
   <div class="pk-sidebar-item" ng-show="ngModel.data_role === 'tooltip'">
     <div class="pk-sidebar-item-label">
       <input type="checkbox"
-             class="widget-results-pivot"
+             class="widget-column-style-allow-html"
              ng-model="ngModel.is_html"> allow HTML
     </div>
     <md-tooltip md-direction="right">
