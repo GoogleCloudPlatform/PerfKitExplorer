@@ -334,6 +334,39 @@ describe('columnStyleService', function() {
       expect(providedDataTable.getColumnProperty(1, 'role')).toEqual('data');
     });
 
+    it('should apply an html property to columns using html tooltips', function() {
+      var data = {
+        cols: [
+          {id: 'timestamp', type: 'date'},
+          {id: 'sales_amt', type: 'number'},
+          {id: 'sales_tip', type: 'string'}
+        ],
+        rows: [
+          {c: [
+            {v: '2013/03/30'},
+            {v: 3},
+            {v: '<b>Working!</b>'}
+          ]}
+        ]
+      };
+
+      providedDataTable = new GvizDataTable(data);
+      providedConfig.state().datasource.data = providedDataTable;
+
+      var providedColumns = [
+        new ColumnStyleModel('timestamp', null, 'domain'),
+        new ColumnStyleModel('sales_amt', null, 'data'),
+        new ColumnStyleModel('sales_tip', null, 'tooltip', null, true)
+      ];
+      providedConfig.model.chart.columns = providedColumns;
+
+      svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
+
+      expect(providedDataTable.getColumnLabel(2)).toEqual('sales_tip');
+      expect(providedDataTable.getColumnProperty(2, 'role')).toEqual('tooltip');
+      expect(providedDataTable.getColumnProperty(2, 'html')).toEqual(true);
+    });
+
     it('should set column titles and roles together', function() {
       svc.applyToDataTable(providedConfig.model.chart.columns, providedDataTable);
 

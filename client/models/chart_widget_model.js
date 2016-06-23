@@ -122,7 +122,8 @@ p3rf.perfkit.explorer.models.ChartModel = function() {
    */
   this.options = {
     'chartArea': {},
-    'legend': {}
+    'legend': {},
+    'tooltips': {}
   };
 
   /**

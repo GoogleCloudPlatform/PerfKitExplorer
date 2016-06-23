@@ -33,10 +33,11 @@ const gviz = explorer.components.widget.data_viz.gviz;
  * @param {string=} opt_title
  * @param {string=} opt_dataRole
  * @param {string=} opt_seriesColor
+ * @param {boolean=} opt_isHtml
  * @export
  */
 gviz.column_style.ColumnStyleModel = class {
-  constructor(opt_columnId, opt_title, opt_dataRole, opt_seriesColor) {
+  constructor(opt_columnId, opt_title, opt_dataRole, opt_seriesColor, opt_isHtml) {
     /**
      * Specifies the column id that the style applies to.
      * @export {string}
@@ -62,6 +63,13 @@ gviz.column_style.ColumnStyleModel = class {
      * @export {string}
      */
     this.series_color = opt_seriesColor || '';
+
+    /**
+     * A boolean indicating whether the column supports HTML content.
+     * This is presently applicable to tooltip columns.
+     * @export {boolean}
+     */
+    this.is_html = opt_isHtml || false;
   }
 }
 
