@@ -36,7 +36,8 @@
             ng-show="ctrl.dashboardSvc.current.model.id">
           <a>Save as...</a>
         </li>
-        <li ng-hide="ctrl.explorerSvc.model.readOnly ||
+        <li class="explorer-menu-dashboard-delete"
+            ng-hide="ctrl.explorerSvc.model.readOnly ||
                     !ctrl.dashboardSvc.current.model.id"
             ng-click="ctrl.deleteDashboard()">
           <a>Delete</a>
