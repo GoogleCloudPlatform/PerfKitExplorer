@@ -25,7 +25,7 @@ goog.require('p3rf.perfkit.explorer.components.widget.data_viz.gviz.column_style
 goog.require('p3rf.perfkit.explorer.mocks.chartTypeMock');
 
 
-fdescribe('ColumnStyleDirective', function() {
+describe('ColumnStyleDirective', function() {
   // declare these up here to be global to all tests
   var scope, $compile, $timeout, $httpBackend, uiConfig;
   var configService, columnStyleService, dashboardService, GvizDataTable;

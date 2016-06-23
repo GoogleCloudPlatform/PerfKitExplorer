@@ -1,5 +1,5 @@
 /**
- * @copyright Copyright 2014 Google Inc. All rights reserved.
+ * @copyright Copyright 2016 Google Inc. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  *
  * @fileoverview Version info class, including update and verify scripts.
  *
- * V12   2015-May    Changes a chart's 'legend' property to an object.
+ * V12   2016-Jun    Adds a 'tooltip' object to the chart options.
  *
  * @author joemu@google.com (Joe Allan Muharsky)
  */
