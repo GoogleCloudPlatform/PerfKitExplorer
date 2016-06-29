@@ -44,11 +44,9 @@ goog.scope(function() {
   DashboardSchema.prototype.verify = function(dashboard) {
     return DashboardVersionUtil.VerifyDashboard(
         dashboard, null, function(widget) {
-      if (goog.isDef(widget.chart.options.tooltip)) {
-        return goog.isObject(widget.chart.options.tooltip);
-      }
-
-      return false;
+      return (
+          goog.isDef(widget.chart.options.tooltip) &&
+          goog.isObject(widget.chart.options.tooltip));
     });
   };
 
