@@ -120,6 +120,18 @@ describe('ColumnStyleDirective', function() {
         'input.widget-column-style-title');
       expect(targetElement.length).toBe(1);
     });
+
+    it('the role', function() {
+      var targetElement = actualElement.find(
+        'md-select.widget-column-style-role-select');
+      expect(targetElement.length).toBe(1);
+    });
+
+    it('allowing HTML content', function() {
+      var targetElement = actualElement.find(
+        'input.widget-column-style-allow-html');
+      expect(targetElement.length).toBe(1);
+    });
   });
 
   describe('should reflect the ngModel state for', function() {
@@ -155,6 +167,18 @@ describe('ColumnStyleDirective', function() {
       scope.$digest();
 
       expect(columnTitleElement.value).toBe(expectedTitle);
+    });
+
+    it('allowing HTML', function() {
+      var columnTitleElement = actualElement.find(
+        'input.widget-column-style-allow-html')[0];
+
+      expect(columnTitleElement.checked).toBe(false);
+
+      scope.providedModel.is_html = true;
+      scope.$digest();
+
+      expect(columnTitleElement.checked).toBe(true);
     });
   });
 

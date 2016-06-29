@@ -46,7 +46,7 @@
     <div class="pk-sidebar-item-label">role</div>
     <div class="pk-sidebar-item-value">
       <md-select
-             class="column-style-role-select"
+             class="widget-column-style-role-select"
              placeholder="(default)"
              ng-model="ngModel.data_role">
         <md-option ng-show="ngModel.data_role" value="">(default)</md-option>
@@ -57,6 +57,16 @@
     </div>
     <md-tooltip md-direction="right">
       Describes the role this column should play in a chart (select a role for more help)
+    </md-tooltip>
+  </div>
+  <div class="pk-sidebar-item" ng-show="ngModel.data_role === 'tooltip'">
+    <div class="pk-sidebar-item-label">
+      <input type="checkbox"
+             class="widget-column-style-allow-html"
+             ng-model="ngModel.is_html"> allow HTML
+    </div>
+    <md-tooltip md-direction="right">
+      Renders the tooltip using HTML, which allows markup in the tooltip text
     </md-tooltip>
   </div>
   <div ng-show="isASeries()">

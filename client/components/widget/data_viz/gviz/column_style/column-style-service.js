@@ -235,6 +235,13 @@ gviz.column_style.ColumnStyleService = class {
           dataTable.setColumnProperty(columnIndex, 'role', '');
         } else {
           dataTable.setColumnProperty(columnIndex, 'role', column.data_role);
+
+          // TODO: Encapsulate this functionality to a specialized library/function.
+          if (column.data_role === 'tooltip') {
+            if (column.is_html === true) {
+              dataTable.setColumnProperty(columnIndex, 'html', true);
+            }
+          }
         }
       }
     });
