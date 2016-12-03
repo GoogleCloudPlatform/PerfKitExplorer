@@ -102,7 +102,7 @@ Create the BigQuery repository
 
          pushd ~/projects/PerfKitExplorer/data/samples_mart
 
-         bq load --project=MY_PROJECT_ID \
+         bq load --project_id=MY_PROJECT_ID \
            --source_format=NEWLINE_DELIMITED_JSON \
            samples_mart.results \
            ./sample_results.json \
