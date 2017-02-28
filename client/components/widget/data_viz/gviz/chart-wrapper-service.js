@@ -145,12 +145,12 @@ const ChartWrapperService = (
  */
 ChartWrapperService.prototype.loadCharts = function() {
   this.http_.get('/static/components/widget/data_viz/gviz/gviz-charts.json').
-      success(angular.bind(this, function(response) {
-        goog.array.extend(this.allCharts, response);
+      then(angular.bind(this, function(response) {
+        goog.array.extend(this.allCharts, response.data);
          this.allChartsIndex = /** @type {!Object<!ChartTypeModel>} */ (
           this.arrayUtilSvc_.getDictionary(this.allCharts, 'className'));
-      })).
-      error(angular.bind(this, function(response) {
+      }),
+      angular.bind(this, function(response) {
         while (this.allCharts.length > 0) {
           this.allCharts.pop();
         }
