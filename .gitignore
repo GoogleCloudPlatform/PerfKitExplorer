@@ -122,3 +122,12 @@ atlassian-ide-plugin.xml
 com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
+
+# Additional files
+.DS_Store
+activate/
+.settings/
+*~
+git-credential-osxkeychain
+grefind
+grep
